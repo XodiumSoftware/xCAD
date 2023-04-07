@@ -111,7 +111,7 @@ class TfccadMainWindow(QWidget):
         button.setStyleSheet(f"background-color: {theme['button_color']};")
         if theme['button_icon_path'] is not None:
             button.setIcon(QIcon(QPixmap(theme['button_icon_path'])))
-
+    
     def create_buttons(self):
         """
         This function creates buttons with icons and tooltips and adds them to a group box layout.
