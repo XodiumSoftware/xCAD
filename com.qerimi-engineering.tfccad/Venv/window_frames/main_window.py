@@ -122,7 +122,6 @@ class TfccadMainWindow(QWidget):
             self.group_box_layout.addWidget(button)
             self.buttons.append(button)
 
-
     def toggle_theme(self):
         """
         This function toggles the current theme and calls another function to update the UI accordingly.
