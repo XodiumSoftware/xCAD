@@ -17,7 +17,7 @@ TFCCAD_MAIN_WINDOW_BUTTON_TEXTS = (
     'Calculate Area',
     'Button 3',
     'Button 4',
-    'Button 5'
+    'Button 5',
 )
 TFCCAD_MAIN_WINDOW_BUTTON_SIZE = 50, 50
 TFCCAD_WINDOW_STYLE = "fusion"
