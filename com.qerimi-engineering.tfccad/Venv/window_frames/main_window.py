@@ -100,6 +100,9 @@ class TfccadMainWindow(QWidget):
         self.group_box_layout.addStretch()
         
     def set_button_theme(self, button):
+        """
+        This function sets the theme of a button by changing its background color and icon.
+        """
         themes = {
             0: {"button_color": "#202020", "button_icon_path": None},
             1: {"button_color": "#FFFFFF", "button_icon_path": None}
