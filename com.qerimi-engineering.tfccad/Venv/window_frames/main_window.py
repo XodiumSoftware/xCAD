@@ -1,8 +1,4 @@
 # These lines of code are importing necessary modules and packages for the program to run.
-# Standard library imports
-#import sys
-#sys.path.append("Venv")
-#sys.path.append("Venv/window_frames")
 
 # Third-party imports
 from PyQt6.QtCore import (
