@@ -1,2 +1,5 @@
-# VSC
-# Add more text
+# BriscCAD plug-in
+
+Aim: GUI window for creating basic objects in BriscCad (e.g. walls)
+
+Packages required: PyQt6, BRX.
