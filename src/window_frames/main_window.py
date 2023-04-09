@@ -65,12 +65,21 @@ class MainWindow(QWidget):
 
         #self.create_buttons()
         self.group_box_layout.addStretch()
-        
-    def create_buttons(self):
-        
-        pass
 
-    def KeyPressEvent(self, ui, event):
+    def create_buttons(self):
+        """
+        This function creates buttons with icons and tooltips and adds them to a group box layout.
+        """
+        self.buttons = []
+        for button_text, button_icon_path in zip(TFCCAD_MAIN_WINDOW_BUTTON_TEXTS, TFCCAD_MAIN_WINDOW_BUTTON_ICONS):
+            button = QPushButton()
+            button.setToolTip(" ".join(button_text.split("_")).title())
+            button.setFixedSize(QSize(*TFCCAD_MAIN_WINDOW_BUTTON_SIZE))
+            button.setIcon(QIcon(QPixmap(button_icon_path)))
+            self.group_box_layout.addWidget(button)
+            self.buttons.append(button)
+
+    def keyPressEvent(self, ui, event):
         """
         Calls all the keyPressEvent functions in the main window.
         """
