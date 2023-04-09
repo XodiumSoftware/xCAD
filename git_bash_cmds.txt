@@ -1,0 +1,36 @@
+https://about.gitlab.com/images/press/git-cheat-sheet.pdf
+https://education.github.com/git-cheat-sheet-education.pdf
+
+To make 2 branches up to date with each other (e.g. there's a branch with a merge commit):
+--> checkout to the old branch (less commits)
+--> git merge [other_branch_name]
+--> git push origin [old_branch_name]
+
+To pull a branch to local:
+--> if branch is not on local yet: git fetch origin [branch_name]
+--> checkout to branch you want to pull updates to
+--> git pull origin [branch_name]
+
+To commit with comment:
+--> checkout to the branch you want to commit to
+--> git add .
+(stages all changes)
+--> git commit -m ['message']
+--> git push origin [branch_name]
+
+To change branch name:
+--> checkout the branch you want to change
+--> git branch -m [new_branch_name]
+--> git push [branch_name]
+--> delete old branch from git too
+
+To delete a branch:
+--> git checkout [branch_name]
+(check out another branch)
+--> git branch -D [branch_name]
+(delete branch locally)
+--> delete from git too
+
+To create a new branch from a branch:
+--> git checkout -b [new_branch_name]
+(make sure to be currently checked out on the base branch)
