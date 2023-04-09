@@ -2,7 +2,7 @@
 
 # Third-party imports
 from PyQt6.QtCore import QMargins, QSize, Qt
-from PyQt6.QtGui import QColor, QIcon, QPalette, QPixmap
+from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
                              QVBoxLayout, QWidget, QStyleFactory)
 
@@ -14,7 +14,6 @@ from constants import (TFCCAD_COPYRIGHT_LABEL, TFCCAD_GROUPBOX_TITLE,
                        TFCCAD_MAIN_WINDOW_CONTENTS_MARGINS,
                        TFCCAD_MAIN_WINDOW_ICON_PATH, TFCCAD_MAIN_WINDOW_TITLE)
 from events.key_press_events import close_on_key_press
-from helpers.ms_colormode import detect_colormode_in_microsoft
 
 
 # The class MainWindow is a QWidget used in Python programming.
@@ -80,6 +79,12 @@ class MainWindow(QWidget):
             self.buttons.append(button)
 
     def keyPressEvent(self, ui, event):
+        """
+        Calls all the keyPressEvent functions in the main window.
+        """
+        close_on_key_press(ui, event)
+        
+    def buttonPressEvent(self, ui, event):
         """
         Calls all the keyPressEvent functions in the main window.
         """
