@@ -3,7 +3,13 @@ import sys
 
 
 def get_plugin_folder():
-    """Returns the path to the BricsCAD plugin folder."""
+    """
+    This function returns the path to the BricsCAD plugin folder based on the user's operating system.
+    :return: the path to the BricsCAD plugin folder based on the operating system. If the operating
+    system is Windows, it returns the path to the BricsCAD folder in the APPDATA directory. If the
+    operating system is Linux, it returns the path to the BricsCAD folder in the .config directory in
+    the user's home directory. If the operating system is macOS, it returns the
+    """
     if sys.platform.startswith('win'):
         # Windows
         appdata = os.getenv('APPDATA')
