@@ -1,7 +1,7 @@
 {
-    "code-runner.executorMap":
-    {
-        "python": "$pythonPath -u $fullFileName"
-    },
-    "python.analysis.typeCheckingMode": "basic"
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    }
 }
