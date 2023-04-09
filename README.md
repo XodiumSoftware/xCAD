@@ -1,4 +1,4 @@
-# BriscCad plug-in
+# BriscCAD plug-in
 
 Aim: GUI window for creating basic objects in BriscCad (e.g. walls)
 
