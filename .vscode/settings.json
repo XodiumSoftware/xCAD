@@ -1,7 +1,3 @@
 {
-    "code-runner.executorMap":
-    {
-        "python": "$pythonPath -u $fullFileName"
-    },
     "python.analysis.typeCheckingMode": "basic"
 }
