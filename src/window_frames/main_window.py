@@ -8,9 +8,6 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
 
 # Internal module imports
 from constants import (TFCCAD_COPYRIGHT_LABEL, TFCCAD_GROUPBOX_TITLE,
-                       TFCCAD_MAIN_WINDOW_BUTTON_ICONS,
-                       TFCCAD_MAIN_WINDOW_BUTTON_SIZE,
-                       TFCCAD_MAIN_WINDOW_BUTTON_TEXTS,
                        TFCCAD_MAIN_WINDOW_CONTENTS_MARGINS,
                        TFCCAD_MAIN_WINDOW_ICON_PATH, TFCCAD_MAIN_WINDOW_TITLE)
 from events.key_press_events import close_on_key_press
@@ -26,6 +23,11 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setup_ui()
+        
+        # Call the create_buttons method with a list of button texts and icon paths
+        button_texts = ["Draw Timberframe Construction", "Calculate Area", "TORENAME"]
+        icon_paths = ["dtfc_icon_dark.png", "areacalc_icon_dark.png", ""]
+        self.create_buttons(button_texts, icon_paths)
 
         self.crlabel = QLabel(TFCCAD_COPYRIGHT_LABEL)
 
@@ -65,17 +67,34 @@ class MainWindow(QWidget):
         #self.create_buttons()
         self.group_box_layout.addStretch()
 
-    def create_buttons(self):
+    def create_buttons(self, button_texts, icon_paths):
         """
         This function creates buttons with icons and tooltips and adds them to a group box layout.
         """
         self.buttons = []
-        for button_text, button_icon_path in zip(TFCCAD_MAIN_WINDOW_BUTTON_TEXTS, TFCCAD_MAIN_WINDOW_BUTTON_ICONS):
-            button = QPushButton()
+
+        # Loop through each button text and icon path
+        for i in range(len(button_texts)):
+            button_text = button_texts[i]
+            button_icon_path = icon_paths[i]
+
+            # Create a new button with the given text
+            button = QPushButton(button_text)
+
+            # Set the button's tooltip text to the capitalized version of the text
             button.setToolTip(" ".join(button_text.split("_")).title())
-            button.setFixedSize(QSize(*TFCCAD_MAIN_WINDOW_BUTTON_SIZE))
-            button.setIcon(QIcon(QPixmap(button_icon_path)))
+
+            # Set the button's fixed size using the values in the TFCCAD_MAIN_WINDOW_BUTTON_SIZE constant
+            button.setFixedSize(QSize())
+
+            # Create a new QIcon using the given icon path and set it as the button's icon
+            icon = QIcon(button_icon_path)
+            button.setIcon(icon)
+
+            # Add the button to the group box layout
             self.group_box_layout.addWidget(button)
+
+            # Add the button to the list of buttons for later reference
             self.buttons.append(button)
 
     def keyPressEvent(self, ui, event):
@@ -86,6 +105,6 @@ class MainWindow(QWidget):
         
     def buttonPressEvent(self, ui, event):
         """
-        Calls all the keyPressEvent functions in the main window.
+        Calls all the buttonPressEvent functions in the main window.
         """
         close_on_key_press(ui, event)
