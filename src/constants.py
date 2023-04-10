@@ -19,6 +19,13 @@ TFCCAD_MAIN_WINDOW_BUTTON_TEXTS = (
     'Button 4',
     'Button 5',
 )
-TFCCAD_MAIN_WINDOW_BUTTON_SIZE = 50, 50
+MAIN_WINDOW_ICON_PATHS = (
+    "src/images/dtfc_icon_light.png",
+    "src/images/areacalc_icon_light.png",
+    "",
+    "",
+    "",
+)
+MAIN_WINDOW_BUTTON_SIZE = 50, 50
 TFCCAD_WINDOW_STYLE = "fusion"
 TFCCAD_COPYRIGHT_LABEL = "©Qerimi Engineering"

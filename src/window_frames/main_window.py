@@ -9,7 +9,8 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
 # Internal module imports
 from constants import (TFCCAD_COPYRIGHT_LABEL, TFCCAD_GROUPBOX_TITLE,
                        TFCCAD_MAIN_WINDOW_CONTENTS_MARGINS,
-                       TFCCAD_MAIN_WINDOW_ICON_PATH, TFCCAD_MAIN_WINDOW_TITLE)
+                       TFCCAD_MAIN_WINDOW_ICON_PATH, TFCCAD_MAIN_WINDOW_TITLE,
+                       MAIN_WINDOW_ICON_PATHS, MAIN_WINDOW_BUTTON_SIZE)
 from events.key_press_events import close_on_key_press
 
 
@@ -71,20 +72,31 @@ class MainWindow(QWidget):
         This function creates buttons with icons and tooltips and adds them to a group box layout.
         """
         self.buttons = []
+        
+        # Define a list of icon paths for each button
+        icon_paths = MAIN_WINDOW_ICON_PATHS
 
         # Loop through each button text and icon path
         for i in range(len(button_texts)):
             button_text = button_texts[i]
+            icon_path = icon_paths[i]
 
             # Create a new button with the given text
-            button = QPushButton(button_text)
+            button = QPushButton()
 
             # Set the button's tooltip text to the capitalized version of the text
             button.setToolTip(" ".join(button_text.split("_")).title())
+            
+            # Set the button's icon using the given icon path
+            button.setIcon(QIcon(icon_path))
+            
+            # Resize the icon based on the button size
+            icon_size = button.size().height()
+            button.setIconSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
 
             # Set the button's fixed size using the values in the TFCCAD_MAIN_WINDOW_BUTTON_SIZE constant
             # NOTE: Leaving QSize empty creates negative numbers in the terminal.
-            button.setFixedSize(QSize(100, 100))
+            button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE)) # NOTE: You can't leave the QSize empty otherwise it will give a "negative number" error in the terminal.
 
             # Add the button to the group box layout
             self.group_box_layout.addWidget(button)
