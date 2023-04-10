@@ -13,14 +13,14 @@ MAIN_WINDOW_CONTENTS_MARGINS = (
     10
 )
 MAIN_WINDOW_BUTTON_TEXTS = (
-    'Draw TFC',
+    'TFC Creator',
     'Calculator',
     'COMING SOON',
     'COMING SOON',
     'COMING SOON',
 )
 MAIN_WINDOW_ICON_PATHS = (
-    "src/images/dtfc_icon_light.png",
+    "src/images/tfcc_icon_light.png",
     "src/images/calc_icon_light.png",
     "src/images/coming-soon_icon_light.png",
     "src/images/coming-soon_icon_light.png",

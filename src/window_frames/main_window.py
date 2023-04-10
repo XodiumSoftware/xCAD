@@ -14,7 +14,7 @@ from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        WINDOW_GROUPBOX_STYLESHEET, WINDOW_ICON_PATH,
                        WINDOW_STYLE, WINDOW_TITLE)
 from events.key_press_events import close_on_key_press
-from window_frames.dtfc_window import DTFCWindow
+from window_frames.tfcc_window import TFCCWindow
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
@@ -121,5 +121,5 @@ class MainWindow(QWidget):
         """
         This function creates and displays a DTFCWindow object.
         """
-        dtfc_window = DTFCWindow()
+        dtfc_window = TFCCWindow()
         dtfc_window.show()
