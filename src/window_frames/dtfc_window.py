@@ -9,9 +9,8 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QStyleFactory,
 # Internal module imports
 from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_BUTTON_TEXTS,
                        MAIN_WINDOW_CONTENTS_MARGINS,
-                       WINDOW_GROUPBOX_STYLESHEET,
-                       MAIN_WINDOW_GROUPBOX_TITLE, WINDOW_ICON_PATH,
-                       WINDOW_STYLE, WINDOW_TITLE)
+                       MAIN_WINDOW_GROUPBOX_TITLE, WINDOW_GROUPBOX_STYLESHEET,
+                       WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
 
 
 # The DTFCWindow class is a QWidget used for creating a window in a GUI application.
@@ -55,7 +54,7 @@ class DTFCWindow(QWidget):
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
-        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
+        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS) # FIX: create_buttons(self) first.
 
         self.group_box_layout.addStretch()
 
