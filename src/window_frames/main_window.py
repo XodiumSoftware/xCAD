@@ -25,8 +25,8 @@ class MainWindow(QWidget):
         self.setup_ui()
         
         # Call the create_buttons method with a list of button texts and icon paths
-        button_texts = ["Draw Timberframe Construction", "Calculate Area", "TORENAME"]
-        icon_paths = ["dtfc_icon_dark.png", "areacalc_icon_dark.png", ""]
+        button_texts = ["Draw Timberframe Construction", "Calculate Area", "TEST1", "TEST2", "TEST3"]
+        icon_paths = ["dtfc_icon_dark.png", "areacalc_icon_dark.png", "", "", ""]
         self.create_buttons(button_texts, icon_paths)
 
         self.crlabel = QLabel(TFCCAD_COPYRIGHT_LABEL)
@@ -85,7 +85,7 @@ class MainWindow(QWidget):
             button.setToolTip(" ".join(button_text.split("_")).title())
 
             # Set the button's fixed size using the values in the TFCCAD_MAIN_WINDOW_BUTTON_SIZE constant
-            button.setFixedSize(QSize())
+            button.setFixedSize(QSize(50, 50)) # NOTE: Leaving QSize empty creates negative numbers in the terminal.
 
             # Create a new QIcon using the given icon path and set it as the button's icon
             icon = QIcon(button_icon_path)
