@@ -3,5 +3,9 @@
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
-    }
+    },
+    "cSpell.words": [
+        "areacalc",
+        "Timberframe"
+    ]
 }

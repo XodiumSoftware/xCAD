@@ -101,7 +101,7 @@ class MainWindow(QWidget):
         """
         Calls all the keyPressEvent functions in the main window.
         """
-        close_on_key_press(self, event) # NOTE: you dont need to call ui here since its already being handled in the event file.
+        close_on_key_press(self, event) # NOTE: You don't need to call ui here since it's already being handled in the event file.
         
     def buttonPressEvent(self, event):
         """
