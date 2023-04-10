@@ -28,7 +28,6 @@ class MainWindow(QWidget):
         self.crlabel = QLabel(COPYRIGHT_LABEL)
 
         self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(QMargins(0, 0, 0, 0))
         self.main_layout.addWidget(
             self.group_box, alignment=Qt.AlignmentFlag.AlignTop)
         self.main_layout.addWidget(
