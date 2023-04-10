@@ -7,8 +7,8 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QStyleFactory,
                              QVBoxLayout, QWidget)
 
 # Internal module imports
-from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_CONTENTS_MARGINS,
-                       MAIN_WINDOW_GROUPBOX_TITLE, WINDOW_GROUPBOX_STYLESHEET,
+from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
+                       WINDOW_CONTENTS_MARGINS, WINDOW_GROUPBOX_STYLESHEET,
                        WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
 
 
@@ -35,7 +35,7 @@ class TFCCWindow(QWidget):
         """
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
-        self.margins = QMargins(*MAIN_WINDOW_CONTENTS_MARGINS)
+        self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
         self.setStyle(QStyleFactory.create(WINDOW_STYLE))
 
