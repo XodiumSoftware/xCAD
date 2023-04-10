@@ -1,45 +1,31 @@
 # These lines of code are importing necessary modules and packages for the program to run.
 
 # Third-party imports
-from PyQt6.QtCore import QMargins, Qt
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QStyleFactory,
-                             QVBoxLayout, QWidget)
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QWidget
 
 # Internal module imports
 from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
-                       WINDOW_CONTENTS_MARGINS, WINDOW_GROUPBOX_STYLESHEET,
-                       WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
+                       WINDOW_GROUPBOX_STYLESHEET)
+from functions.window_setup import WindowSetup
 
 
 # The TFCCWindow class is a QWidget used for creating a window in a GUI application.
-class TFCCWindow(QWidget):
+class TFCCWindow(WindowSetup, QWidget):
     def __init__(self):
+        """
+        This function initializes a GUI layout with a group box and a copyright label.
+        """
         super().__init__()
 
-        self.setup_ui()
+        self.create_group_box()
 
         self.crlabel = QLabel(COPYRIGHT_LABEL)
 
-        self.main_layout = QVBoxLayout(self)
         self.main_layout.addWidget(
             self.group_box, alignment=Qt.AlignmentFlag.AlignTop)
         self.main_layout.addWidget(
             self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
-
-        self.adjustSize()
-
-    def setup_ui(self):
-        """
-        This function sets up the user interface of a main window in a Python program.
-        """
-        self.setWindowTitle(WINDOW_TITLE)
-        self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
-        self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
-        self.setContentsMargins(self.margins)
-        self.setStyle(QStyleFactory.create(WINDOW_STYLE))
-
-        self.create_group_box()
 
     def create_group_box(self):
         """
@@ -53,7 +39,8 @@ class TFCCWindow(QWidget):
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
-        self.create_buttons() # FIX: create_buttons(self) first, then add it to here.
+        # FIX: create_buttons(self) first, then add it to here.
+        self.create_buttons()
 
         self.group_box_layout.addStretch()
 

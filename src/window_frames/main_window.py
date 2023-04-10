@@ -1,54 +1,37 @@
 # These lines of code are importing necessary modules and packages for the program to run.
 
 # Third-party imports
-from PyQt6.QtCore import QMargins, QSize, Qt
+from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
-                             QStyleFactory, QVBoxLayout, QWidget)
+                             QWidget)
 
 # Internal module imports
 from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
-                       WINDOW_CONTENTS_MARGINS,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
-                       WINDOW_GROUPBOX_STYLESHEET, WINDOW_ICON_PATH,
-                       WINDOW_STYLE, WINDOW_TITLE)
+                       WINDOW_GROUPBOX_STYLESHEET)
 from events.key_press_events import close_on_key_press
+from functions.window_setup import WindowSetup
 from window_frames.tfcc_window import TFCCWindow
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
-class MainWindow(QWidget):
+class MainWindow(WindowSetup, QWidget):
     def __init__(self):
         """
-        This function initializes a user interface with a group box and copyright label, and sets the
-        current theme to 0.
+        This function initializes a class instance and adds a group box widget to its main layout.
         """
         super().__init__()
 
-        self.setup_ui()
+        self.create_group_box()
 
         self.crlabel = QLabel(COPYRIGHT_LABEL)
 
-        self.main_layout = QVBoxLayout(self)
         self.main_layout.addWidget(
             self.group_box, alignment=Qt.AlignmentFlag.AlignTop)
         self.main_layout.addWidget(
             self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
-
-        self.adjustSize()
-
-    def setup_ui(self):
-        """
-        This function sets up the user interface of a main window in a Python program.
-        """
-        self.setWindowTitle(WINDOW_TITLE)
-        self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
-        self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
-        self.setContentsMargins(self.margins)
-        self.setStyle(QStyleFactory.create(WINDOW_STYLE))
-
-        self.create_group_box()
 
     def create_group_box(self):
         """
