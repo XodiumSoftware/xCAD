@@ -12,7 +12,7 @@ from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_CONTENTS_MARGINS,
                        WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
 
 
-# The DTFCWindow class is a QWidget used for creating a window in a GUI application.
+# The TFCCWindow class is a QWidget used for creating a window in a GUI application.
 class TFCCWindow(QWidget):
     def __init__(self):
         super().__init__()
