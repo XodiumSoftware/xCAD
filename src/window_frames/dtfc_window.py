@@ -54,7 +54,7 @@ class DTFCWindow(QWidget):
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
-        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS) # FIX: create_buttons(self) first.
+        self.create_buttons() # FIX: create_buttons(self) first, then add it to here.
 
         self.group_box_layout.addStretch()
 
