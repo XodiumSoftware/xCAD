@@ -7,9 +7,9 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
                              QVBoxLayout, QWidget, QStyleFactory)
 
 # Internal module imports
-from constants import (TFCCAD_COPYRIGHT_LABEL, TFCCAD_GROUPBOX_TITLE,
-                       TFCCAD_MAIN_WINDOW_CONTENTS_MARGINS,
-                       TFCCAD_MAIN_WINDOW_ICON_PATH, TFCCAD_MAIN_WINDOW_TITLE,
+from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
+                       MAIN_WINDOW_CONTENTS_MARGINS,
+                       MAIN_WINDOW_ICON_PATH, MAIN_WINDOW_TITLE,
                        MAIN_WINDOW_ICON_PATHS, MAIN_WINDOW_BUTTON_SIZE)
 from events.key_press_events import close_on_key_press
 
@@ -25,7 +25,7 @@ class MainWindow(QWidget):
 
         self.setup_ui()
 
-        self.crlabel = QLabel(TFCCAD_COPYRIGHT_LABEL)
+        self.crlabel = QLabel(COPYRIGHT_LABEL)
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(QMargins(0, 0, 0, 0))
@@ -43,9 +43,9 @@ class MainWindow(QWidget):
         """
         This function sets up the user interface of a main window in a Python program.
         """
-        self.setWindowTitle(TFCCAD_MAIN_WINDOW_TITLE)
-        self.setWindowIcon(QIcon(TFCCAD_MAIN_WINDOW_ICON_PATH))
-        self.margins = QMargins(*TFCCAD_MAIN_WINDOW_CONTENTS_MARGINS)
+        self.setWindowTitle(MAIN_WINDOW_TITLE)
+        self.setWindowIcon(QIcon(MAIN_WINDOW_ICON_PATH))
+        self.margins = QMargins(*MAIN_WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
         self.setStyle(QStyleFactory.create("Fusion"))
 
@@ -60,7 +60,7 @@ class MainWindow(QWidget):
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box.setStyleSheet(
             "QGroupBox { border: 0; padding-top: 20; }")
-        self.group_box.setTitle(TFCCAD_GROUPBOX_TITLE)
+        self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
