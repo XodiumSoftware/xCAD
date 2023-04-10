@@ -7,8 +7,7 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QStyleFactory,
                              QVBoxLayout, QWidget)
 
 # Internal module imports
-from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_BUTTON_TEXTS,
-                       MAIN_WINDOW_CONTENTS_MARGINS,
+from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_CONTENTS_MARGINS,
                        MAIN_WINDOW_GROUPBOX_TITLE, WINDOW_GROUPBOX_STYLESHEET,
                        WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
 
