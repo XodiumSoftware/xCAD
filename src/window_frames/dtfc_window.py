@@ -50,7 +50,7 @@ class DTFCWindow(QWidget):
         """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
-        self.group_box.setStyleSheet(MAIN_WINDOW_GROUPBOX_STYLESHEET)
+        self.group_box.setStyleSheet(WINDOW_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
