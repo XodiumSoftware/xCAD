@@ -97,14 +97,14 @@ class MainWindow(QWidget):
             # Add the button to the list of buttons for later reference
             self.buttons.append(button)
 
-    def keyPressEvent(self, ui, event):
+    def keyPressEvent(self, event):
         """
         Calls all the keyPressEvent functions in the main window.
         """
-        close_on_key_press(ui, event)
+        close_on_key_press(self, event) # NOTE: you dont need to call ui here since its already being handled in the event file.
         
-    def buttonPressEvent(self, ui, event):
+    def buttonPressEvent(self, event):
         """
         Calls all the buttonPressEvent functions in the main window.
         """
-        close_on_key_press(ui, event)
+        close_on_key_press(self, event)
