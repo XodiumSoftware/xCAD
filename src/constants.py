@@ -14,14 +14,14 @@ MAIN_WINDOW_CONTENTS_MARGINS = (
 )
 MAIN_WINDOW_BUTTON_TEXTS = (
     'Draw TFC',
-    'Calculate Area',
+    'Calculations',
     'Button 3',
     'Button 4',
     'Button 5',
 )
 MAIN_WINDOW_ICON_PATHS = (
     "src/images/dtfc_icon_light.png",
-    "src/images/areacalc_icon_light.png",
+    "src/images/calc_icon_light.png",
     "",
     "",
     "",
@@ -29,3 +29,4 @@ MAIN_WINDOW_ICON_PATHS = (
 MAIN_WINDOW_BUTTON_SIZE = 50, 50
 WINDOW_STYLE = "fusion"
 COPYRIGHT_LABEL = "©Qerimi Engineering"
+MAIN_WINDOW_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"

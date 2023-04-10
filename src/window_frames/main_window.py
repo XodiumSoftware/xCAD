@@ -8,9 +8,10 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
 
 # Internal module imports
 from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
-                       MAIN_WINDOW_CONTENTS_MARGINS,
+                       MAIN_WINDOW_CONTENTS_MARGINS, MAIN_WINDOW_BUTTON_TEXTS,
                        MAIN_WINDOW_ICON_PATH, MAIN_WINDOW_TITLE,
-                       MAIN_WINDOW_ICON_PATHS, MAIN_WINDOW_BUTTON_SIZE)
+                       MAIN_WINDOW_ICON_PATHS, MAIN_WINDOW_BUTTON_SIZE,
+                       WINDOW_STYLE, MAIN_WINDOW_GROUPBOX_STYLESHEET)
 from events.key_press_events import close_on_key_press
 
 
@@ -33,8 +34,7 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(
             self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        self.create_buttons(["Draw TFC", "Calculate Area",
-                            "Button 3", "Button 4", "Button 5"])
+        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
 
         self.adjustSize()
 
@@ -46,7 +46,7 @@ class MainWindow(QWidget):
         self.setWindowIcon(QIcon(MAIN_WINDOW_ICON_PATH))
         self.margins = QMargins(*MAIN_WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
-        self.setStyle(QStyleFactory.create("Fusion"))
+        self.setStyle(QStyleFactory.create(WINDOW_STYLE))
 
         self.create_group_box()
 
@@ -57,8 +57,7 @@ class MainWindow(QWidget):
         """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
-        self.group_box.setStyleSheet(
-            "QGroupBox { border: 0; padding-top: 20; }")
+        self.group_box.setStyleSheet(MAIN_WINDOW_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
@@ -71,7 +70,7 @@ class MainWindow(QWidget):
         This function creates buttons with icons and tooltips and adds them to a group box layout.
         """
         self.buttons = []
-        
+
         # Define a list of icon paths for each button
         icon_paths = MAIN_WINDOW_ICON_PATHS
 
@@ -83,19 +82,25 @@ class MainWindow(QWidget):
             # Create a new button with the given text
             button = QPushButton()
 
-            # Set the button's tooltip text to the capitalized version of the text
-            button.setToolTip(" ".join(button_text.split("_")).title())
-            
+            if isinstance(button_text, tuple):
+                # If the button_text is a tuple, the first element is the text and the second element is the tooltip
+                button_text, tooltip = button_text
+            else:
+                # If the button_text is a string, use the capitalized version of the text as the tooltip
+                tooltip = " ".join(button_text.split("_")).title()
+
             # Set the button's icon using the given icon path
             button.setIcon(QIcon(icon_path))
-            
+
             # Resize the icon based on the button size
             icon_size = button.size().height()
             button.setIconSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
 
             # Set the button's fixed size using the values in the TFCCAD_MAIN_WINDOW_BUTTON_SIZE constant
-            # NOTE: Leaving QSize empty creates negative numbers in the terminal.
-            button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE)) # NOTE: You can't leave the QSize empty otherwise it will give a "negative number" error in the terminal.
+            button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
+
+            # Set the button's tooltip
+            button.setToolTip(tooltip)
 
             # Add the button to the group box layout
             self.group_box_layout.addWidget(button)
@@ -108,7 +113,7 @@ class MainWindow(QWidget):
         Calls all the keyPressEvent functions in the main window.
         """
         close_on_key_press(
-            self, event)  # NOTE: You don't need to call ui here since it's already being handled in the event file.
+            self, event)
 
     def buttonPressEvent(self, event):
         """
