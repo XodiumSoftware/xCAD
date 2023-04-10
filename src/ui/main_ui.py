@@ -78,7 +78,8 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
 
             button.setToolTip(tooltip)
 
-            self.group_box_layout.addWidget(button)
+            self.group_box_layout.addWidget(
+                button, alignment=Qt.AlignmentFlag.AlignHCenter)
 
             self.buttons.append(button)
 

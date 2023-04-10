@@ -21,7 +21,7 @@ class TFCCUi(UiSetup, QWidget):
         self.main_layout.addWidget(
             self.group_box, alignment=Qt.AlignmentFlag.AlignTop)
         self.main_layout.addWidget(
-            self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
+            self.crlabel, alignment=Qt.AlignmentFlag.AlignBottom)
 
     def create_group_box(self):
         """
@@ -33,7 +33,6 @@ class TFCCUi(UiSetup, QWidget):
         self.group_box.setStyleSheet(WINDOW_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.group_box.setFlat(True)
 
         # FIX: create_buttons(self) first, then add it to here.
         self.create_buttons()
