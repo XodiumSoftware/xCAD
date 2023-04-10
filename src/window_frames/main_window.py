@@ -75,7 +75,6 @@ class MainWindow(WindowSetup, OnPressEvents, QWidget):
 
             button.setIcon(QIcon(icon_path))
 
-            icon_size = button.size().height()
             button.setIconSize(
                 QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_WINDOW_BUTTON_SIZE)))
 
