@@ -7,12 +7,14 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
                              QStyleFactory, QVBoxLayout, QWidget)
 
 # Internal module imports
-from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_BUTTON_SIZE,
-                       MAIN_WINDOW_BUTTON_TEXTS, MAIN_WINDOW_CONTENTS_MARGINS,
+from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
+                       MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
+                       MAIN_WINDOW_CONTENTS_MARGINS,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
                        WINDOW_GROUPBOX_STYLESHEET, WINDOW_ICON_PATH,
                        WINDOW_STYLE, WINDOW_TITLE)
 from events.key_press_events import close_on_key_press
+from window_frames.dtfc_window import DTFCWindow
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
@@ -91,7 +93,8 @@ class MainWindow(QWidget):
             button.setIcon(QIcon(icon_path))
 
             icon_size = button.size().height()
-            button.setIconSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
+            button.setIconSize(
+                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_WINDOW_BUTTON_SIZE)))
 
             button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
 
@@ -113,3 +116,10 @@ class MainWindow(QWidget):
         Calls all the buttonPressEvent functions in the main window.
         """
         close_on_key_press(self, event)
+
+    def open_window(self):
+        """
+        This function creates and displays a DTFCWindow object.
+        """
+        dtfc_window = DTFCWindow()
+        dtfc_window.show()

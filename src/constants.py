@@ -30,3 +30,4 @@ MAIN_WINDOW_BUTTON_SIZE = 50, 50
 WINDOW_STYLE = "fusion"
 COPYRIGHT_LABEL = "©Qerimi Engineering"
 WINDOW_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
+ICON_TO_BUTTON_MARGIN = 10
