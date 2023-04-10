@@ -3,11 +3,11 @@ from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QWidget
 
 from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
                        WINDOW_GROUPBOX_STYLESHEET)
-from ui.window_setup import WindowSetup
+from ui.ui_setup import UiSetup
 
 
 # The TFCCWindow class is a QWidget used for creating a window in a GUI application.
-class TFCCWindow(WindowSetup, QWidget):
+class TFCCUi(UiSetup, QWidget):
     def __init__(self):
         """
         This function initializes a GUI layout with a group box and a copyright label.

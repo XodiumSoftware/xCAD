@@ -8,12 +8,12 @@ from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
                        WINDOW_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
-from ui.tfcc_window import TFCCWindow
-from ui.window_setup import WindowSetup
+from ui.tfcc_ui import TFCCUi
+from ui.ui_setup import UiSetup
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
-class MainWindow(WindowSetup, OnPressEvents, QWidget):
+class MainUi(UiSetup, OnPressEvents, QWidget):
     def __init__(self):
         """
         This function initializes a class instance and adds a group box widget to its main layout.
@@ -87,5 +87,5 @@ class MainWindow(WindowSetup, OnPressEvents, QWidget):
         """
         This function creates and displays a DTFCWindow object.
         """
-        dtfc_window = TFCCWindow()
+        dtfc_window = TFCCUi()
         dtfc_window.show()

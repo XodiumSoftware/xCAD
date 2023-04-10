@@ -6,7 +6,7 @@ from constants import (WINDOW_CONTENTS_MARGINS, WINDOW_ICON_PATH, WINDOW_STYLE,
                        WINDOW_TITLE)
 
 
-class WindowSetup(QWidget):
+class UiSetup(QWidget):
     def __init__(self):
         """
         This function initializes a user interface with a copyright label and a vertical layout.
