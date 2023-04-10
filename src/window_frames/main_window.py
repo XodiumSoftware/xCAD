@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
 # Internal module imports
 from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
-                       MAIN_WINDOW_CONTENTS_MARGINS,
+                       WINDOW_CONTENTS_MARGINS,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
                        WINDOW_GROUPBOX_STYLESHEET, WINDOW_ICON_PATH,
                        WINDOW_STYLE, WINDOW_TITLE)
@@ -44,7 +44,7 @@ class MainWindow(QWidget):
         """
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
-        self.margins = QMargins(*MAIN_WINDOW_CONTENTS_MARGINS)
+        self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
         self.setStyle(QStyleFactory.create(WINDOW_STYLE))
 
