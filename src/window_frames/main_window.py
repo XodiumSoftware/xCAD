@@ -11,13 +11,13 @@ from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
                        WINDOW_GROUPBOX_STYLESHEET)
-from events.key_press_events import close_on_key_press
+from events.press_events import OnPressEvents
 from functions.window_setup import WindowSetup
 from window_frames.tfcc_window import TFCCWindow
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
-class MainWindow(WindowSetup, QWidget):
+class MainWindow(WindowSetup, OnPressEvents, QWidget):
     def __init__(self):
         """
         This function initializes a class instance and adds a group box widget to its main layout.
@@ -87,19 +87,7 @@ class MainWindow(WindowSetup, QWidget):
 
             self.buttons.append(button)
 
-    def keyPressEvent(self, event):
-        """
-        Calls all the keyPressEvent functions in the main window.
-        """
-        close_on_key_press(
-            self, event)
-
-    def buttonPressEvent(self, event):
-        """
-        Calls all the buttonPressEvent functions in the main window.
-        """
-        close_on_key_press(self, event)
-
+    # Make it work with button_press_events.py
     def open_window(self):
         """
         This function creates and displays a DTFCWindow object.
