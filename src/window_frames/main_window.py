@@ -4,18 +4,18 @@
 from PyQt6.QtCore import QMargins, QSize, Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
-                             QVBoxLayout, QWidget, QStyleFactory)
+                             QStyleFactory, QVBoxLayout, QWidget)
 
 # Internal module imports
-from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
-                       MAIN_WINDOW_CONTENTS_MARGINS, MAIN_WINDOW_BUTTON_TEXTS,
-                       MAIN_WINDOW_ICON_PATH, MAIN_WINDOW_TITLE,
-                       MAIN_WINDOW_ICON_PATHS, MAIN_WINDOW_BUTTON_SIZE,
-                       WINDOW_STYLE, MAIN_WINDOW_GROUPBOX_STYLESHEET)
+from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_BUTTON_SIZE,
+                       MAIN_WINDOW_BUTTON_TEXTS, MAIN_WINDOW_CONTENTS_MARGINS,
+                       MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
+                       WINDOW_GROUPBOX_STYLESHEET, WINDOW_ICON_PATH,
+                       WINDOW_STYLE, WINDOW_TITLE)
 from events.key_press_events import close_on_key_press
 
 
-# The class MainWindow is a QWidget used in Python programming.
+# The MainWindow class is a QWidget used for creating a window in a GUI application.
 class MainWindow(QWidget):
     def __init__(self):
         """
@@ -34,16 +34,14 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(
             self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
-
         self.adjustSize()
 
     def setup_ui(self):
         """
         This function sets up the user interface of a main window in a Python program.
         """
-        self.setWindowTitle(MAIN_WINDOW_TITLE)
-        self.setWindowIcon(QIcon(MAIN_WINDOW_ICON_PATH))
+        self.setWindowTitle(WINDOW_TITLE)
+        self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
         self.margins = QMargins(*MAIN_WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
         self.setStyle(QStyleFactory.create(WINDOW_STYLE))
@@ -57,55 +55,50 @@ class MainWindow(QWidget):
         """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
-        self.group_box.setStyleSheet(MAIN_WINDOW_GROUPBOX_STYLESHEET)
+        self.group_box.setStyleSheet(WINDOW_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
-        # self.create_buttons()
+        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
+
         self.group_box_layout.addStretch()
 
     def create_buttons(self, button_texts):
         """
-        This function creates buttons with icons and tooltips and adds them to a group box layout.
+        This function creates buttons with icons and tooltips based on given button texts.
+
+        :param button_texts: A list of strings or tuples where each string represents the text to be
+        displayed on a button and each tuple contains two elements where the first element is the text
+        to be displayed on the button and the second element is the tooltip text to be displayed when
+        the user hovers over the button
         """
         self.buttons = []
 
-        # Define a list of icon paths for each button
         icon_paths = MAIN_WINDOW_ICON_PATHS
 
-        # Loop through each button text and icon path
         for i in range(len(button_texts)):
             button_text = button_texts[i]
             icon_path = icon_paths[i]
 
-            # Create a new button with the given text
             button = QPushButton()
 
             if isinstance(button_text, tuple):
-                # If the button_text is a tuple, the first element is the text and the second element is the tooltip
                 button_text, tooltip = button_text
             else:
-                # If the button_text is a string, use the capitalized version of the text as the tooltip
                 tooltip = " ".join(button_text.split("_")).title()
 
-            # Set the button's icon using the given icon path
             button.setIcon(QIcon(icon_path))
 
-            # Resize the icon based on the button size
             icon_size = button.size().height()
             button.setIconSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
 
-            # Set the button's fixed size using the values in the TFCCAD_MAIN_WINDOW_BUTTON_SIZE constant
             button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
 
-            # Set the button's tooltip
             button.setToolTip(tooltip)
 
-            # Add the button to the group box layout
             self.group_box_layout.addWidget(button)
 
-            # Add the button to the list of buttons for later reference
             self.buttons.append(button)
 
     def keyPressEvent(self, event):
