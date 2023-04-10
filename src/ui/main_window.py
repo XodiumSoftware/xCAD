@@ -1,19 +1,15 @@
-# These lines of code are importing necessary modules and packages for the program to run.
-
-# Third-party imports
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
                              QWidget)
 
-# Internal module imports
 from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
                        MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
                        MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
                        WINDOW_GROUPBOX_STYLESHEET)
-from events.press_events import OnPressEvents
-from functions.window_setup import WindowSetup
-from window_frames.tfcc_window import TFCCWindow
+from events.on_press_events import OnPressEvents
+from ui.tfcc_window import TFCCWindow
+from ui.window_setup import WindowSetup
 
 
 # The MainWindow class is a QWidget used for creating a window in a GUI application.
@@ -75,7 +71,6 @@ class MainWindow(WindowSetup, OnPressEvents, QWidget):
 
             button.setIcon(QIcon(icon_path))
 
-            icon_size = button.size().height()
             button.setIconSize(
                 QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_WINDOW_BUTTON_SIZE)))
 

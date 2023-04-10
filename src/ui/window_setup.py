@@ -1,11 +1,7 @@
-# These lines of code are importing necessary modules and packages for the program to run.
-
-# Third-party imports
 from PyQt6.QtCore import QMargins
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QStyleFactory, QVBoxLayout, QWidget
 
-# Internal module imports
 from constants import (WINDOW_CONTENTS_MARGINS, WINDOW_ICON_PATH, WINDOW_STYLE,
                        WINDOW_TITLE)
 

@@ -1,0 +1,3 @@
+ctrl + , --> opens settings
+ctrl + d --> selects one by one all the same selected texts
+alt + [up, down] --> moves the line up or down

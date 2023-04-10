@@ -1,0 +1,3 @@
+'import' lines are importing necessary modules and packages for the program to run
+--> if you want to import a something specific, you use 'from [package] import [object]'
+--> order of packages: standard library imports, third-party imports and internal module imports

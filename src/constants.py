@@ -17,14 +17,14 @@ MAIN_WINDOW_BUTTON_TEXTS = (
     'Calculator',
     'COMING SOON',
     'COMING SOON',
-    'COMING SOON',
+    'COMING SOON'
 )
 MAIN_WINDOW_ICON_PATHS = (
-    "src/images/tfcc_icon_light.png",
-    "src/images/calc_icon_light.png",
-    "src/images/coming-soon_icon_light.png",
-    "src/images/coming-soon_icon_light.png",
-    "src/images/coming-soon_icon_light.png",
+    "src/icons/tfcc_icon_light.png",
+    "src/icons/calc_icon_light.png",
+    "src/icons/coming-soon_icon_light.png",
+    "src/icons/coming-soon_icon_light.png",
+    "src/icons/coming-soon_icon_light.png"
 )
 MAIN_WINDOW_BUTTON_SIZE = 50, 50
 WINDOW_STYLE = "fusion"

@@ -1,13 +1,9 @@
-# These lines of code are importing necessary modules and packages for the program to run.
-
-# Third-party imports
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QWidget
 
-# Internal module imports
 from constants import (COPYRIGHT_LABEL, MAIN_WINDOW_GROUPBOX_TITLE,
                        WINDOW_GROUPBOX_STYLESHEET)
-from functions.window_setup import WindowSetup
+from ui.window_setup import WindowSetup
 
 
 # The TFCCWindow class is a QWidget used for creating a window in a GUI application.
