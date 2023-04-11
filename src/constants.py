@@ -9,25 +9,20 @@ TFCC_UI_GROUPBOX_TITLE = "Timber Frame Constructions Creator"
 UI_GROUPBOX_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
 UI_ICON_PATH = "src/icons/ui_icon.png"
-UI_CONTENTS_MARGINS = (
-    1,
-    1,
-    1,
-    1
-)
+UI_CONTENTS_MARGINS = (1, 1, 1, 1)
 MAIN_UI_BUTTON_TEXTS = (
-    'TFC Creator',
-    'Calculator',
-    'COMING SOON',
-    'COMING SOON',
-    'COMING SOON'
+    "TFC Creator",
+    "Calculator",
+    "COMING SOON",
+    "COMING SOON",
+    "COMING SOON",
 )
 MAIN_UI_ICON_PATHS = (
     "src/icons/tfcc_icon_light.png",
     "src/icons/calc_icon_light.png",
     "src/icons/coming-soon_icon_light.png",
     "src/icons/coming-soon_icon_light.png",
-    "src/icons/coming-soon_icon_light.png"
+    "src/icons/coming-soon_icon_light.png",
 )
 MAIN_UI_BUTTON_SIZE = 50, 50
 UI_STYLE = "fusion"
@@ -43,7 +38,7 @@ TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
     "Profile Length",
     "Profile Width",
     "Plate Material Type",
-    "Plate Material Thickness"
+    "Plate Material Thickness",
 )
 TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "6000",
@@ -52,14 +47,6 @@ TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "170",
     "38",
     "OSBIII",
-    "18"
+    "18",
 )
-TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2 = (
-    "mm",
-    "mm",
-    "",
-    "mm",
-    "mm",
-    "",
-    "mm"
-)
+TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")

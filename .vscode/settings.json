@@ -2,7 +2,8 @@
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
-        }
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter"
     },
     "cSpell.words": [
         "areacalc",
@@ -11,5 +12,6 @@
         "tfcc",
         "tfccui",
         "Timberframe"
-    ]
+    ],
+    "python.formatting.provider": "none"
 }

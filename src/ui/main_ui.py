@@ -2,14 +2,26 @@ from functools import partial
 
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
-                             QVBoxLayout, QWidget)
+from PyQt6.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
-from constants import (ICON_TO_BUTTON_MARGIN, MAIN_UI_BUTTON_SIZE,
-                       MAIN_UI_BUTTON_TEXTS, MAIN_UI_GROUPBOX_TITLE,
-                       MAIN_UI_ICON_PATHS, UI_CONTENTS_MARGINS,
-                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
-                       UI_GROUPBOX_STYLESHEET)
+from constants import (
+    ICON_TO_BUTTON_MARGIN,
+    MAIN_UI_BUTTON_SIZE,
+    MAIN_UI_BUTTON_TEXTS,
+    MAIN_UI_GROUPBOX_TITLE,
+    MAIN_UI_ICON_PATHS,
+    UI_CONTENTS_MARGINS,
+    UI_GROUPBOX_FONT_SIZE,
+    UI_GROUPBOX_FONT_TYPE,
+    UI_GROUPBOX_STYLESHEET,
+)
 from events.on_press_events import OnPressEvents
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
@@ -46,12 +58,14 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_UI_GROUPBOX_TITLE)
         self.group_box.setFont(
-            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold))
+            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
+        )
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.group_box.setFlat(True)
 
         self.group_box.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         self.create_buttons(MAIN_UI_BUTTON_TEXTS)
@@ -93,7 +107,8 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
             button.setIcon(QIcon(icon_path))
 
             button.setIconSize(
-                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_UI_BUTTON_SIZE)))
+                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_UI_BUTTON_SIZE))
+            )
 
             button.setFixedSize(QSize(*MAIN_UI_BUTTON_SIZE))
 

@@ -1,11 +1,17 @@
 from PyQt6.QtCore import QMargins, QPoint
 from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import (QApplication, QLabel, QStyleFactory, QVBoxLayout,
-                             QWidget)
+from PyQt6.QtWidgets import QApplication, QLabel, QStyleFactory, QVBoxLayout, QWidget
 
-from constants import (COPYRIGHT_LABEL, COPYRIGHT_LABEL_SIZE,
-                       COPYRIGHT_LABEL_STYLE, UI_CONTENTS_MARGINS,
-                       UI_GROUPBOX_FONT_TYPE, UI_ICON_PATH, UI_STYLE, UI_TITLE)
+from constants import (
+    COPYRIGHT_LABEL,
+    COPYRIGHT_LABEL_SIZE,
+    COPYRIGHT_LABEL_STYLE,
+    UI_CONTENTS_MARGINS,
+    UI_GROUPBOX_FONT_TYPE,
+    UI_ICON_PATH,
+    UI_STYLE,
+    UI_TITLE,
+)
 
 
 class UiSetup(QWidget):
@@ -30,8 +36,7 @@ class UiSetup(QWidget):
         This function creates a QLabel object with a text string containing a copyright label.
         """
         self.crlabel = QLabel(COPYRIGHT_LABEL)
-        self.crlabel.setFont(
-            QFont(UI_GROUPBOX_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
+        self.crlabel.setFont(QFont(UI_GROUPBOX_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
         self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
 
     def center_window(self):
@@ -41,8 +46,9 @@ class UiSetup(QWidget):
         screen_geometry = QApplication.screens()[0].geometry()
         center_point = screen_geometry.center()
         window_center = self.rect().center()
-        window_top_left = QPoint(center_point.x() - window_center.x(),
-                                 center_point.y() - window_center.y())
+        window_top_left = QPoint(
+            center_point.x() - window_center.x(), center_point.y() - window_center.y()
+        )
         self.move(window_top_left)
 
     def show(self):

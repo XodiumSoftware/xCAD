@@ -8,7 +8,7 @@ from ui.main_ui import MainUi
 # run as the main program. If it is, then the code inside the block will be executed. This is commonly
 # used to prevent code from being executed when the script is imported as a module into another
 # program.
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainUi()
     main_window.show()

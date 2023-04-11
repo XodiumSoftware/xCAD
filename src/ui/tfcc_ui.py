@@ -1,17 +1,31 @@
 import os
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import (QFileDialog, QGridLayout, QGroupBox, QHBoxLayout,
-                             QLabel, QLineEdit, QMessageBox, QPushButton,
-                             QSizePolicy, QVBoxLayout, QWidget)
+from PyQt6.QtGui import QFont, QIntValidator
+from PyQt6.QtWidgets import (
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
-from constants import (TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-                       TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
-                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
-                       UI_GROUPBOX_STYLESHEET)
+from constants import (
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+    TFCC_UI_GROUPBOX_TITLE,
+    UI_CONTENTS_MARGINS,
+    UI_GROUPBOX_FONT_SIZE,
+    UI_GROUPBOX_FONT_TYPE,
+    UI_GROUPBOX_STYLESHEET,
+)
 from events.on_press_events import OnPressEvents
 from ui.ui_setup import UiSetup
 
@@ -47,12 +61,14 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(TFCC_UI_GROUPBOX_TITLE)
         self.group_box.setFont(
-            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold))
+            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
+        )
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 
         self.group_box.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         self.create_input_fields()
@@ -66,12 +82,18 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.inputs = []
         self.input_fields_layout = QGridLayout()
 
-        for i, (desc0, desc1) in enumerate(zip(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2)):
+        for i, (desc0, desc1) in enumerate(
+            zip(
+                TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2
+            )
+        ):
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
             label1 = QLabel(desc1, self)
             self.labels.extend([label0, label1])
             self.inputs.append(input)
+            validator = QIntValidator(10, 100, self)
+            input.setValidator(validator)
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
@@ -96,15 +118,20 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
 
     def on_save_button_pressed(self):
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "Save Input Values", "", "Text Files (*.txt)")
+            self, "Save Input Values", "", "Text Files (*.txt)"
+        )
 
         if file_path:
             self.save_input_values()
 
     def on_back_button_pressed(self):
         reply = QMessageBox.question(
-            self, "Save Changes", "Do you want to save the changes before going back?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel
+            self,
+            "Save Changes",
+            "Do you want to save the changes before going back?",
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No
+            | QMessageBox.StandardButton.Cancel,
         )
 
         if reply == QMessageBox.StandardButton.Yes:
@@ -124,14 +151,17 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             os.makedirs(data_dir)
         file_path = os.path.join(data_dir, "input_values.txt")
 
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape:
             self.on_back_button_pressed()
-        elif event.key() == Qt.Key.Key_Q and event.modifiers() == Qt.KeyboardModifier.ControlModifier:
+        elif (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
             self.on_back_button_pressed()
 
     """ add when clicking on window red X button that it gives the message on_back_button_pressed() """
