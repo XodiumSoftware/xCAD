@@ -17,6 +17,11 @@ from PyQt6.QtWidgets import (
 )
 
 from constants import (
+    BACK_BUTTON,
+    DATA_DIR,
+    ON_BACK_BUTTON_PRESSED_DESC,
+    ON_BACK_BUTTON_PRESSED_FILE_PATH,
+    SAVE_BUTTON,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
@@ -92,8 +97,7 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             label1 = QLabel(desc1, self)
             self.labels.extend([label0, label1])
             self.inputs.append(input)
-            validator = QIntValidator(10, 100, self)
-            input.setValidator(validator)
+            input.setValidator(QIntValidator(0, 2147483647, self))
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
@@ -108,17 +112,17 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.button_layout = QHBoxLayout()
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.back_button = QPushButton("Back", self)
+        self.back_button = QPushButton(BACK_BUTTON, self)
         self.back_button.clicked.connect(self.on_back_button_pressed)
         self.button_layout.addWidget(self.back_button)
 
-        self.save_button = QPushButton("Save", self)
+        self.save_button = QPushButton(SAVE_BUTTON, self)
         self.save_button.clicked.connect(self.on_save_button_pressed)
         self.button_layout.addWidget(self.save_button)
 
     def on_save_button_pressed(self):
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "Save Input Values", "", "Text Files (*.txt)"
+            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
         )
 
         if file_path:
@@ -127,8 +131,7 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
     def on_back_button_pressed(self):
         reply = QMessageBox.question(
             self,
-            "Save Changes",
-            "Do you want to save the changes before going back?",
+            *ON_BACK_BUTTON_PRESSED_DESC,
             QMessageBox.StandardButton.Yes
             | QMessageBox.StandardButton.No
             | QMessageBox.StandardButton.Cancel,
@@ -146,7 +149,7 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             input_text = input_widget.text()
             input_values[i] = input_text
 
-        data_dir = "data"
+        data_dir = DATA_DIR
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
         file_path = os.path.join(data_dir, "input_values.txt")

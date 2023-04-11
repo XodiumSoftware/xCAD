@@ -50,3 +50,11 @@ TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "18",
 )
 TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")
+BACK_BUTTON = "Back"
+SAVE_BUTTON = "Save"
+DATA_DIR = "data"
+ON_BACK_BUTTON_PRESSED_DESC = (
+    "Save Changes",
+    "Do you want to save the changes before going back?",
+)
+ON_BACK_BUTTON_PRESSED_FILE_PATH = "Save Input Values", "", "Text Files (*.txt)"
