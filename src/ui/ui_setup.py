@@ -30,6 +30,9 @@ class UiSetup(QWidget):
         self.setStyle(QStyleFactory.create(WINDOW_STYLE))
 
     def center_window(self):
+        """
+        This function centers a window on the screen.
+        """
         screen_geometry = QApplication.screens()[0].geometry()
         center_point = screen_geometry.center()
         window_center = self.rect().center()
@@ -38,5 +41,8 @@ class UiSetup(QWidget):
         self.move(window_top_left)
 
     def show(self):
+        """
+        This function calls the parent class's show method and then centers the window.
+        """
         super().show()
         self.center_window()
