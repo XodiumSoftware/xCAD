@@ -10,6 +10,6 @@ from ui.main_ui import MainUi
 # program.
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = MainUi()
-    main_window.show()
+    main_ui = MainUi()
+    main_ui.show()
     sys.exit(app.exec())

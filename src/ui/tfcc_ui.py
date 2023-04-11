@@ -121,6 +121,9 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.button_layout.addWidget(self.save_button)
 
     def on_save_button_pressed(self):
+        """
+        This function prompts the user to select a file path to save input values.
+        """
         file_path, _ = QFileDialog.getSaveFileName(
             self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
         )
@@ -129,6 +132,12 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             self.save_input_values()
 
     def on_back_button_pressed(self):
+        """
+        This function handles the action of pressing the back button in a UI and prompts the user to
+        save changes before returning to the main UI.
+        """
+        from ui.main_ui import MainUi
+
         reply = QMessageBox.question(
             self,
             *ON_BACK_BUTTON_PRESSED_DESC,
@@ -139,11 +148,18 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
 
         if reply == QMessageBox.StandardButton.Yes:
             self.on_save_button_pressed()
+            main_ui = MainUi()
+            main_ui.show()
             self.close()
         elif reply == QMessageBox.StandardButton.No:
+            main_ui = MainUi()
+            main_ui.show()
             self.close()
 
     def save_input_values(self):
+        """
+        This function saves input values from input widgets to a text file.
+        """
         input_values = {}
         for i, input_widget in enumerate(self.inputs):
             input_text = input_widget.text()
@@ -159,6 +175,14 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
                 f.write(f"{key}: {value}\n")
 
     def keyPressEvent(self, event):
+        """
+        This function handles key press events and checks if the escape key or the combination of
+        control key and Q key is pressed to call a specific function.
+
+        :param event: The event parameter is an object that represents a key press event. It contains
+        information about the key that was pressed, such as the key code and any modifiers (e.g. Ctrl,
+        Shift) that were held down at the time of the press
+        """
         if event.key() == Qt.Key.Key_Escape:
             self.on_back_button_pressed()
         elif (
