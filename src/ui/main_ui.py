@@ -5,7 +5,8 @@ from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
 
 from constants import (ICON_TO_BUTTON_MARGIN, MAIN_WINDOW_BUTTON_SIZE,
                        MAIN_WINDOW_BUTTON_TEXTS, MAIN_WINDOW_GROUPBOX_TITLE,
-                       MAIN_WINDOW_ICON_PATHS, WINDOW_GROUPBOX_STYLESHEET)
+                       MAIN_WINDOW_ICON_PATHS, WINDOW_CONTENTS_MARGINS,
+                       WINDOW_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
@@ -44,12 +45,12 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
 
         self.group_box.setSizePolicy(
             QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
-        self.group_box_layout.setContentsMargins(0, 0, 0, 0)
+        self.group_box_layout.setContentsMargins(*WINDOW_CONTENTS_MARGINS)
 
         self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
 
         button_layout = QHBoxLayout()
-        button_layout.setContentsMargins(0, 0, 0, 0)
+        button_layout.setContentsMargins(*WINDOW_CONTENTS_MARGINS)
         button_layout.addStretch()
         for button in self.buttons:
             button_layout.addWidget(button)
