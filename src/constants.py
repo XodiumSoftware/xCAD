@@ -7,10 +7,10 @@ WINDOW_TITLE = "TFCCAD"
 MAIN_WINDOW_GROUPBOX_TITLE = "Timber Frame Constructions CAD"
 WINDOW_ICON_PATH = "src/icons/window_icon.png"
 WINDOW_CONTENTS_MARGINS = (
-    10,
-    10,
-    10,
-    10
+    1,
+    1,
+    1,
+    1
 )
 MAIN_WINDOW_BUTTON_TEXTS = (
     'TFC Creator',
