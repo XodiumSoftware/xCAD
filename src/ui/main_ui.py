@@ -1,12 +1,11 @@
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QLabel, QPushButton,
-                             QWidget)
+from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
+                             QSpacerItem, QVBoxLayout, QWidget)
 
-from constants import (COPYRIGHT_LABEL, ICON_TO_BUTTON_MARGIN,
-                       MAIN_WINDOW_BUTTON_SIZE, MAIN_WINDOW_BUTTON_TEXTS,
-                       MAIN_WINDOW_GROUPBOX_TITLE, MAIN_WINDOW_ICON_PATHS,
-                       WINDOW_GROUPBOX_STYLESHEET)
+from constants import (ICON_TO_BUTTON_MARGIN, MAIN_WINDOW_BUTTON_SIZE,
+                       MAIN_WINDOW_BUTTON_TEXTS, MAIN_WINDOW_GROUPBOX_TITLE,
+                       MAIN_WINDOW_ICON_PATHS, WINDOW_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
@@ -16,34 +15,48 @@ from ui.ui_setup import UiSetup
 class MainUi(UiSetup, OnPressEvents, QWidget):
     def __init__(self):
         """
-        This function initializes a class instance and adds a group box widget to its main layout.
+        This function initializes a group box and adds it to the main layout with a specified size
+        policy.
         """
         super().__init__()
 
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.setup_ui()
+
         self.create_group_box()
 
-        self.crlabel = QLabel(COPYRIGHT_LABEL)
-
-        self.main_layout.addWidget(
-            self.group_box, alignment=Qt.AlignmentFlag.AlignTop)
-        self.main_layout.addWidget(
-            self.crlabel, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.main_layout.addWidget(self.group_box)
+        self.main_layout.addWidget(self.crlabel)
 
     def create_group_box(self):
         """
-        This function creates a group box with a horizontal layout, a title, centered alignment, and
-        stretchable buttons.
+        This function creates a group box with buttons and spacers inside it.
         """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
+        self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.group_box.setStyleSheet(WINDOW_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
-        self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.group_box.setFlat(True)
+
+        self.group_box.setSizePolicy(
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
+        self.group_box_layout.setContentsMargins(0, 0, 0, 0)
 
         self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
 
-        self.group_box_layout.addStretch()
+        button_layout = QHBoxLayout()
+        button_layout.setContentsMargins(0, 0, 0, 0)
+        button_layout.addStretch()
+        for button in self.buttons:
+            button_layout.addWidget(button)
+            button_layout.addStretch()
+        button_layout.addStretch()
+
+        self.group_box_layout.addLayout(button_layout)
 
     def create_buttons(self, button_texts):
         """
@@ -78,8 +91,7 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
 
             button.setToolTip(tooltip)
 
-            self.group_box_layout.addWidget(
-                button, alignment=Qt.AlignmentFlag.AlignHCenter)
+            self.group_box_layout.addWidget(button)
 
             self.buttons.append(button)
 

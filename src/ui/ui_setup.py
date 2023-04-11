@@ -1,33 +1,34 @@
 from PyQt6.QtCore import QMargins, QPoint
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QStyleFactory, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import (QApplication, QLabel, QStyleFactory, QVBoxLayout,
+                             QWidget)
 
-from constants import (WINDOW_CONTENTS_MARGINS, WINDOW_ICON_PATH, WINDOW_STYLE,
-                       WINDOW_TITLE)
+from constants import (COPYRIGHT_LABEL, WINDOW_CONTENTS_MARGINS,
+                       WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
 
 
 class UiSetup(QWidget):
-    def __init__(self):
-        """
-        This function initializes a user interface with a copyright label and a vertical layout.
-        """
-        super().__init__()
-
-        self.setup_ui()
-
-        self.main_layout = QVBoxLayout(self)
-
-        self.adjustSize()
-
     def setup_ui(self):
         """
-        This function sets up the user interface of a main window in a Python program.
+        This function sets up the user interface for a PyQt5 application by creating a vertical layout,
+        setting the window title and icon, creating a label for displaying copyright information, adding
+        the label to the layout, and adjusting the size of the window.
         """
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
         self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
         self.setStyle(QStyleFactory.create(WINDOW_STYLE))
+
+        self.copyright_label()
+
+        self.adjustSize()
+
+    def copyright_label(self):
+        """
+        This function creates a QLabel object with a text string containing a copyright label.
+        """
+        self.crlabel = QLabel(COPYRIGHT_LABEL)
 
     def center_window(self):
         """
