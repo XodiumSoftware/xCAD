@@ -1,10 +1,12 @@
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (QGridLayout, QGroupBox, QHBoxLayout, QLabel,
                              QLineEdit, QSizePolicy, QVBoxLayout, QWidget)
 
 from constants import (TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
                        TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
                        TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
+                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
                        UI_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.ui_setup import UiSetup
@@ -33,6 +35,8 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
         self.group_box.setTitle(TFCC_UI_GROUPBOX_TITLE)
+        self.group_box.setFont(
+            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold))
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
 

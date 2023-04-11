@@ -1,10 +1,11 @@
 from PyQt6.QtCore import QMargins, QPoint
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtWidgets import (QApplication, QLabel, QStyleFactory, QVBoxLayout,
                              QWidget)
 
-from constants import (COPYRIGHT_LABEL, UI_CONTENTS_MARGINS, UI_ICON_PATH,
-                       UI_STYLE, UI_TITLE)
+from constants import (COPYRIGHT_LABEL, COPYRIGHT_LABEL_SIZE,
+                       COPYRIGHT_LABEL_STYLE, UI_CONTENTS_MARGINS,
+                       UI_GROUPBOX_FONT_TYPE, UI_ICON_PATH, UI_STYLE, UI_TITLE)
 
 
 class UiSetup(QWidget):
@@ -29,6 +30,9 @@ class UiSetup(QWidget):
         This function creates a QLabel object with a text string containing a copyright label.
         """
         self.crlabel = QLabel(COPYRIGHT_LABEL)
+        self.crlabel.setFont(
+            QFont(UI_GROUPBOX_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
+        self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
 
     def center_window(self):
         """
