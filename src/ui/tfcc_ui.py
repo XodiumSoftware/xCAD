@@ -1,8 +1,10 @@
-from PyQt6.QtCore import Qt, pyqtSlot
-from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QSizePolicy, QVBoxLayout,
-                             QWidget)
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QGridLayout, QGroupBox, QHBoxLayout, QLabel,
+                             QLineEdit, QSizePolicy, QVBoxLayout, QWidget)
 
-from constants import (TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
+from constants import (TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+                       TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
                        UI_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.ui_setup import UiSetup
@@ -27,10 +29,6 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.main_layout.addWidget(self.crlabel)
 
     def create_group_box(self):
-        """
-        This function creates a group box with a horizontal layout, a title, centered alignment, and
-        stretchable buttons.
-        """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
@@ -42,17 +40,27 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-        # self.create_buttons(MAIN_UI_BUTTON_TEXTS)
+        # call create_input_fields() to create input fields and add them to the group box layout
+        self.create_input_fields()
+        self.group_box_layout.addLayout(self.input_fields_layout)
 
-        button_layout = QHBoxLayout()
-        button_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
-        button_layout.addStretch()
-        # for button in self.buttons:
-        #    button_layout.addWidget(button)
-        #    button_layout.addStretch()
-        button_layout.addStretch()
+    def create_input_fields(self):
+        self.labels = []
+        self.inputs = []
+        self.input_fields_layout = QGridLayout()
 
-        self.group_box_layout.addLayout(button_layout)
+        for i, (desc0, desc1) in enumerate(zip(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1)):
+            label0 = QLabel(desc0, self)
+            input = QLineEdit(self)
+            label1 = QLabel(desc1, self)
+            self.labels.extend([label0, label1])
+            self.inputs.append(input)
+            self.input_fields_layout.addWidget(label0, i, 0)
+            self.input_fields_layout.addWidget(input, i, 1)
+            self.input_fields_layout.addWidget(label1, i, 2)
 
-    def create_buttons(self):
-        pass
+            # You can set default text for the second column QLineEdit widget like this:
+            # input_text.setText("Default Text")
+
+            # You can also get the text from the second column QLineEdit widget like this:
+            # text = input_text.text()

@@ -32,3 +32,19 @@ UI_STYLE = "fusion"
 COPYRIGHT_LABEL = "©Qerimi Engineering"
 UI_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
 ICON_TO_BUTTON_MARGIN = 10
+TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
+    "Frame Length",
+    "Frame Width",
+    "Profile Length",
+    "Profile Width",
+    "Type Plate Material",
+    "Plate Material Thickness"
+)
+TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
+    "mm",
+    "mm",
+    "mm",
+    "mm",
+    "",
+    "mm"
+)
