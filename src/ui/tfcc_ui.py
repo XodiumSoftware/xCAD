@@ -2,35 +2,18 @@ import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QValidator
-from PyQt6.QtWidgets import (
-    QFileDialog,
-    QGridLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QMessageBox,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt6.QtWidgets import (QFileDialog, QGridLayout, QGroupBox, QHBoxLayout,
+                             QLabel, QLineEdit, QMessageBox, QPushButton,
+                             QSizePolicy, QVBoxLayout, QWidget)
 
-from constants import (
-    BACK_BUTTON,
-    DATA_DIR,
-    ON_BACK_BUTTON_PRESSED_DESC,
-    ON_BACK_BUTTON_PRESSED_FILE_PATH,
-    SAVE_BUTTON,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-    TFCC_UI_GROUPBOX_TITLE,
-    UI_CONTENTS_MARGINS,
-    UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_FONT_TYPE,
-    UI_GROUPBOX_STYLESHEET,
-)
+from constants import (BACK_BUTTON, DATA_DIR, ON_BACK_BUTTON_PRESSED_DESC,
+                       ON_BACK_BUTTON_PRESSED_FILE_PATH, SAVE_BUTTON,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+                       TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
+                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
+                       UI_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.ui_setup import UiSetup
 
@@ -206,4 +189,4 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         ):
             self.on_back_button_pressed()
 
-    """ add when clicking on window red X button that it gives the message on_back_button_pressed() """
+    # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
