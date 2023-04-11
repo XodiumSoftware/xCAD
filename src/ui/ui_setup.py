@@ -3,8 +3,8 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QLabel, QStyleFactory, QVBoxLayout,
                              QWidget)
 
-from constants import (COPYRIGHT_LABEL, WINDOW_CONTENTS_MARGINS,
-                       WINDOW_ICON_PATH, WINDOW_STYLE, WINDOW_TITLE)
+from constants import (COPYRIGHT_LABEL, UI_CONTENTS_MARGINS, UI_ICON_PATH,
+                       UI_STYLE, UI_TITLE)
 
 
 class UiSetup(QWidget):
@@ -14,11 +14,11 @@ class UiSetup(QWidget):
         setting the window title and icon, creating a label for displaying copyright information, adding
         the label to the layout, and adjusting the size of the window.
         """
-        self.setWindowTitle(WINDOW_TITLE)
-        self.setWindowIcon(QIcon(WINDOW_ICON_PATH))
-        self.margins = QMargins(*WINDOW_CONTENTS_MARGINS)
+        self.setWindowTitle(UI_TITLE)
+        self.setWindowIcon(QIcon(UI_ICON_PATH))
+        self.margins = QMargins(*UI_CONTENTS_MARGINS)
         self.setContentsMargins(self.margins)
-        self.setStyle(QStyleFactory.create(WINDOW_STYLE))
+        self.setStyle(QStyleFactory.create(UI_STYLE))
 
         self.copyright_label()
 

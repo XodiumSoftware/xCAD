@@ -1,18 +1,20 @@
+from functools import partial
+
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
-                             QSpacerItem, QVBoxLayout, QWidget)
+                             QVBoxLayout, QWidget)
 
-from constants import (ICON_TO_BUTTON_MARGIN, MAIN_WINDOW_BUTTON_SIZE,
-                       MAIN_WINDOW_BUTTON_TEXTS, MAIN_WINDOW_GROUPBOX_TITLE,
-                       MAIN_WINDOW_ICON_PATHS, WINDOW_CONTENTS_MARGINS,
-                       WINDOW_GROUPBOX_STYLESHEET)
+from constants import (ICON_TO_BUTTON_MARGIN, MAIN_UI_BUTTON_SIZE,
+                       MAIN_UI_BUTTON_TEXTS, MAIN_UI_GROUPBOX_TITLE,
+                       MAIN_UI_ICON_PATHS, UI_CONTENTS_MARGINS,
+                       UI_GROUPBOX_STYLESHEET)
 from events.on_press_events import OnPressEvents
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
 
 
-# The MainWindow class is a QWidget used for creating a window in a GUI application.
+# The MainUi class is a QWidget used for creating a UI in a GUI application.
 class MainUi(UiSetup, OnPressEvents, QWidget):
     def __init__(self):
         """
@@ -20,6 +22,8 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
         policy.
         """
         super().__init__()
+
+        self.tfccui_instance = TFCCUi()
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -33,24 +37,24 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
 
     def create_group_box(self):
         """
-        This function creates a group box with buttons and spacers inside it.
+        This function creates a group box with buttons and adds them to a layout.
         """
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.group_box.setStyleSheet(WINDOW_GROUPBOX_STYLESHEET)
-        self.group_box.setTitle(MAIN_WINDOW_GROUPBOX_TITLE)
+        self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
+        self.group_box.setTitle(MAIN_UI_GROUPBOX_TITLE)
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.group_box.setFlat(True)
 
         self.group_box.setSizePolicy(
             QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
-        self.group_box_layout.setContentsMargins(*WINDOW_CONTENTS_MARGINS)
+        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-        self.create_buttons(MAIN_WINDOW_BUTTON_TEXTS)
+        self.create_buttons(MAIN_UI_BUTTON_TEXTS)
 
         button_layout = QHBoxLayout()
-        button_layout.setContentsMargins(*WINDOW_CONTENTS_MARGINS)
+        button_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
         button_layout.addStretch()
         for button in self.buttons:
             button_layout.addWidget(button)
@@ -70,7 +74,7 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
         """
         self.buttons = []
 
-        icon_paths = MAIN_WINDOW_ICON_PATHS
+        icon_paths = MAIN_UI_ICON_PATHS
 
         for i in range(len(button_texts)):
             button_text = button_texts[i]
@@ -86,9 +90,9 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
             button.setIcon(QIcon(icon_path))
 
             button.setIconSize(
-                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_WINDOW_BUTTON_SIZE)))
+                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_UI_BUTTON_SIZE)))
 
-            button.setFixedSize(QSize(*MAIN_WINDOW_BUTTON_SIZE))
+            button.setFixedSize(QSize(*MAIN_UI_BUTTON_SIZE))
 
             button.setToolTip(tooltip)
 
@@ -96,10 +100,18 @@ class MainUi(UiSetup, OnPressEvents, QWidget):
 
             self.buttons.append(button)
 
-    # Make it work with button_press_events.py
-    def open_window(self):
+        for i, button in enumerate(self.buttons):
+            show_tfccui = partial(self.open_tfccui, i)
+            button.clicked.connect(show_tfccui)
+
+    def open_tfccui(self, index):
         """
-        This function creates and displays a DTFCWindow object.
+        The function opens a TFCCUI instance and closes the current instance if the index is 0.
+
+        :param index: The index parameter is an integer value that is used to determine which action to
+        take in the function. If the value of index is 0, the function will close the current instance
+        and show a new instance of the tfccui
         """
-        dtfc_window = TFCCUi()
-        dtfc_window.show()
+        if index == 0:
+            self.close()
+            self.tfccui_instance.show()
