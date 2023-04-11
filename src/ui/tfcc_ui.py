@@ -1,7 +1,7 @@
 import os
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QIntValidator
+from PyQt6.QtGui import QFont, QValidator
 from PyQt6.QtWidgets import (
     QFileDialog,
     QGridLayout,
@@ -86,6 +86,7 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
         self.labels = []
         self.inputs = []
         self.input_fields_layout = QGridLayout()
+        #input_validator = QValidator(self.input_validator)
 
         for i, (desc0, desc1) in enumerate(
             zip(
@@ -97,12 +98,26 @@ class TFCCUi(UiSetup, OnPressEvents, QWidget):
             label1 = QLabel(desc1, self)
             self.labels.extend([label0, label1])
             self.inputs.append(input)
-            input.setValidator(QIntValidator(0, 2147483647, self))
+            #input.setValidator(input_validator)
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
 
             input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
+
+    def input_validator(self, input_text, pos):
+        # Check if input is empty or a non-negative integer
+        if input_text.isEmpty():
+            return (QValidator.State.Intermediate, input_text, pos)
+        elif self.inputs.index(self.sender()) in [0, 1, 3, 4, 6]:
+            # check if input is a non-negative integer
+            if input_text.isdigit() and int(input_text) >= 0:
+                return (QValidator.State.Acceptable, input_text, pos)
+            else:
+                return (QValidator.State.Invalid, input_text, pos)
+        else:
+            # accept any text input
+            return (QValidator.State.Acceptable, input_text, pos)
 
     def create_button_layout(self):
         """
