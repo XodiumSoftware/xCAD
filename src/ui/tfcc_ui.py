@@ -1,5 +1,4 @@
 import os
-from typing import Tuple
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QValidator
@@ -92,16 +91,10 @@ class TFCCUi(UiSetup):
             input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
 
     @staticmethod
-    def input_validator(input_text: str, pos: int) -> Tuple[QValidator.State, str, int]:
+    def input_validator(input_text: str, pos: int) -> tuple[QValidator.State, str, int]:
         """
         This function validates user input by checking if it is empty or a non-negative integer, and
         returns a state indicating whether the input is acceptable, invalid, or intermediate.
-
-        :param pos: pos refers to the position of the cursor in the input field. It is used in the
-        function to return the updated position of the cursor after validating the input
-        :param input_text: The text input that needs to be validated
-        :return: A tuple containing the validation state (either Intermediate, Acceptable, or Invalid),
-        the input text, and the position of the cursor.
         """
         if input_text == "":
             return (QValidator.State.Intermediate, input_text, pos)
@@ -110,7 +103,6 @@ class TFCCUi(UiSetup):
                 return (QValidator.State.Acceptable, input_text, pos)
             else:
                 return (QValidator.State.Invalid, input_text, pos)
-        
         return (QValidator.State.Acceptable, input_text, pos)
 
     def create_button_layout(self):
@@ -156,10 +148,8 @@ class TFCCUi(UiSetup):
         This function prompts the user to select a file path to save input values.
         """
 
-
         file_path, _ = QFileDialog.getSaveFileName(
-            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
-        )
+            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH)
 
         if file_path:
             self.save_input_values()
