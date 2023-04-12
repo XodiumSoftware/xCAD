@@ -1,4 +1,5 @@
 import os
+from typing import Tuple
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QValidator
@@ -67,7 +68,6 @@ class TFCCUi(UiSetup):
         self.labels = []
         self.inputs = []
         self.input_fields_layout = QGridLayout()
-        # input_validator = QValidator(self.input_validator)
 
         for i, (desc0, desc1) in enumerate(
             zip(
@@ -77,35 +77,41 @@ class TFCCUi(UiSetup):
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
             label1 = QLabel(desc1, self)
+
             self.labels.extend([label0, label1])
             self.inputs.append(input)
-            # input.setValidator(input_validator)
+
+            input_validator = QValidator()
+            input_validator.validate = self.input_validator
+            input.setValidator(input_validator)
+
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
 
             input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
 
-    def input_validator(self, input_text, pos):
+    @staticmethod
+    def input_validator(input_text: str, pos: int) -> Tuple[QValidator.State, str, int]:
         """
         This function validates user input by checking if it is empty or a non-negative integer, and
         returns a state indicating whether the input is acceptable, invalid, or intermediate.
 
-        :param input_text: The text input that needs to be validated
         :param pos: pos refers to the position of the cursor in the input field. It is used in the
         function to return the updated position of the cursor after validating the input
+        :param input_text: The text input that needs to be validated
         :return: A tuple containing the validation state (either Intermediate, Acceptable, or Invalid),
         the input text, and the position of the cursor.
         """
-        if input_text.isEmpty():
+        if input_text == "":
             return (QValidator.State.Intermediate, input_text, pos)
-        elif self.inputs.index(self.sender()) in [0, 1, 3, 4, 6]:
+        elif pos in [0, 1, 3, 4, 6]:
             if input_text.isdigit() and int(input_text) >= 0:
                 return (QValidator.State.Acceptable, input_text, pos)
             else:
                 return (QValidator.State.Invalid, input_text, pos)
-        else:
-            return (QValidator.State.Acceptable, input_text, pos)
+        
+        return (QValidator.State.Acceptable, input_text, pos)
 
     def create_button_layout(self):
         """
