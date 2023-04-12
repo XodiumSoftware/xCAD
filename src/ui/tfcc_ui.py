@@ -197,8 +197,10 @@ class TFCCUi(UiSetup):
             input_values[i] = input_text
 
         data_dir = DATA_DIR_FOLDER
+
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
+
         file_path = os.path.join(data_dir, DATA_DIR_FILE)
 
         with open(file_path, "w") as f:
@@ -208,4 +210,3 @@ class TFCCUi(UiSetup):
         QMessageBox.information(
             self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
         )
-        # TODO: add way to go back instead of closing everything.
