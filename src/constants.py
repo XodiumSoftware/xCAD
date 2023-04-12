@@ -24,7 +24,7 @@ MAIN_UI_ICON_PATHS = (
     "src/icons/coming-soon_icon_light.png",
     "src/icons/coming-soon_icon_light.png",
 )
-MAIN_UI_BUTTON_HEIGHT = 50 
+MAIN_UI_BUTTON_HEIGHT = 50
 MAIN_UI_BUTTON_WIDTH = MAIN_UI_BUTTON_HEIGHT
 UI_STYLE = "fusion"
 COPYRIGHT_LABEL = "©Qerimi Engineering"
