@@ -65,7 +65,9 @@ class MainUi(UiSetup):
             if self.isHidden():
                 self.tfccui_instance.close()
 
-                self.show()  # call close() method on the instance
+                self.show()
+
+        # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""

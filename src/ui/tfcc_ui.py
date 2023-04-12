@@ -1,9 +1,8 @@
 import os
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QValidator
+from PySide6.QtCore import QRegularExpression, Qt
+from PySide6.QtGui import QFont, QIntValidator, QRegularExpressionValidator, QValidator
 from PySide6.QtWidgets import (
-    QFileDialog,
     QGridLayout,
     QGroupBox,
     QHBoxLayout,
@@ -17,10 +16,11 @@ from PySide6.QtWidgets import (
 
 from constants import (
     BACK_BUTTON,
-    DATA_DIR,
+    DATA_DIR_FILE,
+    DATA_DIR_FOLDER,
     ON_BACK_BUTTON_PRESSED_DESC,
-    ON_BACK_BUTTON_PRESSED_FILE_PATH,
     SAVE_BUTTON,
+    SAVE_UI_TEXT,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
@@ -29,6 +29,7 @@ from constants import (
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
+    UI_TITLE,
 )
 from ui.ui_setup import UiSetup
 
@@ -96,9 +97,69 @@ class TFCCUi(UiSetup):
             self.labels.extend([label0, label1])
             self.inputs.append(input)
 
-            input_validator = QValidator()
-            input_validator.validate = self.input_validator
-            input.setValidator(input_validator)
+            input_validate = QRegularExpressionValidator()
+            input.setValidator(input_validate)
+
+            self.input_fields_layout.addWidget(label0, i, 0)
+            self.input_fields_layout.addWidget(input, i, 1)
+            self.input_fields_layout.addWidget(label1, i, 2)
+
+            input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
+
+            if "text" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+                input_validate.setRegularExpression(QRegularExpression(".+"))
+            elif "number" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+                input_validate = QIntValidator()
+                input_validate.setBottom(0)
+                input.setValidator(input_validate)
+            else:
+                input_validate.setRegularExpression(QRegularExpression(".*"))
+
+    def input_validator(
+        self, text_input: str, pos: int, obj_num: int
+    ) -> tuple[QValidator.State, str, int]:
+        placeholder = self.inputs[obj_num].placeholderText()
+        if "text" in placeholder:
+            if text_input == "":
+                return QValidator.State.Intermediate, text_input, pos
+            elif text_input.isalpha():
+                return QValidator.State.Acceptable, text_input, pos
+            else:
+                return QValidator.State.Invalid, text_input, pos
+        elif "number" in placeholder:
+            if text_input == "":
+                return QValidator.State.Intermediate, text_input, pos
+            elif text_input.isnumeric() and int(text_input) >= 0:
+                return QValidator.State.Acceptable, text_input, pos
+            else:
+                return QValidator.State.Invalid, text_input, pos
+        else:
+            return QValidator.State.Acceptable, text_input, pos
+
+    def create_input_fields2(self):
+        """
+        This function creates input fields with labels and placeholders in a QGridLayout.
+        """
+        self.labels = []
+        self.inputs = []
+        self.input_fields_layout = QGridLayout()
+
+        for i, (desc0, desc1) in enumerate(
+            zip(
+                TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2
+            )
+        ):
+            label0 = QLabel(desc0, self)
+            input = QLineEdit(self)
+            label1 = QLabel(desc1, self)
+
+            self.labels.extend([label0, label1])
+            self.inputs.append(input)
+
+            input_validate = QIntValidator()
+            input_validate.setBottom(0)
+
+            input.setValidator(input_validate)
 
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
@@ -107,19 +168,27 @@ class TFCCUi(UiSetup):
             input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
 
     @staticmethod
-    def input_validator(input_text: str, pos: int) -> tuple[QValidator.State, str, int]:
-        """
-        This function validates user input by checking if it is empty or a non-negative integer, and
-        returns a state indicating whether the input is acceptable, invalid, or intermediate.
-        """
-        if input_text == "":
-            return (QValidator.State.Intermediate, input_text, pos)
-        elif pos in [0, 1, 3, 4, 6]:
-            if input_text.isdigit() and int(input_text) >= 0:
-                return (QValidator.State.Acceptable, input_text, pos)
+    def input_validator2(
+        text_input: str, pos: int, obj_num: int
+    ) -> tuple[QValidator.State, str, int]:
+        if obj_num in [1, 2, 4, 5, 7]:
+            if text_input == "":
+                return QValidator.State.Intermediate, text_input, pos
+            try:
+                value = int(text_input)
+                if value >= 0:
+                    return QValidator.State.Acceptable, text_input, pos
+                else:
+                    return QValidator.State.Invalid, text_input, pos
+            except ValueError:
+                return QValidator.State.Invalid, text_input, pos
+        elif obj_num in [3, 6]:
+            if text_input.isalpha() or text_input == "":
+                return QValidator.State.Acceptable, text_input, pos
             else:
-                return (QValidator.State.Invalid, input_text, pos)
-        return (QValidator.State.Acceptable, input_text, pos)
+                return QValidator.State.Invalid, text_input, pos
+        else:
+            return QValidator.State.Invalid, text_input, pos
 
     def create_button_layout(self):
         """
@@ -142,8 +211,6 @@ class TFCCUi(UiSetup):
         This function handles the action of pressing the back button in a UI and prompts the user to
         save changes before returning to the main UI.
         """
-        from ui.main_ui import MainUi
-
         reply = QMessageBox.question(
             self,
             *ON_BACK_BUTTON_PRESSED_DESC,
@@ -151,27 +218,21 @@ class TFCCUi(UiSetup):
             | QMessageBox.StandardButton.No
             | QMessageBox.StandardButton.Cancel,
         )
-
         if reply == QMessageBox.StandardButton.Yes:
             self.on_save_button_pressed()
 
-        main_ui = MainUi()
-        main_ui.show()
-        self.close()
+        elif reply == QMessageBox.StandardButton.No:
+            from ui.main_ui import MainUi
+
+            main_ui = MainUi()
+            main_ui.show()
+            self.close()
 
     def on_save_button_pressed(self):
         """
         This function prompts the user to select a file path to save input values.
         """
-
-        file_path, _ = QFileDialog.getSaveFileName(
-            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
-        )
-
-        if file_path:
-            self.save_input_values()
-
-    # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
+        self.save_input_values()
 
     def save_input_values(self):
         """
@@ -182,11 +243,15 @@ class TFCCUi(UiSetup):
             input_text = input_widget.text()
             input_values[i] = input_text
 
-        data_dir = DATA_DIR
+        data_dir = DATA_DIR_FOLDER
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
-        file_path = os.path.join(data_dir, "input_values.txt")
+        file_path = os.path.join(data_dir, DATA_DIR_FILE)
 
         with open(file_path, "w") as f:
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
+
+        QMessageBox.information(
+            self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
+        )
