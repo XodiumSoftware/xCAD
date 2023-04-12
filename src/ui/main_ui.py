@@ -50,10 +50,9 @@ class MainUi(UiSetup):
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier):
             if self.isHidden():
                 self.tfccui_instance.close()
-            
-                self.show()  # call close() method on the instance
-            
-
+                self.show()
+                # TODO: add check to see if tfccui is open or if another secondary window is open instead of tfccui
+    
     def create_group_box(self):
         '''Creates group box and adds to main layout.'''
         self.group_box = QGroupBox(self)
