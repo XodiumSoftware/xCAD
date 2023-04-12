@@ -175,19 +175,9 @@ class TFCCUi(UiSetup):
             self.on_save_button_pressed()
 
         elif reply == QMessageBox.StandardButton.No:
-            from ui.main_ui import MainUi
-
-            main_ui = MainUi()
-            main_ui.show()
-            self.close()
+            TFCCUi.close(self)
 
     def on_save_button_pressed(self):
-        """
-        This function prompts the user to select a file path to save input values.
-        """
-        self.save_input_values()
-
-    def save_input_values(self):
         """
         This function saves input values from input widgets to a text file.
         """
@@ -207,6 +197,9 @@ class TFCCUi(UiSetup):
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
-        QMessageBox.information(
+        reply = QMessageBox.information(
             self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
         )
+        if reply == QMessageBox.StandardButton.Ok:
+            TFCCUi.close(self)
+        # TODO: FIX: Basically it opens itself up again which should not happen.

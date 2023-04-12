@@ -57,9 +57,9 @@ class MainUi(UiSetup):
         ):
             if self.isHidden():
                 self.tfccui_instance.close()
-                self.show()
+                MainUi.show(self)
 
-            # self.close()
+            self.close()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""
