@@ -1,19 +1,35 @@
 import os
 
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QValidator
-from PyQt6.QtWidgets import (QFileDialog, QGridLayout, QGroupBox, QHBoxLayout,
-                             QLabel, QLineEdit, QMessageBox, QPushButton,
-                             QSizePolicy, QVBoxLayout)
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QValidator
+from PySide6.QtWidgets import (
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
-from constants import (BACK_BUTTON, DATA_DIR, ON_BACK_BUTTON_PRESSED_DESC,
-                       ON_BACK_BUTTON_PRESSED_FILE_PATH, SAVE_BUTTON,
-                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-                       TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
-                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
-                       UI_GROUPBOX_STYLESHEET)
+from constants import (
+    BACK_BUTTON,
+    DATA_DIR,
+    ON_BACK_BUTTON_PRESSED_DESC,
+    ON_BACK_BUTTON_PRESSED_FILE_PATH,
+    SAVE_BUTTON,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+    TFCC_UI_GROUPBOX_TITLE,
+    UI_CONTENTS_MARGINS,
+    UI_GROUPBOX_FONT_SIZE,
+    UI_GROUPBOX_FONT_TYPE,
+    UI_GROUPBOX_STYLESHEET,
+)
 from ui.ui_setup import UiSetup
 
 
@@ -37,7 +53,7 @@ class TFCCUi(UiSetup):
         self.create_button_layout()
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
-    
+
     def create_group_box(self):
         """
         This function creates a group box with input fields and applies styling to it.
@@ -120,7 +136,7 @@ class TFCCUi(UiSetup):
         self.save_button = QPushButton(SAVE_BUTTON, self)
         self.save_button.clicked.connect(self.on_save_button_pressed)
         self.button_layout.addWidget(self.save_button)
-    
+
     def on_back_button_pressed(self):
         """
         This function handles the action of pressing the back button in a UI and prompts the user to
@@ -149,13 +165,14 @@ class TFCCUi(UiSetup):
         """
 
         file_path, _ = QFileDialog.getSaveFileName(
-            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH)
+            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
+        )
 
         if file_path:
             self.save_input_values()
-    
+
     # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
-    
+
     def save_input_values(self):
         """
         This function saves input values from input widgets to a text file.
@@ -173,4 +190,3 @@ class TFCCUi(UiSetup):
         with open(file_path, "w") as f:
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
-

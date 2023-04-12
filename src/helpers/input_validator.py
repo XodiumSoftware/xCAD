@@ -1,4 +1,4 @@
-from PyQt6.QtGui import QValidator
+from PySide6.QtGui import QValidator
 
 
 def input_validator(self, input_text, pos):
