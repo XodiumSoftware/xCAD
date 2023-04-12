@@ -91,10 +91,10 @@ class MainUi(UiSetup):
         icon_paths = MAIN_UI_ICON_PATHS
 
         for button_text, icon_path in zip(button_texts, icon_paths):
-            # we can iterate over two list at the same time using zip 
-            # Its far more safer than using indexes
-            # You have to make sure that both the list is same length to use index
-            # But with zip() you will get values of lowest length list
+            # We can iterate over two list at the same time using zip.
+            # It's far more safer than using indexes:
+            # you would have to make sure that both the lists are of the same length,
+            # but with zip() you will get values of the lowest length list.
 
             button = QPushButton()
 
