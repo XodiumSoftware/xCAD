@@ -2,24 +2,37 @@ from functools import partial
 
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
-                             QVBoxLayout)
+from PyQt6.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
-from constants import (ICON_TO_BUTTON_MARGIN, MAIN_UI_BUTTON_HEIGHT,
-                       MAIN_UI_BUTTON_TEXTS, MAIN_UI_BUTTON_WIDTH,
-                       MAIN_UI_GROUPBOX_TITLE, MAIN_UI_ICON_PATHS,
-                       UI_CONTENTS_MARGINS, UI_GROUPBOX_FONT_SIZE,
-                       UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_STYLESHEET)
+from constants import (
+    ICON_TO_BUTTON_MARGIN,
+    MAIN_UI_BUTTON_HEIGHT,
+    MAIN_UI_BUTTON_TEXTS,
+    MAIN_UI_BUTTON_WIDTH,
+    MAIN_UI_GROUPBOX_TITLE,
+    MAIN_UI_ICON_PATHS,
+    UI_CONTENTS_MARGINS,
+    UI_GROUPBOX_FONT_SIZE,
+    UI_GROUPBOX_FONT_TYPE,
+    UI_GROUPBOX_STYLESHEET,
+)
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
 
 
 class MainUi(UiSetup):
     # since these parent classes all have QWidget as parent , you have to put it as last
-    '''Defines the ui for the main window.'''
+    """Defines the ui for the main window."""
+
     def __init__(self):
-        '''__init__ is a special function that initializes the class attributes.
-        In this case, it creates the layout for the main window.'''
+        """__init__ is a special function that initializes the class attributes.
+        In this case, it creates the layout for the main ui."""
 
         # calls the __init__ of the parent class:
         # python hierarchy --> from left to right it checks
@@ -44,17 +57,18 @@ class MainUi(UiSetup):
         """
         This function handles key press events and closes the main UI or goes back to the previous
         screen depending on the key pressed.
-        """        
+        """
         if event.key() == Qt.Key.Key_Escape or (
             event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier):
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
             if self.isHidden():
                 self.tfccui_instance.close()
-                self.show()
-                # TODO: add check to see if tfccui is open or if another secondary window is open instead of tfccui
-    
+
+                self.show()  # call close() method on the instance
+
     def create_group_box(self):
-        '''Creates group box and adds to main layout.'''
+        """Creates group box and adds to main layout."""
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -84,14 +98,14 @@ class MainUi(UiSetup):
         self.group_box_layout.addLayout(button_layout)
 
     def create_buttons(self, button_texts):
-        '''This function creates buttons with icons and tooltips based on given constants.'''
+        """This function creates buttons with icons and tooltips based on given constants."""
 
         self.buttons: list[QPushButton] = []
 
         icon_paths = MAIN_UI_ICON_PATHS
 
         for button_text, icon_path in zip(button_texts, icon_paths):
-            # we can iterate over two list at the same time using zip 
+            # we can iterate over two list at the same time using zip
             # Its far more safer than using indexes
             # You have to make sure that both the list is same length to use index
             # But with zip() you will get values of lowest length list
@@ -105,8 +119,10 @@ class MainUi(UiSetup):
 
             button.setIcon(QIcon(icon_path))
 
-            btn_size = QSize(MAIN_UI_BUTTON_HEIGHT - ICON_TO_BUTTON_MARGIN, 
-                             MAIN_UI_BUTTON_WIDTH - ICON_TO_BUTTON_MARGIN)
+            btn_size = QSize(
+                MAIN_UI_BUTTON_HEIGHT - ICON_TO_BUTTON_MARGIN,
+                MAIN_UI_BUTTON_WIDTH - ICON_TO_BUTTON_MARGIN,
+            )
             button.setIconSize(btn_size)
 
             button.setFixedSize(QSize(MAIN_UI_BUTTON_HEIGHT, MAIN_UI_BUTTON_WIDTH))
@@ -124,10 +140,10 @@ class MainUi(UiSetup):
     # Instead of creating one method for all buttons,
     # you should check each button inside the function.
     def open_new_ui(self, index):
-        '''The function opens a new ui instance (closing the current one)
-         based on the index of the button.'''
+        """The function opens a new ui instance (closing the current one)
+        based on the index of the button."""
         if index == 0:
-            # This is the main window, so we hide it. 
+            # This is the main window, so we hide it.
             # If we close it, then we won't be able to go back to it. :)
             self.hide()
             self.tfccui_instance.show()
