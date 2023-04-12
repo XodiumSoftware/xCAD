@@ -2,42 +2,31 @@ from functools import partial
 
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import (
-    QGroupBox,
-    QHBoxLayout,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt6.QtWidgets import (QGroupBox, QHBoxLayout, QPushButton, QSizePolicy,
+                             QVBoxLayout)
 
-from constants import (
-    ICON_TO_BUTTON_MARGIN,
-    MAIN_UI_BUTTON_SIZE,
-    MAIN_UI_BUTTON_TEXTS,
-    MAIN_UI_GROUPBOX_TITLE,
-    MAIN_UI_ICON_PATHS,
-    UI_CONTENTS_MARGINS,
-    UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_FONT_TYPE,
-    UI_GROUPBOX_STYLESHEET,
-)
-from main import Run
+from constants import (ICON_TO_BUTTON_MARGIN, MAIN_UI_BUTTON_HEIGHT,
+                       MAIN_UI_BUTTON_TEXTS, MAIN_UI_BUTTON_WIDTH,
+                       MAIN_UI_GROUPBOX_TITLE, MAIN_UI_ICON_PATHS,
+                       UI_CONTENTS_MARGINS, UI_GROUPBOX_FONT_SIZE,
+                       UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_STYLESHEET)
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
 
 
-# The MainUi class is a QWidget used for creating a UI in a GUI application.
-class MainUi(UiSetup, Run, QWidget):
+class MainUi(UiSetup):
+    # since these parent classes all have QWidget as parent , you have to put it as last
+    '''Defines the ui for the main window.'''
     def __init__(self):
-        """
-        This function initializes a group box and adds it to the main layout with a specified size
-        policy.
-        """
+        '''__init__ is a special function that inizializes the class attributes.
+        In this case, it creates the layout for the main window.'''
+
+        # calls the __init__ of the parent class:
+        # python hierarchy --> from left to right it checks
+        # if each parent has an __init__ method and initializes it
         super().__init__()
 
-        self.tfccui_instance = TFCCUi()
-
+        # creates the main layout:
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -48,10 +37,25 @@ class MainUi(UiSetup, Run, QWidget):
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
 
+        # instances for the other windows:
+        self.tfccui_instance = TFCCUi()
+
+    def keyPressEvent(self, event):
+        """
+        This function handles key press events and closes the main UI or goes back to the previous
+        screen depending on the key pressed.
+        """        
+        if event.key() == Qt.Key.Key_Escape or (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier):
+            if self.isHidden():
+                self.tfccui_instance.close()
+            
+                self.show()  # call close() method on the instance
+            
+
     def create_group_box(self):
-        """
-        This function creates a group box with buttons and adds them to a layout.
-        """
+        '''Creates group box and adds to main layout.'''
         self.group_box = QGroupBox(self)
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -81,21 +85,17 @@ class MainUi(UiSetup, Run, QWidget):
         self.group_box_layout.addLayout(button_layout)
 
     def create_buttons(self, button_texts):
-        """
-        This function creates buttons with icons and tooltips based on given button texts.
+        '''This function creates buttons with icons and tooltips based on given constants.'''
 
-        :param button_texts: A list of strings or tuples where each string represents the text to be
-        displayed on a button and each tuple contains two elements where the first element is the text
-        to be displayed on the button and the second element is the tooltip text to be displayed when
-        the user hovers over the button
-        """
-        self.buttons = []
+        self.buttons: list[QPushButton] = []
 
         icon_paths = MAIN_UI_ICON_PATHS
 
-        for i in range(len(button_texts)):
-            button_text = button_texts[i]
-            icon_path = icon_paths[i]
+        for button_text, icon_path in zip(button_texts, icon_paths):
+            # we can iterate over two list at the same time using zip 
+            # Its far more safer than using indexes
+            # You have to make sure that both the list is same length to use index
+            # But with zip() you will get values of lowest length list
 
             button = QPushButton()
 
@@ -106,11 +106,11 @@ class MainUi(UiSetup, Run, QWidget):
 
             button.setIcon(QIcon(icon_path))
 
-            button.setIconSize(
-                QSize(*(x - ICON_TO_BUTTON_MARGIN for x in MAIN_UI_BUTTON_SIZE))
-            )
+            btn_size = QSize(MAIN_UI_BUTTON_HEIGHT - ICON_TO_BUTTON_MARGIN, 
+                             MAIN_UI_BUTTON_WIDTH - ICON_TO_BUTTON_MARGIN)
+            button.setIconSize(btn_size)
 
-            button.setFixedSize(QSize(*MAIN_UI_BUTTON_SIZE))
+            button.setFixedSize(QSize(MAIN_UI_BUTTON_HEIGHT, MAIN_UI_BUTTON_WIDTH))
 
             button.setToolTip(tooltip)
 
@@ -119,17 +119,26 @@ class MainUi(UiSetup, Run, QWidget):
             self.buttons.append(button)
 
         for i, button in enumerate(self.buttons):
-            show_tfccui = partial(self.open_tfccui, i)
+            show_tfccui = partial(self.open_new_ui, i)
             button.clicked.connect(show_tfccui)
 
-    def open_tfccui(self, index):
-        """
-        The function opens a TFCCUI instance and closes the current instance if the index is 0.
-
-        :param index: The index parameter is an integer value that is used to determine which action to
-        take in the function. If the value of index is 0, the function will close the current instance
-        and show a new instance of the tfccui
-        """
+    # Instead of creating one method for all buttons,
+    # you should check each button inside the function.
+    def open_new_ui(self, index):
+        '''The function opens a new indow instance (closing the current one)
+         based on the index of the button.'''
         if index == 0:
-            self.close()
+            # This is the main window, so we hide it. 
+            # If we close it, then we won't be able to go back to it. :)
+            self.hide()
             self.tfccui_instance.show()
+        # elif index == 1:
+        #     self.close()
+        #     self.tfccui_instance.show()
+        # etc etc....
+        # TODO: instead of putting tfccui_instance,
+        # when other ui classes will be created
+        # you have to put those classes inside the __init__
+        # (e.g. self.calculations_instance = CalcUi())
+        # and then check for the index in this function
+        # and open it here

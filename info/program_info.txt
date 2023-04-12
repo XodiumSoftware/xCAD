@@ -1,0 +1,15 @@
+:param button_texts: A list of strings or tuples where each string represents the text to be
+displayed on a button and each tuple contains two elements where the first element is the text
+to be displayed on the button and the second element is the tooltip text to be displayed when
+the user hovers over the button
+
+
+:param index: The index parameter is an integer value that is used to determine which action to
+take in the function. If the value of index is 0, the function will close the current instance
+and show a new instance of the tfccui
+
+
+:param event: The event parameter is an object that represents a key press event. It contains
+information about the key that was pressed, such as the key code and any modifiers (e.g. Ctrl,
+Shift) that were held down at the time of the press. The function is designed to handle key
+press events and

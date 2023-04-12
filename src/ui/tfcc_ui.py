@@ -1,36 +1,23 @@
+import os
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QValidator
-from PyQt6.QtWidgets import (
-    QGridLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt6.QtWidgets import (QFileDialog, QGridLayout, QGroupBox, QHBoxLayout,
+                             QLabel, QLineEdit, QMessageBox, QPushButton,
+                             QSizePolicy, QVBoxLayout)
 
-from constants import (
-    BACK_BUTTON,
-    SAVE_BUTTON,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-    TFCC_UI_GROUPBOX_TITLE,
-    UI_CONTENTS_MARGINS,
-    UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_FONT_TYPE,
-    UI_GROUPBOX_STYLESHEET,
-)
-from events.on_press_events import OnPressEvents
-from main import Run
+from constants import (BACK_BUTTON, DATA_DIR, ON_BACK_BUTTON_PRESSED_DESC,
+                       ON_BACK_BUTTON_PRESSED_FILE_PATH, SAVE_BUTTON,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+                       TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+                       TFCC_UI_GROUPBOX_TITLE, UI_CONTENTS_MARGINS,
+                       UI_GROUPBOX_FONT_SIZE, UI_GROUPBOX_FONT_TYPE,
+                       UI_GROUPBOX_STYLESHEET)
 from ui.ui_setup import UiSetup
 
 
-# The TFCCUI class is a QWidget used for creating a UI in a GUI application.
-class TFCCUi(UiSetup, Run, OnPressEvents, QWidget):
+class TFCCUi(UiSetup):
     def __init__(self):
         """
         This function initializes a layout and adds various widgets to it.
@@ -50,7 +37,7 @@ class TFCCUi(UiSetup, Run, OnPressEvents, QWidget):
         self.create_button_layout()
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
-
+    
     def create_group_box(self):
         """
         This function creates a group box with input fields and applies styling to it.
@@ -135,3 +122,59 @@ class TFCCUi(UiSetup, Run, OnPressEvents, QWidget):
         self.save_button = QPushButton(SAVE_BUTTON, self)
         self.save_button.clicked.connect(self.on_save_button_pressed)
         self.button_layout.addWidget(self.save_button)
+    
+    def on_back_button_pressed(self):
+        """
+        This function handles the action of pressing the back button in a UI and prompts the user to
+        save changes before returning to the main UI.
+        """
+        from ui.main_ui import MainUi
+
+        reply = QMessageBox.question(
+            self,
+            *ON_BACK_BUTTON_PRESSED_DESC,
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No
+            | QMessageBox.StandardButton.Cancel,
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            self.on_save_button_pressed()
+
+        main_ui = MainUi()
+        main_ui.show()
+        self.close()
+
+    def on_save_button_pressed(self):
+        """
+        This function prompts the user to select a file path to save input values.
+        """
+
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            self, *ON_BACK_BUTTON_PRESSED_FILE_PATH
+        )
+
+        if file_path:
+            self.save_input_values()
+    
+    # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
+    
+    def save_input_values(self):
+        """
+        This function saves input values from input widgets to a text file.
+        """
+        input_values = {}
+        for i, input_widget in enumerate(self.inputs):
+            input_text = input_widget.text()
+            input_values[i] = input_text
+
+        data_dir = DATA_DIR
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+        file_path = os.path.join(data_dir, "input_values.txt")
+
+        with open(file_path, "w") as f:
+            for key, value in input_values.items():
+                f.write(f"{key}: {value}\n")
+
