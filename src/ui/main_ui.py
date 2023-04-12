@@ -55,10 +55,9 @@ class MainUi(UiSetup):
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
-            if self.isHidden():
+            '''if self.isHidden():
                 self.tfccui_instance.close()
-                MainUi.show(self)
-
+                self.show()'''
             self.close()
 
     def create_group_box(self):

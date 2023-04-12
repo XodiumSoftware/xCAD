@@ -55,6 +55,18 @@ class TFCCUi(UiSetup):
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
 
+    def keyPressEvent(self, event):
+        """
+        This function handles key press events and closes the main UI or goes back to the previous
+        screen depending on the key pressed.
+        """
+        if event.key() == Qt.Key.Key_Escape or (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
+            self.back_button_handler()
+        # FIXME: make the main window appear again
+
     def create_group_box(self):
         """
         This function creates a group box with input fields and applies styling to it.
@@ -145,21 +157,22 @@ class TFCCUi(UiSetup):
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.back_button = QPushButton(BACK_BUTTON, self)
-        self.back_button.clicked.connect(self.on_back_button_pressed)
+        self.back_button.clicked.connect(self.back_button_handler)
         self.button_layout.addWidget(self.back_button)
 
         self.save_button = QPushButton(SAVE_BUTTON, self)
-        self.save_button.clicked.connect(self.on_save_button_pressed)
+        self.save_button.clicked.connect(self.save_inputs)
         self.button_layout.addWidget(self.save_button)
 
-    def closeEvent(self):
+    '''def closeEvent(self, event):
         """
         This function handles the action of pressing the close button on the window
         and prompts the user to save changes before returning to the main UI.
         """
-        self.on_back_button_pressed()
+        self.back_button_handler()'''
+    # FIXME: red x back button handler
 
-    def on_back_button_pressed(self):
+    def back_button_handler(self):
         """
         This function handles the action of pressing the back button in a UI and prompts the user to
         save changes before returning to the main UI.
@@ -172,12 +185,13 @@ class TFCCUi(UiSetup):
             | QMessageBox.StandardButton.Cancel,
         )
         if reply == QMessageBox.StandardButton.Yes:
-            self.on_save_button_pressed()
+            self.save_inputs()
+            self.close()
 
         elif reply == QMessageBox.StandardButton.No:
-            TFCCUi.close(self)
+            self.close()
 
-    def on_save_button_pressed(self):
+    def save_inputs(self):
         """
         This function saves input values from input widgets to a text file.
         """
@@ -197,10 +211,6 @@ class TFCCUi(UiSetup):
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
-        reply = QMessageBox.information(
+        QMessageBox.information(
             self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
         )
-        if reply == QMessageBox.StandardButton.Ok:
-            TFCCUi.close(self)
-        # TODO: FIX: Basically it opens itself up again which should not happen,
-        # Somewhere it causes the window to duplicate itself or something.
