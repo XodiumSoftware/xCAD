@@ -202,4 +202,5 @@ class TFCCUi(UiSetup):
         )
         if reply == QMessageBox.StandardButton.Ok:
             TFCCUi.close(self)
-        # TODO: FIX: Basically it opens itself up again which should not happen.
+        # TODO: FIX: Basically it opens itself up again which should not happen,
+        # Somewhere it causes the window to duplicate itself or something.
