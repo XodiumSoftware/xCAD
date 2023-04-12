@@ -208,3 +208,4 @@ class TFCCUi(UiSetup):
         QMessageBox.information(
             self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
         )
+        # TODO: add way to go back instead of closing everything.
