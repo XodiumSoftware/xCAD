@@ -18,7 +18,7 @@ class MainUi(UiSetup):
     # since these parent classes all have QWidget as parent , you have to put it as last
     '''Defines the ui for the main window.'''
     def __init__(self):
-        '''__init__ is a special function that inizializes the class attributes.
+        '''__init__ is a special function that initializes the class attributes.
         In this case, it creates the layout for the main window.'''
 
         # calls the __init__ of the parent class:
@@ -125,7 +125,7 @@ class MainUi(UiSetup):
     # Instead of creating one method for all buttons,
     # you should check each button inside the function.
     def open_new_ui(self, index):
-        '''The function opens a new indow instance (closing the current one)
+        '''The function opens a new ui instance (closing the current one)
          based on the index of the button.'''
         if index == 0:
             # This is the main window, so we hide it. 
