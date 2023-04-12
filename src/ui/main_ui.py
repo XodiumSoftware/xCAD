@@ -27,19 +27,13 @@ from ui.ui_setup import UiSetup
 
 
 class MainUi(UiSetup):
-    # since these parent classes all have QWidget as parent , you have to put it as last
     """Defines the ui for the main window."""
 
     def __init__(self):
         """__init__ is a special function that initializes the class attributes.
         In this case, it creates the layout for the main ui."""
-
-        # calls the __init__ of the parent class:
-        # python hierarchy --> from left to right it checks
-        # if each parent has an __init__ method and initializes it
         super().__init__()
 
-        # creates the main layout:
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -50,7 +44,6 @@ class MainUi(UiSetup):
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
 
-        # instances for the other windows:
         self.tfccui_instance = TFCCUi()
 
     def keyPressEvent(self, event):
@@ -66,8 +59,6 @@ class MainUi(UiSetup):
                 self.tfccui_instance.close()
 
                 self.show()
-
-        # TODO: add when clicking on window red X button that it gives the message on_back_button_pressed()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""
@@ -107,11 +98,6 @@ class MainUi(UiSetup):
         icon_paths = MAIN_UI_ICON_PATHS
 
         for button_text, icon_path in zip(button_texts, icon_paths):
-            # We can iterate over two list at the same time using zip.
-            # It's far more safer than using indexes:
-            # you would have to make sure that both the lists are of the same length,
-            # but with zip() you will get values of the lowest length list.
-
             button = QPushButton()
 
             if isinstance(button_text, tuple):
@@ -139,14 +125,10 @@ class MainUi(UiSetup):
             show_tfccui = partial(self.open_new_ui, i)
             button.clicked.connect(show_tfccui)
 
-    # Instead of creating one method for all buttons,
-    # you should check each button inside the function.
     def open_new_ui(self, index):
         """The function opens a new ui instance (closing the current one)
         based on the index of the button."""
         if index == 0:
-            # This is the main window, so we hide it.
-            # If we close it, then we won't be able to go back to it. :)
             self.hide()
             self.tfccui_instance.show()
         # elif index == 1:

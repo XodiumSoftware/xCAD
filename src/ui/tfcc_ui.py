@@ -152,6 +152,13 @@ class TFCCUi(UiSetup):
         self.save_button.clicked.connect(self.on_save_button_pressed)
         self.button_layout.addWidget(self.save_button)
 
+    def closeEvent(self, event):
+        """
+        This function handles the action of pressing the close button on the window
+        and prompts the user to save changes before returning to the main UI.
+        """
+        self.on_back_button_pressed()
+
     def on_back_button_pressed(self):
         """
         This function handles the action of pressing the back button in a UI and prompts the user to

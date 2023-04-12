@@ -1,18 +1,19 @@
 {
-    "[python]": {
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        },
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
     },
-    "cSpell.words": [
-        "areacalc",
-        "mainui",
-        "OSBIII",
-        "tfcc",
-        "tfccui",
-        "Timberframe"
-    ],
-    "python.formatting.provider": "none"
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "cSpell.words": [
+    "areacalc",
+    "Brisc",
+    "mainui",
+    "OSBIII",
+    "tfcc",
+    "tfccui",
+    "Timberframe"
+  ],
+  "python.formatting.provider": "none"
 }
