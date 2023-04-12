@@ -22,13 +22,13 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
-from events.on_press_events import OnPressEvents
+from main import Run
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
 
 
 # The MainUi class is a QWidget used for creating a UI in a GUI application.
-class MainUi(UiSetup, OnPressEvents, QWidget):
+class MainUi(UiSetup, Run, QWidget):
     def __init__(self):
         """
         This function initializes a group box and adds it to the main layout with a specified size

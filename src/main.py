@@ -2,14 +2,20 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from ui.main_ui import MainUi
 
-# `if __name__ == '__main__':` is a conditional statement that checks if the current script is being
-# run as the main program. If it is, then the code inside the block will be executed. This is commonly
-# used to prevent code from being executed when the script is imported as a module into another
-# program.
+class Run:
+    def run(self):
+        """
+        This function initializes a QApplication, creates a MainUi object, an OnPressEvents object, shows
+        the MainUi, and runs the application event loop until the application is exited.
+        """
+        from ui.main_ui import MainUi
+
+        app = QApplication(sys.argv)
+        main_ui = MainUi()
+        main_ui.show()
+        sys.exit(app.exec())
+
+
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    main_ui = MainUi()
-    main_ui.show()
-    sys.exit(app.exec())
+    Run().run()
