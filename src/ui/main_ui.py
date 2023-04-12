@@ -1,8 +1,8 @@
 from functools import partial
 
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import (
+from PySide6.QtCore import QSize, Qt
+from PySide6.QtGui import QFont, QIcon
+from PySide6.QtWidgets import (
     QGroupBox,
     QHBoxLayout,
     QPushButton,

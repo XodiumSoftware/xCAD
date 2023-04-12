@@ -1,6 +1,6 @@
-from PyQt6.QtCore import QMargins, QPoint
-from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import QApplication, QLabel, QStyleFactory, QVBoxLayout, QWidget
+from PySide6.QtCore import QMargins, QPoint
+from PySide6.QtGui import QFont, QIcon
+from PySide6.QtWidgets import QApplication, QLabel, QStyleFactory, QVBoxLayout, QWidget
 
 from constants import (
     COPYRIGHT_LABEL,
