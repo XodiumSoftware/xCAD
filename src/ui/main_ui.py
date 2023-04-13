@@ -44,7 +44,7 @@ class MainUI(SetupUI):
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
 
-        self.tfccui_instance = TFCCUI()
+        #self.tfccui_instance = TFCCUI()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""

@@ -29,8 +29,8 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
-from handlers.press_handlers import back_button_handler, save_button_handler
-from ui.setup_ui import SetupUI
+#from handlers.press_handlers import back_button_handler, save_button_handler
+#from ui.setup_ui import SetupUI
 
 
 class TFCCUI(SetupUI):
@@ -56,20 +56,20 @@ class TFCCUI(SetupUI):
 
         # self.windowHandle().customEvent.aboutToClose.connect(self.onClose)
 
-    def keyPressEvent(self, event):
-        """
-        This function handles key press events and closes the main UI or goes back to the previous
-        screen depending on the key pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            back_button_handler(self)
+    # def keyPressEvent(self, event):
+    #     """
+    #     This function handles key press events and closes the main UI or goes back to the previous
+    #     screen depending on the key pressed.
+    #     """
+    #     if event.key() == Qt.Key.Key_Escape or (
+    #         event.key() == Qt.Key.Key_Q
+    #         and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+    #     ):
+    #         back_button_handler(self)
 
-        # key_press_handler(self, tfccui_instance, event)
+    #     # key_press_handler(self, tfccui_instance, event)
 
-        # FIXME: make the main window appear again
+    #     # FIXME: make the main window appear again
 
     def create_group_box(self):
         """
