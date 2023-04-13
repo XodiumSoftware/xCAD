@@ -30,10 +30,10 @@ from constants import (
     UI_GROUPBOX_STYLESHEET,
 )
 from handlers.press_handlers import back_button_handler, save_button_handler
-from ui.setup_ui import UiSetup
+from ui.setup_ui import SetupUI
 
 
-class TFCCUi(UiSetup):
+class TFCCUI(SetupUI):
     def __init__(self):
         """
         This function initializes a layout and adds various widgets to it.

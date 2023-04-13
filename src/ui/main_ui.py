@@ -22,12 +22,11 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
-from handlers.press_handlers import key_press_handler
-from ui.setup_ui import UiSetup
-from ui.tfcc_ui import TFCCUi
+from ui.setup_ui import SetupUI
+from ui.tfcc_ui import TFCCUI
 
 
-class MainUi(UiSetup):
+class MainUI(SetupUI):
     """Defines the ui for the main window."""
 
     def __init__(self):
@@ -45,23 +44,7 @@ class MainUi(UiSetup):
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
 
-        self.tfccui_instance = TFCCUi()
-
-    def keyPressEvent(self, tfccui_instance, event):
-        """
-        This function handles key press events and closes the main UI or goes back to the previous
-        screen depending on the key pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            if tfccui_instance():
-                self.tfccui_instance.close()
-                pass
-        self.close()
-
-        # key_press_handler(self, tfccui_instance, event)
+        self.tfccui_instance = TFCCUI()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""

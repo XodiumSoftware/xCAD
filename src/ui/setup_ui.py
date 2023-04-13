@@ -12,9 +12,10 @@ from constants import (
     UI_STYLE,
     UI_TITLE,
 )
+from handlers.press_handlers import keyPressHandler
 
 
-class UiSetup(QWidget):
+class SetupUI(QWidget, keyPressHandler):
     def setup_ui(self):
         """
         This function sets up the user interface for a PyQt5 application by creating a vertical layout,
@@ -29,7 +30,12 @@ class UiSetup(QWidget):
 
         self.copyright_label()
 
+        self.key_pressed.connect(self.on_key_pressed)
+
         self.adjustSize()
+
+    def on_key_pressed(self, key):
+        print(f"ClassA received key press event for key code: {key}")
 
     def copyright_label(self):
         """

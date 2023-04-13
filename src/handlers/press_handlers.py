@@ -1,7 +1,8 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QMessageBox, QWidget
 
 from constants import ON_BACK_BUTTON_PRESSED_DESC, SAVE_UI_TEXT, UI_TITLE
+from ui.tfcc_ui import TFCCUI
 
 
 def back_button_handler(self):
@@ -31,17 +32,22 @@ def save_button_handler(self):
     QMessageBox.information(self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok)
 
 
-def key_press_handler(self, tfccui_instance, event):
-    """
-    This function handles key press events and closes the main UI or goes back to the previous
-    screen depending on the key pressed.
-    """
-    if event.key() == Qt.Key.Key_Escape or (
-        event.key() == Qt.Key.Key_Q
-        and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-    ):
-        if tfccui_instance():
-            back_button_handler(self)
-    self.close()
+class keyPressHandler(QWidget):
+    key_pressed = Signal(int)
 
-    # FIXME: make the main window appear again
+    def keyPressEvent(self, event):
+        """
+        This function handles key press events and closes the main UI or goes back to the previous
+        screen depending on the key pressed.
+        """
+        tfccui_instance = TFCCUI()
+        key = event.key()
+        self.key_pressed.emit(key)
+        super().keyPressEvent(event)
+        if key == Qt.Key.Key_Escape or (
+            Qt.Key.Key_Q and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
+            # if tfccui_instance.isVisible():
+            #     self.tfcui_instance.close()
+
+            self.close()

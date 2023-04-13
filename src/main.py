@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication
 
-from ui.main_ui import MainUi
+from ui.main_ui import MainUI
 
 
 def run():
@@ -9,7 +9,7 @@ def run():
     then runs the application event loop until the application is exited.
     """
     app = QApplication()
-    main_ui = MainUi()
+    main_ui = MainUI()
     main_ui.show()
     app.exec()
 
