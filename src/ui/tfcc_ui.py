@@ -30,7 +30,7 @@ from constants import (
     UI_GROUPBOX_STYLESHEET,
 )
 from handlers.press_handlers import back_button_handler, save_button_handler
-from ui.ui_setup import UiSetup
+from ui.setup_ui import UiSetup
 
 
 class TFCCUi(UiSetup):

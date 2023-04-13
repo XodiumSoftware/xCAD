@@ -23,8 +23,8 @@ from constants import (
     UI_GROUPBOX_STYLESHEET,
 )
 from handlers.press_handlers import key_press_handler
+from ui.setup_ui import UiSetup
 from ui.tfcc_ui import TFCCUi
-from ui.ui_setup import UiSetup
 
 
 class MainUi(UiSetup):

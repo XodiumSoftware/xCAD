@@ -7,3 +7,7 @@ to merge two branches:
 --> git checkout [old_branch_name] (the one with less commits)
 --> git merge [other_branch_name] (the one with the updated code)
 --> git push origin [old_branch_name]
+
+qt designer:
+--> pip install pyqt6-tools (to install)
+--> pyqt6-tools designer (to run)
