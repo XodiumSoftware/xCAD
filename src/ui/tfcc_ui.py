@@ -54,7 +54,7 @@ class TFCCUi(UiSetup):
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
 
-        self.windowHandle().customEvent.aboutToClose.connect(self.onClose)
+        # self.windowHandle().customEvent.aboutToClose.connect(self.onClose)
 
     def keyPressEvent(self, event):
         """
