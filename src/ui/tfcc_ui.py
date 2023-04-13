@@ -1,5 +1,3 @@
-import os
-
 from PySide6.QtCore import QRegularExpression, Qt
 from PySide6.QtGui import QFont, QIntValidator, QRegularExpressionValidator, QValidator
 from PySide6.QtWidgets import (
@@ -8,7 +6,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
-    QMessageBox,
     QPushButton,
     QSizePolicy,
     QVBoxLayout,
@@ -16,9 +13,6 @@ from PySide6.QtWidgets import (
 
 from constants import (
     BACK_BUTTON,
-    DATA_DIR_FILE,
-    DATA_DIR_FOLDER,
-    ON_BACK_BUTTON_PRESSED_DESC,
     SAVE_BUTTON,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
@@ -29,11 +23,12 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
-#from handlers.press_handlers import back_button_handler, save_button_handler
-#from ui.setup_ui import SetupUI
+from handlers.input_handler import inputHandler
+from handlers.press_handler import backButtonHandler
+from ui.setup_ui import SetupUI
 
 
-class TFCCUI(SetupUI):
+class TFCCUI(SetupUI, backButtonHandler):
     def __init__(self):
         """
         This function initializes a layout and adds various widgets to it.
@@ -53,23 +48,6 @@ class TFCCUI(SetupUI):
         self.create_button_layout()
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
-
-        # self.windowHandle().customEvent.aboutToClose.connect(self.onClose)
-
-    # def keyPressEvent(self, event):
-    #     """
-    #     This function handles key press events and closes the main UI or goes back to the previous
-    #     screen depending on the key pressed.
-    #     """
-    #     if event.key() == Qt.Key.Key_Escape or (
-    #         event.key() == Qt.Key.Key_Q
-    #         and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-    #     ):
-    #         back_button_handler(self)
-
-    #     # key_press_handler(self, tfccui_instance, event)
-
-    #     # FIXME: make the main window appear again
 
     def create_group_box(self):
         """
@@ -161,11 +139,11 @@ class TFCCUI(SetupUI):
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.back_button = QPushButton(BACK_BUTTON, self)
-        self.back_button.clicked.connect(self.back_button_handler)
+        self.back_button.clicked.connect(backButtonHandler.back_button_handler)
         self.button_layout.addWidget(self.back_button)
 
         self.save_button = QPushButton(SAVE_BUTTON, self)
-        self.save_button.clicked.connect(self.save_inputs)
+        self.save_button.clicked.connect(inputHandler.save_inputs)
         self.button_layout.addWidget(self.save_button)
 
     def onClose(self):
@@ -173,47 +151,6 @@ class TFCCUI(SetupUI):
         This function handles the action of pressing the close button on the window
         and prompts the user to save changes before returning to the main UI.
         """
-        back_button_handler(self)
+        backButtonHandler.back_button_handler(self)
 
     # FIXME: red x back button handler
-
-    def back_button_handler(self):
-        """
-        This function handles the action of pressing the back button in a UI and prompts the user to
-        save changes before returning to the main UI.
-        """
-        reply = QMessageBox.question(
-            self,
-            *ON_BACK_BUTTON_PRESSED_DESC,
-            QMessageBox.StandardButton.Yes
-            | QMessageBox.StandardButton.No
-            | QMessageBox.StandardButton.Cancel,
-        )
-        if reply == QMessageBox.StandardButton.Yes:
-            self.save_inputs()
-            self.close()
-
-        elif reply == QMessageBox.StandardButton.No:
-            self.close()
-
-    def save_inputs(self):
-        """
-        This function saves input values from input widgets to a text file.
-        """
-        input_values = {}
-        for i, input_widget in enumerate(self.inputs):
-            input_text = input_widget.text()
-            input_values[i] = input_text
-
-        data_dir = DATA_DIR_FOLDER
-
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
-
-        file_path = os.path.join(data_dir, DATA_DIR_FILE)
-
-        with open(file_path, "w") as f:
-            for key, value in input_values.items():
-                f.write(f"{key}: {value}\n")
-
-        save_button_handler(self)

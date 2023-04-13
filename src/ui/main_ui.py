@@ -22,8 +22,8 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
+from handlers.ui_handler import ShowUIHandler
 from ui.setup_ui import SetupUI
-from ui.tfcc_ui import TFCCUI
 
 
 class MainUI(SetupUI):
@@ -43,8 +43,6 @@ class MainUI(SetupUI):
 
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
-
-        #self.tfccui_instance = TFCCUI()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""
@@ -108,22 +106,5 @@ class MainUI(SetupUI):
             self.buttons.append(button)
 
         for i, button in enumerate(self.buttons):
-            show_tfccui = partial(self.open_new_ui, i)
+            show_tfccui = partial(ShowUIHandler.open_ui_handler)
             button.clicked.connect(show_tfccui)
-
-    def open_new_ui(self, index):
-        """The function opens a new ui instance (closing the current one)
-        based on the index of the button."""
-        if index == 0:
-            self.hide()
-            self.tfccui_instance.show()
-        # elif index == 1:
-        #     self.close()
-        #     self.tfccui_instance.show()
-        # etc etc....
-        # TODO: instead of putting tfccui_instance,
-        # when other ui classes will be created
-        # you have to put those classes inside the __init__
-        # (e.g. self.calculations_instance = CalcUi())
-        # and then check for the index in this function
-        # and open it here
