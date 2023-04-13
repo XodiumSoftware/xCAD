@@ -46,7 +46,7 @@ class MainUi(UiSetup):
 
         self.tfccui_instance = TFCCUi()
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, tfccui_instance, event):
         """
         This function handles key press events and closes the main UI or goes back to the previous
         screen depending on the key pressed.
@@ -55,10 +55,10 @@ class MainUi(UiSetup):
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
-            '''if self.isHidden():
+            if tfccui_instance():
                 self.tfccui_instance.close()
-                self.show()'''
-            self.close()
+                pass
+        self.close()
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""
