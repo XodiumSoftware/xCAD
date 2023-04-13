@@ -20,7 +20,6 @@ from constants import (
     DATA_DIR_FOLDER,
     ON_BACK_BUTTON_PRESSED_DESC,
     SAVE_BUTTON,
-    SAVE_UI_TEXT,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
@@ -29,8 +28,8 @@ from constants import (
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
-    UI_TITLE,
 )
+from handlers.press_handlers import back_button_handler, save_button_handler
 from ui.ui_setup import UiSetup
 
 
@@ -55,6 +54,8 @@ class TFCCUi(UiSetup):
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.crlabel)
 
+        self.windowHandle().customEvent.aboutToClose.connect(self.onClose)
+
     def keyPressEvent(self, event):
         """
         This function handles key press events and closes the main UI or goes back to the previous
@@ -64,7 +65,10 @@ class TFCCUi(UiSetup):
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
-            self.back_button_handler()
+            back_button_handler(self)
+
+        # key_press_handler(self, tfccui_instance, event)
+
         # FIXME: make the main window appear again
 
     def create_group_box(self):
@@ -164,12 +168,13 @@ class TFCCUi(UiSetup):
         self.save_button.clicked.connect(self.save_inputs)
         self.button_layout.addWidget(self.save_button)
 
-    '''def closeEvent(self, event):
+    def onClose(self):
         """
         This function handles the action of pressing the close button on the window
         and prompts the user to save changes before returning to the main UI.
         """
-        self.back_button_handler()'''
+        back_button_handler(self)
+
     # FIXME: red x back button handler
 
     def back_button_handler(self):
@@ -211,6 +216,4 @@ class TFCCUi(UiSetup):
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
-        QMessageBox.information(
-            self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
-        )
+        save_button_handler(self)

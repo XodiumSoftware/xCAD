@@ -22,6 +22,7 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
+from handlers.press_handlers import key_press_handler
 from ui.tfcc_ui import TFCCUi
 from ui.ui_setup import UiSetup
 
@@ -59,6 +60,8 @@ class MainUi(UiSetup):
                 self.tfccui_instance.close()
                 pass
         self.close()
+
+        # key_press_handler(self, tfccui_instance, event)
 
     def create_group_box(self):
         """Creates group box and adds to main layout."""
