@@ -20,10 +20,11 @@ from constants import (
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_STYLESHEET,
 )
+from handlers.input_handler import InputHandler
 from ui.setup_ui import SetupUI
 
 
-class ConfigUI(SetupUI):
+class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
 
@@ -68,42 +69,3 @@ class ConfigUI(SetupUI):
 
         self.create_input_fields()
         self.group_box_layout.addLayout(self.input_fields_layout)
-
-    def create_input_fields(self):
-        """
-        This function creates input fields with labels and placeholders in a QGridLayout.
-        """
-        self.labels = []
-        self.inputs = []
-        self.input_fields_layout = QGridLayout()
-
-        for i, (desc0, desc1) in enumerate(
-            zip(
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-            )
-        ):
-            label0 = QLabel(desc0, self)
-            input = QLineEdit(self)
-            label1 = QLabel(desc1, self)
-
-            self.labels.extend([label0, label1])
-            self.inputs.append(input)
-
-            input_validate = QRegularExpressionValidator()
-            input.setValidator(input_validate)
-
-            self.input_fields_layout.addWidget(label0, i, 0)
-            self.input_fields_layout.addWidget(input, i, 1)
-            self.input_fields_layout.addWidget(label1, i, 2)
-
-            input.setPlaceholderText(CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
-
-            if "text" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
-                input_validate.setRegularExpression(QRegularExpression(".+"))
-            elif "number" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
-                input_validate = QIntValidator()
-                input_validate.setBottom(0)
-                input.setValidator(input_validate)
-            else:
-                input_validate.setRegularExpression(QRegularExpression(".*"))
