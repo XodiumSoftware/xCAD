@@ -12,13 +12,13 @@ from constants import (
     UI_STYLE,
     UI_TITLE,
 )
-from handlers.press_handler import keyPressHandler
+from handlers.handler import Handler
 
 
 class SetupUI(QWidget):
     def __init__(self):
         super().__init__()
-        self.key_handler = keyPressHandler()
+        self.key_handler = Handler()
 
     def setup_ui(self):
         """

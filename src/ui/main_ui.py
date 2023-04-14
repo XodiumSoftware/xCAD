@@ -22,7 +22,7 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
-from handlers.ui_handler import ShowUIHandler
+from handlers.ui_handler import UIHandler
 from ui.setup_ui import SetupUI
 
 
@@ -106,5 +106,5 @@ class MainUI(SetupUI):
             self.buttons.append(button)
 
         for i, button in enumerate(self.buttons):
-            show_tfccui = partial(ShowUIHandler.open_ui_handler)
+            show_tfccui = partial(UIHandler.open_ui_handler)
             button.clicked.connect(show_tfccui)

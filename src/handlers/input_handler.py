@@ -1,33 +1,70 @@
-import os
+from PySide6.QtCore import QRegularExpression
+from PySide6.QtGui import QIntValidator, QRegularExpressionValidator, QValidator
+from PySide6.QtWidgets import QGridLayout, QLabel, QLineEdit
 
-from constants import DATA_DIR_FILE, DATA_DIR_FOLDER
+from constants import (
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+)
 
-# FIXME: circular import
-from ui.tfcc_ui import TFCCUI
 
-
-class inputHandler:
-    def save_inputs(self):
+class InputHandler:
+    def create_input_fields(self):
         """
-        This function saves input values from input widgets to a text file.
+        This function creates input fields with labels and placeholders in a QGridLayout.
         """
-        input_values = {}
-        for i, input_widget in enumerate(TFCCUI.create_input_fields.inputs):
-            input_text = input_widget.text()
-            input_values[i] = input_text
+        self.labels = []
+        self.inputs = []
+        self.input_fields_layout = QGridLayout()
 
-        data_dir = DATA_DIR_FOLDER
+        for i, (desc0, desc1) in enumerate(
+            zip(
+                TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2
+            )
+        ):
+            label0 = QLabel(desc0)
+            input = QLineEdit()
+            label1 = QLabel(desc1)
 
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
+            self.labels.extend([label0, label1])
+            self.inputs.append(input)
 
-        file_path = os.path.join(data_dir, DATA_DIR_FILE)
+            input_validate = QRegularExpressionValidator()
+            input.setValidator(input_validate)
 
-        with open(file_path, "w") as f:
-            for key, value in input_values.items():
-                f.write(f"{key}: {value}\n")
+            self.input_fields_layout.addWidget(label0, i, 0)
+            self.input_fields_layout.addWidget(input, i, 1)
+            self.input_fields_layout.addWidget(label1, i, 2)
 
-        from handlers.press_handler import saveButtonHandler
+            input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
 
-        save_button_handler_instance = saveButtonHandler()
-        save_button_handler_instance.save_button_handler()
+            if "text" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+                input_validate.setRegularExpression(QRegularExpression(".+"))
+            elif "number" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+                input_validate = QIntValidator()
+                input_validate.setBottom(0)
+                input.setValidator(input_validate)
+            else:
+                input_validate.setRegularExpression(QRegularExpression(".*"))
+
+    def input_validator(
+        self, text_input: str, pos: int, obj_num: int
+    ) -> tuple[QValidator.State, str, int]:
+        placeholder = self.inputs[obj_num].placeholderText()
+        if "text" in placeholder:
+            if text_input == "":
+                return QValidator.State.Intermediate, text_input, pos
+            elif text_input.isalpha():
+                return QValidator.State.Acceptable, text_input, pos
+            else:
+                return QValidator.State.Invalid, text_input, pos
+        elif "number" in placeholder:
+            if text_input == "":
+                return QValidator.State.Intermediate, text_input, pos
+            elif text_input.isnumeric() and int(text_input) >= 0:
+                return QValidator.State.Acceptable, text_input, pos
+            else:
+                return QValidator.State.Invalid, text_input, pos
+        else:
+            return QValidator.State.Acceptable, text_input, pos

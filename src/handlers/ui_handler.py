@@ -1,16 +1,16 @@
-# FIXME: circular import
-from ui.main_ui import MainUI
+from PySide6.QtWidgets import QApplication
+
 from ui.tfcc_ui import TFCCUI
 
 
-class ShowUIHandler:
-    tfccui_instance = TFCCUI()
-    mainui_instance = MainUI()
-
+class UIHandler:
     def open_ui_handler(self, index):
+        mainui_instance = QApplication.activeWindow()
+        tfccui_instance = TFCCUI()
+
         if index == 0:
-            self.mainui_instance.hide()
-            self.tfccui_instance.show()
+            mainui_instance.close()
+            tfccui_instance.show()
         # elif index == 1:
         #     self.close()
         #     self.tfccui_instance.show()
