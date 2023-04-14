@@ -1,11 +1,11 @@
 import importlib
 import subprocess
 
-LIBRARY_NAME = "PyQt6"
+LIBRARY_NAME = "PySide6"
 
 try:
     importlib.import_module(LIBRARY_NAME)
-    print(f"{LIBRARY_NAME} is installed")
+    print(f"{LIBRARY_NAME} is installed.")
 
     # Check if there is a newer version available
     result = subprocess.run(
