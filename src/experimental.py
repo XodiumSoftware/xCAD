@@ -66,6 +66,10 @@ class MainUI(SetupUI):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setGeometry(0, 0, 400, 300)
+        
+    def MainUILabel(self):
+        
+        pass
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape or (
