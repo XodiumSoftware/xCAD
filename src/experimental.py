@@ -12,42 +12,22 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSizePolicy,
     QVBoxLayout,
-    QWidget,
 )
 
 from constants import (
-    CONFIG_UI_TITLE,
-    COPYRIGHT_LABEL,
-    COPYRIGHT_LABEL_SIZE,
-    COPYRIGHT_LABEL_STYLE,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+    CONFIG_UI_TITLE,
+    MAIN_UI_GROUPBOX_TITLE,
     UI_CONTENTS_MARGINS,
+    UI_FONT_TYPE,
     UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
     UI_ICON_PATH,
     UI_TITLE,
 )
-
-
-class SetupUI(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-
-def copyright_label():
-    """
-    This function creates a QLabel object with a text string containing a copyright label.
-    """
-    crlabel = QLabel(COPYRIGHT_LABEL)
-    crlabel.setFont(QFont(UI_GROUPBOX_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
-    crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
-    return crlabel
+from ui.setup_ui import SetupUI
 
 
 class MainUI(SetupUI):
@@ -59,6 +39,10 @@ class MainUI(SetupUI):
         # Add buttons
         self.create_button()
 
+        # Add labels
+        self.MainUILabel()
+        self.copyright_label()
+
         # Initialize variable to keep track of whether CONFIG_UI is open
         self.config_ui_open = False
 
@@ -66,10 +50,17 @@ class MainUI(SetupUI):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setGeometry(0, 0, 400, 300)
-        
+
+        self.main_layout.addWidget(self.main_label)
+        self.main_layout.addWidget(self.crlabel)
+
     def MainUILabel(self):
-        
-        pass
+        self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
+        self.main_label.setFont(QFont(UI_FONT_TYPE))
+        self.main_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.main_label.setFont(
+            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
+        )
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape or (
@@ -196,7 +187,8 @@ class ConfigUI(SetupUI):
 
         self.create_group_box()
         self.main_layout.addWidget(self.group_box)
-        self.main_layout.addWidget(copyright_label())
+
+        self.main_layout.addWidget(self.crlabel)
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape or (
@@ -215,7 +207,7 @@ class ConfigUI(SetupUI):
         self.group_box_layout = QHBoxLayout(self.group_box)
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
         self.group_box.setFont(
-            QFont(UI_GROUPBOX_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
+            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
         )
         self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.group_box.setFlat(True)
@@ -238,7 +230,8 @@ class ConfigUI(SetupUI):
 
         for i, (desc0, desc1) in enumerate(
             zip(
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0, CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
             )
         ):
             label0 = QLabel(desc0, self)
@@ -265,10 +258,3 @@ class ConfigUI(SetupUI):
                 input.setValidator(input_validate)
             else:
                 input_validate.setRegularExpression(QRegularExpression(".*"))
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    main_ui = MainUI()
-    main_ui.show()
-    sys.exit(app.exec())

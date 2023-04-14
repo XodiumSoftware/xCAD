@@ -1,6 +1,6 @@
 # General
 UI_TITLE = "TFCCAD"
-UI_GROUPBOX_FONT_TYPE = "Arial"
+UI_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
 UI_ICON_PATH = "src/icons/ui_icon.png"
 UI_CONTENTS_MARGINS = (1, 1, 1, 1)

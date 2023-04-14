@@ -1,16 +1,19 @@
+import sys
+
 from PySide6.QtWidgets import QApplication
 
-from ui.main_ui import MainUi
+from experimental import MainUI
 
 
 def run():
-    """Initializes QApplication and MainUi object,
-    then runs the application event loop until the application is exited."""
-
-    app = QApplication()
-    main_ui = MainUi()
+    """
+    Initializes QApplication and MainUi object,
+    then runs the application event loop until the application is exited.
+    """
+    app = QApplication(sys.argv)
+    main_ui = MainUI()
     main_ui.show()
-    app.exec()
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":
