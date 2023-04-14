@@ -1,11 +1,20 @@
 from PySide6.QtCore import QPoint, Qt
 from PySide6.QtGui import QFont, QIcon
-from PySide6.QtWidgets import QApplication, QLabel, QPushButton
+from PySide6.QtWidgets import (
+    QApplication,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+)
 
 from constants import (
     MAIN_UI_GROUPBOX_TITLE,
+    UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
     UI_GROUPBOX_FONT_SIZE,
+    UI_GROUPBOX_STYLESHEET,
     UI_ICON_PATH,
     UI_TITLE,
 )
@@ -23,8 +32,11 @@ class MainUI(SetupUI):
         self.create_button()
 
         # Add labels
-        self.MainUILabel()
+        self.main_ui_label()
         self.copyright_label()
+
+        # Add group boxes
+        self.create_group_box()
 
         # Initialize variable to keep track of whether CONFIG_UI is open
         self.config_ui_open = False
@@ -35,15 +47,34 @@ class MainUI(SetupUI):
         self.setGeometry(0, 0, 400, 300)
 
         self.main_layout.addWidget(self.main_label)
+        self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
 
-    def MainUILabel(self):
+    def main_ui_label(self):
         self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
         self.main_label.setFont(QFont(UI_FONT_TYPE))
         self.main_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_label.setFont(
             QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
         )
+
+    def create_group_box(self):
+        """
+        This function creates a group box with input fields and applies styling to it.
+        """
+        self.group_box = QGroupBox(self)
+        self.group_box_layout = QHBoxLayout(self.group_box)
+        self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
+        self.group_box.setFont(
+            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
+        )
+        self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.group_box.setFlat(True)
+
+        self.group_box.setSizePolicy(
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
+        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape or (
