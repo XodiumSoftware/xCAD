@@ -1,8 +1,8 @@
 import os
 
-from PySide6.QtCore import QRegularExpression
-from PySide6.QtGui import QIntValidator, QRegularExpressionValidator, QValidator
-from PySide6.QtWidgets import QGridLayout, QLabel, QLineEdit, QMessageBox, QWidget
+from PySide6.QtCore import QRegularExpression, Qt
+from PySide6.QtGui import QIntValidator, QRegularExpressionValidator
+from PySide6.QtWidgets import QGridLayout, QLabel, QLineEdit, QWidget
 
 from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
@@ -11,70 +11,37 @@ from constants import (
     DATA_DIR_FILE,
     DATA_DIR_FOLDER,
     SAVE_UI_TEXT,
-    UI_TITLE,
 )
 
 
 class InputHandler(QWidget):
+    def input_signal(self):
+        for input_widget in self.inputs:
+            input_widget.textChanged.connect(self.save_inputs)
+
     def create_input_fields(self):
-        """
-        This function creates input fields with labels and placeholders in a QGridLayout.
-        """
         self.labels = []
         self.inputs = []
         self.input_fields_layout = QGridLayout()
 
-        for i, (desc0, desc1) in enumerate(
+        for i, (desc0, desc1, desc2) in enumerate(
             zip(
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
             )
         ):
             label0 = QLabel(desc0, self)
-            input = QLineEdit(self)
-            label1 = QLabel(desc1, self)
-
-            self.labels.extend([label0, label1])
+            input = MyLineEdit(desc1, self)
+            label1 = QLabel(desc2, self)
+            self.labels.append(label0)
             self.inputs.append(input)
-
-            input_validate = QRegularExpressionValidator()
-            input.setValidator(input_validate)
-
+            self.labels.append(label1)
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
 
-            input.setPlaceholderText(CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
-
-            if "text" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
-                input_validate.setRegularExpression(QRegularExpression(".+"))
-            elif "number" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
-                input_validate = QIntValidator()
-                input_validate.setBottom(0)
-                input.setValidator(input_validate)
-            else:
-                input_validate.setRegularExpression(QRegularExpression(".*"))
-
-    def input_validator(
-        self, text_input: str, pos: int, obj_num: int
-    ) -> tuple[QValidator.State, str, int]:
-        placeholder = self.inputs[obj_num].placeholderText()
-        if "text" in placeholder:
-            if text_input == "":
-                return QValidator.State.Intermediate, text_input, pos
-            elif text_input.isalpha():
-                return QValidator.State.Acceptable, text_input, pos
-            else:
-                return QValidator.State.Invalid, text_input, pos
-        elif "number" in placeholder:
-            if text_input == "":
-                return QValidator.State.Intermediate, text_input, pos
-            elif text_input.isnumeric() and int(text_input) >= 0:
-                return QValidator.State.Acceptable, text_input, pos
-            else:
-                return QValidator.State.Invalid, text_input, pos
-        else:
-            return QValidator.State.Acceptable, text_input, pos
+        self.setLayout(self.input_fields_layout)
 
     def save_inputs(self):
         """
@@ -96,6 +63,24 @@ class InputHandler(QWidget):
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
-        QMessageBox.information(
-            self, UI_TITLE, SAVE_UI_TEXT, QMessageBox.StandardButton.Ok
-        )
+        print(SAVE_UI_TEXT)
+
+
+class MyLineEdit(QLineEdit):
+    """
+    This class extends the QLineEdit class to add a validator based on the field's description.
+    """
+
+    def __init__(self, desc, parent=None):
+        super().__init__(parent)
+        self.setPlaceholderText(desc)
+
+        if "text" in desc:
+            validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
+        elif "number" in desc:
+            validator = QIntValidator(0, 2147483647, self)
+        else:
+            validator = QRegularExpressionValidator(QRegularExpression(".*"), self)
+
+        self.setValidator(validator)
+        self.setAlignment(Qt.AlignmentFlag.AlignRight)

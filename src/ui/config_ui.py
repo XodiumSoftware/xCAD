@@ -1,19 +1,8 @@
-from PySide6.QtCore import QRegularExpression, Qt
-from PySide6.QtGui import QFont, QIntValidator, QRegularExpressionValidator
-from PySide6.QtWidgets import (
-    QGridLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QSizePolicy,
-    QVBoxLayout,
-)
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QSizePolicy, QVBoxLayout
 
 from constants import (
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     CONFIG_UI_TITLE,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
@@ -69,3 +58,5 @@ class ConfigUI(SetupUI, InputHandler):
 
         self.create_input_fields()
         self.group_box_layout.addLayout(self.input_fields_layout)
+        self.input_signal()
+
