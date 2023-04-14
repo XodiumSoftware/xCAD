@@ -15,5 +15,5 @@
     "tfccui",
     "Timberframe"
   ],
-  "python.autoComplete.extraPaths": ["install_script.py"]
+  "python.autoComplete.extraPaths": ["${workspaceFolder}/install_script.py"]
 }
