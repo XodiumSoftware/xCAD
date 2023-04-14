@@ -1,6 +1,6 @@
 from PySide6.QtCore import QMargins, QPoint
 from PySide6.QtGui import QFont, QIcon
-from PySide6.QtWidgets import QApplication, QLabel, QStyleFactory, QWidget
+from PySide6.QtWidgets import QApplication, QLabel, QStyleFactory, QVBoxLayout, QWidget
 
 from constants import (
     COPYRIGHT_LABEL,
@@ -12,14 +12,9 @@ from constants import (
     UI_STYLE,
     UI_TITLE,
 )
-from handlers.handler import Handler
 
 
-class SetupUI(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.key_handler = Handler()
-
+class UiSetup(QWidget):
     def setup_ui(self):
         """
         This function sets up the user interface for a PyQt5 application by creating a vertical layout,
@@ -34,12 +29,7 @@ class SetupUI(QWidget):
 
         self.copyright_label()
 
-        self.key_handler.key_pressed.connect(self.on_key_pressed)
-
         self.adjustSize()
-
-    def on_key_pressed(self, key):
-        print(f"ClassA received key press event for key code: {key}")
 
     def copyright_label(self):
         """

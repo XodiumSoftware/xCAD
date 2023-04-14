@@ -51,7 +51,3 @@ def create_input_fields2(self):
                 return QValidator.State.Invalid, text_input, pos
         else:
             return QValidator.State.Invalid, text_input, pos
-        
-'''if self.isHidden():
-                self.tfccui_instance.close()
-                self.show()'''
