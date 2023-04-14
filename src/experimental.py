@@ -72,10 +72,10 @@ class MainUI(SetupUI):
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
+            self.close()
             if self.config_ui:
                 self.config_ui.close()
-            else:
-                self.close()
+
         else:
             super().keyPressEvent(event)
 
