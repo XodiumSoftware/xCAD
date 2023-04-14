@@ -2,7 +2,7 @@ import sys
 
 from PySide6.QtWidgets import QApplication
 
-from experimental import MainUI
+from ui.main_ui import MainUI
 
 
 def run():
