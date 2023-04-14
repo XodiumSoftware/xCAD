@@ -1,2 +1,3 @@
-python
-PyQt6
+Python
+PySide6
+BRX

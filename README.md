@@ -2,7 +2,7 @@
 
 Aim: GUI window for creating basic objects in BriscCad (e.g. walls)
 
-Packages required: PyQt6
+Packages required: PySide6
 
 # Installation
 
