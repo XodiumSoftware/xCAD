@@ -9,6 +9,9 @@ from constants import (
     UI_FONT_TYPE,
 )
 
+# TODO: Move handlers and events and etc. into their own files.
+# CAREFUL! to not create circular imports, so import them first into SetupUI and then to the UIs.
+
 
 class SetupUI(QWidget):
     def __init__(self):
