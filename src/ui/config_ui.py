@@ -17,7 +17,7 @@ class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
 
-        self.input_validator()
+        self.input_validator(input.placeholderText())
 
         # Create some content for CONFIG_UI
         self.setWindowFlags(

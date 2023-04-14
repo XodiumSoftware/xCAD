@@ -43,23 +43,25 @@ class InputHandler(QWidget):
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
 
+            line_validator = self.input_validator(input)
+
+            input.setValidator(line_validator)
+
         self.setLayout(self.input_fields_layout)
 
-    def input_validator(self):
+    def input_validator(self, input):
         line_validator = QLineEdit()
-        line_validator.setPlaceholderText(self.create_input_fields.desc1)
+        line_validator.setPlaceholderText(input.placeholderText())
 
-        if not any(char.isdigit() for char in self.create_input_fields.desc1):
-            # desc1 contains no digits, assume input field is for text
+        if not any(char.isdigit() for char in input.text()):
             validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
         else:
-            # desc1 contains digits, assume input field is for numbers
             validator = QIntValidator(0, 2147483647, self)
 
         line_validator.setValidator(validator)
         line_validator.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-        return line_validator
+        return validator
 
     def save_inputs(self):
         """
