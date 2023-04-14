@@ -29,10 +29,7 @@ MAIN_UI_ICON_PATHS = (
 )
 MAIN_UI_BUTTON_HEIGHT = 50
 MAIN_UI_BUTTON_WIDTH = MAIN_UI_BUTTON_HEIGHT
-
-# TFCC UI
-TFCC_UI_GROUPBOX_TITLE = "Timber Frame Constructions Creator"
-TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
+MAIN_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
     "Frame Length",
     "Frame Height",
     "Profile Type",
@@ -41,7 +38,7 @@ TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
     "Plate Material Type",
     "Plate Material Thickness",
 )
-TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
+MAIN_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "6000",
     "2500",
     "SLS",
@@ -50,11 +47,9 @@ TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "OSBIII",
     "18",
 )
-TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")
+MAIN_UI_GROUPBOX_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")
 
 # Other UI
-BACK_BUTTON = "Back"
-SAVE_BUTTON = "Save"
 SAVE_UI_TEXT = "Changes Saved"
 DATA_DIR_FOLDER = "src/data"
 DATA_DIR_FILE = "input_values.txt"
