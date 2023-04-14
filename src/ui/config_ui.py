@@ -17,6 +17,8 @@ class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
 
+        self.input_validator()
+
         # Create some content for CONFIG_UI
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint | Qt.WindowType.CustomizeWindowHint
@@ -59,4 +61,3 @@ class ConfigUI(SetupUI, InputHandler):
         self.create_input_fields()
         self.group_box_layout.addLayout(self.input_fields_layout)
         self.input_signal()
-
