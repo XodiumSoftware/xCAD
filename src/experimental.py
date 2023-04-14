@@ -75,7 +75,7 @@ class MainUI(SetupUI):
             if self.config_ui:
                 self.config_ui.close()
             else:
-                QApplication.quit()
+                self.close()
         else:
             super().keyPressEvent(event)
 
