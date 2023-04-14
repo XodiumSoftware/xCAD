@@ -11,7 +11,8 @@
       },
       "runOptions": {
         "runOn": "default"
-      }
+      },
+      "problemMatcher": []
     }
   ]
 }
