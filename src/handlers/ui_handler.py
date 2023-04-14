@@ -1,13 +1,11 @@
+# FIXME: circular import
 from ui.main_ui import MainUI
 from ui.tfcc_ui import TFCCUI
 
-# FIXME: circular import
-
 
 class ShowUIHandler:
-    def __init__(self):
-        self.tfccui_instance = TFCCUI()
-        self.mainui_instance = MainUI()
+    tfccui_instance = TFCCUI()
+    mainui_instance = MainUI()
 
     def open_ui_handler(self, index):
         if index == 0:

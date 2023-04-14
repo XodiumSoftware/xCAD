@@ -1,11 +1,12 @@
 import os
 
 from constants import DATA_DIR_FILE, DATA_DIR_FOLDER
-from handlers.press_handler import saveButtonHandler
+
+# FIXME: circular import
 from ui.tfcc_ui import TFCCUI
 
 
-class inputHandler(saveButtonHandler):
+class inputHandler:
     def save_inputs(self):
         """
         This function saves input values from input widgets to a text file.
@@ -26,4 +27,7 @@ class inputHandler(saveButtonHandler):
             for key, value in input_values.items():
                 f.write(f"{key}: {value}\n")
 
-        saveButtonHandler.save_button_handler(self)
+        from handlers.press_handler import saveButtonHandler
+
+        save_button_handler_instance = saveButtonHandler()
+        save_button_handler_instance.save_button_handler()

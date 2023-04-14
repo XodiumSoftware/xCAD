@@ -28,7 +28,10 @@ from handlers.press_handler import backButtonHandler
 from ui.setup_ui import SetupUI
 
 
-class TFCCUI(SetupUI, backButtonHandler):
+class TFCCUI(SetupUI):
+    inputHandler_instance = inputHandler()
+    backButtonHandler_instance = backButtonHandler()
+
     def __init__(self):
         """
         This function initializes a layout and adds various widgets to it.
@@ -139,11 +142,13 @@ class TFCCUI(SetupUI, backButtonHandler):
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.back_button = QPushButton(BACK_BUTTON, self)
-        self.back_button.clicked.connect(backButtonHandler.back_button_handler)
+        self.back_button.clicked.connect(
+            self.backButtonHandler_instance.back_button_handler
+        )
         self.button_layout.addWidget(self.back_button)
 
         self.save_button = QPushButton(SAVE_BUTTON, self)
-        self.save_button.clicked.connect(inputHandler.save_inputs)
+        self.save_button.clicked.connect(self.inputHandler_instance.save_inputs)
         self.button_layout.addWidget(self.save_button)
 
     def onClose(self):
@@ -151,6 +156,6 @@ class TFCCUI(SetupUI, backButtonHandler):
         This function handles the action of pressing the close button on the window
         and prompts the user to save changes before returning to the main UI.
         """
-        backButtonHandler.back_button_handler(self)
+        self.backButtonHandler_instance.back_button_handler()
 
     # FIXME: red x back button handler

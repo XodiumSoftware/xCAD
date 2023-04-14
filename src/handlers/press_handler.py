@@ -6,7 +6,9 @@ from handlers.input_handler import inputHandler
 from ui.tfcc_ui import TFCCUI
 
 
-class backButtonHandler(inputHandler):
+class backButtonHandler(QWidget):
+    inputHandler_instance = inputHandler()
+
     def back_button_handler(self):
         """
         This function handles the action of pressing the back button in a UI and prompts the user to
@@ -20,7 +22,7 @@ class backButtonHandler(inputHandler):
             | QMessageBox.StandardButton.Cancel
         )
         if reply == QMessageBox.StandardButton.Yes:
-            inputHandler.save_inputs(self)
+            self.inputHandler_instance.save_inputs()
             self.close()
 
         elif reply == QMessageBox.StandardButton.No:
