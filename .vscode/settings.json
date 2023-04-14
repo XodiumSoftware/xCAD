@@ -14,5 +14,6 @@
     "tfcc",
     "tfccui",
     "Timberframe"
-  ]
+  ],
+  "python.autoComplete.extraPaths": ["install_script.py"]
 }
