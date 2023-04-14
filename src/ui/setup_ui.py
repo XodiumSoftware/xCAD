@@ -1,5 +1,5 @@
 from PySide6.QtCore import QMargins, QPoint
-from PySide6.QtGui import QFont, QIcon
+from PySide6.QtGui import QFont, QIcon, Qt
 from PySide6.QtWidgets import QApplication, QLabel, QStyleFactory, QVBoxLayout, QWidget
 
 from constants import (
@@ -21,6 +21,9 @@ class UiSetup(QWidget):
         setting the window title and icon, creating a label for displaying copyright information, adding
         the label to the layout, and adjusting the size of the window.
         """
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.margins = QMargins(*UI_CONTENTS_MARGINS)

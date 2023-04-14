@@ -11,7 +11,6 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QSizePolicy,
-    QVBoxLayout,
 )
 
 from constants import (
@@ -31,7 +30,7 @@ from constants import (
     UI_GROUPBOX_STYLESHEET,
     UI_TITLE,
 )
-from ui.ui_setup import UiSetup
+from ui.setup_ui import UiSetup
 
 
 class TFCCUi(UiSetup):
@@ -41,18 +40,15 @@ class TFCCUi(UiSetup):
         """
         super().__init__()
 
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
         self.setup_ui()
 
         self.create_group_box()
 
         self.main_layout.addWidget(self.group_box)
-        self.main_layout.addWidget(self.crlabel)
-        self.main_layout.addWidget(self.group_box)
+
         self.create_button_layout()
         self.main_layout.addLayout(self.button_layout)
+
         self.main_layout.addWidget(self.crlabel)
 
     def keyPressEvent(self, event):

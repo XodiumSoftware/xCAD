@@ -2,13 +2,7 @@ from functools import partial
 
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QFont, QIcon
-from PySide6.QtWidgets import (
-    QGroupBox,
-    QHBoxLayout,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-)
+from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QPushButton, QSizePolicy
 
 from constants import (
     ICON_TO_BUTTON_MARGIN,
@@ -22,8 +16,8 @@ from constants import (
     UI_GROUPBOX_FONT_TYPE,
     UI_GROUPBOX_STYLESHEET,
 )
+from ui.setup_ui import UiSetup
 from ui.tfcc_ui import TFCCUi
-from ui.ui_setup import UiSetup
 
 
 class MainUi(UiSetup):
@@ -33,9 +27,6 @@ class MainUi(UiSetup):
         """__init__ is a special function that initializes the class attributes.
         In this case, it creates the layout for the main ui."""
         super().__init__()
-
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.setup_ui()
 
@@ -55,9 +46,9 @@ class MainUi(UiSetup):
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
-            '''if self.isHidden():
-                self.tfccui_instance.close()
-                self.show()'''
+            """if self.isHidden():
+            self.tfccui_instance.close()
+            self.show()"""
             self.close()
 
     def create_group_box(self):
