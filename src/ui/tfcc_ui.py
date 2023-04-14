@@ -51,17 +51,17 @@ class TFCCUi(UiSetup):
 
         self.main_layout.addWidget(self.crlabel)
 
-    def keyPressEvent(self, event):
-        """
-        This function handles key press events and closes the main UI or goes back to the previous
-        screen depending on the key pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            self.back_button_handler()
-        # FIXME: make the main window appear again
+    # def keyPressEvent(self, event):
+    #     """
+    #     This function handles key press events and closes the main UI or goes back to the previous
+    #     screen depending on the key pressed.
+    #     """
+    #     if event.key() == Qt.Key.Key_Escape or (
+    #         event.key() == Qt.Key.Key_Q
+    #         and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+    #     ):
+    #         self.back_button_handler()
+    #     # FIXME: make the main window appear again
 
     def create_group_box(self):
         """
@@ -152,9 +152,9 @@ class TFCCUi(UiSetup):
         self.button_layout = QHBoxLayout()
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.back_button = QPushButton(BACK_BUTTON, self)
-        self.back_button.clicked.connect(self.back_button_handler)
-        self.button_layout.addWidget(self.back_button)
+        # self.back_button = QPushButton(BACK_BUTTON, self)
+        # self.back_button.clicked.connect(self.back_button_handler)
+        # self.button_layout.addWidget(self.back_button)
 
         self.save_button = QPushButton(SAVE_BUTTON, self)
         self.save_button.clicked.connect(self.save_inputs)
@@ -168,24 +168,24 @@ class TFCCUi(UiSetup):
         self.back_button_handler()'''
     # FIXME: red x back button handler
 
-    def back_button_handler(self):
-        """
-        This function handles the action of pressing the back button in a UI and prompts the user to
-        save changes before returning to the main UI.
-        """
-        reply = QMessageBox.question(
-            self,
-            *ON_BACK_BUTTON_PRESSED_DESC,
-            QMessageBox.StandardButton.Yes
-            | QMessageBox.StandardButton.No
-            | QMessageBox.StandardButton.Cancel,
-        )
-        if reply == QMessageBox.StandardButton.Yes:
-            self.save_inputs()
-            self.close()
+    # def back_button_handler(self):
+    #     """
+    #     This function handles the action of pressing the back button in a UI and prompts the user to
+    #     save changes before returning to the main UI.
+    #     """
+    #     reply = QMessageBox.question(
+    #         self,
+    #         *ON_BACK_BUTTON_PRESSED_DESC,
+    #         QMessageBox.StandardButton.Yes
+    #         | QMessageBox.StandardButton.No
+    #         | QMessageBox.StandardButton.Cancel,
+    #     )
+    #     if reply == QMessageBox.StandardButton.Yes:
+    #         self.save_inputs()
+    #         self.close()
 
-        elif reply == QMessageBox.StandardButton.No:
-            self.close()
+    #     elif reply == QMessageBox.StandardButton.No:
+    #         self.close()
 
     def save_inputs(self):
         """
