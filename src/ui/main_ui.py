@@ -5,6 +5,7 @@ from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
     QGroupBox,
     QHBoxLayout,
+    QMainWindow,
     QPushButton,
     QSizePolicy,
     QVBoxLayout,
@@ -26,7 +27,7 @@ from handlers.ui_handler import UIHandler
 from ui.setup_ui import SetupUI
 
 
-class MainUI(SetupUI):
+class MainUI(QMainWindow, SetupUI):
     """Defines the ui for the main window."""
 
     def __init__(self):
