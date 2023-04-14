@@ -16,12 +16,13 @@ from PySide6.QtWidgets import (
 )
 
 from constants import (
+    CONFIG_UI_TITLE,
     COPYRIGHT_LABEL,
     COPYRIGHT_LABEL_SIZE,
     COPYRIGHT_LABEL_STYLE,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     UI_CONTENTS_MARGINS,
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_FONT_TYPE,
@@ -84,8 +85,8 @@ class MainUI(SetupUI):
     #     new_pos = self.config_ui.pos() + offset
     #     self.config_ui.move(new_pos)
 
-    # TODO: Fix this closing ConfigUI
-    # TODO: Fix toggle_button centering the MainUI on the screen
+    # TODO: Fix this closing ConfigUI when moving.
+    # TODO: Fix toggle_button centering the MainUI on the screen.
 
     def onClose(self, event):
         self.config_ui.close()
@@ -186,10 +187,8 @@ class ConfigUI(SetupUI):
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint | Qt.WindowType.CustomizeWindowHint
         )
-        self.setWindowTitle("Configurator")
-        label = QLabel("This is CONFIG_UI!")
+        self.setWindowTitle(CONFIG_UI_TITLE)
         layout = QVBoxLayout(self)
-        layout.addWidget(label)
 
         self.create_group_box()
         self.main_layout.addWidget(self.group_box)
@@ -235,7 +234,7 @@ class ConfigUI(SetupUI):
 
         for i, (desc0, desc1) in enumerate(
             zip(
-                TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC0, TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC2
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0, CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2
             )
         ):
             label0 = QLabel(desc0, self)
@@ -252,11 +251,11 @@ class ConfigUI(SetupUI):
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
 
-            input.setPlaceholderText(TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
+            input.setPlaceholderText(CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i])
 
-            if "text" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+            if "text" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
                 input_validate.setRegularExpression(QRegularExpression(".+"))
-            elif "number" in TFCC_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
+            elif "number" in CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1[i]:
                 input_validate = QIntValidator()
                 input_validate.setBottom(0)
                 input.setValidator(input_validate)
