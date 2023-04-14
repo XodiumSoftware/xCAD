@@ -34,9 +34,11 @@ class InputHandler(QWidget):
             label0 = QLabel(desc0, self)
             input = MyLineEdit(desc1, self)
             label1 = QLabel(desc2, self)
+
             self.labels.append(label0)
             self.inputs.append(input)
             self.labels.append(label1)
+
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)

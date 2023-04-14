@@ -64,5 +64,5 @@ ON_BACK_BUTTON_PRESSED_DESC = (
 SAVE_BUTTON = "Save"
 SAVE_UI_TEXT = "Changes Saved"
 
-DATA_DIR_FOLDER = "data"
+DATA_DIR_FOLDER = "src/data"
 DATA_DIR_FILE = "input_values.txt"
