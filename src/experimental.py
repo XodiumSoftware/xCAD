@@ -50,7 +50,7 @@ def copyright_label():
     return crlabel
 
 
-class MainUI(QMainWindow, SetupUI):
+class MainUI(SetupUI):
     def __init__(self):
         super().__init__()
         # Center the window on the screen
@@ -66,6 +66,17 @@ class MainUI(QMainWindow, SetupUI):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setGeometry(0, 0, 400, 300)
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape or (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
+            if self.config_ui:
+                self.config_ui.close()
+            self.close()
+        else:
+            super().keyPressEvent(event)
 
     def create_button(self):
         # Create the button to open and close CONFIG_UI
@@ -152,7 +163,7 @@ class MainUI(QMainWindow, SetupUI):
             self.config_ui.raise_()
 
 
-class ConfigUI(QWidget, SetupUI):
+class ConfigUI(SetupUI):
     def __init__(self):
         super().__init__()
 
@@ -168,6 +179,15 @@ class ConfigUI(QWidget, SetupUI):
         self.create_group_box()
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(copyright_label())
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape or (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
+            self.close()
+        else:
+            super().keyPressEvent(event)
 
     def create_group_box(self):
         """
