@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
-    QMainWindow,
     QPushButton,
     QSizePolicy,
     QVBoxLayout,
@@ -78,6 +77,21 @@ class MainUI(SetupUI):
 
         else:
             super().keyPressEvent(event)
+
+    # def moveEvent(self, event):
+    #     super().moveEvent(event)
+    #     offset = self.pos() - event.oldPos()
+    #     new_pos = self.config_ui.pos() + offset
+    #     self.config_ui.move(new_pos)
+
+    # TODO: Fix this closing ConfigUI
+    # TODO: Fix toggle_button centering the MainUI on the screen
+
+    def onClose(self, event):
+        self.config_ui.close()
+        event.accept()
+
+    # FIXME: Fix this not closing ConfigUI when the onClose event is triggered in the MainUI.
 
     def create_button(self):
         # Create the button to open and close CONFIG_UI
