@@ -21,21 +21,25 @@ class InputHandler(QWidget):
         self.line_validator = QLineEdit()
 
     def input_signal(self):
+        """
+        This function is called when an input is changed.
+        """
         for input_widget in self.inputs:
             input_widget.textChanged.connect(self.save_inputs)
 
     def input_validator(self, input):
+        """
+        This function validates input values.
+        """
         # shouldn't input.text() be desc1?
         if not any(char.isdigit() for char in input.text()):
             validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
         else:
-            # if not any(char.isalpha() for char in input.text()):
             validator = QIntValidator(0, 2147483647, self)
-
-        # Added the else but it doesn't work. should remove it and replace elif with something better.
 
         self.line_validator.setValidator(validator)
         self.line_validator.setAlignment(Qt.AlignmentFlag.AlignRight)
+        # FIXME: placeholder text doesn't work.
         # self.line_validator.setPlaceholderText("")
 
         return validator

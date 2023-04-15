@@ -38,6 +38,9 @@ class ConfigUI(SetupUI, InputHandler):
         self.main_layout.addWidget(self.crlabel)
 
     def keyPressEvent(self, event):
+        """
+        This function is called certain keys are pressed.
+        """
         if event.key() == Qt.Key.Key_Escape or (
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
@@ -69,6 +72,9 @@ class ConfigUI(SetupUI, InputHandler):
         self.input_signal()
 
     def create_input_fields(self):
+        """
+        Creates input fields and adds them to the group box.
+        """
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
@@ -89,6 +95,8 @@ class ConfigUI(SetupUI, InputHandler):
             self.input_fields_layout.addWidget(label1, i, 2)
 
             input.setValidator(self.input_validator(input))
-            #input.setPlaceholderText(desc1)
+            # FIXME: placeholder text doesn't work.
+            # input.setPlaceholderText(desc1)
+            # FIXME: QLayout: Attempting to add QLayout "" to ConfigUI "", which already has a layout
 
         self.setLayout(self.input_fields_layout)
