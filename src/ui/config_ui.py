@@ -1,8 +1,18 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QSizePolicy, QVBoxLayout
+from PySide6.QtGui import QFont, QInputMethodEvent
+from PySide6.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
 from constants import (
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     CONFIG_UI_TITLE,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
@@ -16,10 +26,6 @@ from ui.setup_ui import SetupUI
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
-
-        self.input_validator(input.placeholderText())
-
-        # Create some content for CONFIG_UI
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint | Qt.WindowType.CustomizeWindowHint
         )
@@ -61,3 +67,28 @@ class ConfigUI(SetupUI, InputHandler):
         self.create_input_fields()
         self.group_box_layout.addLayout(self.input_fields_layout)
         self.input_signal()
+
+    def create_input_fields(self):
+        for i, (desc0, desc1, desc2) in enumerate(
+            zip(
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
+                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+            )
+        ):
+            label0 = QLabel(desc0, self)
+            input = QLineEdit(desc1, self)
+            label1 = QLabel(desc2, self)
+
+            self.labels.append(label0)
+            self.inputs.append(input)
+            self.labels.append(label1)
+
+            self.input_fields_layout.addWidget(label0, i, 0)
+            self.input_fields_layout.addWidget(input, i, 1)
+            self.input_fields_layout.addWidget(label1, i, 2)
+
+            input.setValidator(self.input_validator(input))
+            #input.setPlaceholderText(desc1)
+
+        self.setLayout(self.input_fields_layout)

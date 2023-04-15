@@ -2,12 +2,10 @@ import os
 
 from PySide6.QtCore import QRegularExpression, Qt
 from PySide6.QtGui import QIntValidator, QRegularExpressionValidator
-from PySide6.QtWidgets import QGridLayout, QLabel, QLineEdit, QWidget
+from PySide6.QtWidgets import QGridLayout, QLineEdit, QWidget
 
 from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     DATA_DIR_FILE,
     DATA_DIR_FOLDER,
     SAVE_UI_TEXT,
@@ -15,51 +13,30 @@ from constants import (
 
 
 class InputHandler(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.labels = []
+        self.inputs = []
+        self.input_fields_layout = QGridLayout()
+        self.line_validator = QLineEdit()
+
     def input_signal(self):
         for input_widget in self.inputs:
             input_widget.textChanged.connect(self.save_inputs)
 
-    def create_input_fields(self):
-        self.labels = []
-        self.inputs = []
-        self.input_fields_layout = QGridLayout()
-
-        for i, (desc0, desc1, desc2) in enumerate(
-            zip(
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
-            )
-        ):
-            label0 = QLabel(desc0, self)
-            input = QLineEdit(desc1, self)
-            label1 = QLabel(desc2, self)
-
-            self.labels.append(label0)
-            self.inputs.append(input)
-            self.labels.append(label1)
-
-            self.input_fields_layout.addWidget(label0, i, 0)
-            self.input_fields_layout.addWidget(input, i, 1)
-            self.input_fields_layout.addWidget(label1, i, 2)
-
-            line_validator = self.input_validator(input)
-
-            input.setValidator(line_validator)
-
-        self.setLayout(self.input_fields_layout)
-
     def input_validator(self, input):
-        line_validator = QLineEdit()
-        line_validator.setPlaceholderText(input.placeholderText())
-
+        # shouldn't input.text() be desc1?
         if not any(char.isdigit() for char in input.text()):
             validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
         else:
+            # if not any(char.isalpha() for char in input.text()):
             validator = QIntValidator(0, 2147483647, self)
 
-        line_validator.setValidator(validator)
-        line_validator.setAlignment(Qt.AlignmentFlag.AlignRight)
+        # Added the else but it doesn't work. should remove it and replace elif with something better.
+
+        self.line_validator.setValidator(validator)
+        self.line_validator.setAlignment(Qt.AlignmentFlag.AlignRight)
+        # self.line_validator.setPlaceholderText("")
 
         return validator
 
@@ -80,7 +57,7 @@ class InputHandler(QWidget):
         file_path = os.path.join(data_dir, DATA_DIR_FILE)
 
         with open(file_path, "w") as f:
-            for key, value in input_values.items():
-                f.write(f"{key}: {value}\n")
+            for i, value in input_values.items():
+                f.write(f"{CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0[i]}: {value}\n")
 
         print(SAVE_UI_TEXT)
