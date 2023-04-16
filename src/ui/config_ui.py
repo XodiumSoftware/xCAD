@@ -77,7 +77,6 @@ class ConfigUI(SetupUI, InputHandler):
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
             )
         ):
-            # FIXME: placeholder text doesn't work.
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
             input.setPlaceholderText(desc1)
