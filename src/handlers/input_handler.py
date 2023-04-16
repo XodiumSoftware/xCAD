@@ -45,7 +45,7 @@ class InputHandler(QWidget):
         return validator
 
     def save_inputs(self):
-        # TODO: Add that it replaces the input text with the new value.
+        # TODO: Add that it replaces the placeholder text with the new input value.
         """
         This function saves input values from input widgets to a text file.
         """

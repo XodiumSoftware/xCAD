@@ -41,6 +41,9 @@ class MainUI(SetupUI):
         # Initialize variable to keep track of whether CONFIG_UI is open
         self.config_ui_open = False
 
+        # Connects onClose function to closeEvent signal
+        self.closeEvent = self.onClose
+
         # Set the window title and size
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -51,6 +54,10 @@ class MainUI(SetupUI):
         self.main_layout.addWidget(self.crlabel)
 
     def main_ui_label(self):
+        """
+        This function creates a QLabel object with a text string containing the main UI label,
+        and some properties.
+        """
         self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
         self.main_label.setFont(QFont(UI_FONT_TYPE))
         self.main_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -97,20 +104,21 @@ class MainUI(SetupUI):
     # TODO: Fix this closing ConfigUI when moving.
 
     def onClose(self, event):
+        """
+        This function closes CONFIG_UI when triggered in the MainUI.
+        """
         self.config_ui.close()
         event.accept()
 
-    # FIXME: Fix this not closing ConfigUI when the onClose event is triggered in the MainUI.
-
     def create_button(self):
-        # Create the button to open and close CONFIG_UI
+        """
+        Creates the button to open and close CONFIG_UI
+        """
         self.btn_toggle = QPushButton(self)
         self.btn_toggle.setIcon(QIcon.fromTheme("arrow-right"))
         self.btn_toggle.setToolTip("Open CONFIG_UI")
-        self.btn_toggle.setFixedSize(20, 20)  # set a fixed size for the button
-        self.btn_toggle.move(
-            self.width() - self.btn_toggle.width() - 10, 10
-        )  # align the button to the top right corner
+        self.btn_toggle.setFixedSize(20, 20)
+        self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
         self.btn_toggle.clicked.connect(self.toggle_config_ui)
 
     def center_window(self):
@@ -134,9 +142,7 @@ class MainUI(SetupUI):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        self.btn_toggle.move(
-            self.width() - self.btn_toggle.width() - 10, 10
-        )  # reposition the button when the window is resized
+        self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
 
     def toggle_config_ui(self):
         if not self.config_ui_open:
