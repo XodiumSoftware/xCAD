@@ -39,13 +39,10 @@ class InputHandler(QWidget):
 
         self.line_validator.setValidator(validator)
         self.line_validator.setAlignment(Qt.AlignmentFlag.AlignRight)
-        # FIXME: placeholder text doesn't work.
-        self.line_validator.setPlaceholderText("")
 
         return validator
 
     def save_inputs(self):
-        # TODO: Add that it replaces the placeholder text with the new input value.
         """
         This function saves input values from input widgets to a text file.
         """

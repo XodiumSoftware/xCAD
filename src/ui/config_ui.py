@@ -1,3 +1,5 @@
+import os
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
@@ -7,6 +9,8 @@ from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     CONFIG_UI_TITLE,
+    DATA_DIR_FILE,
+    DATA_DIR_FOLDER,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
     UI_GROUPBOX_FONT_SIZE,
@@ -70,6 +74,11 @@ class ConfigUI(SetupUI, InputHandler):
         """
         Creates input fields and adds them to the group box.
         """
+        # Read saved data from input_values.txt file
+        file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
+        with open(file_path, "r") as f:
+            saved_data = [line.strip() for line in f.readlines()]
+
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
@@ -79,7 +88,8 @@ class ConfigUI(SetupUI, InputHandler):
         ):
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
-            input.setPlaceholderText(desc1)
+            placeholder_text = saved_data[i].split(":")[1].strip() or desc1
+            input.setPlaceholderText(placeholder_text)
             input.setValidator(self.input_validator(input))
             label1 = QLabel(desc2, self)
 
