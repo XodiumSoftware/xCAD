@@ -80,10 +80,8 @@ class ConfigUI(SetupUI, InputHandler):
             # FIXME: placeholder text doesn't work.
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
-            input.setText(desc1)
             input.setPlaceholderText(desc1)
             input.setValidator(self.input_validator(input))
-            input.setStyleSheet("::placeholder { color: gray; }")
             label1 = QLabel(desc2, self)
 
             self.labels.append(label0)
