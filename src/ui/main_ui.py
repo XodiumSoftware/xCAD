@@ -95,7 +95,6 @@ class MainUI(SetupUI):
     #     self.config_ui.move(new_pos)
 
     # TODO: Fix this closing ConfigUI when moving.
-    # TODO: Fix toggle_button centering the MainUI on the screen.
 
     def onClose(self, event):
         self.config_ui.close()
@@ -159,15 +158,6 @@ class MainUI(SetupUI):
 
             # Update variable to indicate that CONFIG_UI is closed
             self.config_ui_open = False
-
-        # Center MAIN_UI on the screen
-        screen_geometry = QApplication.screens()[0].geometry()
-        center_point = screen_geometry.center()
-        window_center = self.rect().center()
-        window_top_left = QPoint(
-            center_point.x() - window_center.x(), center_point.y() - window_center.y()
-        )
-        self.move(window_top_left)
 
         # If CONFIG_UI is open, attach it to MAIN_UI
         if self.config_ui_open:
