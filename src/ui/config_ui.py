@@ -92,7 +92,6 @@ class ConfigUI(SetupUI, InputHandler):
             input.setValidator(self.input_validator(input))
             # FIXME: placeholder text doesn't work.
             # input.setPlaceholderText(desc1)
-            # FIXME: QLayout: Attempting to add QLayout "" to ConfigUI "", which already has a layout
 
         # FIXME: Not necessary?
         # self.setLayout(self.input_fields_layout)
