@@ -21,7 +21,9 @@ class ConfigUI(SetupUI, InputHandler):
         super().__init__()
 
         self.setWindowFlags(
-            Qt.WindowType.WindowTitleHint | Qt.WindowType.CustomizeWindowHint
+            Qt.WindowType.WindowTitleHint
+            | Qt.WindowType.CustomizeWindowHint
+            | Qt.WindowType.MSWindowsFixedSizeDialogHint
         )
         self.setWindowTitle(CONFIG_UI_TITLE)
 
