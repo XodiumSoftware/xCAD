@@ -86,10 +86,6 @@ class MainUI(SetupUI):
         )
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-    def resize_config_ui(self):
-        if self.config_ui_instance:
-            self.config_ui_instance.resize(self.size())
-
     def keyPressEvent(self, event):
         # TODO: Combine keyPressEvent with the similar on in config_ui and move them to setup_ui.py.
         """
