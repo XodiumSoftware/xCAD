@@ -75,8 +75,7 @@ class ConfigUI(SetupUI, InputHandler):
         Creates input fields and adds them to the group box.
         """
         # Read saved data from input_values.txt file
-        file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
-        with open(file_path, "r") as f:
+        with open(self.file_path, "r") as f:
             saved_data = [line.strip() for line in f.readlines()]
 
         for i, (desc0, desc1, desc2) in enumerate(

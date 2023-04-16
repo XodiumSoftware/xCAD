@@ -20,6 +20,13 @@ class InputHandler(QWidget):
         self.input_fields_layout = QGridLayout()
         self.line_validator = QLineEdit()
 
+        self.data_dir_folder = DATA_DIR_FOLDER
+        self.data_dir_file = DATA_DIR_FILE
+        # FIXME: Make the code check and create the data folder & file if it doesn't exist on code run.
+        if not os.path.exists(self.data_dir_folder):
+            os.makedirs(self.data_dir_folder)
+        self.file_path = os.path.join(self.data_dir_folder, self.data_dir_file)
+
     def input_signal(self):
         """
         This function is called when an input is changed.
@@ -51,14 +58,7 @@ class InputHandler(QWidget):
             input_text = input_widget.text()
             input_values[i] = input_text
 
-        data_dir = DATA_DIR_FOLDER
-
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
-
-        file_path = os.path.join(data_dir, DATA_DIR_FILE)
-
-        with open(file_path, "w") as f:
+        with open(self.file_path, "w") as f:
             for i, value in input_values.items():
                 f.write(f"{CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0[i]}: {value}\n")
 
