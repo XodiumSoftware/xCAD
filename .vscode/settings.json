@@ -6,9 +6,15 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabSizing": "fit",
+  "explorer.openEditors.visible": 0,
+  "workbench.sideBar.location": "left",
   "cSpell.words": [
     "areacalc",
     "Brisc",
+    "Frameless",
+    "hlayout",
     "mainui",
     "OSBIII",
     "tfcc",

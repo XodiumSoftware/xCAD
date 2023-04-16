@@ -1,3 +1,0 @@
-Python
-PySide6
-BRX
