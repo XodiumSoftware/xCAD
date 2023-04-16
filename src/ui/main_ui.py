@@ -162,7 +162,8 @@ class MainUI(SetupUI):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        self.resize_config_ui()
+        if self.config_ui_instance:
+            self.config_ui_instance.resize(self.size())
         self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
 
     def toggle_config_ui(self):
