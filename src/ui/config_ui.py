@@ -77,8 +77,13 @@ class ConfigUI(SetupUI, InputHandler):
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
             )
         ):
+            # FIXME: placeholder text doesn't work.
             label0 = QLabel(desc0, self)
-            input = QLineEdit(desc1, self)
+            input = QLineEdit(self)
+            input.setText(desc1)
+            input.setPlaceholderText(desc1)
+            input.setValidator(self.input_validator(input))
+            input.setStyleSheet("::placeholder { color: gray; }")
             label1 = QLabel(desc2, self)
 
             self.labels.append(label0)
@@ -88,10 +93,6 @@ class ConfigUI(SetupUI, InputHandler):
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
-
-            input.setValidator(self.input_validator(input))
-            # FIXME: placeholder text doesn't work.
-            # input.setPlaceholderText(desc1)
 
         # FIXME: Not necessary?
         # self.setLayout(self.input_fields_layout)

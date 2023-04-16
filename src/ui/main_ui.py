@@ -128,7 +128,7 @@ class MainUI(SetupUI):
 
     def create_button(self):
         """
-        Creates the button to open and close CONFIG_UI
+        Creates the button to open and close CONFIG_UI.
         """
         self.btn_toggle = QPushButton(self)
         self.btn_toggle.setIcon(QIcon.fromTheme("arrow-right"))
@@ -163,6 +163,9 @@ class MainUI(SetupUI):
         self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
 
     def toggle_config_ui(self):
+        """
+        This function toggles the CONFIG_UI.
+        """
         if not self.config_ui_open:
             # Create and show CONFIG_UI
             self.config_ui_instance.setGeometry(
