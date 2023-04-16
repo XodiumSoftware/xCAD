@@ -100,6 +100,3 @@ class ConfigUI(SetupUI, InputHandler):
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
-
-        # FIXME: Not necessary?
-        # self.setLayout(self.input_fields_layout)
