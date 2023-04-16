@@ -1,13 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QInputMethodEvent
-from PySide6.QtWidgets import (
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QSizePolicy,
-    QVBoxLayout,
-)
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
 
 from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
@@ -26,11 +19,11 @@ from ui.setup_ui import SetupUI
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
+
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint | Qt.WindowType.CustomizeWindowHint
         )
         self.setWindowTitle(CONFIG_UI_TITLE)
-        layout = QVBoxLayout(self)
 
         self.create_group_box()
         self.main_layout.addWidget(self.group_box)
@@ -39,7 +32,7 @@ class ConfigUI(SetupUI, InputHandler):
 
     def keyPressEvent(self, event):
         """
-        This function is called certain keys are pressed.
+        This function is called when certain keys are pressed.
         """
         if event.key() == Qt.Key.Key_Escape or (
             event.key() == Qt.Key.Key_Q
@@ -99,4 +92,5 @@ class ConfigUI(SetupUI, InputHandler):
             # input.setPlaceholderText(desc1)
             # FIXME: QLayout: Attempting to add QLayout "" to ConfigUI "", which already has a layout
 
-        self.setLayout(self.input_fields_layout)
+        # FIXME: Not necessary?
+        # self.setLayout(self.input_fields_layout)

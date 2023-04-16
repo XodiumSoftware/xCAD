@@ -25,6 +25,9 @@ from ui.setup_ui import SetupUI
 class MainUI(SetupUI):
     def __init__(self):
         super().__init__()
+        # Initialize the UI
+        self.config_ui_instance = ConfigUI()
+
         # Center the window on the screen
         self.center_window()
 
@@ -41,9 +44,6 @@ class MainUI(SetupUI):
         # Initialize variable to keep track of whether CONFIG_UI is open
         self.config_ui_open = False
 
-        # Connects onClose function to closeEvent signal
-        self.closeEvent = self.onClose
-
         # Set the window title and size
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -52,6 +52,9 @@ class MainUI(SetupUI):
         self.main_layout.addWidget(self.main_label)
         self.main_layout.addWidget(self.group_box)
         self.main_layout.addWidget(self.crlabel)
+
+        # Initialize config_ui_pos variable to keep track of the config_ui position
+        self.config_ui_pos = None
 
     def main_ui_label(self):
         """
@@ -83,31 +86,48 @@ class MainUI(SetupUI):
         )
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
+    def resize_config_ui(self):
+        if self.config_ui_instance:
+            self.config_ui_instance.resize(self.size())
+
     def keyPressEvent(self, event):
+        # TODO: Combine keyPressEvent with the similar on in config_ui and move them to setup_ui.py.
+        """
+        This function is called when certain keys are pressed.
+        """
         if event.key() == Qt.Key.Key_Escape or (
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
         ):
             self.close()
-            if self.config_ui:
-                self.config_ui.close()
+            if self.config_ui_instance:
+                self.config_ui_instance.close()
 
         else:
             super().keyPressEvent(event)
 
     # def moveEvent(self, event):
+    #     """
+    #     This function moves the config_ui along with the main_ui when the main_ui gets moved around.
+    #     """
     #     super().moveEvent(event)
-    #     offset = self.pos() - event.oldPos()
-    #     new_pos = self.config_ui.pos() + offset
-    #     self.config_ui.move(new_pos)
+    #     if self.config_ui_open and self.config_ui_pos is not None:
+    #         # Calculate the offset between the old and new main_ui positions
+    #         offset = self.pos() - event.oldPos()
 
-    # TODO: Fix this closing ConfigUI when moving.
+    #         # Calculate the new position for the config_ui
+    #         new_pos = self.config_ui_pos + offset
 
-    def onClose(self, event):
+    #         # Move the config_ui to the new position
+    #         self.config_ui.move(new_pos)
+
+    # TODO: make config_ui move along with main_ui when main_ui gets moved.
+
+    def closeEvent(self, event):
         """
         This function closes CONFIG_UI when triggered in the MainUI.
         """
-        self.config_ui.close()
+        self.config_ui_instance.close()
         event.accept()
 
     def create_button(self):
@@ -142,34 +162,35 @@ class MainUI(SetupUI):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
+        self.resize_config_ui()
         self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
 
     def toggle_config_ui(self):
         if not self.config_ui_open:
             # Create and show CONFIG_UI
-            self.config_ui = ConfigUI()
-            self.config_ui.setGeometry(
+            self.config_ui_instance.setGeometry(
                 self.geometry().right() + 10,
                 self.geometry().top(),
-                self.config_ui.width(),
+                self.config_ui_instance.width(),
                 self.height(),
             )
-            self.config_ui.show()
+            self.config_ui_instance.show()
 
             # Update variable to indicate that CONFIG_UI is open
             self.config_ui_open = True
         else:
             # Close CONFIG_UI
-            self.config_ui.close()
+            self.config_ui_instance.close()
 
             # Update variable to indicate that CONFIG_UI is closed
             self.config_ui_open = False
+            self.config_ui_pos = None  # Reset the config_ui position
 
         # If CONFIG_UI is open, attach it to MAIN_UI
         if self.config_ui_open:
             main_ui_rect = self.geometry()
-            config_ui_rect = self.config_ui.geometry()
-            self.config_ui.setGeometry(
+            config_ui_rect = self.config_ui_instance.geometry()
+            self.config_ui_instance.setGeometry(
                 main_ui_rect.right() + 2,
                 main_ui_rect.top(),
                 config_ui_rect.width(),
@@ -180,5 +201,5 @@ class MainUI(SetupUI):
         self.activateWindow()
         self.raise_()
         if self.config_ui_open:
-            self.config_ui.activateWindow()
-            self.config_ui.raise_()
+            self.config_ui_instance.activateWindow()
+            self.config_ui_instance.raise_()
