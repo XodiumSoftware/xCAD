@@ -38,6 +38,7 @@ class InputHandler(QWidget):
         """
         This function validates input values.
         """
+        # FIXME: input validator
         if not any(char.isdigit() for char in input.text()):
             validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
         else:
