@@ -7,3 +7,8 @@ ctrl + k + u --> removes # from all lines in .py files
     ^ doesnt work which means its another keybind.
 ctrl + 'click' --> navigates to the documentation of that function/object
 ctrl + b --> hides/shows files
+
+
+ctrl + p --> opens search bar
+
+all commands have to start with >
