@@ -28,9 +28,7 @@ class InputHandler(QWidget):
         self.data_dir_handler()
 
     def input_signal(self):
-        """
-        This function is called when an input is changed.
-        """
+        """Connect a slot to input textChanged signal."""
         for input_widget in self.inputs:
             input_widget.textChanged.connect(self.save_inputs)
 
@@ -61,16 +59,12 @@ class InputHandler(QWidget):
 
     def save_inputs(self):
         """
-        This function saves input values from input widgets to a text file.
+        Saves input values from input widgets to a text file.
         """
-        input_values = {}
-
-        for i, input_widget in enumerate(self.inputs):
-            input_text = input_widget.text()
-            input_values[i] = input_text
-
+        input_values = {
+            i: input_widget.text() for i, input_widget in enumerate(self.inputs)
+        }
         with open(self.file_path, "w") as f:
             for i, value in input_values.items():
                 f.write(f"{CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0[i]}: {value}\n")
-
         print(SAVE_UI_TEXT)
