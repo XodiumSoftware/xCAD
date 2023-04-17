@@ -5,3 +5,8 @@ ctrl + k --> adds # to all lines in .py files
 ctrl + shift + k --> removes # from all lines in .py files
 ctrl + 'click' --> navigates to the documentation of that function/object
 ctrl + b --> hides/shows files
+
+
+ctrl + p --> opens search bar
+
+all commands have to start with >
