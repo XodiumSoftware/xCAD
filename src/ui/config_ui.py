@@ -1,5 +1,3 @@
-import os
-
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
@@ -9,8 +7,6 @@ from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     CONFIG_UI_TITLE,
-    DATA_DIR_FILE,
-    DATA_DIR_FOLDER,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
     UI_GROUPBOX_FONT_SIZE,
@@ -87,7 +83,10 @@ class ConfigUI(SetupUI, InputHandler):
         ):
             label0 = QLabel(desc0, self)
             input = QLineEdit(self)
-            placeholder_text = saved_data[i].split(":")[1].strip() or desc1
+            try:
+                placeholder_text = saved_data[i].split(":")[1].strip() or desc1
+            except IndexError:
+                placeholder_text = desc1
             input.setPlaceholderText(placeholder_text)
             input.setValidator(self.input_validator(input))
             label1 = QLabel(desc2, self)

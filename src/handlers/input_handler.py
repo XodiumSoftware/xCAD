@@ -22,9 +22,7 @@ class InputHandler(QWidget):
 
         self.data_dir_folder = DATA_DIR_FOLDER
         self.data_dir_file = DATA_DIR_FILE
-        # FIXME: Make the code check and create the data folder & file if it doesn't exist on code run.
-        if not os.path.exists(self.data_dir_folder):
-            os.makedirs(self.data_dir_folder)
+
         self.file_path = os.path.join(self.data_dir_folder, self.data_dir_file)
 
     def input_signal(self):
@@ -38,7 +36,6 @@ class InputHandler(QWidget):
         """
         This function validates input values.
         """
-        # shouldn't input.text() be desc1?
         if not any(char.isdigit() for char in input.text()):
             validator = QRegularExpressionValidator(QRegularExpression(".+"), self)
         else:
@@ -54,9 +51,13 @@ class InputHandler(QWidget):
         This function saves input values from input widgets to a text file.
         """
         input_values = {}
+
         for i, input_widget in enumerate(self.inputs):
             input_text = input_widget.text()
             input_values[i] = input_text
+
+        if not os.path.exists(self.data_dir_folder):
+            os.makedirs(self.data_dir_folder)
 
         with open(self.file_path, "w") as f:
             for i, value in input_values.items():
