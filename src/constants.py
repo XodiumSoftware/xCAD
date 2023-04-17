@@ -33,13 +33,13 @@ MAIN_UI_BUTTON_WIDTH = MAIN_UI_BUTTON_HEIGHT
 # Config UI
 CONFIG_UI_TITLE = "Configurator"
 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
-    "Frame Length",
-    "Frame Height",
-    "Profile Type",
-    "Profile Length",
-    "Profile Width",
-    "Plate Material Type",
-    "Plate Material Thickness",
+    "Frame Length:",
+    "Frame Height:",
+    "Profile Type:",
+    "Profile Length:",
+    "Profile Width:",
+    "Plate Material Type:",
+    "Plate Material Thickness:",
 )
 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "6000",

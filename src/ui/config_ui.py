@@ -1,4 +1,4 @@
-import os
+import csv
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
@@ -72,7 +72,7 @@ class ConfigUI(SetupUI, InputHandler):
         Creates input fields and adds them to the group box.
         """
         with open(self.file_path, "r") as f:
-            saved_data = [line.strip() for line in f.readlines()]
+            saved_data = list(csv.reader(f))
 
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
@@ -81,19 +81,19 @@ class ConfigUI(SetupUI, InputHandler):
                 CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
             )
         ):
-            label0 = QLabel(desc0, self)
-            input = QLineEdit(self)
-            try:
-                placeholder_text = saved_data[i].split(":")[1].strip() or desc1
-            except IndexError:
-                placeholder_text = desc1
+            label0, input, label1 = [
+                QLabel(desc0, self),
+                QLineEdit(self),
+                QLabel(desc2, self),
+            ]
+            placeholder_text = (
+                saved_data[i][1].strip() if len(saved_data[i]) > 1 else desc1
+            )
             input.setPlaceholderText(placeholder_text)
             input.setValidator(self.input_validator(input))
-            label1 = QLabel(desc2, self)
 
-            self.labels.append(label0)
+            self.labels.extend([label0, label1])
             self.inputs.append(input)
-            self.labels.append(label1)
 
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
