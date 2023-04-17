@@ -25,6 +25,8 @@ class InputHandler(QWidget):
 
         self.file_path = os.path.join(self.data_dir_folder, self.data_dir_file)
 
+        self.data_dir_handler()
+
     def input_signal(self):
         """
         This function is called when an input is changed.
@@ -46,6 +48,16 @@ class InputHandler(QWidget):
 
         return validator
 
+    def data_dir_handler(self):
+        """
+        This function checks if the data file exists and creates it if it doesn't.
+        """
+        if not os.path.exists(os.path.dirname(self.file_path)):
+            os.makedirs(os.path.dirname(self.file_path))
+        if not os.path.exists(self.file_path):
+            with open(self.file_path, "w") as f:
+                f.write("")
+
     def save_inputs(self):
         """
         This function saves input values from input widgets to a text file.
@@ -55,9 +67,6 @@ class InputHandler(QWidget):
         for i, input_widget in enumerate(self.inputs):
             input_text = input_widget.text()
             input_values[i] = input_text
-
-        if not os.path.exists(self.data_dir_folder):
-            os.makedirs(self.data_dir_folder)
 
         with open(self.file_path, "w") as f:
             for i, value in input_values.items():

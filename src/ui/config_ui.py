@@ -1,3 +1,5 @@
+import os
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
@@ -19,7 +21,6 @@ from ui.setup_ui import SetupUI
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
-
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint
             | Qt.WindowType.CustomizeWindowHint
@@ -70,7 +71,6 @@ class ConfigUI(SetupUI, InputHandler):
         """
         Creates input fields and adds them to the group box.
         """
-        # Read saved data from input_values.txt file
         with open(self.file_path, "r") as f:
             saved_data = [line.strip() for line in f.readlines()]
 
