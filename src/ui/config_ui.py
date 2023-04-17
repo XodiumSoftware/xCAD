@@ -1,7 +1,7 @@
 import csv
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QKeySequence
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
 
 from constants import (
@@ -17,7 +17,7 @@ from constants import (
 from handlers.input_handler import InputHandler
 from ui.setup_ui import SetupUI
 
-
+0
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
@@ -67,12 +67,14 @@ class ConfigUI(SetupUI, InputHandler):
         self.group_box_layout.addLayout(self.input_fields_layout)
         self.input_signal()
 
+    # FIXME: create_input_fields function not using desc1 as placeholder_text
     def create_input_fields(self):
         """
         Creates input fields and adds them to the group box.
         """
         with open(self.file_path, "r") as f:
             saved_data = list(csv.reader(f))
+            print("saved_data:", saved_data)
 
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
@@ -87,8 +89,12 @@ class ConfigUI(SetupUI, InputHandler):
                 QLabel(desc2, self),
             ]
             placeholder_text = (
-                saved_data[i][1].strip() if len(saved_data[i]) > 1 else desc1
+                saved_data[i][1].strip()
+                if len(saved_data) > i and len(saved_data[i]) > 1
+                else desc1.strip()
             )
+
+            print("placeholder_text:", placeholder_text)
             input.setPlaceholderText(placeholder_text)
             input.setValidator(self.input_validator(input))
 
