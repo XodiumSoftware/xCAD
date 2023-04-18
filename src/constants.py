@@ -62,7 +62,11 @@ ON_BACK_BUTTON_PRESSED_DESC = (
 )
 
 SAVE_BUTTON = "Save"
-SAVE_UI_TEXT = "[DEBUG]: Changes Saved"
 
 DATA_DIR_FOLDER = "src/data"
 DATA_DIR_FILE = "input_values.txt"
+
+# Debugging
+DEBUG_SAVE_UI_PRINT = "[DEBUG]: Changes Saved"
+DEBUG_SAVED_DATA_PRINT = "[DEBUG]: Saved Data:"
+DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"

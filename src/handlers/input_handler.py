@@ -8,7 +8,7 @@ from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
     DATA_DIR_FILE,
     DATA_DIR_FOLDER,
-    SAVE_UI_TEXT,
+    DEBUG_SAVE_UI_PRINT,
 )
 
 
@@ -67,4 +67,4 @@ class InputHandler(QWidget):
         with open(self.file_path, "w") as f:
             for i, value in input_values.items():
                 f.write(f"{CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0[i]}: {value}\n")
-        print(SAVE_UI_TEXT)
+        print(DEBUG_SAVE_UI_PRINT)

@@ -9,6 +9,8 @@ from constants import (
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
     CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
     CONFIG_UI_TITLE,
+    DEBUG_PLACEHOLDER_TEXT_PRINT,
+    DEBUG_SAVED_DATA_PRINT,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
     UI_GROUPBOX_FONT_SIZE,
@@ -17,7 +19,7 @@ from constants import (
 from handlers.input_handler import InputHandler
 from ui.setup_ui import SetupUI
 
-0
+
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
@@ -74,7 +76,7 @@ class ConfigUI(SetupUI, InputHandler):
         """
         with open(self.file_path, "r") as f:
             saved_data = list(csv.reader(f))
-            print("saved_data:", saved_data)
+            print(DEBUG_SAVED_DATA_PRINT, saved_data)
 
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
@@ -94,7 +96,7 @@ class ConfigUI(SetupUI, InputHandler):
                 else desc1.strip()
             )
 
-            print("placeholder_text:", placeholder_text)
+            print(DEBUG_PLACEHOLDER_TEXT_PRINT, placeholder_text)
             input.setPlaceholderText(placeholder_text)
             input.setValidator(self.input_validator(input))
 
