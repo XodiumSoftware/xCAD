@@ -5,7 +5,7 @@ from PySide6.QtGui import QIntValidator, QRegularExpressionValidator
 from PySide6.QtWidgets import QGridLayout, QLineEdit, QWidget
 
 from constants import (
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
+    CONFIG_UI_INPUT_FIELDS_DESC0,
     DATA_DIR_FILE,
     DATA_DIR_FOLDER,
     DEBUG_SAVE_UI_PRINT,
@@ -66,5 +66,5 @@ class InputHandler(QWidget):
         }
         with open(self.file_path, "w") as f:
             for i, value in input_values.items():
-                f.write(f"{CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0[i]}: {value}\n")
+                f.write(f"{CONFIG_UI_INPUT_FIELDS_DESC0[i]}: {value}\n")
         print(DEBUG_SAVE_UI_PRINT)

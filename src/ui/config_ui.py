@@ -5,9 +5,10 @@ from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
 
 from constants import (
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-    CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+    CONFIG_UI_INPUT_FIELDS_DESC0,
+    CONFIG_UI_INPUT_FIELDS_DESC1,
+    CONFIG_UI_INPUT_FIELDS_DESC2,
+    CONFIG_UI_INPUT_FIELDS_DESC3,
     CONFIG_UI_TITLE,
     DEBUG_PLACEHOLDER_TEXT_PRINT,
     DEBUG_SAVED_DATA_PRINT,
@@ -65,12 +66,13 @@ class ConfigUI(SetupUI, InputHandler):
         )
         self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-        self.create_input_fields()
+        self.config_ui_input_fields()
         self.group_box_layout.addLayout(self.input_fields_layout)
+        # self.group_box_layout.addLayout(self.
         self.input_signal()
 
     # FIXME: create_input_fields function not using desc1 as placeholder_text
-    def create_input_fields(self):
+    def config_ui_input_fields(self):
         """
         Creates input fields and adds them to the group box.
         """
@@ -80,9 +82,9 @@ class ConfigUI(SetupUI, InputHandler):
 
         for i, (desc0, desc1, desc2) in enumerate(
             zip(
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0,
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1,
-                CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2,
+                CONFIG_UI_INPUT_FIELDS_DESC0,
+                CONFIG_UI_INPUT_FIELDS_DESC1,
+                CONFIG_UI_INPUT_FIELDS_DESC2,
             )
         ):
             label0, input, label1 = [
@@ -106,3 +108,20 @@ class ConfigUI(SetupUI, InputHandler):
             self.input_fields_layout.addWidget(label0, i, 0)
             self.input_fields_layout.addWidget(input, i, 1)
             self.input_fields_layout.addWidget(label1, i, 2)
+
+    # def config_ui_input_fields_calc(self):
+    #     """ """
+    #     with open(self.file_path, "r") as f:
+    #         saved_data = list(csv.reader(f))
+    #         print(DEBUG_SAVED_DATA_PRINT, saved_data)
+
+    #         label3, input = [
+    #             QLabel(CONFIG_UI_INPUT_FIELDS_DESC3, self),
+    #             QLineEdit(self),
+    #         ]
+
+    #         self.labels.extend([label3, input])
+    #         self.inputs.append(input)
+
+    #         self.input_fields_layout.addWidget(label3, i, 0)
+    #         self.input_fields_layout.addWidget(input, i, 1)

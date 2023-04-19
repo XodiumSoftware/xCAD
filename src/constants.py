@@ -32,7 +32,7 @@ MAIN_UI_BUTTON_WIDTH = MAIN_UI_BUTTON_HEIGHT
 
 # Config UI
 CONFIG_UI_TITLE = "Configurator"
-CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
+CONFIG_UI_INPUT_FIELDS_DESC0 = (
     "Frame Length:",
     "Frame Height:",
     "Profile Type:",
@@ -41,7 +41,7 @@ CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC0 = (
     "Plate Material Type:",
     "Plate Material Thickness:",
 )
-CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
+CONFIG_UI_INPUT_FIELDS_DESC1 = (
     "6000",
     "2500",
     "SLS",
@@ -50,7 +50,16 @@ CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC1 = (
     "OSBIII",
     "18",
 )
-CONFIG_UI_GROUPBOX_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")
+CONFIG_UI_INPUT_FIELDS_DESC2 = ("mm", "mm", "", "mm", "mm", "", "mm")
+CONFIG_UI_INPUT_FIELDS_DESC3 = (
+    "m2",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+)
 
 # Others
 ICON_TO_BUTTON_MARGIN = 10
