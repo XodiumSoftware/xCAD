@@ -21,6 +21,7 @@ from ui.setup_ui import SetupUI
 # TODO: Put the widgets in a QScrollArea. So the user can scroll through the widgets.
 # TODO: Make it so the ConfigUI has the same size as the MainUI.
 # TODO: Make the ConfigUI not movable by the user.
+# TODO: Update the constants and add/remove them where necessary.
 
 
 class ConfigUI(SetupUI):
