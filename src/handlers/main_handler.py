@@ -1,14 +1,12 @@
 import os
 from typing import Dict, Union
 
-from PySide6.QtCore import QRegularExpression, Qt
-from PySide6.QtGui import QIntValidator, QRegularExpressionValidator
 from PySide6.QtWidgets import QGridLayout, QLineEdit, QWidget
 
 from constants import DATA_DIR_FILE, DATA_DIR_FOLDER, DEBUG_SAVE_INPUT_PRINT
 
 
-class InputHandler(QWidget):
+class MainHandler(QWidget):
     def __init__(self):
         super().__init__()
         self.labels = []

@@ -1,8 +1,10 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QLocale, Qt
 from PySide6.QtWidgets import (
     QDoubleSpinBox,
+    QFormLayout,
     QGridLayout,
     QGroupBox,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
     QWidget,
@@ -33,8 +35,14 @@ class ConfigUI(SetupUI):
         self.config_layout.addWidget(self.create_frame_group_box(), 0, 0)
         self.config_layout.addWidget(self.create_profile_group_box(), 1, 0)
         self.config_layout.addWidget(self.create_plate_group_box(), 2, 0)
-        self.config_layout.addWidget(self.create_frame_calc_group_box(), 3, 0)
-        self.config_layout.addWidget(self.create_crlabel(), 4, 0)
+        self.config_layout.addWidget(self.create_frame_calc_group_box(), 0, 1)
+        self.config_layout.addWidget(self.create_crlabel(), 3, 0)
+
+        # Set the main layout for the window
+        self.setLayout(self.config_layout)
+
+        # Set the window size based on the widget size hint
+        self.resize(self.widget.sizeHint())
 
     def keyPressEvent(self, event):
         """
@@ -206,21 +214,37 @@ class ConfigUI(SetupUI):
         self.frame_calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame calculations group box
-        self.frame_calc_layout = QGridLayout(self)
-        self.frame_calc_layout.setColumnStretch(0, 1)  # Add stretch to the left column
+        self.frame_calc_layout = QFormLayout(self)
+        self.frame_calc_layout.setFieldGrowthPolicy(
+            QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow
+        )
 
         # Add label and output field for frame area
         self.frame_area_prefix = QLabel("Frame Area:")
-
         self.frame_area_output = QLineEdit()
         self.frame_area_output.setReadOnly(True)
         self.frame_area_output.setFixedWidth(100)
-
+        self.frame_area_output.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.frame_area_suffix = QLabel("m2")
 
-        self.frame_calc_layout.addWidget(self.frame_area_prefix, 0, 0)
-        self.frame_calc_layout.addWidget(self.frame_area_output, 0, 1)
-        self.frame_calc_layout.addWidget(self.frame_area_suffix, 0, 2)
+        def update_frame_area_output():
+            frame_area = (
+                self.frame_length_input.value() * self.frame_height_input.value()
+            ) / 1000000
+            locale = QLocale(QLocale.Language.Dutch, QLocale.Country.Netherlands)
+            options = QLocale.NumberOption.RejectGroupSeparator
+            locale.setNumberOptions(options)
+            frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
+            self.frame_area_output.setText(frame_area_str)
+
+        self.frame_length_input.valueChanged.connect(update_frame_area_output)
+        self.frame_height_input.valueChanged.connect(update_frame_area_output)
+
+        frame_area_layout = QHBoxLayout()
+        frame_area_layout.addWidget(self.frame_area_prefix)
+        frame_area_layout.addWidget(self.frame_area_output)
+        frame_area_layout.addWidget(self.frame_area_suffix)
+        self.frame_calc_layout.addRow(frame_area_layout)
 
         self.frame_calc_group_box.setLayout(self.frame_calc_layout)
 

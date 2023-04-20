@@ -145,8 +145,6 @@ class MainUI(SetupUI):
     def toggle_config_ui(self):
         if not self.config_ui_instance.isVisible():
             self.config_ui_instance.show()
-            self.config_ui_instance.move(
-                self.geometry().right() + 2, self.geometry().top()
-            )
+            self.config_ui_instance.move(self.geometry().right() + 2, self.y())
         else:
             self.config_ui_instance.hide()
