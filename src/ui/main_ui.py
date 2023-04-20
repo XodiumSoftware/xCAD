@@ -34,6 +34,7 @@ class MainUI(SetupUI):
         super().__init__()
 
         self.config_ui_instance = ConfigUI()
+
         self.form_layout = QFormLayout(self)
         self.form_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -123,9 +124,10 @@ class MainUI(SetupUI):
         self.config_button.setSizePolicy(
             QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
         )
-        self.config_button.clicked.connect(self.toggle_config_ui)
         self.config_button.setIconSize(self.config_button.size() - QSize(10, 10))
         self.config_button.move(self.width() - self.config_button.width() - 10, 10)
+
+        self.config_button.clicked.connect(self.toggle_config_ui)
 
     def center_window(self):
         screen_geometry = QApplication.screens()[0].geometry()
