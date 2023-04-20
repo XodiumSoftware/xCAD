@@ -222,7 +222,7 @@ class ConfigUI(SetupUI):
     def create_frame_calc_group_box(self) -> QGroupBox:
         # Create group box for frame calculations
         self.frame_calc_group_box = QGroupBox(self)
-        self.frame_calc_group_box.setTitle("Frame Calculations")
+        self.frame_calc_group_box.setTitle("Calculations")
         self.frame_calc_group_box.setStyleSheet("QGroupBox { font-weight: bold; }")
         self.frame_calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
