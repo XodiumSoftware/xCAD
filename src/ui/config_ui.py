@@ -10,8 +10,17 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from constants import CONFIG_UI_TITLE
+from constants import (
+    CONFIG_UI_TITLE,
+    DATA_DIR_FILE,
+    DATA_DIR_FOLDER,
+    DEBUG_SAVE_INPUT_PRINT,
+)
 from ui.setup_ui import SetupUI
+
+# TODO: Put the widgets in a QScrollArea. So the user can scroll through the widgets.
+# TODO: Make it so the ConfigUI has the same size as the MainUI.
+# TODO: Make the ConfigUI not movable by the user.
 
 
 class ConfigUI(SetupUI):
@@ -43,6 +52,9 @@ class ConfigUI(SetupUI):
 
         # Set the window size based on the widget size hint
         self.resize(self.widget.sizeHint())
+
+        # Connect input fields' signals to save function
+        self.connect_input_signals()
 
     def keyPressEvent(self, event):
         """
@@ -249,3 +261,32 @@ class ConfigUI(SetupUI):
         self.frame_calc_group_box.setLayout(self.frame_calc_layout)
 
         return self.frame_calc_group_box
+
+    def connect_input_signals(self):
+        self.frame_material_input.textChanged.connect(self.save_configurator_inputs)
+        self.frame_length_input.valueChanged.connect(self.save_configurator_inputs)
+        self.frame_height_input.valueChanged.connect(self.save_configurator_inputs)
+        self.profile_type_input.textChanged.connect(self.save_configurator_inputs)
+        self.profile_length_input.valueChanged.connect(self.save_configurator_inputs)
+        self.profile_width_input.valueChanged.connect(self.save_configurator_inputs)
+        self.plate_material_input.textChanged.connect(self.save_configurator_inputs)
+        self.plate_thickness_input.valueChanged.connect(self.save_configurator_inputs)
+
+    def save_configurator_inputs(self):
+        inputs = [
+            ("Frame Material", self.frame_material_input.text()),
+            ("Frame Length", self.frame_length_input.value()),
+            ("Frame Height", self.frame_height_input.value()),
+            ("Profile Type", self.profile_type_input.text()),
+            ("Profile Length", self.profile_length_input.value()),
+            ("Profile Width", self.profile_width_input.value()),
+            ("Plate Material", self.plate_material_input.text()),
+            ("Plate Thickness", self.plate_thickness_input.value()),
+        ]
+        with open(DATA_DIR_FOLDER + DATA_DIR_FILE, "w") as f:
+            for name, value in inputs:
+                f.write("{}: {}\n".format(name, value))
+
+        print(DEBUG_SAVE_INPUT_PRINT)
+        for name, value in inputs:
+            print("{}: {}".format(name, value))

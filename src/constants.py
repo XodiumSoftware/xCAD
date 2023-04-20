@@ -65,7 +65,7 @@ CONFIG_UI_INPUT_FIELDS_DESC3 = (
 BUTTON_ICON_PATH = "src/icons/button_icon.png"
 ICON_TO_BUTTON_MARGIN = 10
 
-DATA_DIR_FOLDER = "src/data"
+DATA_DIR_FOLDER = "src/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
 
 # Debugging
