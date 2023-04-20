@@ -1,6 +1,5 @@
-from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QWidget
 
 from constants import (
     COPYRIGHT_LABEL,
@@ -14,18 +13,12 @@ from constants import (
 
 
 class SetupUI(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.copyright_label()
-
-    def copyright_label(self):
+    def create_crlabel(self) -> QLabel:
         """
         This function creates a QLabel object with a text string containing a copyright label.
         """
         self.crlabel = QLabel(COPYRIGHT_LABEL)
         self.crlabel.setFont(QFont(UI_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
         self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
+
+        return self.crlabel

@@ -1,22 +1,14 @@
-import csv
-
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QLineEdit, QSizePolicy
-
-from constants import (
-    CONFIG_UI_INPUT_FIELDS_DESC0,
-    CONFIG_UI_INPUT_FIELDS_DESC1,
-    CONFIG_UI_INPUT_FIELDS_DESC2,
-    CONFIG_UI_INPUT_FIELDS_DESC3,
-    CONFIG_UI_TITLE,
-    DEBUG_PLACEHOLDER_TEXT_PRINT,
-    DEBUG_SAVED_DATA_PRINT,
-    UI_CONTENTS_MARGINS,
-    UI_FONT_TYPE,
-    UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_STYLESHEET,
+from PySide6.QtWidgets import (
+    QDoubleSpinBox,
+    QGridLayout,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QWidget,
 )
+
+from constants import CONFIG_UI_TITLE
 from handlers.input_handler import InputHandler
 from ui.setup_ui import SetupUI
 
@@ -24,17 +16,27 @@ from ui.setup_ui import SetupUI
 class ConfigUI(SetupUI, InputHandler):
     def __init__(self):
         super().__init__()
+
+        self.setWindowTitle(CONFIG_UI_TITLE)
+
+        # Set window flags
         self.setWindowFlags(
             Qt.WindowType.WindowTitleHint
             | Qt.WindowType.CustomizeWindowHint
             | Qt.WindowType.MSWindowsFixedSizeDialogHint
         )
-        self.setWindowTitle(CONFIG_UI_TITLE)
 
-        self.create_group_box()
-        self.main_layout.addWidget(self.group_box)
+        # Create main layout for widget
+        self.config_layout = QGridLayout()
+        self.widget = QWidget()
+        self.widget.setLayout(self.config_layout)
 
-        self.main_layout.addWidget(self.crlabel)
+        # Add group boxes and labels to the configuration ui layout
+        self.config_layout.addWidget(self.create_frame_group_box(), 0, 0)
+        self.config_layout.addWidget(self.create_profile_group_box(), 1, 0)
+        self.config_layout.addWidget(self.create_plate_group_box(), 2, 0)
+        self.config_layout.addWidget(self.create_frame_calc_group_box(), 3, 0)
+        self.config_layout.addWidget(self.create_crlabel(), 4, 0)
 
     def keyPressEvent(self, event):
         """
@@ -48,80 +50,180 @@ class ConfigUI(SetupUI, InputHandler):
         else:
             super().keyPressEvent(event)
 
-    def create_group_box(self):
-        """
-        This function creates a group box with input fields and applies styling to it.
-        """
-        self.group_box = QGroupBox(self)
-        self.group_box_layout = QHBoxLayout(self.group_box)
-        self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
-        self.group_box.setFont(
-            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
-        )
-        self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.group_box.setFlat(True)
+    def create_frame_group_box(self) -> QGroupBox:
+        # Create group box for frame
+        self.frame_group_box = QGroupBox(self)
+        self.frame_group_box.setTitle("Frame")
+        self.frame_group_box.setStyleSheet("QGroupBox { font-weight: bold; }")
+        self.frame_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.group_box.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
-        )
-        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+        # Create form layout for frame group box
+        self.frame_layout = QGridLayout(self)
+        self.frame_layout.setColumnStretch(0, 1)
 
-        self.config_ui_input_fields()
-        self.group_box_layout.addLayout(self.input_fields_layout)
-        # self.group_box_layout.addLayout(self.
-        self.input_signal()
+        # Add label and input field for frame material
+        self.frame_material_prefix = QLabel("Frame Material:")
 
-    # FIXME: create_input_fields function not using desc1 as placeholder_text
-    def config_ui_input_fields(self):
-        """
-        Creates input fields and adds them to the group box.
-        """
-        with open(self.file_path, "r") as f:
-            saved_data = list(csv.reader(f))
-            print(DEBUG_SAVED_DATA_PRINT, saved_data)
+        self.frame_material_input = QLineEdit()
+        self.frame_material_input.setFixedWidth(100)
+        self.frame_material_input.setPlaceholderText("Enter frame material")
 
-        for i, (desc0, desc1, desc2) in enumerate(
-            zip(
-                CONFIG_UI_INPUT_FIELDS_DESC0,
-                CONFIG_UI_INPUT_FIELDS_DESC1,
-                CONFIG_UI_INPUT_FIELDS_DESC2,
-            )
-        ):
-            label0, input, label1 = [
-                QLabel(desc0, self),
-                QLineEdit(self),
-                QLabel(desc2, self),
-            ]
-            placeholder_text = (
-                saved_data[i][1].strip()
-                if len(saved_data) > i and len(saved_data[i]) > 1
-                else desc1.strip()
-            )
+        self.frame_layout.addWidget(self.frame_material_prefix, 0, 0)
+        self.frame_layout.addWidget(self.frame_material_input, 0, 1)
 
-            print(DEBUG_PLACEHOLDER_TEXT_PRINT, placeholder_text)
-            input.setPlaceholderText(placeholder_text)
-            input.setValidator(self.input_validator(input))
+        # Add label and input field for frame length
+        self.frame_length_prefix = QLabel("Frame Length:")
 
-            self.labels.extend([label0, label1])
-            self.inputs.append(input)
+        self.frame_length_input = QDoubleSpinBox()
+        self.frame_length_input.setRange(0, 1e100)
+        self.frame_length_input.setDecimals(0)
+        self.frame_length_input.setFixedWidth(100)
+        self.frame_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-            self.input_fields_layout.addWidget(label0, i, 0)
-            self.input_fields_layout.addWidget(input, i, 1)
-            self.input_fields_layout.addWidget(label1, i, 2)
+        self.frame_length_suffix = QLabel("mm")
 
-    # def config_ui_input_fields_calc(self):
-    #     """ """
-    #     with open(self.file_path, "r") as f:
-    #         saved_data = list(csv.reader(f))
-    #         print(DEBUG_SAVED_DATA_PRINT, saved_data)
+        self.frame_layout.addWidget(self.frame_length_prefix, 1, 0)
+        self.frame_layout.addWidget(self.frame_length_input, 1, 1)
+        self.frame_layout.addWidget(self.frame_length_suffix, 1, 2)
 
-    #         label3, input = [
-    #             QLabel(CONFIG_UI_INPUT_FIELDS_DESC3, self),
-    #             QLineEdit(self),
-    #         ]
+        # Add label and input field for frame height
+        self.frame_height_prefix = QLabel("Frame Height:")
 
-    #         self.labels.extend([label3, input])
-    #         self.inputs.append(input)
+        self.frame_height_input = QDoubleSpinBox()
+        self.frame_height_input.setRange(0, 1e100)
+        self.frame_height_input.setDecimals(0)
+        self.frame_height_input.setFixedWidth(100)
+        self.frame_height_input.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-    #         self.input_fields_layout.addWidget(label3, i, 0)
-    #         self.input_fields_layout.addWidget(input, i, 1)
+        self.frame_height_suffix = QLabel("mm")
+
+        self.frame_layout.addWidget(self.frame_height_prefix, 2, 0)
+        self.frame_layout.addWidget(self.frame_height_input, 2, 1)
+        self.frame_layout.addWidget(self.frame_height_suffix, 2, 2)
+
+        self.frame_group_box.setLayout(self.frame_layout)
+
+        return self.frame_group_box
+
+    def create_profile_group_box(self) -> QGroupBox:
+        # Create group box for profile
+        self.profile_group_box = QGroupBox(self)
+        self.profile_group_box.setTitle("Profile")
+        self.profile_group_box.setStyleSheet("QGroupBox { font-weight: bold; }")
+        self.profile_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Create form layout for profile group box
+        self.profile_layout = QGridLayout(self)
+        self.profile_layout.setColumnStretch(0, 1)  # Add stretch to the left column
+
+        # Add label and input field for profile type
+        self.profile_type_prefix = QLabel("Profile Type:")
+
+        self.profile_type_input = QLineEdit()
+        self.profile_type_input.setFixedWidth(100)
+        self.profile_type_input.setPlaceholderText("Enter profile type")
+
+        self.profile_layout.addWidget(self.profile_type_prefix, 0, 0)
+        self.profile_layout.addWidget(self.profile_type_input, 0, 1)
+
+        # Add label and input field for profile length
+        self.profile_length_prefix = QLabel("Profile Length:")
+
+        self.profile_length_input = QDoubleSpinBox()
+        self.profile_length_input.setRange(0, 1e100)
+        self.profile_length_input.setDecimals(0)
+        self.profile_length_input.setFixedWidth(100)
+        self.profile_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        self.profile_length_suffix = QLabel("mm")
+
+        self.profile_layout.addWidget(self.profile_length_prefix, 1, 0)
+        self.profile_layout.addWidget(self.profile_length_input, 1, 1)
+        self.profile_layout.addWidget(self.profile_length_suffix, 1, 2)
+
+        # Add label and input field for profile width
+        self.profile_width_prefix = QLabel("Profile Width:")
+
+        self.profile_width_input = QDoubleSpinBox()
+        self.profile_width_input.setRange(0, 1e100)
+        self.profile_width_input.setDecimals(0)
+        self.profile_width_input.setFixedWidth(100)
+        self.profile_width_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        self.profile_width_suffix = QLabel("mm")
+
+        self.profile_layout.addWidget(self.profile_width_prefix, 2, 0)
+        self.profile_layout.addWidget(self.profile_width_input, 2, 1)
+        self.profile_layout.addWidget(self.profile_width_suffix, 2, 2)
+
+        self.profile_group_box.setLayout(self.profile_layout)
+
+        return self.profile_group_box
+
+    def create_plate_group_box(self) -> QGroupBox:
+        # Create group box for plate
+        self.plate_group_box = QGroupBox(self)
+        self.plate_group_box.setTitle("Plate")
+        self.plate_group_box.setStyleSheet("QGroupBox { font-weight: bold; }")
+        self.plate_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Create form layout for plate group box
+        self.plate_layout = QGridLayout(self)
+        self.plate_layout.setColumnStretch(0, 1)  # Add stretch to the left column
+
+        # Add label and input field for plate material
+        self.plate_material_prefix = QLabel("Plate Material:")
+
+        self.plate_material_input = QLineEdit()
+        self.plate_material_input.setFixedWidth(100)
+        self.plate_material_input.setPlaceholderText("Enter plate material")
+
+        self.plate_layout.addWidget(self.plate_material_prefix, 0, 0)
+        self.plate_layout.addWidget(self.plate_material_input, 0, 1)
+
+        # Add label and input field for plate thickness
+        self.plate_thickness_prefix = QLabel("Plate Thickness:")
+
+        self.plate_thickness_input = QDoubleSpinBox()
+        self.plate_thickness_input.setRange(0, 1e100)
+        self.plate_thickness_input.setDecimals(0)
+        self.plate_thickness_input.setFixedWidth(100)
+        self.plate_thickness_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        self.plate_thickness_suffix = QLabel("mm")
+
+        self.plate_layout.addWidget(self.plate_thickness_prefix, 1, 0)
+        self.plate_layout.addWidget(self.plate_thickness_input, 1, 1)
+        self.plate_layout.addWidget(self.plate_thickness_suffix, 1, 2)
+
+        self.plate_group_box.setLayout(self.plate_layout)
+
+        return self.plate_group_box
+
+    def create_frame_calc_group_box(self) -> QGroupBox:
+        # Create group box for frame calculations
+        self.frame_calc_group_box = QGroupBox(self)
+        self.frame_calc_group_box.setTitle("Frame Calculations")
+        self.frame_calc_group_box.setStyleSheet("QGroupBox { font-weight: bold; }")
+        self.frame_calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Create form layout for frame calculations group box
+        self.frame_calc_layout = QGridLayout(self)
+        self.frame_calc_layout.setColumnStretch(0, 1)  # Add stretch to the left column
+
+        # Add label and output field for frame area
+        self.frame_area_prefix = QLabel("Frame Area:")
+
+        self.frame_area_output = QLineEdit()
+        self.frame_area_output.setReadOnly(True)
+        self.frame_area_output.setFixedWidth(100)
+
+        self.frame_area_suffix = QLabel("m2")
+
+        self.frame_calc_layout.addWidget(self.frame_area_prefix, 0, 0)
+        self.frame_calc_layout.addWidget(self.frame_area_output, 0, 1)
+        self.frame_calc_layout.addWidget(self.frame_area_suffix, 0, 2)
+
+        self.frame_calc_group_box.setLayout(self.frame_calc_layout)
+
+        return self.frame_calc_group_box

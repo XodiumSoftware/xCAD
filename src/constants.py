@@ -27,7 +27,7 @@ MAIN_UI_ICON_PATHS = (
     "src/icons/coming-soon_icon_light.png",
     "src/icons/coming-soon_icon_light.png",
 )
-MAIN_UI_BUTTON_HEIGHT = 50
+MAIN_UI_BUTTON_HEIGHT = 30
 MAIN_UI_BUTTON_WIDTH = MAIN_UI_BUTTON_HEIGHT
 
 # Config UI
@@ -62,20 +62,13 @@ CONFIG_UI_INPUT_FIELDS_DESC3 = (
 )
 
 # Others
+BUTTON_ICON_PATH = "src/icons/button_icon.png"
 ICON_TO_BUTTON_MARGIN = 10
 
-BACK_BUTTON = "Back"
-ON_BACK_BUTTON_PRESSED_DESC = (
-    "Save Changes",
-    "Do you want to save the changes before going back?",
-)
-
-SAVE_BUTTON = "Save"
-
 DATA_DIR_FOLDER = "src/data"
-DATA_DIR_FILE = "input_values.txt"
+DATA_DIR_FILE = "configurator_inputs.txt"
 
 # Debugging
-DEBUG_SAVE_UI_PRINT = "[DEBUG]: Changes Saved"
+DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
 DEBUG_SAVED_DATA_PRINT = "[DEBUG]: Saved Data:"
 DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
