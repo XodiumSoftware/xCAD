@@ -237,6 +237,7 @@ class ConfigUI(SetupUI):
         self.frame_area_output = QLineEdit()
         self.frame_area_output.setReadOnly(True)
         self.frame_area_output.setFixedWidth(100)
+        self.frame_area_output.setPlaceholderText("Auto calculated")
         self.frame_area_output.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.frame_area_suffix = QLabel("m2")
 
