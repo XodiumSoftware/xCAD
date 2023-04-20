@@ -38,23 +38,15 @@ class MainUI(SetupUI):
         self.form_layout = QFormLayout(self)
         self.form_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.center_window()
-        self.create_main_ui_label()
-        self.create_group_box()
-        self.create_button()
-
-        self.config_ui_open = False
-
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setGeometry(0, 0, 500, 300)
         self.setMinimumSize(500, 300)
+        self.center_window()
 
-        self.config_ui_instance.setParent(self)
-        self.config_ui_instance.move(
-            self.geometry().right() + 10, self.geometry().top()
-        )
-        self.config_ui_instance.hide()
+        self.create_main_ui_label()
+        self.create_group_box()
+        self.create_button()
 
     def create_main_ui_label(self):
         self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
@@ -151,12 +143,10 @@ class MainUI(SetupUI):
         self.config_button.move(self.width() - self.config_button.width() - 10, 10)
 
     def toggle_config_ui(self):
-        if not self.config_ui_open:
+        if not self.config_ui_instance.isVisible():
             self.config_ui_instance.show()
             self.config_ui_instance.move(
                 self.geometry().right() + 2, self.geometry().top()
             )
         else:
             self.config_ui_instance.hide()
-
-        self.config_ui_open = not self.config_ui_open
