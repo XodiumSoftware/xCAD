@@ -7,14 +7,13 @@ from ui.main_ui import MainUI
 
 def run():
     """
-    Initializes QApplication and MainUi object,
-    checks if the data file exists and creates it if it doesn't,
-    then runs the application event loop until the application is exited.
+    Initializes a QApplication object and a MainUI object,
+    shows the MainUI object,
+    and starts the application event loop.
     """
     app = QApplication(sys.argv)
     main_ui = MainUI()
     main_ui.show()
-
     sys.exit(app.exec())
 
 
