@@ -1,7 +1,7 @@
 import os
 from typing import Dict, Union
 
-from PySide6.QtWidgets import QGridLayout, QLineEdit, QWidget
+from PySide6.QtWidgets import QWidget
 
 from constants import DATA_DIR_FILE, DATA_DIR_FOLDER, DEBUG_SAVE_INPUT_PRINT
 
@@ -9,33 +9,32 @@ from constants import DATA_DIR_FILE, DATA_DIR_FOLDER, DEBUG_SAVE_INPUT_PRINT
 class MainHandler(QWidget):
     def __init__(self):
         super().__init__()
-        self.labels = []
-        self.inputs = []
-        self.input_fields_layout = QGridLayout()
-        self.line_validator = QLineEdit()
+        self.data_folder_and_file_handler()
 
-        self.data_dir_folder = DATA_DIR_FOLDER
-        self.data_dir_file = DATA_DIR_FILE
+    def data_folder_and_file_handler(self) -> Dict[str, Union[str, bool]]:
+        # Initialize dictionary to hold data folder and file information
+        data_info = {
+            "data_dir": DATA_DIR_FOLDER,
+            "data_file": DATA_DIR_FILE,
+            "data_dir_created": False,
+            "data_file_created": False,
+        }
 
-        self.file_path = os.path.join(self.data_dir_folder, self.data_dir_file)
+        # Check if data directory and file exist
+        if not os.path.exists(DATA_DIR_FOLDER + "/" + DATA_DIR_FILE):
+            # Create data directory and file if they don't exist
+            os.makedirs(DATA_DIR_FOLDER, exist_ok=True)
+            with open(DATA_DIR_FOLDER + "/" + DATA_DIR_FILE, "w") as f:
+                pass
+            data_info["data_dir_created"] = True
+            data_info["data_file_created"] = True
 
-    # def input_signal(self):
-    #     """Connect a slot to input textChanged signal."""
-    #     for input_widget in self.inputs:
-    #         input_widget.textChanged.connect(self.write_inputs_to_file)
+        # Print debug information
+        if DEBUG_SAVE_INPUT_PRINT:
+            print(
+                f"Data directory: {data_info['data_dir']}, file: {data_info['data_file']}"
+            )
+            print(f"Data directory created: {data_info['data_dir_created']}")
+            print(f"Data file created: {data_info['data_file_created']}")
 
-    def write_inputs_to_file(self, inputs: Dict[str, Union[str, float]]):
-        """
-        Write the inputs to a file at a given path. If the file already exists,
-        overwrite it; otherwise, create a new file.
-        """
-        if not os.path.exists(self.data_dir_folder):
-            os.makedirs(self.data_dir_folder)
-
-        inputs_filepath = os.path.join(self.data_dir_folder, self.data_dir_file)
-
-        with open(inputs_filepath, "w") as f:
-            input_str = "\n".join([f"{key}: {value}" for key, value in inputs.items()])
-            f.write(input_str + "\n")
-
-        print(DEBUG_SAVE_INPUT_PRINT, inputs)
+        return data_info

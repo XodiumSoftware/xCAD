@@ -8,12 +8,17 @@ from constants import (
     COPYRIGHT_LABEL_STYLE,
     UI_FONT_TYPE,
 )
+from handlers.main_handler import MainHandler
 
 # TODO: Move handlers and events and etc. into their own files.
 # CAREFUL! to not create circular imports, so import them first into SetupUI and then to the UIs.
 
 
 class SetupUI(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.main_handler_instance = MainHandler()
+
     def create_crlabel(self) -> QLabel:
         """
         This function creates a QLabel object with a text string containing a copyright label.
