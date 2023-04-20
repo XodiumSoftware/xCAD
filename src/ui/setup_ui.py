@@ -1,3 +1,4 @@
+# from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QLabel, QWidget
 
@@ -22,3 +23,19 @@ class SetupUI(QWidget):
         self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
 
         return self.crlabel
+
+    # def keyPressEvent(self, event):
+    #     # TODO: Combine keyPressEvent with the similar on in config_ui and move them to setup_ui.py.
+    #     """
+    #     This function is called when certain keys are pressed.
+    #     """
+    #     if event.key() == Qt.Key.Key_Escape or (
+    #         event.key() == Qt.Key.Key_Q
+    #         and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+    #     ):
+    #         self.close()
+    #         if self.config_ui_instance:
+    #             self.config_ui_instance.close()
+
+    #     else:
+    #         super().keyPressEvent(event)
