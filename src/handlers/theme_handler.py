@@ -9,15 +9,15 @@ class ThemeHandler:
         self.detect_theme_in_microsoft_handler()
 
     @staticmethod
-    def switch_theme_handler(widget):
+    def switch_theme_handler(ui):
         """
         Switches the application theme by applying the appropriate stylesheet.
         """
-        if not widget.styleSheet():
+        if not ui.styleSheet():
             with open(DARK_THEME_DIR_PATH, "r") as f:
-                widget.setStyleSheet(f.read())
+                ui.setStyleSheet(f.read())
         else:
-            widget.setStyleSheet("")
+            ui.setStyleSheet("")
 
     def detect_theme_in_microsoft_handler(self):
         """

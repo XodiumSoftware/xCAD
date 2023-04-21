@@ -5,23 +5,27 @@ from PySide6.QtWidgets import *
 
 from constants import *
 from events.main_events import Events
+from handlers.data_handler import DataHandler
 from handlers.theme_handler import ThemeHandler
+from handlers.ui_handler import UIHandler
 from ui.config_ui import ConfigUI
 
 # FIXME: QLayout: Attempting to add QLayout "" to MainUI "", which already has a layout
 
 
-class MainUI(Events):
+class MainUI(QWidget, Events):
     def __init__(self):
         """
-        Initializes instances of ConfigUI and ThemeHandler classes,
-        and calls the functions main_ui_setup() and main_ui_layout_setup().
+        Initialize the main application window.
         """
         super().__init__()
         # Instances
         self.config_ui_instance = ConfigUI()
         self.theme_handler_instance = ThemeHandler()
+        self.data_handler_instance = DataHandler()
+        self.ui_handler_instance = UIHandler()
 
+        self.data_handler_instance.data_folder_and_file_handler()
         self.main_ui_setup()
 
     def main_ui_setup(self):
@@ -37,20 +41,7 @@ class MainUI(Events):
         self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        def center_window(self):
-            """
-            Centers the window on the primary screen.
-            """
-            screen_geometry = QApplication.screens()[0].geometry()
-            center_point = screen_geometry.center()
-            ui_center = self.rect().center()
-            ui_top_left = QPoint(
-                center_point.x() - ui_center.x(),
-                center_point.y() - ui_center.y(),
-            )
-            self.move(ui_top_left)
-
-        center_window(self)
+        self.ui_handler_instance.center_ui_on_screen(self)
 
         self.main_ui_layout_setup()
 
@@ -58,15 +49,26 @@ class MainUI(Events):
         """
         Set up the main UI layout by creating a QVBoxLayout and adding various widgets to it.
         """
+        # main_ui_layout properties
         self.main_ui_layout = QVBoxLayout(self)
         self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
+        # Add widgets
         self.button_layout_setup()
         self.desc_label()
         self.central_layout_setup()
         self.copy_right_label()
 
+        # Add widgets to main_ui_layout
+        self.main_ui_layout.addLayout(self.button_layout)
+        self.main_ui_layout.addWidget(self.main_label)
+        self.main_ui_layout.addStretch()
+        self.main_ui_layout.addLayout(self.central_layout)
+        self.main_ui_layout.addStretch()
+        self.main_ui_layout.addWidget(self.crlabel)
+
+        # Set widgets alignment
         self.main_label.setAlignment(
             Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter
         )
@@ -74,13 +76,6 @@ class MainUI(Events):
         self.crlabel.setAlignment(
             Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft
         )
-
-        self.main_ui_layout.addLayout(self.button_layout)
-        self.main_ui_layout.addWidget(self.main_label)
-        self.main_ui_layout.addStretch()
-        self.main_ui_layout.addLayout(self.central_layout)
-        self.main_ui_layout.addStretch()
-        self.main_ui_layout.addWidget(self.crlabel)
 
     def button_layout_setup(self):
         """
