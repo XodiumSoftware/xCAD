@@ -34,7 +34,7 @@ from handlers.theme_handler import ThemeHandler
 from ui.config_ui import ConfigUI
 
 
-class MainUI(Events):
+class MainUI(Events):  # TODO: Call ThemeHandler in here?
     def __init__(self):
         """
         Initializes instances of ConfigUI and ThemeHandler classes,
@@ -132,6 +132,7 @@ class MainUI(Events):
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
         # TODO: add click connect.
+        # self.theme_button.clicked.connect(lambda: self.theme_handler_instance)
 
     def config_ui_button_setup(self):
         self.config_ui_button = QPushButton(self)
