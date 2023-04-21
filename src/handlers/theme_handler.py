@@ -7,16 +7,17 @@ class ThemeHandler:
     def __init__(self):
         super().__init__()
         self.detect_theme_in_microsoft_handler()
-
-    # def switch_theme(self):
-    #     """
-    #     Switches the application theme by applying the appropriate stylesheet.
-    #     """
-    #     if not self.styleSheet():
-    #         with open(DARK_THEME_DIR_PATH, "r") as f:
-    #             self.setStyleSheet(f.read())
-    #     else:
-    #         self.setStyleSheet("")
+        
+    @staticmethod
+    def switch_theme(widget):
+        """
+        Switches the application theme by applying the appropriate stylesheet.
+        """
+        if not widget.styleSheet():
+            with open(DARK_THEME_DIR_PATH, "r") as f:
+                widget.setStyleSheet(f.read())
+        else:
+            widget.setStyleSheet("")
 
     def detect_theme_in_microsoft_handler(self):
         """

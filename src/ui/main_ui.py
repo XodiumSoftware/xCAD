@@ -1,35 +1,8 @@
-from PySide6.QtCore import QPoint, QSize, Qt
-from PySide6.QtGui import QFont, QIcon
-from PySide6.QtWidgets import (
-    QApplication,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-)
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
 
-from constants import (
-    CONFIG_UI_BUTTON_ICON_PATH,
-    CONFIG_UI_BUTTON_TOOLTIP,
-    COPYRIGHT_LABEL,
-    COPYRIGHT_LABEL_SIZE,
-    COPYRIGHT_LABEL_STYLE,
-    DARK_THEME_DIR_PATH,
-    MAIN_UI_BUTTON_ICON_SIZE,
-    MAIN_UI_BUTTON_SIZE,
-    MAIN_UI_GROUPBOX_TITLE,
-    THEME_BUTTON_ICON_LIGHT_PATH,
-    THEME_BUTTON_TOOLTIP,
-    UI_CONTENTS_MARGINS,
-    UI_DESC_LABEL_STYLE,
-    UI_FONT_TYPE,
-    UI_GEOMETRY,
-    UI_GROUPBOX_FONT_SIZE,
-    UI_ICON_PATH,
-    UI_MINIMUM_SIZE,
-    UI_TITLE,
-)
+from constants import *
 from events.main_events import Events
 from handlers.theme_handler import ThemeHandler
 from ui.config_ui import ConfigUI
@@ -133,18 +106,9 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
         # TODO: add click connect.
-        self.theme_button.clicked.connect(self.switch_theme)
-
-    # TODO: Move the function switch_to_dark_mode to handlers.theme_handler.py
-    def switch_theme(self):
-        """
-        Switches the application theme by applying the appropriate stylesheet.
-        """
-        if not self.styleSheet():
-            with open(DARK_THEME_DIR_PATH, "r") as f:
-                self.setStyleSheet(f.read())
-        else:
-            self.setStyleSheet("")
+        self.theme_button.clicked.connect(
+            lambda: self.theme_handler_instance.switch_theme(self)
+        )
 
     def config_ui_button_setup(self):
         self.config_ui_button = QPushButton(self)
