@@ -14,15 +14,19 @@ from PySide6.QtWidgets import (
 )
 
 from constants import (
-    BUTTON_ICON_PATH,
     CONFIG_UI_TITLE,
-    MAIN_UI_BUTTON_HEIGHT,
+    MAIN_UI_BUTTON_ICON_PATH,
+    MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
+    MAIN_UI_ICON_SIZE,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
+    UI_GEOMETRY,
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_STYLESHEET,
     UI_ICON_PATH,
+    UI_MARGIN_BETWEEN_UI,
+    UI_MINIMUM_SIZE,
     UI_TITLE,
 )
 from ui.config_ui import ConfigUI
@@ -40,8 +44,8 @@ class MainUI(SetupUI):
 
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
-        self.setGeometry(0, 0, 500, 300)
-        self.setMinimumSize(500, 300)
+        self.setGeometry(*UI_GEOMETRY)
+        self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.center_window()
 
         self.create_main_ui_label()
@@ -110,13 +114,15 @@ class MainUI(SetupUI):
 
     def create_button(self):
         self.config_button = QPushButton(self)
-        self.config_button.setIcon(QIcon(BUTTON_ICON_PATH))
+        self.config_button.setIcon(QIcon(MAIN_UI_BUTTON_ICON_PATH))
         self.config_button.setToolTip("Toggle " + CONFIG_UI_TITLE)
-        self.config_button.setFixedSize(MAIN_UI_BUTTON_HEIGHT, MAIN_UI_BUTTON_HEIGHT)
+        self.config_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
         self.config_button.setSizePolicy(
             QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
         )
-        self.config_button.setIconSize(self.config_button.size() - QSize(10, 10))
+        self.config_button.setIconSize(
+            self.config_button.size() - QSize(*MAIN_UI_ICON_SIZE)
+        )
         self.config_button.move(self.width() - self.config_button.width() - 10, 10)
 
         self.config_button.clicked.connect(self.toggle_config_ui)
@@ -145,6 +151,8 @@ class MainUI(SetupUI):
     def toggle_config_ui(self):
         if not self.config_ui_instance.isVisible():
             self.config_ui_instance.show()
-            self.config_ui_instance.move(self.geometry().right() + 2, self.y())
+            self.config_ui_instance.move(
+                self.geometry().right() + UI_MARGIN_BETWEEN_UI, self.y()
+            )
         else:
             self.config_ui_instance.hide()
