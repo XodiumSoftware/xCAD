@@ -45,9 +45,7 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         self.config_ui_instance = ConfigUI()
         self.theme_handler_instance = ThemeHandler()
 
-        # Call the functions in here.
         self.main_ui_setup()
-        self.main_ui_layout_setup()
 
     def main_ui_setup(self):
         """
@@ -76,6 +74,8 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
             self.move(ui_top_left)
 
         center_window(self)
+
+        self.main_ui_layout_setup()
 
     def main_ui_layout_setup(self):
         """
