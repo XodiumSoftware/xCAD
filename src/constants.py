@@ -16,7 +16,7 @@ COPYRIGHT_LABEL_STYLE = "font-style: italic;"
 
 # Main UI
 MAIN_UI_GROUPBOX_TITLE = "Timber Frame Constructions CAD"
-MAIN_UI_BUTTON_ICON_PATH = "src/icons/button_icon.png"
+MAIN_UI_BUTTON_ICON_PATH = "src/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_ICON_SIZE = 10, 10
 
@@ -33,6 +33,9 @@ INPUT_RANGE = 0, 1e100
 # Data
 DATA_DIR_FOLDER = "src/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
+
+# Theme
+THEME_DIR_PATH = "src/ui/style.qss"
 
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"

@@ -105,6 +105,7 @@ class MainUI(SetupUI):
 
     def create_button(self):
         self.config_button = QPushButton(self)
+        self.config_button.setObjectName("to_config_button")
         self.config_button.setIcon(QIcon(MAIN_UI_BUTTON_ICON_PATH))
         self.config_button.setToolTip("Toggle " + CONFIG_UI_TITLE)
         self.config_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)

@@ -9,6 +9,7 @@ from constants import (
     UI_FONT_TYPE,
 )
 from handlers.main_handler import MainHandler
+from handlers.theme_handler import ThemeHandler
 
 # TODO: Move handlers and events and etc. into their own files.
 # CAREFUL! to not create circular imports, so import them first into SetupUI and then to the UIs.
@@ -17,7 +18,9 @@ from handlers.main_handler import MainHandler
 class SetupUI(QWidget):
     def __init__(self):
         super().__init__()
+        # MainHandler
         self.main_handler_instance = MainHandler()
+        self.theme_handler_instance = ThemeHandler()
 
     def create_crlabel(self) -> QLabel:
         """
