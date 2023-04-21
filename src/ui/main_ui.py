@@ -2,6 +2,7 @@ from PySide6.QtCore import QPoint, QSize, Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
     QFormLayout,
     QGroupBox,
     QHBoxLayout,
@@ -9,6 +10,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSizePolicy,
     QSpacerItem,
+    QToolBar,
     QVBoxLayout,
     QWidget,
 )
@@ -19,6 +21,8 @@ from constants import (
     MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
     MAIN_UI_ICON_SIZE,
+    THEME_BUTTON_ICON_DEFAULT_PATH,
+    THEME_BUTTON_TOOLTIP,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
     UI_GEOMETRY,
@@ -50,9 +54,26 @@ class MainUI(SetupUI):
         self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.center_window()
 
+        self.create_theme_button()
         self.create_main_ui_label()
         self.create_group_box()
-        self.create_button()
+        self.create_config_button()
+
+    def create_theme_button(self):
+        self.theme_button = QPushButton(self)
+        self.theme_button.setObjectName("toggle_theme_button")
+        self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
+        self.theme_button.setToolTip(THEME_BUTTON_TOOLTIP)
+        self.theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        self.theme_button.setSizePolicy(
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
+        self.theme_button.setIconSize(
+            self.theme_button.size() - QSize(*MAIN_UI_ICON_SIZE)
+        )
+        self.theme_button.move(10, 10)
+
+        # TODO: Add connect signal to dark/light mode function.
 
     def create_main_ui_label(self):
         self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
@@ -105,7 +126,7 @@ class MainUI(SetupUI):
         )
         return spacer
 
-    def create_button(self):
+    def create_config_button(self):
         self.config_button = QPushButton(self)
         self.config_button.setObjectName("to_config_button")
         self.config_button.setIcon(QIcon(MAIN_UI_BUTTON_ICON_PATH))

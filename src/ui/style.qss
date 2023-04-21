@@ -69,3 +69,93 @@ QMenu::item {
 QMenu::item:selected {
     background-color: #606060;
 }
+QApplication {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+QWidget {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+QLabel {
+    color: #f0f0f0;
+}
+
+QPushButton#to_config_button {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+    icon: url(src/icons/button_icon_dark.png);
+}
+
+QLineEdit {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+}
+
+QTextEdit {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+}
+
+QPlainTextEdit {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+}
+
+QListView, QTreeView {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+}
+
+QMenuBar {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+QMenu {
+    background-color: #505050;
+    color: #f0f0f0;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+}
+
+QMenuBar::item:selected {
+    background-color: #606060;
+}
+
+QMenu::item {
+    background-color: transparent;
+    color: #f0f0f0;
+}
+
+QMenu::item:selected {
+    background-color: #606060;
+}
+QToolBar#main_ui_toolbar {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: none;
+}
+
+QToolBar QToolButton {
+    background-color: #505050;
+    color: #f0f0f0;
+    border: none;
+}
+
+QToolBar QToolButton:hover {
+    background-color: #606060;
+}
+
+QToolBar QToolButton:pressed {
+    background-color: #404040;
+}

@@ -13,7 +13,7 @@ def run():
     and starts the application event loop.
     """
     app = QApplication(sys.argv)
-    ThemeHandler.set_application_theme(app)
+    # ThemeHandler.set_application_theme(app)
     main_ui = MainUI()
     main_ui.show()
     sys.exit(app.exec())
