@@ -9,7 +9,7 @@ class ThemeHandler:
         self.detect_theme_in_microsoft_handler()
         
     @staticmethod
-    def switch_theme(widget):
+    def switch_theme_handler(widget):
         """
         Switches the application theme by applying the appropriate stylesheet.
         """

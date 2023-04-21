@@ -107,7 +107,7 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         )
         # TODO: add click connect.
         self.theme_button.clicked.connect(
-            lambda: self.theme_handler_instance.switch_theme(self)
+            lambda: self.theme_handler_instance.switch_theme_handler(self)
         )
 
     def config_ui_button_setup(self):
