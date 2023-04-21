@@ -6,31 +6,17 @@ from constants import DARK_THEME_DIR_PATH
 class ThemeHandler:
     def __init__(self):
         super().__init__()
-        self.current_theme = None
         self.detect_theme_in_microsoft_handler()
 
-    @staticmethod
-    def set_application_theme_handler(app, button):
-        """
-        Sets the application style by reading the style file and
-        setting it as the style sheet of the given QApplication object.
-        """
-        with open(DARK_THEME_DIR_PATH, "r") as f:
-            style = f.read()
-            app.setStyleSheet(style)
-        button.update()
-        app.activeWindow().update()
-
-    def toggle_theme_handler(self, app, button):
-        """
-        Toggles the application theme between light and dark.
-        """
-        if self.current_theme is None:
-            self.current_theme = DARK_THEME_DIR_PATH
-        elif self.current_theme is DARK_THEME_DIR_PATH:
-            self.current_theme = None
-        self.set_application_theme_handler(app, self.current_theme)
-        button.update()
+    # def switch_theme(self):
+    #     """
+    #     Switches the application theme by applying the appropriate stylesheet.
+    #     """
+    #     if not self.styleSheet():
+    #         with open(DARK_THEME_DIR_PATH, "r") as f:
+    #             self.setStyleSheet(f.read())
+    #     else:
+    #         self.setStyleSheet("")
 
     def detect_theme_in_microsoft_handler(self):
         """

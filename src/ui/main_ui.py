@@ -15,6 +15,7 @@ from constants import (
     COPYRIGHT_LABEL,
     COPYRIGHT_LABEL_SIZE,
     COPYRIGHT_LABEL_STYLE,
+    DARK_THEME_DIR_PATH,
     MAIN_UI_BUTTON_ICON_SIZE,
     MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
@@ -132,7 +133,18 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
         # TODO: add click connect.
-        # self.theme_button.clicked.connect(lambda: self.theme_handler_instance)
+        self.theme_button.clicked.connect(self.switch_theme)
+
+    # TODO: Move the function switch_to_dark_mode to handlers.theme_handler.py
+    def switch_theme(self):
+        """
+        Switches the application theme by applying the appropriate stylesheet.
+        """
+        if not self.styleSheet():
+            with open(DARK_THEME_DIR_PATH, "r") as f:
+                self.setStyleSheet(f.read())
+        else:
+            self.setStyleSheet("")
 
     def config_ui_button_setup(self):
         self.config_ui_button = QPushButton(self)
@@ -147,6 +159,7 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
+        # TODO: Make the arrow go left and right when opening and closing the config UI.
         # TODO: add click connect.
 
     def desc_label(self):

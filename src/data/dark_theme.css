@@ -12,12 +12,12 @@ QLabel {
     color: #f0f0f0;
 }
 
-QPushButton#to_config_button {
-    content: url(src/icons/button_icon_dark.png);
+QPushButton#config_ui_button {
+    icon: url(src/icons/config_icon_dark.png);
 }
 
-QPushButton#toggle_theme_button {
-    content: url(src/icons/theme_icon_dark.png);
+QPushButton#theme_button {
+    icon: url(src/icons/theme_icon_dark.png);
 }
 
 QLineEdit {
