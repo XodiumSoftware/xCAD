@@ -2,172 +2,176 @@ from PySide6.QtCore import QPoint, QSize, Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
     QApplication,
-    QComboBox,
-    QFormLayout,
-    QGroupBox,
     QHBoxLayout,
     QLabel,
     QPushButton,
     QSizePolicy,
-    QSpacerItem,
-    QToolBar,
     QVBoxLayout,
-    QWidget,
 )
 
 from constants import (
-    CONFIG_UI_TITLE,
-    MAIN_UI_BUTTON_ICON_PATH,
+    CONFIG_UI_BUTTON_ICON_PATH,
+    CONFIG_UI_BUTTON_TOOLTIP,
+    COPYRIGHT_LABEL,
+    COPYRIGHT_LABEL_SIZE,
+    COPYRIGHT_LABEL_STYLE,
+    MAIN_UI_BUTTON_ICON_SIZE,
     MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
-    MAIN_UI_ICON_SIZE,
-    THEME_BUTTON_ICON_DEFAULT_PATH,
+    THEME_BUTTON_ICON_LIGHT_PATH,
     THEME_BUTTON_TOOLTIP,
     UI_CONTENTS_MARGINS,
+    UI_DESC_LABEL_STYLE,
     UI_FONT_TYPE,
     UI_GEOMETRY,
     UI_GROUPBOX_FONT_SIZE,
-    UI_GROUPBOX_STYLESHEET,
     UI_ICON_PATH,
-    UI_MARGIN_BETWEEN_UI,
     UI_MINIMUM_SIZE,
     UI_TITLE,
 )
+from events.events import Events
+from handlers.theme_handler import ThemeHandler
 from ui.config_ui import ConfigUI
-from ui.setup_ui import SetupUI
-
-# TODO: On MainUI settings bar with the option to toggle theme.
 
 
-class MainUI(SetupUI):
+class MainUI(Events):
     def __init__(self):
+        """
+        Initializes instances of ConfigUI and ThemeHandler classes,
+        and calls the functions main_ui_setup() and main_ui_layout_setup().
+        """
         super().__init__()
-
+        # Instances
         self.config_ui_instance = ConfigUI()
+        self.theme_handler_instance = ThemeHandler()
 
-        self.form_layout = QFormLayout(self)
-        self.form_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # Call the functions in here.
+        self.main_ui_setup()
+        self.main_ui_layout_setup()
 
+    def main_ui_setup(self):
+        """
+        Set up the main user interface properties including the window title,
+        icon, geometry, minimum size, and size policy.
+        Also centers the window on the screen.
+        """
+        # Set ui properties
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setGeometry(*UI_GEOMETRY)
         self.setMinimumSize(*UI_MINIMUM_SIZE)
-        self.center_window()
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        self.create_theme_button()
-        self.create_main_ui_label()
-        self.create_group_box()
-        self.create_config_button()
+        def center_window(self):
+            """
+            Centers the window on the primary screen.
+            """
+            screen_geometry = QApplication.screens()[0].geometry()
+            center_point = screen_geometry.center()
+            ui_center = self.rect().center()
+            ui_top_left = QPoint(
+                center_point.x() - ui_center.x(),
+                center_point.y() - ui_center.y(),
+            )
+            self.move(ui_top_left)
 
-    def create_theme_button(self):
+        center_window(self)
+
+    def main_ui_layout_setup(self):
+        """
+        Set up the main UI layout by creating a QVBoxLayout and adding various widgets to it.
+        """
+        self.main_ui_layout = QVBoxLayout(self)
+        self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.main_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+
+        self.button_layout_setup()
+        self.desc_label()
+        self.central_layout_setup()
+        self.copy_right_label()
+
+        self.main_label.setAlignment(
+            Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter
+        )
+        self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.crlabel.setAlignment(
+            Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft
+        )
+
+        self.main_ui_layout.addLayout(self.button_layout)
+        self.main_ui_layout.addWidget(self.main_label)
+        self.main_ui_layout.addStretch()
+        self.main_ui_layout.addLayout(self.central_layout)
+        self.main_ui_layout.addStretch()
+        self.main_ui_layout.addWidget(self.crlabel)
+
+    def button_layout_setup(self):
+        self.button_layout = QHBoxLayout(self)
+        self.button_layout.setAlignment(
+            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
+        )
+
+        self.theme_button_setup()
+        self.config_ui_button_setup()
+
+        self.button_layout.addWidget(self.theme_button)
+        self.button_layout.addStretch()
+        self.button_layout.addWidget(self.config_ui_button)
+
+    def theme_button_setup(self):
         self.theme_button = QPushButton(self)
-        self.theme_button.setObjectName("toggle_theme_button")
-        self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
-        self.theme_button.setToolTip(THEME_BUTTON_TOOLTIP)
+        self.theme_button.setObjectName("theme_button")
         self.theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        self.theme_button.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
-        )
+        self.theme_button.setToolTip(THEME_BUTTON_TOOLTIP)
+        self.theme_button.setFlat(True)
+        self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
         self.theme_button.setIconSize(
-            self.theme_button.size() - QSize(*MAIN_UI_ICON_SIZE)
+            self.theme_button.size() - QSize(*MAIN_UI_BUTTON_ICON_SIZE)
         )
-        self.theme_button.move(10, 10)
+        self.theme_button.setSizePolicy(
+            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
+        )
+        # TODO: add click connect.
 
-        # TODO: Add connect signal to dark/light mode function.
+    def config_ui_button_setup(self):
+        self.config_ui_button = QPushButton(self)
+        self.config_ui_button.setObjectName("config_ui_button")
+        self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        self.config_ui_button.setToolTip(CONFIG_UI_BUTTON_TOOLTIP)
+        self.config_ui_button.setFlat(True)
+        self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
+        self.config_ui_button.setIconSize(
+            self.config_ui_button.size() - QSize(*MAIN_UI_BUTTON_ICON_SIZE)
+        )
+        self.config_ui_button.setSizePolicy(
+            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
+        )
+        # TODO: add click connect.
 
-    def create_main_ui_label(self):
-        self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
-        self.main_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+    def desc_label(self):
+        """
+        Create a description label and set its style, font, and size policy.
+        """
+        self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE, self)
+        self.main_label.setStyleSheet(UI_DESC_LABEL_STYLE)
         self.main_label.setFont(
             QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
         )
-        self.form_layout.addRow(self.main_label)
-
-    def create_group_box(self):
-        self.group_box = QGroupBox(self)
-        self.group_box_layout = QHBoxLayout()
-        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
-        self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.group_box.setFlat(True)
-        self.group_box.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        self.main_label.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum
         )
-        self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
-        self.group_box.setFont(
-            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
-        )
-        self.form_layout.addRow(self.group_box)
 
-        spacer_widget = QWidget()
-        spacer_layout = QVBoxLayout()
-        spacer_layout.addItem(self.create_space())
-        spacer_widget.setLayout(spacer_layout)
-        self.form_layout.addRow(spacer_widget)
-
-        self.form_layout.addRow(self.create_crlabel())
-
-    def moveEvent(self, event):
-        super().moveEvent(event)
-        if self.config_ui_instance.isVisible():
-            self.config_ui_instance.move(
-                self.geometry().right() + UI_MARGIN_BETWEEN_UI, self.y()
-            )
-
-    def closeEvent(self, event):
+    def central_layout_setup(self):
         """
-        This function closes CONFIG_UI when triggered in the MainUI.
+        Sets up the central layout for the application window.
         """
-        self.config_ui_instance.close()
-        event.accept()
+        self.central_layout = QHBoxLayout()
+        self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-    def create_space(self):
-        spacer = QSpacerItem(
-            20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding
-        )
-        return spacer
-
-    def create_config_button(self):
-        self.config_button = QPushButton(self)
-        self.config_button.setObjectName("to_config_button")
-        self.config_button.setIcon(QIcon(MAIN_UI_BUTTON_ICON_PATH))
-        self.config_button.setToolTip("Toggle " + CONFIG_UI_TITLE)
-        self.config_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        self.config_button.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
-        )
-        self.config_button.setIconSize(
-            self.config_button.size() - QSize(*MAIN_UI_ICON_SIZE)
-        )
-        self.config_button.move(self.width() - self.config_button.width() - 10, 10)
-
-        self.config_button.clicked.connect(self.toggle_config_ui)
-
-    def center_window(self):
-        screen_geometry = QApplication.screens()[0].geometry()
-        center_point = screen_geometry.center()
-        window_center = self.rect().center()
-        window_top_left = QPoint(
-            center_point.x() - window_center.x(), center_point.y() - window_center.y()
-        )
-        self.move(window_top_left)
-
-    def show(self):
+    def copy_right_label(self):
         """
-        This function calls the parent class's show method and then centers the window.
+        This function creates a QLabel object with a text string containing a copyright label.
         """
-        super().show()
-        self.center_window()
-
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.config_ui_instance.resize(self.size())
-        self.config_button.move(self.width() - self.config_button.width() - 10, 10)
-
-    def toggle_config_ui(self):
-        if not self.config_ui_instance.isVisible():
-            self.config_ui_instance.show()
-            self.config_ui_instance.move(
-                self.geometry().right() + UI_MARGIN_BETWEEN_UI, self.y()
-            )
-        else:
-            self.config_ui_instance.hide()
+        self.crlabel = QLabel(COPYRIGHT_LABEL)
+        self.crlabel.setFont(QFont(UI_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
+        self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)

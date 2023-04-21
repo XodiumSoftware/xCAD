@@ -3,12 +3,13 @@ UI_TITLE = "TFCCAD"
 UI_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
 UI_ICON_PATH = "src/icons/ui_icon.png"
-UI_CONTENTS_MARGINS = 1, 1, 1, 1
+UI_CONTENTS_MARGINS = 5, 5, 5, 5
 UI_STYLE = "fusion"
 UI_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
 UI_GEOMETRY = 0, 0, 500, 300
 UI_MINIMUM_SIZE = 500, 300
 UI_MARGIN_BETWEEN_UI = 2
+UI_DESC_LABEL_STYLE = "font-style: bold; font-size: 18px;"
 
 # Copyright label
 COPYRIGHT_LABEL = "© 2023 Qerimi Engineering. All rights reserved."
@@ -19,7 +20,7 @@ COPYRIGHT_LABEL_STYLE = "font-style: italic;"
 MAIN_UI_GROUPBOX_TITLE = "Timber Frame Constructions CAD"
 MAIN_UI_BUTTON_ICON_PATH = "src/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
-MAIN_UI_ICON_SIZE = 10, 10
+MAIN_UI_BUTTON_ICON_SIZE = 10, 10
 
 THEME_BUTTON_ICON_DEFAULT_PATH = "src/icons/theme_icon_default.png"
 THEME_BUTTON_ICON_LIGHT_PATH = "src/icons/theme_icon_light.png"
@@ -32,6 +33,9 @@ CONFIG_UI_SUFFIX_MM = "mm"
 CONFIG_UI_SUFFIX_M2 = "m2"
 CONFIG_UI_GROUPBOX_STYLESHEET = "QGroupBox { font-weight: bold; }"
 
+CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
+CONFIG_UI_BUTTON_ICON_PATH = "src/icons/config_icon_light.png"
+
 # Input bar
 INPUT_BAR_WIDTH = 100
 INPUT_RANGE = 0, 1e100
@@ -41,7 +45,7 @@ DATA_DIR_FOLDER = "src/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
 
 # Theme
-THEME_DIR_PATH = "src/ui/style.qss"
+DARK_THEME_DIR_PATH = "src/data/dark_theme.qss"
 
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"

@@ -14,63 +14,41 @@ from constants import (
     CONFIG_UI_GROUPBOX_STYLESHEET,
     CONFIG_UI_SUFFIX_M2,
     CONFIG_UI_SUFFIX_MM,
-    CONFIG_UI_TITLE,
     DATA_DIR_FILE,
     DATA_DIR_FOLDER,
     DEBUG_SAVE_INPUT_PRINT,
     INPUT_BAR_WIDTH,
     INPUT_RANGE,
 )
-from ui.setup_ui import SetupUI
 
 # TODO: Put the widgets in a QScrollArea. So the user can scroll through the widgets.
-# TODO: Make it so the ConfigUI has the same size as the MainUI.
-# TODO: Make the ConfigUI not movable by the user.
-# TODO: Update the constants and add/remove them where necessary.
 
 
-class ConfigUI(SetupUI):
+class ConfigUI:
     def __init__(self):
         super().__init__()
-
-        self.setWindowTitle(CONFIG_UI_TITLE)
-
-        # Set window flags
-        self.setWindowFlags(
-            Qt.WindowType.WindowTitleHint
-            | Qt.WindowType.CustomizeWindowHint
-            | Qt.WindowType.MSWindowsFixedSizeDialogHint
-        )
-
         # Create main layout for widget
-        self.widget = QWidget()
-        self.config_layout = QGridLayout(self.widget)
+        self.config_ui_widget = QWidget()
+        self.config_layout = QGridLayout(self.config_ui_widget)
 
         # Add group boxes and labels to the configuration ui layout
         self.config_layout.addWidget(self.create_frame_group_box(), 0, 0)
         self.config_layout.addWidget(self.create_profile_group_box(), 1, 0)
         self.config_layout.addWidget(self.create_plate_group_box(), 2, 0)
         self.config_layout.addWidget(self.create_calc_group_box(), 0, 1)
-        self.config_layout.addWidget(self.create_crlabel(), 3, 0)
-
-        # Set the main layout for the window
-        self.setLayout(self.config_layout)
-
-        # Set the window size based on the widget size hint
-        self.resize(self.widget.sizeHint())
 
         # Connect input fields' signals to save function
         self.connect_input_signals()
 
     def create_frame_group_box(self) -> QGroupBox:
         # Create group box for frame
-        self.frame_group_box = QGroupBox(self)
+        self.frame_group_box = QGroupBox()
         self.frame_group_box.setTitle("Frame")
         self.frame_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.frame_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame group box
-        self.frame_layout = QGridLayout(self)
+        self.frame_layout = QGridLayout()
         self.frame_layout.setColumnStretch(0, 1)
 
         # Add label and input field for frame material
@@ -119,13 +97,13 @@ class ConfigUI(SetupUI):
 
     def create_profile_group_box(self) -> QGroupBox:
         # Create group box for profile
-        self.profile_group_box = QGroupBox(self)
+        self.profile_group_box = QGroupBox()
         self.profile_group_box.setTitle("Profile")
         self.profile_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.profile_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for profile group box
-        self.profile_layout = QGridLayout(self)
+        self.profile_layout = QGridLayout()
         self.profile_layout.setColumnStretch(0, 1)  # Add stretch to the left column
 
         # Add label and input field for profile type
@@ -174,13 +152,13 @@ class ConfigUI(SetupUI):
 
     def create_plate_group_box(self) -> QGroupBox:
         # Create group box for plate
-        self.plate_group_box = QGroupBox(self)
+        self.plate_group_box = QGroupBox()
         self.plate_group_box.setTitle("Plate")
         self.plate_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.plate_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for plate group box
-        self.plate_layout = QGridLayout(self)
+        self.plate_layout = QGridLayout()
         self.plate_layout.setColumnStretch(0, 1)  # Add stretch to the left column
 
         # Add label and input field for plate material
@@ -214,13 +192,13 @@ class ConfigUI(SetupUI):
 
     def create_calc_group_box(self) -> QGroupBox:
         # Create group box for frame calculations
-        self.calc_group_box = QGroupBox(self)
+        self.calc_group_box = QGroupBox()
         self.calc_group_box.setTitle("Calculations")
         self.calc_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame calculations group box
-        self.calc_layout = QFormLayout(self)
+        self.calc_layout = QFormLayout()
         self.calc_layout.setFieldGrowthPolicy(
             QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow
         )

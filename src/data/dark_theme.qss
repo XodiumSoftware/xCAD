@@ -12,13 +12,6 @@ QLabel {
     color: #f0f0f0;
 }
 
-QPushButton#to_config_button {
-    background-color: #505050;
-    color: #f0f0f0;
-    border: 1px solid #f0f0f0;
-    icon: url(src/icons/button_icon_dark.png);
-}
-
 QLineEdit {
     background-color: #505050;
     color: #f0f0f0;
@@ -84,10 +77,11 @@ QLabel {
 }
 
 QPushButton#to_config_button {
-    background-color: #505050;
-    color: #f0f0f0;
-    border: 1px solid #f0f0f0;
     icon: url(src/icons/button_icon_dark.png);
+}
+
+QPushButton#toggle_theme_button {
+    icon: url(src/icons/theme_icon_dark.png);
 }
 
 QLineEdit {
