@@ -4,10 +4,6 @@ from constants import *
 
 
 class ThemeHandler:
-    def __init__(self):
-        super().__init__()
-        self.detect_theme_in_microsoft_handler()
-
     @staticmethod
     def switch_theme_handler(ui):
         """
@@ -19,6 +15,7 @@ class ThemeHandler:
         else:
             ui.setStyleSheet("")
 
+    # TODO: Implement
     def detect_theme_in_microsoft_handler(self):
         """
         This function detects if the Windows color mode is set to dark or light.

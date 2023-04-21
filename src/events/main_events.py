@@ -2,10 +2,9 @@
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
-# FIXME: keyPressEvent not working.
-
 
 class Events:
+    # FIXME: keyPressEvent not working.
     def keyPressEvent(self, event):
         """
         This function is called when certain keys are pressed.
