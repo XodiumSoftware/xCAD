@@ -50,7 +50,7 @@ class ConfigUI(SetupUI):
         self.config_layout.addWidget(self.create_frame_group_box(), 0, 0)
         self.config_layout.addWidget(self.create_profile_group_box(), 1, 0)
         self.config_layout.addWidget(self.create_plate_group_box(), 2, 0)
-        self.config_layout.addWidget(self.create_frame_calc_group_box(), 0, 1)
+        self.config_layout.addWidget(self.create_calc_group_box(), 0, 1)
         self.config_layout.addWidget(self.create_crlabel(), 3, 0)
 
         # Set the main layout for the window
@@ -212,16 +212,16 @@ class ConfigUI(SetupUI):
 
         return self.plate_group_box
 
-    def create_frame_calc_group_box(self) -> QGroupBox:
+    def create_calc_group_box(self) -> QGroupBox:
         # Create group box for frame calculations
-        self.frame_calc_group_box = QGroupBox(self)
-        self.frame_calc_group_box.setTitle("Calculations")
-        self.frame_calc_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
-        self.frame_calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.calc_group_box = QGroupBox(self)
+        self.calc_group_box.setTitle("Calculations")
+        self.calc_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
+        self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame calculations group box
-        self.frame_calc_layout = QFormLayout(self)
-        self.frame_calc_layout.setFieldGrowthPolicy(
+        self.calc_layout = QFormLayout(self)
+        self.calc_layout.setFieldGrowthPolicy(
             QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow
         )
 
@@ -253,11 +253,11 @@ class ConfigUI(SetupUI):
         frame_area_layout.addWidget(self.frame_area_prefix)
         frame_area_layout.addWidget(self.frame_area_output)
         frame_area_layout.addWidget(self.frame_area_suffix)
-        self.frame_calc_layout.addRow(frame_area_layout)
+        self.calc_layout.addRow(frame_area_layout)
 
-        self.frame_calc_group_box.setLayout(self.frame_calc_layout)
+        self.calc_group_box.setLayout(self.calc_layout)
 
-        return self.frame_calc_group_box
+        return self.calc_group_box
 
     def connect_input_signals(self):
         self.frame_material_input.textChanged.connect(self.save_configurator_inputs)
