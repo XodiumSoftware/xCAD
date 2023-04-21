@@ -1,8 +1,9 @@
+# type: ignore
 import sys
 
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import *
 
-from ui.main_ui import MainUI
+from ui.main_ui import *
 
 
 def run():

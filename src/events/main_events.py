@@ -1,6 +1,6 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget
-
+# type: ignore
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 
 class Events(QWidget):
     def keyPressEvent(self, event):

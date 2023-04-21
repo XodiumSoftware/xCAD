@@ -1,9 +1,10 @@
+# type: ignore
 import os
-from typing import Dict, Union
+from typing import *
 
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import *
 
-from constants import DATA_DIR_FILE, DATA_DIR_FOLDER, DEBUG_SAVE_INPUT_PRINT
+from constants import *
 
 
 class MainHandler(QWidget):

@@ -1,25 +1,8 @@
-from PySide6.QtCore import QLocale, Qt
-from PySide6.QtWidgets import (
-    QDoubleSpinBox,
-    QFormLayout,
-    QGridLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QWidget,
-)
+# type: ignore
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 
-from constants import (
-    CONFIG_UI_GROUPBOX_STYLESHEET,
-    CONFIG_UI_SUFFIX_M2,
-    CONFIG_UI_SUFFIX_MM,
-    DATA_DIR_FILE,
-    DATA_DIR_FOLDER,
-    DEBUG_SAVE_INPUT_PRINT,
-    INPUT_BAR_WIDTH,
-    INPUT_RANGE,
-)
+from constants import *
 
 # TODO: Put the widgets in a QScrollArea. So the user can scroll through the widgets.
 

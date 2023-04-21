@@ -1,13 +1,13 @@
 import winreg
 
-from constants import DARK_THEME_DIR_PATH
+from constants import *
 
 
 class ThemeHandler:
     def __init__(self):
         super().__init__()
         self.detect_theme_in_microsoft_handler()
-        
+
     @staticmethod
     def switch_theme_handler(widget):
         """
