@@ -83,6 +83,13 @@ class MainUI(SetupUI):
 
         self.form_layout.addRow(self.create_crlabel())
 
+    def moveEvent(self, event):
+        super().moveEvent(event)
+        if self.config_ui_instance.isVisible():
+            self.config_ui_instance.move(
+                self.geometry().right() + UI_MARGIN_BETWEEN_UI, self.y()
+            )
+
     def closeEvent(self, event):
         """
         This function closes CONFIG_UI when triggered in the MainUI.
