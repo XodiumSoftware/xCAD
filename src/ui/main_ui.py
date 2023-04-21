@@ -8,8 +8,10 @@ from events.main_events import Events
 from handlers.theme_handler import ThemeHandler
 from ui.config_ui import ConfigUI
 
+# FIXME: QLayout: Attempting to add QLayout "" to MainUI "", which already has a layout
 
-class MainUI(Events):  # TODO: Call ThemeHandler in here?
+
+class MainUI(Events):
     def __init__(self):
         """
         Initializes instances of ConfigUI and ThemeHandler classes,
@@ -81,6 +83,9 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         self.main_ui_layout.addWidget(self.crlabel)
 
     def button_layout_setup(self):
+        """
+        Sets up the button layout for the UI.
+        """
         self.button_layout = QHBoxLayout(self)
         self.button_layout.setAlignment(
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
@@ -94,6 +99,9 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         self.button_layout.addWidget(self.config_ui_button)
 
     def theme_button_setup(self):
+        """
+        Setup the theme button in the main UI.
+        """
         self.theme_button = QPushButton(self)
         self.theme_button.setObjectName("theme_button")
         self.theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
@@ -106,12 +114,14 @@ class MainUI(Events):  # TODO: Call ThemeHandler in here?
         self.theme_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
-        # TODO: add click connect.
         self.theme_button.clicked.connect(
             lambda: self.theme_handler_instance.switch_theme_handler(self)
         )
 
     def config_ui_button_setup(self):
+        """
+        Set up the configuration UI button.
+        """
         self.config_ui_button = QPushButton(self)
         self.config_ui_button.setObjectName("config_ui_button")
         self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
