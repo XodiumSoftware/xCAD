@@ -32,6 +32,8 @@ from constants import (
 from ui.config_ui import ConfigUI
 from ui.setup_ui import SetupUI
 
+# TODO: On MainUI settings bar with the option to toggle theme.
+
 
 class MainUI(SetupUI):
     def __init__(self):
