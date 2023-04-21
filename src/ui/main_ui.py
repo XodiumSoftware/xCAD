@@ -29,7 +29,7 @@ from constants import (
     UI_MINIMUM_SIZE,
     UI_TITLE,
 )
-from events.events import Events
+from src.events.events import Events
 from handlers.theme_handler import ThemeHandler
 from ui.config_ui import ConfigUI
 
