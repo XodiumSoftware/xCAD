@@ -1,21 +1,32 @@
-from PySide6.QtCore import QPoint, Qt
+from PySide6.QtCore import QPoint, QSize, Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
     QApplication,
+    QFormLayout,
     QGroupBox,
     QHBoxLayout,
     QLabel,
     QPushButton,
     QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
 )
 
 from constants import (
+    CONFIG_UI_TITLE,
+    MAIN_UI_BUTTON_ICON_PATH,
+    MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
+    MAIN_UI_ICON_SIZE,
     UI_CONTENTS_MARGINS,
     UI_FONT_TYPE,
+    UI_GEOMETRY,
     UI_GROUPBOX_FONT_SIZE,
     UI_GROUPBOX_STYLESHEET,
     UI_ICON_PATH,
+    UI_MARGIN_BETWEEN_UI,
+    UI_MINIMUM_SIZE,
     UI_TITLE,
 )
 from ui.config_ui import ConfigUI
@@ -25,66 +36,52 @@ from ui.setup_ui import SetupUI
 class MainUI(SetupUI):
     def __init__(self):
         super().__init__()
-        # Initialize the UI
+
         self.config_ui_instance = ConfigUI()
 
-        # Center the window on the screen
-        self.center_window()
+        self.form_layout = QFormLayout(self)
+        self.form_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Add buttons
-        self.create_button()
-
-        # Add labels
-        self.main_ui_label()
-        self.copyright_label()
-
-        # Add group boxes
-        self.create_group_box()
-
-        # Initialize variable to keep track of whether CONFIG_UI is open
-        self.config_ui_open = False
-
-        # Set the window title and size
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
-        self.setGeometry(0, 0, 400, 300)
+        self.setGeometry(*UI_GEOMETRY)
+        self.setMinimumSize(*UI_MINIMUM_SIZE)
+        self.center_window()
 
-        self.main_layout.addWidget(self.main_label)
-        self.main_layout.addWidget(self.group_box)
-        self.main_layout.addWidget(self.crlabel)
+        self.create_main_ui_label()
+        self.create_group_box()
+        self.create_button()
 
-        # Initialize config_ui_pos variable to keep track of the config_ui position
-        self.config_ui_pos = None
-
-    def main_ui_label(self):
-        """
-        This function creates a QLabel object with a text string containing the main UI label,
-        and some properties.
-        """
+    def create_main_ui_label(self):
         self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE)
-        self.main_label.setFont(QFont(UI_FONT_TYPE))
         self.main_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_label.setFont(
             QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
         )
+        self.form_layout.addRow(self.main_label)
 
     def create_group_box(self):
-        """
-        This function creates a group box with input fields and applies styling to it.
-        """
         self.group_box = QGroupBox(self)
-        self.group_box_layout = QHBoxLayout(self.group_box)
+        self.group_box_layout = QHBoxLayout()
+        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+        self.group_box_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.group_box.setFlat(True)
+        self.group_box.setSizePolicy(
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
         self.group_box.setStyleSheet(UI_GROUPBOX_STYLESHEET)
         self.group_box.setFont(
             QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
         )
-        self.group_box.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.group_box.setFlat(True)
+        self.form_layout.addRow(self.group_box)
 
-        self.group_box.setSizePolicy(
-            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
-        )
-        self.group_box_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+        spacer_widget = QWidget()
+        spacer_layout = QVBoxLayout()
+        spacer_layout.addItem(self.create_space())
+        spacer_widget.setLayout(spacer_layout)
+        self.form_layout.addRow(spacer_widget)
+
+        self.form_layout.addRow(self.create_crlabel())
 
     def keyPressEvent(self, event):
         # TODO: Combine keyPressEvent with the similar on in config_ui and move them to setup_ui.py.
@@ -102,23 +99,6 @@ class MainUI(SetupUI):
         else:
             super().keyPressEvent(event)
 
-    # def moveEvent(self, event):
-    #     """
-    #     This function moves the config_ui along with the main_ui when the main_ui gets moved around.
-    #     """
-    #     super().moveEvent(event)
-    #     if self.config_ui_open and self.config_ui_pos is not None:
-    #         # Calculate the offset between the old and new main_ui positions
-    #         offset = self.pos() - event.oldPos()
-
-    #         # Calculate the new position for the config_ui
-    #         new_pos = self.config_ui_pos + offset
-
-    #         # Move the config_ui to the new position
-    #         self.config_ui.move(new_pos)
-
-    # TODO: make config_ui move along with main_ui when main_ui gets moved.
-
     def closeEvent(self, event):
         """
         This function closes CONFIG_UI when triggered in the MainUI.
@@ -126,21 +106,28 @@ class MainUI(SetupUI):
         self.config_ui_instance.close()
         event.accept()
 
+    def create_space(self):
+        spacer = QSpacerItem(
+            20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding
+        )
+        return spacer
+
     def create_button(self):
-        """
-        Creates the button to open and close CONFIG_UI.
-        """
-        self.btn_toggle = QPushButton(self)
-        self.btn_toggle.setIcon(QIcon.fromTheme("arrow-right"))
-        self.btn_toggle.setToolTip("Open CONFIG_UI")
-        self.btn_toggle.setFixedSize(20, 20)
-        self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
-        self.btn_toggle.clicked.connect(self.toggle_config_ui)
+        self.config_button = QPushButton(self)
+        self.config_button.setIcon(QIcon(MAIN_UI_BUTTON_ICON_PATH))
+        self.config_button.setToolTip("Toggle " + CONFIG_UI_TITLE)
+        self.config_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        self.config_button.setSizePolicy(
+            QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum
+        )
+        self.config_button.setIconSize(
+            self.config_button.size() - QSize(*MAIN_UI_ICON_SIZE)
+        )
+        self.config_button.move(self.width() - self.config_button.width() - 10, 10)
+
+        self.config_button.clicked.connect(self.toggle_config_ui)
 
     def center_window(self):
-        """
-        This function centers a window on the screen.
-        """
         screen_geometry = QApplication.screens()[0].geometry()
         center_point = screen_geometry.center()
         window_center = self.rect().center()
@@ -158,48 +145,14 @@ class MainUI(SetupUI):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        if self.config_ui_instance:
-            self.config_ui_instance.resize(self.size())
-        self.btn_toggle.move(self.width() - self.btn_toggle.width() - 10, 10)
+        self.config_ui_instance.resize(self.size())
+        self.config_button.move(self.width() - self.config_button.width() - 10, 10)
 
     def toggle_config_ui(self):
-        """
-        This function toggles the CONFIG_UI.
-        """
-        if not self.config_ui_open:
-            # Create and show CONFIG_UI
-            self.config_ui_instance.setGeometry(
-                self.geometry().right() + 10,
-                self.geometry().top(),
-                self.config_ui_instance.width(),
-                self.height(),
-            )
+        if not self.config_ui_instance.isVisible():
             self.config_ui_instance.show()
-
-            # Update variable to indicate that CONFIG_UI is open
-            self.config_ui_open = True
-        else:
-            # Close CONFIG_UI
-            self.config_ui_instance.close()
-
-            # Update variable to indicate that CONFIG_UI is closed
-            self.config_ui_open = False
-            self.config_ui_pos = None  # Reset the config_ui position
-
-        # If CONFIG_UI is open, attach it to MAIN_UI
-        if self.config_ui_open:
-            main_ui_rect = self.geometry()
-            config_ui_rect = self.config_ui_instance.geometry()
-            self.config_ui_instance.setGeometry(
-                main_ui_rect.right() + 2,
-                main_ui_rect.top(),
-                config_ui_rect.width(),
-                main_ui_rect.height(),
+            self.config_ui_instance.move(
+                self.geometry().right() + UI_MARGIN_BETWEEN_UI, self.y()
             )
-
-        # Raise both windows to the top
-        self.activateWindow()
-        self.raise_()
-        if self.config_ui_open:
-            self.config_ui_instance.activateWindow()
-            self.config_ui_instance.raise_()
+        else:
+            self.config_ui_instance.hide()

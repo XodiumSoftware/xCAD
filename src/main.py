@@ -7,8 +7,9 @@ from ui.main_ui import MainUI
 
 def run():
     """
-    Initializes QApplication and MainUi object,
-    then runs the application event loop until the application is exited.
+    Initializes a QApplication object and a MainUI object,
+    shows the MainUI object,
+    and starts the application event loop.
     """
     app = QApplication(sys.argv)
     main_ui = MainUI()
