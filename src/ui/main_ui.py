@@ -83,22 +83,6 @@ class MainUI(SetupUI):
 
         self.form_layout.addRow(self.create_crlabel())
 
-    def keyPressEvent(self, event):
-        # TODO: Combine keyPressEvent with the similar on in config_ui and move them to setup_ui.py.
-        """
-        This function is called when certain keys are pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            self.close()
-            if self.config_ui_instance:
-                self.config_ui_instance.close()
-
-        else:
-            super().keyPressEvent(event)
-
     def closeEvent(self, event):
         """
         This function closes CONFIG_UI when triggered in the MainUI.
