@@ -9,6 +9,7 @@ class Events:
         """
         This function is called when certain keys are pressed.
         """
+        print("[DEBUG] Key pressed:", event.key())
         if event.key() == Qt.Key.Key_Escape or (
             event.key() == Qt.Key.Key_Q
             and event.modifiers() == Qt.KeyboardModifier.ControlModifier
