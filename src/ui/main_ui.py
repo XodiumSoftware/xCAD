@@ -25,7 +25,7 @@ class MainUI(QWidget, Events):
         self.data_handler_instance = DataHandler()
         self.ui_handler_instance = UIHandler()
 
-        self.data_handler_instance.data_folder_and_file_handler()
+        self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
 
     def main_ui_setup(self):

@@ -1,8 +1,0 @@
-Frame Material: 
-Frame Length: 5000.0
-Frame Height: 3000.0
-Profile Type: 
-Profile Length: 0.0
-Profile Width: 0.0
-Plate Material: 
-Plate Thickness: 0.0
