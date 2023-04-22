@@ -4,7 +4,6 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from constants import *
-from events.main_events import Events
 from handlers.data_handler import DataHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
@@ -13,7 +12,7 @@ from ui.config_ui import ConfigUI
 # FIXME: QLayout: Attempting to add QLayout "" to MainUI "", which already has a layout
 
 
-class MainUI(QWidget, Events):
+class MainUI(QWidget):
     def __init__(self):
         """
         Initialize the main application window.
@@ -27,6 +26,18 @@ class MainUI(QWidget, Events):
 
         self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
+
+    def keyPressEvent(self, event):
+        """
+        This function is called when certain keys are pressed.
+        """
+        if event.key() == Qt.Key.Key_Escape or (
+            event.key() == Qt.Key.Key_Q
+            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
+        ):
+            self.close()
+        else:
+            super().keyPressEvent(event)
 
     def main_ui_setup(self):
         """
