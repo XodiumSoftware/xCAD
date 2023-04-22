@@ -94,7 +94,6 @@ class MainUI(QWidget, Events):
         self.button_layout.addWidget(self.config_ui_button)
 
     # FIXME: Save the current theme mode into the data folder.
-    # FIXME: Move the dark_theme.css back to the ui folder.
     def theme_button_setup(self):
         """
         Setup the theme button in the main UI.
