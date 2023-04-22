@@ -45,7 +45,7 @@ DATA_DIR_FOLDER = "src/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
 
 # Theme
-DARK_THEME_DIR_PATH = "src/data/dark_theme.css"
+DARK_THEME_DIR_PATH = "src/ui/themes/dark_theme.css"
 
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
