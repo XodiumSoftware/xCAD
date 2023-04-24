@@ -3,6 +3,7 @@ import winreg
 from constants import *
 
 
+# FIXME: QLayout: Attempting to add QLayout "" to MainUI "", which already has a layout
 class ThemeHandler:
     @staticmethod
     def switch_theme_handler(ui):
