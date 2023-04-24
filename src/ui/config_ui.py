@@ -4,8 +4,6 @@ from PySide6.QtWidgets import *
 
 from constants import *
 
-# TODO: Put the widgets in a QScrollArea. So the user can scroll through the widgets.
-
 
 class ConfigUI:
     def __init__(self):
