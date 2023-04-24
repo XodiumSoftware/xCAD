@@ -183,12 +183,12 @@ class MainUI(QWidget, ConfigUI):
 
         # Add widgets
         self.logo()
-        # self.config_ui_layout_setup()
+        self.config_ui_layout_setup()
 
         # Add widgets to central_layout
         self.central_layout.addWidget(self.logo_label, 0, 0)
         # TODO: Add if statement and link it to the button.
-        # self.central_layout.addWidget(self.config_ui_frame, 0, 1)
+        self.central_layout.addWidget(self.config_ui_frame, 0, 1)
 
         # Set widgets alignment
         # FIXME: Is it needed?

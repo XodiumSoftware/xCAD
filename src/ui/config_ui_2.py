@@ -35,6 +35,9 @@ class ConfigUI:
         self.main_ui_layout.addWidget(self.config_ui_frame)
 
     def config_ui_scroll_area_0(self):
+        """
+        Sets up the scroll area widget for the config_ui_frame.
+        """
         # Create a new layout to hold the scroll area widget
         self.scroll_area_0_layout = QVBoxLayout()
 
@@ -59,6 +62,9 @@ class ConfigUI:
     #     pass
 
     def config_ui_scroll_area_1(self):
+        """
+        Sets up the scroll area widget for the config_ui_frame.
+        """
         # Create a new layout to hold the scroll area widget
         self.scroll_area_1_layout = QVBoxLayout()
 
