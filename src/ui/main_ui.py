@@ -188,10 +188,11 @@ class MainUI(QWidget, ConfigUI):
         # Add widgets to central_layout
         self.central_layout.addWidget(self.logo_label, 0, 0)
         # TODO: Add if statement and link it to the button.
-        # self.central_layout.addLayout(self.config_ui_layout, 0, 1)
+        # self.central_layout.addWidget(self.config_ui_frame, 0, 1)
 
         # Set widgets alignment
-        self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # FIXME: Is it needed?
+        # self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         # self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Add the central frame to the main UI layout
