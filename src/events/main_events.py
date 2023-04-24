@@ -4,5 +4,5 @@ from PySide6.QtWidgets import *
 
 
 class Events:
-    # FIXME: keyPressEvent not working.
+    # TODO: Move keyPressEvent in main_events.py.
 
