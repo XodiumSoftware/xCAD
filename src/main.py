@@ -3,7 +3,7 @@ import sys
 
 from PySide6.QtWidgets import *
 
-from ui.main_ui import *
+from ui.main_ui import MainUI
 
 
 def run():

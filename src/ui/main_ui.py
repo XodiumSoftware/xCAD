@@ -7,12 +7,10 @@ from constants import *
 from handlers.data_handler import DataHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
-from ui.config_ui import ConfigUI
-
-# FIXME: QLayout: Attempting to add QLayout "" to MainUI "", which already has a layout
+from ui.config_ui_2 import ConfigUI
 
 
-class MainUI(QWidget):
+class MainUI(QWidget, ConfigUI):
     def __init__(self):
         """
         Initialize the main application window.
@@ -72,10 +70,10 @@ class MainUI(QWidget):
         self.copy_right_label()
 
         # Add widgets to main_ui_layout
-        self.main_ui_layout.addLayout(self.button_layout)
+        self.main_ui_layout.addWidget(self.button_frame)
         self.main_ui_layout.addWidget(self.main_label)
         self.main_ui_layout.addStretch()
-        self.main_ui_layout.addLayout(self.central_layout)
+        self.main_ui_layout.addWidget(self.central_frame)
         self.main_ui_layout.addStretch()
         self.main_ui_layout.addWidget(self.crlabel)
 
@@ -92,7 +90,11 @@ class MainUI(QWidget):
         """
         Sets up the button layout for the UI.
         """
-        self.button_layout = QHBoxLayout(self)
+        # Create a new frame to hold the buttons
+        self.button_frame = QFrame(self)
+        self.button_frame.setFrameShape(QFrame.Shape.NoFrame)
+
+        self.button_layout = QHBoxLayout(self.button_frame)
         self.button_layout.setAlignment(
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
         )
@@ -103,6 +105,9 @@ class MainUI(QWidget):
         self.button_layout.addWidget(self.theme_button)
         self.button_layout.addStretch()
         self.button_layout.addWidget(self.config_ui_button)
+
+        # Add the button frame to the main UI layout
+        self.main_ui_layout.addWidget(self.button_frame)
 
     # FIXME: Save the current theme mode into the data folder.
     def theme_button_setup(self):
@@ -141,8 +146,14 @@ class MainUI(QWidget):
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
+        self.config_ui_button.clicked.connect(lambda: self.open_config_ui)
         # TODO: Make the arrow go left and right when opening and closing the config UI.
-        # TODO: add click connect.
+
+    def open_config_ui(self):
+        """
+        Open the configuration UI.
+        """
+        # TODO: Write open_config_ui function
 
     def desc_label(self):
         """
@@ -161,13 +172,41 @@ class MainUI(QWidget):
         """
         Sets up the central layout for the application window.
         """
-        self.central_layout = QHBoxLayout()
+        # Create a new frame to hold the layout
+        self.central_frame = QFrame(self)
+        self.central_frame.setFrameShape(QFrame.Shape.NoFrame)
+
+        # central_layout properties
+        self.central_layout = QGridLayout(self.central_frame)
         self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.central_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+
+        # Add widgets
+        self.logo()
+        # self.config_ui_layout_setup()
+
+        # Add widgets to central_layout
+        self.central_layout.addWidget(self.logo_label, 0, 0)
+        # TODO: Add if statement and link it to the button.
+        # self.central_layout.addLayout(self.config_ui_layout, 0, 1)
+
+        # Set widgets alignment
+        self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Add the central frame to the main UI layout
+        self.main_ui_layout.addWidget(self.central_frame)
 
     def copy_right_label(self):
         """
         This function creates a QLabel object with a text string containing a copyright label.
         """
-        self.crlabel = QLabel(COPYRIGHT_LABEL)
+        self.crlabel = QLabel(COPYRIGHT_LABEL, self)
         self.crlabel.setFont(QFont(UI_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
         self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
+
+    def logo(self):
+        """
+        This function creates a QLabel object with a text string containing a logo.
+        """
+        self.logo_label = QLabel("3D Viewer COMING SOON!", self)
