@@ -1,4 +1,6 @@
 # type: ignore
+from turtle import isvisible
+
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -17,7 +19,6 @@ class MainUI(QWidget, ConfigUI):
         """
         super().__init__()
         # Instances
-        self.config_ui_instance = ConfigUI()
         self.theme_handler_instance = ThemeHandler()
         self.data_handler_instance = DataHandler()
         self.ui_handler_instance = UIHandler()
@@ -61,7 +62,7 @@ class MainUI(QWidget, ConfigUI):
         Set up the main UI layout by creating a QVBoxLayout and adding various widgets to it.
         """
         # main_ui_layout properties
-        self.main_ui_layout = QVBoxLayout(self)
+        self.main_ui_layout = QGridLayout(self)
         self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
@@ -70,14 +71,21 @@ class MainUI(QWidget, ConfigUI):
         self.desc_label()
         self.central_layout_setup()
         self.copy_right_label()
+        self.test()
 
         # Add widgets to main_ui_layout
-        self.main_ui_layout.addWidget(self.button_frame)
-        self.main_ui_layout.addWidget(self.main_label)
-        self.main_ui_layout.addStretch()
-        self.main_ui_layout.addWidget(self.central_frame)
-        self.main_ui_layout.addStretch()
-        self.main_ui_layout.addWidget(self.crlabel)
+        self.main_ui_layout.addWidget(self.button_frame, 0, 0)
+        self.main_ui_layout.addWidget(self.main_label, 1, 0)
+        self.main_ui_layout.addWidget(self.central_frame, 2, 0)
+        self.main_ui_layout.addWidget(self.crlabel, 3, 0)
+
+        self.main_ui_layout.addWidget(self.new_frame, 0, 1, 4, 1)
+
+        # set row stretch
+        self.main_ui_layout.setRowStretch(0, 0)
+        self.main_ui_layout.setRowStretch(1, 0)
+        self.main_ui_layout.setRowStretch(2, 1)
+        self.main_ui_layout.setRowStretch(3, 0)
 
         # Set widgets alignment
         self.main_label.setAlignment(
@@ -141,32 +149,26 @@ class MainUI(QWidget, ConfigUI):
         self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
         self.config_ui_button.setToolTip(CONFIG_UI_BUTTON_TOOLTIP)
         self.config_ui_button.setFlat(True)
-
-        self.config_ui_button_icon = QIcon(CONFIG_UI_BUTTON_ICON_PATH)
-        self.pixmap = self.config_ui_button_icon.pixmap(
-            self.config_ui_button_icon.actualSize(QSize(*MAIN_UI_BUTTON_ICON_SIZE))
-        )
-        self.flipped_pixmap = self.pixmap.transformed(QTransform().scale(-1, 1))
-
-        # TODO: Make the arrow go left and right when opening and closing the config UI.
-        if self.config_ui_frame_visible:
-            self.config_ui_button.setIcon(self.flipped_pixmap)
-
-        else:
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
+        self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
 
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
 
-        self.config_ui_button.clicked.connect(lambda: self.toggle_config_ui)
+        self.config_ui_button.clicked.connect(self.toggle_config_ui)
 
     def toggle_config_ui(self):
         """
-        Open the configuration UI.
+        Toggle visibility of new frame.
         """
-        self.config_ui_frame_visible = not self.config_ui_frame_visible
-        self.config_ui_frame.setVisible(self.config_ui_frame_visible)
+        if self.new_frame.isVisible():
+            self.new_frame.hide()
+            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
+            self.resize(self.width() - self.new_frame.width(), self.height())
+        else:
+            self.new_frame.show()
+            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_PATH))
+            self.resize(self.width() + self.new_frame.width(), self.height())
 
     def desc_label(self):
         """
@@ -196,17 +198,9 @@ class MainUI(QWidget, ConfigUI):
 
         # Add widgets
         self.logo()
-        self.config_ui_layout_setup()
 
         # Add widgets to central_layout
         self.central_layout.addWidget(self.logo_label, 0, 0)
-        # TODO: Add if statement and link it to the button.
-        self.central_layout.addWidget(self.config_ui_frame, 0, 1)
-
-        # Set widgets alignment
-        # FIXME: Is it needed?
-        # self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Add the central frame to the main UI layout
         self.main_ui_layout.addWidget(self.central_frame)

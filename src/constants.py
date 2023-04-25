@@ -35,6 +35,7 @@ CONFIG_UI_GROUPBOX_STYLESHEET = "QGroupBox { font-weight: bold; }"
 
 CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
 CONFIG_UI_BUTTON_ICON_PATH = "src/icons/config_icon_light.png"
+CONFIG_UI_BUTTON_ICON_FLIPPED_PATH = "src/icons/config_icon_flipped_light.png"
 
 # Input bar
 INPUT_BAR_WIDTH = 100

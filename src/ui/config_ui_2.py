@@ -6,6 +6,19 @@ from constants import *
 
 
 class ConfigUI:
+    def test(self):
+        self.new_frame = QFrame()
+        self.new_frame.setStyleSheet("background-color: yellow")
+        self.new_frame.setFrameShape(QFrame.StyledPanel)
+
+        layout = QVBoxLayout(self.new_frame)
+        layout.setAlignment(Qt.AlignCenter)
+
+        self.label = QLabel("Hello World")
+        layout.addWidget(self.label)
+
+        self.new_frame.hide()
+
     def config_ui_layout_setup(self):
         """
         Setup config_ui_layout with properties, widgets, and alignments.
