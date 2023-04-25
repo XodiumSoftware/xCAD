@@ -142,10 +142,11 @@ class MainUI(QWidget, ConfigUI):
 
         self.config_ui_button_icon = QIcon(CONFIG_UI_BUTTON_ICON_PATH)
         self.pixmap = self.config_ui_button_icon.pixmap(
-            self.config_ui_button_icon.actualSize(QSize(MAIN_UI_BUTTON_ICON_SIZE))
+            self.config_ui_button_icon.actualSize(QSize(*MAIN_UI_BUTTON_ICON_SIZE))
         )
         self.flipped_pixmap = self.pixmap.transformed(QTransform().scale(-1, 1))
 
+        # TODO: Make the arrow go left and right when opening and closing the config UI.
         if self.open_config_ui == True:
             self.config_ui_button.setIcon(self.flipped_pixmap)
 
@@ -155,8 +156,8 @@ class MainUI(QWidget, ConfigUI):
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
+
         self.config_ui_button.clicked.connect(lambda: self.open_config_ui)
-        # TODO: Make the arrow go left and right when opening and closing the config UI.
 
     def open_config_ui(self):
         """
