@@ -50,7 +50,7 @@ class MainUI(QWidget, ConfigUI):
         self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        self.ui_handler_instance.center_ui_on_screen(self)
+        self.ui_handler_instance.center_ui_on_screen_handler(self)
 
         self.main_ui_layout_setup()
 
@@ -139,10 +139,19 @@ class MainUI(QWidget, ConfigUI):
         self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
         self.config_ui_button.setToolTip(CONFIG_UI_BUTTON_TOOLTIP)
         self.config_ui_button.setFlat(True)
-        self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
-        self.config_ui_button.setIconSize(
-            self.config_ui_button.size() - QSize(*MAIN_UI_BUTTON_ICON_SIZE)
+
+        self.config_ui_button_icon = QIcon(CONFIG_UI_BUTTON_ICON_PATH)
+        self.pixmap = self.config_ui_button_icon.pixmap(
+            self.config_ui_button_icon.actualSize(QSize(MAIN_UI_BUTTON_ICON_SIZE))
         )
+        self.flipped_pixmap = self.pixmap.transformed(QTransform().scale(-1, 1))
+
+        if self.open_config_ui == True:
+            self.config_ui_button.setIcon(self.flipped_pixmap)
+
+        elif self.open_config_ui == False:
+            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
+
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
