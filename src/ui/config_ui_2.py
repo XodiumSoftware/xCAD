@@ -1,4 +1,3 @@
-# type: ignore
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
@@ -9,10 +8,10 @@ class ConfigUI:
     def test(self):
         self.new_frame = QFrame()
         self.new_frame.setStyleSheet("background-color: yellow")
-        self.new_frame.setFrameShape(QFrame.StyledPanel)
+        self.new_frame.setFrameShape(QFrame.setFrameShape.StyledPanel)
 
         layout = QVBoxLayout(self.new_frame)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.label = QLabel("Hello World")
         layout.addWidget(self.label)

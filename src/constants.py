@@ -22,10 +22,13 @@ MAIN_UI_BUTTON_ICON_PATH = "src/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_BUTTON_ICON_SIZE = 10, 10
 
-THEME_BUTTON_ICON_DEFAULT_PATH = "src/icons/theme_icon_default.png"
+THEME_BUTTON_TOOLTIP = "Toggle Theme"
+THEME_BUTTON_ICON_DEFAULT_PATH = "src/icons/theme_icon_default_light.png"
 THEME_BUTTON_ICON_LIGHT_PATH = "src/icons/theme_icon_light.png"
 THEME_BUTTON_ICON_DARK_PATH = "src/icons/theme_icon_dark.png"
-THEME_BUTTON_TOOLTIP = "Toggle Theme"
+
+THEME_SETTINGS_PATH = "src/data/theme_settings.txt"
+THEME_DIR_PATH = "src/themes"
 
 # Config UI
 CONFIG_UI_TITLE = "Configurator"
@@ -34,8 +37,10 @@ CONFIG_UI_SUFFIX_M2 = "m2"
 CONFIG_UI_GROUPBOX_STYLESHEET = "QGroupBox { font-weight: bold; }"
 
 CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
-CONFIG_UI_BUTTON_ICON_PATH = "src/icons/config_icon_light.png"
-CONFIG_UI_BUTTON_ICON_FLIPPED_PATH = "src/icons/config_icon_flipped_light.png"
+CONFIG_UI_BUTTON_ICON_LIGHT_PATH = "src/icons/config_icon_light.png"
+CONFIG_UI_BUTTON_ICON_DARK_PATH = "src/icons/config_icon_dark.png"
+CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "src/icons/config_icon_flipped_light.png"
+CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "src/icons/config_icon_flipped_dark.png"
 
 # Input bar
 INPUT_BAR_WIDTH = 100

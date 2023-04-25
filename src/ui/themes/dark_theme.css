@@ -12,14 +12,6 @@ QLabel {
     color: #f0f0f0;
 }
 
-QPushButton#config_ui_button {
-    icon: url(src/icons/config_icon_dark.png);
-}
-
-QPushButton#theme_button {
-    icon: url(src/icons/theme_icon_dark.png);
-}
-
 QLineEdit {
     background-color: #505050;
     color: #f0f0f0;

@@ -21,5 +21,6 @@
     "tfcc",
     "tfccui",
     "Timberframe"
-  ]
+  ],
+  "python.analysis.extraPaths": ["./"]
 }
