@@ -22,6 +22,8 @@ class MainUI(QWidget, ConfigUI):
         self.data_handler_instance = DataHandler()
         self.ui_handler_instance = UIHandler()
 
+        self.config_ui_frame_visible = False
+
         self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
 
@@ -147,23 +149,24 @@ class MainUI(QWidget, ConfigUI):
         self.flipped_pixmap = self.pixmap.transformed(QTransform().scale(-1, 1))
 
         # TODO: Make the arrow go left and right when opening and closing the config UI.
-        if self.open_config_ui == True:
+        if self.config_ui_frame_visible:
             self.config_ui_button.setIcon(self.flipped_pixmap)
 
-        elif self.open_config_ui == False:
+        else:
             self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_PATH))
 
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
 
-        self.config_ui_button.clicked.connect(lambda: self.open_config_ui)
+        self.config_ui_button.clicked.connect(lambda: self.toggle_config_ui)
 
-    def open_config_ui(self):
+    def toggle_config_ui(self):
         """
         Open the configuration UI.
         """
-        # TODO: Write open_config_ui function
+        self.config_ui_frame_visible = not self.config_ui_frame_visible
+        self.config_ui_frame.setVisible(self.config_ui_frame_visible)
 
     def desc_label(self):
         """

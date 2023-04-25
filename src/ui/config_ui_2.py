@@ -13,6 +13,7 @@ class ConfigUI:
         # Create a new frame to hold the layout
         self.config_ui_frame = QFrame(self)
         self.config_ui_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.config_ui_frame.setVisible(False)
 
         # config_ui_layout properties
         self.config_ui_layout = QGridLayout(self.config_ui_frame)
