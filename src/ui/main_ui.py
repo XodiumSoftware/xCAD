@@ -1,12 +1,15 @@
+import os
+import platform
+
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from constants import *
-from handlers.data_handler import DataHandler
-from handlers.theme_handler import ThemeHandler
-from handlers.ui_handler import UIHandler
-from ui.config_ui_2 import ConfigUI
+from handlers.data_handler import *
+from handlers.theme_handler import *
+from handlers.ui_handler import *
+from ui.config_ui_2 import *
 
 
 class MainUI(QWidget, ConfigUI):
@@ -16,8 +19,8 @@ class MainUI(QWidget, ConfigUI):
         """
         super().__init__()
         # Instances
-        self.theme_handler_instance = ThemeHandler()
         self.data_handler_instance = DataHandler()
+        self.theme_handler_instance = ThemeHandler()
         self.ui_handler_instance = UIHandler()
 
         self.config_ui_frame_visible = False
@@ -68,7 +71,7 @@ class MainUI(QWidget, ConfigUI):
         self.desc_label()
         self.central_layout_setup()
         self.copy_right_label()
-        self.test()
+        self.config_ui_layout_setup()
 
         # Add widgets to main_ui_layout
         self.main_ui_layout.addWidget(self.button_frame, 0, 0)
@@ -76,7 +79,7 @@ class MainUI(QWidget, ConfigUI):
         self.main_ui_layout.addWidget(self.central_frame, 2, 0)
         self.main_ui_layout.addWidget(self.crlabel, 3, 0)
 
-        self.main_ui_layout.addWidget(self.new_frame, 0, 1, 4, 1)
+        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 4, 1)
 
         # set row stretch
         self.main_ui_layout.setRowStretch(0, 0)
@@ -116,7 +119,6 @@ class MainUI(QWidget, ConfigUI):
         # Add the button frame to the main UI layout
         self.main_ui_layout.addWidget(self.button_frame)
 
-    # FIXME: Save the current theme mode into the data folder.
     def theme_button_setup(self):
         """
         Setup the theme button in the main UI.
@@ -125,18 +127,19 @@ class MainUI(QWidget, ConfigUI):
         self.theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
         self.theme_button.setToolTip(THEME_BUTTON_TOOLTIP)
         self.theme_button.setFlat(True)
-
-        theme = ThemeHandler.read_theme()
-        if theme == "dark":
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-        else:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-
         self.theme_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
-        self.theme_button.clicked.connect(self.toggle_theme)
-        ThemeHandler.update_theme(self)
+        if self.theme_handler_instance.cycle_theme() == "light":
+            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
+            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+        elif self.theme_handler_instance.cycle_theme() == "dark":
+            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
+            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
+        else:
+            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
+
+        self.theme_button.clicked.connect(self.theme_handler_instance.cycle_theme)
 
     def config_ui_button_setup(self):
         """
@@ -146,11 +149,10 @@ class MainUI(QWidget, ConfigUI):
         self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
         self.config_ui_button.setToolTip(CONFIG_UI_BUTTON_TOOLTIP)
         self.config_ui_button.setFlat(True)
-        self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-
         self.config_ui_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
+        self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
 
         self.config_ui_button.clicked.connect(self.toggle_config_ui)
 
@@ -158,24 +160,24 @@ class MainUI(QWidget, ConfigUI):
         """
         Toggle visibility of new frame.
         """
-        if self.new_frame.isVisible():
-            self.new_frame.hide()
-            if self.theme_handler_instance.theme_state_handler.theme == "dark":
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
+        if self.config_ui_frame.isVisible():
+            self.config_ui_frame.hide()
+            # if self.theme_handler_instance.cycle_theme() == "dark":
+            #     self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
 
             self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-            new_width = self.width() - self.new_frame.width()
+            new_width = self.width() - self.config_ui_frame.width()
         else:
-            self.new_frame.show()
-            if self.theme_handler_instance.theme_state_handler.theme == "dark":
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
-                )
+            self.config_ui_frame.show()
+            # if self.theme_handler_instance.cycle_theme() == "dark":
+            #     self.config_ui_button.setIcon(
+            #         QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
+            #     )
 
             self.config_ui_button.setIcon(
                 QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
             )
-            new_width = self.width() + self.new_frame.width()
+            new_width = self.width() + self.config_ui_frame.width()
         self.resize(new_width, self.height())
 
     def desc_label(self):

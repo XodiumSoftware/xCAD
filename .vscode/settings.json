@@ -22,5 +22,7 @@
     "tfccui",
     "Timberframe"
   ],
-  "python.analysis.extraPaths": ["./"]
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportWildcardImportFromLibrary": "none"
+  }
 }

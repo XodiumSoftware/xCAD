@@ -7,46 +7,46 @@ from constants import *
 
 
 class DataHandler:
-    def input_signal_handler(self):
-        """
-        Connects the `textChanged` and `valueChanged` signals of several input
-        widgets to the `save_configurator_inputs` method of the current object.
-        """
-        inputs = [
-            self.frame_material_input,
-            self.frame_length_input,
-            self.frame_height_input,
-            self.profile_type_input,
-            self.profile_length_input,
-            self.profile_width_input,
-            self.plate_material_input,
-            self.plate_thickness_input,
-        ]
-        for input in inputs:
-            input.textChanged.connect(self.save_configurator_inputs)
-            input.valueChanged.connect(self.save_configurator_inputs)
+    # def input_signal_handler(self):
+    #     """
+    #     Connects the `textChanged` and `valueChanged` signals of several input
+    #     widgets to the `save_configurator_inputs` method of the current object.
+    #     """
+    #     inputs = [
+    #         self.frame_material_input,
+    #         self.frame_length_input,
+    #         self.frame_height_input,
+    #         self.profile_type_input,
+    #         self.profile_length_input,
+    #         self.profile_width_input,
+    #         self.plate_material_input,
+    #         self.plate_thickness_input,
+    #     ]
+    #     for input in inputs:
+    #         input.textChanged.connect(self.save_configurator_inputs)
+    #         input.valueChanged.connect(self.save_configurator_inputs)
 
-    def configurator_data_handler(self):
-        """
-        Handles data for the configurator.
-        """
-        inputs = [
-            ("Frame Material", self.frame_material_input.text()),
-            ("Frame Length", self.frame_length_input.value()),
-            ("Frame Height", self.frame_height_input.value()),
-            ("Profile Type", self.profile_type_input.text()),
-            ("Profile Length", self.profile_length_input.value()),
-            ("Profile Width", self.profile_width_input.value()),
-            ("Plate Material", self.plate_material_input.text()),
-            ("Plate Thickness", self.plate_thickness_input.value()),
-        ]
-        with open(DATA_DIR_FOLDER + DATA_DIR_FILE, "w") as f:
-            for name, value in inputs:
-                f.write("{}: {}\n".format(name, value))
+    # def configurator_data_handler(self):
+    #     """
+    #     Handles data for the configurator.
+    #     """
+    #     inputs = [
+    #         ("Frame Material", self.frame_material_input.text()),
+    #         ("Frame Length", self.frame_length_input.value()),
+    #         ("Frame Height", self.frame_height_input.value()),
+    #         ("Profile Type", self.profile_type_input.text()),
+    #         ("Profile Length", self.profile_length_input.value()),
+    #         ("Profile Width", self.profile_width_input.value()),
+    #         ("Plate Material", self.plate_material_input.text()),
+    #         ("Plate Thickness", self.plate_thickness_input.value()),
+    #     ]
+    #     with open(DATA_DIR_FOLDER + DATA_DIR_FILE, "w") as f:
+    #         for name, value in inputs:
+    #             f.write("{}: {}\n".format(name, value))
 
-        print(DEBUG_SAVE_INPUT_PRINT)
-        for name, value in inputs:
-            print("{}: {}".format(name, value))
+    #     print(DEBUG_SAVE_INPUT_PRINT)
+    #     for name, value in inputs:
+    #         print("{}: {}".format(name, value))
 
     def dir_and_file_handler(self) -> Dict[str, Union[str, bool]]:
         """
@@ -77,7 +77,8 @@ class DataHandler:
         os.makedirs(THEME_DIR_FOLDER, exist_ok=True)
         theme_file_path = os.path.join(THEME_DIR_FOLDER, THEME_DIR_FILE)
         if not os.path.exists(theme_file_path):
-            open(theme_file_path, "a").close()
+            with open(theme_file_path, "w") as f:
+                f.write("default")
             data_info["theme_file_created"] = True
         data_info["theme_dir_created"] = True
 
