@@ -25,7 +25,7 @@ class ThemeHandler(QObject):
         Initializes a new instance of the class.
         """
         super().__init__()
-        self.current_theme = Theme.LIGHT
+        self.current_theme = Theme.DEFAULT
         self.load_theme_handler()
 
     def cycle_theme_handler(self):
@@ -47,11 +47,18 @@ class ThemeHandler(QObject):
         settings.setValue("theme", self.current_theme.value)
 
         if self.current_theme == Theme.LIGHT:
-            file_path = os.path.join(THEME_DIR_PATH, "light_theme.css")
+            file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
         elif self.current_theme == Theme.DARK:
-            file_path = os.path.join(THEME_DIR_PATH, "dark_theme.css")
+            file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
         elif self.current_theme == Theme.DEFAULT:
-            return
+            system_default_theme = self.ms_system_default_theme_handler()
+            if system_default_theme == Theme.LIGHT:
+                file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
+            elif system_default_theme == Theme.DARK:
+                file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
+            else:
+                app.setStyleSheet("")
+                return
         else:
             return
 
