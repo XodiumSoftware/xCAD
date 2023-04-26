@@ -11,6 +11,7 @@ class ConfigUI:
         """
         # Create a new frame to hold the layout
         self.config_ui_frame = QFrame()
+        self.config_ui_frame.setObjectName("config_ui_frame")
         self.config_ui_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.config_ui_frame.setSizePolicy(
             QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding

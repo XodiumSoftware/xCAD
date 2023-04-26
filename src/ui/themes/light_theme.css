@@ -8,6 +8,11 @@ QWidget {
     color: #252525;
 }
 
+QFrame#config_ui_frame {
+    border: 2px solid #666;
+    border-radius: 10px;
+}
+
 QLabel {
     color: #252525;
 }

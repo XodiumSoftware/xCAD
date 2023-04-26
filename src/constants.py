@@ -36,10 +36,6 @@ DARK_THEME_FILE_PATH = "dark_theme.css"
 CONFIG_UI_TITLE = "Configurator"
 CONFIG_UI_SUFFIX_MM = "mm"
 CONFIG_UI_SUFFIX_M2 = "m2"
-CONFIG_UI_GROUPBOX_STYLESHEET = "QGroupBox { font-weight: bold; }"
-CONFIG_UI_FRAME_STYLESHEET = "QFrame { border: 2px solid #999; border-radius: 10px; }"
-
-CONFIG_UI_INPUT_FIELD_STYLESHEET = "border-radius: 5px;"
 
 CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
 CONFIG_UI_BUTTON_ICON_LIGHT_PATH = "src/icons/config_icon_light.png"

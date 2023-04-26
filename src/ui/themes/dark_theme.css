@@ -1,11 +1,17 @@
 QApplication {
     background-color: #252525;
     color: #f0f0f0;
+    margin: 5px;
 }
 
 QWidget {
     background-color: #252525;
     color: #f0f0f0;
+}
+
+QFrame#config_ui_frame {
+    border: 2px solid #999;
+    border-radius: 10px;
 }
 
 QLabel {
