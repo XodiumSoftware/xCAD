@@ -8,7 +8,6 @@ class ConfigUI:
     def config_ui_layout_setup(self):
         # Create a new frame to hold the layout
         self.config_ui_frame = QFrame()
-        self.config_ui_frame.setStyleSheet("background-color: yellow")
         self.config_ui_frame.setFrameShape(QFrame.Shape.StyledPanel)
 
         # config_ui_layout properties

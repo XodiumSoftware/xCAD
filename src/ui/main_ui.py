@@ -1,6 +1,3 @@
-import os
-import platform
-
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -75,26 +72,26 @@ class MainUI(QWidget, ConfigUI):
 
         # Add widgets to main_ui_layout
         self.main_ui_layout.addWidget(self.button_frame, 0, 0)
-        self.main_ui_layout.addWidget(self.main_label, 1, 0)
-        self.main_ui_layout.addWidget(self.central_frame, 2, 0)
-        self.main_ui_layout.addWidget(self.crlabel, 3, 0)
+        self.main_ui_layout.addWidget(
+            self.main_label,
+            1,
+            0,
+            alignment=Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter,
+        )
+        self.main_ui_layout.addWidget(
+            self.central_frame, 2, 0, alignment=Qt.AlignmentFlag.AlignCenter
+        )
+        self.main_ui_layout.addWidget(
+            self.crlabel,
+            3,
+            0,
+            alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
+        )
 
-        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 4, 1)
+        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 3, 1)
 
         # set row stretch
-        self.main_ui_layout.setRowStretch(0, 0)
-        self.main_ui_layout.setRowStretch(1, 0)
         self.main_ui_layout.setRowStretch(2, 1)
-        self.main_ui_layout.setRowStretch(3, 0)
-
-        # Set widgets alignment
-        self.main_label.setAlignment(
-            Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter
-        )
-        self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.crlabel.setAlignment(
-            Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft
-        )
 
     def button_layout_setup(self):
         """
