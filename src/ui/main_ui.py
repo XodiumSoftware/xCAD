@@ -6,7 +6,7 @@ from constants import *
 from handlers.data_handler import *
 from handlers.theme_handler import *
 from handlers.ui_handler import *
-from ui.config_ui_2 import *
+from ui.config_ui import *
 
 
 class MainUI(QWidget, ConfigUI):
