@@ -15,10 +15,29 @@ class ConfigUI:
         self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.config_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-        self.label = QLabel("Hello World")
+        # Create a QScrollArea object
+        scroll_area_0 = QScrollArea()
+        scroll_area_0.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        scroll_area_0.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        scroll_area_0.setStyleSheet("border: none;")
 
-        # Add widgets
-        self.config_ui_layout.addWidget(self.label, 0, 0)
+        scroll_area_1 = QScrollArea()
+        scroll_area_1.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        scroll_area_1.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        scroll_area_1.setStyleSheet("border: none;")
+
+        # Create the QLabel and set it as the widget of the QScrollArea
+        label = QLabel("Hello World")
+        scroll_area_0.setWidget(label)
+        scroll_area_1.setWidget(label)
+
+        # Add the QScrollArea to the layout
+        self.config_ui_layout.addWidget(scroll_area_0, 0, 0)
+        self.config_ui_layout.addWidget(scroll_area_1, 0, 1)
 
         self.config_ui_frame.hide()
 

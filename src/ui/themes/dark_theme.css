@@ -17,3 +17,35 @@ QLineEdit {
     color: #f0f0f0;
     border: 1px solid #f0f0f0;
 }
+
+QScrollArea {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+QScrollArea QWidget {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+QScrollArea QScrollBar:vertical {
+    background-color: #505050;
+    width: 15px;
+}
+
+QScrollArea QScrollBar::handle:vertical {
+    background-color: #f0f0f0;
+    border-radius: 7px;
+    min-height: 20px;
+}
+
+QScrollArea QScrollBar::add-line:vertical,
+QScrollArea QScrollBar::sub-line:vertical {
+    background-color: #f0f0f0;
+    height: 15px;
+}
+
+QScrollArea QScrollBar::add-page:vertical,
+QScrollArea QScrollBar::sub-page:vertical {
+    background-color: #252525;
+}

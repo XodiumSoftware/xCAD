@@ -88,7 +88,7 @@ class MainUI(QWidget, ConfigUI):
             alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
         )
 
-        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 3, 1)
+        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 4, 1)
 
         # set row stretch
         self.main_ui_layout.setRowStretch(2, 1)
@@ -164,6 +164,7 @@ class MainUI(QWidget, ConfigUI):
 
             self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
             new_width = self.width() - self.config_ui_frame.width()
+            self.setMinimumSize(*UI_MINIMUM_SIZE)
         else:
             self.config_ui_frame.show()
             # if self.theme_handler_instance.cycle_theme() == "dark":
@@ -175,6 +176,7 @@ class MainUI(QWidget, ConfigUI):
                 QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
             )
             new_width = self.width() + self.config_ui_frame.width()
+            self.setMinimumWidth(new_width)
         self.resize(new_width, self.height())
 
     def desc_label(self):
