@@ -80,7 +80,7 @@ class DataHandler:
         theme_file_path = os.path.join(THEME_DIR_FOLDER, THEME_DIR_FILE)
         if not os.path.exists(theme_file_path):
             with open(theme_file_path, "w") as f:
-                f.write("default")
+                f.write("LIGHT")
             data_info["theme_file_created"] = True
         data_info["theme_dir_created"] = True
 

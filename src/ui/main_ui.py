@@ -143,8 +143,10 @@ class MainUI(QWidget, ConfigUI):
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
         elif theme_instance == Theme.DARK:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-        else:
+        elif theme_instance == Theme.DEFAULT:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
+        else:
+            return
 
     def config_ui_button_setup(self):
         """

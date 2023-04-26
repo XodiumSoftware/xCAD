@@ -12,13 +12,9 @@ app = QApplication([])
 
 
 class Theme(Enum):
-    DEFAULT = "default"
     LIGHT = "light"
     DARK = "dark"
-
-
-# TODO: complete the theme color schemes.
-# FIXME: set_theme_handler default theme sets the stylesheet to NONE instead of light/dark.
+    DEFAULT = "light"
 
 
 class ThemeHandler(QObject):
@@ -29,7 +25,7 @@ class ThemeHandler(QObject):
         Initializes a new instance of the class.
         """
         super().__init__()
-        self.current_theme = Theme.DEFAULT
+        self.current_theme = Theme.LIGHT
         self.load_theme_handler()
 
     def cycle_theme_handler(self):
@@ -50,14 +46,17 @@ class ThemeHandler(QObject):
         settings = QSettings()
         settings.setValue("theme", self.current_theme.value)
 
-        if self.current_theme == Theme.DEFAULT:
-            app.setStyleSheet("")
+        if self.current_theme == Theme.LIGHT:
+            file_path = os.path.join(THEME_DIR_PATH, "light_theme.css")
+        elif self.current_theme == Theme.DARK:
+            file_path = os.path.join(THEME_DIR_PATH, "dark_theme.css")
+        elif self.current_theme == Theme.DEFAULT:
+            return
         else:
-            file_path = os.path.join(
-                THEME_DIR_PATH, f"{self.current_theme.value}_theme.css"
-            )
-            with open(file_path, "r") as f:
-                app.setStyleSheet(f.read())
+            return
+
+        with open(file_path, "r") as f:
+            app.setStyleSheet(f.read())
 
         self.theme_changed.emit()
 
@@ -70,7 +69,26 @@ class ThemeHandler(QObject):
         if theme_name:
             self.current_theme = Theme(theme_name)
         else:
-            self.current_theme = self.ms_system_default_theme_handler() or Theme.DEFAULT
+            theme_file_path = os.path.join(THEME_SETTINGS_PATH)
+            try:
+                with open(theme_file_path, "r") as f:
+                    theme_name = f.read().strip()
+            except Exception:
+                theme_name = None
+            if theme_name:
+                try:
+                    self.current_theme = Theme(theme_name)
+                except ValueError:
+                    pass
+            if not self.current_theme:
+                system_default_theme = self.ms_system_default_theme_handler()
+                if (
+                    system_default_theme == Theme.LIGHT
+                    or system_default_theme == Theme.DARK
+                ):
+                    self.current_theme = system_default_theme
+                else:
+                    self.current_theme = Theme.LIGHT
         self.set_theme_handler()
 
     @staticmethod
