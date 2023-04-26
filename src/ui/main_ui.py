@@ -167,14 +167,19 @@ class MainUI(QWidget, ConfigUI):
         """
         if self.config_ui_frame.isVisible():
             self.config_ui_frame.hide()
+
             if self.theme_instance == Theme.LIGHT:
                 self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
             elif self.theme_instance == Theme.DARK:
                 self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
+            else:
+                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+
             new_width = self.width() - self.config_ui_frame.width()
             self.setMinimumSize(*UI_MINIMUM_SIZE)
         else:
             self.config_ui_frame.show()
+
             if self.theme_instance == Theme.LIGHT:
                 self.config_ui_button.setIcon(
                     QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
@@ -187,6 +192,7 @@ class MainUI(QWidget, ConfigUI):
                 self.config_ui_button.setIcon(
                     QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
                 )
+
             new_width = self.width() + self.config_ui_frame.width()
             self.setMinimumWidth(new_width)
         self.resize(new_width, self.height())
