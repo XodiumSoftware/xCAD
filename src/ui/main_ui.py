@@ -63,12 +63,12 @@ class MainUI(QWidget, ConfigUI):
         self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
-        # Add widgets
+        # Call widgets
         self.button_layout_setup()
         self.desc_label()
         self.central_layout_setup()
         self.copy_right_label()
-        self.config_ui_layout_setup()
+        self.config_ui_frame_setup()
 
         # Add widgets to main_ui_layout
         self.main_ui_layout.addWidget(self.button_frame, 0, 0)
