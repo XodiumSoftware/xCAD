@@ -11,17 +11,31 @@ QWidget {
 
 QFrame#config_ui_frame {
     border: 2px solid #999;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 QLabel {
     color: #f0f0f0;
 }
 
-QLineEdit {
-    background-color: #505050;
-    color: #f0f0f0;
+QLineEdit#frame_material_input,
+QLineEdit#profile_type_input,
+QLineEdit#plate_material_input,
+QLineEdit#frame_area_output {
+    background-color: #ffffff;
+    color: black;
     border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+QDoubleSpinBox {
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+QDoubleSpinBox QLineEdit {
+    background-color: #ffffff;
+    color: black;
 }
 
 QPushButton {

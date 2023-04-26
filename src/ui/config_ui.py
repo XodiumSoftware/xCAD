@@ -86,6 +86,7 @@ class ConfigUI:
         self.frame_material_prefix = QLabel("Frame Material:")
 
         self.frame_material_input = QLineEdit()
+        self.frame_material_input.setObjectName("frame_material_input")
         self.frame_material_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.frame_material_input.setPlaceholderText("Enter frame material")
 
@@ -139,6 +140,7 @@ class ConfigUI:
         self.profile_type_prefix = QLabel("Profile Type:")
 
         self.profile_type_input = QLineEdit()
+        self.profile_type_input.setObjectName("profile_type_input")
         self.profile_type_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.profile_type_input.setPlaceholderText("Enter profile type")
 
@@ -192,6 +194,7 @@ class ConfigUI:
         self.plate_material_prefix = QLabel("Plate Material:")
 
         self.plate_material_input = QLineEdit()
+        self.plate_material_input.setObjectName("plate_material_input")
         self.plate_material_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.plate_material_input.setPlaceholderText("Enter plate material")
 
@@ -232,6 +235,7 @@ class ConfigUI:
         self.frame_area_prefix = QLabel("Frame Area:")
 
         self.frame_area_output = QLineEdit()
+        self.frame_area_output.setObjectName("frame_area_output")
         self.frame_area_output.setReadOnly(True)
         self.frame_area_output.setFixedWidth(INPUT_BAR_WIDTH)
         self.frame_area_output.setPlaceholderText("Auto calculated")
