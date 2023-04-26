@@ -14,7 +14,7 @@ app = QApplication([])
 class Theme(Enum):
     LIGHT = "light"
     DARK = "dark"
-    DEFAULT = "light"
+    DEFAULT = "default"
 
 
 class ThemeHandler(QObject):

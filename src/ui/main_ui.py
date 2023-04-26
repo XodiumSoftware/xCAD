@@ -143,10 +143,8 @@ class MainUI(QWidget, ConfigUI):
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
         elif theme_instance == Theme.DARK:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-        elif theme_instance == Theme.DEFAULT:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
         else:
-            return
+            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
 
     def config_ui_button_setup(self):
         """
@@ -171,9 +169,7 @@ class MainUI(QWidget, ConfigUI):
         if self.config_ui_frame.isVisible():
             self.config_ui_frame.hide()
 
-            if theme_instance == Theme.LIGHT:
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-            elif theme_instance == Theme.DARK:
+            if theme_instance == Theme.DARK:
                 self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
             else:
                 self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
@@ -183,11 +179,7 @@ class MainUI(QWidget, ConfigUI):
         else:
             self.config_ui_frame.show()
 
-            if theme_instance == Theme.LIGHT:
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
-                )
-            elif theme_instance == Theme.DARK:
+            if theme_instance == Theme.DARK:
                 self.config_ui_button.setIcon(
                     QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
                 )
