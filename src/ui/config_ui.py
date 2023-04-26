@@ -12,11 +12,11 @@ class ConfigUI:
         # Create a new frame to hold the layout
         self.config_ui_frame = QFrame()
         self.config_ui_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.config_ui_frame.setContentsMargins(*CONFIG_UI_MARGINS)
 
         # config_ui_layout properties
         self.config_ui_layout = QGridLayout(self.config_ui_frame)
         self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.config_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         # Create a QScrollArea object
         self.scroll_area = QScrollArea()

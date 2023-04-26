@@ -37,6 +37,8 @@ CONFIG_UI_TITLE = "Configurator"
 CONFIG_UI_SUFFIX_MM = "mm"
 CONFIG_UI_SUFFIX_M2 = "m2"
 CONFIG_UI_GROUPBOX_STYLESHEET = "QGroupBox { font-weight: bold; }"
+CONFIG_UI_FRAME_STYLESHEET = "QFrame { border-width: 1px; border-radius: 8px; }"
+CONFIG_UI_MARGINS = 5, 5, 5, 15
 
 CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
 CONFIG_UI_BUTTON_ICON_LIGHT_PATH = "src/icons/config_icon_light.png"
