@@ -21,6 +21,7 @@ class MainUI(QWidget, ConfigUI):
         self.ui_handler_instance = UIHandler()
 
         self.config_ui_frame_visible = False
+        self.theme_instance = self.theme_handler_instance.current_theme
 
         self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
@@ -133,14 +134,14 @@ class MainUI(QWidget, ConfigUI):
         )
         self.theme_handler_instance.theme_changed.connect(self.update_theme_button_icon)
 
+    # TODO: config_button use correct icon based on theme
     def update_theme_button_icon(self):
         """
-        Update the theme button icon.
+        Update the button icon based on the theme.
         """
-        theme = self.theme_handler_instance.current_theme
-        if theme == Theme.LIGHT:
+        if self.theme_instance == Theme.LIGHT:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-        elif theme == Theme.DARK:
+        elif self.theme_instance == Theme.DARK:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
         else:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
@@ -166,22 +167,26 @@ class MainUI(QWidget, ConfigUI):
         """
         if self.config_ui_frame.isVisible():
             self.config_ui_frame.hide()
-            # if self.theme_handler_instance.cycle_theme() == "dark":
-            #     self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
-
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+            if self.theme_instance == Theme.LIGHT:
+                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+            elif self.theme_instance == Theme.DARK:
+                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
             new_width = self.width() - self.config_ui_frame.width()
             self.setMinimumSize(*UI_MINIMUM_SIZE)
         else:
             self.config_ui_frame.show()
-            # if self.theme_handler_instance.cycle_theme() == "dark":
-            #     self.config_ui_button.setIcon(
-            #         QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
-            #     )
-
-            self.config_ui_button.setIcon(
-                QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
-            )
+            if self.theme_instance == Theme.LIGHT:
+                self.config_ui_button.setIcon(
+                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
+                )
+            elif self.theme_instance == Theme.DARK:
+                self.config_ui_button.setIcon(
+                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
+                )
+            else:
+                self.config_ui_button.setIcon(
+                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
+                )
             new_width = self.width() + self.config_ui_frame.width()
             self.setMinimumWidth(new_width)
         self.resize(new_width, self.height())

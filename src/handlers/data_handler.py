@@ -5,6 +5,8 @@ from PySide6.QtWidgets import *
 
 from constants import *
 
+# FIXME: Configurator inputs not being saved.
+
 
 class DataHandler:
     # def input_signal_handler(self):
