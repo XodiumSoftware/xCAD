@@ -11,7 +11,7 @@ def run():
     shows the MainUI object,
     and starts the application event loop.
     """
-    app = QApplication(sys.argv)
+    app = QApplication.instance() or QApplication(sys.argv)
     main_ui = MainUI()
     main_ui.show()
     sys.exit(app.exec())

@@ -28,7 +28,9 @@ THEME_BUTTON_ICON_LIGHT_PATH = "src/icons/theme_icon_light.png"
 THEME_BUTTON_ICON_DARK_PATH = "src/icons/theme_icon_dark.png"
 
 THEME_SETTINGS_PATH = "src/data/theme_settings.txt"
-THEME_DIR_PATH = "src/themes"
+THEME_DIR_PATH = "src/ui/themes/"
+LIGHT_THEME_FILE_PATH = "light_theme.txt"
+DARK_THEME_FILE_PATH = "dark_theme.txt"
 
 # Config UI
 CONFIG_UI_TITLE = "Configurator"

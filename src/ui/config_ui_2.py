@@ -22,10 +22,10 @@ class ConfigUI:
         # TODO: make scrollbar switch to visible or not based if its needed.
         self.scroll_area = QScrollArea()
         self.scroll_area.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
         )
         self.scroll_area.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
         )
         self.scroll_area.setStyleSheet("border: none;")
         self.scroll_area.setSizePolicy(
@@ -39,6 +39,7 @@ class ConfigUI:
         self.config_ui_group_box_setup()
 
         self.config_ui_frame.hide()
+        self.config_ui_frame.setMinimumSize(*UI_MINIMUM_SIZE)
 
     def config_ui_group_box_setup(self):
         """

@@ -127,16 +127,18 @@ class MainUI(QWidget, ConfigUI):
         self.theme_button.setSizePolicy(
             QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
         )
-        if self.theme_handler_instance.cycle_theme() == "light":
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-        elif self.theme_handler_instance.cycle_theme() == "dark":
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
-        else:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
+        # if self.theme_handler_instance.cycle_theme_handler() == "light":
+        #     self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
+        #     self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+        # elif self.theme_handler_instance.cycle_theme_handler() == "dark":
+        #     self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
+        #     self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
+        # else:
+        self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
 
-        self.theme_button.clicked.connect(self.theme_handler_instance.cycle_theme)
+        self.theme_button.clicked.connect(
+            self.theme_handler_instance.cycle_theme_handler
+        )
 
     def config_ui_button_setup(self):
         """
