@@ -12,7 +12,9 @@ class ConfigUI:
         # Create a new frame to hold the layout
         self.config_ui_frame = QFrame()
         self.config_ui_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.config_ui_frame.setContentsMargins(*CONFIG_UI_MARGINS)
+        self.config_ui_frame.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        )
 
         # config_ui_layout properties
         self.config_ui_layout = QGridLayout(self.config_ui_frame)
@@ -46,7 +48,6 @@ class ConfigUI:
         """
         # Create group box for config
         self.config_group_box = QGroupBox()
-        self.config_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.config_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Call widgets
@@ -74,7 +75,6 @@ class ConfigUI:
         """
         # Create group box for frame
         self.frame_group_box = QGroupBox()
-        self.frame_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.frame_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame group box
@@ -128,7 +128,6 @@ class ConfigUI:
     def profile_group_box_setup(self) -> QGroupBox:
         # Create group box for profile
         self.profile_group_box = QGroupBox()
-        self.profile_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.profile_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for profile group box
@@ -182,7 +181,6 @@ class ConfigUI:
     def plate_group_box_setup(self) -> QGroupBox:
         # Create group box for plate
         self.plate_group_box = QGroupBox()
-        self.plate_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.plate_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for plate group box
@@ -221,7 +219,6 @@ class ConfigUI:
     def calc_group_box_setup(self) -> QGroupBox:
         # Create group box for frame calculations
         self.calc_group_box = QGroupBox()
-        self.calc_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
         self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create form layout for frame calculations group box

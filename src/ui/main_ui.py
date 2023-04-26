@@ -61,7 +61,6 @@ class MainUI(QWidget, ConfigUI):
         # main_ui_layout properties
         self.main_ui_layout = QGridLayout(self)
         self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.main_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         # Call widgets
         self.button_layout_setup()
@@ -216,7 +215,6 @@ class MainUI(QWidget, ConfigUI):
         # central_layout properties
         self.central_layout = QGridLayout(self.central_frame)
         self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.central_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         # Add widgets
         self.logo()
