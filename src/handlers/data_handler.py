@@ -85,14 +85,14 @@ class DataHandler:
         # Print debug information
         if DEBUG_SAVE_INPUT_PRINT:
             print(
-                f"Data directory: {data_info['data_dir']}, file: {data_info['data_file']}"
+                f"[DEBUG] Data directory: {data_info['data_dir']}, file: {data_info['data_file']}"
             )
             print(
-                f"Theme directory: {data_info['theme_dir']}, file: {data_info['theme_file']}"
+                f"[DEBUG] Theme directory: {data_info['theme_dir']}, file: {data_info['theme_file']}"
             )
-            print(f"Data directory created: {data_info['data_dir_created']}")
-            print(f"Theme directory created: {data_info['theme_dir_created']}")
-            print(f"Data file created: {data_info['data_file_created']}")
-            print(f"Theme file created: {data_info['theme_file_created']}")
+            print(f"[DEBUG] Data directory created: {data_info['data_dir_created']}")
+            print(f"[DEBUG] Theme directory created: {data_info['theme_dir_created']}")
+            print(f"[DEBUG] Data file created: {data_info['data_file_created']}")
+            print(f"[DEBUG] Theme file created: {data_info['theme_file_created']}")
 
         return data_info
