@@ -16,104 +16,85 @@ class ConfigUI:
         self.config_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         # Create a QScrollArea object
-        scroll_area_0 = QScrollArea()
-        scroll_area_0.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        scroll_area_0.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        scroll_area = QScrollArea()
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll_area.setStyleSheet("border: none;")
+        scroll_area.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
         )
-        scroll_area_0.setStyleSheet("border: none;")
 
-        scroll_area_1 = QScrollArea()
-        scroll_area_1.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        scroll_area_1.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        scroll_area_1.setStyleSheet("border: none;")
+        # Call create_frame_group_box to create the QGroupBox for the frame
+        frame_group_box = self.create_frame_group_box()
 
-        # Create the QLabel and set it as the widget of the QScrollArea
-        label = QLabel("Hello World")
-        scroll_area_0.setWidget(label)
-        scroll_area_1.setWidget(label)
+        # Set the frame_group_box as the widget of the QScrollArea
+        scroll_area.setWidget(frame_group_box)
 
         # Add the QScrollArea to the layout
-        self.config_ui_layout.addWidget(scroll_area_0, 0, 0)
-        self.config_ui_layout.addWidget(scroll_area_1, 0, 1)
+        self.config_ui_layout.addWidget(scroll_area, 0, 0)
 
         self.config_ui_frame.hide()
 
-    # def config_ui_layout_setup(self):
-    #     """
-    #     Setup config_ui_layout with properties, widgets, and alignments.
-    #     """
-    #     # Create a new frame to hold the layout
-    #     self.config_ui_frame = QFrame(self)
-    #     self.config_ui_frame.setFrameShape(QFrame.Shape.NoFrame)
-    #     self.config_ui_frame.setVisible(False)
+    def create_frame_group_box(self) -> QGroupBox:
+        # Create group box for frame
+        self.frame_group_box = QGroupBox()
+        self.frame_group_box.setTitle("Frame")
+        self.frame_group_box.setStyleSheet(CONFIG_UI_GROUPBOX_STYLESHEET)
+        self.frame_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-    #     # config_ui_layout properties
-    #     self.config_ui_layout = QGridLayout(self.config_ui_frame)
-    #     self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    #     self.config_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
+        # Create form layout for frame group box
+        self.frame_layout = QGridLayout()
+        self.frame_layout.setColumnStretch(0, 1)
 
-    #     # Add Widgets
-    #     self.config_ui_scroll_area_0()
-    #     self.config_ui_scroll_area_1()
+        # Add label and input field for frame material
+        self.frame_material_prefix = QLabel("Frame Material:")
 
-    #     # Add widgets to config_ui_layout
-    #     self.config_ui_layout.addWidget(self.scroll_area_0, 0, 0)
-    #     self.config_ui_layout.addLayout(self.scroll_area_1, 0, 1)
+        self.frame_material_input = QLineEdit()
+        self.frame_material_input.setFixedWidth(INPUT_BAR_WIDTH)
+        self.frame_material_input.setPlaceholderText("Enter frame material")
 
-    #     # Set widgets alignment
-    #     self.scroll_area_0.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    #     self.scroll_area_1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.frame_layout.addWidget(self.frame_material_prefix, 0, 0)
+        self.frame_layout.addWidget(self.frame_material_input, 0, 1)
 
-    #     # Add the config frame to the main UI layout
-    #     self.main_ui_layout.addWidget(self.config_ui_frame)
+        # Add label and input field for frame length
+        self.frame_length_prefix = QLabel("Frame Length:")
 
-    # def config_ui_scroll_area_0(self):
-    #     """
-    #     Sets up the scroll area widget for the config_ui_frame.
-    #     """
-    #     # Create a new layout to hold the scroll area widget
-    #     self.scroll_area_0_layout = QVBoxLayout()
+        self.frame_length_input = QDoubleSpinBox()
+        self.frame_length_input.setRange(*INPUT_RANGE)
+        self.frame_length_input.setDecimals(0)
+        self.frame_length_input.setFixedWidth(INPUT_BAR_WIDTH)
+        self.frame_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-    #     # Create the scroll area widget
-    #     self.scroll_area_0 = QScrollArea(self)
-    #     self.scroll_area_0.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-    #     self.scroll_area_0.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.frame_length_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
 
-    #     # Add the scroll area widget to the layout
-    #     self.scroll_area_0_layout.addWidget(self.scroll_area_0)
+        self.frame_layout.addWidget(self.frame_length_prefix, 1, 0)
+        self.frame_layout.addWidget(self.frame_length_input, 1, 1)
+        self.frame_layout.addWidget(self.frame_length_suffix, 1, 2)
 
-    #     # Set the layout for the scroll area
-    #     self.scroll_area_0.setLayout(self.scroll_area_0_layout)
+        # Add label and input field for frame height
+        self.frame_height_prefix = QLabel("Frame Height:")
 
-    # def frame_group_box_setup(self):
-    #     pass
+        self.frame_height_input = QDoubleSpinBox()
+        self.frame_height_input.setRange(*INPUT_RANGE)
+        self.frame_height_input.setDecimals(0)
+        self.frame_height_input.setFixedWidth(INPUT_BAR_WIDTH)
+        self.frame_height_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        self.frame_height_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
+
+        self.frame_layout.addWidget(self.frame_height_prefix, 2, 0)
+        self.frame_layout.addWidget(self.frame_height_input, 2, 1)
+        self.frame_layout.addWidget(self.frame_height_suffix, 2, 2)
+
+        self.frame_group_box.setLayout(self.frame_layout)
+
+        return self.frame_group_box
 
     # def profile_group_box_setup(self):
     #     pass
 
     # def plate_group_box_setup(self):
     #     pass
-
-    # def config_ui_scroll_area_1(self):
-    #     """
-    #     Sets up the scroll area widget for the config_ui_frame.
-    #     """
-    #     # Create a new layout to hold the scroll area widget
-    #     self.scroll_area_1_layout = QVBoxLayout()
-
-    #     # Create the scroll area widget
-    #     self.scroll_area_1 = QScrollArea(self)
-    #     self.scroll_area_1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-    #     self.scroll_area_1.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-    #     # Add the scroll area widget to the layout
-    #     self.scroll_area_1_layout.addWidget(self.scroll_area_1)
-
-    #     # Set the layout for the scroll area
-    #     self.scroll_area_1.setLayout(self.scroll_area_1_layout)
 
     # def calc_group_box_setup(self):
     #     pass
