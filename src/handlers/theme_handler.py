@@ -16,6 +16,7 @@ class Theme(Enum):
     LIGHT = "light"
     DARK = "dark"
 
+# TODO: complete the theme color schemes.
 
 class ThemeHandler(QObject):
     theme_changed = Signal()

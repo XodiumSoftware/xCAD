@@ -19,7 +19,6 @@ class ConfigUI:
         self.config_ui_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
 
         # Create a QScrollArea object
-        # TODO: make scrollbar switch to visible or not based if its needed.
         self.scroll_area = QScrollArea()
         self.scroll_area.setVerticalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAsNeeded
