@@ -18,6 +18,19 @@ QLineEdit {
     border: 1px solid #f0f0f0;
 }
 
+QPushButton {
+    background-color: #505050;
+    border-style: outset;
+    border-width: 1px;
+    border-radius: 8px;
+    padding: 6px;
+}
+
+QPushButton:pressed {
+    background-color: #333333;
+    border-style: inset;
+}
+
 QScrollArea {
     background-color: #252525;
     color: #f0f0f0;
