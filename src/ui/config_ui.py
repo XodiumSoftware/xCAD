@@ -248,18 +248,8 @@ class ConfigUI:
 
         self.frame_area_suffix = QLabel(CONFIG_UI_SUFFIX_M2)
 
-        def update_frame_area_output():
-            frame_area = (
-                self.frame_length_input.value() * self.frame_height_input.value()
-            ) / 1000000
-            locale = QLocale(QLocale.Language.Dutch, QLocale.Country.Netherlands)
-            options = QLocale.NumberOption.RejectGroupSeparator
-            locale.setNumberOptions(options)
-            frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
-            self.frame_area_output.setText(frame_area_str)
-
-        self.frame_length_input.valueChanged.connect(update_frame_area_output)
-        self.frame_height_input.valueChanged.connect(update_frame_area_output)
+        self.frame_length_input.valueChanged.connect(self.update_frame_area_output)
+        self.frame_height_input.valueChanged.connect(self.update_frame_area_output)
 
         frame_area_layout = QHBoxLayout()
         frame_area_layout.addWidget(self.frame_area_prefix)
@@ -270,6 +260,16 @@ class ConfigUI:
         self.calc_group_box.setLayout(self.calc_layout)
 
         return self.calc_group_box
+
+    def update_frame_area_output(self):
+        frame_area = (
+            self.frame_length_input.value() * self.frame_height_input.value()
+        ) / 1000000
+        locale = QLocale(QLocale.Language.Dutch, QLocale.Country.Netherlands)
+        options = QLocale.NumberOption.RejectGroupSeparator
+        locale.setNumberOptions(options)
+        frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
+        self.frame_area_output.setText(frame_area_str)
 
     def connect_input_signals(self):
         self.frame_material_input.textChanged.connect(self.save_configurator_inputs)
