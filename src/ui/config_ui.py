@@ -5,6 +5,11 @@ from constants import *
 
 
 class ConfigUI:
+    def __init__(self):
+        self.config_ui_frame_setup()
+        self.connect_input_signals()
+        print("[DEBUG] ConfigUI initialized.")
+
     def config_ui_frame_setup(self):
         """
         Set up the UI frame for configuration options.
@@ -275,6 +280,7 @@ class ConfigUI:
         self.profile_width_input.valueChanged.connect(self.save_configurator_inputs)
         self.plate_material_input.textChanged.connect(self.save_configurator_inputs)
         self.plate_thickness_input.valueChanged.connect(self.save_configurator_inputs)
+        print("[DEBUG] Input signals connected.")
 
     def save_configurator_inputs(self):
         inputs = [
@@ -287,7 +293,9 @@ class ConfigUI:
             ("Plate Material", self.plate_material_input.text()),
             ("Plate Thickness", self.plate_thickness_input.value()),
         ]
-        with open(DATA_DIR_FOLDER + DATA_DIR_FILE, "w") as f:
+        file_path = DATA_DIR_FOLDER + DATA_DIR_FILE
+        print(f"Writing inputs to file: {file_path}")
+        with open(file_path, "a") as f:
             for name, value in inputs:
                 f.write("{}: {}\n".format(name, value))
 

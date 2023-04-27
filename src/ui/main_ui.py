@@ -25,6 +25,8 @@ class MainUI(QWidget, ConfigUI):
         self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
 
+        print("[DEBUG] MainUI initialized.")
+
     def keyPressEvent(self, event):
         """
         This function is called when certain keys are pressed.
