@@ -25,7 +25,7 @@ class ThemeHandler(QObject):
         Initializes a new instance of the class.
         """
         super().__init__()
-        self.current_theme = Theme.LIGHT
+        self.current_theme = Theme.DARK
         self.load_theme_handler()
 
     def cycle_theme_handler(self):
