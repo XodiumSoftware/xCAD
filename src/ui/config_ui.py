@@ -46,7 +46,7 @@ class ConfigUI:
         self.config_ui_group_box_setup()
 
         self.config_ui_frame.hide()
-        self.config_ui_frame.setMinimumSize(*UI_MINIMUM_SIZE)
+        # self.config_ui_frame.setMinimumSize(*UI_MINIMUM_SIZE)
 
     def config_ui_group_box_setup(self):
         """
@@ -75,6 +75,27 @@ class ConfigUI:
         # Set the config group box as the widget of the QScrollArea
         self.scroll_area.setWidget(self.config_group_box)
 
+    def label_input_pair_helper(
+        self,
+        label_text: str,
+        input_object: QWidget,
+        row: int,
+        layout: QGridLayout,
+        suffix_text: str = "",
+    ):
+        """
+        Helper function to create a label-input field pair and add it to a given grid layout.
+        """
+        prefix_label = QLabel(label_text)
+        input_object.setFixedWidth(INPUT_BAR_WIDTH)
+
+        if suffix_text:
+            suffix_label = QLabel(suffix_text)
+            layout.addWidget(suffix_label, row, 2)
+
+        layout.addWidget(prefix_label, row, 0)
+        layout.addWidget(input_object, row, 1)
+
     def frame_group_box_setup(self) -> QGroupBox:
         """
         Creates a group box for a frame with input fields for frame material, length, and height.
@@ -88,53 +109,47 @@ class ConfigUI:
         self.frame_layout.setColumnStretch(0, 1)
 
         # Add label and input field for frame material
-        self.frame_material_prefix = QLabel("Frame Material:")
-
         self.frame_material_input = QLineEdit()
         self.frame_material_input.setObjectName("frame_material_input")
-        self.frame_material_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.frame_material_input.setPlaceholderText("Enter frame material")
-
-        self.frame_layout.addWidget(self.frame_material_prefix, 0, 0)
-        self.frame_layout.addWidget(self.frame_material_input, 0, 1)
+        self.frame_material_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.label_input_pair_helper(
+            "Frame Material:", self.frame_material_input, 0, self.frame_layout
+        )
 
         # Add label and input field for frame length
-        self.frame_length_prefix = QLabel("Frame Length:")
-
         self.frame_length_input = QDoubleSpinBox()
         self.frame_length_input.setObjectName("frame_length_input")
+        self.frame_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.frame_length_input.setButtonSymbols(
             QAbstractSpinBox.ButtonSymbols.NoButtons
         )
         self.frame_length_input.setRange(*INPUT_RANGE)
         self.frame_length_input.setDecimals(0)
-        self.frame_length_input.setFixedWidth(INPUT_BAR_WIDTH)
-        self.frame_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
-
-        self.frame_length_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
-
-        self.frame_layout.addWidget(self.frame_length_prefix, 1, 0)
-        self.frame_layout.addWidget(self.frame_length_input, 1, 1)
-        self.frame_layout.addWidget(self.frame_length_suffix, 1, 2)
+        self.label_input_pair_helper(
+            "Frame Length:",
+            self.frame_length_input,
+            1,
+            self.frame_layout,
+            CONFIG_UI_SUFFIX_MM,
+        )
 
         # Add label and input field for frame height
-        self.frame_height_prefix = QLabel("Frame Height:")
-
         self.frame_height_input = QDoubleSpinBox()
         self.frame_height_input.setObjectName("frame_height_input")
+        self.frame_height_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.frame_height_input.setButtonSymbols(
             QAbstractSpinBox.ButtonSymbols.NoButtons
         )
         self.frame_height_input.setRange(*INPUT_RANGE)
         self.frame_height_input.setDecimals(0)
-        self.frame_height_input.setFixedWidth(INPUT_BAR_WIDTH)
-        self.frame_height_input.setAlignment(Qt.AlignmentFlag.AlignRight)
-
-        self.frame_height_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
-
-        self.frame_layout.addWidget(self.frame_height_prefix, 2, 0)
-        self.frame_layout.addWidget(self.frame_height_input, 2, 1)
-        self.frame_layout.addWidget(self.frame_height_suffix, 2, 2)
+        self.label_input_pair_helper(
+            "Frame Height:",
+            self.frame_height_input,
+            2,
+            self.frame_layout,
+            CONFIG_UI_SUFFIX_MM,
+        )
 
         self.frame_group_box.setLayout(self.frame_layout)
 
@@ -150,53 +165,47 @@ class ConfigUI:
         self.profile_layout.setColumnStretch(0, 1)  # Add stretch to the left column
 
         # Add label and input field for profile type
-        self.profile_type_prefix = QLabel("Profile Type:")
-
         self.profile_type_input = QLineEdit()
         self.profile_type_input.setObjectName("profile_type_input")
-        self.profile_type_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.profile_type_input.setPlaceholderText("Enter profile type")
-
-        self.profile_layout.addWidget(self.profile_type_prefix, 0, 0)
-        self.profile_layout.addWidget(self.profile_type_input, 0, 1)
+        self.profile_type_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.label_input_pair_helper(
+            "Profile Type:", self.profile_type_input, 0, self.profile_layout
+        )
 
         # Add label and input field for profile length
-        self.profile_length_prefix = QLabel("Profile Length:")
-
         self.profile_length_input = QDoubleSpinBox()
         self.profile_length_input.setObjectName("profile_length_input")
+        self.profile_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.profile_length_input.setButtonSymbols(
             QAbstractSpinBox.ButtonSymbols.NoButtons
         )
         self.profile_length_input.setRange(*INPUT_RANGE)
         self.profile_length_input.setDecimals(0)
-        self.profile_length_input.setFixedWidth(INPUT_BAR_WIDTH)
-        self.profile_length_input.setAlignment(Qt.AlignmentFlag.AlignRight)
-
-        self.profile_length_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
-
-        self.profile_layout.addWidget(self.profile_length_prefix, 1, 0)
-        self.profile_layout.addWidget(self.profile_length_input, 1, 1)
-        self.profile_layout.addWidget(self.profile_length_suffix, 1, 2)
+        self.label_input_pair_helper(
+            "Profile Length:",
+            self.profile_length_input,
+            1,
+            self.profile_layout,
+            CONFIG_UI_SUFFIX_MM,
+        )
 
         # Add label and input field for profile width
-        self.profile_width_prefix = QLabel("Profile Width:")
-
         self.profile_width_input = QDoubleSpinBox()
         self.profile_width_input.setObjectName("profile_width_input")
+        self.profile_width_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.profile_width_input.setButtonSymbols(
             QAbstractSpinBox.ButtonSymbols.NoButtons
         )
         self.profile_width_input.setRange(*INPUT_RANGE)
         self.profile_width_input.setDecimals(0)
-        self.profile_width_input.setFixedWidth(INPUT_BAR_WIDTH)
-        self.profile_width_input.setAlignment(Qt.AlignmentFlag.AlignRight)
-
-        self.profile_width_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
-
-        self.profile_layout.addWidget(self.profile_width_prefix, 2, 0)
-        self.profile_layout.addWidget(self.profile_width_input, 2, 1)
-        self.profile_layout.addWidget(self.profile_width_suffix, 2, 2)
+        self.label_input_pair_helper(
+            "Profile Width:",
+            self.profile_width_input,
+            2,
+            self.profile_layout,
+            CONFIG_UI_SUFFIX_MM,
+        )
 
         self.profile_group_box.setLayout(self.profile_layout)
 
@@ -212,34 +221,30 @@ class ConfigUI:
         self.plate_layout.setColumnStretch(0, 1)  # Add stretch to the left column
 
         # Add label and input field for plate material
-        self.plate_material_prefix = QLabel("Plate Material:")
-
         self.plate_material_input = QLineEdit()
         self.plate_material_input.setObjectName("plate_material_input")
-        self.plate_material_input.setFixedWidth(INPUT_BAR_WIDTH)
         self.plate_material_input.setPlaceholderText("Enter plate material")
-
-        self.plate_layout.addWidget(self.plate_material_prefix, 0, 0)
-        self.plate_layout.addWidget(self.plate_material_input, 0, 1)
+        self.plate_material_input.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.label_input_pair_helper(
+            "Plate Material:", self.plate_material_input, 0, self.plate_layout
+        )
 
         # Add label and input field for plate thickness
-        self.plate_thickness_prefix = QLabel("Plate Thickness:")
-
         self.plate_thickness_input = QDoubleSpinBox()
         self.plate_thickness_input.setObjectName("plate_thickness_input")
+        self.plate_thickness_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.plate_thickness_input.setButtonSymbols(
             QAbstractSpinBox.ButtonSymbols.NoButtons
         )
         self.plate_thickness_input.setRange(*INPUT_RANGE)
         self.plate_thickness_input.setDecimals(0)
-        self.plate_thickness_input.setFixedWidth(INPUT_BAR_WIDTH)
-        self.plate_thickness_input.setAlignment(Qt.AlignmentFlag.AlignRight)
-
-        self.plate_thickness_suffix = QLabel(CONFIG_UI_SUFFIX_MM)
-
-        self.plate_layout.addWidget(self.plate_thickness_prefix, 1, 0)
-        self.plate_layout.addWidget(self.plate_thickness_input, 1, 1)
-        self.plate_layout.addWidget(self.plate_thickness_suffix, 1, 2)
+        self.label_input_pair_helper(
+            "Plate Thickness:",
+            self.plate_thickness_input,
+            1,
+            self.plate_layout,
+            CONFIG_UI_SUFFIX_MM,
+        )
 
         self.plate_group_box.setLayout(self.plate_layout)
 
@@ -251,25 +256,23 @@ class ConfigUI:
         self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create the form layout and set its growth policy
-        frame_area_layout = QHBoxLayout()
-        self.calc_layout = QFormLayout(self.calc_group_box)
-        self.calc_layout.setFieldGrowthPolicy(
-            QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow
-        )
-        self.calc_layout.addRow(frame_area_layout)
+        self.calc_layout = QGridLayout(self.calc_group_box)
+        self.calc_layout.setColumnStretch(0, 1)  # Add stretch to the left column
 
-        # Create the widgets and add them to the layout
-        self.frame_area_prefix = QLabel("Frame Area:")
+        # Call the label_input_pair_helper function to create the label and output field
         self.frame_area_output = QLineEdit()
         self.frame_area_output.setObjectName("frame_area_output")
         self.frame_area_output.setReadOnly(True)
         self.frame_area_output.setFixedWidth(INPUT_BAR_WIDTH)
         self.frame_area_output.setPlaceholderText("Auto calculated")
         self.frame_area_output.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.frame_area_suffix = QLabel(CONFIG_UI_SUFFIX_M2)
-        frame_area_layout.addWidget(self.frame_area_prefix)
-        frame_area_layout.addWidget(self.frame_area_output)
-        frame_area_layout.addWidget(self.frame_area_suffix)
+        self.label_input_pair_helper(
+            "Frame Area:",
+            self.frame_area_output,
+            0,
+            self.calc_layout,
+            CONFIG_UI_SUFFIX_M2,
+        )
 
         # Connect signals and slots
         self.frame_length_input.valueChanged.connect(self.update_frame_area_output)
