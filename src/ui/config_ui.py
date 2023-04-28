@@ -9,22 +9,6 @@ from PySide6.QtWidgets import *
 from constants import *
 
 
-class ScrollBar(QScrollBar):
-    def mousePressEvent(self, event):
-        """
-        This function is called when the mouse is pressed.
-        """
-        super().mousePressEvent(event)
-        self.setSliderDown(True)
-
-    def mouseReleaseEvent(self, event):
-        """
-        This function is called when the mouse is released.
-        """
-        super().mouseReleaseEvent(event)
-        self.setSliderDown(False)
-
-
 class ConfigUI:
     def __init__(self):
         """
@@ -148,12 +132,6 @@ class ConfigUI:
         self.scroll_area.setSizePolicy(
             QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
         )
-
-        self.hscrollbar = ScrollBar(Qt.Orientation.Horizontal)
-        self.vscrollbar = ScrollBar(Qt.Orientation.Vertical)
-
-        self.scroll_area.setHorizontalScrollBar(self.hscrollbar)
-        self.scroll_area.setVerticalScrollBar(self.vscrollbar)
 
         # Add the QScrollArea to the layout
         self.config_ui_frame_layout.addWidget(self.scroll_area, 0, 0)
