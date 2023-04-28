@@ -1,12 +1,13 @@
 import configparser
 import os
-from collections import defaultdict
 
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from constants import *
+
+# FIXME: UI size being too small when toggling config ui.
 
 
 class ConfigUI:
@@ -39,69 +40,54 @@ class ConfigUI:
             return
 
         print(f"[DEBUG] Loading inputs from file: {file_path}")
-        config = configparser.RawConfigParser()
+        config = configparser.ConfigParser()
 
-        # Read file and create inputs section if it doesn't exist
+        # Read file
         with open(file_path) as f:
             config.read_file(f)
-        config.setdefault("inputs", defaultdict(str))
 
         # Set default values for missing keys
-        required_keys = [
-            "frame_material",
-            "frame_length",
-            "frame_height",
-            "profile_type",
-            "profile_length",
-            "profile_width",
-            "plate_material",
-            "plate_thickness",
-        ]
-        for key in required_keys:
-            config["inputs"].setdefault(key, "")
+        required_keys = {
+            "frame_material": "",
+            "frame_length": "0.0",
+            "frame_height": "0.0",
+            "profile_type": "",
+            "profile_length": "0.0",
+            "profile_width": "0.0",
+            "plate_material": "",
+            "plate_thickness": "0.0",
+        }
+        config.setdefault("inputs", required_keys)
 
         # Convert inputs to appropriate types
-        try:
-            values = {
-                "frame_length": float,
-                "frame_height": float,
-                "profile_length": float,
-                "profile_width": float,
-                "plate_thickness": float,
-            }
-            for key, converter in values.items():
-                value = config["inputs"][key].strip()
-                if not value:
-                    value = 0.0
+        values = {
+            "frame_length": float,
+            "frame_height": float,
+            "profile_length": float,
+            "profile_width": float,
+            "plate_thickness": float,
+        }
+        for key, converter in values.items():
+            value = config["inputs"][key]
+            if value:
                 config["inputs"][key] = str(converter(value))
-        except ValueError:
-            pass
 
-        # Set input values
-        self.frame_material_input.setText(config["inputs"]["frame_material"])
-        self.frame_length_input.setValue(float(config["inputs"]["frame_length"]))
-        self.frame_height_input.setValue(float(config["inputs"]["frame_height"]))
-        self.profile_type_input.setText(config["inputs"]["profile_type"])
-        self.profile_length_input.setValue(float(config["inputs"]["profile_length"]))
-        self.profile_width_input.setValue(float(config["inputs"]["profile_width"]))
-        self.plate_material_input.setText(config["inputs"]["plate_material"])
-        self.plate_thickness_input.setValue(float(config["inputs"]["plate_thickness"]))
+        # Update inputs with new values
+        config["inputs"].update(
+            {
+                "frame_material": self.frame_material_input.text(),
+                "frame_length": str(self.frame_length_input.value()),
+                "frame_height": str(self.frame_height_input.value()),
+                "profile_type": self.profile_type_input.text(),
+                "profile_length": str(self.profile_length_input.value()),
+                "profile_width": str(self.profile_width_input.value()),
+                "plate_material": self.plate_material_input.text(),
+                "plate_thickness": str(self.plate_thickness_input.value()),
+            }
+        )
 
-        # Write changes back to file
+        # Write changes to file
         with open(file_path, "w") as f:
-            # Update inputs with new values
-            config["inputs"]["frame_material"] = self.frame_material_input.text()
-            config["inputs"]["frame_length"] = str(self.frame_length_input.value())
-            config["inputs"]["frame_height"] = str(self.frame_height_input.value())
-            config["inputs"]["profile_type"] = self.profile_type_input.text()
-            config["inputs"]["profile_length"] = str(self.profile_length_input.value())
-            config["inputs"]["profile_width"] = str(self.profile_width_input.value())
-            config["inputs"]["plate_material"] = self.plate_material_input.text()
-            config["inputs"]["plate_thickness"] = str(
-                self.plate_thickness_input.value()
-            )
-
-            # Write changes to file
             config.write(f)
 
     def config_ui_frame_setup(self):
