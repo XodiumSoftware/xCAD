@@ -167,6 +167,7 @@ class MainUI(QWidget, ConfigUI):
         Toggle visibility of new frame.
         """
         theme_instance = self.theme_handler_instance.current_theme
+
         if self.config_ui_frame.isVisible():
             self.config_ui_frame.hide()
 
@@ -177,6 +178,7 @@ class MainUI(QWidget, ConfigUI):
 
             new_width = self.width() - self.config_ui_frame.width()
             self.setMinimumSize(*UI_MINIMUM_SIZE)
+
         else:
             self.config_ui_frame.show()
 
@@ -191,6 +193,7 @@ class MainUI(QWidget, ConfigUI):
 
             new_width = self.width() + self.config_ui_frame.width()
             self.setMinimumWidth(new_width)
+
         self.resize(new_width, self.height())
 
     def desc_label(self):

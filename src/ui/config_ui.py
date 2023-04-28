@@ -23,8 +23,8 @@ class ConfigUI:
         )
 
         # config_ui_layout properties
-        self.config_ui_layout = QGridLayout(self.config_ui_frame)
-        self.config_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.config_ui_frame_layout = QGridLayout(self.config_ui_frame)
+        self.config_ui_frame_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create a QScrollArea object
         self.scroll_area = QScrollArea()
@@ -40,7 +40,7 @@ class ConfigUI:
         )
 
         # Add the QScrollArea to the layout
-        self.config_ui_layout.addWidget(self.scroll_area, 0, 0)
+        self.config_ui_frame_layout.addWidget(self.scroll_area, 0, 0)
 
         # Call widgets
         self.config_ui_group_box_setup()
