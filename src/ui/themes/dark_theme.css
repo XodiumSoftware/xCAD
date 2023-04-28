@@ -57,6 +57,10 @@ QPushButton:pressed {
     border-style: inset;
 }
 
+QScrollBar {
+    border-radius: 4px !important;
+}
+
 QScrollBar:horizontal {
     border: none;
     background: #F5F5F5;

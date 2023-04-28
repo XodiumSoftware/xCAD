@@ -10,6 +10,8 @@ from constants import *
 
 app = QApplication([])
 
+# FIXME: .css files not working properly on the QScrollBar.
+
 
 class Theme(Enum):
     LIGHT = "light"
