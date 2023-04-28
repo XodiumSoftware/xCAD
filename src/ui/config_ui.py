@@ -105,6 +105,19 @@ class ConfigUI:
 
         # Write changes back to file
         with open(file_path, "w") as f:
+            # Update inputs with new values
+            config["inputs"]["frame_material"] = self.frame_material_input.text()
+            config["inputs"]["frame_length"] = str(self.frame_length_input.value())
+            config["inputs"]["frame_height"] = str(self.frame_height_input.value())
+            config["inputs"]["profile_type"] = self.profile_type_input.text()
+            config["inputs"]["profile_length"] = str(self.profile_length_input.value())
+            config["inputs"]["profile_width"] = str(self.profile_width_input.value())
+            config["inputs"]["plate_material"] = self.plate_material_input.text()
+            config["inputs"]["plate_thickness"] = str(
+                self.plate_thickness_input.value()
+            )
+
+            # Write changes to file
             config.write(f)
 
     def config_ui_frame_setup(self):
