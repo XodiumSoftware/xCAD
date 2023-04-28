@@ -20,7 +20,9 @@ class MainUI(QWidget, ConfigUI):
         self.theme_handler_instance = ThemeHandler()
         self.ui_handler_instance = UIHandler()
 
+        # States
         self.config_ui_frame_visible = False
+        self.config_ui_button_flipped = False
 
         self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
@@ -116,7 +118,6 @@ class MainUI(QWidget, ConfigUI):
         # Add the button frame to the main UI layout
         self.main_ui_layout.addWidget(self.button_frame)
 
-    # FIXME: Button flip state not correct.
     def button_setup(self):
         """
         Set up the theme and configuration UI buttons in the main UI.
@@ -155,17 +156,24 @@ class MainUI(QWidget, ConfigUI):
 
         if theme_instance == Theme.LIGHT:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
+            if self.config_ui_button_flipped:  # Add this line
+                self.config_ui_button.setIcon(
+                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
+                )
+            else:
+                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
         elif theme_instance == Theme.DARK:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-            self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
+            if self.config_ui_button_flipped:  # Add this line
+                self.config_ui_button.setIcon(
+                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
+                )
+            else:
+                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
         else:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
 
     def toggle_config_ui(self):
-        """
-        Toggle visibility of new frame.
-        """
         theme_instance = self.theme_handler_instance.current_theme
 
         if self.config_ui_frame.isVisible():
@@ -178,6 +186,8 @@ class MainUI(QWidget, ConfigUI):
 
             new_width = self.width() - self.config_ui_frame.width()
             self.setMinimumSize(*UI_MINIMUM_SIZE)
+
+            self.config_ui_button_flipped = False  # Add this line
 
         else:
             self.config_ui_frame.show()
@@ -193,6 +203,8 @@ class MainUI(QWidget, ConfigUI):
 
             new_width = self.width() + self.config_ui_frame.width()
             self.setMinimumWidth(new_width)
+
+            self.config_ui_button_flipped = True  # Add this line
 
         self.resize(new_width, self.height())
 
