@@ -246,60 +246,60 @@ class ConfigUI:
         return self.plate_group_box
 
     def calc_group_box_setup(self) -> QGroupBox:
-        # Create group box for frame calculations
+        # Create the group box and set its alignment
         self.calc_group_box = QGroupBox()
         self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Create form layout for frame calculations group box
-        self.calc_layout = QFormLayout()
+        # Create the form layout and set its growth policy
+        frame_area_layout = QHBoxLayout()
+        self.calc_layout = QFormLayout(self.calc_group_box)
         self.calc_layout.setFieldGrowthPolicy(
             QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow
         )
+        self.calc_layout.addRow(frame_area_layout)
 
-        # Add label and output field for frame area
+        # Create the widgets and add them to the layout
         self.frame_area_prefix = QLabel("Frame Area:")
-
         self.frame_area_output = QLineEdit()
         self.frame_area_output.setObjectName("frame_area_output")
         self.frame_area_output.setReadOnly(True)
         self.frame_area_output.setFixedWidth(INPUT_BAR_WIDTH)
         self.frame_area_output.setPlaceholderText("Auto calculated")
         self.frame_area_output.setAlignment(Qt.AlignmentFlag.AlignRight)
-
         self.frame_area_suffix = QLabel(CONFIG_UI_SUFFIX_M2)
-
-        self.frame_length_input.valueChanged.connect(self.update_frame_area_output)
-        self.frame_height_input.valueChanged.connect(self.update_frame_area_output)
-
-        frame_area_layout = QHBoxLayout()
         frame_area_layout.addWidget(self.frame_area_prefix)
         frame_area_layout.addWidget(self.frame_area_output)
         frame_area_layout.addWidget(self.frame_area_suffix)
-        self.calc_layout.addRow(frame_area_layout)
 
-        self.calc_group_box.setLayout(self.calc_layout)
+        # Connect signals and slots
+        self.frame_length_input.valueChanged.connect(self.update_frame_area_output)
+        self.frame_height_input.valueChanged.connect(self.update_frame_area_output)
+
+        # Call update_frame_area_output once to set initial value of output
+        self.update_frame_area_output()
 
         return self.calc_group_box
 
     def update_frame_area_output(self):
-        frame_area = (
-            self.frame_length_input.value() * self.frame_height_input.value()
-        ) / 1000000
-        locale = QLocale(QLocale.Language.Dutch, QLocale.Country.Netherlands)
-        options = QLocale.NumberOption.RejectGroupSeparator
-        locale.setNumberOptions(options)
+        frame_length = self.frame_length_input.value()
+        frame_height = self.frame_height_input.value()
+        frame_area = (frame_length * frame_height) / 1000000.0
         frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
         self.frame_area_output.setText(frame_area_str)
 
     def connect_input_signals(self):
-        self.frame_material_input.textChanged.connect(self.save_configurator_inputs)
-        self.frame_length_input.valueChanged.connect(self.save_configurator_inputs)
-        self.frame_height_input.valueChanged.connect(self.save_configurator_inputs)
-        self.profile_type_input.textChanged.connect(self.save_configurator_inputs)
-        self.profile_length_input.valueChanged.connect(self.save_configurator_inputs)
-        self.profile_width_input.valueChanged.connect(self.save_configurator_inputs)
-        self.plate_material_input.textChanged.connect(self.save_configurator_inputs)
-        self.plate_thickness_input.valueChanged.connect(self.save_configurator_inputs)
+        inputs = [
+            self.frame_material_input.textChanged,
+            self.frame_length_input.valueChanged,
+            self.frame_height_input.valueChanged,
+            self.profile_type_input.textChanged,
+            self.profile_length_input.valueChanged,
+            self.profile_width_input.valueChanged,
+            self.plate_material_input.textChanged,
+            self.plate_thickness_input.valueChanged,
+        ]
+        for input_signal in inputs:
+            input_signal.connect(self.save_configurator_inputs)
         print("[DEBUG] Input signals connected.")
 
     def save_configurator_inputs(self):
@@ -318,7 +318,6 @@ class ConfigUI:
         with open(file_path, "a") as f:
             for name, value in inputs:
                 f.write("{}: {}\n".format(name, value))
+                print("{}: {}".format(name, value))
 
         print(DEBUG_SAVE_INPUT_PRINT)
-        for name, value in inputs:
-            print("{}: {}".format(name, value))
