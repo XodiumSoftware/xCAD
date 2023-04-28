@@ -1,3 +1,5 @@
+import os
+
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -18,7 +20,7 @@ class ScrollBar(QScrollBar):
 class ConfigUI:
     def __init__(self):
         self.config_ui_frame_setup()
-        self.connect_input_signals()
+        self.connect_input_fields()
         print("[DEBUG] ConfigUI initialized.")
 
     def config_ui_frame_setup(self):
@@ -306,37 +308,37 @@ class ConfigUI:
         frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
         self.frame_area_output.setText(frame_area_str)
 
-    def connect_input_signals(self):
+    def connect_input_fields(self):
         inputs = [
-            self.frame_material_input.textChanged,
-            self.frame_length_input.valueChanged,
-            self.frame_height_input.valueChanged,
-            self.profile_type_input.textChanged,
-            self.profile_length_input.valueChanged,
-            self.profile_width_input.valueChanged,
-            self.plate_material_input.textChanged,
-            self.plate_thickness_input.valueChanged,
+            self.frame_material_input,
+            self.frame_length_input,
+            self.frame_height_input,
+            self.profile_type_input,
+            self.profile_length_input,
+            self.profile_width_input,
+            self.plate_material_input,
+            self.plate_thickness_input,
         ]
-        for input_signal in inputs:
-            input_signal.connect(self.save_configurator_inputs)
-        print("[DEBUG] Input signals connected.")
+        for input_field in inputs:
+            input_field.textChanged.connect(self.save_inputs)
+            if isinstance(input_field, QDoubleSpinBox):
+                input_field.valueChanged.connect(self.save_inputs)
 
-    def save_configurator_inputs(self):
-        inputs = [
-            ("Frame Material", self.frame_material_input.text()),
-            ("Frame Length", self.frame_length_input.value()),
-            ("Frame Height", self.frame_height_input.value()),
-            ("Profile Type", self.profile_type_input.text()),
-            ("Profile Length", self.profile_length_input.value()),
-            ("Profile Width", self.profile_width_input.value()),
-            ("Plate Material", self.plate_material_input.text()),
-            ("Plate Thickness", self.plate_thickness_input.value()),
-        ]
-        file_path = DATA_DIR_FOLDER + DATA_DIR_FILE
-        print(f"Writing inputs to file: {file_path}")
-        with open(file_path, "a") as f:
-            for name, value in inputs:
-                f.write("{}: {}\n".format(name, value))
-                print("{}: {}".format(name, value))
+    def save_inputs(self):
+        file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
+        print(f"Saving inputs to file: {file_path}")
+        inputs = {
+            "frame_material": self.frame_material_input.text(),
+            "frame_length": self.frame_length_input.value(),
+            "frame_height": self.frame_height_input.value(),
+            "profile_type": self.profile_type_input.text(),
+            "profile_length": self.profile_length_input.value(),
+            "profile_width": self.profile_width_input.value(),
+            "plate_material": self.plate_material_input.text(),
+            "plate_thickness": self.plate_thickness_input.value(),
+        }
+        with open(file_path, "w") as file:
+            for key, value in inputs.items():
+                file.write(f"{key}: {value}\n")
 
-        print(DEBUG_SAVE_INPUT_PRINT)
+        self.save_inputs()

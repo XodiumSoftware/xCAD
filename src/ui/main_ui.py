@@ -134,7 +134,6 @@ class MainUI(QWidget, ConfigUI):
         )
         self.theme_handler_instance.theme_changed.connect(self.update_theme_button_icon)
 
-    # TODO: config_button use correct icon based on theme
     def update_theme_button_icon(self):
         """
         Update the button icon based on the theme.
@@ -147,6 +146,7 @@ class MainUI(QWidget, ConfigUI):
         else:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
 
+    # TODO: config_button use correct icon based on theme
     def config_ui_button_setup(self):
         """
         Set up the configuration UI button.
