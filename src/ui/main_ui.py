@@ -116,6 +116,7 @@ class MainUI(QWidget, ConfigUI):
         # Add the button frame to the main UI layout
         self.main_ui_layout.addWidget(self.button_frame)
 
+    # FIXME: Button flip state not correct.
     def button_setup(self):
         """
         Set up the theme and configuration UI buttons in the main UI.
