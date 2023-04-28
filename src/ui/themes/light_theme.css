@@ -9,7 +9,7 @@ QWidget {
 }
 
 QFrame#config_ui_frame {
-    border: 2px solid #666;
+    border: 2px solid #D9D9D9;
     border-radius: 8px;
 }
 
@@ -56,34 +56,54 @@ QPushButton:pressed {
     border-style: inset;
 }
 
-QScrollArea {
-    background-color: #f0f0f0;
-    color: #252525;
+QScrollBar:vertical {
+    border: none;
+    background: #F5F5F5;
+    width: 8px;
+    margin: 0px 0px 0px 0px;
+    border-radius: 4px;
 }
 
-QScrollArea QWidget {
-    background-color: #f0f0f0;
-    color: #252525;
-}
-
-QScrollArea QScrollBar:vertical {
-    background-color: #f5f5f5;
-    width: 15px;
-}
-
-QScrollArea QScrollBar::handle:vertical {
-    background-color: #252525;
-    border-radius: 7px;
+QScrollBar::handle:vertical {
+    background: #D9D9D9;
     min-height: 20px;
+    border-radius: 4px;
 }
 
-QScrollArea QScrollBar::add-line:vertical,
-QScrollArea QScrollBar::sub-line:vertical {
-    background-color: #252525;
-    height: 15px;
+QScrollBar::add-line:vertical {
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
 }
 
-QScrollArea QScrollBar::add-page:vertical,
-QScrollArea QScrollBar::sub-page:vertical {
-    background-color: #f0f0f0;
+QScrollBar::sub-line:vertical {
+    height: 0px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:horizontal {
+    border: none;
+    background: #F5F5F5;
+    height: 8px;
+    margin: 0px 0px 0px 0px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #D9D9D9;
+    min-width: 20px;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:horizontal {
+    width: 0px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    width: 0px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
 }
