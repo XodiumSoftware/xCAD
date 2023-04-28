@@ -8,8 +8,6 @@ from PySide6.QtWidgets import *
 
 from constants import *
 
-# TODO: switch to configparser since its more efficient than plain text.
-
 
 class ScrollBar(QScrollBar):
     def mousePressEvent(self, event):
