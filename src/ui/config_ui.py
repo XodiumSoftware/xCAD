@@ -1,4 +1,6 @@
+import configparser
 import os
+from collections import defaultdict
 
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -9,19 +11,89 @@ from constants import *
 
 class ScrollBar(QScrollBar):
     def mousePressEvent(self, event):
+        """
+        This function is called when the mouse is pressed.
+        """
         super().mousePressEvent(event)
         self.setSliderDown(True)
 
     def mouseReleaseEvent(self, event):
+        """
+        This function is called when the mouse is released.
+        """
         super().mouseReleaseEvent(event)
         self.setSliderDown(False)
 
 
 class ConfigUI:
     def __init__(self):
+        """
+        Initialize the configurator application window.
+        """
         self.config_ui_frame_setup()
         self.connect_input_fields()
         print("[DEBUG] ConfigUI initialized.")
+
+        self.load_inputs()
+
+    def load_inputs(self):
+        """
+        Load the inputs from the config file.
+        """
+        file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
+        if not os.path.isfile(file_path):
+            print(f"[DEBUG] File not found: {file_path}")
+            return
+
+        print(f"[DEBUG] Loading inputs from file: {file_path}")
+        config = configparser.RawConfigParser()
+
+        # Read file and create inputs section if it doesn't exist
+        with open(file_path) as f:
+            config.read_file(f)
+        config.setdefault("inputs", defaultdict(str))
+
+        # Set default values for missing keys
+        required_keys = [
+            "frame_material",
+            "frame_length",
+            "frame_height",
+            "profile_type",
+            "profile_length",
+            "profile_width",
+            "plate_material",
+            "plate_thickness",
+        ]
+        for key in required_keys:
+            config["inputs"].setdefault(key, "")
+
+        # Convert inputs to appropriate types
+        try:
+            values = {
+                "frame_length": float,
+                "frame_height": float,
+                "profile_length": float,
+                "profile_width": float,
+                "plate_thickness": float,
+            }
+            for key, converter in values.items():
+                config["inputs"][key] = str(converter(config["inputs"][key]))
+        except ValueError:
+            pass
+
+        # Set input values
+        self.frame_material_input.setText(config["inputs"]["frame_material"])
+        self.frame_length_input.setValue(float(config["inputs"]["frame_length"]))
+        self.frame_height_input.setValue(float(config["inputs"]["frame_height"]))
+        self.profile_type_input.setText(config["inputs"]["profile_type"])
+        self.profile_length_input.setValue(float(config["inputs"]["profile_length"]))
+        self.profile_width_input.setValue(float(config["inputs"]["profile_width"]))
+        self.plate_material_input.setText(config["inputs"]["plate_material"])
+        self.plate_thickness_input.setValue(float(config["inputs"]["plate_thickness"]))
+
+        # Write changes back to file
+        with open(file_path, "w") as f:
+            config.write(f)
 
     def config_ui_frame_setup(self):
         """
@@ -174,6 +246,9 @@ class ConfigUI:
         return self.frame_group_box
 
     def profile_group_box_setup(self) -> QGroupBox:
+        """
+        Creates a group box for a profile with input fields for profile type, length, and height.
+        """
         # Create group box for profile
         self.profile_group_box = QGroupBox()
         self.profile_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -230,6 +305,9 @@ class ConfigUI:
         return self.profile_group_box
 
     def plate_group_box_setup(self) -> QGroupBox:
+        """
+        Creates a group box for a plate with input fields for plate material, thickness, and height.
+        """
         # Create group box for plate
         self.plate_group_box = QGroupBox()
         self.plate_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -269,6 +347,9 @@ class ConfigUI:
         return self.plate_group_box
 
     def calc_group_box_setup(self) -> QGroupBox:
+        """
+        Creates a group box for a calculation with input fields for frame area and plate area.
+        """
         # Create the group box and set its alignment
         self.calc_group_box = QGroupBox()
         self.calc_group_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -302,6 +383,9 @@ class ConfigUI:
         return self.calc_group_box
 
     def update_frame_area_output(self):
+        """
+        Updates the frame area output field.
+        """
         frame_length = self.frame_length_input.value()
         frame_height = self.frame_height_input.value()
         frame_area = (frame_length * frame_height) / 1000000.0
@@ -309,6 +393,9 @@ class ConfigUI:
         self.frame_area_output.setText(frame_area_str)
 
     def connect_input_fields(self):
+        """
+        Connects the input fields to the save_inputs function.
+        """
         inputs = [
             self.frame_material_input,
             self.frame_length_input,
@@ -325,20 +412,25 @@ class ConfigUI:
                 input_field.valueChanged.connect(self.save_inputs)
 
     def save_inputs(self):
+        """
+        Saves the inputs to a config file.
+        """
         file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
         print(f"Saving inputs to file: {file_path}")
-        inputs = {
+        config = configparser.ConfigParser()
+        config.read(file_path)
+        config["inputs"] = {
             "frame_material": self.frame_material_input.text(),
-            "frame_length": self.frame_length_input.value(),
-            "frame_height": self.frame_height_input.value(),
+            "frame_length": str(self.frame_length_input.value()),
+            "frame_height": str(self.frame_height_input.value()),
             "profile_type": self.profile_type_input.text(),
-            "profile_length": self.profile_length_input.value(),
-            "profile_width": self.profile_width_input.value(),
+            "profile_length": str(self.profile_length_input.value()),
+            "profile_width": str(self.profile_width_input.value()),
             "plate_material": self.plate_material_input.text(),
-            "plate_thickness": self.plate_thickness_input.value(),
+            "plate_thickness": str(self.plate_thickness_input.value()),
         }
-        with open(file_path, "w") as file:
-            for key, value in inputs.items():
-                file.write(f"{key}: {value}\n")
+        with open(file_path, "w") as config_file:
+            config.write(config_file)
 
-        self.save_inputs()
+
+# TODO: switch to configparser since its more efficient than plain text.
