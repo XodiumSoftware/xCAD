@@ -215,7 +215,7 @@ class ConfigUI:
         # Add label and input field for frame material
         self.frame_material_input = QLineEdit()
         self.frame_material_input.setObjectName("frame_material_input")
-        self.frame_material_input.setPlaceholderText("Enter frame material")
+        self.frame_material_input.setPlaceholderText("WOOD")
         self.frame_material_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.label_input_pair_helper(
             "Frame Material:", self.frame_material_input, 0, self.frame_layout
@@ -274,7 +274,7 @@ class ConfigUI:
         # Add label and input field for profile type
         self.profile_type_input = QLineEdit()
         self.profile_type_input.setObjectName("profile_type_input")
-        self.profile_type_input.setPlaceholderText("Enter profile type")
+        self.profile_type_input.setPlaceholderText("SLS")
         self.profile_type_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.label_input_pair_helper(
             "Profile Type:", self.profile_type_input, 0, self.profile_layout
@@ -333,7 +333,7 @@ class ConfigUI:
         # Add label and input field for plate material
         self.plate_material_input = QLineEdit()
         self.plate_material_input.setObjectName("plate_material_input")
-        self.plate_material_input.setPlaceholderText("Enter plate material")
+        self.plate_material_input.setPlaceholderText("OSBIII")
         self.plate_material_input.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.label_input_pair_helper(
             "Plate Material:", self.plate_material_input, 0, self.plate_layout
