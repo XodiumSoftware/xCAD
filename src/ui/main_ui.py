@@ -156,7 +156,7 @@ class MainUI(QWidget, ConfigUI):
 
         if theme_instance == Theme.LIGHT:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-            if self.config_ui_button_flipped:  # Add this line
+            if self.config_ui_button_flipped:
                 self.config_ui_button.setIcon(
                     QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
                 )
@@ -164,7 +164,7 @@ class MainUI(QWidget, ConfigUI):
                 self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
         elif theme_instance == Theme.DARK:
             self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-            if self.config_ui_button_flipped:  # Add this line
+            if self.config_ui_button_flipped:
                 self.config_ui_button.setIcon(
                     QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
                 )
@@ -187,7 +187,7 @@ class MainUI(QWidget, ConfigUI):
             new_width = self.width() - self.config_ui_frame.width()
             self.setMinimumSize(*UI_MINIMUM_SIZE)
 
-            self.config_ui_button_flipped = False  # Add this line
+            self.config_ui_button_flipped = False
 
         else:
             self.config_ui_frame.show()
@@ -204,7 +204,7 @@ class MainUI(QWidget, ConfigUI):
             new_width = self.width() + self.config_ui_frame.width()
             self.setMinimumWidth(new_width)
 
-            self.config_ui_button_flipped = True  # Add this line
+            self.config_ui_button_flipped = True
 
         self.resize(new_width, self.height())
 

@@ -16,7 +16,9 @@ app = QApplication([])
 class Theme(Enum):
     LIGHT = "light"
     DARK = "dark"
-    DEFAULT = LIGHT or DARK  # FIXME: should be LIGHT or DARK and now its NONE.
+    # DEFAULT = (
+    #     ms_system_default_theme_handler()
+    # )  # FIXME: should be LIGHT or DARK and now its NONE.
 
 
 class ThemeHandler(QObject):
@@ -52,15 +54,15 @@ class ThemeHandler(QObject):
             file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
         elif self.current_theme == Theme.DARK:
             file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
-        elif self.current_theme == Theme.DEFAULT:
-            system_default_theme = self.ms_system_default_theme_handler()
-            if system_default_theme == Theme.LIGHT:
-                file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
-            elif system_default_theme == Theme.DARK:
-                file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
-            else:
-                app.setStyleSheet("")
-                return
+        # elif self.current_theme == Theme.DEFAULT:
+        #     system_default_theme = self.ms_system_default_theme_handler()
+        #     if system_default_theme == Theme.LIGHT:
+        #         file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
+        #     elif system_default_theme == Theme.DARK:
+        #         file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
+        #     else:
+        #         app.setStyleSheet("")
+        #         return
         else:
             return
 
