@@ -102,6 +102,10 @@ class ConfigUI:
         self.frame_length_prefix = QLabel("Frame Length:")
 
         self.frame_length_input = QDoubleSpinBox()
+        self.frame_length_input.setObjectName("frame_length_input")
+        self.frame_length_input.setButtonSymbols(
+            QAbstractSpinBox.ButtonSymbols.NoButtons
+        )
         self.frame_length_input.setRange(*INPUT_RANGE)
         self.frame_length_input.setDecimals(0)
         self.frame_length_input.setFixedWidth(INPUT_BAR_WIDTH)
@@ -117,6 +121,10 @@ class ConfigUI:
         self.frame_height_prefix = QLabel("Frame Height:")
 
         self.frame_height_input = QDoubleSpinBox()
+        self.frame_height_input.setObjectName("frame_height_input")
+        self.frame_height_input.setButtonSymbols(
+            QAbstractSpinBox.ButtonSymbols.NoButtons
+        )
         self.frame_height_input.setRange(*INPUT_RANGE)
         self.frame_height_input.setDecimals(0)
         self.frame_height_input.setFixedWidth(INPUT_BAR_WIDTH)
@@ -156,6 +164,10 @@ class ConfigUI:
         self.profile_length_prefix = QLabel("Profile Length:")
 
         self.profile_length_input = QDoubleSpinBox()
+        self.profile_length_input.setObjectName("profile_length_input")
+        self.profile_length_input.setButtonSymbols(
+            QAbstractSpinBox.ButtonSymbols.NoButtons
+        )
         self.profile_length_input.setRange(*INPUT_RANGE)
         self.profile_length_input.setDecimals(0)
         self.profile_length_input.setFixedWidth(INPUT_BAR_WIDTH)
@@ -171,6 +183,10 @@ class ConfigUI:
         self.profile_width_prefix = QLabel("Profile Width:")
 
         self.profile_width_input = QDoubleSpinBox()
+        self.profile_width_input.setObjectName("profile_width_input")
+        self.profile_width_input.setButtonSymbols(
+            QAbstractSpinBox.ButtonSymbols.NoButtons
+        )
         self.profile_width_input.setRange(*INPUT_RANGE)
         self.profile_width_input.setDecimals(0)
         self.profile_width_input.setFixedWidth(INPUT_BAR_WIDTH)
@@ -210,6 +226,10 @@ class ConfigUI:
         self.plate_thickness_prefix = QLabel("Plate Thickness:")
 
         self.plate_thickness_input = QDoubleSpinBox()
+        self.plate_thickness_input.setObjectName("plate_thickness_input")
+        self.plate_thickness_input.setButtonSymbols(
+            QAbstractSpinBox.ButtonSymbols.NoButtons
+        )
         self.plate_thickness_input.setRange(*INPUT_RANGE)
         self.plate_thickness_input.setDecimals(0)
         self.plate_thickness_input.setFixedWidth(INPUT_BAR_WIDTH)

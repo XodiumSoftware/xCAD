@@ -27,7 +27,13 @@ QLineEdit#frame_area_output {
     border-radius: 4px;
 }
 
-QDoubleSpinBox {
+QDoubleSpinBox#frame_length_input,
+QDoubleSpinBox#frame_height_input,
+QDoubleSpinBox#profile_length_input,
+QDoubleSpinBox#profile_width_input,
+QDoubleSpinBox#plate_thickness_input {
+    background-color: #ffffff;
+    color: black;
     border: 1px solid #252525;
     border-radius: 4px;
 }
