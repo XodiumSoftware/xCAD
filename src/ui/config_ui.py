@@ -37,6 +37,16 @@ class ConfigUI:
 
         self.input_handler()
 
+        # Connect signals and slots for input fields
+        self.frame_material_input.textChanged.connect(self.input_handler)
+        self.frame_length_input.valueChanged.connect(self.input_handler)
+        self.frame_height_input.valueChanged.connect(self.input_handler)
+        self.profile_type_input.textChanged.connect(self.input_handler)
+        self.profile_length_input.valueChanged.connect(self.input_handler)
+        self.profile_width_input.valueChanged.connect(self.input_handler)
+        self.plate_material_input.textChanged.connect(self.input_handler)
+        self.plate_thickness_input.valueChanged.connect(self.input_handler)
+
     def input_handler(self):
         """
         Load the inputs from the config file.
