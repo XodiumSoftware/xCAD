@@ -8,6 +8,8 @@ from PySide6.QtWidgets import *
 
 from constants import *
 
+# TODO: switch to configparser since its more efficient than plain text.
+
 
 class ScrollBar(QScrollBar):
     def mousePressEvent(self, event):
@@ -31,12 +33,11 @@ class ConfigUI:
         Initialize the configurator application window.
         """
         self.config_ui_frame_setup()
-        self.connect_input_fields()
         print("[DEBUG] ConfigUI initialized.")
 
-        self.load_inputs()
+        self.input_handler()
 
-    def load_inputs(self):
+    def input_handler(self):
         """
         Load the inputs from the config file.
         """
@@ -77,7 +78,10 @@ class ConfigUI:
                 "plate_thickness": float,
             }
             for key, converter in values.items():
-                config["inputs"][key] = str(converter(config["inputs"][key]))
+                value = config["inputs"][key].strip()
+                if not value:
+                    value = 0.0
+                config["inputs"][key] = str(converter(value))
         except ValueError:
             pass
 
@@ -391,46 +395,3 @@ class ConfigUI:
         frame_area = (frame_length * frame_height) / 1000000.0
         frame_area_str = "{:.2f}".format(frame_area).replace(".", ",")
         self.frame_area_output.setText(frame_area_str)
-
-    def connect_input_fields(self):
-        """
-        Connects the input fields to the save_inputs function.
-        """
-        inputs = [
-            self.frame_material_input,
-            self.frame_length_input,
-            self.frame_height_input,
-            self.profile_type_input,
-            self.profile_length_input,
-            self.profile_width_input,
-            self.plate_material_input,
-            self.plate_thickness_input,
-        ]
-        for input_field in inputs:
-            input_field.textChanged.connect(self.save_inputs)
-            if isinstance(input_field, QDoubleSpinBox):
-                input_field.valueChanged.connect(self.save_inputs)
-
-    def save_inputs(self):
-        """
-        Saves the inputs to a config file.
-        """
-        file_path = os.path.join(DATA_DIR_FOLDER, DATA_DIR_FILE)
-        print(f"Saving inputs to file: {file_path}")
-        config = configparser.ConfigParser()
-        config.read(file_path)
-        config["inputs"] = {
-            "frame_material": self.frame_material_input.text(),
-            "frame_length": str(self.frame_length_input.value()),
-            "frame_height": str(self.frame_height_input.value()),
-            "profile_type": self.profile_type_input.text(),
-            "profile_length": str(self.profile_length_input.value()),
-            "profile_width": str(self.profile_width_input.value()),
-            "plate_material": self.plate_material_input.text(),
-            "plate_thickness": str(self.plate_thickness_input.value()),
-        }
-        with open(file_path, "w") as config_file:
-            config.write(config_file)
-
-
-# TODO: switch to configparser since its more efficient than plain text.
