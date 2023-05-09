@@ -1,7 +1,13 @@
 import ast
+import os
+import sys
 
 import bricscad
-from bricscad.bim import current_model
+import matplotlib.pyplot as plt
+import pandas as pd
+from bricscad.bim import current_model as bim_model
+
+plt.close("all")
 
 # FIXME: bricscad lib import
 
