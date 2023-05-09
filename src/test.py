@@ -1,24 +1,38 @@
-import sys
+import ast
 
-from ezdxf import *
+import bricscad
+import comtypes.client
 
-try:
-    # get the filepath of the existing DXF document from the command line argument
-    filepath = sys.argv[1]
+# connect to BricsCAD
+bricscad = comtypes.client.GetActiveObject("BricscadApp.AcadApplication")
 
-    # open the existing DXF document
-    doc = readfile(filepath)
-    msp = doc.modelspace()  # get the modelspace
 
+def get_valid_input(prompt):
+    """
+    Get a valid input from the user.
+    """
+    while True:
+        try:
+            value = ast.literal_eval(input(prompt))
+            if not isinstance(value, tuple) or len(value) != 2:
+                raise ValueError
+            return value
+        except ValueError:
+            print("Invalid input. Please enter two points in the form (x, y).")
+
+
+def my_command():
+    """
+    ***
+    """
     # prompt the user to enter two points
-    p1 = tuple(map(float, input("Enter the first point (x, y): ").split()))
-    p2 = tuple(map(float, input("Enter the second point (x, y): ").split()))
+    p1 = get_valid_input("Enter the first point (x, y): ")
+    p2 = get_valid_input("Enter the second point (x, y): ")
 
     # add a line to the modelspace using the selected points
-    line = msp.add_line(p1, p2)
+    doc = bricscad.doc
+    msp = doc.modelspace()  # get the modelspace
+    msp.add_line(p1, p2)
 
-    # save the DXF document
-    doc.save()
 
-except Exception as e:
-    print("An error occurred:", e)
+bricscad.defun("MYCOMMAND", my_command)
