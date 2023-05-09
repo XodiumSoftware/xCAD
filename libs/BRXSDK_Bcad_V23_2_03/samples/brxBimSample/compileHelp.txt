@@ -1,0 +1,69 @@
+To compile for BricsCAD, define the environment variable "BRX20_SDK_PATH" and set it
+to the root folder where you placed the BRX SDK (for example "C:\BrxSdk").
+
+Props: the Visual Studio projects of this sample use property sheets. These are .props files
+located in build/props folder. Each file stores project settings related to a certain library,
+e.g. brx20.props for BRX 20 SDK.
+
+Check your global include folders in Visual Studio 2017 (Tools/Options/Project and
+Solutions/VC++ Directories), and avoid any include folders to the SDK folders there,
+as this might confuse the build configurations for BricsCAD (Debug_Bcad and Release_Bcad).
+
+When you have defined the environment variables, you have to close and restart all 
+Visual Studio 2017 instances, otherwise they will not be recognized. 
+
+==================================
+BRX V20 - Changes and Improvements
+==================================
+
+==================================
+BRX V19 - Changes and Improvements
+==================================
+
+Build environment for applications is now VS 2017 (VC141);
+BricsCAD and all libraries are now compiled with VS 2017.
+
+==================================
+BRX V18 - Changes and Improvements
+==================================
+
+==================================
+BRX V17 - Changes and Improvements
+==================================
+
+==================================
+BRX V16 - Changes and Improvements
+==================================
+
+Build environment for applications is now VS 2013 (VC12);
+BricsCAD and all libraries are now compiled with VS 2013.
+
+Sample applications have been updated for VS 2013 builds;
+
+
+==================================
+BRX V15 - Changes and Improvements
+==================================
+
+BRX V15 gets closer to ARX 2013 function signatures and behaviour.
+Nevertheless, BRX 15 still uses the "old" naming syntax for virtual overridable functions,
+without the "sub..." prefix. (to bypass this limitation, see PortingManual.txt)
+
+The header file "brx_version.h" provides new symbols to distinguish between V13, V14, V15 builds.
+
+VisualStudio 2010 is used to build BRX V15 applications.
+
+C++ OPM API has been added.
+
+
+==================================
+BRX V14 - Changes and Improvements
+==================================
+
+BRX V14 gets closer to ARX 2013 function signatures and behaviour.
+Nevertheless, BRX 14 still uses the "old" naming syntax for virtual overridable functions,
+without the "sub..." prefix.
+
+The header file "brx_version.h" provides new symbols to distinguish between V13 and V14 builds.
+
+VisualStudio 2010 is used to build BRX V14 applications.

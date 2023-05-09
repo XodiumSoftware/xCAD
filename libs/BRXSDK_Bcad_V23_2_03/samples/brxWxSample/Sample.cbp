@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Sample" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug_x64">
+				<Option output="./Debug_Linux/x64/Sample.lrx" prefix_auto="0" extension_auto="0" />
+				<Option object_output="./Debug_Linux/x64" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++0x" />
+					<Add option="-g" />
+					<Add option="-m64" />
+					<Add option="-frtti" />
+					<Add option="-O0" />
+					<Add option="-fno-signed-zeros" />
+					<Add option="-fvisibility=default" />
+					<Add option="-fPIC" />
+					<Add option="-Wno-sign-compare" />
+					<Add option="-Wno-sign-conversion" />
+					<Add option="-Wno-empty-body" />
+					<Add option="-Wno-reorder" />
+					<Add option="-Wno-parentheses" />
+					<Add option="-Wno-switch" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-Wno-unused-variable" />
+					<Add option="-Wno-unused-label" />
+					<Add option="-Wno-unknown-pragmas" />
+					<Add option="-Wno-comment" />
+					<Add option="-Wno-strict-aliasing" />
+					<Add option="-Wno-unused-but-set-variable" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-Wno-attributes" />
+					<Add option="-D_UNICODE" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_AFXEXT" />
+					<Add option="-D_ACRXAPP" />
+					<Add option="-DBRX_APP" />
+					<Add option="-D_FILE_OFFSET_BITS=64" />
+					<Add option="-D_LARGE_FILES" />
+					<Add option="-D__WXGTK__" />
+					<Add option="-D__WXGTK20__" />
+					<Add option="-DWX30" />
+					<Add directory="./" />
+					<Add directory="$(BRX19_SDK_PATH)/inc" />
+					<Add directory="$(BRX19_SDK_PATH)/inc/Platform/substitutes" />
+					<Add directory="$(WXWIDGETS30_PATH)/include" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-release/lib/wx/include/gtk2-unicode-static-3.0" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(BRX19_SDK_PATH)/inc" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-Wl,-whole-archive $(BRX19_SDK_PATH)/lib64/libdrx_entrypoint.a -Wl,-no-whole-archive" />
+					<Add library="brx19" />
+					<Add library="TD_Alloc" />
+					<Add library="TD_Root" />
+					<Add library="wx_baseu-3.0" />
+					<Add library="wx_gtk2u_core-3.0" />
+					<Add library="wx_gtk2u_adv-3.0" />
+					<Add library="wx_baseu_net-3.0" />
+					<Add directory="$(BRX19_SDK_PATH)/lib64" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-release/lib" />
+					<Add directory="/opt/bricsys/bricscad/v19" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="$sh xrc/generate_xrc_inl.sh release" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release_x64">
+				<Option output="./Release_Linux/x64/Sample.lrx" prefix_auto="0" extension_auto="0" />
+				<Option object_output="./Release_Linux/x64" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-std=c++0x" />
+					<Add option="-m64" />
+					<Add option="-frtti" />
+					<Add option="-fno-signed-zeros" />
+					<Add option="-fvisibility=default" />
+					<Add option="-fPIC" />
+					<Add option="-Wno-sign-compare" />
+					<Add option="-Wno-sign-conversion" />
+					<Add option="-Wno-empty-body" />
+					<Add option="-Wno-reorder" />
+					<Add option="-Wno-parentheses" />
+					<Add option="-Wno-switch" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-Wno-unused-variable" />
+					<Add option="-Wno-unused-label" />
+					<Add option="-Wno-unknown-pragmas" />
+					<Add option="-Wno-comment" />
+					<Add option="-Wno-strict-aliasing" />
+					<Add option="-Wno-unused-but-set-variable" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-Wno-attributes" />
+					<Add option="-D_UNICODE" />
+					<Add option="-DUNICODE" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_AFXEXT" />
+					<Add option="-D_ACRXAPP" />
+					<Add option="-DBRX_APP" />
+					<Add option="-D_FILE_OFFSET_BITS=64" />
+					<Add option="-D_LARGE_FILES" />
+					<Add option="-D__WXGTK__" />
+					<Add option="-D__WXGTK20__" />
+					<Add option="-DWX30" />
+					<Add option="-DwxDEBUG_LEVEL=0" />
+					<Add directory="./" />
+					<Add directory="$(BRX19_SDK_PATH)/inc" />
+					<Add directory="$(BRX19_SDK_PATH)/inc/Platform/substitutes" />
+					<Add directory="$(WXWIDGETS30_PATH)/include" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-release/lib/wx/include/gtk2-unicode-static-3.0" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(BRX19_SDK_PATH)/inc" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-Wl,-whole-archive $(BRX19_SDK_PATH)/lib64/libdrx_entrypoint.a -Wl,-no-whole-archive" />
+					<Add library="brx19" />
+					<Add library="TD_Alloc" />
+					<Add library="TD_Root" />
+					<Add library="wx_baseu-3.0" />
+					<Add library="wx_gtk2u_core-3.0" />
+					<Add library="wx_gtk2u_adv-3.0" />
+					<Add library="wx_baseu_net-3.0" />
+					<Add directory="$(BRX19_SDK_PATH)/lib64" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-release/lib" />
+					<Add directory="/opt/bricsys/bricscad/v19" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="$sh xrc/generate_xrc_inl.sh release" />
+				</ExtraCommands>
+			</Target>
+			<Target title="FullDebug_x64">
+				<Option output="./FullDebug_Linux/x64/Sample.lrx" prefix_auto="0" extension_auto="0" />
+				<Option object_output="./FullDebug_Linux/x64" />
+				<Option external_deps="$(BRX_PATH)/bin/gcc4/x64/Debug/libbrx19.so;" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++0x" />
+					<Add option="-g" />
+					<Add option="-m64" />
+					<Add option="-O0" />
+					<Add option="-frtti" />
+					<Add option="-fcheck-new" />
+					<Add option="-fvisibility=default" />
+					<Add option="-fPIC" />
+					<Add option="-Wno-sign-compare" />
+					<Add option="-Wno-sign-conversion" />
+					<Add option="-Wno-empty-body" />
+					<Add option="-Wno-reorder" />
+					<Add option="-Wno-parentheses" />
+					<Add option="-Wno-switch" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-Wno-unused-variable" />
+					<Add option="-Wno-unused-label" />
+					<Add option="-Wno-unknown-pragmas" />
+					<Add option="-Wno-comment" />
+					<Add option="-Wno-strict-aliasing" />
+					<Add option="-Wno-deprecated" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-unused-but-set-variable" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-Wno-attributes" />
+					<Add option="-D_UNICODE" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_AFXEXT" />
+					<Add option="-D_ACRXAPP" />
+					<Add option="-DBRX_APP" />
+					<Add option="-DBRX_INTENTIONAL" />
+					<Add option="-DBRX_BCAD_DEBUG" />
+					<Add option="-D_FILE_OFFSET_BITS=64" />
+					<Add option="-D_LARGE_FILES" />
+					<Add option="-D__WXGTK__" />
+					<Add option="-D__WXGTK20__" />
+					<Add option="-DWX30" />
+					<Add option="-DNO_DEBUG_SESSION" />
+					<Add directory="." />
+					<Add directory="$(BRX_PATH)/inc_sdk" />
+					<Add directory="$(BRX_PATH)/inc_sdk/Platform/substitutes" />
+					<Add directory="$(DWGDIRECT_PATH)" />
+					<Add directory="$(DWGDIRECT_PATH)/Include" />
+					<Add directory="$(WXWIDGETS30_PATH)/include" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-debug/lib/wx/include/gtk2-unicode-static-3.0" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="." />
+					<Add directory="$(BRX_PATH)/inc_sdk" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-Wl,-whole-archive $(BRX_PATH)/lib/gcc4/x64/Debug/libdrx_entrypoint.a -Wl,-no-whole-archive" />
+					<Add library="brx19" />
+					<Add library="TD_Alloc" />
+					<Add library="TD_Root" />
+					<Add library="wx_baseu-3.0" />
+					<Add library="wx_gtk2u_core-3.0" />
+					<Add library="wx_gtk2u_adv-3.0" />
+					<Add library="wx_baseu_net-3.0" />
+					<Add directory="$(BRX_PATH)/bin/gcc4/x64/Debug" />
+					<Add directory="$(DWGDIRECT_PATH)/bin/gcc4dbg/x64" />
+					<Add directory="$(WXWIDGETS30_PATH)/build-gtk-debug/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="$sh xrc/generate_xrc_inl.sh debug" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="Sample.cpp" />
+		<Unit filename="StdAfx.cpp" />
+		<Unit filename="StdAfx.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="acrxEntryPoint.cpp" />
+		<Unit filename="brx_version.h" />
+		<Unit filename="cmd/cmdGui.cpp" />
+		<Unit filename="cmd/cmdGui.h" />
+		<Unit filename="gui/MyWxApp.cpp" />
+		<Unit filename="gui/MyWxApp.h" />
+		<Unit filename="gui/MyWxDialog.cpp" />
+		<Unit filename="gui/MyWxDialog.h" />
+		<Unit filename="gui/MyWxDialogXrc.cpp" />
+		<Unit filename="gui/MyWxDialogXrc.h" />
+		<Unit filename="gui/WxUserInteraction.cpp" />
+		<Unit filename="gui/WxUserInteraction.h" />
+		<Unit filename="sys_version.h" />
+		<Unit filename="xrc/common/wxres_images.xrc" />
+		<Unit filename="xrc/locale/en-US/wxres_wxadlgxrc.xrc" />
+		<Unit filename="xrc/wxres_xrc.cpp" />
+		<Unit filename="xrc/wxres_xrc.txt" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

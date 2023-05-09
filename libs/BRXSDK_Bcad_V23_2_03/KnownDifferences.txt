@@ -1,0 +1,137 @@
+This file contains informations about known differences to ObjectARX behaviour
+and interfaces.
+
+
+BModeler - differences to ARX AModeler :
+========================================
+
+Faces + Holes iteration + identification :
+------------------------------------------
+BricsCAD BModeler does not use "bridge edges" internally to describe the face topology;
+instead, BModeler uses "face loops" - the function "extractAllLoops()" provides the list
+of faces, the first face loop is the outermost always, any further face loop describes a hole.
+
+especially for dwg persistent bodies :
+"bridge edges" are supported during dwgInFields(), to establish the "face loops" structures;
+during dwgOutFields(), the core modeler re-creates "bridge edges" to keep compatibility with ARX
+AModeler.
+
+The "extractAllLoops()" mechanism is also available with ARX AModeler - so this is the prefered
+way to iterate + analyse faces with their holes.
+
+
+AcEd interface :
+================
+
+struct resbuf * acedGetArgs()
+-----------------------------
+ARX :
+the returned argument list is dynamically created, but under management of ARX;
+client code is allowed to release this memory by acutRelRb(), but not enforced to do so
+(ARX simply ignores this call, and later releases that memory under own control)
+
+BRX :
+with BRX, client code should explicitely release this memory, otherwise a memory leak
+will appear
+
+Suggestion :
+as ARX simply does not release the resbuf list returned by acedGetArgs(), it is safe
+and reliable to use acutRelRb(args) with both ARX and BRX, so developers can use
+unified code here
+
+
+different Jigger logic
+----------------------
+The built-in commands like MOVE, COPY, etc. use jigger loops to generate dragged entities'
+graphics like in AutoCAD/ARX.
+But there is a major design difference :
+- AutoCAD creates and drags a new entity clone for each mouse move cycle
+- BricsCAD uses only a single clone, created at beginning of the jigger operation
+  => as result, there are no "clone()" calls during following mouse move cycles,
+     as the initially created clone is used
+ARX application might need to adjust their logic, if this different logic causes a problem.
+
+
+Custom Entities + Objects
+-------------------------
+With AutoCAD ARX, it is possible to create custom objects and entities, without having
+RunTime-Type-Information available - this is, declaring the custom object/entity without
+using ACRX_DECLARE_MEMBERS and corresponding ACRX_DXF_DEFINE_MEMBERS (and its variants)
+macros from rxboiler.h header.
+
+Such entities behave like normal entities of the base-class used, and all virtual overridable
+functions are properly used and called.
+When saving to dwg/dxf file, such objects/entities are saved as base-class items.
+
+In BRX, there is a minor, but fundamental difference - without RTTI available, such Objects
+and entities are treated as pure base-class items, not as custom objects / entities.
+As result, all the virtual overridable functions are *NOT* called on such custom object/entity
+instances.
+When saving to dwg/dxf file, such objects/entities are saved as base-class items, like with ARX.
+
+Background :
+The problem here is, that BRX has to manage BRX custom objects/entities, and instantiate the
+associated Teigha(TX) custom objects/entities - then, the BRX system handles this association,
+including virtual overridable functions.
+You can imagine this as a "man-in-the-middle" (or placeholder) object/entity, which is added
+between client custom object/entity and the related Teigha(TX) in class hierarchy.
+
+This means, using ACRX_DECLARE_MEMBERS and ACRX_DXF_DEFINE_MEMBERS (and its variants) is mandatory
+for BRX custom objects/entities, if calling the virtual overridable functions is required.
+
+* Teigha(TX) is the underlying database engine, provided by ODA Alliance, used by BricsCAD
+
+
+using RTTI macros
+-----------------
+As mentioned above, RTTI is required for database-resident custom objects and entities.
+For transient objects (like database + editor + document reactors), RTTI is not required;
+but if RTTI is used for transient custom objects, the <Class>::rxInit() must be called as well;
+that is not necessary under AutoCAD ARX - here, transient custom objects using RTTI macros
+do not need ::rxInit() to be called.
+But due to custom objects management (see above,) calling ::rxInit() is necessary under BRX.
+Alternatively :
+do not use RTTI macros for transient objects - this works fine in both ARX and BRX environment.
+
+
+COM interface usage
+-------------------
+
+Out-of-Process COM applications must use the correct TypeLibrary files (x86 or x64)
+versions, when running with x86 resp. x64 BricsCAD;
+this is different compared to AutoCAD, as it can install x86 version only under Windows x86,
+and x64 version only under Windows x64.
+
+Please see "PortingManual.txt" for more details.
+
+
+Cloning details related to AcDbIdMapping
+----------------------------------------
+Due to different logic in objects cloning at Teigha (TD) side, compared to ARX, we
+observed cases where BRX is not fully able to "hide" (or adapt) the BRX side behaviour
+to fully match ARX.
+
+Known case 1 :
+as observed, the AcDbIdMapping sometimes contains AcDbIdPair with valid key AcDbObjectId,
+but the value is set as kNull; this is caused by mentioned difference in cloning logic at
+Teigha database side.
+Such case never seems to happen with ARX.
+Client code who wants to add an AcDbIdPair(key, value) to AcDbIdMapping will fail with
+Acad::eHandleExists error status when assigning the AcDbIdPair to AcDbIdMapping.
+
+Workaround is simple :
+simply remove that AcDbIdPair before using assign() function
+
+    AcDbIdPair pair(idMyKey, kNull, false, false);
+    bool status = idMap.compute(pair);
+    if (status && pair.value.isNull())  // key ID is already present, check value
+    {
+        idMap.del(pair);
+    }
+    // update pair with intended clone, if clone exists or was already created
+    pair.setValue(idTargetCloneOrObject);
+    Acad::ErrorStatus es = idMap.assign(pair);
+
+This code will work with both ARX and BRX environment (as that case likely never happens
+in ARX), and is especially safe if ARX will ever change to have AcDbIdPair with value=kNull
+in its cloning AcDbIdMapping.

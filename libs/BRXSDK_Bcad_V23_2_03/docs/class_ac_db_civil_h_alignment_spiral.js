@@ -1,0 +1,25 @@
+var class_ac_db_civil_h_alignment_spiral =
+[
+    [ "~AcDbCivilHAlignmentSpiral", "class_ac_db_civil_h_alignment_spiral.html#a955092a1cb9db997f261a6d629d84bf1", null ],
+    [ "endDirection", "class_ac_db_civil_h_alignment_spiral.html#ad1ac80f74307ecc864cea4b0e6e2aac6", null ],
+    [ "isClockwise", "class_ac_db_civil_h_alignment_spiral.html#a36279c1729b6a56ea4652c266651a0b9", null ],
+    [ "isCompound", "class_ac_db_civil_h_alignment_spiral.html#a9b9d7fc7f075a99efc1b4f634939ed87", null ],
+    [ "paramA", "class_ac_db_civil_h_alignment_spiral.html#a287b36cd029ecd898916a7300ea91e24", null ],
+    [ "paramLength", "class_ac_db_civil_h_alignment_spiral.html#ac28f961cb047439e3288b2d93827b4ff", null ],
+    [ "radiusIn", "class_ac_db_civil_h_alignment_spiral.html#a2d96e82efbe005fca5eb42ed58de3556", null ],
+    [ "radiusOut", "class_ac_db_civil_h_alignment_spiral.html#a84f519014d430d9f4fa64670b9565518", null ],
+    [ "setClockwise", "class_ac_db_civil_h_alignment_spiral.html#af6a9924c07bbb15fbfd5c45bfe159e80", null ],
+    [ "setCompound", "class_ac_db_civil_h_alignment_spiral.html#a84dcb1d6b30c98d61e020f8cd759f1dc", null ],
+    [ "setEndDirection", "class_ac_db_civil_h_alignment_spiral.html#a401ff8bd8cef39549e4ccc2817222f5c", null ],
+    [ "setParamA", "class_ac_db_civil_h_alignment_spiral.html#a5f0c5c53fa4a7ccb10ebae51892739ca", null ],
+    [ "setParamLength", "class_ac_db_civil_h_alignment_spiral.html#a925d22e3aeef6ec43516c3a7c5ccf0d9", null ],
+    [ "setRadiusIn", "class_ac_db_civil_h_alignment_spiral.html#ae6d7dd4c3a22f87e28dcff1a8b233f76", null ],
+    [ "setRadiusOut", "class_ac_db_civil_h_alignment_spiral.html#a92fabacf190d3ca5b864d45b6ea7e0d9", null ],
+    [ "setSpiralCurveType", "class_ac_db_civil_h_alignment_spiral.html#abe42b00e189d792729cf1f9789958b9f", null ],
+    [ "setSpiralDefinition", "class_ac_db_civil_h_alignment_spiral.html#a697c0ce095754bd97cbde11ce32e08f7", null ],
+    [ "setStartDirection", "class_ac_db_civil_h_alignment_spiral.html#adcc17499c3cc7bbfb33a90c1ba18c36a", null ],
+    [ "spiralCurveType", "class_ac_db_civil_h_alignment_spiral.html#ab124e1c8381ea80008b7fe6727877792", null ],
+    [ "spiralDefinition", "class_ac_db_civil_h_alignment_spiral.html#a5d64866092abe5b5ece877593f3fab92", null ],
+    [ "startDirection", "class_ac_db_civil_h_alignment_spiral.html#af7abf2aa3b6bdada893dc42f8e204179", null ],
+    [ "AcDbCivilHAlignmentSpiral", "class_ac_db_civil_h_alignment_spiral.html#a3802990c0de9167e492d628645df0942", null ]
+];

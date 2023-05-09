@@ -2,10 +2,10 @@ import ast
 import os
 import sys
 
-import bricscad
+import libs.bricscad
 import matplotlib.pyplot as plt
 import pandas as pd
-from bricscad.bim import current_model as bim_model
+from libs.bricscad import current_model as bim_model
 
 plt.close("all")
 

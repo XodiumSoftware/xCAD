@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://opendesign.com/xml/TeighaFormat.xsd"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://opendesign.com/xml/TeighaFormat.xsd"
+    xmlns:oda="http://opendesign.com/xml"
+    version="1.0">
+
+  <!-- xmlns:oda is a generic namespace for attributes like "version" -->
+  
+  <xs:complexType name="AcDbCustomEntityParent" oda:version="1.0">
+    <xs:complexContent>
+      <xs:extension base="AcDbEntity">
+        <xs:sequence>
+			<xs:element name="VersionNumber" type="xs:unsignedInt"/>   <!-- entity version -->
+            <xs:element name="CenterPoint"   type="OdGePoint3d"/>      <!-- center point   -->
+			<xs:element name="Radius"        type="xs:double"/>        <!-- entity radiusn -->
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

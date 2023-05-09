@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "23a31eef-8809-0410-ab45-e05d03886d57++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "23a31eef-8809-0410-ab45-e05d03886d57++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "23a31eef-8809-0410-ab45-e05d03886d57++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "01037BD1-FAFD-41CB-A3DC-A29EE2772304",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "23a31eef-8809-0410-ab45-e05d03886d57++505" : "bricscad\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "brxSample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "sampleapps\/brx\/brxSample\/brxSample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn+ssh:\/\/dev.bricsys.com\/home\/svn\/bricscad",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "23a31eef-8809-0410-ab45-e05d03886d57++505"
+    }
+  ]
+}
