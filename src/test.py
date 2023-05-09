@@ -1,10 +1,9 @@
 import ast
 
 import bricscad
-import comtypes.client
+from bricscad.bim import current_model
 
-# connect to BricsCAD
-bricscad = comtypes.client.GetActiveObject("BricscadApp.AcadApplication")
+# FIXME: bricscad lib import
 
 
 def get_valid_input(prompt):
