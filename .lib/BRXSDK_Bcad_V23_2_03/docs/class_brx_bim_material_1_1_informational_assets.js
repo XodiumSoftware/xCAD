@@ -1,0 +1,27 @@
+var class_brx_bim_material_1_1_informational_assets =
+[
+    [ "BrxInformationAssetImpl", "struct_brx_bim_material_1_1_informational_assets_1_1_brx_information_asset_impl.html", null ],
+    [ "InformationalAssets", "class_brx_bim_material_1_1_informational_assets.html#a91008b2c7e07d054be9cb54e658d4a52", null ],
+    [ "~InformationalAssets", "class_brx_bim_material_1_1_informational_assets.html#a6501e21b89d57f267eb3e3207db0707b", null ],
+    [ "classification", "class_brx_bim_material_1_1_informational_assets.html#a886b7c0333336b2d5bc067928d964b16", null ],
+    [ "cost", "class_brx_bim_material_1_1_informational_assets.html#a8d6c963c08f0480824ee0264f2b7f2d8", null ],
+    [ "isNull", "class_brx_bim_material_1_1_informational_assets.html#a77b1734062bade0f3acade863f684c42", null ],
+    [ "keynote", "class_brx_bim_material_1_1_informational_assets.html#a4beb7fd56cde317bf0f3afe8e7e5ea3d", null ],
+    [ "label", "class_brx_bim_material_1_1_informational_assets.html#a5433323c39cde3133aab313207b40c20", null ],
+    [ "manufacturer", "class_brx_bim_material_1_1_informational_assets.html#aad0cc4123d9aaa63d0ec14663c37fee5", null ],
+    [ "mark", "class_brx_bim_material_1_1_informational_assets.html#a0c8042c2adf9e73b9362a0e47b6d01c5", null ],
+    [ "model", "class_brx_bim_material_1_1_informational_assets.html#a5a6e2c69779e4ba215ef384798bdac26", null ],
+    [ "operator=", "class_brx_bim_material_1_1_informational_assets.html#a8437b318a4d0f6e3ea68f210728aba1b", null ],
+    [ "setClassification", "class_brx_bim_material_1_1_informational_assets.html#a18850f888af5981864fc2ef111a2d41c", null ],
+    [ "setCost", "class_brx_bim_material_1_1_informational_assets.html#a8e574284fa6eba3654c9010b843a268d", null ],
+    [ "setKeynote", "class_brx_bim_material_1_1_informational_assets.html#a57ee65665b51ee9cb57e1a9e966bcca4", null ],
+    [ "setLabel", "class_brx_bim_material_1_1_informational_assets.html#ab1ac80f219bb34162b26bfaa82e3266e", null ],
+    [ "setManufacturer", "class_brx_bim_material_1_1_informational_assets.html#a0e54b98fef3176d246af83b73a8515eb", null ],
+    [ "setMark", "class_brx_bim_material_1_1_informational_assets.html#a0a89fe4be4c87c60f7d37ce6e29b19cc", null ],
+    [ "setModel", "class_brx_bim_material_1_1_informational_assets.html#a9fc4ba671bb722de3ac56797b81e22f1", null ],
+    [ "setNull", "class_brx_bim_material_1_1_informational_assets.html#a456876a21a5f8b0411ce216706453a63", null ],
+    [ "setUniqueCode", "class_brx_bim_material_1_1_informational_assets.html#a3211bf33a1a8024ab05eb692b18672ae", null ],
+    [ "setUrl", "class_brx_bim_material_1_1_informational_assets.html#aa80d60f23c634f240e0023fb0cd4adff", null ],
+    [ "uniqueCode", "class_brx_bim_material_1_1_informational_assets.html#af1fc339e5636728286ad2454af89e10e", null ],
+    [ "url", "class_brx_bim_material_1_1_informational_assets.html#af93ab4423025af09010eff54f7cb5521", null ]
+];

@@ -1,0 +1,5 @@
+; Copyright (C) 2006-2008 Menhirs NV. All rights reserved.
+
+EXPORTS
+acrxEntryPoint    PRIVATE
+acrxGetApiVersion PRIVATE

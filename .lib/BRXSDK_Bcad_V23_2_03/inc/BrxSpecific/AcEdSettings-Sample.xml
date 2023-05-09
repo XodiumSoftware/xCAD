@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--DOCTYPE settings SYSTEM "settings.dtd"-->
+<settings xml:lang="en-US">
+   <cat name="TestSettings">
+      <title>TestSettings</title>
+      <cat name="TestCategory">
+         <title>Test Category</title>
+         <var prog="b" save="dwg" name="TestSet1" type="real">
+            <title>Test Setting 1</title>
+            <help>Help for Test Setting 1.</help>
+            <value default="0.01"/>
+         </var>
+         <var prog="b" save="dwg" name="TestSet2" type="bool">
+            <title>Test Setting 2</title>
+            <help>Help for Test Setting 2.</help>
+            <value default="1"/>
+         </var>
+         <var prog="b" save="dwg" name="TestSet3" type="int" mode="readonly">
+            <title>Test Setting 3</title>
+            <help>Help for Test Setting 3.</help>
+            <value min = "0" max = "2" default="0"/>
+            <choose>
+               <option value="0">Minimal</option>
+               <option value="1">Maximal</option>
+               <option value="2">Average</option>
+            </choose>
+         </var>
+      </cat>
+   </cat>
+</settings>

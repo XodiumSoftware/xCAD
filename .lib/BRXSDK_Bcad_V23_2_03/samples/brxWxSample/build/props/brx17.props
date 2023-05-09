@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <wxMsvcVersion>120</wxMsvcVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetExt>.brx</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(BRX17_SDK_PATH)\inc$(PlatformArchitecture);$(BRX17_SDK_PATH)\inc;$(BRX17_SDK_PATH)\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BRX_APP;__BRXTARGET=17;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(BRX17_SDK_PATH)\lib$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="wxMsvcVersion">
+      <Value>$(wxMsvcVersion)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="cmd">
+      <UniqueIdentifier>{a7a5431b-3b0a-448e-a610-a10380d763a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbx">
+      <UniqueIdentifier>{8d13385c-af4e-40df-90cf-246f0a9d5b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{495ecf79-f065-4d22-be55-1ba5b708abfa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\cmd\cmdCom.cpp">
+      <Filter>cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cmd\cmdDbx.cpp">
+      <Filter>cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cmd\cmdGui.cpp">
+      <Filter>cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dbx\MyOPMExtension.cpp">
+      <Filter>dbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dbx\MyEntity.cpp">
+      <Filter>dbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\MyDialogBar.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\acrxEntryPoint.cpp" />
+    <ClCompile Include="..\..\Sample.cpp" />
+    <ClCompile Include="..\..\StdAfx.cpp" />
+    <ClCompile Include="..\..\gui\MyQuadExtension.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\cmd\cmdCom.h">
+      <Filter>cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cmd\cmdDbx.h">
+      <Filter>cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cmd\cmdGui.h">
+      <Filter>cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dbx\MyOPMExtension.h">
+      <Filter>dbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dbx\MyEntity.h">
+      <Filter>dbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\MyDialogBar.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Resource.h" />
+    <ClInclude Include="..\..\StdAfx.h" />
+    <ClInclude Include="..\..\sys_version.h" />
+    <ClInclude Include="..\..\sdk_unmap_names.h" />
+    <ClInclude Include="..\..\sdk_map_names.h" />
+    <ClInclude Include="..\..\arx_version.h" />
+    <ClInclude Include="..\..\gui\MyQuadExtension.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Sample.rc" />
+  </ItemGroup>
+</Project>

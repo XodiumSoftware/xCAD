@@ -1,0 +1,28 @@
+var class_ac_db_attribute_definition =
+[
+    [ "~AcDbAttributeDefinition", "class_ac_db_attribute_definition.html#a912cafdcea68f6f02893f298503e0325", null ],
+    [ "convertIntoMTextAttributeDefinition", "class_ac_db_attribute_definition.html#ad683f0f5e3952aa1d3db58698710c19b", null ],
+    [ "fieldLength", "class_ac_db_attribute_definition.html#a7fcd5ab739d11e3ca23deda7b60741a4", null ],
+    [ "getMTextAttributeDefinition", "class_ac_db_attribute_definition.html#a8d0882946638b4c9d0d2f3da5c6ad960", null ],
+    [ "isConstant", "class_ac_db_attribute_definition.html#a2ec5e190c07021ff3f06476220095b51", null ],
+    [ "isInvisible", "class_ac_db_attribute_definition.html#a19ef8dc2e2922c580507c206cf6c6b0f", null ],
+    [ "isMTextAttributeDefinition", "class_ac_db_attribute_definition.html#ae808cffd1c54074a0923ac286e352029", null ],
+    [ "isPreset", "class_ac_db_attribute_definition.html#a2e6e0af6aba01c3ba6597b8bfd6290ab", null ],
+    [ "isVerifiable", "class_ac_db_attribute_definition.html#acf02a5bc64577b498ec6e1a08ec5ceb2", null ],
+    [ "lockPositionInBlock", "class_ac_db_attribute_definition.html#a8aa2cb667ffd1efbba1ba8dd225586df", null ],
+    [ "prompt", "class_ac_db_attribute_definition.html#a5c816f066645956e268efe9fb20e3c29", null ],
+    [ "promptConst", "class_ac_db_attribute_definition.html#ae9c0193f73a0f8dcf1e2cd1dacda3a2d", null ],
+    [ "setConstant", "class_ac_db_attribute_definition.html#abe53a299cdff05614d86b14be3e0d6ad", null ],
+    [ "setFieldLength", "class_ac_db_attribute_definition.html#afc7b46d6154ffa3745042b1b41bf09a6", null ],
+    [ "setInvisible", "class_ac_db_attribute_definition.html#a8edb1b89d2f553a2ad8bd1790debfde8", null ],
+    [ "setLockPositionInBlock", "class_ac_db_attribute_definition.html#a8380da6ea8788b057f3ac89b648c6a70", null ],
+    [ "setMTextAttributeDefinition", "class_ac_db_attribute_definition.html#a6a80c092688cabb9565ae8c939f862a5", null ],
+    [ "setPreset", "class_ac_db_attribute_definition.html#a37356f5937950883528ba4e5ed92e95a", null ],
+    [ "setPrompt", "class_ac_db_attribute_definition.html#a27faa5a85abaa7441eaf643cdccd7dd3", null ],
+    [ "setTag", "class_ac_db_attribute_definition.html#ac32f60aa69ce966c53a1a7297b471e4c", null ],
+    [ "setVerifiable", "class_ac_db_attribute_definition.html#acc519a10b7d588d168dc1dd92cf24460", null ],
+    [ "tag", "class_ac_db_attribute_definition.html#a030285c56cb26779187b445fa2439268", null ],
+    [ "tagConst", "class_ac_db_attribute_definition.html#a6952b21e1d2273da51700d900696c603", null ],
+    [ "updateMTextAttributeDefinition", "class_ac_db_attribute_definition.html#a9641d6d8005154859665386dc7ac2169", null ],
+    [ "AcDbAttributeDefinition", "class_ac_db_attribute_definition.html#a301a59038247d5a9ea282c42c727454e", null ]
+];

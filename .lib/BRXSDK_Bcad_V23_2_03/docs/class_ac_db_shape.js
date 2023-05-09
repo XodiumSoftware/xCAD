@@ -1,0 +1,28 @@
+var class_ac_db_shape =
+[
+    [ "~AcDbShape", "class_ac_db_shape.html#a1395ceab37c3ef839df55cccfc5981a2", null ],
+    [ "getPlane", "class_ac_db_shape.html#aac9e7f2168faba53161a00729ff0974c", null ],
+    [ "name", "class_ac_db_shape.html#a5a65771257ef0378ddbceea65759336d", null ],
+    [ "normal", "class_ac_db_shape.html#a7b7608369c8a957084df2fbcf9552506", null ],
+    [ "oblique", "class_ac_db_shape.html#a8528bd59efe381da5cd93fbc7b485472", null ],
+    [ "position", "class_ac_db_shape.html#a7c921d22b964d23be69573f5fc54110c", null ],
+    [ "rotation", "class_ac_db_shape.html#a2346ad74a8d8c83af7401c7082dabd4a", null ],
+    [ "setName", "class_ac_db_shape.html#a851566507425b7b7726450eaa30d9f99", null ],
+    [ "setNormal", "class_ac_db_shape.html#a4513d2a229846b3475a76a47bf848a76", null ],
+    [ "setOblique", "class_ac_db_shape.html#a16d2f9750ee9bfb16078be4b26876834", null ],
+    [ "setPosition", "class_ac_db_shape.html#a3bf6b1ed10d5fbdf46ed015aae3fde31", null ],
+    [ "setRotation", "class_ac_db_shape.html#ad9d85dad33de682d9ec3760fe8d13743", null ],
+    [ "setShapeIndex", "class_ac_db_shape.html#ad25c7f8b9c046fbafd6fee126dd1fc92", null ],
+    [ "setShapeNumber", "class_ac_db_shape.html#a16e8430557fabb6d2707a8c135c1bc54", null ],
+    [ "setSize", "class_ac_db_shape.html#a0901738f4d0c6e48dcd23f64a7b3461d", null ],
+    [ "setStyleId", "class_ac_db_shape.html#a759bec8bb668326ed6af1c744b74eec9", null ],
+    [ "setThickness", "class_ac_db_shape.html#a83a824731ea67375654d42a61c2d697c", null ],
+    [ "setWidthFactor", "class_ac_db_shape.html#af6ddadce10f8a9cacd75d1e1c4f45fa8", null ],
+    [ "shapeIndex", "class_ac_db_shape.html#a10c0d2452e8a935d889384894e529aac", null ],
+    [ "shapeNumber", "class_ac_db_shape.html#a01d1b3e63af4d496c7251582909c87f7", null ],
+    [ "size", "class_ac_db_shape.html#a0687fda807a3f467f2acc51931fc5390", null ],
+    [ "styleId", "class_ac_db_shape.html#add3ab7dbc31ba1cbf8348eb4a981ee53", null ],
+    [ "thickness", "class_ac_db_shape.html#ad825a926427dde62f5b78b0096a9fae6", null ],
+    [ "widthFactor", "class_ac_db_shape.html#ad5a13352c6d3e3c484dc52d325ed13cb", null ],
+    [ "AcDbShape", "class_ac_db_shape.html#a3a0a4924f3b76917904ef950c4613465", null ]
+];

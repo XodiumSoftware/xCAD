@@ -1,0 +1,27 @@
+// Copyright (C) Menhirs NV. All rights reserved.
+#pragma once
+
+#include "AcDb/AcDbObjectId.h"
+
+class AcDbBlockReference;
+
+/** _ */
+class BRX_IMPORTEXPORT AcDbBlockReferenceIdIterator
+{
+private:
+    AcDbObjectIdArray m_array;
+    int m_pos;
+    friend class AcDbBlockTableRecord;
+
+    AcDbBlockReferenceIdIterator();
+public:
+    ~AcDbBlockReferenceIdIterator();
+
+    Acad::ErrorStatus getBlockReference(AcDbBlockReference*&,AcDb::OpenMode,bool = false) const;
+    Acad::ErrorStatus getBlockReferenceId(AcDbObjectId&) const;
+    Acad::ErrorStatus getDatabase(AcDbDatabase*&) const;
+    Acad::ErrorStatus seek(AcDbObjectId);
+    bool done() const;
+    void start();
+    void step();
+};

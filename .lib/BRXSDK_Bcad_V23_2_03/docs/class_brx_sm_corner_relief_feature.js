@@ -1,0 +1,26 @@
+var class_brx_sm_corner_relief_feature =
+[
+    [ "BrxSmCornerReliefFeature", "class_brx_sm_corner_relief_feature.html#a7e78cce63757979f0eea17ff7364dbee", null ],
+    [ "BrxSmCornerReliefFeature", "class_brx_sm_corner_relief_feature.html#a3885d0b60c0c228f48450d1c9a2516be", null ],
+    [ "~BrxSmCornerReliefFeature", "class_brx_sm_corner_relief_feature.html#ad8040cab3328b1846a5ee2fb0a6b1ddf", null ],
+    [ "BrxSmCornerReliefFeature", "class_brx_sm_corner_relief_feature.html#a6024a7b6c44d404908a3c76a6a9aeaa6", null ],
+    [ "diameterType", "class_brx_sm_corner_relief_feature.html#a51c99173e63ac8fd74daa74c48c037df", null ],
+    [ "extensionType", "class_brx_sm_corner_relief_feature.html#ab58c0a0ee95884028c3bf28b14f3440c", null ],
+    [ "getDiameterAbsoluteValue", "class_brx_sm_corner_relief_feature.html#aa92c4f104cdfa42a909b17091a77ac2f", null ],
+    [ "getExtensionAbsoluteValue", "class_brx_sm_corner_relief_feature.html#a433d8422ec83e1f21c8a711f6bd3e9c0", null ],
+    [ "getExtensionRatio", "class_brx_sm_corner_relief_feature.html#a70993646059a0ca877433a8b7efef130", null ],
+    [ "getFaces", "class_brx_sm_corner_relief_feature.html#a8d9674fae92abe5fed0d5988668b78df", null ],
+    [ "isSheetMetalFeature", "class_brx_sm_corner_relief_feature.html#a3d85d8150d5067d0af6784cf16105831", null ],
+    [ "objectType", "class_brx_sm_corner_relief_feature.html#a449d56fa4e667865aa047d7abb807826", null ],
+    [ "operator=", "class_brx_sm_corner_relief_feature.html#a9c6c2b958997dfe7c3e021c3a8796293", null ],
+    [ "operator=", "class_brx_sm_corner_relief_feature.html#a4ddb4f10e03dca32a78d651ac76edd5c", null ],
+    [ "referencePointType", "class_brx_sm_corner_relief_feature.html#a8361127c55601657430635c8b1bd0bde", null ],
+    [ "reliefType", "class_brx_sm_corner_relief_feature.html#acdaf3806044170ee044e0de5b8b37616", null ],
+    [ "setDiameterAbsoluteValue", "class_brx_sm_corner_relief_feature.html#ac007ac4304ae5f2a259ace8edb083812", null ],
+    [ "setExtensionAbsoluteValue", "class_brx_sm_corner_relief_feature.html#a3d2f9cfb67553ca70f2d9a98ca4cc829", null ],
+    [ "setExtensionRatio", "class_brx_sm_corner_relief_feature.html#a3aef891ad02f9da72255ee9c3cdbf85d", null ],
+    [ "setReferencePointType", "class_brx_sm_corner_relief_feature.html#a81aaa9704789e2b9d0424a35c9bd8989", null ],
+    [ "setReliefType", "class_brx_sm_corner_relief_feature.html#a7087f1c4e14a48dcbd946944d1145519", null ],
+    [ "useGlobalDiameter", "class_brx_sm_corner_relief_feature.html#a0504be185f9c5c895d7adaf66db83478", null ],
+    [ "useGlobalExtension", "class_brx_sm_corner_relief_feature.html#a2837916f6557bf1287daebab5ad9ad8c", null ]
+];

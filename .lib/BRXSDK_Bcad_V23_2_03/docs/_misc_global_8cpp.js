@@ -1,0 +1,28 @@
+var _misc_global_8cpp =
+[
+    [ "MAKECASE", "_misc_global_8cpp.html#abf19c398ca74c0ca9ad9a027d21322ba", null ],
+    [ "acByteSwap", "_misc_global_8cpp.html#a6f3092c1c88c9a85724c178a05ea2ad3", null ],
+    [ "accmGetColorFromACIName", "_misc_global_8cpp.html#a4e52aeb6943ef773624b6bbce21c3caf", null ],
+    [ "accmGetColorFromColorBookName", "_misc_global_8cpp.html#aea664a50294cf0849e3a6694a4b25c43", null ],
+    [ "accmGetColorFromRGBName", "_misc_global_8cpp.html#adf930471df6c2868632be3990457c493", null ],
+    [ "accmGetLocalizedColorNames", "_misc_global_8cpp.html#a0bb320249c5936541c07253bab00af04", null ],
+    [ "AcFStream_curLocale", "_misc_global_8cpp.html#a4dfcc9bb1652f3da10f7008ffd94208e", null ],
+    [ "AcFStream_wideToMulti", "_misc_global_8cpp.html#aac4e60d0bba9f3f8cb8bcffd935ebf82", null ],
+    [ "acProfileManagerPtr", "_misc_global_8cpp.html#a35a63eaeb6364a4b4c019caacc16cbdf", null ],
+    [ "acReadAnsiCharFromCFile", "_misc_global_8cpp.html#ad922b93efd1b726287b7203796a3294e", null ],
+    [ "acReadCIFFromCFile", "_misc_global_8cpp.html#a55b95541186b632d463bb9f29ff0baff", null ],
+    [ "acReadUtf16CharFromCFile", "_misc_global_8cpp.html#a79df764a5608c67ee6f142f41cdcfd48", null ],
+    [ "acReadUtf8CharFromCFile", "_misc_global_8cpp.html#a92da1892240b496735c2c78c1f87f2e8", null ],
+    [ "acWriteWCharToCFile", "_misc_global_8cpp.html#a567b603143bc5b71cce005e900a7edd9", null ],
+    [ "addSSgetFilterInputContextReactor", "_misc_global_8cpp.html#a3730267dcd3d9987cb2a36591c36f3bd", null ],
+    [ "addSSgetFilterInputContextReactor", "_misc_global_8cpp.html#a89ac98f6b419ec0654bc67ed4bdbc25c", null ],
+    [ "duplicateSelectionsAllowed", "_misc_global_8cpp.html#a13d5e5847fc80479f49399aaed834be9", null ],
+    [ "fromAcDbTextStyle", "_misc_global_8cpp.html#a768a2085c432a92d8f8e8e7bdc266d67", null ],
+    [ "fromAcDbTextStyle", "_misc_global_8cpp.html#a15001db36630e277ba58b7cee5b607aa", null ],
+    [ "isLicenseAvailable", "_misc_global_8cpp.html#a5833c4717bb490403d55fa652308c41e", null ],
+    [ "removeSSgetFilterInputContextReactor", "_misc_global_8cpp.html#aaef14c8060bd8a54b7f656e38030c997", null ],
+    [ "removeSSgetFilterInputContextReactor", "_misc_global_8cpp.html#a9c80c327c9bc04d5efca0f538adbcb18", null ],
+    [ "setAllowDuplicateSelection", "_misc_global_8cpp.html#a354afcca0671e6394321a78c91013a98", null ],
+    [ "toAcDbTextStyle", "_misc_global_8cpp.html#a680746d6e66898747f6567c69b335424", null ],
+    [ "toAcDbTextStyle", "_misc_global_8cpp.html#a470c40ee609ddaa12db1669e8083754c", null ]
+];
