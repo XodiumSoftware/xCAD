@@ -28,7 +28,8 @@ def get_valid_input(prompt):
 
 def my_command():
     """
-    ***
+    This function gets executed when the user types "my_command".
+    It then makes the user select two points which after the selection adds a line in between the points to the modelspace.
     """
     # prompt the user to enter two points
     p1 = get_valid_input("Enter the first point (x, y): ")
