@@ -1,17 +1,9 @@
 import ast
-import os
-import sys
-
-import libs.bricscad
-import matplotlib.pyplot as plt
-import pandas as pd
-from libs.bricscad import current_model as bim_model
-
-plt.close("all")
 
 # FIXME: bricscad lib import
 
 
+# TODO: move the input handler to input_handler.py
 def get_valid_input(prompt):
     """
     Get a valid input from the user.
