@@ -2,11 +2,11 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-from bbc.constants import *
-from bbc.handlers.data_handler import *
-from bbc.handlers.theme_handler import *
-from bbc.handlers.ui_handler import *
-from bbc.ui.config_ui import *
+from constants import *
+from handlers.data_handler import *
+from handlers.theme_handler import *
+from handlers.ui_handler import *
+from ui.config_ui import *
 
 
 class MainUI(QWidget, ConfigUI):

@@ -3,7 +3,7 @@ from typing import *
 
 from PySide6.QtWidgets import *
 
-from bbc.constants import *
+from constants import *
 
 # FIXME: Configurator inputs not being saved.
 
