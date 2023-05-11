@@ -18,7 +18,7 @@ To run the command window, use the following command on terminal: `brisc`
 
 - setup.cfg file creates the `BriscCad` library and sets up the `brisc` command (to import a module from the library use `from bbc.--- import ---`)
 
-# To read the docs
+# To read the library docs
 
 This ensures that the css files run and the docs are readable.
 
