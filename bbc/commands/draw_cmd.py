@@ -1,4 +1,5 @@
-from libs import bricscad
+from bbc.libs import bricscad
+
 
 def draw_line_between_two_points(start_point, end_point):
     # Create a new line entity
