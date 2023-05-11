@@ -1,16 +1,16 @@
-from bbc.libs import bricscad
+from bbc.libs.bricscad import bricscadapi
 
 
 def draw_line_between_two_points(start_point, end_point):
     # Create a new line entity
-    line = bricscad.Line(start_point, end_point)
+    line = bricscadapi.Line(start_point, end_point)
 
     # Add the line entity to the current space
-    bricscad.add_line(line)
+    bricscadapi.add_line(line)
 
     # Refresh the display
-    bricscad.redraw()
+    bricscadapi.redraw()
 
 
 # Register the "MyCommand" command with BricsCAD
-bricscad.add_command("MyCommand", draw_line_between_two_points)
+bricscadapi.add_command("MyCommand", draw_line_between_two_points)
