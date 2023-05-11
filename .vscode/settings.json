@@ -23,6 +23,7 @@
     "filemanagement",
     "Frameless",
     "hlayout",
+    "htdocs",
     "mainui",
     "matplotlib",
     "modelspace",
@@ -32,11 +33,13 @@
     "pyautocad",
     "pyplot",
     "readfile",
+    "specfic",
     "subcontrol",
     "Teigha",
     "tfcc",
     "tfccui",
-    "Timberframe"
+    "Timberframe",
+    "XAMPP"
   ],
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
