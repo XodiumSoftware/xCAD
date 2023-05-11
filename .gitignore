@@ -1,2 +1,5 @@
-__pycache__
 env
+.env
+build
+__pycache__
+*.egg-info
