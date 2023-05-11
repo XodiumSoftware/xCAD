@@ -1,16 +1,15 @@
-from bbc.libs.bricscad import bricscadapi
+# main.py
+from bbc.wrappers import bricscad_wrapper
 
+# FIXME: somehow this is not working
 
 def draw_line_between_two_points(start_point, end_point):
     # Create a new line entity
-    line = bricscadapi.Line(start_point, end_point)
-
-    # Add the line entity to the current space
-    bricscadapi.add_line(line)
+    bricscad_wrapper.add_line(start_point, end_point)
 
     # Refresh the display
-    bricscadapi.redraw()
+    bricscad_wrapper.redraw()
 
 
 # Register the "MyCommand" command with BricsCAD
-bricscadapi.add_command("MyCommand", draw_line_between_two_points)
+bricscad_wrapper.add_command("MyCommand", draw_line_between_two_points)
