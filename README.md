@@ -1,6 +1,6 @@
-# BriscCAD plug-in
+# BricsCAD plug-in
 
-GUI window for creating basic objects in BriscCad (e.g. walls)
+GUI window for creating basic objects in BricsCad (e.g. walls)
 
 # Installation
 
@@ -10,13 +10,13 @@ GUI window for creating basic objects in BriscCad (e.g. walls)
 
 # Running the software
 
-To run the command window, use the following command on terminal: `brisc`
+To run the command window, use the following command on terminal: `brics`
 
 # Important
 
 - Files named `__init__.py` are a special type of file that tells python that a specfic directory is a module. These files are required for accessing all python modules from anywhere.
 
-- setup.cfg file creates the `BriscCad` library and sets up the `brisc` command (to import a module from the library use `from bbc.[module] import [function]`) replace `[module]` & `[function]` with the name of the module and function.
+- setup.cfg file creates the `BricsCad` library and sets up the `brics` command (to import a module from the library use `from bbc.[module] import [function]`) replace `[module]` & `[function]` with the name of the module and function.
 
 # To read the library docs
 

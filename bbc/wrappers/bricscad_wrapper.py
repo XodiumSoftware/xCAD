@@ -1,6 +1,8 @@
 import ctypes
+import os
 
-bricscadapi = ctypes.cdll.LoadLibrary("bbc/libs/bricscad/bricscadapi.lib")
+bricscadapi_path = os.path.join("bbc", "libs", "bricscad", "bricscadapi.lib")
+bricscadapi = ctypes.cdll.LoadLibrary(bricscadapi_path)
 bricscadapi.Line.argtypes = [
     ctypes.c_double,
     ctypes.c_double,
