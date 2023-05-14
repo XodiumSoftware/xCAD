@@ -3,6 +3,8 @@ import os
 
 bricscadapi_path = os.path.join("bbc", "libs", "bricscad", "bricscadapi.lib")
 bricscadapi = ctypes.cdll.LoadLibrary(bricscadapi_path)
+
+# Line argument types are (x1, y1, x2, y2).
 bricscadapi.Line.argtypes = [
     ctypes.c_double,
     ctypes.c_double,
