@@ -1,10 +1,13 @@
 import ctypes
 import os
 
-bricscadapi_path = os.path.join("bbc", "libs", "bricscad", "bricscadapi.lib")
+# FIXME: bricscadapi = wrong lib?
+bricscadapi_path = os.path.join(
+    "bbc", "libs", "BRXSDK_Bcad_V23_2_03", "lib64", "brx23.lib"
+)
 bricscadapi = ctypes.cdll.LoadLibrary(bricscadapi_path)
 
-# Line argument types are (x1, y1, x2, y2).
+# Line argument types are (x1, y1, x2, y2) aka point1 and point2.
 bricscadapi.Line.argtypes = [
     ctypes.c_double,
     ctypes.c_double,
