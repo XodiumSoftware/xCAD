@@ -1,7 +1,7 @@
 from functools import lru_cache
 
 import comtypes.client
-from pyautocad import APoint, Autocad
+from pyautocad import APoint, Autocad, api
 
 
 class AutoCAD:
