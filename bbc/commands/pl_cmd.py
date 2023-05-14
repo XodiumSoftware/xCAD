@@ -1,21 +1,8 @@
-from pyautocad import Autocad
+from pyautocad import APoint, Autocad
 
+acad = Autocad(create_if_not_exists=True)
+acad.prompt("Hello, Autocad from Python\n")
 
-def draw_pline():
-    """
-    Draws a polyline by user-specified inputs
-    """
-    acad = Autocad()
+print("Using file " + acad.doc.Name)
 
-    # prompt user for points using list comprehension
-    points = [
-        (float(x), float(y))
-        for x, y in (
-            input("Enter a point as x,y (leave blank when done): ").split(",")
-            for _ in range(100)
-        )
-        if x and y
-    ]
-
-    # add polyline to AutoCAD drawing
-    acad.model.AddPolyline(points)
+dim1 = acad.model.AddDimAligned(p1, p2, APoint(width / 2, -0.5))
