@@ -1,18 +1,21 @@
-from pyautocad import APoint, Autocad
+from pyautocad import Autocad
 
 
-def draw_polyline():
+def draw_pline():
+    """
+    Draws a polyline by user-specified inputs
+    """
     acad = Autocad()
-    points = []
-    for i in range(2):
-        point = acad.GetPoint(prompt=f"Select point {i+1}: ")
-        if point is None:  # User pressed ESC
-            return
-        points.append(APoint(point))
+
+    # prompt user for points using list comprehension
+    points = [
+        (float(x), float(y))
+        for x, y in (
+            input("Enter a point as x,y (leave blank when done): ").split(",")
+            for _ in range(100)
+        )
+        if x and y
+    ]
+
+    # add polyline to AutoCAD drawing
     acad.model.AddPolyline(points)
-
-
-# Register the function as a command in AutoCAD
-acad = Autocad()
-acad.RegisterApplication("MyApp", "MyCommand", "MyCommand", 1)
-acad.AddCommand("MyApp", "MyCommand", "MyCommand", "N", draw_polyline)
