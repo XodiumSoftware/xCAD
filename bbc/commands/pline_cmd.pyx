@@ -1,3 +1,5 @@
+import bbc.wrappers.PyAcGiGeometry
+
 
 # TODO: replace "your_header_file.h" and "your_namespace" with the appropriate names.
 cdef extern from "your_header_file.h" namespace "your_namespace":
