@@ -3,5 +3,5 @@ from setuptools import setup
 
 if __name__ == "__main__":
     setup(
-        ext_modules=cythonize("pline_cmd.py"),
+        ext_modules=cythonize("pline_cmd.pyx"),
     )
