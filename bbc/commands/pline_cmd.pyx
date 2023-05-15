@@ -6,7 +6,6 @@ cdef extern from "your_header_file.h" namespace "your_namespace":
 
     cdef cppclass AcGiPolyline:
         # Define the members of the AcGiPolyline class if necessary
-        # Add function here
         pass
 
 
@@ -15,6 +14,7 @@ cdef PyAcGiGeometry geometry = PyAcGiGeometry()
 # Create an instance of AcGiPolyline
 cdef AcGiPolyline giPolyline = AcGiPolyline()
 # Set up the giPolyline object if needed
+# TODO: Add own functionality here
 
 # Call the polyline function
 cdef Adesk::Boolean success = geometry.polyline(giPolyline)
