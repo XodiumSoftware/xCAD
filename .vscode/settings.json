@@ -22,6 +22,8 @@
     "Brisc",
     "BRXSDK",
     "comtypes",
+    "Cython",
+    "cythonize",
     "defun",
     "ezdxf",
     "filemanagement",
