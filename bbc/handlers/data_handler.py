@@ -1,13 +1,13 @@
 import os
 from typing import *
 
-from PySide6.QtWidgets import *
-
 from constants import *
+from PySide6.QtWidgets import *
 
 # FIXME: Configurator inputs not being saved.
 
 
+# TODO: Remove data handler since its obsolete.
 class DataHandler:
     def dir_and_file_handler(self) -> Dict[str, Union[str, bool]]:
         """
