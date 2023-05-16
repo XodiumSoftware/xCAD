@@ -1,120 +1,88 @@
-import os.path
-import platform
-from enum import Enum
+import winreg
 
 from constants import *
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-
-app = QApplication([])
-
-# FIXME: .css files not working properly on the QScrollBar.
+from PySide6.QtCore import QFile, QSettings, QTextStream
+from PySide6.QtWidgets import QApplication
 
 
-class Theme(Enum):
-    LIGHT = "light"
-    DARK = "dark"
-    # DEFAULT = (
-    #     ms_system_default_theme_handler()
-    # )  # FIXME: should be LIGHT or DARK and now its NONE.
-
-
-class ThemeHandler(QObject):
-    theme_changed = Signal()
+class ThemeHandler:
+    """
+    Handles the theme.
+    """
 
     def __init__(self):
         """
-        Initializes a new instance of the class.
+        Initializes the theme handler.
         """
-        super().__init__()
-        self.current_theme = Theme.DARK
-        self.load_theme_handler()
+        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
+        self.app = QApplication([])
+        self.dark_stylesheet = self.load_stylesheet(DARK_THEME_FILE)
+        self.light_stylesheet = self.load_stylesheet(LIGHT_THEME_FILE)
+        self.load_theme()
 
-    def cycle_theme_handler(self):
+    def load_stylesheet(self, filename):
         """
-        Cycle through all available themes and set the next one as the current theme.
+        Loads a stylesheet from a file.
         """
-        all_themes = list(Theme)
-        current_index = all_themes.index(self.current_theme)
-        new_index = (current_index + 1) % len(all_themes)
-        self.current_theme = all_themes[new_index]
-        self.set_theme_handler()
-        return self.current_theme.value
-
-    def set_theme_handler(self):
-        """
-        Sets the theme handler for the application.
-        """
-        settings = QSettings()
-        settings.setValue("theme", self.current_theme.value)
-
-        if self.current_theme == Theme.LIGHT:
-            file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
-        elif self.current_theme == Theme.DARK:
-            file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
-        # elif self.current_theme == Theme.DEFAULT:
-        #     system_default_theme = self.ms_system_default_theme_handler()
-        #     if system_default_theme == Theme.LIGHT:
-        #         file_path = os.path.join(THEME_DIR_PATH, LIGHT_THEME_FILE_PATH)
-        #     elif system_default_theme == Theme.DARK:
-        #         file_path = os.path.join(THEME_DIR_PATH, DARK_THEME_FILE_PATH)
-        #     else:
-        #         app.setStyleSheet("")
-        #         return
-        else:
-            return
-
-        with open(file_path, "r") as f:
-            app.setStyleSheet(f.read())
-
-        self.theme_changed.emit()
-
-    def load_theme_handler(self):
-        """
-        Loads the theme handler for the application.
-        """
-        settings = QSettings()
-        theme_name = settings.value("theme", None)
-        if theme_name:
-            self.current_theme = Theme(theme_name)
-        else:
-            theme_file_path = os.path.join(THEME_SETTINGS_PATH)
+        file = QFile(filename)
+        stylesheet = None
+        if file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text):
             try:
-                with open(theme_file_path, "r") as f:
-                    theme_name = f.read().strip()
-            except Exception:
-                theme_name = None
-            if theme_name:
-                try:
-                    self.current_theme = Theme(theme_name)
-                except ValueError:
-                    pass
-            if not self.current_theme:
-                system_default_theme = self.ms_system_default_theme_handler()
-                if (
-                    system_default_theme == Theme.LIGHT
-                    or system_default_theme == Theme.DARK
-                ):
-                    self.current_theme = system_default_theme
-                else:
-                    self.current_theme = Theme.LIGHT
-        self.set_theme_handler()
+                stream = QTextStream(file)
+                stylesheet = stream.readAll()
+            finally:
+                file.close()
+        return stylesheet
 
-    @staticmethod
-    def ms_system_default_theme_handler():
+    def detect_system_theme(self):
         """
-        Returns the system default theme handler.
+        Detects the system theme.
         """
-        if platform.system() == "Windows":
-            try:
-                registry_key = "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
-                value_name = "SystemUsesLightTheme"
-                import winreg
+        try:
+            # Open the registry key that stores the system-wide color settings
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
 
-                key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_key)
-                value, _ = winreg.QueryValueEx(key, value_name)
-                return Theme.LIGHT if value == 0 else Theme.DARK
-            except Exception:
-                pass
-        return None
+            # Read the value of the "AppsUseLightTheme" key
+            # If the value is set to 1, the system is using the light theme
+            # If the value is set to 0, the system is using the dark theme
+            value_name = MS_VALUE_NAME
+            value = winreg.QueryValueEx(key, value_name)[0]
+
+            # Set the theme based on the system-wide color setting
+            if value == 0:
+                self.set_theme(KEY_THEME_DARK)
+            else:
+                self.set_theme(KEY_THEME_LIGHT)
+
+        except Exception as e:
+            print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
+
+    def load_theme(self):
+        """
+        Loads the theme.
+        """
+        # Load the saved theme from the settings
+        theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
+
+        if theme == KEY_THEME_DARK:
+            self.set_theme(KEY_THEME_DARK)
+        elif theme == KEY_THEME_LIGHT:
+            self.set_theme(KEY_THEME_LIGHT)
+        else:
+            # If no theme is saved, detect the system-wide color setting
+            self.detect_system_theme()
+
+    def set_theme(self, theme):
+        """
+        Sets the theme.
+        """
+        if theme == KEY_THEME_DARK:
+            stylesheet = self.dark_stylesheet
+            theme_value = KEY_THEME_DARK
+        else:
+            stylesheet = self.light_stylesheet
+            theme_value = KEY_THEME_LIGHT
+
+        if stylesheet:
+            self.app.setStyleSheet(stylesheet)
+            self.settings.setValue(KEY_THEME, theme_value)
