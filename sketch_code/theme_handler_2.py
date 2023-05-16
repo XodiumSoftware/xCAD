@@ -1,15 +1,14 @@
 import json
 from pathlib import Path
 
+from constants import *
 from PySide6.QtCore import QFile, QIODevice, QTextStream
-from PySide6.QtWidgets import QApplication, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 
 # TODO: Move as much as possible into the constants file.
-THEME_LIGHT = "Light"
-THEME_DARK = "Dark"
 
 
-class MyWidget(QWidget):
+class ThemeHandler(QWidget):
     THEMES_FOLDER = Path("sketch_code/data")
     PREFERENCES_FILE = "sketch_code/data/preferences.json"
 
@@ -84,29 +83,3 @@ class MyWidget(QWidget):
         else:
             print(f"Failed to open stylesheet file: {file_path}")
             return ""
-
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Toggle themes.")
-    parser.add_argument(
-        "--theme",
-        dest="theme",
-        default=THEME_LIGHT,
-        choices=[THEME_LIGHT, THEME_DARK],
-        help=f"Initial theme: {THEME_LIGHT} or {THEME_DARK}. Default: {THEME_LIGHT}.",
-    )
-    parser.add_argument(
-        "--preferences",
-        dest="preferences",
-        default=Path.cwd() / MyWidget.PREFERENCES_FILE,
-        type=Path,
-        help=f"Preferences file. Default: {Path.cwd() / MyWidget.PREFERENCES_FILE}.",
-    )
-    args = parser.parse_args()
-
-    app = QApplication([])
-    widget = MyWidget(args.theme, args.preferences)
-    widget.show()
-    app.exec()
