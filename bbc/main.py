@@ -1,10 +1,10 @@
 import sys
 
 from PySide6.QtWidgets import *
-
 from ui.main_ui import MainUI
 
 
+# TODO: Rewrite run().
 def run():
     """
     Initializes a QApplication object and a MainUI object,

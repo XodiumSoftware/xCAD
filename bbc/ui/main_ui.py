@@ -1,5 +1,4 @@
 from constants import *
-from handlers.data_handler import *
 from handlers.theme_handler import *
 from handlers.ui_handler import *
 from PySide6.QtCore import *
@@ -8,6 +7,7 @@ from PySide6.QtWidgets import *
 from ui.config_ui import *
 
 
+# TODO: Make MainUI work with the new input_handler and theme_handler.
 class MainUI(QWidget, ConfigUI):
     def __init__(self):
         """
@@ -15,7 +15,6 @@ class MainUI(QWidget, ConfigUI):
         """
         super().__init__()
         # Instances
-        self.data_handler_instance = DataHandler()
         self.theme_handler_instance = ThemeHandler()
         self.ui_handler_instance = UIHandler()
 
@@ -23,7 +22,6 @@ class MainUI(QWidget, ConfigUI):
         self.config_ui_frame_visible = False
         self.config_ui_button_flipped = False
 
-        self.data_handler_instance.dir_and_file_handler()
         self.main_ui_setup()
 
         print("[DEBUG] MainUI initialized.")
