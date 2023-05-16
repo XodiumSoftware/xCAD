@@ -4,7 +4,6 @@ from handlers.ui_handler import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from ui.config_ui import *
 
 
 # TODO: Make MainUI work with the new input_handler and theme_handler.
@@ -25,18 +24,6 @@ class MainUI(QWidget, ConfigUI):
         self.main_ui_setup()
 
         print("[DEBUG] MainUI initialized.")
-
-    def keyPressEvent(self, event):
-        """
-        This function is called when certain keys are pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            self.close()
-        else:
-            super().keyPressEvent(event)
 
     def main_ui_setup(self):
         """
