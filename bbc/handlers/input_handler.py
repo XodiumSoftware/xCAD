@@ -16,7 +16,8 @@ class InputHandler(QObject):
         Initializes the input handler.
         """
         super().__init__()
-        DB_DIR.mkdir(parents=True, exist_ok=True)
+        if not os.path.exists(DB_DIR):
+            os.makedirs(DB_DIR)
         self.db_conn = sqlite3.connect(str(DB_FILE))
         self.db_cursor = self.db_conn.cursor()
         self.db_cursor.execute(CREATE_TABLE_SQL)

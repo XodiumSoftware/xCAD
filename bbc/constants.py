@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 
 # General
 UI_TITLE = "AFC"
@@ -54,8 +54,8 @@ DATA_DIR_FOLDER = "bbc/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
 
 # Database
-DB_DIR = Path("bbc", "data", "db")
-DB_FILE = DB_DIR / "inputs.db"
+DB_DIR = os.path.join("bbc", "data", "db")
+DB_FILE = os.path.join(DB_DIR, "inputs.db")
 
 # Define constants for the SQL statements
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
@@ -71,8 +71,8 @@ DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
 THEME_DIR_FOLDER = DATA_DIR_FOLDER
 THEME_DIR_FILE = "theme_settings.txt"
 
-DARK_THEME_FILE = "bbc/data/themes/dark.css"
-LIGHT_THEME_FILE = "bbc/data/themes/light.css"
+DARK_THEME_FILE = "bbc/themes/dark.css"
+LIGHT_THEME_FILE = "bbc/themes/light.css"
 
 SETTINGS_ORGANIZATION = "AFC"
 SETTINGS_APPLICATION = "CurrentThemeSetting"
