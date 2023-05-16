@@ -1,10 +1,5 @@
-from constants import *
 from events.main_events import *
-from handlers.theme_handler import *
-from handlers.ui_handler import *
 from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
 
 
 # TODO: Make MainUI work with the new input_handler and theme_handler.
