@@ -39,20 +39,18 @@ class MyWidget(QWidget):
         self.apply_theme_stylesheet(new_theme)
         self.update_theme_label(new_theme)
 
-    def get_preferences_file_path(self):
+    def save_theme_preference(self, theme):
+        data = {"theme": theme}
         folder_path = os.path.join(os.getcwd(), self.THEMES_FOLDER)
         os.makedirs(folder_path, exist_ok=True)
         file_path = os.path.join(folder_path, self.PREFERENCES_FILE)
-        return file_path
-
-    def save_theme_preference(self, theme):
-        data = {"theme": theme}
-        file_path = self.get_preferences_file_path()
         with open(file_path, "w") as file:
             json.dump(data, file)
 
     def get_last_theme_preference(self):
-        file_path = self.get_preferences_file_path()
+        folder_path = os.path.join(os.getcwd(), self.THEMES_FOLDER)
+        os.makedirs(folder_path, exist_ok=True)
+        file_path = os.path.join(folder_path, self.PREFERENCES_FILE)
         try:
             with open(file_path, "r") as file:
                 data = json.load(file)
@@ -65,25 +63,27 @@ class MyWidget(QWidget):
 
     def load_theme_stylesheet(self):
         theme_file = f"{self.current_theme.lower()}_theme.css"
-        style_sheet = self.read_stylesheet(theme_file)
+        file_path = os.path.join(os.getcwd(), self.THEMES_FOLDER, theme_file)
+        style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
 
     def apply_theme_stylesheet(self, theme):
         theme_file = f"{theme.lower()}_theme.css"
-        style_sheet = self.read_stylesheet(theme_file)
+        file_path = os.path.join(os.getcwd(), self.THEMES_FOLDER, theme_file)
+        style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
         self.current_theme = theme
 
     @staticmethod
-    def read_stylesheet(file_name):
-        file = QFile(file_name)
+    def read_stylesheet(file_path):
+        file = QFile(file_path)
         if file.open(QIODevice.OpenModeFlag.ReadOnly | QIODevice.OpenModeFlag.Text):
             stream = QTextStream(file)
             style_sheet = stream.readAll()
             file.close()
             return style_sheet
         else:
-            print(f"Failed to open stylesheet file: {file_name}")
+            print(f"Failed to open stylesheet file: {file_path}")
             return ""
 
 
