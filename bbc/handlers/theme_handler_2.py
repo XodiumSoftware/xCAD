@@ -34,16 +34,18 @@ class ThemeHandler:
     def load_theme(self):
         theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
         if theme == KEY_THEME_DARK:
-            self.set_dark_theme()
+            self.set_theme(KEY_THEME_DARK)
         else:
-            self.set_light_theme()
+            self.set_theme(KEY_THEME_LIGHT)
 
-    def set_dark_theme(self):
-        if self.dark_stylesheet:
-            self.app.setStyleSheet(self.dark_stylesheet)
-            self.settings.setValue(KEY_THEME, KEY_THEME_DARK)
+    def set_theme(self, theme):
+        if theme == KEY_THEME_DARK:
+            stylesheet = self.dark_stylesheet
+            theme_value = KEY_THEME_DARK
+        else:
+            stylesheet = self.light_stylesheet
+            theme_value = KEY_THEME_LIGHT
 
-    def set_light_theme(self):
-        if self.light_stylesheet:
-            self.app.setStyleSheet(self.light_stylesheet)
-            self.settings.setValue(KEY_THEME, KEY_THEME_LIGHT)
+        if stylesheet:
+            self.app.setStyleSheet(stylesheet)
+            self.settings.setValue(KEY_THEME, theme_value)
