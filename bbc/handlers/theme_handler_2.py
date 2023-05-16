@@ -1,25 +1,8 @@
 import winreg
 
+from constants import *
 from PySide6.QtCore import QFile, QSettings, QTextStream
 from PySide6.QtWidgets import QApplication
-
-DARK_THEME_FILE = "bbc/data/themes/dark.css"
-LIGHT_THEME_FILE = "bbc/data/themes/light.css"
-
-SETTINGS_ORGANIZATION = "AFC"
-SETTINGS_APPLICATION = "CurrentThemeSetting"
-
-KEY_THEME = "theme"
-KEY_THEME_LIGHT = "light"
-KEY_THEME_DARK = "dark"
-
-MS_VALUE_NAME = "AppsUseLightTheme"
-
-WINREG_THEME_KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
-
-DEBUG_NAME = "[DEBUG] "
-
-DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "
 
 
 class ThemeHandler:
