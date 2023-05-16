@@ -22,11 +22,14 @@ class ThemeHandler:
 
     def load_stylesheet(self, filename):
         file = QFile(filename)
+        stylesheet = None
         if file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text):
-            stream = QTextStream(file)
-            stylesheet = stream.readAll()
-            file.close()
-            return stylesheet
+            try:
+                stream = QTextStream(file)
+                stylesheet = stream.readAll()
+            finally:
+                file.close()
+        return stylesheet
 
     def load_theme(self):
         theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
