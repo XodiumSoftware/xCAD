@@ -7,7 +7,7 @@ from PySide6.QtWidgets import *
 # FIXME: Configurator inputs not being saved.
 
 
-class DataHandler:
+class DirAndFileHandler:
     def dir_and_file_handler(self) -> Dict[str, Union[str, bool]]:
         """
         Initializes a dictionary to hold data folder and file information.
