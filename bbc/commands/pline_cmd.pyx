@@ -1,3 +1,19 @@
+import cython
+import bricscad
+
+cdef class PyAcGiGeometry:
+    cdef AcGiGeometry* thisptr
+
+    def __cinit__(self):
+        self.thisptr = new AcGiGeometry()
+
+    def __dealloc__(self):
+        del self.thisptr
+
+    cpdef polyline(self, giPolyline):
+        cdef AcGiPolyline* polyline_ptr = <AcGiPolyline*>giPolyline._get_thisptr()
+        return self.thisptr.polyline(giPolyline_ptr)
+
 
 # TODO: replace "your_header_file.h" and "your_namespace" with the appropriate names.
 cdef extern from "your_header_file.h" namespace "your_namespace":
