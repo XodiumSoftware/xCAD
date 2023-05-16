@@ -3,6 +3,7 @@ import sqlite3
 from constants import *
 from PySide6.QtCore import QObject, Signal
 
+# TODO: Ask Gaia about SQLite implementation.
 
 class InputHandler(QObject):
     """
