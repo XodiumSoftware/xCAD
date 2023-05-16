@@ -1,3 +1,5 @@
+from pathlib import Path
+
 # General
 UI_TITLE = "AFC"
 UI_FONT_TYPE = "Arial"
@@ -50,6 +52,17 @@ INPUT_RANGE = 0, 1e100
 # Data
 DATA_DIR_FOLDER = "bbc/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
+
+# Database
+DB_DIR = Path("bbc", "data", "db")
+DB_FILE = DB_DIR / "inputs.db"
+
+# Define constants for the SQL statements
+CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    input_type TEXT,
+    input_data TEXT)"""
+INSERT_INPUT_SQL = "INSERT INTO inputs (input_type, input_data) VALUES (?, ?)"
 
 # Theme
 LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
