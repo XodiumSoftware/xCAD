@@ -2,10 +2,11 @@ import argparse
 from pathlib import Path
 
 from constants import *
+from handlers.theme_handler_2 import ThemeHandler
 from PySide6.QtWidgets import QApplication
-from theme_handler_2 import ThemeHandler
 
-if __name__ == "__main__":
+
+def main():
     parser = argparse.ArgumentParser(description="Toggle themes.")
     parser.add_argument(
         "--theme",
@@ -17,9 +18,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--preferences",
         dest="preferences",
-        default=Path.cwd() / ThemeHandler.PREFERENCES_FILE,
+        default=Path.cwd() / PREFERENCES_FILE,
         type=Path,
-        help=f"Preferences file. Default: {Path.cwd() / ThemeHandler.PREFERENCES_FILE}.",
+        help=f"Preferences file. Default: {Path.cwd() / PREFERENCES_FILE}.",
     )
     args = parser.parse_args()
 
@@ -27,3 +28,7 @@ if __name__ == "__main__":
     widget = ThemeHandler(args.theme, args.preferences)
     widget.show()
     app.exec()
+
+
+if __name__ == "__main__":
+    main()

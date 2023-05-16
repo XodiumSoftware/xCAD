@@ -9,13 +9,10 @@ from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 
 
 class ThemeHandler(QWidget):
-    THEMES_FOLDER = Path("sketch_code/data")
-    PREFERENCES_FILE = "sketch_code/data/preferences.json"
-
     def __init__(self, theme: str, preferences_file: Path):
         super().__init__()
-        self.current_theme = theme
         self.preferences_file = preferences_file
+        self.current_theme = self.get_last_theme_preference() or theme
         self.init_ui()
 
     def init_ui(self):
@@ -61,13 +58,13 @@ class ThemeHandler(QWidget):
 
     def load_theme_stylesheet(self):
         theme_file = f"{self.current_theme.lower()}_theme.css"
-        file_path = self.THEMES_FOLDER / theme_file
+        file_path = THEMES_FOLDER / theme_file
         style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
 
     def apply_theme_stylesheet(self, theme):
         theme_file = f"{theme.lower()}_theme.css"
-        file_path = self.THEMES_FOLDER / theme_file
+        file_path = THEMES_FOLDER / theme_file
         style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
         self.current_theme = theme
