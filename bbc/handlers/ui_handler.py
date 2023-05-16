@@ -5,7 +5,7 @@ from PySide6.QtWidgets import *
 
 class UIHandler:
     @staticmethod
-    def center_ui_on_screen_handler(ui):
+    def center_ui_on_screen(ui):
         """
         Centers the window on the primary screen.
         """
