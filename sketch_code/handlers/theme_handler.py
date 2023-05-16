@@ -3,32 +3,17 @@ from pathlib import Path
 
 from constants import *
 from PySide6.QtCore import QFile, QIODevice, QTextStream
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QWidget
 
 # TODO: Move as much as possible into the constants file.
 
 
 class ThemeHandler(QWidget):
-    def __init__(self, theme: str, preferences_file: Path):
+    def __init__(self, theme: str, preferences_file: Path, theme_label: QLabel):
         super().__init__()
         self.preferences_file = preferences_file
         self.current_theme = self.get_last_theme_preference() or theme
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-
-        self.theme_label = QLabel(f"Theme: {self.current_theme}")
-        layout.addWidget(self.theme_label)
-
-        self.toggle_button = QPushButton(
-            "Toggle Theme"
-        )  # TODO: Replace text with icon.
-        self.toggle_button.clicked.connect(self.toggle_theme)
-        layout.addWidget(self.toggle_button)
-
-        self.load_theme_stylesheet()
+        self.theme_label = theme_label
 
     def toggle_theme(self):
         if self.current_theme == THEME_LIGHT:

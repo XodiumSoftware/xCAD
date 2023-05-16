@@ -1,9 +1,10 @@
 import argparse
+import sys
 from pathlib import Path
 
 from constants import *
-from handlers.theme_handler_2 import ThemeHandler
 from PySide6.QtWidgets import QApplication
+from ui.main_ui import MainUI
 
 
 def main():
@@ -24,10 +25,10 @@ def main():
     )
     args = parser.parse_args()
 
-    app = QApplication([])
-    widget = ThemeHandler(args.theme, args.preferences)
+    app = QApplication(sys.argv)
+    widget = MainUI()
     widget.show()
-    app.exec()
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

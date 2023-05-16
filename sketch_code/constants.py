@@ -1,14 +1,33 @@
 from pathlib import Path
 
-# Theme handler
+# Data
+DATA_DIR_FOLDER = "bbc/data/"
+DATA_DIR_FILE = "configurator_inputs.txt"
+
+
+# Theme
 THEME_LIGHT = "Light"
 THEME_DARK = "Dark"
 
 THEMES_FOLDER = Path("sketch_code/data")
 PREFERENCES_FILE = THEMES_FOLDER / "preferences.json"
 
-# General
-UI_TITLE = "TFCCAD"
+THEME_BUTTON_TOOLTIP = "Toggle Theme"
+THEME_BUTTON_ICON_DEFAULT_PATH = "bbc/icons/theme_icon_default_light.png"
+THEME_BUTTON_ICON_LIGHT_PATH = "bbc/icons/theme_icon_light.png"
+THEME_BUTTON_ICON_DARK_PATH = "bbc/icons/theme_icon_dark.png"
+THEME_SETTINGS_PATH = "bbc/data/theme_settings.txt"
+THEME_DIR_PATH = "bbc/ui/themes/"
+LIGHT_THEME_FILE_PATH = "light_theme.css"
+DARK_THEME_FILE_PATH = "dark_theme.css"
+LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
+DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
+THEME_DIR_FOLDER = DATA_DIR_FOLDER
+THEME_DIR_FILE = "theme_settings.txt"
+
+
+# UI
+UI_TITLE = "AFC"
 UI_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
 UI_ICON_PATH = "bbc/icons/ui_icon.png"
@@ -20,26 +39,19 @@ UI_MINIMUM_SIZE = 500, 300
 UI_MARGIN_BETWEEN_UI = 2
 UI_DESC_LABEL_STYLE = "font-style: bold; font-size: 18px;"
 
+
 # Copyright label
 COPYRIGHT_LABEL = "© 2023 Qerimi Engineering. All rights reserved."
 COPYRIGHT_LABEL_SIZE = 8
 COPYRIGHT_LABEL_STYLE = "font-style: italic;"
 
+
 # Main UI
-MAIN_UI_GROUPBOX_TITLE = "Timber Frame Constructions CAD"
+MAIN_UI_GROUPBOX_TITLE = "AutoFrameCAD"
 MAIN_UI_BUTTON_ICON_PATH = "bbc/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_BUTTON_ICON_SIZE = 10, 10
 
-THEME_BUTTON_TOOLTIP = "Toggle Theme"
-THEME_BUTTON_ICON_DEFAULT_PATH = "bbc/icons/theme_icon_default_light.png"
-THEME_BUTTON_ICON_LIGHT_PATH = "bbc/icons/theme_icon_light.png"
-THEME_BUTTON_ICON_DARK_PATH = "bbc/icons/theme_icon_dark.png"
-
-THEME_SETTINGS_PATH = "bbc/data/theme_settings.txt"
-THEME_DIR_PATH = "bbc/ui/themes/"
-LIGHT_THEME_FILE_PATH = "light_theme.css"
-DARK_THEME_FILE_PATH = "dark_theme.css"
 
 # Config UI
 CONFIG_UI_TITLE = "Configurator"
@@ -52,20 +64,6 @@ CONFIG_UI_BUTTON_ICON_DARK_PATH = "bbc/icons/config_icon_dark.png"
 CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "bbc/icons/config_icon_flipped_light.png"
 CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "bbc/icons/config_icon_flipped_dark.png"
 
-# Input bar
-INPUT_BAR_WIDTH = 100
-INPUT_RANGE = 0, 1e100
-
-# Data
-DATA_DIR_FOLDER = "bbc/data/"
-DATA_DIR_FILE = "configurator_inputs.txt"
-
-# Theme
-LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
-DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
-
-THEME_DIR_FOLDER = DATA_DIR_FOLDER
-THEME_DIR_FILE = "theme_settings.txt"
 
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
