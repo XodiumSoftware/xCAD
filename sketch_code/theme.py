@@ -1,5 +1,5 @@
 import json
-import os
+from pathlib import Path
 
 from PySide6.QtCore import QFile, QIODevice, QTextStream
 from PySide6.QtWidgets import QApplication, QLabel, QPushButton, QVBoxLayout, QWidget
@@ -9,12 +9,13 @@ THEME_DARK = "Dark"
 
 
 class MyWidget(QWidget):
-    THEMES_FOLDER = "sketch_code/themes/"
-    PREFERENCES_FILE = "preferences.json"
+    THEMES_FOLDER = Path("sketch_code/data")
+    PREFERENCES_FILE = "sketch_code/data/preferences.json"
 
-    def __init__(self):
+    def __init__(self, theme: str, preferences_file: Path):
         super().__init__()
-        self.current_theme = self.get_last_theme_preference()
+        self.current_theme = theme
+        self.preferences_file = preferences_file
         self.init_ui()
 
     def init_ui(self):
@@ -41,18 +42,13 @@ class MyWidget(QWidget):
 
     def save_theme_preference(self, theme):
         data = {"theme": theme}
-        folder_path = os.path.join(os.getcwd(), self.THEMES_FOLDER)
-        os.makedirs(folder_path, exist_ok=True)
-        file_path = os.path.join(folder_path, self.PREFERENCES_FILE)
-        with open(file_path, "w") as file:
+        self.preferences_file.parent.mkdir(parents=True, exist_ok=True)
+        with self.preferences_file.open("w") as file:
             json.dump(data, file)
 
     def get_last_theme_preference(self):
-        folder_path = os.path.join(os.getcwd(), self.THEMES_FOLDER)
-        os.makedirs(folder_path, exist_ok=True)
-        file_path = os.path.join(folder_path, self.PREFERENCES_FILE)
         try:
-            with open(file_path, "r") as file:
+            with self.preferences_file.open("r") as file:
                 data = json.load(file)
                 return data.get("theme")
         except FileNotFoundError:
@@ -63,32 +59,51 @@ class MyWidget(QWidget):
 
     def load_theme_stylesheet(self):
         theme_file = f"{self.current_theme.lower()}_theme.css"
-        file_path = os.path.join(os.getcwd(), self.THEMES_FOLDER, theme_file)
+        file_path = self.THEMES_FOLDER / theme_file
         style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
 
     def apply_theme_stylesheet(self, theme):
         theme_file = f"{theme.lower()}_theme.css"
-        file_path = os.path.join(os.getcwd(), self.THEMES_FOLDER, theme_file)
+        file_path = self.THEMES_FOLDER / theme_file
         style_sheet = self.read_stylesheet(file_path)
         self.setStyleSheet(style_sheet)
         self.current_theme = theme
 
     @staticmethod
     def read_stylesheet(file_path):
-        file = QFile(file_path)
+        file = QFile(str(file_path))
         if file.open(QIODevice.OpenModeFlag.ReadOnly | QIODevice.OpenModeFlag.Text):
             stream = QTextStream(file)
-            style_sheet = stream.readAll()
+            stylesheet = stream.readAll()
             file.close()
-            return style_sheet
+            return stylesheet
         else:
             print(f"Failed to open stylesheet file: {file_path}")
             return ""
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Toggle themes.")
+    parser.add_argument(
+        "--theme",
+        dest="theme",
+        default=THEME_LIGHT,
+        choices=[THEME_LIGHT, THEME_DARK],
+        help=f"Initial theme: {THEME_LIGHT} or {THEME_DARK}. Default: {THEME_LIGHT}.",
+    )
+    parser.add_argument(
+        "--preferences",
+        dest="preferences",
+        default=Path.cwd() / MyWidget.PREFERENCES_FILE,
+        type=Path,
+        help=f"Preferences file. Default: {Path.cwd() / MyWidget.PREFERENCES_FILE}.",
+    )
+    args = parser.parse_args()
+
     app = QApplication([])
-    widget = MyWidget()
+    widget = MyWidget(args.theme, args.preferences)
     widget.show()
     app.exec()
