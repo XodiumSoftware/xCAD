@@ -4,8 +4,8 @@ from PySide6.QtWidgets import QApplication
 DARK_THEME_FILE = "bbc/data/themes/dark.css"
 LIGHT_THEME_FILE = "bbc/data/themes/light.css"
 
-SETTINGS_ORGANIZATION = "MyApp"
-SETTINGS_APPLICATION = "ThemeSettings"
+SETTINGS_ORGANIZATION = "AFC"
+SETTINGS_APPLICATION = "CurrentThemeSetting"
 
 KEY_THEME = "theme"
 KEY_THEME_LIGHT = "light"
