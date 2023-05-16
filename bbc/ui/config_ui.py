@@ -9,6 +9,7 @@ from PySide6.QtWidgets import *
 # FIXME: UI size being too small when toggling config ui.
 
 
+# TODO: Rename ConfigUI to ObjectViewerUI and rewrite it.
 class ConfigUI:
     def __init__(self):
         """

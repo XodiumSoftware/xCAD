@@ -13,6 +13,4 @@ ext_modules = [
     )
 ]
 if __name__ == "__main__":
-    setup(
-        ext_modules=cythonize(ext_modules)
-    )
+    setup(ext_modules=cythonize(ext_modules))

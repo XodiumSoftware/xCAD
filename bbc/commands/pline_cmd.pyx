@@ -17,7 +17,6 @@ cdef extern from "acgiutil.h":
 #         cdef AcGiPolyline* polyline_ptr = <AcGiPolyline*>giPolyline._get_thisptr()
 #         return self.thisptr.polyline(giPolyline_ptr)
 
-
 # # TODO: replace "your_header_file.h" and "your_namespace" with the appropriate names.
 # cdef extern from "your_header_file.h" namespace "your_namespace":
 #     cdef cppclass AcGiGeometry:
