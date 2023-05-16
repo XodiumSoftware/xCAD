@@ -7,10 +7,6 @@ from PySide6.QtCore import QObject, Signal
 
 
 class InputHandler(QObject):
-    """
-    Handles the input.
-    """
-
     input_received = Signal(object)
 
     def __init__(self):

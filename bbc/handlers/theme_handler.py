@@ -6,10 +6,6 @@ from PySide6.QtWidgets import QApplication
 
 
 class ThemeHandler:
-    """
-    Handles the theme.
-    """
-
     def __init__(self):
         """
         Initializes the theme handler.
