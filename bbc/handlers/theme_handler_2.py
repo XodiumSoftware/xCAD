@@ -6,7 +6,14 @@ from PySide6.QtWidgets import QApplication
 
 
 class ThemeHandler:
+    """
+    Handles the theme.
+    """
+
     def __init__(self):
+        """
+        Initializes the theme handler.
+        """
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
         self.dark_stylesheet = self.load_stylesheet(DARK_THEME_FILE)
@@ -14,6 +21,9 @@ class ThemeHandler:
         self.load_theme()
 
     def load_stylesheet(self, filename):
+        """
+        Loads a stylesheet from a file.
+        """
         file = QFile(filename)
         stylesheet = None
         if file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text):
@@ -25,6 +35,9 @@ class ThemeHandler:
         return stylesheet
 
     def detect_system_theme(self):
+        """
+        Detects the system theme.
+        """
         try:
             # Open the registry key that stores the system-wide color settings
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
@@ -45,6 +58,9 @@ class ThemeHandler:
             print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
 
     def load_theme(self):
+        """
+        Loads the theme.
+        """
         # Load the saved theme from the settings
         theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
 
@@ -57,6 +73,9 @@ class ThemeHandler:
             self.detect_system_theme()
 
     def set_theme(self, theme):
+        """
+        Sets the theme.
+        """
         if theme == KEY_THEME_DARK:
             stylesheet = self.dark_stylesheet
             theme_value = KEY_THEME_DARK
