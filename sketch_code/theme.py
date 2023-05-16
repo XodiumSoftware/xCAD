@@ -4,6 +4,7 @@ from pathlib import Path
 from PySide6.QtCore import QFile, QIODevice, QTextStream
 from PySide6.QtWidgets import QApplication, QLabel, QPushButton, QVBoxLayout, QWidget
 
+# TODO: Move as much as possible into the constants file.
 THEME_LIGHT = "Light"
 THEME_DARK = "Dark"
 
@@ -25,7 +26,9 @@ class MyWidget(QWidget):
         self.theme_label = QLabel(f"Theme: {self.current_theme}")
         layout.addWidget(self.theme_label)
 
-        self.toggle_button = QPushButton("Toggle Theme")
+        self.toggle_button = QPushButton(
+            "Toggle Theme"
+        )  # TODO: Replace text with icon.
         self.toggle_button.clicked.connect(self.toggle_theme)
         layout.addWidget(self.toggle_button)
 
