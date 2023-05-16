@@ -2,11 +2,10 @@ import os.path
 import platform
 from enum import Enum
 
+from constants import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
-from bbc.constants import *
 
 app = QApplication([])
 

@@ -2,7 +2,7 @@ import sys
 
 from PySide6.QtWidgets import *
 
-from bbc.ui.main_ui import MainUI
+from ui.main_ui import MainUI
 
 
 def run():

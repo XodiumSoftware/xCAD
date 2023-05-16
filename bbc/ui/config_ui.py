@@ -1,11 +1,10 @@
 import configparser
 import os
 
+from constants import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
-from bbc.constants import *
 
 # FIXME: UI size being too small when toggling config ui.
 

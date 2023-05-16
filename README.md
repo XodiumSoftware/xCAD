@@ -1,6 +1,6 @@
-# BriscCAD plug-in
+# BricsCAD plug-in
 
-GUI window for creating basic objects in BriscCad (e.g. walls)
+GUI window for creating basic objects in BricsCad (e.g. walls)
 
 # Installation
 
@@ -10,15 +10,15 @@ GUI window for creating basic objects in BriscCad (e.g. walls)
 
 # Running the software
 
-To run the command window, use the following command on terminal: `brisc`
+To run the command window, use the following command on terminal: `brics`
 
-# Important 
+# Important
 
 - Files named `__init__.py` are a special type of file that tells python that a specfic directory is a module. These files are required for accessing all python modules from anywhere.
 
-- setup.cfg file creates the `BriscCad` library and sets up the `brisc` command (to import a module from the library use `from bbc.--- import ---`)
+- setup.cfg file creates the `BricsCad` library and sets up the `brics` command (to import a module from the library use `from bbc.[module] import [function]`) replace `[module]` & `[function]` with the name of the module and function.
 
-# To read the docs
+# To read the library docs
 
 This ensures that the css files run and the docs are readable.
 
@@ -27,4 +27,4 @@ This ensures that the css files run and the docs are readable.
 3. Click on Explorer and go to `OS\XAMPP\htdocs`
 4. Move there a copy of the folder you wanna read (`docs`)
 5. Double click on `Admin` to open `localhost\dashboard`
-6. Rename to `localhost\[name of the folder]` (localhost\docs)
+6. Rename the address in the address bar to `localhost\[name of the folder]` (localhost\docs)
