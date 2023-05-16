@@ -1,14 +1,20 @@
+from events.main_events import *
 from PySide6.QtCore import *
+from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 
 class Events(QObject):
-    def keyPressEvent(self, event):
-        """
-        This function is called when certain keys are pressed.
-        """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            QApplication.quit()
+    def __init__(self):
+        # Call the events in here.
+        self.key_press_quit_event()
+
+    def key_press_quit_event(self):
+        # Quit on Escape key or Ctrl+Q.
+        QShortcut(
+            QKeySequence.fromString(
+                "Escape, Ctrl+Q", QKeySequence.SequenceFormat.NativeText
+            ),
+            self,
+            lambda: QApplication.quit(),
+        )

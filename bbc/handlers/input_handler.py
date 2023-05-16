@@ -21,7 +21,7 @@ class InputHandler(QObject):
         self.db_cursor.execute(CREATE_TABLE_SQL)
         self.db_conn.commit()
 
-    def handle_input(self, input_data):
+    def input_handler(self, input_data):
         """
         Handles the input.
         """

@@ -12,11 +12,11 @@ class ThemeHandler:
         """
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
-        self.dark_stylesheet = self.load_stylesheet(DARK_THEME_FILE)
-        self.light_stylesheet = self.load_stylesheet(LIGHT_THEME_FILE)
-        self.load_theme()
+        self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
+        self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
+        self.load_theme_handler()
 
-    def load_stylesheet(self, filename):
+    def load_stylesheet_handler(self, filename):
         """
         Loads a stylesheet from a file.
         """
@@ -30,7 +30,7 @@ class ThemeHandler:
                 file.close()
         return stylesheet
 
-    def detect_system_theme(self):
+    def detect_system_theme_handler(self):
         """
         Detects the system theme.
         """
@@ -46,14 +46,14 @@ class ThemeHandler:
 
             # Set the theme based on the system-wide color setting
             if value == 0:
-                self.set_theme(KEY_THEME_DARK)
+                self.set_theme_handler(KEY_THEME_DARK)
             else:
-                self.set_theme(KEY_THEME_LIGHT)
+                self.set_theme_handler(KEY_THEME_LIGHT)
 
         except Exception as e:
             print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
 
-    def load_theme(self):
+    def load_theme_handler(self):
         """
         Loads the theme.
         """
@@ -61,14 +61,14 @@ class ThemeHandler:
         theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
 
         if theme == KEY_THEME_DARK:
-            self.set_theme(KEY_THEME_DARK)
+            self.set_theme_handler(KEY_THEME_DARK)
         elif theme == KEY_THEME_LIGHT:
-            self.set_theme(KEY_THEME_LIGHT)
+            self.set_theme_handler(KEY_THEME_LIGHT)
         else:
             # If no theme is saved, detect the system-wide color setting
-            self.detect_system_theme()
+            self.detect_system_theme_handler()
 
-    def set_theme(self, theme):
+    def set_theme_handler(self, theme):
         """
         Sets the theme.
         """
