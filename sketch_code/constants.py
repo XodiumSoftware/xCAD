@@ -9,7 +9,7 @@ DATA_DIR_FILE = "configurator_inputs.txt"
 THEME_LIGHT = "Light"
 THEME_DARK = "Dark"
 
-THEMES_FOLDER = Path("sketch_code/data")
+THEMES_FOLDER = Path("sketch_code/data/")
 PREFERENCES_FILE = THEMES_FOLDER / "preferences.json"
 
 THEME_BUTTON_TOOLTIP = "Toggle Theme"
