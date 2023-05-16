@@ -1,5 +1,7 @@
+from pathlib import Path
+
 # General
-UI_TITLE = "TFCCAD"
+UI_TITLE = "AFC"
 UI_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
 UI_ICON_PATH = "bbc/icons/ui_icon.png"
@@ -17,7 +19,7 @@ COPYRIGHT_LABEL_SIZE = 8
 COPYRIGHT_LABEL_STYLE = "font-style: italic;"
 
 # Main UI
-MAIN_UI_GROUPBOX_TITLE = "Timber Frame Constructions CAD"
+MAIN_UI_GROUPBOX_TITLE = "AutoFrameCAD"
 MAIN_UI_BUTTON_ICON_PATH = "bbc/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_BUTTON_ICON_SIZE = 10, 10
@@ -51,6 +53,17 @@ INPUT_RANGE = 0, 1e100
 DATA_DIR_FOLDER = "bbc/data/"
 DATA_DIR_FILE = "configurator_inputs.txt"
 
+# Database
+DB_DIR = Path("bbc", "data", "db")
+DB_FILE = DB_DIR / "inputs.db"
+
+# Define constants for the SQL statements
+CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    input_type TEXT,
+    input_data TEXT)"""
+INSERT_INPUT_SQL = "INSERT INTO inputs (input_type, input_data) VALUES (?, ?)"
+
 # Theme
 LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
 DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
@@ -58,7 +71,24 @@ DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
 THEME_DIR_FOLDER = DATA_DIR_FOLDER
 THEME_DIR_FILE = "theme_settings.txt"
 
+DARK_THEME_FILE = "bbc/data/themes/dark.css"
+LIGHT_THEME_FILE = "bbc/data/themes/light.css"
+
+SETTINGS_ORGANIZATION = "AFC"
+SETTINGS_APPLICATION = "CurrentThemeSetting"
+
+KEY_THEME = "theme"
+KEY_THEME_LIGHT = "light"
+KEY_THEME_DARK = "dark"
+
+MS_VALUE_NAME = "AppsUseLightTheme"
+
+WINREG_THEME_KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
 DEBUG_SAVED_DATA_PRINT = "[DEBUG]: Saved Data:"
 DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
+
+DEBUG_NAME = "[DEBUG] "
+DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "

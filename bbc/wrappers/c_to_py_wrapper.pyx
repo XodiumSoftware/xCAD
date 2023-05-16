@@ -1,4 +1,5 @@
 import cython
+import brx23
 
 cdef class PyAcGiGeometry:
     cdef AcGiGeometry* thisptr
@@ -10,5 +11,6 @@ cdef class PyAcGiGeometry:
         del self.thisptr
 
     cpdef polyline(self, giPolyline):
+        # FIXME: unused variables
         cdef AcGiPolyline* polyline_ptr = <AcGiPolyline*>giPolyline._get_thisptr()
         return self.thisptr.polyline(giPolyline_ptr)
