@@ -1,3 +1,4 @@
+from constants import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -11,6 +12,7 @@ class WidgetModule(QWidget):
         wm_layout = QVBoxLayout(self)
 
         # Add functions to the layout
+        wm_layout.addWidget(self.button_setup())
         wm_layout.addWidget(self.widget_setup())
 
     def widget_setup(self):
@@ -21,7 +23,7 @@ class WidgetModule(QWidget):
         inner_container = QFrame(widget_setup)
         inner_container.setObjectName("InnerContainer")
         inner_container_layout = QHBoxLayout(inner_container)
-        inner_container_layout.setContentsMargins(10, 10, 10, 10)
+        inner_container_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
         inner_container_layout.setSpacing(10)
 
         # Create some inner widgets and add them to the inner container layout
@@ -29,44 +31,24 @@ class WidgetModule(QWidget):
         label.setObjectName("MyLabel")
         inner_container_layout.addWidget(label)
 
-        button = QPushButton("Click Me", inner_container)
-        button.setObjectName("MyButton")
-        inner_container_layout.addWidget(button)
-
         # Add the inner container to the main widget layout
         wm_layout = QVBoxLayout(widget_setup)
         wm_layout.addWidget(inner_container)
 
         # Set the stylesheet for the widget
-        widget_setup.setStyleSheet(
-            """
-            QWidget {
-                background-color: #F0F0F0;
-            }
-
-            #InnerContainer {
-                background-color: white;
-                border: 1px solid black;
-                border-radius: 5px;
-                padding: 10px;
-            }
-
-            QLabel#MyLabel {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            QPushButton#MyButton {
-                background-color: blue;
-                color: white;
-                padding: 10px;
-                border-radius: 5px;
-            }
-
-            QPushButton#MyButton:hover {
-                background-color: #0070C0;
-            }
-        """
-        )
+        widget_setup.setStyleSheet(WIDGET_MODULE_STYLESHEET)
 
         return widget_setup
+
+    def button_setup(self):
+        # Create a new QPushButton object
+        button = QPushButton("Click Me", self)
+        button.setObjectName("MyButton")
+
+        # Connect the clicked signal to the button_clicked function
+        button.clicked.connect(self.button_clicked)
+
+        return button
+
+    def button_clicked(self):
+        print(DEBUG_NAME + "Button Clicked!")

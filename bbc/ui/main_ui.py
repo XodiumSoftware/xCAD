@@ -1,3 +1,4 @@
+from constants import *
 from events.main_events import *
 from handlers.input_handler import *
 from handlers.theme_handler import *
@@ -14,7 +15,9 @@ class MainUI(
 ):
     def __init__(self):
         super().__init__()
+        self.setup_ui()
 
+    def setup_ui(self):
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
         self.setGeometry(*UI_GEOMETRY)
@@ -30,9 +33,7 @@ class MainUI(
         widget_module = WidgetModule(self)
         layout.addWidget(widget_module)
 
-        # Set up the UI
-        self.setup_ui()
+        self.main_ui_icon()
 
-    def setup_ui(self):
-        # TODO: Implement setup_ui method
-        pass
+    def main_ui_icon(self):
+        QApplication.setWindowIcon(QIcon(UI_ICON_PATH))

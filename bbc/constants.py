@@ -92,3 +92,33 @@ DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
 
 DEBUG_NAME = "[DEBUG] "
 DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "
+
+# WidgetModule Stylesheet
+WIDGET_MODULE_STYLESHEET = """
+                QWidget {
+                    background-color: #F0F0F0;
+                }
+
+                #InnerContainer {
+                    background-color: white;
+                    border: 1px solid black;
+                    border-radius: 5px;
+                    padding: 10px;
+                }
+
+                QLabel#MyLabel {
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+
+                QPushButton#MyButton {
+                    background-color: blue;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+
+                QPushButton#MyButton:hover {
+                    background-color: #0070C0;
+                }
+            """
