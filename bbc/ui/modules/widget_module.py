@@ -1,4 +1,5 @@
 from constants import *
+from matplotlib.style import available
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -66,8 +67,8 @@ class WidgetModule(QWidget):
         button_layout.addWidget(viewer_button)
 
         # Connect the clicked signal to the button_clicked function
-        theme_button.clicked.connect(self.button_clicked)
-        viewer_button.clicked.connect(self.button_clicked)
+        theme_button.clicked.connect(self.on_button_clicked_event)
+        viewer_button.clicked.connect(self.on_button_clicked_event)
 
         # Set the fixed height of the button widget to match the height of the buttons
         button_widget.setFixedHeight(theme_button.height() + 10)
@@ -75,8 +76,13 @@ class WidgetModule(QWidget):
         # Return the button widget
         return button_widget
 
-    def button_clicked(self):
-        print(DEBUG_NAME + "Button Clicked!")
+    # TODO: Move this to the EventsHandler class
+    def on_button_clicked_event(self):
+        if self.sender().objectName() == "ThemeButton":
+            print(DEBUG_NAME + "Theme Button Clicked!")
+
+        elif self.sender().objectName() == "ViewerButton":
+            print(DEBUG_NAME + "Viewer Button Clicked!")
 
     def input_setup(self):
         # Create a QScrollArea object
