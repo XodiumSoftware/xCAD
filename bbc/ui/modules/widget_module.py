@@ -1,5 +1,4 @@
 from constants import *
-from matplotlib.style import available
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
