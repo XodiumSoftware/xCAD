@@ -14,7 +14,9 @@ class ThemeHandler:
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
         self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
-        self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
+        self.light_stylesheet = self.load_stylesheet_handler(
+            LIGHT_THEME_FILE
+        )  # FIXME: AttributeError
         print("Finished initializing theme handler")
 
         self.load_theme_handler()
@@ -71,17 +73,15 @@ class ThemeHandler:
             # If no theme is saved, detect the system-wide color setting
             self.detect_system_theme_handler()
 
-    def set_theme_handler(self, theme):
+    def set_theme_handler(self, key):
         """
-        Sets the theme.
+        Sets the theme handler based on the given key.
         """
-        if theme == KEY_THEME_DARK:
-            stylesheet = self.dark_stylesheet
-            theme_value = KEY_THEME_DARK
-        else:
+        print(f"Setting theme handler for key: {key}")
+        if key == KEY_THEME_LIGHT:
             stylesheet = self.light_stylesheet
-            theme_value = KEY_THEME_LIGHT
-
-        if stylesheet:
-            self.app.setStyleSheet(stylesheet)
-            self.settings.setValue(KEY_THEME, theme_value)
+        else:
+            stylesheet = self.dark_stylesheet
+        print(f"Using stylesheet: {stylesheet}")
+        self.app.setStyleSheet(stylesheet)
+        self.settings.setValue(KEY_THEME, key)

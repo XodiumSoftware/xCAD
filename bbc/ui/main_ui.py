@@ -20,7 +20,10 @@ class MainUI(
         # Call functions here.
         self.setup_ui()
         self.quit_on_key_press_event()
+
+        print(f"self.set_theme_handler({KEY_THEME_LIGHT})")
         self.set_theme_handler(KEY_THEME_LIGHT)
+        print(f"self.light_stylesheet={self.light_stylesheet}")
 
         print("Finished initializing main UI")
 
