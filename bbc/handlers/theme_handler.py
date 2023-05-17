@@ -32,10 +32,8 @@ class ThemeHandler:
         Loads a stylesheet from a file.
         """
         stylesheet = ""
-        file = QFile(filename)
-        if file.open(QFileDevice.ReadOnly | QFileDevice.Text):
-            stream = QTextStream(file)
-            stylesheet = stream.readAll()
+        with open(filename, "r") as file:
+            stylesheet = file.read()
         return stylesheet
 
     def detect_system_theme_handler(self):
