@@ -20,7 +20,6 @@ COPYRIGHT_LABEL_STYLE = "font-style: italic;"
 
 # Main UI
 MAIN_UI_GROUPBOX_TITLE = "AutoFrameCAD"
-MAIN_UI_BUTTON_ICON_PATH = "bbc/icons/button_icon_light.png"
 MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_BUTTON_ICON_SIZE = 10, 10
 
@@ -35,15 +34,15 @@ LIGHT_THEME_FILE_PATH = "light_theme.css"
 DARK_THEME_FILE_PATH = "dark_theme.css"
 
 # Config UI
-CONFIG_UI_TITLE = "Configurator"
-CONFIG_UI_SUFFIX_MM = "mm"
-CONFIG_UI_SUFFIX_M2 = "m2"
+VIEWER_UI_TITLE = "Configurator"
+VIEWER_UI_SUFFIX_MM = "mm"
+VIEWER_UI_SUFFIX_M2 = "m2"
 
-CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
-CONFIG_UI_BUTTON_ICON_LIGHT_PATH = "bbc/icons/config_icon_light.png"
-CONFIG_UI_BUTTON_ICON_DARK_PATH = "bbc/icons/config_icon_dark.png"
-CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "bbc/icons/config_icon_flipped_light.png"
-CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "bbc/icons/config_icon_flipped_dark.png"
+VIEWER_UI_BUTTON_TOOLTIP = "Toggle Viewer"
+VIEWER_UI_BUTTON_ICON_LIGHT_PATH = "bbc/icons/viewer_icon_light.png"
+VIEWER_UI_BUTTON_ICON_DARK_PATH = "bbc/icons/viewer_icon_dark.png"
+VIEWER_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "bbc/icons/viewer_icon_flipped_light.png"
+VIEWER_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "bbc/icons/viewer_icon_flipped_dark.png"
 
 # Input bar
 INPUT_BAR_WIDTH = 100

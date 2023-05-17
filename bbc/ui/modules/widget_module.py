@@ -27,8 +27,9 @@ class WidgetModule(QWidget):
         inner_container_layout.setSpacing(10)
 
         # Create some inner widgets and add them to the inner container layout
-        label = QLabel("Hello World", inner_container)
+        label = QLabel(MAIN_UI_GROUPBOX_TITLE, inner_container)
         label.setObjectName("MyLabel")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         inner_container_layout.addWidget(label)
 
         # Add the inner container to the main widget layout
@@ -41,15 +42,38 @@ class WidgetModule(QWidget):
         return widget_setup
 
     def button_setup(self):
-        # Create a new QPushButton object
-        button = QPushButton(self)
-        button.setObjectName("MyButton")
-        button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        # Create a new QWidget object
+        button_widget = QWidget(self)
+
+        # Create a layout for the widget
+        button_layout = QHBoxLayout(button_widget)
+
+        # Create the theme button
+        theme_button = QPushButton(button_widget)
+        theme_button.setObjectName("ThemeButton")
+        theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
+
+        # Create the viewer button
+        viewer_button = QPushButton(button_widget)
+        viewer_button.setObjectName("ViewerButton")
+        viewer_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        viewer_button.setIcon(QIcon(VIEWER_UI_BUTTON_ICON_LIGHT_PATH))
+
+        # Add the buttons to the widget layout
+        button_layout.addWidget(theme_button)
+        button_layout.addStretch(1)
+        button_layout.addWidget(viewer_button)
 
         # Connect the clicked signal to the button_clicked function
-        button.clicked.connect(self.button_clicked)
+        theme_button.clicked.connect(self.button_clicked)
+        viewer_button.clicked.connect(self.button_clicked)
 
-        return button
+        # Set the fixed height of the button widget to match the height of the buttons
+        button_widget.setFixedHeight(theme_button.height() + 10)
+
+        # Return the button widget
+        return button_widget
 
     def button_clicked(self):
         print(DEBUG_NAME + "Button Clicked!")
