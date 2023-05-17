@@ -42,8 +42,9 @@ class WidgetModule(QWidget):
 
     def button_setup(self):
         # Create a new QPushButton object
-        button = QPushButton("Click Me", self)
+        button = QPushButton(self)
         button.setObjectName("MyButton")
+        button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
 
         # Connect the clicked signal to the button_clicked function
         button.clicked.connect(self.button_clicked)

@@ -24,6 +24,7 @@ class MainUI(
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
         self.setGeometry(*UI_GEOMETRY)
+        self.setMinimumSize(*UI_MINIMUM_SIZE)
 
         # Create a new central widget for the main window
         central_widget = QWidget(self)
