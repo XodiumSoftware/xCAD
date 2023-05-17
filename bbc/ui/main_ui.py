@@ -16,8 +16,8 @@ class MainUI(
         super().__init__()
 
         # Set up the main window
-        self.setWindowTitle("My App")
-        self.setGeometry(100, 100, 800, 600)
+        self.setWindowTitle(UI_TITLE)
+        self.setGeometry(*UI_GEOMETRY)
 
         # Create a new central widget for the main window
         central_widget = QWidget(self)
