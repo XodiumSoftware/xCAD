@@ -15,10 +15,14 @@ class MainUI(
 ):
     def __init__(self):
         super().__init__()
+        print("Initializing main UI")
 
         # Call functions here.
         self.setup_ui()
         self.quit_on_key_press_event()
+        self.set_theme_handler(KEY_THEME_LIGHT)
+
+        print("Finished initializing main UI")
 
     def setup_ui(self):
         # Set up the main window

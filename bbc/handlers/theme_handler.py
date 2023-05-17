@@ -10,10 +10,13 @@ class ThemeHandler:
         """
         Initializes the theme handler.
         """
+        print("Initializing theme handler")
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
         self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
         self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
+        print("Finished initializing theme handler")
+
         self.load_theme_handler()
 
     def load_stylesheet_handler(self, filename):
@@ -21,7 +24,7 @@ class ThemeHandler:
         Loads a stylesheet from a file.
         """
         file = QFile(filename)
-        stylesheet = None
+        stylesheet = ""
         if file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text):
             try:
                 stream = QTextStream(file)

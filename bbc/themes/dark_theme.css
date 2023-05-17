@@ -77,16 +77,16 @@ QScrollBar::handle:horizontal {
 
 QScrollBar::add-line:horizontal {
     width: 0px;
-    subcontrol-position: right;
-    subcontrol-origin: padding;
+    scroll-snap-destination: right;
+    scroll-margin-top: padding;
     border-radius: 4px;
 
 }
 
 QScrollBar::sub-line:horizontal {
     width: 0px;
-    subcontrol-position: left;
-    subcontrol-origin: padding;
+    scroll-snap-destination: left;
+    scroll-margin-top: padding;
     border-radius: 4px;
 }
 
@@ -106,14 +106,14 @@ QScrollBar::handle:vertical {
 
 QScrollBar::add-line:vertical {
     height: 0px;
-    subcontrol-position: bottom;
-    subcontrol-origin: padding;
+    scroll-snap-destination: bottom;
+    scroll-margin-top: padding;
     border-radius: 4px;
 }
 
 QScrollBar::sub-line:vertical {
     height: 0px;
-    subcontrol-position: top;
-    subcontrol-origin: padding;
+    scroll-snap-destination: top;
+    scroll-margin-top: padding;
     border-radius: 4px;
 }

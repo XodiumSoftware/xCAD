@@ -29,7 +29,7 @@ THEME_BUTTON_ICON_LIGHT_PATH = "bbc/icons/theme_icon_light.png"
 THEME_BUTTON_ICON_DARK_PATH = "bbc/icons/theme_icon_dark.png"
 
 THEME_SETTINGS_PATH = "bbc/data/theme_settings.txt"
-THEME_DIR_PATH = "bbc/ui/themes/"
+THEME_DIR_PATH = "bbc/themes/"
 LIGHT_THEME_FILE_PATH = "light_theme.css"
 DARK_THEME_FILE_PATH = "dark_theme.css"
 
@@ -64,14 +64,9 @@ CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
 INSERT_INPUT_SQL = "INSERT INTO inputs (input_type, input_data) VALUES (?, ?)"
 
 # Theme
-LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
-DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
 
-THEME_DIR_FOLDER = DATA_DIR_FOLDER
-THEME_DIR_FILE = "theme_settings.txt"
-
-DARK_THEME_FILE = "bbc/themes/dark.css"
-LIGHT_THEME_FILE = "bbc/themes/light.css"
+DARK_THEME_FILE = "bbc/themes/dark_theme.css"
+LIGHT_THEME_FILE = "bbc/themes/light_theme.css"
 
 SETTINGS_ORGANIZATION = "AFC"
 SETTINGS_APPLICATION = "CurrentThemeSetting"
