@@ -77,3 +77,17 @@ class WidgetModule(QWidget):
 
     def button_clicked(self):
         print(DEBUG_NAME + "Button Clicked!")
+
+    def input_setup(self):
+        # Create a QScrollArea object
+        scroll_area = QScrollArea()
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll_area.setStyleSheet("")  # TODO: Add style sheet.
+        scroll_area.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        )
+
+        # Add the QScrollArea to the layout
+
+        # Call widgets
