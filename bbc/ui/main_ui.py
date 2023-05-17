@@ -1,5 +1,5 @@
 from constants import *
-from events.main_events import *
+from handlers.events_handler import *
 from handlers.input_handler import *
 from handlers.theme_handler import *
 from handlers.ui_handler import *
@@ -11,11 +11,14 @@ from ui.object_viewer_ui import *
 
 
 class MainUI(
-    QMainWindow, ObjectViewerUI, Events, UIHandler, InputHandler, ThemeHandler
+    QMainWindow, ObjectViewerUI, EventsHandler, UIHandler, InputHandler, ThemeHandler
 ):
     def __init__(self):
         super().__init__()
+
+        # Call functions here.
         self.setup_ui()
+        self.quit_on_key_press_event()
 
     def setup_ui(self):
         # Set up the main window
