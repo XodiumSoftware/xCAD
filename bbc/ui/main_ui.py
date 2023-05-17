@@ -35,5 +35,8 @@ class MainUI(
 
         self.main_ui_icon()
 
+        # Center the window on the primary screen
+        self.center_ui_on_screen_handler(self)
+
     def main_ui_icon(self):
         QApplication.setWindowIcon(QIcon(UI_ICON_PATH))

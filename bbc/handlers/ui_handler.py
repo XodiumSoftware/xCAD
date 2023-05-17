@@ -4,8 +4,8 @@ from PySide6.QtWidgets import *
 
 
 class UIHandler:
-    def __init__(self, ui):
-        self.center_ui_on_screen_handler(ui)
+    def __init__(self):
+        pass
 
     @staticmethod
     def center_ui_on_screen_handler(ui):
