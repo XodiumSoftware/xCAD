@@ -1,10 +1,7 @@
-import sys
-
 from constants import HORIZONTAL_HEADER_LABELS, SETTINGS_DATABASE_PATH, SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QApplication,
     QComboBox,
     QDoubleSpinBox,
     QLayout,
@@ -19,9 +16,9 @@ from PySide6.QtWidgets import (
 class SettingsListWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.initUI()
+        self.initSettingsListWidget()
 
-    def initUI(self):
+    def initSettingsListWidget(self):
         self.layout: QLayout = QVBoxLayout(self)
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
@@ -107,14 +104,3 @@ class SettingsListWidget(QWidget):
                     break
 
         self.table_widget.resizeRowsToContents()
-
-
-def main():
-    app = QApplication(sys.argv)
-    widget = SettingsListWidget()
-    widget.show()
-    sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()

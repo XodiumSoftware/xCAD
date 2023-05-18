@@ -1,51 +1,14 @@
 from constants import (
     MAIN_UI_BUTTON_SIZE,
-    MAIN_UI_GROUPBOX_TITLE,
     THEME_BUTTON_ICON_DEFAULT_PATH,
-    UI_CONTENTS_MARGINS,
     VIEWER_UI_BUTTON_ICON_LIGHT_PATH,
-    WIDGET_MODULE_STYLESHEET,
 )
-from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
-from PySide6.QtGui import QIcon, Qt
-from PySide6.QtWidgets import (
-    QFrame,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
-class WidgetModule(EventsHandler, SettingsDatabaseHandler):
-    def widget_setup(self):
-        # Creation of a new QWidget object
-        widget_setup = QWidget()
-
-        # Create a new QFrame object to use as a container for the inner widgets
-        inner_container = QFrame(widget_setup)
-        inner_container.setObjectName("InnerContainer")
-        inner_container_layout = QHBoxLayout(inner_container)
-        inner_container_layout.setContentsMargins(*UI_CONTENTS_MARGINS)
-        inner_container_layout.setSpacing(10)
-
-        # Create some inner widgets and add them to the inner container layout
-        label = QLabel(MAIN_UI_GROUPBOX_TITLE, inner_container)
-        label.setObjectName("MyLabel")
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        inner_container_layout.addWidget(label)
-
-        # Add the inner container to the main widget layout
-        wm_layout = QVBoxLayout(widget_setup)
-        wm_layout.addWidget(inner_container)
-
-        # Set the stylesheet for the widget
-        widget_setup.setStyleSheet(WIDGET_MODULE_STYLESHEET)
-
-        return widget_setup
-
+class WidgetModule(EventsHandler):
     def button_setup(self):
         # Create a new QWidget object
         button_widget = QWidget()
