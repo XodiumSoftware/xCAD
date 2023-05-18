@@ -6,7 +6,6 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 from ui.modules.widget_module import WidgetModule
 from ui.object_viewer_ui import ObjectViewerUI
-from ui.modules.widget_module import WidgetModule
 
 
 class MainUI(
@@ -35,8 +34,7 @@ class MainUI(
         layout = QVBoxLayout(central_widget)
 
         # Add the WidgetModule to the layout
-        widget_module = WidgetModule(self)
-        layout.addWidget(widget_module)
+        layout.addWidget(WidgetModule())
 
         self.main_ui_icon()
 
