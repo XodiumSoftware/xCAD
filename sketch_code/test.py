@@ -31,14 +31,13 @@ class SettingsListWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.initUI()
-        self.setup_settings()
-        self.database = SettingsDatabase(SETTINGS_DATABASE_PATH)
-        self.database.create_table()
 
     def initUI(self):
         self.layout: QLayout = QVBoxLayout(self)
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
+        self.database = SettingsDatabase(SETTINGS_DATABASE_PATH)
+        self.database.create_table()
 
         self.setup_settings()
 
