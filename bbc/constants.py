@@ -4,7 +4,7 @@ import os
 UI_TITLE = "AFC"
 UI_FONT_TYPE = "Arial"
 UI_GROUPBOX_FONT_SIZE = 10
-UI_ICON_PATH = "bbc/icons/ui_icon.png"
+UI_ICON_PATH = os.path.join("bbc/icons/ui_icon.png")
 UI_CONTENTS_MARGINS = 5, 5, 5, 5
 UI_STYLE = "fusion"
 UI_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
@@ -24,14 +24,14 @@ MAIN_UI_BUTTON_SIZE = 30, 30
 MAIN_UI_BUTTON_ICON_SIZE = 10, 10
 
 THEME_BUTTON_TOOLTIP = "Toggle Theme"
-THEME_BUTTON_ICON_DEFAULT_PATH = "bbc/icons/theme_icon_default_light.png"
-THEME_BUTTON_ICON_LIGHT_PATH = "bbc/icons/theme_icon_light.png"
-THEME_BUTTON_ICON_DARK_PATH = "bbc/icons/theme_icon_dark.png"
+THEME_BUTTON_ICON_DEFAULT_PATH = os.path.join("bbc/icons/theme_icon_default_light.png")
+THEME_BUTTON_ICON_LIGHT_PATH = os.path.join("bbc/icons/theme_icon_light.png")
+THEME_BUTTON_ICON_DARK_PATH = os.path.join("bbc/icons/theme_icon_dark.png")
 
-THEME_SETTINGS_PATH = "bbc/data/theme_settings.txt"
-THEME_DIR_PATH = "bbc/themes/"
-LIGHT_THEME_FILE_PATH = "light_theme.css"
-DARK_THEME_FILE_PATH = "dark_theme.css"
+THEME_SETTINGS_PATH = os.path.join("bbc/data/theme_settings.txt")
+THEME_DIR_PATH = os.path.join("bbc/themes/")
+LIGHT_THEME_FILE_PATH = os.path.join("light_theme.css")
+DARK_THEME_FILE_PATH = os.path.join("dark_theme.css")
 
 # Config UI
 VIEWER_UI_TITLE = "Configurator"
@@ -39,24 +39,26 @@ VIEWER_UI_SUFFIX_MM = "mm"
 VIEWER_UI_SUFFIX_M2 = "m2"
 
 VIEWER_UI_BUTTON_TOOLTIP = "Toggle Viewer"
-VIEWER_UI_BUTTON_ICON_LIGHT_PATH = "bbc/icons/viewer_icon_light.png"
-VIEWER_UI_BUTTON_ICON_DARK_PATH = "bbc/icons/viewer_icon_dark.png"
-VIEWER_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "bbc/icons/viewer_icon_flipped_light.png"
-VIEWER_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "bbc/icons/viewer_icon_flipped_dark.png"
+VIEWER_UI_BUTTON_ICON_LIGHT_PATH = os.path.join("bbc/icons/viewer_icon_light.png")
+VIEWER_UI_BUTTON_ICON_DARK_PATH = os.path.join("bbc/icons/viewer_icon_dark.png")
+VIEWER_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = os.path.join(
+    "bbc/icons/viewer_icon_flipped_light.png"
+)
+VIEWER_UI_BUTTON_ICON_FLIPPED_DARK_PATH = os.path.join(
+    "bbc/icons/viewer_icon_flipped_dark.png"
+)
 
 # Input bar
 INPUT_BAR_WIDTH = 100
 INPUT_RANGE = 0, 1e100
 
 # Data
-DATA_DIR_FOLDER = "bbc/data/"
-DATA_DIR_FILE = "configurator_inputs.txt"
+DATA_DIR_FOLDER = os.path.join("bbc/data/")
+DATA_DIR_FILE = os.path.join("configurator_inputs.txt")
 
 # Database
 DB_DIR = os.path.join("bbc", "data", "db")
 DB_FILE = os.path.join(DB_DIR, "inputs.db")
-
-# FIXME: Apply os.path.join on every path.
 
 # Define constants for the SQL statements
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
@@ -67,8 +69,8 @@ INSERT_INPUT_SQL = "INSERT INTO inputs (input_type, input_data) VALUES (?, ?)"
 
 # Theme
 
-DARK_THEME_FILE = "bbc/themes/dark_theme.css"
-LIGHT_THEME_FILE = "bbc/themes/light_theme.css"
+DARK_THEME_FILE = os.path.join("bbc/themes/dark_theme.css")
+LIGHT_THEME_FILE = os.path.join("bbc/themes/light_theme.css")
 
 SETTINGS_ORGANIZATION = "AFC"
 SETTINGS_APPLICATION = "CurrentThemeSetting"
@@ -79,7 +81,9 @@ KEY_THEME_DARK = "dark"
 
 MS_VALUE_NAME = "AppsUseLightTheme"
 
-WINREG_THEME_KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+WINREG_THEME_KEY = os.path.join(
+    "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+)
 
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
