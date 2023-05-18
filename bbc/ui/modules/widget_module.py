@@ -22,16 +22,6 @@ from PySide6.QtWidgets import (
 
 
 class WidgetModule(EventsHandler):
-    def __init__(self):
-        super().__init__()
-
-        # Creation of the widget's layout
-        wm_layout = QVBoxLayout()
-
-        # Add functions to the layout
-        wm_layout.addWidget(self.button_setup())
-        wm_layout.addWidget(self.widget_setup())
-
     def widget_setup(self):
         # Creation of a new QWidget object
         widget_setup = QWidget()
