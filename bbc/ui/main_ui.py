@@ -14,6 +14,7 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         super().__init__()
 
         # Call functions here.
+        self.setCentralWidget(QWidget())
         self.initMainUI()
         self.quit_on_key_press_event()
 
