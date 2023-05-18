@@ -1,9 +1,18 @@
-import os
-import platform
 import winreg
 from enum import Enum
 
-from constants import *
+from constants import (
+    DARK_THEME_FILE,
+    DEBUG_ERROR_DETECTING_SYSTEM_THEME,
+    KEY_THEME,
+    KEY_THEME_DARK,
+    KEY_THEME_LIGHT,
+    LIGHT_THEME_FILE,
+    MS_VALUE_NAME,
+    SETTINGS_APPLICATION,
+    SETTINGS_ORGANIZATION,
+    WINREG_THEME_KEY,
+)
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 

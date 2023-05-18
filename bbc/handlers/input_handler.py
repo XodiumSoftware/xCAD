@@ -1,6 +1,7 @@
+import os
 import sqlite3
 
-from constants import *
+from constants import CREATE_TABLE_SQL, DB_DIR, DB_FILE, INSERT_INPUT_SQL
 from PySide6.QtCore import QObject, Signal
 
 # TODO: Ask Gaia about SQLite implementation.

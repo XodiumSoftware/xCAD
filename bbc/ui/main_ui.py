@@ -1,17 +1,16 @@
-from constants import *
-from handlers.events_handler import *
-from handlers.input_handler import *
-from handlers.theme_handler import *
-from handlers.ui_handler import *
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-from ui.modules.widget_module import *
-from ui.object_viewer_ui import *
+from constants import UI_GEOMETRY, UI_ICON_PATH, UI_MINIMUM_SIZE, UI_TITLE
+from handlers.input_handler import InputHandler
+from handlers.theme_handler import ThemeHandler
+from handlers.ui_handler import UIHandler
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from ui.modules.widget_module import WidgetModule
+from ui.object_viewer_ui import ObjectViewerUI
+from ui.modules.widget_module import WidgetModule
 
 
 class MainUI(
-    QMainWindow, ObjectViewerUI, EventsHandler, UIHandler, InputHandler, ThemeHandler
+    QMainWindow, ObjectViewerUI, UIHandler, InputHandler, ThemeHandler, WidgetModule
 ):
     def __init__(self):
         super().__init__()

@@ -1,6 +1,7 @@
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
+from constants import DEBUG_NAME
+from PySide6.QtCore import QObject, Signal, Slot
+from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtWidgets import QApplication
 
 
 class EventsHandler(QObject):
@@ -27,3 +28,10 @@ class EventsHandler(QObject):
         # Connect both shortcuts to the same slot
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
+
+    @staticmethod
+    def on_button_clicked_event(sender: QObject):
+        if sender.objectName() == "ThemeButton":
+            print(DEBUG_NAME + "Theme Button Clicked!")
+        elif sender.objectName() == "ViewerButton":
+            print(DEBUG_NAME + "Viewer Button Clicked!")

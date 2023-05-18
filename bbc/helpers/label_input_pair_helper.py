@@ -1,5 +1,5 @@
-from constants import *
-from PySide6.QtWidgets import *
+from constants import INPUT_BAR_WIDTH
+from PySide6.QtWidgets import QGridLayout, QLabel, QWidget
 
 
 def label_input_pair_helper(

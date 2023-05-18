@@ -1,10 +1,27 @@
-from constants import *
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
+from constants import (
+    DEBUG_NAME,
+    MAIN_UI_BUTTON_SIZE,
+    MAIN_UI_GROUPBOX_TITLE,
+    THEME_BUTTON_ICON_DEFAULT_PATH,
+    UI_CONTENTS_MARGINS,
+    VIEWER_UI_BUTTON_ICON_LIGHT_PATH,
+    WIDGET_MODULE_STYLESHEET,
+)
+from handlers.events_handler import EventsHandler
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import (
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QScrollArea,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
 
-class WidgetModule(QWidget):
+class WidgetModule(QWidget, EventsHandler):
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -65,7 +82,7 @@ class WidgetModule(QWidget):
         button_layout.addStretch(1)
         button_layout.addWidget(viewer_button)
 
-        # Connect the clicked signal to the button_clicked function
+        # Connect the clicked signal to the EventsHandler.on_button_clicked_event method
         theme_button.clicked.connect(self.on_button_clicked_event)
         viewer_button.clicked.connect(self.on_button_clicked_event)
 
@@ -74,14 +91,6 @@ class WidgetModule(QWidget):
 
         # Return the button widget
         return button_widget
-
-    # TODO: Move this to the EventsHandler class
-    def on_button_clicked_event(self):
-        if self.sender().objectName() == "ThemeButton":
-            print(DEBUG_NAME + "Theme Button Clicked!")
-
-        elif self.sender().objectName() == "ViewerButton":
-            print(DEBUG_NAME + "Viewer Button Clicked!")
 
     def input_setup(self):
         # Create a QScrollArea object
