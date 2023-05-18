@@ -56,6 +56,8 @@ DATA_DIR_FILE = "configurator_inputs.txt"
 DB_DIR = os.path.join("bbc", "data", "db")
 DB_FILE = os.path.join(DB_DIR, "inputs.db")
 
+# FIXME: Apply os.path.join on every path.
+
 # Define constants for the SQL statements
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
     (id INTEGER PRIMARY KEY AUTOINCREMENT,
