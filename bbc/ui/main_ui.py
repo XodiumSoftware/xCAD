@@ -3,7 +3,7 @@ from handlers.input_handler import InputHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 from ui.modules.widget_module import WidgetModule
 from ui.object_viewer_ui import ObjectViewerUI
 
@@ -25,6 +25,7 @@ class MainUI(
         self.setWindowTitle(UI_TITLE)
         self.setGeometry(*UI_GEOMETRY)
         self.setMinimumSize(*UI_MINIMUM_SIZE)
+        self.setWindowIcon(QIcon(UI_ICON_PATH))
 
         # Create a new central widget for the main window
         central_widget = QWidget(self)
@@ -34,12 +35,10 @@ class MainUI(
         layout = QVBoxLayout(central_widget)
 
         # Add the WidgetModule to the layout
-        layout.addWidget(WidgetModule())
-
-        self.main_ui_icon()
+        layout.addWidget(WidgetModule.widget_setup())
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)
 
-    def main_ui_icon(self):
-        QApplication.setWindowIcon(QIcon(UI_ICON_PATH))
+    def widget_module_manager(self):
+        return WidgetModule

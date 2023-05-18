@@ -21,12 +21,12 @@ from PySide6.QtWidgets import (
 )
 
 
-class WidgetModule(QWidget, EventsHandler):
+class WidgetModule(EventsHandler):
     def __init__(self):
         super().__init__()
 
         # Creation of the widget's layout
-        wm_layout = QVBoxLayout(self)
+        wm_layout = QVBoxLayout()
 
         # Add functions to the layout
         wm_layout.addWidget(self.button_setup())
@@ -34,7 +34,7 @@ class WidgetModule(QWidget, EventsHandler):
 
     def widget_setup(self):
         # Creation of a new QWidget object
-        widget_setup = QWidget(self)
+        widget_setup = QWidget()
 
         # Create a new QFrame object to use as a container for the inner widgets
         inner_container = QFrame(widget_setup)
@@ -60,7 +60,7 @@ class WidgetModule(QWidget, EventsHandler):
 
     def button_setup(self):
         # Create a new QWidget object
-        button_widget = QWidget(self)
+        button_widget = QWidget()
 
         # Create a layout for the widget
         button_layout = QHBoxLayout(button_widget)

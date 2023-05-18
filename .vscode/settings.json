@@ -6,6 +6,12 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "python.analysis.extraPaths": ["${workspaceFolder}"],
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.formatting.blackArgs": ["--fast"],
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "fit",
   "explorer.openEditors.visible": 0,
