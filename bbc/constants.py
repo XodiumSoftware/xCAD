@@ -122,3 +122,5 @@ WIDGET_MODULE_STYLESHEET = """
                     background-color: #0070C0;
                 }
             """
+
+SETTINGS_LIST = [("General", "Enabled"), ("Display", "High"), ("Sound", "On")]

@@ -4,7 +4,7 @@ from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
-from ui.modules.widget_module import WidgetModule
+from ui.modules.widget_modules import WidgetModule
 from ui.object_viewer_ui import ObjectViewerUI
 
 
