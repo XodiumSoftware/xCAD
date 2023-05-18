@@ -3,13 +3,16 @@ from constants import (
     THEME_BUTTON_ICON_DEFAULT_PATH,
     VIEWER_UI_BUTTON_ICON_LIGHT_PATH,
 )
-from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
-class WidgetModule(EventsHandler):
-    def button_setup(self):
+class ButtonWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.initButtonWidget()
+
+    def initButtonWidget(self):
         # Create a new QWidget object
         button_widget = QWidget()
 
@@ -34,8 +37,8 @@ class WidgetModule(EventsHandler):
         button_layout.addWidget(viewer_button)
 
         # Connect the clicked signal to the EventsHandler.on_button_clicked_event method
-        theme_button.clicked.connect(self.on_button_clicked_event)
-        viewer_button.clicked.connect(self.on_button_clicked_event)
+        # theme_button.clicked.connect(self.on_button_clicked_event)
+        # viewer_button.clicked.connect(self.on_button_clicked_event)
 
         # Set the fixed height of the button widget to match the height of the buttons
         button_widget.setFixedHeight(theme_button.height() + 10)

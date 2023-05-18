@@ -1,14 +1,15 @@
-from constants import UI_GEOMETRY, UI_ICON_PATH, UI_MINIMUM_SIZE, UI_TITLE
+from constants import UI_ICON_PATH, UI_MINIMUM_SIZE, UI_TITLE
+from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
-from ui.modules.widget_modules import WidgetModule
-from ui.object_viewer_ui import ObjectViewerUI
+from ui.modules.button_widget import ButtonWidget
 from ui.modules.settings_list_widget import SettingsListWidget
+from ui.object_viewer_ui import ObjectViewerUI
 
 
-class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, WidgetModule):
+class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler):
     def __init__(self):
         super().__init__()
 
@@ -19,11 +20,9 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, WidgetModule)
         # self.set_theme_handler(KEY_THEME_LIGHT) # FIXME: AttributeError
 
     def initMainUI(self):
-        settings_list_widget = SettingsListWidget(self)
-
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
-        self.setGeometry(*UI_GEOMETRY)
+        self.setGeometry(0, 0, 0, 0)
         self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
@@ -35,8 +34,8 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, WidgetModule)
         layout = QGridLayout(central_widget)
 
         # Add Modules to the layout
-        layout.addWidget(self.button_setup(), 0, 0)
-        layout.addWidget(settings_list_widget, 1, 0)
+        layout.addWidget(ButtonWidget(self), 0, 0)
+        layout.addWidget(SettingsListWidget(self), 1, 0)
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)

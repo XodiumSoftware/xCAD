@@ -1,5 +1,7 @@
 import os
 
+COLUMN_WIDTH = 200
+
 # General
 UI_TITLE = "AFC"
 UI_FONT_TYPE = "Arial"
@@ -8,8 +10,7 @@ UI_ICON_PATH = os.path.join("bbc/icons/ui_icon.png")
 UI_CONTENTS_MARGINS = 5, 5, 5, 5
 UI_STYLE = "fusion"
 UI_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
-UI_GEOMETRY = 0, 0, 500, 300
-UI_MINIMUM_SIZE = 500, 300
+UI_MINIMUM_SIZE = 200, 200
 UI_MARGIN_BETWEEN_UI = 2
 UI_DESC_LABEL_STYLE = "font-style: bold; font-size: 18px;"
 
@@ -127,10 +128,11 @@ WIDGET_MODULE_STYLESHEET = """
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
 SETTINGS_LIST = [
-    ("General", "dropdown", DROPDOWN_LIST_GENERAL),
-    ("Display", "input_text", []),
-    ("Weight", "input_int", []),
-    ("Sound", "dropdown", DROPDOWN_LIST_SOUND),
+    ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
+    ("Wrapping at Inserts", "input_text", []),
+    ("Wrapping at Ends", "input_int", []),
+    ("Width", "dropdown", DROPDOWN_LIST_SOUND),
+    ("Function", "dropdown", []),
 ]
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
