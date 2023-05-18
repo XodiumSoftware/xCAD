@@ -1,5 +1,4 @@
 from constants import UI_GEOMETRY, UI_ICON_PATH, UI_MINIMUM_SIZE, UI_TITLE
-from handlers.input_handler import InputHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
@@ -8,9 +7,7 @@ from ui.modules.widget_modules import WidgetModule
 from ui.object_viewer_ui import ObjectViewerUI
 
 
-class MainUI(
-    QMainWindow, ObjectViewerUI, UIHandler, InputHandler, ThemeHandler, WidgetModule
-):
+class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, WidgetModule):
     def __init__(self):
         super().__init__()
 
