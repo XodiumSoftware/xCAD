@@ -131,13 +131,31 @@ class SettingsDatabase:
         conn = sqlite3.connect(self.database_path)
         cursor = conn.cursor()
 
-        # Insert the setting into the table
+        # Check if the setting already exists
         cursor.execute(
             """
-        INSERT INTO settings (parameter, value) VALUES (?, ?)
+        SELECT id FROM settings WHERE parameter = ?
         """,
-            (parameter, value),
+            (parameter,),
         )
+        existing_setting = cursor.fetchone()
+
+        if existing_setting:
+            # Update the value of the existing setting
+            cursor.execute(
+                """
+            UPDATE settings SET value = ? WHERE parameter = ?
+            """,
+                (value, parameter),
+            )
+        else:
+            # Insert the new setting into the table
+            cursor.execute(
+                """
+            INSERT INTO settings (parameter, value) VALUES (?, ?)
+            """,
+                (parameter, value),
+            )
 
         conn.commit()
         conn.close()
