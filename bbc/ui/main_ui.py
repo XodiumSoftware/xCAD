@@ -22,20 +22,30 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
     def initMainUI(self):
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
-        self.setGeometry(0, 0, 0, 0)
-        self.setMinimumSize(*UI_MINIMUM_SIZE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
-        # Create a new central widget for the main window
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
+        settings_widget = SettingsListWidget(self)
+        total_columns_width = settings_widget.get_total_columns_width()
+
+        # Calculate the desired width of the main window
+        total_columns_width += self.centralWidget().layout().spacing() * (
+            settings_widget.table_widget.columnCount() - 1
+        )
+        window_width = (
+            total_columns_width
+            + self.centralWidget().layout().contentsMargins().left()
+            + self.centralWidget().layout().contentsMargins().right()
+        )
+
+        # Set the width of the main window
+        self.setFixedWidth(window_width)
 
         # Create a new layout for the central widget
-        layout = QGridLayout(central_widget)
+        layout = QGridLayout(self.centralWidget())
 
         # Add Modules to the layout
         layout.addWidget(ButtonWidget(self), 0, 0)
-        layout.addWidget(SettingsListWidget(self), 1, 0)
+        layout.addWidget(settings_widget, 1, 0)
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)
