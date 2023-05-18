@@ -1,28 +1,25 @@
 from constants import (
     MAIN_UI_BUTTON_SIZE,
     MAIN_UI_GROUPBOX_TITLE,
-    SETTINGS_LIST,
     THEME_BUTTON_ICON_DEFAULT_PATH,
     UI_CONTENTS_MARGINS,
     VIEWER_UI_BUTTON_ICON_LIGHT_PATH,
     WIDGET_MODULE_STYLESHEET,
 )
+from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QIcon, Qt
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QLabel,
-    QLayout,
     QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
 
-class WidgetModule(EventsHandler):
+class WidgetModule(EventsHandler, SettingsDatabaseHandler):
     def widget_setup(self):
         # Creation of a new QWidget object
         widget_setup = QWidget()
@@ -82,38 +79,3 @@ class WidgetModule(EventsHandler):
 
         # Return the button widget
         return button_widget
-
-
-class SettingsListWidget(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.initUI()
-        self.setup_settings()
-
-    def initUI(self):
-        self.layout: QLayout = QVBoxLayout(self)
-        self.table_widget = QTableWidget()
-        self.table_widget.setColumnCount(2)
-        self.table_widget.setHorizontalHeaderLabels(["Parameter", "Value"])
-        self.layout.addWidget(self.table_widget)
-
-    def add_setting(self, setting_name, setting_value):
-        row_count = self.table_widget.rowCount()
-        self.table_widget.insertRow(row_count)
-
-        setting_item = QTableWidgetItem(setting_name)
-        value_item = QTableWidgetItem(setting_value)
-
-        self.table_widget.setItem(row_count, 0, setting_item)
-        self.table_widget.setItem(row_count, 1, value_item)
-
-    def remove_setting(self, setting_name):
-        items = self.table_widget.findItems(setting_name, Qt.MatchFlag.MatchExactly)
-        if items:
-            for item in items:
-                row = item.row()
-                self.table_widget.removeRow(row)
-
-    def setup_settings(self):
-        for setting in SETTINGS_LIST:
-            self.add_setting(setting[0], setting[1])

@@ -123,4 +123,14 @@ WIDGET_MODULE_STYLESHEET = """
                 }
             """
 
-SETTINGS_LIST = [("General", "Enabled"), ("Display", "High"), ("Sound", "On")]
+# SettingsListWidget
+DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
+DROPDOWN_LIST_SOUND = ["On", "Off"]
+SETTINGS_LIST = [
+    ("General", "dropdown", DROPDOWN_LIST_GENERAL),
+    ("Display", "input_text", []),
+    ("Weight", "input_int", []),
+    ("Sound", "dropdown", DROPDOWN_LIST_SOUND),
+]
+HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
+SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")

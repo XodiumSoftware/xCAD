@@ -1,6 +1,6 @@
-import os
 import sys
 
+from constants import HORIZONTAL_HEADER_LABELS, SETTINGS_DATABASE_PATH, SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -14,17 +14,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
-DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
-DROPDOWN_LIST_SOUND = ["On", "Off"]
-SETTINGS_LIST = [
-    ("General", "dropdown", DROPDOWN_LIST_GENERAL),
-    ("Display", "input_text", []),
-    ("Weight", "input_int", []),
-    ("Sound", "dropdown", DROPDOWN_LIST_SOUND),
-]
-HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
-SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
 
 
 class SettingsListWidget(QWidget):
