@@ -1,4 +1,5 @@
 from constants import (
+    CHECKBOX_STYLE,
     COLUMN_WIDTH,
     HORIZONTAL_HEADER_LABELS,
     SETTINGS_DATABASE_PATH,
@@ -7,8 +8,10 @@ from constants import (
 from handlers.db_handler import SettingsDatabaseHandler
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QCheckBox,
     QComboBox,
     QDoubleSpinBox,
+    QHBoxLayout,
     QLayout,
     QLineEdit,
     QTableWidget,
@@ -52,7 +55,6 @@ class SettingsListWidget(QWidget):
                     widget_height = widget.sizeHint().height()
                     max_height = max(max_height, widget_height)
 
-            # Set the row height to the maximum height
             self.table_widget.setRowHeight(row, max_height)
 
     def add_setting(self, *args):
@@ -86,6 +88,13 @@ class SettingsListWidget(QWidget):
             value_widget.valueChanged.connect(
                 lambda value, param=setting_name: self.save_setting(param, value)
             )
+        elif setting_type == "checkbox":
+            value_widget = QCheckBox()
+            value_widget.setChecked(args[3] if len(args) > 3 else False)
+            value_widget.stateChanged.connect(
+                lambda state, param=setting_name: self.save_setting(param, bool(state))
+            )
+            value_widget.setStyleSheet(CHECKBOX_STYLE)
 
         if value_widget is not None:
             self.table_widget.setCellWidget(row_count, 1, value_widget)

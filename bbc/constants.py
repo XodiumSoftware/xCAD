@@ -132,7 +132,8 @@ SETTINGS_LIST = [
     ("Wrapping at Inserts", "input_text", []),
     ("Wrapping at Ends", "input_int", []),
     ("Width", "dropdown", DROPDOWN_LIST_SOUND),
-    ("Function", "dropdown", []),
+    ("Function", "checkbox", []),
 ]
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
+CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
