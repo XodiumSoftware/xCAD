@@ -17,7 +17,7 @@ class EventsHandler(QObject):
 
         # Connect the signal to the slot
         self.quit_signal.connect(self.quit_on_key_press_event)
-        self.toggle_viewer_signal.connect(self.toggle_viewer_widget)
+        # self.toggle_viewer_signal.connect(self.toggle_viewer_widget)
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -31,15 +31,6 @@ class EventsHandler(QObject):
         # Connect both shortcuts to the same slot
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
-
-    @Slot()
-    def toggle_viewer_widget(self) -> None:
-        """
-        Toggle the visibility of the ObjectViewerWidget.
-        """
-        print(DEBUG_NAME + "toggle_viewer_widget initiated!")
-        object_viewer_widget = ObjectViewerWidget()
-        object_viewer_widget.setVisible(not object_viewer_widget.isVisible())
 
     def on_button_clicked_event(self, index):
         if index == 0:
