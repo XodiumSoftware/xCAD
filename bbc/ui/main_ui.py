@@ -1,10 +1,11 @@
-from constants import UI_ICON_PATH, UI_MINIMUM_SIZE, UI_TITLE
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
+from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
 from ui.object_viewer_ui import ObjectViewerUI
 
@@ -23,10 +24,10 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
+        # Add the widget classes
         settings_widget = SettingsListWidget(self)
-        total_columns_width = settings_widget.get_total_columns_width()
-
         button_widget = ButtonWidget(self)
+        label_widget = LabelWidget(0, self)
 
         # Create a new layout for the central widget
         central_layout = QGridLayout()
@@ -41,6 +42,7 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         # Add Modules to the layout
         central_layout.addWidget(button_widget, 0, 0)
         central_layout.addWidget(settings_widget, 1, 0)
+        central_layout.addWidget(label_widget, 2, 0)
 
         # Set the central widget
         central_widget = QWidget()
@@ -48,6 +50,7 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         self.setCentralWidget(central_widget)
 
         # Calculate the desired width of the main window
+        total_columns_width = settings_widget.get_total_columns_width()
         total_columns_width += central_layout.horizontalSpacing() * (
             settings_widget.table_widget.columnCount() - 1
         )

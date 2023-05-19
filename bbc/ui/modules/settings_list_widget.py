@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDoubleSpinBox,
+    QHeaderView,
     QLayout,
     QLineEdit,
     QTableWidget,
@@ -38,8 +39,22 @@ class SettingsListWidget(QWidget):
         self.set_row_height()
 
     def set_column_width(self):
+        total_width = self.get_total_columns_width()
+        table_width = self.table_widget.viewport().width()
+        if total_width < table_width:
+            stretch_factor = table_width / total_width
+        else:
+            stretch_factor = 1.0
+
         for col in range(self.table_widget.columnCount()):
-            self.table_widget.setColumnWidth(col, COLUMN_WIDTH)
+            content_width = self.table_widget.columnWidth(col)
+            minimum_width = self.table_widget.sizeHintForColumn(col)
+            desired_width = max(content_width, minimum_width * stretch_factor)
+            self.table_widget.setColumnWidth(col, int(desired_width))
+
+        self.table_widget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
 
     def get_total_columns_width(self):
         total_width = 0

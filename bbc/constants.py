@@ -1,5 +1,7 @@
 import os
 
+from PySide6.QtCore import Qt
+
 COLUMN_WIDTH = 200
 
 # General
@@ -137,3 +139,25 @@ SETTINGS_LIST = [
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
 CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
+
+# LabelWidget
+LABELS = [
+    {
+        "index": 0,
+        "title": "© 2023 Qerimi Engineering. All rights reserved.",
+        "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
+        "alignment": Qt.AlignmentFlag.AlignLeft,
+    },
+    {
+        "index": 1,
+        "title": "Test 1",
+        "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
+        "alignment": Qt.AlignmentFlag.AlignCenter,
+    },
+    {
+        "index": 2,
+        "title": "Test 2",
+        "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
+        "alignment": Qt.AlignmentFlag.AlignRight,
+    },
+]
