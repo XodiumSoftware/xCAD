@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QFrame, QLabel, QWidget
+from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout, QWidget
 
 
 class ObjectViewerWidget(QWidget):
@@ -8,5 +8,13 @@ class ObjectViewerWidget(QWidget):
 
     def initObjectViewerWidget(self):
         self.frame = QFrame()
-        label = QLabel("Hello, World!", self.frame)
-        label.setGeometry(10, 10, 200, 30)
+        self.viewer_layout = QVBoxLayout(self.frame)
+
+        label = QLabel("Hello, World!")
+        self.viewer_layout.addWidget(label)
+
+        # Optional: Set frame properties
+        self.frame.setFrameStyle(QFrame.Shape.Box)
+        self.frame.setLineWidth(1)
+
+        self.setLayout(self.viewer_layout)

@@ -3,7 +3,13 @@ from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QMainWindow,
+    QSizePolicy,
+    QSpacerItem,
+    QWidget,
+)
 from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.object_viewer_widget import ObjectViewerWidget
@@ -41,6 +47,15 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         main_ui_layout.addWidget(button_widget, 0, 0)
         main_ui_layout.addWidget(settings_widget, 1, 0)
         main_ui_layout.addWidget(label_widget, 2, 0)
+
+        # Add an empty spacer item to push the widgets to the left
+        main_ui_layout.addItem(
+            QSpacerItem(
+                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+            ),
+            0,
+            1,
+        )
 
         main_ui_layout.addWidget(object_viewer_ui, 1, 1)
 
