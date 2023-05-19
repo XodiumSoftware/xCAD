@@ -1,8 +1,7 @@
-from constants import DARK_THEME_FILE, LIGHT_THEME_FILE, UI_ICON_PATH, UI_TITLE
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -19,7 +18,7 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         self.setCentralWidget(QWidget())
         self.initMainUI()
         self.quit_on_key_press_event()
-        self.load_theme_handler()
+        # self.load_theme_handler()
 
     def initMainUI(self):
         # Set up the main window
