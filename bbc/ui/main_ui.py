@@ -14,7 +14,7 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         super().__init__()
 
         # Call functions here.
-        self.setCentralWidget(QWidget())  # Set the central widget
+        self.setCentralWidget(QWidget())
         self.initMainUI()
         self.quit_on_key_press_event()
 
@@ -26,13 +26,16 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         settings_widget = SettingsListWidget(self)
         total_columns_width = settings_widget.get_total_columns_width()
 
+        button_widget = ButtonWidget(self)
+
         # Create a new layout for the central widget
         central_layout = QGridLayout()
+        central_layout.setSpacing(10)  # Adjust the spacing here (e.g., 10 pixels)
         self.centralWidget().setLayout(central_layout)
 
         # Add Modules to the layout
-        central_layout.addWidget(ButtonWidget(self), 0, 0)
-        central_layout.addWidget(settings_widget, 1, 0)
+        central_layout.addWidget(button_widget, 0, 0, 1, 1)
+        central_layout.addWidget(settings_widget, 1, 0, 2, 1)
 
         # Calculate the desired width of the main window
         total_columns_width += central_layout.spacing() * (
@@ -44,10 +47,8 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
             + central_layout.contentsMargins().right()
         )
 
-        # Set the width of the main window
-        self.setFixedWidth(window_width)
+        # Set the initial width of the main window and allow manual resizing
+        self.resize(window_width, self.height())
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)
-
-        # TODO: Make the width of the app still resizable by the user.

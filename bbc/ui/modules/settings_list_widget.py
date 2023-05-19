@@ -35,12 +35,12 @@ class SettingsListWidget(QWidget):
 
         self.setup_settings()
         self.set_column_width()
+        self.set_row_height()
 
     def set_column_width(self):
         for col in range(self.table_widget.columnCount()):
             self.table_widget.setColumnWidth(col, COLUMN_WIDTH)
 
-    # TODO: Make the geometry of the app be based on the total width of the columns.
     def get_total_columns_width(self):
         total_width = 0
         for col in range(self.table_widget.columnCount()):
@@ -48,19 +48,23 @@ class SettingsListWidget(QWidget):
         return total_width
 
     def set_row_height(self):
+        max_height = 0
         for row in range(self.table_widget.rowCount()):
-            max_height = 0
+            row_height = 0
             for col in range(self.table_widget.columnCount()):
                 item = self.table_widget.item(row, col)
                 if item is not None:
                     item_height = item.sizeHint().height()
-                    max_height = max(max_height, item_height)
+                    row_height = max(row_height, item_height)
 
                 widget = self.table_widget.cellWidget(row, col)
                 if widget is not None:
                     widget_height = widget.sizeHint().height()
-                    max_height = max(max_height, widget_height)
+                    row_height = max(row_height, widget_height)
 
+            max_height = max(max_height, row_height)
+
+        for row in range(self.table_widget.rowCount()):
             self.table_widget.setRowHeight(row, max_height)
 
     def add_setting(self, *args):
@@ -145,6 +149,9 @@ class SettingsListWidget(QWidget):
                         elif setting_type == "input_int":
                             spin_box = widget
                             spin_box.setValue(float(value))
+                        elif setting_type == "checkbox":
+                            check_box = widget
+                            check_box.setChecked(bool(value))
                     break
 
         self.table_widget.resizeRowsToContents()

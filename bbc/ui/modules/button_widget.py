@@ -13,35 +13,29 @@ class ButtonWidget(QWidget):
         self.initButtonWidget()
 
     def initButtonWidget(self):
-        # Create a new QWidget object
-        button_widget = QWidget()
+        # Create the layout for the widget
+        button_layout = QHBoxLayout(self)
 
-        # Create a layout for the widget
-        button_layout = QHBoxLayout(button_widget)
-
-        # Create the theme button
-        theme_button = QPushButton(button_widget)
-        theme_button.setObjectName("ThemeButton")
-        theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
-
-        # Create the viewer button
-        viewer_button = QPushButton(button_widget)
-        viewer_button.setObjectName("ViewerButton")
-        viewer_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        viewer_button.setIcon(QIcon(VIEWER_UI_BUTTON_ICON_LIGHT_PATH))
-
-        # Add the buttons to the widget layout
-        button_layout.addWidget(theme_button)
+        # Create and add buttons to the layout
+        self.addPushButton(button_layout, "ThemeButton", THEME_BUTTON_ICON_DEFAULT_PATH)
         button_layout.addStretch(1)
-        button_layout.addWidget(viewer_button)
+        self.addPushButton(
+            button_layout, "ViewerButton", VIEWER_UI_BUTTON_ICON_LIGHT_PATH
+        )
+
+    def addPushButton(self, layout, object_name, icon_path):
+        # Create the push button
+        button = QPushButton(self)
+        button.setObjectName(object_name)
+        button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
+        button.setIcon(QIcon(icon_path))
+
+        # Add the button to the layout
+        layout.addWidget(button)
 
         # Connect the clicked signal to the EventsHandler.on_button_clicked_event method
-        # theme_button.clicked.connect(self.on_button_clicked_event)
-        # viewer_button.clicked.connect(self.on_button_clicked_event)
+        button.clicked.connect(self.on_button_clicked_event)
 
-        # Set the fixed height of the button widget to match the height of the buttons
-        button_widget.setFixedHeight(theme_button.height() + 10)
-
-        # Return the button widget
-        return button_widget
+    def on_button_clicked_event(self):
+        # Handle button click event
+        pass
