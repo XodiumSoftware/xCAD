@@ -1,3 +1,5 @@
+import functools
+
 from constants import BUTTONS
 from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QIcon, Qt
@@ -48,4 +50,8 @@ class ButtonWidget(QWidget):
         layout.addLayout(button_layout)
 
         # Connect the clicked signal
-        button.clicked.connect(EventsHandler().on_button_clicked_event)
+        button.clicked.connect(
+            functools.partial(
+                EventsHandler().on_button_clicked_event, button_data["index"]
+            )
+        )

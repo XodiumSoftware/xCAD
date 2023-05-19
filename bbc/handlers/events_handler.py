@@ -29,16 +29,15 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
-    def on_button_clicked_event(self):
-        sender = self.sender()
-        button_index = sender.property("index")
-        if button_index is not None and 0 <= button_index < len(BUTTONS):
-            if button_index == 0:
-                self.handle_theme_button_click()
-            elif button_index == 1:
-                self.handle_viewer_button_click()
+    def on_button_clicked_event(self, index):
+        if index == 0:
+            print("Theme Button Clicked!")
+            # Handle theme button click
+        elif index == 1:
+            print("Viewer Button Clicked!")
+            # Handle viewer button click
         else:
-            print(DEBUG_NAME + "Unknown Button Clicked!")
+            print("Invalid button index")
 
     def handle_theme_button_click(self):
         print(DEBUG_NAME + "Theme Button Clicked!")
