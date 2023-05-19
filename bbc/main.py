@@ -11,7 +11,7 @@ def run():
     and starts the application event loop.
     """
     app = QApplication([])
-    main_ui = MainUI(app)
+    main_ui = MainUI()
     main_ui.show()
 
     return app.exec()

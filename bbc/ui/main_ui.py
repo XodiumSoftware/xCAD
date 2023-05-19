@@ -12,15 +12,8 @@ from ui.object_viewer_ui import ObjectViewerUI
 
 
 class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler):
-    def __init__(self, app):
+    def __init__(self):
         super().__init__()
-
-        self.settings = QSettings()
-        self.app = app
-
-        self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
-        self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
-        self.current_stylesheet = ""
 
         # Call functions here.
         self.setCentralWidget(QWidget())

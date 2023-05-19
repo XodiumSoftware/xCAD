@@ -16,6 +16,8 @@ from constants import (
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 
+# TODO: Rewrite ThemeHandler
+
 
 class Theme(Enum):
     SYSTEM = 0
