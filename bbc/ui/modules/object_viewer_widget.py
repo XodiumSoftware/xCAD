@@ -13,8 +13,11 @@ class ObjectViewerWidget(QWidget):
         label = QLabel("Hello, World!")
         self.viewer_layout.addWidget(label)
 
-        # Optional: Set frame properties
-        self.frame.setFrameStyle(QFrame.Shape.Box)
+        # Set frame style
+        self.frame.setFrameStyle(QFrame.Shape.Box | QFrame.Shadow.Plain)
         self.frame.setLineWidth(1)
+
+        # Set frame background color
+        self.frame.setStyleSheet("background-color: lightgray;")
 
         self.setLayout(self.viewer_layout)
