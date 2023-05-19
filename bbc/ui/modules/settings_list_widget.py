@@ -1,6 +1,5 @@
 from constants import (
     CHECKBOX_STYLE,
-    COLUMN_WIDTH,
     HORIZONTAL_HEADER_LABELS,
     SETTINGS_DATABASE_PATH,
     SETTINGS_LIST,
@@ -19,6 +18,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
 
 # TODO: Make checkbox be centered in the column.
 class SettingsListWidget(QWidget):

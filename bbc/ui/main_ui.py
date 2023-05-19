@@ -6,11 +6,11 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
+from ui.modules.object_viewer_widget import ObjectViewerWidget
 from ui.modules.settings_list_widget import SettingsListWidget
-from ui.object_viewer_ui import ObjectViewerUI
 
 
-class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler):
+class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
     def __init__(self):
         super().__init__()
 
@@ -29,32 +29,35 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
         settings_widget = SettingsListWidget(self)
         button_widget = ButtonWidget(self)
         label_widget = LabelWidget(0, self)
+        object_viewer_ui = ObjectViewerWidget(self)
 
         # Create a new layout for the central widget
-        central_layout = QGridLayout()
-        central_layout.setVerticalSpacing(5)
-        central_layout.setHorizontalSpacing(5)
-        central_layout.setContentsMargins(5, 5, 5, 5)
+        main_ui_layout = QGridLayout()
+        main_ui_layout.setVerticalSpacing(5)
+        main_ui_layout.setHorizontalSpacing(5)
+        main_ui_layout.setContentsMargins(5, 5, 5, 5)
 
         # Add Modules to the layout
-        central_layout.addWidget(button_widget, 0, 0)
-        central_layout.addWidget(settings_widget, 1, 0)
-        central_layout.addWidget(label_widget, 2, 0)
+        main_ui_layout.addWidget(button_widget, 0, 0)
+        main_ui_layout.addWidget(settings_widget, 1, 0)
+        main_ui_layout.addWidget(label_widget, 2, 0)
+
+        main_ui_layout.addWidget(object_viewer_ui, 1, 1)
 
         # Set the central widget
         central_widget = QWidget()
-        central_widget.setLayout(central_layout)
+        central_widget.setLayout(main_ui_layout)
         self.setCentralWidget(central_widget)
 
         # Calculate the desired width of the main window
         total_columns_width = settings_widget.get_total_columns_width()
-        total_columns_width += central_layout.horizontalSpacing() * (
+        total_columns_width += main_ui_layout.horizontalSpacing() * (
             settings_widget.table_widget.columnCount() - 1
         )
         window_width = (
             total_columns_width
-            + central_layout.contentsMargins().left()
-            + central_layout.contentsMargins().right()
+            + main_ui_layout.contentsMargins().left()
+            + main_ui_layout.contentsMargins().right()
         )
 
         # Set the initial width of the main window and allow manual resizing
