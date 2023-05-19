@@ -25,11 +25,15 @@ class Theme(Enum):
 
 class ThemeHandler:
     def __init__(self):
+        super().__init__()
+
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
+
         self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
         self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
         self.current_stylesheet = ""
+
         self.load_theme_handler()
 
     def load_stylesheet_handler(self, filename):

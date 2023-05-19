@@ -1,7 +1,8 @@
-from constants import UI_ICON_PATH, UI_TITLE
+from constants import DARK_THEME_FILE, LIGHT_THEME_FILE, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -11,13 +12,21 @@ from ui.object_viewer_ui import ObjectViewerUI
 
 
 class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler):
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
+
+        self.settings = QSettings()
+        self.app = app
+
+        self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
+        self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
+        self.current_stylesheet = ""
 
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.initMainUI()
         self.quit_on_key_press_event()
+        self.load_theme_handler()
 
     def initMainUI(self):
         # Set up the main window
@@ -31,13 +40,9 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
 
         # Create a new layout for the central widget
         central_layout = QGridLayout()
-        central_layout.setVerticalSpacing(
-            5
-        )  # Adjust the vertical spacing here (e.g., 5 pixels)
-        central_layout.setHorizontalSpacing(
-            5
-        )  # Adjust the horizontal spacing here (e.g., 5 pixels)
-        central_layout.setContentsMargins(5, 5, 5, 5)  # Adjust the margins here
+        central_layout.setVerticalSpacing(5)
+        central_layout.setHorizontalSpacing(5)
+        central_layout.setContentsMargins(5, 5, 5, 5)
 
         # Add Modules to the layout
         central_layout.addWidget(button_widget, 0, 0)

@@ -77,16 +77,12 @@ QScrollBar::handle:horizontal {
 
 QScrollBar::add-line:horizontal {
     width: 0px;
-    scroll-snap-destination: right;
-    scroll-margin-top: padding;
     border-radius: 4px;
 
 }
 
 QScrollBar::sub-line:horizontal {
     width: 0px;
-    scroll-snap-destination: left;
-    scroll-margin-top: padding;
     border-radius: 4px;
 }
 
@@ -106,14 +102,10 @@ QScrollBar::handle:vertical {
 
 QScrollBar::add-line:vertical {
     height: 0px;
-    scroll-snap-destination: bottom;
-    scroll-margin-top: padding;
     border-radius: 4px;
 }
 
 QScrollBar::sub-line:vertical {
     height: 0px;
-    scroll-snap-destination: top;
-    scroll-margin-top: padding;
     border-radius: 4px;
 }
