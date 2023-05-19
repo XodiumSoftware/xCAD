@@ -30,15 +30,25 @@ class MainUI(QMainWindow, ObjectViewerUI, UIHandler, ThemeHandler, EventsHandler
 
         # Create a new layout for the central widget
         central_layout = QGridLayout()
-        central_layout.setSpacing(10)  # Adjust the spacing here (e.g., 10 pixels)
-        self.centralWidget().setLayout(central_layout)
+        central_layout.setVerticalSpacing(
+            5
+        )  # Adjust the vertical spacing here (e.g., 5 pixels)
+        central_layout.setHorizontalSpacing(
+            5
+        )  # Adjust the horizontal spacing here (e.g., 5 pixels)
+        central_layout.setContentsMargins(5, 5, 5, 5)  # Adjust the margins here
 
         # Add Modules to the layout
-        central_layout.addWidget(button_widget, 0, 0, 1, 1)
-        central_layout.addWidget(settings_widget, 1, 0, 2, 1)
+        central_layout.addWidget(button_widget, 0, 0)
+        central_layout.addWidget(settings_widget, 1, 0)
+
+        # Set the central widget
+        central_widget = QWidget()
+        central_widget.setLayout(central_layout)
+        self.setCentralWidget(central_widget)
 
         # Calculate the desired width of the main window
-        total_columns_width += central_layout.spacing() * (
+        total_columns_width += central_layout.horizontalSpacing() * (
             settings_widget.table_widget.columnCount() - 1
         )
         window_width = (
