@@ -132,6 +132,7 @@ LABELS = [
     },
 ]
 
+# TODO: Add function that toggles the button icon based on isVisible().
 # ButtonWidget
 BUTTONS = [
     {

@@ -1,11 +1,13 @@
-from constants import BUTTONS, DEBUG_NAME
+from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
+from ui.modules.object_viewer_widget import ObjectViewerWidget
 
 
 class EventsHandler(QObject):
     quit_signal = Signal()
+    toggle_viewer_signal = Signal()
 
     def __init__(self):
         """
@@ -15,6 +17,7 @@ class EventsHandler(QObject):
 
         # Connect the signal to the slot
         self.quit_signal.connect(self.quit_on_key_press_event)
+        self.toggle_viewer_signal.connect(self.toggle_viewer_widget)
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -29,20 +32,21 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
+    @Slot()
+    def toggle_viewer_widget(self) -> None:
+        """
+        Toggle the visibility of the ObjectViewerWidget.
+        """
+        print(DEBUG_NAME + "toggle_viewer_widget initiated!")
+        object_viewer_widget = ObjectViewerWidget()
+        object_viewer_widget.setVisible(not object_viewer_widget.isVisible())
+
     def on_button_clicked_event(self, index):
         if index == 0:
-            print("Theme Button Clicked!")
+            print(DEBUG_NAME + "Theme Button Clicked!")
             # Handle theme button click
         elif index == 1:
-            print("Viewer Button Clicked!")
-            # Handle viewer button click
+            print(DEBUG_NAME + "Viewer Button Clicked!")
+            self.toggle_viewer_signal.emit()
         else:
-            print("Invalid button index")
-
-    def handle_theme_button_click(self):
-        print(DEBUG_NAME + "Theme Button Clicked!")
-        # Add your custom logic for the ThemeButton click here
-
-    def handle_viewer_button_click(self):
-        print(DEBUG_NAME + "Viewer Button Clicked!")
-        # Add your custom logic for the ViewerButton click here
+            print(DEBUG_NAME + "Invalid button index")
