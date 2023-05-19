@@ -1,4 +1,4 @@
-from constants import DEBUG_NAME
+from constants import BUTTONS, DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
@@ -29,9 +29,21 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
-    @staticmethod
-    def on_button_clicked_event(sender: QObject):
-        if sender.objectName() == "ThemeButton":
-            print(DEBUG_NAME + "Theme Button Clicked!")
-        elif sender.objectName() == "ViewerButton":
-            print(DEBUG_NAME + "Viewer Button Clicked!")
+    def on_button_clicked_event(self):
+        sender = self.sender()
+        button_index = sender.property("index")
+        if button_index is not None and 0 <= button_index < len(BUTTONS):
+            if button_index == 0:
+                self.handle_theme_button_click()
+            elif button_index == 1:
+                self.handle_viewer_button_click()
+        else:
+            print(DEBUG_NAME + "Unknown Button Clicked!")
+
+    def handle_theme_button_click(self):
+        print(DEBUG_NAME + "Theme Button Clicked!")
+        # Add your custom logic for the ThemeButton click here
+
+    def handle_viewer_button_click(self):
+        print(DEBUG_NAME + "Viewer Button Clicked!")
+        # Add your custom logic for the ViewerButton click here

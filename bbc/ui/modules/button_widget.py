@@ -1,4 +1,5 @@
 from constants import BUTTONS
+from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QIcon, Qt
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
@@ -35,6 +36,7 @@ class ButtonWidget(QWidget):
         button.setObjectName(button_data["title"])
         button.setFixedSize(*button_data["size"])
         button.setIcon(QIcon(button_data["icon_path"]))
+        button.setProperty("index", button_data["index"])
 
         # Set button alignment
         button_layout = QHBoxLayout()
@@ -45,9 +47,5 @@ class ButtonWidget(QWidget):
         # Add the button layout to the main layout
         layout.addLayout(button_layout)
 
-        # Connect the clicked signal to the EventsHandler.on_button_clicked_event method
-        button.clicked.connect(self.on_button_clicked_event)
-
-    def on_button_clicked_event(self):
-        # Handle button click event
-        pass
+        # Connect the clicked signal
+        button.clicked.connect(EventsHandler().on_button_clicked_event)

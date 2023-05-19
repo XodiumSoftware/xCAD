@@ -48,16 +48,16 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         main_ui_layout.addWidget(settings_widget, 1, 0)
         main_ui_layout.addWidget(label_widget, 2, 0)
 
-        # Add an empty spacer item to push the widgets to the left
-        main_ui_layout.addItem(
-            QSpacerItem(
-                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
-            ),
-            0,
-            1,
-        )
-
-        main_ui_layout.addWidget(object_viewer_ui, 1, 1)
+        if object_viewer_ui.isVisible():
+            # Add an empty spacer item to push the widgets to the left
+            main_ui_layout.addItem(
+                QSpacerItem(
+                    0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+                ),
+                0,
+                1,
+            )
+            main_ui_layout.addWidget(object_viewer_ui, 1, 1)
 
         # Set the central widget
         central_widget = QWidget()
