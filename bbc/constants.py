@@ -96,36 +96,6 @@ DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
 DEBUG_NAME = "[DEBUG] "
 DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "
 
-# WidgetModule Stylesheet
-WIDGET_MODULE_STYLESHEET = """
-                QWidget {
-                    background-color: #F0F0F0;
-                }
-
-                #InnerContainer {
-                    background-color: white;
-                    border: 1px solid black;
-                    border-radius: 5px;
-                    padding: 10px;
-                }
-
-                QLabel#MyLabel {
-                    font-size: 24px;
-                    font-weight: bold;
-                }
-
-                QPushButton#MyButton {
-                    background-color: blue;
-                    color: white;
-                    padding: 10px;
-                    border-radius: 5px;
-                }
-
-                QPushButton#MyButton:hover {
-                    background-color: #0070C0;
-                }
-            """
-
 # SettingsListWidget
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
@@ -159,5 +129,21 @@ LABELS = [
         "title": "Test 2",
         "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
         "alignment": Qt.AlignmentFlag.AlignRight,
+    },
+]
+
+# ButtonWidget
+BUTTONS = [
+    {
+        "index": 0,
+        "title": "ThemeButton",
+        "size": (30, 30),
+        "icon_path": os.path.join("bbc/icons/theme_icon_default_light.png"),
+    },
+    {
+        "index": 1,
+        "title": "ViewerButton",
+        "size": (30, 30),
+        "icon_path": os.path.join("bbc/icons/viewer_icon_light.png"),
     },
 ]
