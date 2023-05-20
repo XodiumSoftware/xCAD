@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSizePolicy,
     QSpacerItem,
-    QVBoxLayout,
     QWidget,
 )
 
@@ -17,28 +16,31 @@ from PySide6.QtWidgets import (
 class ButtonWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.button_container_0 = None
+        self.button_container_1 = None
         self.initButtonWidget()
 
     def initButtonWidget(self):
-        parent_layout = QVBoxLayout(self)
-
         # Create the first button layout with an expanding spacing
-        button_layout_0 = self.createButtonLayout(
+        button_container_0 = self.createButtonLayout(
             [0, 1], alignment=Qt.AlignmentFlag.AlignLeft, spacing=-1
         )
-        parent_layout.addLayout(button_layout_0)
 
         # Create the second button layout with spacing of 0
-        button_layout_1 = self.createButtonLayout(
+        button_container_1 = self.createButtonLayout(
             [2, 3], alignment=Qt.AlignmentFlag.AlignRight, spacing=0
         )
-        parent_layout.addLayout(button_layout_1)
 
-        # Set the parent layout as the main layout of the widget
-        self.setLayout(parent_layout)
+        # Create a container widget for each button layout
+        self.button_container_0 = QWidget()
+        self.button_container_0.setLayout(button_container_0)
+
+        self.button_container_1 = QWidget()
+        self.button_container_1.setLayout(button_container_1)
 
     def createButtonLayout(self, button_indices, alignment, spacing):
-        button_layout = QHBoxLayout()
+        container_widget = QWidget()
+        button_layout = QHBoxLayout(container_widget)
         button_layout.setAlignment(alignment)
 
         for button_index in button_indices:

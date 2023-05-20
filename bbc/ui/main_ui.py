@@ -48,9 +48,10 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         main_ui_layout.setContentsMargins(5, 5, 5, 5)
 
         # Add Modules to the layout
-        main_ui_layout.addWidget(button_widget, 0, 0)
+        main_ui_layout.addWidget(button_widget.button_container_0, 0, 0)
         main_ui_layout.addWidget(settings_widget, 1, 0)
-        main_ui_layout.addWidget(label_widget, 2, 0)
+        main_ui_layout.addWidget(button_widget.button_container_1, 2, 0)
+        main_ui_layout.addWidget(label_widget, 3, 0)
 
         # Add an empty spacer item to push the widgets to the left
         # main_ui_layout.addItem(
