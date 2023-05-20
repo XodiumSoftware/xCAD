@@ -2,11 +2,13 @@ import functools
 
 from constants import BUTTONS
 from handlers.events_handler import EventsHandler
-from PySide6.QtGui import QIcon, Qt
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QSizePolicy,
+    QSpacerItem,
     QVBoxLayout,
     QWidget,
 )
@@ -20,25 +22,22 @@ class ButtonWidget(QWidget):
     def initButtonWidget(self):
         parent_layout = QVBoxLayout(self)
 
-        # Create and add the first button layout
-        button_container_0 = self.addButtonLayout(
-            [0, 1], alignment=Qt.AlignmentFlag.AlignHCenter, stretch=0
+        # Create the first button layout with an expanding spacing
+        button_layout_0 = self.createButtonLayout(
+            [0, 1], alignment=Qt.AlignmentFlag.AlignLeft, spacing=-1
         )
-        parent_layout.addLayout(button_container_0)
+        parent_layout.addLayout(button_layout_0)
 
-        # Create and add the second button layout
-        button_container_1 = self.addButtonLayout(
-            [2, 3], alignment=Qt.AlignmentFlag.AlignRight, stretch=0
+        # Create the second button layout with spacing of 0
+        button_layout_1 = self.createButtonLayout(
+            [2, 3], alignment=Qt.AlignmentFlag.AlignRight, spacing=0
         )
-        parent_layout.addLayout(button_container_1)
+        parent_layout.addLayout(button_layout_1)
 
         # Set the parent layout as the main layout of the widget
         self.setLayout(parent_layout)
 
-        # Return the button containers
-        return button_container_0, button_container_1
-
-    def addButtonLayout(self, button_indices, alignment, stretch=0):
+    def createButtonLayout(self, button_indices, alignment, spacing):
         button_layout = QHBoxLayout()
         button_layout.setAlignment(alignment)
 
@@ -57,10 +56,19 @@ class ButtonWidget(QWidget):
 
                 button.setProperty("index", button_data["index"])
 
-                button_layout.addWidget(button, stretch=stretch)
-                button.setSizePolicy(
-                    QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-                )
+                button_layout.addWidget(button)
+
+                if button_index != button_indices[-1]:
+                    if spacing == -1:
+                        spacer_item = QSpacerItem(
+                            button.sizeHint().width(),
+                            button.sizeHint().height(),
+                            QSizePolicy.Policy.Expanding,
+                            QSizePolicy.Policy.Minimum,
+                        )
+                        button_layout.addItem(spacer_item)
+                    else:
+                        button_layout.addSpacing(spacing)
 
                 button.clicked.connect(
                     functools.partial(
@@ -68,8 +76,4 @@ class ButtonWidget(QWidget):
                     )
                 )
 
-        # Create a container layout and add the button layout to it
-        button_container = QVBoxLayout()
-        button_container.addLayout(button_layout)
-
-        return button_container
+        return button_layout
