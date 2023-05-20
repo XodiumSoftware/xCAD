@@ -3,7 +3,13 @@ import functools
 from constants import BUTTONS
 from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QIcon, Qt
-from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
+from PySide6.QtWidgets import (
+    QHBoxLayout,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class ButtonWidget(QWidget):
@@ -12,46 +18,58 @@ class ButtonWidget(QWidget):
         self.initButtonWidget()
 
     def initButtonWidget(self):
-        # Create the layout for the widget
-        button_layout = QHBoxLayout(self)
-        button_layout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(button_layout)
+        parent_layout = QVBoxLayout(self)
 
-        # Create and add the first button aligned to the left
-        if len(BUTTONS) > 0:
-            self.addPushButton(
-                button_layout, BUTTONS[0], alignment=Qt.AlignmentFlag.AlignLeft
-            )
+        # Create and add the first button layout
+        button_container_0 = self.addButtonLayout(
+            [0, 1], alignment=Qt.AlignmentFlag.AlignHCenter, stretch=0
+        )
+        parent_layout.addLayout(button_container_0)
 
-        # Add stretch in the middle
-        button_layout.addStretch(1)
+        # Create and add the second button layout
+        button_container_1 = self.addButtonLayout(
+            [2, 3], alignment=Qt.AlignmentFlag.AlignRight, stretch=0
+        )
+        parent_layout.addLayout(button_container_1)
 
-        # Create and add the second button aligned to the right
-        if len(BUTTONS) > 1:
-            self.addPushButton(
-                button_layout, BUTTONS[1], alignment=Qt.AlignmentFlag.AlignRight
-            )
+        # Set the parent layout as the main layout of the widget
+        self.setLayout(parent_layout)
 
-    def addPushButton(self, layout, button_data, alignment):
-        # Create the push button
-        button = QPushButton(self)
-        button.setObjectName(button_data["title"])
-        button.setFixedSize(*button_data["size"])
-        button.setIcon(QIcon(button_data["icon_path"]))
-        button.setProperty("index", button_data["index"])
+        # Return the button containers
+        return button_container_0, button_container_1
 
-        # Set button alignment
+    def addButtonLayout(self, button_indices, alignment, stretch=0):
         button_layout = QHBoxLayout()
         button_layout.setAlignment(alignment)
-        button_layout.addWidget(button)
-        button_layout.setContentsMargins(5, 5, 5, 5)
 
-        # Add the button layout to the main layout
-        layout.addLayout(button_layout)
+        for button_index in button_indices:
+            if len(BUTTONS) > button_index:
+                button_data = BUTTONS[button_index]
 
-        # Connect the clicked signal
-        button.clicked.connect(
-            functools.partial(
-                EventsHandler().on_button_clicked_event, button_data["index"]
-            )
-        )
+                button = QPushButton(self)
+                button.setObjectName(button_data["title"])
+                button.setFixedSize(*button_data["size"])
+
+                if button_data["icon_path"] is not None:
+                    button.setIcon(QIcon(button_data["icon_path"]))
+                else:
+                    button.setText(button_data["title"])
+
+                button.setProperty("index", button_data["index"])
+
+                button_layout.addWidget(button, stretch=stretch)
+                button.setSizePolicy(
+                    QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+                )
+
+                button.clicked.connect(
+                    functools.partial(
+                        EventsHandler().on_button_clicked_event, button_data["index"]
+                    )
+                )
+
+        # Create a container layout and add the button layout to it
+        button_container = QVBoxLayout()
+        button_container.addLayout(button_layout)
+
+        return button_container

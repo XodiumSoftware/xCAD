@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLayout,
     QLineEdit,
+    QPushButton,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
@@ -120,6 +121,12 @@ class SettingsListWidget(QWidget):
                 lambda state, param=setting_name: self.save_setting(param, bool(state))
             )
             value_widget.setStyleSheet(CHECKBOX_STYLE)
+        # TODO: Fix button setting type and link it with the button_widget to handle the on click event.
+        elif setting_type == "button":
+            value_widget = QPushButton(args[3] if len(args) > 3 else "")
+            value_widget.clicked.connect(
+                lambda state, param=setting_name: self.save_setting(param, bool(state))
+            )
 
         if value_widget is not None:
             self.table_widget.setCellWidget(row_count, 1, value_widget)
@@ -167,6 +174,9 @@ class SettingsListWidget(QWidget):
                         elif setting_type == "checkbox":
                             check_box = widget
                             check_box.setChecked(bool(value))
+                        elif setting_type == "button":
+                            button = widget
+                            button.setChecked(bool(value))
                     break
 
         self.table_widget.resizeRowsToContents()

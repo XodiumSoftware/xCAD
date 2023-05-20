@@ -2,7 +2,6 @@ from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
-from ui.modules.object_viewer_widget import ObjectViewerWidget
 
 
 class EventsHandler(QObject):
@@ -39,5 +38,11 @@ class EventsHandler(QObject):
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")
             self.toggle_viewer_signal.emit()
+        elif index == 2:
+            print(DEBUG_NAME + "Save Button Clicked!")
+            # Handle save button click
+        elif index == 3:
+            print(DEBUG_NAME + "Discard Button Clicked!")
+            # Handle discard button click
         else:
             print(DEBUG_NAME + "Invalid button index")

@@ -105,6 +105,7 @@ SETTINGS_LIST = [
     ("Wrapping at Ends", "input_int", []),
     ("Width", "dropdown", DROPDOWN_LIST_SOUND),
     ("Function", "checkbox", []),
+    ("Test", "button", []),
 ]
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
@@ -147,4 +148,16 @@ BUTTONS = [
         "size": (30, 30),
         "icon_path": os.path.join("bbc/icons/viewer_icon_light.png"),
     },
-]
+    {
+        "index": 2,
+        "title": "Save",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+    {
+        "index": 3,
+        "title": "Discard",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+]  # Dont forget to add the necessary code into the EventHandler.

@@ -97,7 +97,7 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
 
         if self.object_viewer_ui.isVisible():
             # Add the ObjectViewerWidget to the layout
-            main_ui_layout.addWidget(self.object_viewer_ui, 1, 1)
+            main_ui_layout.addWidget(self.object_viewer_ui)
         else:
             # Remove the ObjectViewerWidget from the layout
             main_ui_layout.removeWidget(self.object_viewer_ui)
