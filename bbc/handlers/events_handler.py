@@ -31,6 +31,7 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
+    @Slot(int)
     def on_button_clicked_event(self, index):
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
