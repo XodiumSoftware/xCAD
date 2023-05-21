@@ -59,7 +59,7 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         #         0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
         #     ),
         #     0,
-        #     1,
+        #     1, 
         # )
         # main_ui_layout.addWidget(self.object_viewer_ui, 1, 1)
 
