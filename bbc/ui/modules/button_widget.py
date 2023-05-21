@@ -1,4 +1,5 @@
 import functools
+from bbc.handlers import db_handler
 
 from constants import BUTTONS
 from handlers.events_handler import EventsHandler

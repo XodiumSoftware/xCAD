@@ -1,13 +1,21 @@
-import os
 import sqlite3
 
-SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
+from constants import DEBUG_NAME
+from constants import SETTINGS_DATABASE_PATH as SETTINGS_DATABASE_PATH
+from PySide6.QtCore import QObject, Signal, Slot
 
 
-class SettingsDatabaseHandler:
+class SettingsDatabaseHandler(QObject):
+    save_changes_signal = Signal()
+    discard_changes_signal = Signal()
+
     def __init__(self, database_path):
+        super().__init__()
         self.database_path = database_path
         self.conn = sqlite3.connect(self.database_path)
+        self.create_table()
+        self.save_changes_signal.connect(self.save_changes_slot)
+        self.discard_changes_signal.connect(self.discard_changes_slot)
 
     def create_table(self):
         cursor = self.conn.cursor()
@@ -46,7 +54,16 @@ class SettingsDatabaseHandler:
             """,
                 (parameter, value),
             )
-        self.conn.commit()
+
+    def delete_setting(self, parameter):
+        cursor = self.conn.cursor()
+        cursor.execute(
+            """
+        DELETE FROM settings WHERE parameter = ?
+        """,
+            (parameter,),
+        )
+        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
 
     def get_settings(self):
         cursor = self.conn.cursor()
@@ -54,5 +71,23 @@ class SettingsDatabaseHandler:
         settings = cursor.fetchall()
         return settings
 
+    def save_changes(self):
+        self.conn.commit()
+        print(DEBUG_NAME + "Changes saved to the database.")
+
     def close(self):
         self.conn.close()
+
+    @Slot()
+    def save_changes_slot(self):
+        self.save_changes()
+        # Additional code for handling the save action, if needed
+
+    @Slot()
+    def discard_changes_slot(self):
+        parameter_to_discard = (
+            "example_parameter"  # Provide the parameter you want to discard
+        )
+        self.delete_setting(parameter_to_discard)
+        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter_to_discard}")
+        # Additional code for handling the discard action, if needed

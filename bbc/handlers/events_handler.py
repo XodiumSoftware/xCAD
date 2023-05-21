@@ -7,6 +7,9 @@ from PySide6.QtWidgets import QApplication
 class EventsHandler(QObject):
     quit_signal = Signal()
     toggle_viewer_signal = Signal()
+    save_changes_signal = Signal()
+    toggle_theme_signal = Signal()
+    discard_changes_signal = Signal()
 
     def __init__(self):
         """
@@ -35,15 +38,15 @@ class EventsHandler(QObject):
     def on_button_clicked_event(self, index):
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
-            # Handle theme button click
+            self.toggle_theme_signal.emit()
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")
             self.toggle_viewer_signal.emit()
         elif index == 2:
             print(DEBUG_NAME + "Save Button Clicked!")
-            # Handle save button click
+            self.save_changes_signal.emit()
         elif index == 3:
             print(DEBUG_NAME + "Discard Button Clicked!")
-            # Handle discard button click
+            self.discard_changes_signal.emit()
         else:
             print(DEBUG_NAME + "Invalid button index")

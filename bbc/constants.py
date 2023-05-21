@@ -62,6 +62,8 @@ DATA_DIR_FILE = os.path.join("configurator_inputs.txt")
 # Database
 DB_DIR = os.path.join("bbc", "data", "db")
 DB_FILE = os.path.join(DB_DIR, "inputs.db")
+SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
+
 
 # Define constants for the SQL statements
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
