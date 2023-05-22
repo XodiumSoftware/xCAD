@@ -16,6 +16,8 @@ from constants import (
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 
+# TODO: Finish ThemeHandler
+
 
 class ThemeHandler:
     THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
