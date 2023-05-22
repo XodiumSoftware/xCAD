@@ -16,20 +16,20 @@ from PySide6.QtWidgets import (
 class ButtonWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.initButtonWidget()
+        self.init_button_widget()
 
-    def initButtonWidget(self):
+    def init_button_widget(self):
         # Create the first button layout with an expanding spacing
-        self.button_container_0 = self.createButtonLayout(
+        self.button_container_0 = self.create_button_layout(
             [0, 1], alignment=Qt.AlignmentFlag.AlignLeft, spacing=-1
         )
 
         # Create the second button layout with spacing of 0
-        self.button_container_1 = self.createButtonLayout(
+        self.button_container_1 = self.create_button_layout(
             [2, 3], alignment=Qt.AlignmentFlag.AlignRight, spacing=0
         )
 
-    def createButtonLayout(self, button_indices, alignment, spacing):
+    def create_button_layout(self, button_indices, alignment, spacing):
         container_widget = QWidget()
         button_layout = QHBoxLayout()
         button_layout.setAlignment(alignment)

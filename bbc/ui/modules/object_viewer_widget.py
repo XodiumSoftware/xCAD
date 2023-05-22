@@ -4,9 +4,9 @@ from PySide6.QtWidgets import QFrame, QVBoxLayout, QWidget
 class ObjectViewerWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.initObjectViewerWidget()
+        self.init_object_viewer_widget()
 
-    def initObjectViewerWidget(self):
+    def init_object_viewer_widget(self):
         layout = QVBoxLayout(self)
 
         box = QFrame(self)

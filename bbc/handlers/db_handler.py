@@ -13,11 +13,11 @@ class SettingsDatabaseHandler(QObject):
         super().__init__()
         self.database_path = database_path
         self.conn = sqlite3.connect(self.database_path)
-        self.create_table()
-        self.save_changes_signal.connect(self.save_changes_slot)
-        self.discard_changes_signal.connect(self.discard_changes_slot)
+        self.create_db_table()
+        self.save_changes_signal.connect(self.save_db_changes_slot)
+        self.discard_changes_signal.connect(self.discard_db_changes_slot)
 
-    def create_table(self):
+    def create_db_table(self):
         cursor = self.conn.cursor()
         cursor.execute(
             """
@@ -30,7 +30,7 @@ class SettingsDatabaseHandler(QObject):
         )
         self.conn.commit()
 
-    def insert_setting(self, parameter, value):
+    def insert_db_setting(self, parameter, value):
         cursor = self.conn.cursor()
         cursor.execute(
             """
@@ -55,7 +55,7 @@ class SettingsDatabaseHandler(QObject):
                 (parameter, value),
             )
 
-    def delete_setting(self, parameter):
+    def delete_db_setting(self, parameter):
         cursor = self.conn.cursor()
         cursor.execute(
             """
@@ -65,13 +65,13 @@ class SettingsDatabaseHandler(QObject):
         )
         print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
 
-    def get_settings(self):
+    def get_db_settings(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT parameter, value FROM settings")
         settings = cursor.fetchall()
         return settings
 
-    def save_changes(self):
+    def save_db_changes(self):
         self.conn.commit()
         print(DEBUG_NAME + "Changes saved to the database.")
 
@@ -79,15 +79,15 @@ class SettingsDatabaseHandler(QObject):
         self.conn.close()
 
     @Slot()
-    def save_changes_slot(self):
-        self.save_changes()
+    def save_db_changes_slot(self):
+        self.save_db_changes()
         # Additional code for handling the save action, if needed
 
     @Slot()
-    def discard_changes_slot(self):
+    def discard_db_changes_slot(self):
         parameter_to_discard = (
             "example_parameter"  # Provide the parameter you want to discard
         )
-        self.delete_setting(parameter_to_discard)
+        self.delete_db_setting(parameter_to_discard)
         print(DEBUG_NAME + f"Discarded changes for parameter: {parameter_to_discard}")
         # Additional code for handling the discard action, if needed

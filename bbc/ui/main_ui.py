@@ -18,11 +18,11 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
 
         # Call functions here.
         self.setCentralWidget(QWidget())
-        self.initMainUI()
+        self.init_main_ui()
         self.quit_on_key_press_event()
         # self.load_theme_handler()
 
-    def initMainUI(self):
+    def init_main_ui(self):
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))

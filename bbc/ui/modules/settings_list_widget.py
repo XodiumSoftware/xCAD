@@ -25,14 +25,14 @@ from PySide6.QtWidgets import (
 class SettingsListWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.initSettingsListWidget()
+        self.init_settings_list_widget()
 
-    def initSettingsListWidget(self):
+    def init_settings_list_widget(self):
         self.layout: QLayout = QVBoxLayout(self)
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
         self.database = SettingsDatabaseHandler(SETTINGS_DATABASE_PATH)
-        self.database.create_table()
+        self.database.create_db_table()
         self.setting_widgets = {}
 
         self.setup_settings()
@@ -133,7 +133,7 @@ class SettingsListWidget(QWidget):
             self.setting_widgets[setting_name] = value_widget
 
     def save_setting(self, parameter, value):
-        self.database.insert_setting(parameter, str(value))
+        self.database.insert_db_setting(parameter, str(value))
 
     def remove_setting(self, setting_name):
         items = self.table_widget.findItems(setting_name, Qt.MatchFlag.MatchExactly)
@@ -158,7 +158,7 @@ class SettingsListWidget(QWidget):
             setting_name, setting_type, options = setting
             self.add_setting(setting_name, setting_type, options)
 
-            for param, value in self.database.get_settings():
+            for param, value in self.database.get_db_settings():
                 if param == setting_name:
                     widget = self.setting_widgets.get(setting_name)
                     if widget is not None:
