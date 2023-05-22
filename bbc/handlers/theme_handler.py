@@ -1,9 +1,9 @@
 import winreg
-from enum import Enum
 
 from constants import (
     DARK_THEME_FILE,
     DEBUG_ERROR_DETECTING_SYSTEM_THEME,
+    DEBUG_NAME,
     KEY_THEME,
     KEY_THEME_DARK,
     KEY_THEME_LIGHT,
@@ -16,26 +16,14 @@ from constants import (
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 
-# TODO: Rewrite ThemeHandler
-
-
-class Theme(Enum):
-    SYSTEM = 0
-    LIGHT = 1
-    DARK = 2
-
 
 class ThemeHandler:
-    def __init__(self):
-        super().__init__()
+    THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
 
+    def __init__(self):
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
-
-        self.dark_stylesheet = self.load_stylesheet_handler(DARK_THEME_FILE)
-        self.light_stylesheet = self.load_stylesheet_handler(LIGHT_THEME_FILE)
         self.current_stylesheet = ""
-
         self.load_theme_handler()
 
     def load_stylesheet_handler(self, filename):
@@ -48,27 +36,23 @@ class ThemeHandler:
             value_name = MS_VALUE_NAME
             value = winreg.QueryValueEx(key, value_name)[0]
             if value == 0:
-                self.set_theme_handler(Theme.DARK)
+                return KEY_THEME_DARK
             else:
-                self.set_theme_handler(Theme.LIGHT)
+                return KEY_THEME_LIGHT
         except Exception as e:
             print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
+            return KEY_THEME_LIGHT
 
     def load_theme_handler(self):
-        theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
-        if theme == KEY_THEME_LIGHT:
-            self.set_theme_handler(Theme.LIGHT)
-        elif theme == KEY_THEME_DARK:
-            self.set_theme_handler(Theme.DARK)
-        else:
-            self.set_theme_handler(Theme.SYSTEM)
+        theme_state = self.settings.value(KEY_THEME)
+        if theme_state not in (KEY_THEME_LIGHT, KEY_THEME_DARK):
+            theme_state = self.detect_system_theme_handler()
+        self.set_theme_handler(theme_state)
 
-    def set_theme_handler(self, mode):
-        if mode == Theme.SYSTEM:
-            self.detect_system_theme_handler()
-        elif mode == Theme.LIGHT:
-            self.app.setStyleSheet(self.light_stylesheet)
-            self.settings.setValue(KEY_THEME, KEY_THEME_LIGHT)
-        elif mode == Theme.DARK:
-            self.app.setStyleSheet(self.dark_stylesheet)
-            self.settings.setValue(KEY_THEME, KEY_THEME_DARK)
+    def set_theme_handler(self, theme_state):
+        if theme_state in (KEY_THEME_LIGHT, KEY_THEME_DARK):
+            stylesheet = self.load_stylesheet_handler(self.THEME_MAP[theme_state])
+            self.app.setStyleSheet(stylesheet)
+            self.settings.setValue(KEY_THEME, theme_state)
+        else:
+            print(DEBUG_NAME + "Invalid theme state:", theme_state)
