@@ -34,12 +34,14 @@ THEME_FILE_PATHS = {
 ICONS_FILE_PATHS = {
     THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_dark.png"),
     THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_light.png"),
-    THEME_SYSTEM_DEFAULT: None,  # No specific icon for system_default theme
-}
-
-SYSTEM_THEME_ICONS = {
-    THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"),
-    THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"),
+    THEME_SYSTEM_DEFAULT
+    + "_"
+    + THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"),
+    THEME_SYSTEM_DEFAULT
+    + "_"
+    + THEME_LIGHT: os.path.join(
+        ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"
+    ),
 }
 
 
@@ -50,7 +52,8 @@ class ThemeHandler(QObject):
         """
         super().__init__(parent)
         self._settings = QSettings("YourOrganization", "YourApplication")
-        self._themes = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
+        self._current_theme = THEME_LIGHT
+        self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
         self._current_theme_index = 0
         self._button = QPushButton()
 
@@ -81,9 +84,16 @@ class ThemeHandler(QObject):
         """
         Toggle the theme.
         """
-        self._current_theme_index = (self._current_theme_index + 1) % len(self._themes)
-        theme_name = self._themes[self._current_theme_index]
-        self.set_theme(theme_name)
+        self._current_theme_index = (self._current_theme_index + 1) % len(
+            self._theme_states
+        )
+        new_theme = self._theme_states[self._current_theme_index]
+        self.set_theme(new_theme)
+
+        # Update the system default theme icon if the new theme is THEME_SYSTEM_DEFAULT
+        if new_theme == THEME_SYSTEM_DEFAULT:
+            system_theme_icon = self.detect_system_theme_handler()
+            self._update_system_default_icon(system_theme_icon)
 
     def set_theme(self, theme_name):
         """
@@ -97,13 +107,17 @@ class ThemeHandler(QObject):
             self._settings.setValue("theme", theme_name)
             self._update_button()
 
+            # Update the system default theme icon
+            if theme_name == THEME_SYSTEM_DEFAULT:
+                system_theme_icon = self.detect_system_theme_handler()
+                self._update_system_default_icon(system_theme_icon)
+
     def load_saved_theme(self):
         """
         Load the saved theme.
         """
         saved_theme = str(self._settings.value("theme"))
-        if saved_theme is not None and saved_theme in self._themes:
-            self._current_theme_index = self._themes.index(saved_theme)
+        if saved_theme is not None:
             self.set_theme(saved_theme)
 
     def detect_system_theme_handler(self):
@@ -112,9 +126,9 @@ class ThemeHandler(QObject):
             value_name = MS_VALUE_NAME
             value = winreg.QueryValueEx(key, value_name)[0]
             if value == 0:
-                return THEME_DARK
+                return THEME_SYSTEM_DEFAULT + "_" + THEME_DARK
             elif value == 1:
-                return THEME_LIGHT
+                return THEME_SYSTEM_DEFAULT + "_" + THEME_LIGHT
         except Exception as e:
             print(DEBUG_NAME + "Error detecting system theme:", e)
 
@@ -127,22 +141,22 @@ class ThemeHandler(QObject):
             if icon_file:
                 icon = QIcon(icon_file)
                 self._button.setIcon(icon)
-            elif self._current_theme == THEME_SYSTEM_DEFAULT:
-                system_theme = self.detect_system_theme_handler()
-                if system_theme == THEME_DARK:
-                    system_icon = SYSTEM_THEME_ICONS[THEME_DARK]
-                    icon = QIcon(system_icon)
-                    self._button.setIcon(icon)
-                elif system_theme == THEME_LIGHT:
-                    system_icon = SYSTEM_THEME_ICONS[THEME_LIGHT]
-                    icon = QIcon(system_icon)
-                    self._button.setIcon(icon)
 
     def _update_button(self):
         """
         Update the button.
         """
         self._update_button_icon()
+
+    def _update_system_default_icon(self, system_theme_icon):
+        """
+        Update the system default theme icon.
+        """
+        if system_theme_icon in ICONS_FILE_PATHS:
+            icon_file = ICONS_FILE_PATHS[system_theme_icon]
+            if icon_file:
+                icon = QIcon(icon_file)
+                self._button.setIcon(icon)
 
     @staticmethod
     def _loadStyleSheet(file_path):
