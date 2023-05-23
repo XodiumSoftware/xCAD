@@ -4,6 +4,9 @@ from PySide6.QtGui import QGuiApplication
 
 class UIHandler:
     def __init__(self):
+        """
+        Initialize the UIHandler.
+        """
         pass
 
     @staticmethod

@@ -24,10 +24,16 @@ from PySide6.QtWidgets import (
 # TODO: Make checkbox be centered in the column.
 class SettingsListWidget(QWidget):
     def __init__(self, parent=None):
+        """
+        Initialize the SettingsListWidget.
+        """
         super().__init__(parent)
         self.init_settings_list_widget()
 
     def init_settings_list_widget(self):
+        """
+        Initialize the settings list widget.
+        """
         self.layout: QLayout = QVBoxLayout(self)
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
@@ -40,6 +46,9 @@ class SettingsListWidget(QWidget):
         self.set_row_height()
 
     def set_column_width(self):
+        """
+        Set the column widths.
+        """
         total_width = self.get_total_columns_width()
         table_width = self.table_widget.viewport().width()
         if total_width < table_width:
@@ -58,12 +67,18 @@ class SettingsListWidget(QWidget):
         )
 
     def get_total_columns_width(self):
+        """
+        Get the total columns width.
+        """
         total_width = 0
         for col in range(self.table_widget.columnCount()):
             total_width += self.table_widget.columnWidth(col)
         return total_width
 
     def set_row_height(self):
+        """
+        Set the row heights.
+        """
         max_height = 0
         for row in range(self.table_widget.rowCount()):
             row_height = 0
@@ -84,6 +99,9 @@ class SettingsListWidget(QWidget):
             self.table_widget.setRowHeight(row, max_height)
 
     def add_setting(self, *args):
+        """
+        Add a setting to the settings list widget.
+        """
         row_count = self.table_widget.rowCount()
         self.table_widget.insertRow(row_count)
 
@@ -123,9 +141,10 @@ class SettingsListWidget(QWidget):
             value_widget.setStyleSheet(CHECKBOX_STYLE)
         # TODO: Fix button setting type and link it with the button_widget to handle the on click event.
         elif setting_type == "button":
-            value_widget = QPushButton(args[3] if len(args) > 3 else "")
+            value_widget = QPushButton()
+            value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda state, param=setting_name: self.save_setting(param, bool(state))
+                lambda _, param=setting_name: self.save_setting(param, _)
             )
 
         if value_widget is not None:
@@ -133,9 +152,15 @@ class SettingsListWidget(QWidget):
             self.setting_widgets[setting_name] = value_widget
 
     def save_setting(self, parameter, value):
+        """
+        Save a setting to the database.
+        """
         self.database.insert_db_setting(parameter, str(value))
 
     def remove_setting(self, setting_name):
+        """
+        Remove a setting from the settings list widget.
+        """
         items = self.table_widget.findItems(setting_name, Qt.MatchFlag.MatchExactly)
         if items:
             for item in items:
@@ -144,6 +169,9 @@ class SettingsListWidget(QWidget):
                 del self.setting_widgets[setting_name]
 
     def setup_settings(self):
+        """
+        Setup the settings list widget.
+        """
         self.table_widget.setColumnCount(len(HORIZONTAL_HEADER_LABELS))
 
         header_items = [

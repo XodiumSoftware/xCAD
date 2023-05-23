@@ -1,7 +1,12 @@
-from constants import UI_ICON_PATH, UI_TITLE
+from constants import (
+    SETTINGS_APPLICATION,
+    SETTINGS_ORGANIZATION,
+    UI_ICON_PATH,
+    UI_TITLE,
+)
 from handlers.events_handler import EventsHandler
-from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -12,17 +17,38 @@ from ui.modules.settings_list_widget import SettingsListWidget
 # TODO: add save and discard buttons and change the save system to use the buttons instead or realtime saving.
 
 
-class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
+class MainUI(QMainWindow, UIHandler, EventsHandler):
     def __init__(self):
+        """
+        Initialize the MainUI.
+        """
         super().__init__()
+        self.init_instances()
+
+    def init_instances(self):
+        """
+        Initialize the instances.
+        """
+        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
+        self.events_handler = EventsHandler()
 
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
         self.quit_on_key_press_event()
-        # self.load_theme_handler()
+        self.init_connections()
+
+    def init_connections(self):
+        """
+        Initialize the connections.
+        """
+        # EventsHandler:
+        self.quit_signal.connect(self.quit_on_key_press_event)
 
     def init_main_ui(self):
+        """
+        Initialize the main UI.
+        """
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -65,24 +91,3 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)
-
-    # @Slot()
-    # def toggle_viewer_widget(self) -> None:
-    #     """
-    #     Toggle the visibility of the ObjectViewerWidget.
-    #     """
-    #     print(DEBUG_NAME + "toggle_viewer_widget initiated!")
-    #     self.object_viewer_ui.setVisible(not self.object_viewer_ui.isVisible())
-
-    #     # Adjust the layout to accommodate the visibility change
-    #     main_ui_layout = self.centralWidget().layout()
-
-    #     if self.object_viewer_ui.isVisible():
-    #         # Add the ObjectViewerWidget to the layout
-    #         main_ui_layout.addWidget(self.object_viewer_ui)
-    #     else:
-    #         # Remove the ObjectViewerWidget from the layout
-    #         main_ui_layout.removeWidget(self.object_viewer_ui)
-
-    #     # Update the layout
-    #     main_ui_layout.update()

@@ -1,60 +1,102 @@
-import winreg
+import os
+import sys
 
-from constants import (
-    DARK_THEME_FILE,
-    DEBUG_ERROR_DETECTING_SYSTEM_THEME,
-    DEBUG_NAME,
-    KEY_THEME,
-    KEY_THEME_DARK,
-    KEY_THEME_LIGHT,
-    LIGHT_THEME_FILE,
-    MS_VALUE_NAME,
-    SETTINGS_APPLICATION,
-    SETTINGS_ORGANIZATION,
-    WINREG_THEME_KEY,
+from PySide6.QtCore import QObject, QSettings, Slot
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtCore import QSettings
-from PySide6.QtWidgets import QApplication
 
-# TODO: Finish ThemeHandler
+THEME_DARK = "dark"
+THEME_LIGHT = "light"
+THEME_FOLDER_PATH = os.path.join("bbc/themes/")
+ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
+THEME_FILE_PATHS = {
+    THEME_DARK: THEME_FOLDER_PATH + os.path.join("dark_theme.css"),
+    THEME_LIGHT: THEME_FOLDER_PATH + os.path.join("light_theme.css"),
+}
+ICONS_FILE_PATHS = {
+    THEME_DARK: ICONS_FOLDER_PATH + os.path.join("theme_icon_dark.png"),
+    THEME_LIGHT: ICONS_FOLDER_PATH + os.path.join("theme_icon_light.png"),
+}
 
 
-class ThemeHandler:
-    THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
+class ThemeHandler(QObject):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._app = QApplication.instance()
+        self._settings = QSettings("YourOrganization", "YourApplication")
+        self._current_theme = "light"
+        self._button = None
 
-    def __init__(self):
-        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
-        self.app = QApplication([])
-        self.current_stylesheet = ""
-        self.load_theme_handler()
+    def init_theme_handler(self):
+        # Create the main window
+        window = QMainWindow()
+        central_widget = QWidget()
+        layout = QVBoxLayout(central_widget)
 
-    def load_stylesheet_handler(self, filename):
-        with open(filename, "r") as file:
-            return file.read()
+        button_toggle_theme = QPushButton()
+        self._button = button_toggle_theme
 
-    def detect_system_theme_handler(self):
-        try:
-            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
-            value_name = MS_VALUE_NAME
-            value = winreg.QueryValueEx(key, value_name)[0]
-            if value == 0:
-                return KEY_THEME_DARK
-            else:
-                return KEY_THEME_LIGHT
-        except Exception as e:
-            print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
-            return KEY_THEME_LIGHT
+        self.load_saved_theme()
+        self._update_button()
 
-    def load_theme_handler(self):
-        theme_state = self.settings.value(KEY_THEME)
-        if theme_state not in (KEY_THEME_LIGHT, KEY_THEME_DARK):
-            theme_state = self.detect_system_theme_handler()
-        self.set_theme_handler(theme_state)
+        layout.addWidget(button_toggle_theme)
+        window.setCentralWidget(central_widget)
+        window.show()
 
-    def set_theme_handler(self, theme_state):
-        if theme_state in (KEY_THEME_LIGHT, KEY_THEME_DARK):
-            stylesheet = self.load_stylesheet_handler(self.THEME_MAP[theme_state])
-            self.app.setStyleSheet(stylesheet)
-            self.settings.setValue(KEY_THEME, theme_state)
+        # Connect the theme button to the theme handler
+        button_toggle_theme.clicked.connect(self.toggle_theme)
+
+    @Slot()
+    def toggle_theme(self):
+        if self._current_theme == THEME_DARK:
+            self.set_theme(THEME_LIGHT)
         else:
-            print(DEBUG_NAME + "Invalid theme state:", theme_state)
+            self.set_theme(THEME_DARK)
+
+    def set_theme(self, theme_name):
+        if theme_name in THEME_FILE_PATHS:
+            self._current_theme = theme_name
+            theme_path = THEME_FILE_PATHS[theme_name]
+            style_sheet = self._loadStyleSheet(theme_path)
+            self._app.setStyleSheet(style_sheet)
+            self._settings.setValue("theme", theme_name)
+            self._update_button()
+
+    def load_saved_theme(self):
+        saved_theme = str(self._settings.value("theme"))
+        if saved_theme is not None:
+            self.set_theme(saved_theme)
+
+    def _update_button_icon(self):
+        theme_icon_path = ICONS_FILE_PATHS.get(self._current_theme)
+        if theme_icon_path:
+            icon = QIcon(theme_icon_path)
+            self._button.setIcon(icon)
+
+    def _update_button(self):
+        self._update_button_icon()
+
+    @staticmethod
+    def _loadStyleSheet(file_path):
+        try:
+            with open(file_path, "r") as file:
+                return file.read()
+        except IOError:
+            return ""
+
+
+def run():
+    app = QApplication([])
+    theme_handler = ThemeHandler()
+    theme_handler.init_theme_handler()
+    return app.exec()
+
+
+if __name__ == "__main__":
+    sys.exit(run())
