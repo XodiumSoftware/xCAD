@@ -28,14 +28,13 @@ ICONS_FILE_PATHS = {
 class ThemeHandler(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._app = QApplication.instance()
         self._settings = QSettings("YourOrganization", "YourApplication")
         self._current_theme = "light"
-        self._button = None
+        self._button = QPushButton()
 
     def init_theme_handler(self):
         # Create the main window
-        window = QMainWindow()
+        self.window = QMainWindow()  # Store the main window reference
         central_widget = QWidget()
         layout = QVBoxLayout(central_widget)
 
@@ -46,8 +45,8 @@ class ThemeHandler(QObject):
         self._update_button()
 
         layout.addWidget(button_toggle_theme)
-        window.setCentralWidget(central_widget)
-        window.show()
+        self.window.setCentralWidget(central_widget)
+        self.window.show()
 
         # Connect the theme button to the theme handler
         button_toggle_theme.clicked.connect(self.toggle_theme)
@@ -64,7 +63,7 @@ class ThemeHandler(QObject):
             self._current_theme = theme_name
             theme_path = THEME_FILE_PATHS[theme_name]
             style_sheet = self._loadStyleSheet(theme_path)
-            self._app.setStyleSheet(style_sheet)
+            self.window.setStyleSheet(style_sheet)
             self._settings.setValue("theme", theme_name)
             self._update_button()
 
