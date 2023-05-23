@@ -39,8 +39,9 @@ class SettingsDatabaseHandler(QObject):
         """
         query = """
             CREATE TABLE IF NOT EXISTS settings (
+                
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                parameter TEXT,
+                parameter TEXT UNIQUE,
                 value TEXT
             )
         """
@@ -51,11 +52,10 @@ class SettingsDatabaseHandler(QObject):
         Insert a new setting into the database.
         """
         query = """
-            INSERT INTO settings (parameter, value)
-            VALUES (?, ?)
-            ON CONFLICT(parameter) DO UPDATE SET value=excluded.value
+            INSERT OR REPLACE INTO settings (parameter, value) VALUES (?, ?)
         """
         self.conn.execute(query, (parameter, value))
+        self.save_changes_signal.emit()
 
     def delete_db_setting(self, parameter):
         """
