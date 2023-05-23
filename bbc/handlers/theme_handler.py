@@ -45,12 +45,16 @@ ICONS_FILE_PATHS = {
 }
 
 
-class ThemeHandler(QObject):
-    def __init__(self, parent=None):
+class MainUI(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+
+class ThemeHandler:
+    def __init__(self):
         """
         Initialize the ThemeHandler.
         """
-        super().__init__(parent)
         self._settings = QSettings("YourOrganization", "YourApplication")
         self._current_theme = THEME_LIGHT
         self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
@@ -79,7 +83,6 @@ class ThemeHandler(QObject):
         # Connect the theme button to the theme handler
         button_toggle_theme.clicked.connect(self.toggle_theme)
 
-    @Slot()
     def toggle_theme(self):
         """
         Toggle the theme.
