@@ -37,7 +37,7 @@ class EventsHandler(QObject):
         """
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
-            self.toggle_theme_signal.emit(index)
+            self.toggle_theme_signal.emit(0)
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")
             self.toggle_viewer_signal.emit()

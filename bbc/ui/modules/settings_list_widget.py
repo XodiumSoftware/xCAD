@@ -1,5 +1,3 @@
-from functools import partial
-
 from constants import (
     CHECKBOX_STYLE,
     HORIZONTAL_HEADER_LABELS,
@@ -146,7 +144,7 @@ class SettingsListWidget(QWidget):
             value_widget = QPushButton()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda state, param=setting_name: self.save_setting(param, bool(state))
+                lambda _, param=setting_name: self.save_setting(param, _)
             )
 
         if value_widget is not None:

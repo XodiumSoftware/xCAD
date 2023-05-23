@@ -11,12 +11,12 @@ from constants import (
     MS_VALUE_NAME,
     WINREG_THEME_KEY,
 )
-from PySide6.QtCore import Slot
+from PySide6.QtCore import QObject, Slot
 
 # TODO: Finish ThemeHandler
 
 
-class ThemeHandler:
+class ThemeHandler(QObject):
     THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
 
     def __init__(self, settings, app):
@@ -60,12 +60,12 @@ class ThemeHandler:
         else:
             print(DEBUG_NAME + "Invalid theme state:", theme_state)
 
-    @Slot()
-    def toggle_theme_handler(self):
+    @Slot(str)
+    def toggle_theme_handler(self, theme_state):
         """
         Toggle the theme state and update the theme accordingly.
         """
-        current_theme_state = self.settings.value(KEY_THEME)
+        current_theme_state = theme_state
 
         print(
             DEBUG_NAME + "Theme Button Signal connected to slot!",
