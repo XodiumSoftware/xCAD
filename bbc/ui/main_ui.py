@@ -47,7 +47,7 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         # EventsHandler:
         self.quit_signal.connect(self.quit_on_key_press_event)
         self.events_handler.toggle_theme_signal.connect(
-            self.theme_handler.toggle_theme_handler(0)
+            lambda index: self.theme_handler.toggle_theme_handler(index)
         )
 
     def init_main_ui(self):

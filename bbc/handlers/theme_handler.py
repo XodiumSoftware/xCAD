@@ -12,7 +12,6 @@ from constants import (
     WINREG_THEME_KEY,
 )
 from PySide6.QtCore import QObject, Slot
-from PySide6.QtWidgets import QApplication
 
 # TODO: Finish ThemeHandler
 
