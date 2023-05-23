@@ -20,6 +20,10 @@ class ThemeHandler:
     THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
 
     def __init__(self, settings, app):
+        """
+        Initialize the ThemeHandler.
+        """
+        super().__init__()
         self.settings = settings
         self.app = app
         self.current_stylesheet = ""

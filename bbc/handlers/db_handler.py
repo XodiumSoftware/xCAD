@@ -10,6 +10,9 @@ class SettingsDatabaseHandler(QObject):
     discard_changes_signal = Signal()
 
     def __init__(self, database_path):
+        """
+        Initialize the SettingsDatabaseHandler.
+        """
         super().__init__()
         self.database_path = database_path
         self.create_or_connect_db()
@@ -18,6 +21,9 @@ class SettingsDatabaseHandler(QObject):
         self.discard_changes_signal.connect(self.discard_db_changes_slot)
 
     def create_or_connect_db(self):
+        """
+        Create or connect to the database.
+        """
         if not os.path.exists(self.database_path):
             self.conn = sqlite3.connect(self.database_path)
             print(DEBUG_NAME + f"New database created at: {self.database_path}")
@@ -28,6 +34,9 @@ class SettingsDatabaseHandler(QObject):
             )
 
     def create_db_table(self):
+        """
+        Create the database table.
+        """
         query = """
             CREATE TABLE IF NOT EXISTS settings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,6 +47,9 @@ class SettingsDatabaseHandler(QObject):
         self.conn.execute(query)
 
     def insert_db_setting(self, parameter, value):
+        """
+        Insert a new setting into the database.
+        """
         query = """
             INSERT INTO settings (parameter, value)
             VALUES (?, ?)
@@ -46,6 +58,9 @@ class SettingsDatabaseHandler(QObject):
         self.conn.execute(query, (parameter, value))
 
     def delete_db_setting(self, parameter):
+        """
+        Delete a setting from the database.
+        """
         query = """
             DELETE FROM settings WHERE parameter = ?
         """
@@ -53,25 +68,40 @@ class SettingsDatabaseHandler(QObject):
         print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
 
     def get_db_settings(self):
+        """
+        Get all settings from the database.
+        """
         query = "SELECT parameter, value FROM settings"
         cursor = self.conn.execute(query)
         settings = cursor.fetchall()
         return settings
 
     def save_db_changes(self):
+        """
+        Save all changes to the database.
+        """
         self.conn.commit()
         print(DEBUG_NAME + "Changes saved to the database.")
 
     def close(self):
+        """
+        Close the database connection.
+        """
         self.conn.close()
 
     @Slot()
     def save_db_changes_slot(self):
+        """
+        Save all changes to the database.
+        """
         self.save_db_changes()
         # Additional code for handling the save action, if needed
 
     @Slot()
     def discard_db_changes_slot(self):
+        """
+        Discard all changes to the database.
+        """
         parameter_to_discard = (
             "example_parameter"  # Provide the parameter you want to discard
         )

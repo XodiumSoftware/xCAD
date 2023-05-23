@@ -13,12 +13,9 @@ class EventsHandler(QObject):
 
     def __init__(self):
         """
-        Initialize the events.
+        Initialize the EventsHandler.
         """
         super().__init__()
-
-        # Connect the signal to the slot
-        self.quit_signal.connect(self.quit_on_key_press_event)
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -35,6 +32,9 @@ class EventsHandler(QObject):
 
     @Slot(int)
     def on_button_clicked_event(self, index):
+        """
+        Handle button clicks.
+        """
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
             self.toggle_theme_signal.emit(index)

@@ -4,7 +4,10 @@ from PySide6.QtGui import QGuiApplication
 
 class UIHandler:
     def __init__(self):
-        pass
+        """
+        Initialize the UIHandler.
+        """
+        super().__init__()
 
     @staticmethod
     def center_ui_on_screen_handler(ui):

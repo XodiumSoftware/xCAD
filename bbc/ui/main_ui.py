@@ -20,26 +20,42 @@ from ui.modules.settings_list_widget import SettingsListWidget
 
 class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
     def __init__(self):
+        """
+        Initialize the MainUI.
+        """
         super().__init__()
         self.init_instances()
 
     def init_instances(self):
+        """
+        Initialize the instances.
+        """
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication.instance()
+
+        self.events_handler = EventsHandler()
+        self.theme_handler = ThemeHandler(self.settings, self.app)
 
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
         self.quit_on_key_press_event()
+        self.init_connections()
 
-        self.events_handler = EventsHandler()
-        self.theme_handler = ThemeHandler(self.settings, self.app)
-
+    def init_connections(self):
+        """
+        Initialize the connections.
+        """
+        # EventsHandler:
+        self.quit_signal.connect(self.quit_on_key_press_event)
         self.events_handler.toggle_theme_signal.connect(
             self.theme_handler.toggle_theme_handler
         )
 
     def init_main_ui(self):
+        """
+        Initialize the main UI.
+        """
         # Set up the main window
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -82,24 +98,3 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
 
         # Center the window on the primary screen
         self.center_ui_on_screen_handler(self)
-
-    # @Slot()
-    # def toggle_viewer_widget(self) -> None:
-    #     """
-    #     Toggle the visibility of the ObjectViewerWidget.
-    #     """
-    #     print(DEBUG_NAME + "toggle_viewer_widget initiated!")
-    #     self.object_viewer_ui.setVisible(not self.object_viewer_ui.isVisible())
-
-    #     # Adjust the layout to accommodate the visibility change
-    #     main_ui_layout = self.centralWidget().layout()
-
-    #     if self.object_viewer_ui.isVisible():
-    #         # Add the ObjectViewerWidget to the layout
-    #         main_ui_layout.addWidget(self.object_viewer_ui)
-    #     else:
-    #         # Remove the ObjectViewerWidget from the layout
-    #         main_ui_layout.removeWidget(self.object_viewer_ui)
-
-    #     # Update the layout
-    #     main_ui_layout.update()
