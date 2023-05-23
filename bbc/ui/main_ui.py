@@ -5,11 +5,10 @@ from constants import (
     UI_TITLE,
 )
 from handlers.events_handler import EventsHandler
-from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
@@ -18,7 +17,7 @@ from ui.modules.settings_list_widget import SettingsListWidget
 # TODO: add save and discard buttons and change the save system to use the buttons instead or realtime saving.
 
 
-class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
+class MainUI(QMainWindow, UIHandler, EventsHandler):
     def __init__(self):
         """
         Initialize the MainUI.
@@ -32,7 +31,6 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         """
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.events_handler = EventsHandler()
-        self.theme_handler = ThemeHandler(self.settings, QApplication.instance())
 
         # Call functions here.
         self.setCentralWidget(QWidget())
@@ -46,9 +44,6 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         """
         # EventsHandler:
         self.quit_signal.connect(self.quit_on_key_press_event)
-        self.events_handler.toggle_theme_signal.connect(
-            lambda index: self.theme_handler.toggle_theme_handler(index)
-        )
 
     def init_main_ui(self):
         """
