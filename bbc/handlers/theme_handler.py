@@ -9,11 +9,10 @@ from constants import (
     KEY_THEME_LIGHT,
     LIGHT_THEME_FILE,
     MS_VALUE_NAME,
-    SETTINGS_APPLICATION,
-    SETTINGS_ORGANIZATION,
     WINREG_THEME_KEY,
 )
-from PySide6.QtCore import QSettings
+from handlers.events_handler import EventsHandler
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication
 
 # TODO: Finish ThemeHandler
@@ -22,11 +21,14 @@ from PySide6.QtWidgets import QApplication
 class ThemeHandler:
     THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
 
-    def __init__(self):
-        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
+    def __init__(self, settings):
+        self.settings = settings
         self.app = QApplication([])
         self.current_stylesheet = ""
-        # self.load_theme_handler()
+        self.load_theme_handler()
+
+        self.events_handler = EventsHandler()
+        self.events_handler.toggle_theme_signal.connect(self.toggle_theme_handler)
 
     def load_stylesheet_handler(self, filename):
         with open(filename, "r") as file:
@@ -58,3 +60,25 @@ class ThemeHandler:
             self.settings.setValue(KEY_THEME, theme_state)
         else:
             print(DEBUG_NAME + "Invalid theme state:", theme_state)
+
+    @Slot()
+    def toggle_theme_handler(self):
+        """
+        Toggle the theme state and update the theme accordingly.
+        """
+        current_theme_state = self.settings.value(KEY_THEME)
+
+        print(
+            DEBUG_NAME + "Theme Button Signal connected to slot!",
+        )
+
+        if current_theme_state == KEY_THEME_LIGHT:
+            new_theme_state = KEY_THEME_DARK
+        elif current_theme_state == KEY_THEME_DARK:
+            new_theme_state = KEY_THEME_LIGHT
+        else:
+            new_theme_state = self.detect_system_theme_handler()
+
+        print(DEBUG_NAME + "The New Theme State has been set:", new_theme_state)
+
+        self.set_theme_handler(new_theme_state)

@@ -8,7 +8,7 @@ class EventsHandler(QObject):
     quit_signal = Signal()
     toggle_viewer_signal = Signal()
     save_changes_signal = Signal()
-    toggle_theme_signal = Signal()
+    toggle_theme_signal = Signal(int)
     discard_changes_signal = Signal()
 
     def __init__(self):
@@ -19,7 +19,6 @@ class EventsHandler(QObject):
 
         # Connect the signal to the slot
         self.quit_signal.connect(self.quit_on_key_press_event)
-        # self.toggle_viewer_signal.connect(self.toggle_viewer_widget)
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -38,7 +37,7 @@ class EventsHandler(QObject):
     def on_button_clicked_event(self, index):
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
-            self.toggle_theme_signal.emit()
+            self.toggle_theme_signal.emit(index)
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")
             self.toggle_viewer_signal.emit()

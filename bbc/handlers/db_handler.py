@@ -1,6 +1,7 @@
 import os
 import sqlite3
 
+from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
 
 
@@ -19,10 +20,12 @@ class SettingsDatabaseHandler(QObject):
     def create_or_connect_db(self):
         if not os.path.exists(self.database_path):
             self.conn = sqlite3.connect(self.database_path)
-            print(f"New database created at: {self.database_path}")
+            print(DEBUG_NAME + f"New database created at: {self.database_path}")
         else:
             self.conn = sqlite3.connect(self.database_path)
-            print(f"Connected to existing database at: {self.database_path}")
+            print(
+                DEBUG_NAME + f"Connected to existing database at: {self.database_path}"
+            )
 
     def create_db_table(self):
         query = """
@@ -47,7 +50,7 @@ class SettingsDatabaseHandler(QObject):
             DELETE FROM settings WHERE parameter = ?
         """
         self.conn.execute(query, (parameter,))
-        print(f"Discarded changes for parameter: {parameter}")
+        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
 
     def get_db_settings(self):
         query = "SELECT parameter, value FROM settings"
@@ -57,7 +60,7 @@ class SettingsDatabaseHandler(QObject):
 
     def save_db_changes(self):
         self.conn.commit()
-        print("Changes saved to the database.")
+        print(DEBUG_NAME + "Changes saved to the database.")
 
     def close(self):
         self.conn.close()
@@ -73,5 +76,5 @@ class SettingsDatabaseHandler(QObject):
             "example_parameter"  # Provide the parameter you want to discard
         )
         self.delete_db_setting(parameter_to_discard)
-        print(f"Discarded changes for parameter: {parameter_to_discard}")
+        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter_to_discard}")
         # Additional code for handling the discard action, if needed
