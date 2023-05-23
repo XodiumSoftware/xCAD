@@ -11,7 +11,6 @@ from constants import (
     MS_VALUE_NAME,
     WINREG_THEME_KEY,
 )
-from handlers.events_handler import EventsHandler
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication
 
@@ -26,9 +25,6 @@ class ThemeHandler:
         self.app = QApplication([])
         self.current_stylesheet = ""
         self.load_theme_handler()
-
-        self.events_handler = EventsHandler()
-        self.events_handler.toggle_theme_signal.connect(self.toggle_theme_handler)
 
     def load_stylesheet_handler(self, filename):
         with open(filename, "r") as file:

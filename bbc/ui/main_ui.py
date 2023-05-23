@@ -1,7 +1,4 @@
 from constants import (
-    KEY_THEME,
-    KEY_THEME_DARK,
-    KEY_THEME_LIGHT,
     SETTINGS_APPLICATION,
     SETTINGS_ORGANIZATION,
     UI_ICON_PATH,
@@ -24,13 +21,22 @@ from ui.modules.settings_list_widget import SettingsListWidget
 class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
     def __init__(self):
         super().__init__()
+        self.init_instances()
 
+    def init_instances(self):
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
 
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
         self.quit_on_key_press_event()
+
+        self.events_handler = EventsHandler()
+        self.theme_handler = ThemeHandler(self.settings)
+
+        self.events_handler.toggle_theme_signal.connect(
+            self.theme_handler.toggle_theme_handler
+        )
 
     def init_main_ui(self):
         # Set up the main window
