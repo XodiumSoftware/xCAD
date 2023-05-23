@@ -31,10 +31,8 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         Initialize the instances.
         """
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
-        self.app = QApplication.instance()
-
         self.events_handler = EventsHandler()
-        self.theme_handler = ThemeHandler(self.settings, self.app)
+        self.theme_handler = ThemeHandler(self.settings, QApplication.instance())
 
         # Call functions here.
         self.setCentralWidget(QWidget())

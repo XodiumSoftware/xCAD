@@ -12,6 +12,7 @@ from constants import (
     WINREG_THEME_KEY,
 )
 from PySide6.QtCore import QObject, Slot
+from PySide6.QtWidgets import QApplication
 
 # TODO: Finish ThemeHandler
 
@@ -31,7 +32,10 @@ class ThemeHandler(QObject):
 
     def load_stylesheet_handler(self, filename):
         with open(filename, "r") as file:
-            return file.read()
+            stylesheet = file.read()
+            print(DEBUG_NAME + "Loaded filename:", filename)
+            print(DEBUG_NAME + "Loaded stylesheet:", stylesheet)
+            return stylesheet
 
     def detect_system_theme_handler(self):
         try:
@@ -55,6 +59,9 @@ class ThemeHandler(QObject):
     def set_theme_handler(self, theme_state):
         if theme_state in (KEY_THEME_LIGHT, KEY_THEME_DARK):
             stylesheet = self.load_stylesheet_handler(self.THEME_MAP[theme_state])
+            print(DEBUG_NAME + "Setting theme:", theme_state)
+            print(DEBUG_NAME + "Loaded stylesheet:", stylesheet)
+            self.app.setStyleSheet("")
             self.app.setStyleSheet(stylesheet)
             self.settings.setValue(KEY_THEME, theme_state)
         else:
