@@ -12,7 +12,6 @@ from constants import (
     WINREG_THEME_KEY,
 )
 from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QApplication
 
 # TODO: Finish ThemeHandler
 
@@ -20,9 +19,9 @@ from PySide6.QtWidgets import QApplication
 class ThemeHandler:
     THEME_MAP = {KEY_THEME_LIGHT: LIGHT_THEME_FILE, KEY_THEME_DARK: DARK_THEME_FILE}
 
-    def __init__(self, settings):
+    def __init__(self, settings, app):
         self.settings = settings
-        self.app = QApplication([])
+        self.app = app
         self.current_stylesheet = ""
         self.load_theme_handler()
 
