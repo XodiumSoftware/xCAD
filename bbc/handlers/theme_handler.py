@@ -27,14 +27,20 @@ ICONS_FILE_PATHS = {
 
 class ThemeHandler(QObject):
     def __init__(self, parent=None):
+        """
+        Initialize the ThemeHandler.
+        """
         super().__init__(parent)
         self._settings = QSettings("YourOrganization", "YourApplication")
         self._current_theme = "light"
         self._button = QPushButton()
 
     def init_theme_handler(self):
+        """
+        Initialize the theme handler
+        """
         # Create the main window
-        self.window = QMainWindow()  # Store the main window reference
+        self.window = QMainWindow()
         central_widget = QWidget()
         layout = QVBoxLayout(central_widget)
 
@@ -53,12 +59,18 @@ class ThemeHandler(QObject):
 
     @Slot()
     def toggle_theme(self):
+        """
+        Toggle the theme.
+        """
         if self._current_theme == THEME_DARK:
             self.set_theme(THEME_LIGHT)
         else:
             self.set_theme(THEME_DARK)
 
     def set_theme(self, theme_name):
+        """
+        Set the theme.
+        """
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
             theme_path = THEME_FILE_PATHS[theme_name]
@@ -68,21 +80,33 @@ class ThemeHandler(QObject):
             self._update_button()
 
     def load_saved_theme(self):
+        """
+        Load the saved theme.
+        """
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
             self.set_theme(saved_theme)
 
     def _update_button_icon(self):
+        """
+        Update the button icon.
+        """
         theme_icon_path = ICONS_FILE_PATHS.get(self._current_theme)
         if theme_icon_path:
             icon = QIcon(theme_icon_path)
             self._button.setIcon(icon)
 
     def _update_button(self):
+        """
+        Update the button.
+        """
         self._update_button_icon()
 
     @staticmethod
     def _loadStyleSheet(file_path):
+        """
+        Load the style sheet.
+        """
         try:
             with open(file_path, "r") as file:
                 return file.read()
@@ -91,6 +115,9 @@ class ThemeHandler(QObject):
 
 
 def run():
+    """
+    Run the ThemeHandler.
+    """
     app = QApplication([])
     theme_handler = ThemeHandler()
     theme_handler.init_theme_handler()
