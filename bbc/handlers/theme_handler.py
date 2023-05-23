@@ -1,8 +1,15 @@
 import os
+import sys
 
 from PySide6.QtCore import QObject, QSettings, Slot
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 THEME_DARK = "dark"
 THEME_LIGHT = "light"
@@ -24,36 +31,56 @@ class ThemeHandler(QObject):
         self._app = QApplication.instance()
         self._settings = QSettings("YourOrganization", "YourApplication")
         self._current_theme = "light"
+        self._button = None
+
+    def init_theme_handler(self):
+        # Create the main window
+        window = QMainWindow()
+        central_widget = QWidget()
+        layout = QVBoxLayout(central_widget)
+
+        button_toggle_theme = QPushButton()
+        self._button = button_toggle_theme
+
+        self.load_saved_theme()
+        self._update_button()
+
+        layout.addWidget(button_toggle_theme)
+        window.setCentralWidget(central_widget)
+        window.show()
+
+        # Connect the theme button to the theme handler
+        button_toggle_theme.clicked.connect(self.toggle_theme)
 
     @Slot()
-    def toggleTheme(self):
+    def toggle_theme(self):
         if self._current_theme == THEME_DARK:
-            self.setTheme(THEME_LIGHT)
+            self.set_theme(THEME_LIGHT)
         else:
-            self.setTheme(THEME_DARK)
+            self.set_theme(THEME_DARK)
 
-    def setTheme(self, theme_name):
+    def set_theme(self, theme_name):
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
             theme_path = THEME_FILE_PATHS[theme_name]
             style_sheet = self._loadStyleSheet(theme_path)
             self._app.setStyleSheet(style_sheet)
             self._settings.setValue("theme", theme_name)
-            self._updateButton()
+            self._update_button()
 
-    def loadSavedTheme(self):
+    def load_saved_theme(self):
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
-            self.setTheme(saved_theme)
+            self.set_theme(saved_theme)
 
-    def _updateButtonIcon(self):
+    def _update_button_icon(self):
         theme_icon_path = ICONS_FILE_PATHS.get(self._current_theme)
         if theme_icon_path:
             icon = QIcon(theme_icon_path)
-            button_toggle_theme.setIcon(icon)
+            self._button.setIcon(icon)
 
-    def _updateButton(self):
-        self._updateButtonIcon()
+    def _update_button(self):
+        self._update_button_icon()
 
     @staticmethod
     def _loadStyleSheet(file_path):
@@ -64,29 +91,12 @@ class ThemeHandler(QObject):
             return ""
 
 
-if __name__ == "__main__":
-    import sys
-
-    from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget
-
-    app = QApplication(sys.argv)
-
+def run():
+    app = QApplication([])
     theme_handler = ThemeHandler()
-    theme_handler.loadSavedTheme()
+    theme_handler.init_theme_handler()
+    return app.exec()
 
-    # Create the main window
-    window = QMainWindow()
-    central_widget = QWidget()
-    layout = QVBoxLayout(central_widget)
 
-    button_toggle_theme = QPushButton()
-    theme_handler._updateButton()
-    layout.addWidget(button_toggle_theme)
-
-    window.setCentralWidget(central_widget)
-    window.show()
-
-    # Connect the theme button to the theme handler
-    button_toggle_theme.clicked.connect(theme_handler.toggleTheme)
-
-    sys.exit(app.exec())
+if __name__ == "__main__":
+    sys.exit(run())
