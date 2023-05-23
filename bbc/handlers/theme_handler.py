@@ -1,8 +1,9 @@
 import os
+import platform
 import sys
 import winreg
 
-from PySide6.QtCore import QObject, QSettings, Slot
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QApplication,
@@ -48,6 +49,10 @@ ICONS_FILE_PATHS = {
 class MainUI(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.init_main_ui()
+
+    def init_main_ui(self):
+        pass
 
 
 class ThemeHandler:
@@ -55,7 +60,7 @@ class ThemeHandler:
         """
         Initialize the ThemeHandler.
         """
-        self._settings = QSettings("YourOrganization", "YourApplication")
+        self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
         self._current_theme = THEME_LIGHT
         self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
         self._current_theme_index = 0
@@ -63,7 +68,7 @@ class ThemeHandler:
 
     def init_theme_handler(self):
         """
-        Initialize the theme handler
+        Initialize the theme handler.
         """
         # Create the main window
         self.window = QMainWindow()
@@ -125,6 +130,9 @@ class ThemeHandler:
 
     def detect_system_theme_handler(self):
         try:
+            if platform.system() != "Windows":
+                return None
+
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
             value_name = MS_VALUE_NAME
             value = winreg.QueryValueEx(key, value_name)[0]
@@ -145,12 +153,6 @@ class ThemeHandler:
                 icon = QIcon(icon_file)
                 self._button.setIcon(icon)
 
-    def _update_button(self):
-        """
-        Update the button.
-        """
-        self._update_button_icon()
-
     def _update_system_default_icon(self, system_theme_icon):
         """
         Update the system default theme icon.
@@ -160,6 +162,12 @@ class ThemeHandler:
             if icon_file:
                 icon = QIcon(icon_file)
                 self._button.setIcon(icon)
+
+    def _update_button(self):
+        """
+        Update the button.
+        """
+        self._update_button_icon()
 
     @staticmethod
     def _loadStyleSheet(file_path):
@@ -175,7 +183,7 @@ class ThemeHandler:
 
 def run():
     """
-    Run the ThemeHandler.
+    Run the MainUI.
     """
     app = QApplication([])
     theme_handler = ThemeHandler()
