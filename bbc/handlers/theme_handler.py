@@ -26,7 +26,7 @@ class ThemeHandler:
         self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.app = QApplication([])
         self.current_stylesheet = ""
-        self.load_theme_handler()
+        # self.load_theme_handler()
 
     def load_stylesheet_handler(self, filename):
         with open(filename, "r") as file:

@@ -20,7 +20,7 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         self.setCentralWidget(QWidget())
         self.init_main_ui()
         self.quit_on_key_press_event()
-        # self.load_theme_handler()
+        self.load_theme_handler()
 
     def init_main_ui(self):
         # Set up the main window
