@@ -1,18 +1,20 @@
 import os
 
 from PySide6.QtCore import QObject, QSettings, Slot
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 THEME_DARK = "dark"
 THEME_LIGHT = "light"
 THEME_FOLDER_PATH = os.path.join("bbc/themes/")
+ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
 THEME_FILE_PATHS = {
     THEME_DARK: THEME_FOLDER_PATH + os.path.join("dark_theme.css"),
     THEME_LIGHT: THEME_FOLDER_PATH + os.path.join("light_theme.css"),
 }
-THEME_TEXT = {
-    THEME_DARK: "Dark",
-    THEME_LIGHT: "Light",
+ICONS_FILE_PATHS = {
+    THEME_DARK: ICONS_FOLDER_PATH + os.path.join("theme_icon_dark.png"),
+    THEME_LIGHT: ICONS_FOLDER_PATH + os.path.join("theme_icon_light.png"),
 }
 
 
@@ -21,7 +23,7 @@ class ThemeHandler(QObject):
         super().__init__(parent)
         self._app = QApplication.instance()
         self._settings = QSettings("YourOrganization", "YourApplication")
-        self._current_theme = None
+        self._current_theme = "light"
 
     @Slot()
     def toggleTheme(self):
@@ -37,16 +39,21 @@ class ThemeHandler(QObject):
             style_sheet = self._loadStyleSheet(theme_path)
             self._app.setStyleSheet(style_sheet)
             self._settings.setValue("theme", theme_name)
-            self._updateButtonText()
+            self._updateButton()
 
     def loadSavedTheme(self):
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
             self.setTheme(saved_theme)
 
-    def _updateButtonText(self):
-        theme_text = THEME_TEXT.get(self._current_theme, "")
-        button_toggle_theme.setText(f"Toggle {theme_text} Theme")
+    def _updateButtonIcon(self):
+        theme_icon_path = ICONS_FILE_PATHS.get(self._current_theme)
+        if theme_icon_path:
+            icon = QIcon(theme_icon_path)
+            button_toggle_theme.setIcon(icon)
+
+    def _updateButton(self):
+        self._updateButtonIcon()
 
     @staticmethod
     def _loadStyleSheet(file_path):
@@ -71,9 +78,11 @@ if __name__ == "__main__":
     window = QMainWindow()
     central_widget = QWidget()
     layout = QVBoxLayout(central_widget)
+
     button_toggle_theme = QPushButton()
-    theme_handler._updateButtonText()  # Update the initial text
+    theme_handler._updateButton()
     layout.addWidget(button_toggle_theme)
+
     window.setCentralWidget(central_widget)
     window.show()
 
