@@ -1,14 +1,7 @@
-/* Global styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
+/* Main Window */
+QMainWindow {
     background-color: #ffffff;
-    color: #000000;
+    color: #212121;
 }
 
 /* Buttons */
@@ -16,8 +9,9 @@ QPushButton {
     background-color: #f0f0f0;
     color: #000000;
     border: none;
-    padding: 8px 16px;
+    padding: 0px 0px;
     border-radius: 4px;
+    text-align: center;
 }
 
 QPushButton:hover {
