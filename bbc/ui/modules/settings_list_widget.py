@@ -1,3 +1,5 @@
+from functools import partial
+
 from constants import (
     CHECKBOX_STYLE,
     HORIZONTAL_HEADER_LABELS,
@@ -141,7 +143,8 @@ class SettingsListWidget(QWidget):
             value_widget.setStyleSheet(CHECKBOX_STYLE)
         # TODO: Fix button setting type and link it with the button_widget to handle the on click event.
         elif setting_type == "button":
-            value_widget = QPushButton(args[3] if len(args) > 3 else "")
+            value_widget = QPushButton()
+            value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
                 lambda state, param=setting_name: self.save_setting(param, bool(state))
             )

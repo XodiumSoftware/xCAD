@@ -54,7 +54,7 @@ class SettingsDatabaseHandler(QObject):
         query = """
             INSERT OR REPLACE INTO settings (parameter, value) VALUES (?, ?)
         """
-        self.conn.execute(query, (parameter, value))
+        self.conn.execute(query, (parameter, str(value)))
         self.save_changes_signal.emit()
 
     def delete_db_setting(self, parameter):
