@@ -59,5 +59,6 @@
   ],
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
-  }
+  },
+  "C_Cpp.default.compilerPath": ""
 }
