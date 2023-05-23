@@ -7,7 +7,7 @@ class UIHandler:
         """
         Initialize the UIHandler.
         """
-        super().__init__()
+        pass
 
     @staticmethod
     def center_ui_on_screen_handler(ui):
