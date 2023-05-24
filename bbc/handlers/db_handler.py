@@ -3,7 +3,6 @@ import sqlite3
 
 from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
-from PySide6.QtGui import Qt
 
 
 class SettingsDatabaseHandler(QObject):
@@ -18,6 +17,7 @@ class SettingsDatabaseHandler(QObject):
         self.database_path = database_path
         self.create_or_connect_db()
         self.create_db_table()
+        self.pending_changes = []
         self.save_changes_signal.connect(self.save_db_changes_slot)
         self.discard_changes_signal.connect(self.discard_db_changes_slot)
 
@@ -40,7 +40,6 @@ class SettingsDatabaseHandler(QObject):
         """
         query = """
             CREATE TABLE IF NOT EXISTS settings (
-                
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 parameter TEXT UNIQUE,
                 value TEXT
@@ -55,7 +54,7 @@ class SettingsDatabaseHandler(QObject):
         query = """
             INSERT OR REPLACE INTO settings (parameter, value) VALUES (?, ?)
         """
-        self.conn.execute(query, (parameter, str(value)))
+        self.pending_changes.append((query, (parameter, str(value))))
         self.save_changes_signal.emit()
 
     def delete_db_setting(self, parameter):
@@ -65,7 +64,7 @@ class SettingsDatabaseHandler(QObject):
         query = """
             DELETE FROM settings WHERE parameter = ?
         """
-        self.conn.execute(query, (parameter,))
+        self.pending_changes.append((query, (parameter,)))
         print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
 
     def get_db_settings(self):
@@ -81,6 +80,8 @@ class SettingsDatabaseHandler(QObject):
         """
         Save all changes to the database.
         """
+        for query, params in self.pending_changes:
+            self.conn.execute(query, params)
         self.conn.commit()
         for parameter, value in self.get_db_settings():
             print(
@@ -88,6 +89,7 @@ class SettingsDatabaseHandler(QObject):
                 + "Changes saved to the database: "
                 + f"- {parameter}: {value}"
             )
+        self.pending_changes = []  # Clear the list after saving
 
     def close(self):
         """
@@ -100,17 +102,12 @@ class SettingsDatabaseHandler(QObject):
         """
         Save all changes to the database.
         """
-        self.save_db_changes()
-        # Additional code for handling the save action, if needed
+        self.save_changes_signal.emit()
 
     @Slot()
     def discard_db_changes_slot(self):
         """
         Discard all changes to the database.
         """
-        parameter_to_discard = (
-            "example_parameter"  # Provide the parameter you want to discard
-        )
-        self.delete_db_setting(parameter_to_discard)
-        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter_to_discard}")
-        # Additional code for handling the discard action, if needed
+        self.pending_changes = []
+        print(DEBUG_NAME + "Discarded all changes")

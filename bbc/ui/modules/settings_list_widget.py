@@ -5,7 +5,7 @@ from constants import (
     SETTINGS_LIST,
 )
 from handlers.db_handler import SettingsDatabaseHandler
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -23,6 +23,9 @@ from PySide6.QtWidgets import (
 
 # TODO: Make checkbox be centered in the column.
 class SettingsListWidget(QWidget):
+    save_changes_signal = Signal()
+    discard_changes_signal = Signal()
+
     def __init__(self, parent=None):
         """
         Initialize the SettingsListWidget.
@@ -155,7 +158,7 @@ class SettingsListWidget(QWidget):
         """
         Save a setting to the database.
         """
-        self.database.insert_db_setting(parameter, str(value))
+        self.setting_widgets[parameter] = value
 
     def remove_setting(self, setting_name):
         """
