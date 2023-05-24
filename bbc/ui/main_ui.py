@@ -45,9 +45,7 @@ class MainUI(QMainWindow):
         """
         Initialize the connections.
         """
-        self._events_handler.toggle_theme_signal.connect(
-            self._events_handler.on_button_clicked_event
-        )
+        self.toggle_theme_signal.connect(self._events_handler.on_button_clicked_event)
         self.quit_signal.connect(self._events_handler.quit_on_key_press_event)
 
     def init_main_ui(self):
@@ -60,7 +58,9 @@ class MainUI(QMainWindow):
 
         # Add the widget classes
         settings_widget = SettingsListWidget(self)
-        button_widget = ButtonWidget(self, self._settings, self._current_theme)
+        button_widget = ButtonWidget(
+            self._events_handler, self._settings, self._current_theme
+        )
         label_widget = LabelWidget(0, self)
 
         # Create a new layout for the central widget
