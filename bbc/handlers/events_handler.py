@@ -5,7 +5,6 @@ from PySide6.QtWidgets import QApplication
 
 
 class EventsHandler(QObject):
-    quit_signal = Signal()
     toggle_viewer_signal = Signal()
     save_changes_signal = Signal()
     toggle_theme_signal = Signal(int)
@@ -32,14 +31,6 @@ class EventsHandler(QObject):
         # Connect both shortcuts to the same slot
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
-
-    @Slot()
-    def handle_quit_shortcut(self):
-        """
-        Handle the quit shortcut.
-        """
-        print(DEBUG_NAME + "handle_quit_shortcut called")
-        self.quit_signal.emit()
 
     @Slot(int)
     def on_button_clicked_event(self, index):
