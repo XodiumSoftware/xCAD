@@ -1,7 +1,8 @@
 import functools
 
-from constants import BUTTONS
+from constants import BUTTONS, ICONS_FILE_PATHS
 from handlers.events_handler import EventsHandler
+from handlers.theme_handler import ThemeHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -14,28 +15,27 @@ from PySide6.QtWidgets import (
 
 
 class ButtonWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, settings, parent=None):
         """
         Initialize the ButtonWidget.
         """
         super().__init__(parent)
+        self._settings = settings
         self.init_button_widget()
 
     def init_button_widget(self):
         """
         Initialize the button widget.
         """
-        # Create the first button layout with an expanding spacing
-        self.button_container_0 = self.create_button_layout(
+        self.button_container_0 = self.create_button_container_layout(
             [0, 1], alignment=Qt.AlignmentFlag.AlignLeft, spacing=-1
         )
 
-        # Create the second button layout with spacing of 0
-        self.button_container_1 = self.create_button_layout(
+        self.button_container_1 = self.create_button_container_layout(
             [2, 3], alignment=Qt.AlignmentFlag.AlignRight, spacing=0
         )
 
-    def create_button_layout(self, button_indices, alignment, spacing):
+    def create_button_container_layout(self, button_indices, alignment, spacing):
         """
         Create the button layout.
         """
@@ -45,6 +45,8 @@ class ButtonWidget(QWidget):
 
         container_widget.setLayout(button_layout)
 
+        theme_handler = ThemeHandler()
+
         for button_index in button_indices:
             if len(BUTTONS) > button_index:
                 button_data = BUTTONS[button_index]
@@ -53,10 +55,8 @@ class ButtonWidget(QWidget):
                 button.setObjectName(button_data["title"])
                 button.setFixedSize(*button_data["size"])
 
-                if button_data["icon_path"] is not None:
-                    button.setIcon(QIcon(button_data["icon_path"]))
-                else:
-                    button.setText(button_data["title"])
+                theme_icon_path = ICONS_FILE_PATHS[theme_handler.get_current_theme()]
+                button.setIcon(QIcon(theme_icon_path))
 
                 button.setProperty("index", button_data["index"])
 

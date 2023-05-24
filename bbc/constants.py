@@ -67,7 +67,7 @@ BUTTONS = [
         "index": 0,
         "title": "ThemeButton",
         "size": (30, 30),
-        "icon_path": os.path.join("bbc/icons/theme_icon_default_light.png"),
+        "icon_path": os.path.join("bbc/icons/theme_icon_system_default_light.png"),
     },
     {
         "index": 1,

@@ -1,10 +1,8 @@
-import os
 import platform
 import winreg
 
 from constants import (
     DEBUG_NAME,
-    ICONS_FILE_PATHS,
     MS_VALUE_NAME,
     THEME_DARK,
     THEME_FILE_PATHS,
@@ -12,24 +10,20 @@ from constants import (
     THEME_SYSTEM_DEFAULT,
     WINREG_THEME_KEY,
 )
-from PySide6.QtCore import QSettings
-from PySide6.QtGui import QIcon
+from PySide6.QtCore import QObject
 
 
-class ThemeHandler:
+class ThemeHandler(QObject):
     def __init__(self):
-        self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
+        super().__init__()
         self._current_theme = THEME_LIGHT
         self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
 
-    def init_theme_handler(self):
+    def init_theme_handler(self, settings, main_ui):
+        self._settings = settings
+        self._main_ui = main_ui
         self.load_saved_theme()
-        self.update_button()
-
-    def set_button(self, button):
-        self._button = button
-        self._button.clicked.connect(self.toggle_theme)
-        self.update_button()
+        self.apply_theme()
 
     def toggle_theme(self):
         self._current_theme = self._theme_states[
@@ -37,27 +31,17 @@ class ThemeHandler:
             % len(self._theme_states)
         ]
         self.set_theme(self._current_theme)
+        self.apply_theme()
 
     def set_theme(self, theme_name):
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
-            theme_path = THEME_FILE_PATHS[theme_name]
-            style_sheet = self._loadStyleSheet(theme_path)
-            self._button.setStyleSheet(style_sheet)
             self._settings.setValue("theme", theme_name)
-            self.update_button()
 
     def load_saved_theme(self):
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
             self.set_theme(saved_theme)
-
-    def update_button(self):
-        if self._current_theme in ICONS_FILE_PATHS:
-            icon_file = ICONS_FILE_PATHS[self._current_theme]
-            if icon_file:
-                icon = QIcon(icon_file)
-                self._button.setIcon(icon)
 
     def detect_system_theme_handler(self):
         try:
@@ -73,6 +57,10 @@ class ThemeHandler:
                 return THEME_SYSTEM_DEFAULT + "_" + THEME_LIGHT
         except Exception as e:
             print(DEBUG_NAME + "Error detecting system theme:", e)
+
+    def apply_theme(self):
+        stylesheet = self._loadStyleSheet(THEME_FILE_PATHS[self._current_theme])
+        self._main_ui.setStyleSheet(stylesheet)
 
     @staticmethod
     def _loadStyleSheet(file_path):

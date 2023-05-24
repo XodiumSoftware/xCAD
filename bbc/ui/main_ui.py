@@ -2,6 +2,7 @@ from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -24,11 +25,12 @@ class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
         """
         Initialize the instances.
         """
-        self.events_handler = EventsHandler()
+        self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
 
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
+        self.init_theme_handler(self._settings, self)
         self.quit_on_key_press_event()
         self.init_connections()
 
