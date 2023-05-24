@@ -31,11 +31,6 @@ THEME_BUTTON_ICON_DEFAULT_PATH = os.path.join("bbc/icons/theme_icon_default_ligh
 THEME_BUTTON_ICON_LIGHT_PATH = os.path.join("bbc/icons/theme_icon_light.png")
 THEME_BUTTON_ICON_DARK_PATH = os.path.join("bbc/icons/theme_icon_dark.png")
 
-THEME_SETTINGS_PATH = os.path.join("bbc/data/theme_settings.txt")
-THEME_DIR_PATH = os.path.join("bbc/themes/")
-LIGHT_THEME_FILE_PATH = os.path.join("light_theme.css")
-DARK_THEME_FILE_PATH = os.path.join("dark_theme.css")
-
 # Config UI
 VIEWER_UI_TITLE = "Configurator"
 VIEWER_UI_SUFFIX_MM = "mm"
@@ -84,19 +79,10 @@ KEY_THEME = "theme"
 KEY_THEME_LIGHT = "light"
 KEY_THEME_DARK = "dark"
 
-MS_VALUE_NAME = "AppsUseLightTheme"
-
-WINREG_THEME_KEY = os.path.join(
-    "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
-)
-
 # Debugging
 DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
 DEBUG_SAVED_DATA_PRINT = "[DEBUG]: Saved Data:"
 DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
-
-DEBUG_NAME = "[DEBUG] "
-DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "
 
 # SettingsListWidget
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
@@ -163,3 +149,36 @@ BUTTONS = [
         "icon_path": None,
     },
 ]  # Dont forget to add the necessary code into the EventHandler.
+
+# ThemeHandler
+WINREG_THEME_KEY = os.path.join(
+    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+)
+MS_VALUE_NAME = "AppsUseLightTheme"
+
+DEBUG_NAME = "[DEBUG] "
+
+THEME_DARK = "dark"
+THEME_LIGHT = "light"
+THEME_SYSTEM_DEFAULT = "system_default"
+
+THEME_FOLDER_PATH = os.path.join("bbc/themes/")
+ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
+
+THEME_FILE_PATHS = {
+    THEME_DARK: os.path.join(THEME_FOLDER_PATH, "dark_theme.css"),
+    THEME_LIGHT: os.path.join(THEME_FOLDER_PATH, "light_theme.css"),
+}
+
+ICONS_FILE_PATHS = {
+    THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_dark.png"),
+    THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_light.png"),
+    THEME_SYSTEM_DEFAULT
+    + "_"
+    + THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"),
+    THEME_SYSTEM_DEFAULT
+    + "_"
+    + THEME_LIGHT: os.path.join(
+        ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"
+    ),
+}

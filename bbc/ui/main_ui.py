@@ -5,6 +5,7 @@ from constants import (
     UI_TITLE,
 )
 from handlers.events_handler import EventsHandler
+from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
@@ -17,7 +18,7 @@ from ui.modules.settings_list_widget import SettingsListWidget
 # TODO: add save and discard buttons and change the save system to use the buttons instead or realtime saving.
 
 
-class MainUI(QMainWindow, UIHandler, EventsHandler):
+class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
     def __init__(self):
         """
         Initialize the MainUI.
