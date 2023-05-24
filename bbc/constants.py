@@ -101,6 +101,11 @@ THEME_DARK = "dark"
 THEME_LIGHT = "light"
 THEME_SYSTEM_DEFAULT = "system_default"
 
+VIEWER_DARK = THEME_DARK
+VIEWER_DARK_FLIPPED = VIEWER_DARK
+VIEWER_LIGHT = THEME_LIGHT
+VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
+
 THEME_FOLDER_PATH = os.path.join("bbc/themes/")
 ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
 
@@ -110,14 +115,28 @@ THEME_FILE_PATHS = {
 }
 
 ICONS_FILE_PATHS = {
-    THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_dark.png"),
-    THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_light.png"),
-    THEME_SYSTEM_DEFAULT
-    + "_"
-    + THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"),
-    THEME_SYSTEM_DEFAULT
-    + "_"
-    + THEME_LIGHT: os.path.join(
-        ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"
-    ),
+    "theme": {
+        THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_dark.png"),
+        THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_light.png"),
+        THEME_SYSTEM_DEFAULT
+        + "_"
+        + THEME_DARK: os.path.join(
+            ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"
+        ),
+        THEME_SYSTEM_DEFAULT
+        + "_"
+        + THEME_LIGHT: os.path.join(
+            ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"
+        ),
+    },
+    "viewer": {
+        VIEWER_DARK: os.path.join(ICONS_FOLDER_PATH, "viewer_icon_dark.png"),
+        VIEWER_DARK_FLIPPED: os.path.join(
+            ICONS_FOLDER_PATH, "viewer_icon_flipped_dark.png"
+        ),
+        VIEWER_LIGHT: os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
+        VIEWER_LIGHT_FLIPPED: os.path.join(
+            ICONS_FOLDER_PATH, "viewer_icon_flipped_light.png"
+        ),
+    },
 }

@@ -46,6 +46,7 @@ class ButtonWidget(QWidget):
         container_widget.setLayout(button_layout)
 
         theme_handler = ThemeHandler(self._settings)
+        current_theme = theme_handler.get_current_theme()
 
         for button_index in button_indices:
             if len(BUTTONS) > button_index:
@@ -55,8 +56,15 @@ class ButtonWidget(QWidget):
                 button.setObjectName(button_data["title"])
                 button.setFixedSize(*button_data["size"])
 
-                theme_icon_path = ICONS_FILE_PATHS[theme_handler.get_current_theme()]
-                button.setIcon(QIcon(theme_icon_path))
+                if button_data["icon_path"] != None:
+                    if button_data["index"] == 0:
+                        theme_icon_path = ICONS_FILE_PATHS["theme"][current_theme]
+                        button.setIcon(QIcon(theme_icon_path))
+                    elif button_data["index"] == 1:
+                        viewer_icon_path = ICONS_FILE_PATHS["viewer"][current_theme]
+                        button.setIcon(QIcon(viewer_icon_path))
+                elif button_data["icon_path"] == None:
+                    button.setText(button_data["title"])
 
                 button.setProperty("index", button_data["index"])
 
