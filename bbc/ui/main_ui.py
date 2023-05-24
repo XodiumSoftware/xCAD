@@ -13,23 +13,24 @@ from ui.modules.settings_list_widget import SettingsListWidget
 # TODO: add save and discard buttons and change the save system to use the buttons instead or realtime saving.
 
 
-class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
-    toggle_theme_signal = Signal(int)
+class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
     quit_signal = Signal()
+    toggle_theme_signal = Signal(int)
 
     def __init__(self):
         """
         Initialize the MainUI.
         """
         super().__init__()
+
+        self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
+        self._current_theme = self.get_current_theme()
         self.init_instances()
 
     def init_instances(self):
         """
         Initialize the instances.
         """
-        self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
-
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
@@ -42,6 +43,7 @@ class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
         Initialize the connections.
         """
         # EventsHandler:
+        self.toggle_theme_signal.connect(self.on_button_clicked_event)
         self.quit_signal.connect(self.quit_on_key_press_event)
 
     def init_main_ui(self):
@@ -54,7 +56,7 @@ class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
 
         # Add the widget classes
         settings_widget = SettingsListWidget(self)
-        button_widget = ButtonWidget(self)
+        button_widget = ButtonWidget(self, self._settings, self._current_theme)
         label_widget = LabelWidget(0, self)
 
         # Create a new layout for the central widget

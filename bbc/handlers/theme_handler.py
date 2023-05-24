@@ -15,13 +15,13 @@ from PySide6.QtCore import QObject
 
 
 class ThemeHandler(QObject):
-    def __init__(self, settings):
+    def __init__(self, settings, current_theme):
         """
         Initialize the ThemeHandler.
         """
         super().__init__()
         self._settings = settings
-        self._current_theme = THEME_LIGHT
+        self._current_theme = current_theme
         self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
 
     def init_theme_handler(self, main_ui):
@@ -32,7 +32,7 @@ class ThemeHandler(QObject):
         self.load_saved_theme()
         self.apply_theme()
 
-        events_handler = EventsHandler()
+        events_handler = EventsHandler(self._current_theme)
         events_handler.toggle_theme_signal.connect(self.toggle_theme)
 
     def toggle_theme(self):
@@ -53,6 +53,7 @@ class ThemeHandler(QObject):
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
             self._settings.setValue("theme", theme_name)
+            self.apply_theme()
 
     def get_current_theme(self):
         """

@@ -11,12 +11,12 @@ class EventsHandler(QObject):
     toggle_theme_signal = Signal(int)
     discard_changes_signal = Signal()
 
-    def __init__(self):
+    def __init__(self, current_theme):
         """
         Initialize the EventsHandler.
         """
         super().__init__()
-        self.current_theme = THEME_DARK
+        self._current_theme = current_theme
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -38,9 +38,9 @@ class EventsHandler(QObject):
         """
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
-            if self.current_theme == THEME_DARK:
+            if self._current_theme == THEME_DARK:
                 self.toggle_theme_signal.emit(THEME_LIGHT)
-            elif self.current_theme == THEME_LIGHT:
+            elif self._current_theme == THEME_LIGHT:
                 self.toggle_theme_signal.emit(THEME_DARK)
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")

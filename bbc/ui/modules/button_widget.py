@@ -1,7 +1,6 @@
 import functools
 
 from constants import BUTTONS, ICONS_FILE_PATHS
-from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
@@ -15,12 +14,15 @@ from PySide6.QtWidgets import (
 
 
 class ButtonWidget(QWidget):
-    def __init__(self, settings, parent=None):
+    def __init__(self, events_handler, settings, current_theme, parent=None):
         """
         Initialize the ButtonWidget.
         """
         super().__init__(parent)
         self._settings = settings
+        self._events_handler = events_handler
+        self._current_theme = current_theme
+
         self.init_button_widget()
 
     def init_button_widget(self):
@@ -45,7 +47,7 @@ class ButtonWidget(QWidget):
 
         container_widget.setLayout(button_layout)
 
-        theme_handler = ThemeHandler(self._settings)
+        theme_handler = ThemeHandler(self._settings, self._current_theme)
         current_theme = theme_handler.get_current_theme()
 
         for button_index in button_indices:
@@ -84,7 +86,8 @@ class ButtonWidget(QWidget):
 
                 button.clicked.connect(
                     functools.partial(
-                        EventsHandler().on_button_clicked_event, button_data["index"]
+                        self._events_handler.on_button_clicked_event,
+                        button_data["index"],
                     )
                 )
 
