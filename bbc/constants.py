@@ -2,27 +2,6 @@ import os
 
 from PySide6.QtCore import Qt
 
-# General
-UI_TITLE = "AFC"
-UI_ICON_PATH = os.path.join("bbc/icons/ui_icon.png")
-
-# Copyright label
-COPYRIGHT_LABEL = "© 2023 Qerimi Engineering. All rights reserved."
-COPYRIGHT_LABEL_SIZE = 8
-COPYRIGHT_LABEL_STYLE = "font-style: italic;"
-
-# Config UI
-VIEWER_UI_TITLE = "3D Viewer"
-
-VIEWER_UI_BUTTON_ICON_LIGHT_PATH = os.path.join("bbc/icons/viewer_icon_light.png")
-VIEWER_UI_BUTTON_ICON_DARK_PATH = os.path.join("bbc/icons/viewer_icon_dark.png")
-VIEWER_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = os.path.join(
-    "bbc/icons/viewer_icon_flipped_light.png"
-)
-VIEWER_UI_BUTTON_ICON_FLIPPED_DARK_PATH = os.path.join(
-    "bbc/icons/viewer_icon_flipped_dark.png"
-)
-
 # SettingsListWidget
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
@@ -60,36 +39,8 @@ LABELS = [
     },
 ]
 
-# TODO: Add function that toggles the button icon based on isVisible().
-# ButtonWidget
-BUTTONS = [
-    {
-        "index": 0,
-        "title": "ThemeButton",
-        "size": (30, 30),
-        "icon_path": os.path.join("bbc/icons/theme_icon_system_default_light.png"),
-    },
-    {
-        "index": 1,
-        "title": "ViewerButton",
-        "size": (30, 30),
-        "icon_path": os.path.join("bbc/icons/viewer_icon_light.png"),
-    },
-    {
-        "index": 2,
-        "title": "Save",
-        "size": (50, 30),
-        "icon_path": None,
-    },
-    {
-        "index": 3,
-        "title": "Discard",
-        "size": (50, 30),
-        "icon_path": None,
-    },
-]  # Dont forget to add the necessary code into the EventHandler.
 
-# ThemeHandler
+# General
 WINREG_THEME_KEY = os.path.join(
     r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 )
@@ -109,6 +60,42 @@ VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
 THEME_FOLDER_PATH = os.path.join("bbc/themes/")
 ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
 
+# UI
+UI_TITLE = "AFC"
+UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+
+# TODO: Add function that toggles the button icon based on isVisible().
+# ButtonWidget
+BUTTONS = [
+    {
+        "index": 0,
+        "title": "ThemeButton",
+        "size": (30, 30),
+        "icon_path": os.path.join(
+            ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
+        ),
+    },
+    {
+        "index": 1,
+        "title": "ViewerButton",
+        "size": (30, 30),
+        "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
+    },
+    {
+        "index": 2,
+        "title": "Save",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+    {
+        "index": 3,
+        "title": "Discard",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+]  # Dont forget to add the necessary code into the EventHandler.
+
+# ThemeHandler
 THEME_FILE_PATHS = {
     THEME_DARK: os.path.join(THEME_FOLDER_PATH, "dark_theme.css"),
     THEME_LIGHT: os.path.join(THEME_FOLDER_PATH, "light_theme.css"),

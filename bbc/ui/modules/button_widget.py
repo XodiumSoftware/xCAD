@@ -54,7 +54,6 @@ class ButtonWidget(QWidget):
             theme_icon_path = ICONS_FILE_PATHS["theme"][current_theme]
             viewer_icon_path = ICONS_FILE_PATHS["viewer"][current_theme]
         else:
-            # Handle the case when the current_theme is not found in ICONS_FILE_PATHS
             theme_icon_path = ""
             viewer_icon_path = ""
 
