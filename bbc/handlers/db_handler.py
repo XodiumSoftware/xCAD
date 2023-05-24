@@ -2,6 +2,7 @@ import os
 import sqlite3
 
 from constants import DEBUG_NAME
+from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QObject, Signal, Slot
 
 
@@ -20,6 +21,11 @@ class SettingsDatabaseHandler(QObject):
         self.pending_changes = []
         self.save_changes_signal.connect(self.save_db_changes_slot)
         self.discard_changes_signal.connect(self.discard_db_changes_slot)
+
+        self.events_handler = EventsHandler(self)
+
+        self.events_handler.save_changes_signal.connect(self.save_db_changes_slot)
+        self.events_handler.discard_changes_signal.connect(self.discard_db_changes_slot)
 
     def create_or_connect_db(self):
         """
