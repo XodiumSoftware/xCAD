@@ -37,7 +37,6 @@ class MainUI(QMainWindow):
         self.setCentralWidget(QWidget())
         self.init_main_ui()
         self._theme_handler.init_theme_handler(self)
-        self._events_handler.quit_on_key_press_event()
 
         self.init_connections()
 
@@ -46,9 +45,7 @@ class MainUI(QMainWindow):
         Initialize the connections.
         """
         self.toggle_theme_signal.connect(self._events_handler.on_button_clicked_event)
-        self._events_handler.quit_signal.connect(
-            self._events_handler.quit_on_key_press_event
-        )
+        self.quit_signal.connect(self._events_handler.quit_on_key_press_event)
 
     def init_main_ui(self):
         """

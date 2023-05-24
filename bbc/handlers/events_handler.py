@@ -17,12 +17,14 @@ class EventsHandler(QObject):
         """
         super().__init__()
         self._current_theme = current_theme
+        print(DEBUG_NAME + "EventsHandler initialized")
 
     @Slot()
-    def quit_on_key_press_event(self) -> None:
+    def quit_on_key_press_event(self):
         """
         Quit on Escape key or Ctrl+Q.
         """
+        print(DEBUG_NAME + "Quit on Escape key or Ctrl+Q connection established")
         # Create separate QShortcut instances for "Escape" and "Ctrl+Q"
         escape_shortcut = QShortcut(QKeySequence("Escape"), self)
         ctrl_q_shortcut = QShortcut(QKeySequence("Ctrl+Q"), self)
@@ -31,6 +33,12 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
+    @Slot()
+    def handle_quit_shortcut(self):
+        """
+        Handle the quit shortcut.
+        """
+        print(DEBUG_NAME + "handle_quit_shortcut called")
         self.quit_signal.emit()
 
     @Slot(int)
