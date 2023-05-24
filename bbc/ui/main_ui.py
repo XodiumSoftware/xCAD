@@ -9,11 +9,8 @@ from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
 
-# TODO: add startup page and add skip function.
-# TODO: add save and discard buttons and change the save system to use the buttons instead or realtime saving.
 
-
-class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
+class MainUI(QMainWindow):
     quit_signal = Signal()
     toggle_theme_signal = Signal(int)
 
@@ -24,7 +21,11 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         super().__init__()
 
         self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
-        self._current_theme = self.get_current_theme()
+        self._theme_handler = ThemeHandler(self._settings, self._current_theme)
+        self._current_theme = self._theme_handler.get_current_theme()
+        self._ui_handler = UIHandler()
+        self._events_handler = EventsHandler(self._current_theme)
+
         self.init_instances()
 
     def init_instances(self):
@@ -34,17 +35,18 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
-        self.init_theme_handler(self)
-        self.quit_on_key_press_event()
+        self._theme_handler.init_theme_handler(self._current_theme)
+        self._events_handler.quit_on_key_press_event()
         self.init_connections()
 
     def init_connections(self):
         """
         Initialize the connections.
         """
-        # EventsHandler:
-        self.toggle_theme_signal.connect(self.on_button_clicked_event)
-        self.quit_signal.connect(self.quit_on_key_press_event)
+        self._events_handler.toggle_theme_signal.connect(
+            self._events_handler.on_button_clicked_event
+        )
+        self.quit_signal.connect(self._events_handler.quit_on_key_press_event)
 
     def init_main_ui(self):
         """
@@ -91,4 +93,4 @@ class MainUI(QMainWindow, UIHandler, ThemeHandler, EventsHandler):
         self.resize(window_width, self.height())
 
         # Center the window on the primary screen
-        self.center_ui_on_screen_handler(self)
+        self._ui_handler.center_ui_on_screen_handler(self)
