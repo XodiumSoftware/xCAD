@@ -15,7 +15,7 @@ from PySide6.QtCore import QObject
 
 class ThemeHandler(QObject):
     def __init__(self, settings):
-        """ "
+        """
         Initialize the ThemeHandler.
         """
         super().__init__()

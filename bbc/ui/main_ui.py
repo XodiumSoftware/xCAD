@@ -30,7 +30,7 @@ class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
-        self.init_theme_handler(self._settings)
+        self.init_theme_handler(self)
         self.quit_on_key_press_event()
         self.init_connections()
 
