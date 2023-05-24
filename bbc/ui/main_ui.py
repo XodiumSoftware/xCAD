@@ -1,3 +1,5 @@
+from typing import Self
+
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
@@ -36,7 +38,7 @@ class MainUI(QMainWindow):
         # Call functions here.
         self.setCentralWidget(QWidget())
         self.init_main_ui()
-        self._theme_handler.init_theme_handler(self._current_theme)
+        self._theme_handler.init_theme_handler(self)
         self._events_handler.quit_on_key_press_event()
 
         self.init_connections()
