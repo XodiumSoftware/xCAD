@@ -14,18 +14,27 @@ from PySide6.QtCore import QObject
 
 
 class ThemeHandler(QObject):
-    def __init__(self):
+    def __init__(self, settings):
+        """ "
+        Initialize the ThemeHandler.
+        """
         super().__init__()
+        self._settings = settings
         self._current_theme = THEME_LIGHT
         self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
 
-    def init_theme_handler(self, settings, main_ui):
-        self._settings = settings
+    def init_theme_handler(self, main_ui):
+        """
+        Initialize the theme handler.
+        """
         self._main_ui = main_ui
         self.load_saved_theme()
         self.apply_theme()
 
     def toggle_theme(self):
+        """
+        Toggle the theme.
+        """
         self._current_theme = self._theme_states[
             (self._theme_states.index(self._current_theme) + 1)
             % len(self._theme_states)
@@ -34,16 +43,31 @@ class ThemeHandler(QObject):
         self.apply_theme()
 
     def set_theme(self, theme_name):
+        """
+        Set the theme.
+        """
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
             self._settings.setValue("theme", theme_name)
 
+    def get_current_theme(self):
+        """
+        Get the current theme.
+        """
+        return self._current_theme
+
     def load_saved_theme(self):
+        """
+        Load the saved theme.
+        """
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
             self.set_theme(saved_theme)
 
     def detect_system_theme_handler(self):
+        """
+        Detect the system theme.
+        """
         try:
             if platform.system() != "Windows":
                 return None
@@ -59,11 +83,17 @@ class ThemeHandler(QObject):
             print(DEBUG_NAME + "Error detecting system theme:", e)
 
     def apply_theme(self):
+        """
+        Apply the theme.
+        """
         stylesheet = self._loadStyleSheet(THEME_FILE_PATHS[self._current_theme])
         self._main_ui.setStyleSheet(stylesheet)
 
     @staticmethod
     def _loadStyleSheet(file_path):
+        """
+        Load the style sheet.
+        """
         try:
             with open(file_path, "r") as file:
                 return file.read()

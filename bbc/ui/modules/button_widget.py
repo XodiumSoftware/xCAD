@@ -45,7 +45,7 @@ class ButtonWidget(QWidget):
 
         container_widget.setLayout(button_layout)
 
-        theme_handler = ThemeHandler()
+        theme_handler = ThemeHandler(self._settings)
 
         for button_index in button_indices:
             if len(BUTTONS) > button_index:
