@@ -3,6 +3,7 @@ import sqlite3
 
 from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, Signal, Slot
+from PySide6.QtGui import Qt
 
 
 class SettingsDatabaseHandler(QObject):
@@ -81,7 +82,12 @@ class SettingsDatabaseHandler(QObject):
         Save all changes to the database.
         """
         self.conn.commit()
-        print(DEBUG_NAME + "Changes saved to the database.")
+        for parameter, value in self.get_db_settings():
+            print(
+                DEBUG_NAME
+                + "Changes saved to the database: "
+                + f"- {parameter}: {value}"
+            )
 
     def close(self):
         """
