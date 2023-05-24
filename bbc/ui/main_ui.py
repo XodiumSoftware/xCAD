@@ -1,12 +1,10 @@
-from typing import Self
-
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QApplication, QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
@@ -48,7 +46,9 @@ class MainUI(QMainWindow):
         Initialize the connections.
         """
         self.toggle_theme_signal.connect(self._events_handler.on_button_clicked_event)
-        self.quit_signal.connect(self._events_handler.quit_on_key_press_event)
+        self._events_handler.quit_signal.connect(
+            self._events_handler.quit_on_key_press_event
+        )
 
     def init_main_ui(self):
         """

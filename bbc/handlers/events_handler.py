@@ -31,6 +31,8 @@ class EventsHandler(QObject):
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
+        self.quit_signal.emit()
+
     @Slot(int)
     def on_button_clicked_event(self, index):
         """
