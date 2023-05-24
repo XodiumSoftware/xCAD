@@ -21,6 +21,7 @@ class MainUI(QMainWindow):
         super().__init__()
 
         self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
+        self._current_theme = None
         self._theme_handler = ThemeHandler(self._settings, self._current_theme)
         self._current_theme = self._theme_handler.get_current_theme()
         self._ui_handler = UIHandler()
@@ -37,6 +38,7 @@ class MainUI(QMainWindow):
         self.init_main_ui()
         self._theme_handler.init_theme_handler(self._current_theme)
         self._events_handler.quit_on_key_press_event()
+
         self.init_connections()
 
     def init_connections(self):
