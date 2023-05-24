@@ -1,13 +1,7 @@
-from constants import (
-    SETTINGS_APPLICATION,
-    SETTINGS_ORGANIZATION,
-    UI_ICON_PATH,
-    UI_TITLE,
-)
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -30,7 +24,6 @@ class MainUI(QMainWindow, UIHandler, EventsHandler, ThemeHandler):
         """
         Initialize the instances.
         """
-        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
         self.events_handler = EventsHandler()
 
         # Call functions here.

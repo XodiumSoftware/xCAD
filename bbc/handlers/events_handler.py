@@ -1,4 +1,4 @@
-from constants import DEBUG_NAME, KEY_THEME_DARK, KEY_THEME_LIGHT
+from constants import DEBUG_NAME, THEME_DARK, THEME_LIGHT
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
@@ -16,7 +16,7 @@ class EventsHandler(QObject):
         Initialize the EventsHandler.
         """
         super().__init__()
-        self.current_theme = KEY_THEME_DARK
+        self.current_theme = THEME_DARK
 
     @Slot()
     def quit_on_key_press_event(self) -> None:
@@ -38,10 +38,10 @@ class EventsHandler(QObject):
         """
         if index == 0:
             print(DEBUG_NAME + "Theme Button Clicked!")
-            if self.current_theme == KEY_THEME_DARK:
-                self.toggle_theme_signal.emit(KEY_THEME_LIGHT)
-            elif self.current_theme == KEY_THEME_LIGHT:
-                self.toggle_theme_signal.emit(KEY_THEME_DARK)
+            if self.current_theme == THEME_DARK:
+                self.toggle_theme_signal.emit(THEME_LIGHT)
+            elif self.current_theme == THEME_LIGHT:
+                self.toggle_theme_signal.emit(THEME_DARK)
         elif index == 1:
             print(DEBUG_NAME + "Viewer Button Clicked!")
             self.toggle_viewer_signal.emit()
