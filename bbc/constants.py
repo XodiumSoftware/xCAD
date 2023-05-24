@@ -2,6 +2,31 @@ import os
 
 from PySide6.QtCore import Qt
 
+# General
+WINREG_THEME_KEY = os.path.join(
+    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+)
+MS_VALUE_NAME = "AppsUseLightTheme"
+
+DEBUG_NAME = "[DEBUG] "
+
+THEME_DARK = "dark"
+THEME_LIGHT = "light"
+THEME_SYSTEM_DEFAULT = "system_default"
+
+VIEWER_DARK = THEME_DARK
+VIEWER_DARK_FLIPPED = VIEWER_DARK
+VIEWER_LIGHT = THEME_LIGHT
+VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
+
+THEME_FOLDER_PATH = os.path.join("bbc/themes/")
+ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
+DATA_FOLDER_PATH = os.path.join("bbc/data/")
+
+# UI
+UI_TITLE = "AFC"
+UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+
 # SettingsListWidget
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
@@ -14,7 +39,7 @@ SETTINGS_LIST = [
     ("Test", "button", []),
 ]
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
-SETTINGS_DATABASE_PATH = os.path.join("bbc/data/settings.sqlite")
+SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
 CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
 
 # LabelWidget
@@ -38,31 +63,6 @@ LABELS = [
         "alignment": Qt.AlignmentFlag.AlignRight,
     },
 ]
-
-
-# General
-WINREG_THEME_KEY = os.path.join(
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
-)
-MS_VALUE_NAME = "AppsUseLightTheme"
-
-DEBUG_NAME = "[DEBUG] "
-
-THEME_DARK = "dark"
-THEME_LIGHT = "light"
-THEME_SYSTEM_DEFAULT = "system_default"
-
-VIEWER_DARK = THEME_DARK
-VIEWER_DARK_FLIPPED = VIEWER_DARK
-VIEWER_LIGHT = THEME_LIGHT
-VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
-
-THEME_FOLDER_PATH = os.path.join("bbc/themes/")
-ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
-
-# UI
-UI_TITLE = "AFC"
-UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # TODO: Add function that toggles the button icon based on isVisible().
 # ButtonWidget
