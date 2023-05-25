@@ -9,7 +9,7 @@ from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
 
-# TODO: add startup screen.
+# TODO: Add startup page.
 
 
 class MainUI(QMainWindow):

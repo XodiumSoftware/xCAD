@@ -124,6 +124,11 @@ class SettingsListWidget(QWidget):
 
         value_widget = None
 
+        # TODO: adjust the constants in the constants.py in such a way,
+        # so that i can group the parameters. ask me when u need that file so i can send it too.
+        # also add a title to the group header.
+        # also is it possible to color the background of that header?
+        # if yes, then can we give it a id so i can set the color in the .css files.
         if setting_type == "dropdown":
             value_widget = QComboBox()
             value_widget.addItems(options)
@@ -160,6 +165,7 @@ class SettingsListWidget(QWidget):
             self.table_widget.setCellWidget(row_count, 1, value_widget)
             self.setting_widgets[setting_name] = value_widget
 
+    # FIXME: TypeError: SettingsListWidget.handle_button_click() missing 1 required positional argument: 'state'
     def handle_button_click(self, setting_name, state):
         print(DEBUG_NAME + f"{setting_name} button clicked! State: {state}")
 

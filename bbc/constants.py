@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 
 # General
 WINREG_THEME_KEY = os.path.join(
@@ -31,13 +32,29 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
 SETTINGS_LIST = [
-    ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
-    ("Wrapping at Inserts", "input_text", []),
-    ("Wrapping at Ends", "input_int", []),
-    ("Width", "dropdown", DROPDOWN_LIST_SOUND),
-    ("Function", "checkbox", []),
-    ("Test", "button", []),
+    {
+        "group": "General",
+        "settings": [
+            ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
+            ("Wrapping at Inserts", "input_text", []),
+            ("Wrapping at Ends", "input_int", []),
+        ],
+    },
+    {
+        "group": "Sound",
+        "settings": [
+            ("Width", "dropdown", DROPDOWN_LIST_SOUND),
+            ("Function", "checkbox", []),
+        ],
+    },
+    {
+        "group": "Actions",
+        "settings": [
+            ("Test", "button", []),
+        ],
+    },
 ]
+
 HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
 CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
@@ -64,7 +81,6 @@ LABELS = [
     },
 ]
 
-# TODO: Add function that toggles the button icon based on isVisible().
 # ButtonWidget
 BUTTONS = [
     {
