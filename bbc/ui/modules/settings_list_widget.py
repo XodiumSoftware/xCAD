@@ -1,3 +1,5 @@
+from functools import partial
+
 from constants import (
     CHECKBOX_STYLE,
     DEBUG_NAME,
@@ -6,7 +8,7 @@ from constants import (
 )
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -22,7 +24,6 @@ from PySide6.QtWidgets import (
 )
 
 
-# TODO: Make checkbox be centered in the column.
 class SettingsListWidget(QWidget):
     save_changes_signal = Signal(dict)
     discard_changes_signal = Signal()
@@ -123,41 +124,36 @@ class SettingsListWidget(QWidget):
 
         value_widget = None
 
-        # ChatGPT: Replace in every setting_type the lambda's in the .connect with functools.partial.
         if setting_type == "dropdown":
             value_widget = QComboBox()
             value_widget.addItems(options)
             value_widget.setCurrentText(args[3] if len(args) > 3 else "")
             value_widget.currentTextChanged.connect(
-                lambda text, param=setting_name: self.save_setting_changes(param, text)
+                partial(self.save_setting_changes, setting_name)
             )
         elif setting_type == "input_text":
             value_widget = QLineEdit(args[3] if len(args) > 3 else "")
             value_widget.textChanged.connect(
-                lambda text, param=setting_name: self.save_setting_changes(param, text)
+                partial(self.save_setting_changes, setting_name)
             )
         elif setting_type == "input_int":
             value_widget = QDoubleSpinBox()
             value_widget.setValue(float(args[3] if len(args) > 3 else 0))
             value_widget.valueChanged.connect(
-                lambda value, param=setting_name: self.save_setting_changes(
-                    param, value
-                )
+                partial(self.save_setting_changes, setting_name)
             )
         elif setting_type == "checkbox":
             value_widget = QCheckBox()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.stateChanged.connect(
-                lambda state, param=setting_name: self.save_setting_changes(
-                    param, bool(state)
-                )
+                partial(self.save_setting_changes, setting_name)
             )
             value_widget.setStyleSheet(CHECKBOX_STYLE)
         elif setting_type == "button":
             value_widget = QPushButton()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda state, param=setting_name: self.handle_button_click(param, state)
+                partial(self.handle_button_click, setting_name)
             )
 
         if value_widget is not None:
