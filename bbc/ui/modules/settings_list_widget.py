@@ -188,7 +188,6 @@ class SettingsListWidget(QWidget):
         for setting_group in SETTINGS_LIST:
             group_label = setting_group["group"]
             group_item = QTableWidgetItem(group_label)
-            group_item.setForeground(QColor("gray"))
             group_item.setFlags(group_item.flags() ^ ~Qt.ItemFlag.ItemIsEnabled)
             self.table_widget.insertRow(self.table_widget.rowCount())
             self.table_widget.setItem(self.table_widget.rowCount() - 1, 0, group_item)

@@ -126,6 +126,10 @@ QTableView::item:selected {
     background-color: #555555;
 }
 
+QTableView::item[group="true"] {
+    background-color: #555555;
+}
+
 QHeaderView::section {
     background-color: #555555;
     color: #ffffff;
