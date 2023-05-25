@@ -42,13 +42,24 @@ class SettingsListWidget(QWidget):
         Initialize the settings list widget.
         """
         self.layout: QLayout = QVBoxLayout(self)
+
+        # Create the table widget and set its properties
         self.table_widget = QTableWidget()
+        self.table_widget.setColumnCount(2)
+        self.table_widget.setHorizontalHeaderLabels(["Setting", "Value"])
+        self.table_widget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
+        self.table_widget.horizontalHeader().setStretchLastSection(True)
+
+        # Add the table widget to the layout
         self.layout.addWidget(self.table_widget)
 
+        # Initialize the setting widgets dictionary
         self.setting_widgets = {}
 
+        # Setup the settings
         self.setup_settings()
-        self.set_column_width()
         self.set_row_height()
 
     def set_column_width(self):
@@ -129,7 +140,7 @@ class SettingsListWidget(QWidget):
 
         elif setting_type == "dropdown":
             value_widget = QComboBox()
-            value_widget.addItems(options)  # Specify the type of options as List[str]
+            value_widget.addItems(options)
             value_widget.setCurrentText(args[3] if len(args) > 3 else "")
             value_widget.currentTextChanged.connect(
                 partial(self.save_setting_changes, setting_name)
