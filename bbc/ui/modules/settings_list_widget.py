@@ -123,6 +123,7 @@ class SettingsListWidget(QWidget):
 
         value_widget = None
 
+        # ChatGPT: Replace in every setting_type the lambda's in the .connect with functools.partial.
         if setting_type == "dropdown":
             value_widget = QComboBox()
             value_widget.addItems(options)
@@ -152,19 +153,19 @@ class SettingsListWidget(QWidget):
                 )
             )
             value_widget.setStyleSheet(CHECKBOX_STYLE)
-        # TODO: Fix button setting type and link it with the button_widget to handle the on click event.
         elif setting_type == "button":
             value_widget = QPushButton()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda state, param=setting_name: self.save_setting_changes(
-                    param, state
-                )
+                lambda state, param=setting_name: self.handle_button_click(param, state)
             )
 
         if value_widget is not None:
             self.table_widget.setCellWidget(row_count, 1, value_widget)
             self.setting_widgets[setting_name] = value_widget
+
+    def handle_button_click(self, setting_name, state):
+        print(DEBUG_NAME + f"{setting_name} button clicked! State: {state}")
 
     def save_setting_changes(self, parameter, value):
         sender_button = self.sender()
