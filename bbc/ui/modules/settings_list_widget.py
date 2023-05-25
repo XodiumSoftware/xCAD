@@ -157,7 +157,9 @@ class SettingsListWidget(QWidget):
             value_widget = QPushButton()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda _, param=setting_name: self.save_setting_changes(param, _)
+                lambda state, param=setting_name: self.save_setting_changes(
+                    param, state
+                )
             )
 
         if value_widget is not None:
@@ -168,7 +170,7 @@ class SettingsListWidget(QWidget):
         sender_button = self.sender()
         if isinstance(sender_button, QPushButton):
             settings = {parameter: value}
-            self.db_handler.save_db_changes(settings)
+            self.db_handler.save_db_settings(settings)
             print(
                 DEBUG_NAME
                 + f"Save button clicked for parameter: {parameter}, value: {value}"
@@ -177,7 +179,7 @@ class SettingsListWidget(QWidget):
     def discard_setting_changes(self):
         sender_button = self.sender()
         if isinstance(sender_button, QPushButton):
-            self.db_handler.discard_db_changes()
+            self.db_handler.discard_db_settings()
             print(DEBUG_NAME + "Changes discarded!")
 
     def setup_settings(self):

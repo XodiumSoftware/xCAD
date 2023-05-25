@@ -36,6 +36,7 @@ class SettingsDatabaseHandler(QObject):
         settings = cursor.fetchall()
         return dict(settings)
 
+    @Slot(dict)
     def save_db_settings(self, settings):
         """
         Save the settings to the database.
@@ -56,7 +57,13 @@ class SettingsDatabaseHandler(QObject):
             )
 
         self.connection.commit()
-        print(DEBUG_NAME + "Settings saved successfully.")
+        print(DEBUG_NAME + "Changes saved successfully.")
+
+    @Slot()
+    def discard_db_settings(self):
+        cursor = self.connection.cursor()
+        cursor.execute("ROLLBACK")
+        print(DEBUG_NAME + "Changes discarded successfully.")
 
     def close_db_connection(self):
         """
@@ -64,11 +71,3 @@ class SettingsDatabaseHandler(QObject):
         """
         self.connection.close()
         print(DEBUG_NAME + "Connection closed.")
-
-    @Slot(dict)
-    def save_db_changes(self, settings):
-        pass
-
-    @Slot()
-    def discard_db_changes(self, settings):
-        pass
