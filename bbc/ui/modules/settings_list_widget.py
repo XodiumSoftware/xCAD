@@ -1,23 +1,51 @@
-from functools import partial
-
-from constants import CHECKBOX_STYLE, SETTINGS_LIST
+from constants import SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QComboBox,
-    QDoubleSpinBox,
-    QHeaderView,
-    QLayout,
-    QLineEdit,
-    QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtCore import QAbstractTableModel, Qt, Signal
+from PySide6.QtGui import QStandardItem, QStandardItemModel
+from PySide6.QtWidgets import QHeaderView, QLayout, QTableView, QVBoxLayout, QWidget
+
+
+class SettingsTableModel(QAbstractTableModel):
+    def __init__(self, settings_list, parent=None):
+        super().__init__(parent)
+        self.settings_list = settings_list
+
+    def rowCount(self):
+        return len(self.settings_list)
+
+    def columnCount(self):
+        return 2
+
+    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
+        if role == Qt.ItemDataRole.DisplayRole:
+            setting = self.settings_list[index.row()]
+            if index.column() == 0:
+                return setting[0]
+            elif index.column() == 1:
+                return setting[1]
+        return None
+
+    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
+        if role == Qt.ItemDataRole.EditRole:
+            setting = self.settings_list[index.row()]
+            if index.column() == 1:
+                setting[1] = value  # Update setting value
+                self.dataChanged.emit(index, index, [Qt.ItemDataRole.DisplayRole])
+                return True
+        return False
+
+    def flags(self, index):
+        flags = super().flags(index)
+        if index.column() == 1:
+            flags |= Qt.ItemFlag.ItemIsEditable
+        return flags
+
+
+class MergingTableView(QTableView):
+    def setSpan(self, row, column, rowSpan, columnSpan):
+        if rowSpan == 1:
+            super().setSpan(row, column, rowSpan, columnSpan)
 
 
 class SettingsListWidget(QWidget):
@@ -43,157 +71,56 @@ class SettingsListWidget(QWidget):
         """
         self.layout: QLayout = QVBoxLayout(self)
 
-        # Create the table widget and set its properties
-        self.table_widget = QTableWidget()
-        self.table_widget.setColumnCount(2)
-        self.table_widget.setHorizontalHeaderLabels(["Setting", "Value"])
-        self.table_widget.horizontalHeader().setSectionResizeMode(
+        # Create the merging table view and set its properties
+        self.table_view = MergingTableView()
+        self.table_view.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeMode.Stretch
         )
-        self.table_widget.horizontalHeader().setStretchLastSection(True)
+        self.table_view.horizontalHeader().setStretchLastSection(True)
 
-        # Add the table widget to the layout
-        self.layout.addWidget(self.table_widget)
+        # Add the table view to the layout
+        self.layout.addWidget(self.table_view)
 
-        # Initialize the setting widgets dictionary
-        self.setting_widgets = {}
+        # Initialize the setting model
+        self.setting_model = QStandardItemModel(self)
+        self.table_view.setModel(self.setting_model)
 
         # Setup the settings
         self.setup_settings()
-        self.set_row_height()
-
-    def set_column_width(self):
-        """
-        Set the column width of the table widget.
-        """
-        table_width = self.table_widget.viewport().size().width()
-        total_width = self.table_widget.horizontalHeader().length()
-
-        if total_width > 0:
-            stretch_factor = table_width / total_width
-        else:
-            stretch_factor = 1
-
-        self.table_widget.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch
-        )
-        self.table_widget.horizontalHeader().setStretchLastSection(True)
-        self.table_widget.horizontalHeader().setDefaultSectionSize(
-            int(stretch_factor * 100)
-        )
-
-    def get_total_columns_width(self):
-        """
-        Get the total columns width.
-        """
-        total_width = 0
-        for col in range(self.table_widget.columnCount()):
-            total_width += self.table_widget.columnWidth(col)
-        return total_width
-
-    def set_row_height(self):
-        """
-        Set the row heights.
-        """
-        max_height = 0
-        for row in range(self.table_widget.rowCount()):
-            row_height = 0
-            for col in range(self.table_widget.columnCount()):
-                item = self.table_widget.item(row, col)
-                if item is not None:
-                    item_height = item.sizeHint().height()
-                    row_height = max(row_height, item_height)
-
-                widget = self.table_widget.cellWidget(row, col)
-                if widget is not None:
-                    widget_height = widget.sizeHint().height()
-                    row_height = max(row_height, widget_height)
-
-            max_height = max(max_height, row_height)
-
-        for row in range(self.table_widget.rowCount()):
-            self.table_widget.setRowHeight(row, max_height)
-
-    def add_setting(self, *args):
-        """
-        Add a setting to the settings list widget.
-        """
-        row_count = self.table_widget.rowCount()
-        self.table_widget.insertRow(row_count)
-
-        setting_name = args[0]
-        setting_type = args[1]
-        options = args[2] if len(args) > 2 else []
-
-        setting_item = QTableWidgetItem(setting_name)
-        setting_item.setFlags(setting_item.flags() ^ ~Qt.ItemFlag.ItemIsEnabled)
-        self.table_widget.setItem(row_count, 0, setting_item)
-
-        if setting_type == "checkbox":
-            checkbox_widget = QCheckBox()
-            checkbox_widget.setStyleSheet(CHECKBOX_STYLE)
-            checkbox_widget.stateChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-            self.table_widget.setCellWidget(row_count, 1, checkbox_widget)
-            self.setting_widgets[setting_name] = checkbox_widget
-
-        elif setting_type == "dropdown":
-            value_widget = QComboBox()
-            value_widget.addItems(options)
-            value_widget.setCurrentText(args[3] if len(args) > 3 else "")
-            value_widget.currentTextChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-            self.table_widget.setCellWidget(row_count, 1, value_widget)
-            self.setting_widgets[setting_name] = value_widget
-
-        elif setting_type == "input_text":
-            value_widget = QLineEdit()
-            value_widget.setText(args[3] if len(args) > 3 else "")
-            value_widget.textChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-            self.table_widget.setCellWidget(row_count, 1, value_widget)
-            self.setting_widgets[setting_name] = value_widget
-
-        elif setting_type == "input_int":
-            value_widget = QDoubleSpinBox()
-            value_widget.setValue(int(args[3]) if len(args) > 3 else 0)
-            value_widget.valueChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-            self.table_widget.setCellWidget(row_count, 1, value_widget)
-            self.setting_widgets[setting_name] = value_widget
-
-        elif setting_type == "button":
-            if len(options) > 0:
-                button_widget = QPushButton(options[0])
-                button_widget.clicked.connect(
-                    partial(self.setting_button_clicked, setting_name)
-                )
-                self.table_widget.setCellWidget(row_count, 1, button_widget)
-                self.setting_widgets[setting_name] = button_widget
-
-    def setting_button_clicked(self, setting_name):
-        """
-        Handle the setting button click.
-        """
-        print("Setting button clicked:", setting_name)
 
     def setup_settings(self):
         """
         Setup the settings based on the SETTINGS_LIST constant.
         """
+        self.setting_model.clear()
+
         for setting_group in SETTINGS_LIST:
             group_label = setting_group["group"]
-            group_item = QTableWidgetItem(group_label)
-            group_item.setFlags(group_item.flags() ^ ~Qt.ItemFlag.ItemIsEnabled)
-            self.table_widget.insertRow(self.table_widget.rowCount())
-            self.table_widget.setItem(self.table_widget.rowCount() - 1, 0, group_item)
+            group_item = QStandardItem(group_label)
+            group_item.setEnabled(False)
+            self.setting_model.appendRow(group_item)
+            self.table_view.setSpan(
+                self.setting_model.rowCount() - 1,
+                0,
+                1,
+                self.setting_model.columnCount(),
+            )
 
             for setting in setting_group["settings"]:
-                self.add_setting(*setting)
+                setting_name = setting[0]
+                setting_item = QStandardItem(setting_name)
+                setting_item.setEnabled(False)
+                value_item = QStandardItem("")  # Create an empty value item
+                self.setting_model.appendRow(
+                    [setting_item, value_item]
+                )  # Use value_item instead of None
+
+                setting_value = setting[1]
+                if setting_value is not None:
+                    value_item = QStandardItem(setting_value)
+                    self.setting_model.setItem(
+                        self.setting_model.rowCount() - 1, 1, value_item
+                    )
 
     def save_setting_changes(self, setting_name, *args):
         """

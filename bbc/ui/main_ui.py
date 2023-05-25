@@ -73,7 +73,9 @@ class MainUI(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Calculate the desired width of the main window
+        # FIXME: Cannot access member "get_total_columns_width" for type "SettingsListWidget" Member "get_total_columns_width" is unknown
         total_columns_width = settings_widget.get_total_columns_width()
+        # FIXME: Cannot access member "table_widget" for type "SettingsListWidget" Member "table_widget" is unknown
         total_columns_width += main_ui_layout.horizontalSpacing() * (
             settings_widget.table_widget.columnCount() - 1
         )
