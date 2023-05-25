@@ -157,12 +157,13 @@ class SettingsListWidget(QWidget):
             self.setting_widgets[setting_name] = value_widget
 
         elif setting_type == "button":
-            button_widget = QPushButton(args[2][0])
-            button_widget.clicked.connect(
-                partial(self.setting_button_clicked, setting_name)
-            )
-            self.table_widget.setCellWidget(row_count, 1, button_widget)
-            self.setting_widgets[setting_name] = button_widget
+            if len(options) > 0:
+                button_widget = QPushButton(options[0])
+                button_widget.clicked.connect(
+                    partial(self.setting_button_clicked, setting_name)
+                )
+                self.table_widget.setCellWidget(row_count, 1, button_widget)
+                self.setting_widgets[setting_name] = button_widget
 
     def setting_button_clicked(self, setting_name):
         """
