@@ -157,7 +157,7 @@ class SettingsListWidget(QWidget):
             self.setting_widgets[setting_name] = value_widget
 
         elif setting_type == "button":
-            button_widget = QPushButton(args[2])
+            button_widget = QPushButton(args[2][0])
             button_widget.clicked.connect(
                 partial(self.setting_button_clicked, setting_name)
             )
