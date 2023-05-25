@@ -9,14 +9,13 @@ class SettingsDatabaseHandler(QObject):
         """
         Initialize the SettingsDatabaseHandler.
         """
-        self.db_name = SETTINGS_DATABASE_PATH
         self.connection = self.create_or_connect_db()
 
     def create_or_connect_db(self):
         """
         Create or connect to the database.
         """
-        connection = sqlite3.connect(self.db_name)
+        connection = sqlite3.connect(SETTINGS_DATABASE_PATH)
         cursor = connection.cursor()
 
         cursor.execute(
@@ -26,6 +25,14 @@ class SettingsDatabaseHandler(QObject):
         connection.commit()
 
         return connection
+
+    def execute_db_query(self, query, *params):
+        """
+        Execute a query on the database with optional parameters.
+        """
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        self.connection.commit()
 
     def get_db_settings(self):
         """
@@ -47,22 +54,23 @@ class SettingsDatabaseHandler(QObject):
             print(DEBUG_NAME + "No changes detected. Skipping save operation.")
             return
 
-        cursor = self.connection.cursor()
-        cursor.execute("DELETE FROM settings")
+        self.execute_db_query("DELETE FROM settings")
 
         for name, value in settings.items():
-            cursor.execute(
+            self.execute_db_query(
                 "INSERT INTO settings (setting_name, setting_value) VALUES (?, ?)",
-                (name, value),
+                name,
+                value,
             )
 
-        self.connection.commit()
         print(DEBUG_NAME + "Changes saved successfully.")
 
     @Slot()
     def discard_db_settings(self):
-        cursor = self.connection.cursor()
-        cursor.execute("ROLLBACK")
+        """
+        Discard the settings from the database.
+        """
+        self.execute_db_query("ROLLBACK")
         print(DEBUG_NAME + "Changes discarded successfully.")
 
     def close_db_connection(self):
