@@ -16,6 +16,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+# FIXME: Table Header showing a int, instead of titles.
+# FIXME: in the Table row 1 is not getting merged what should happen since its a group header. Other group headers do merge across the columns. its just the first one that doesn't.
+
 
 class SettingsTableModel(QAbstractTableModel):
     def __init__(self, settings_list, parent=None):
@@ -29,7 +32,9 @@ class SettingsTableModel(QAbstractTableModel):
         """
         Return the number of rows.
         """
-        return len(self.settings_list)
+        return sum(len(group["settings"]) for group in self.settings_list) + len(
+            self.settings_list
+        )
 
     def columnCount(self, parent=None):
         """
@@ -41,12 +46,26 @@ class SettingsTableModel(QAbstractTableModel):
         """
         Return the data.
         """
-        if role == Qt.ItemDataRole.DisplayRole:
-            setting = self.settings_list[index.row()]
-            if index.column() == 0:
-                return setting[0]
-            elif index.column() == 1:
-                return setting[1]
+        if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
+            row = index.row()
+            column = index.column()
+
+            if row < len(self.settings_list):
+                if column == 0:
+                    return self.settings_list[row]["group"]
+            else:
+                row -= len(self.settings_list)
+                group_index = 0
+                while row >= len(self.settings_list[group_index]["settings"]):
+                    row -= len(self.settings_list[group_index]["settings"])
+                    group_index += 1
+
+                setting = self.settings_list[group_index]["settings"][row]
+                if column == 0:
+                    return setting[0]
+                elif column == 1:
+                    return setting[1]
+
         return None
 
     def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
@@ -54,11 +73,22 @@ class SettingsTableModel(QAbstractTableModel):
         Set the data.
         """
         if role == Qt.ItemDataRole.EditRole:
-            setting = self.settings_list[index.row()]
-            if index.column() == 1:
-                setting[1] = value
-                self.dataChanged.emit(index, index)
-                return True
+            row = index.row()
+            column = index.column()
+
+            if row >= len(self.settings_list):
+                row -= len(self.settings_list)
+                group_index = 0
+                while row >= len(self.settings_list[group_index]["settings"]):
+                    row -= len(self.settings_list[group_index]["settings"])
+                    group_index += 1
+
+                setting = self.settings_list[group_index]["settings"][row]
+                if column == 1:
+                    setting[1] = value
+                    self.dataChanged.emit(index, index)
+                    return True
+
         return False
 
     def flags(self, index):
@@ -137,11 +167,19 @@ class WidgetDelegate(QStyledItemDelegate):
 
 
 class MergingTableView(QTableView):
+    def __init__(self, parent=None):
+        """
+        Initialize the MergingTableView.
+        """
+        super().__init__(parent)
+        # FIXME: AttributeError: 'NoneType' object has no attribute 'columnCount'
+        self.setSpan(0, 0, 1, self.model().columnCount())
+
     def setSpan(self, row, column, rowSpan, columnSpan):
         """
         Set the span.
         """
-        if rowSpan == 1:
+        if rowSpan > 1:
             super().setSpan(row, column, rowSpan, columnSpan)
 
 
@@ -190,39 +228,20 @@ class SettingsListWidget(QWidget):
         """
         self.setting_model.clear()
 
-        header_font = QFont()
-        header_font.setBold(True)
-
         for setting_group in SETTINGS_LIST:
             group_label = setting_group["group"]
-            group_item = QStandardItem(group_label)
+            group_item = QStandardItem()
+            group_item.setData(group_label, Qt.ItemDataRole.DisplayRole)
             group_item.setEnabled(False)
-            group_item.setFont(header_font)
-            group_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.setting_model.appendRow(group_item)
-            self.table_view.setSpan(
-                self.setting_model.rowCount() - 1,
-                0,
-                1,
-                self.setting_model.columnCount(),
-            )
 
             for setting in setting_group["settings"]:
                 setting_name = setting[0]
                 setting_item = QStandardItem(setting_name)
                 setting_item.setEnabled(False)
-                value_item = QStandardItem("")
-                self.setting_model.appendRow([setting_item, value_item])
+                value_item = QStandardItem(setting[1])
                 value_item.setData(setting, Qt.ItemDataRole.UserRole + 1)
-
-                setting_value = setting[1]
-                if setting_value is not None:
-                    value_item = QStandardItem(setting_value)
-                    self.setting_model.setItem(
-                        self.setting_model.rowCount() - 1, 1, value_item
-                    )
-
-        self.table_view.resizeColumnsToContents()
+                self.setting_model.appendRow([setting_item, value_item])
 
     def get_total_columns_width(self):
         """
