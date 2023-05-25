@@ -8,7 +8,8 @@ from constants import (
 )
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Signal
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -124,11 +125,6 @@ class SettingsListWidget(QWidget):
 
         value_widget = None
 
-        # TODO: adjust the constants in the constants.py in such a way,
-        # so that i can group the parameters. ask me when u need that file so i can send it too.
-        # also add a title to the group header.
-        # also is it possible to color the background of that header?
-        # if yes, then can we give it a id so i can set the color in the .css files.
         if setting_type == "dropdown":
             value_widget = QComboBox()
             value_widget.addItems(options)
@@ -199,6 +195,19 @@ class SettingsListWidget(QWidget):
             [label.text() for label in header_items]
         )
 
+        groups = set([setting["group"] for setting in SETTINGS_LIST])
+
+        for setting_group in groups:
+            row_count = self.table_widget.rowCount()
+            self.table_widget.insertRow(row_count)
+
+            group_item = QTableWidgetItem(setting_group)
+            group_item.setBackground(QColor(255, 0, 0))
+            self.table_widget.setItem(row_count, 0, group_item)
+
+            self.table_widget.setSpan(row_count, 0, 1, len(HORIZONTAL_HEADER_LABELS))
+
+        # FIXME: ValueError: not enough values to unpack (expected 3, got 2)
         for setting in SETTINGS_LIST:
             setting_name, setting_type, options = setting
             self.add_setting(setting_name, setting_type, options)
