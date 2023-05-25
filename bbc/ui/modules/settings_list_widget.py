@@ -1,11 +1,12 @@
 from constants import (
     CHECKBOX_STYLE,
+    DEBUG_NAME,
     HORIZONTAL_HEADER_LABELS,
-    SETTINGS_DATABASE_PATH,
     SETTINGS_LIST,
 )
 from handlers.db_handler import SettingsDatabaseHandler
-from PySide6.QtCore import Qt, Signal
+from handlers.events_handler import EventsHandler
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -23,14 +24,20 @@ from PySide6.QtWidgets import (
 
 # TODO: Make checkbox be centered in the column.
 class SettingsListWidget(QWidget):
-    save_changes_signal = Signal()
+    save_changes_signal = Signal(dict)
     discard_changes_signal = Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, current_theme):
         """
         Initialize the SettingsListWidget.
         """
-        super().__init__(parent)
+        super().__init__()
+        self.db_handler = SettingsDatabaseHandler()
+
+        self.events_handler = EventsHandler(current_theme)
+        self.events_handler.save_changes_signal.connect(self.save_setting_changes)
+        self.events_handler.discard_changes_signal.connect(self.discard_setting_changes)
+
         self.init_settings_list_widget()
 
     def init_settings_list_widget(self):
@@ -40,8 +47,7 @@ class SettingsListWidget(QWidget):
         self.layout: QLayout = QVBoxLayout(self)
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
-        self.database = SettingsDatabaseHandler(SETTINGS_DATABASE_PATH)
-        self.database.create_db_table()
+
         self.setting_widgets = {}
 
         self.setup_settings()
@@ -122,24 +128,28 @@ class SettingsListWidget(QWidget):
             value_widget.addItems(options)
             value_widget.setCurrentText(args[3] if len(args) > 3 else "")
             value_widget.currentTextChanged.connect(
-                lambda text, param=setting_name: self.save_setting(param, text)
+                lambda text, param=setting_name: self.save_setting_changes(param, text)
             )
         elif setting_type == "input_text":
             value_widget = QLineEdit(args[3] if len(args) > 3 else "")
             value_widget.textChanged.connect(
-                lambda text, param=setting_name: self.save_setting(param, text)
+                lambda text, param=setting_name: self.save_setting_changes(param, text)
             )
         elif setting_type == "input_int":
             value_widget = QDoubleSpinBox()
             value_widget.setValue(float(args[3] if len(args) > 3 else 0))
             value_widget.valueChanged.connect(
-                lambda value, param=setting_name: self.save_setting(param, value)
+                lambda value, param=setting_name: self.save_setting_changes(
+                    param, value
+                )
             )
         elif setting_type == "checkbox":
             value_widget = QCheckBox()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.stateChanged.connect(
-                lambda state, param=setting_name: self.save_setting(param, bool(state))
+                lambda state, param=setting_name: self.save_setting_changes(
+                    param, bool(state)
+                )
             )
             value_widget.setStyleSheet(CHECKBOX_STYLE)
         # TODO: Fix button setting type and link it with the button_widget to handle the on click event.
@@ -147,29 +157,28 @@ class SettingsListWidget(QWidget):
             value_widget = QPushButton()
             value_widget.setChecked(args[3] if len(args) > 3 else False)
             value_widget.clicked.connect(
-                lambda _, param=setting_name: self.save_setting(param, _)
+                lambda _, param=setting_name: self.save_setting_changes(param, _)
             )
 
         if value_widget is not None:
             self.table_widget.setCellWidget(row_count, 1, value_widget)
             self.setting_widgets[setting_name] = value_widget
 
-    def save_setting(self, parameter, value):
-        """
-        Save a setting to the database.
-        """
-        self.setting_widgets[parameter] = value
+    def save_setting_changes(self, parameter, value):
+        sender_button = self.sender()
+        if isinstance(sender_button, QPushButton):
+            settings = {parameter: value}
+            self.db_handler.save_db_changes(settings)
+            print(
+                DEBUG_NAME
+                + f"Save button clicked for parameter: {parameter}, value: {value}"
+            )
 
-    def remove_setting(self, setting_name):
-        """
-        Remove a setting from the settings list widget.
-        """
-        items = self.table_widget.findItems(setting_name, Qt.MatchFlag.MatchExactly)
-        if items:
-            for item in items:
-                row = item.row()
-                self.table_widget.removeRow(row)
-                del self.setting_widgets[setting_name]
+    def discard_setting_changes(self):
+        sender_button = self.sender()
+        if isinstance(sender_button, QPushButton):
+            self.db_handler.discard_db_changes()
+            print(DEBUG_NAME + "Changes discarded!")
 
     def setup_settings(self):
         """
@@ -189,7 +198,7 @@ class SettingsListWidget(QWidget):
             setting_name, setting_type, options = setting
             self.add_setting(setting_name, setting_type, options)
 
-            for param, value in self.database.get_db_settings():
+            for param, value in self.db_handler.get_db_settings():
                 if param == setting_name:
                     widget = self.setting_widgets.get(setting_name)
                     if widget is not None:

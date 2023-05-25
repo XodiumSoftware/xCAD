@@ -1,119 +1,74 @@
-import os
 import sqlite3
 
-from constants import DEBUG_NAME
-from handlers.events_handler import EventsHandler
-from PySide6.QtCore import QObject, Signal, Slot
+from constants import DEBUG_NAME, SETTINGS_DATABASE_PATH
+from PySide6.QtCore import QObject, Slot
 
 
 class SettingsDatabaseHandler(QObject):
-    save_changes_signal = Signal()
-    discard_changes_signal = Signal()
-
-    def __init__(self, database_path):
+    def __init__(self):
         """
         Initialize the SettingsDatabaseHandler.
         """
-        super().__init__()
-        self.database_path = database_path
-        self.create_or_connect_db()
-        self.create_db_table()
-        self.pending_changes = []
-        self.save_changes_signal.connect(self.save_db_changes_slot)
-        self.discard_changes_signal.connect(self.discard_db_changes_slot)
-
-        self.events_handler = EventsHandler(self)
-
-        self.events_handler.save_changes_signal.connect(self.save_db_changes_slot)
-        self.events_handler.discard_changes_signal.connect(self.discard_db_changes_slot)
+        self.db_name = SETTINGS_DATABASE_PATH
+        self.connection = self.create_or_connect_db()
 
     def create_or_connect_db(self):
         """
         Create or connect to the database.
         """
-        if not os.path.exists(self.database_path):
-            self.conn = sqlite3.connect(self.database_path)
-            print(DEBUG_NAME + f"New database created at: {self.database_path}")
-        else:
-            self.conn = sqlite3.connect(self.database_path)
-            print(
-                DEBUG_NAME + f"Connected to existing database at: {self.database_path}"
-            )
+        connection = sqlite3.connect(self.db_name)
+        cursor = connection.cursor()
 
-    def create_db_table(self):
-        """
-        Create the database table.
-        """
-        query = """
-            CREATE TABLE IF NOT EXISTS settings (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                parameter TEXT UNIQUE,
-                value TEXT
-            )
-        """
-        self.conn.execute(query)
+        cursor.execute(
+            """CREATE TABLE IF NOT EXISTS settings
+                          (id INTEGER PRIMARY KEY, setting_name TEXT, setting_value TEXT)"""
+        )
+        connection.commit()
 
-    def insert_db_setting(self, parameter, value):
-        """
-        Insert a new setting into the database.
-        """
-        query = """
-            INSERT OR REPLACE INTO settings (parameter, value) VALUES (?, ?)
-        """
-        self.pending_changes.append((query, (parameter, str(value))))
-        self.save_changes_signal.emit()
-
-    def delete_db_setting(self, parameter):
-        """
-        Delete a setting from the database.
-        """
-        query = """
-            DELETE FROM settings WHERE parameter = ?
-        """
-        self.pending_changes.append((query, (parameter,)))
-        print(DEBUG_NAME + f"Discarded changes for parameter: {parameter}")
+        return connection
 
     def get_db_settings(self):
         """
-        Get all settings from the database.
+        Get the settings from the database.
         """
-        query = "SELECT parameter, value FROM settings"
-        cursor = self.conn.execute(query)
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT setting_name, setting_value FROM settings")
         settings = cursor.fetchall()
-        return settings
+        return dict(settings)
 
-    def save_db_changes(self):
+    def save_db_settings(self, settings):
         """
-        Save all changes to the database.
+        Save the settings to the database.
         """
-        for query, params in self.pending_changes:
-            self.conn.execute(query, params)
-        self.conn.commit()
-        for parameter, value in self.get_db_settings():
-            print(
-                DEBUG_NAME
-                + "Changes saved to the database: "
-                + f"- {parameter}: {value}"
+        current_settings = self.get_db_settings()
+
+        if settings == current_settings:
+            print(DEBUG_NAME + "No changes detected. Skipping save operation.")
+            return
+
+        cursor = self.connection.cursor()
+        cursor.execute("DELETE FROM settings")
+
+        for name, value in settings.items():
+            cursor.execute(
+                "INSERT INTO settings (setting_name, setting_value) VALUES (?, ?)",
+                (name, value),
             )
-        self.pending_changes = []  # Clear the list after saving
 
-    def close(self):
+        self.connection.commit()
+        print(DEBUG_NAME + "Settings saved successfully.")
+
+    def close_db_connection(self):
         """
         Close the database connection.
         """
-        self.conn.close()
+        self.connection.close()
+        print(DEBUG_NAME + "Connection closed.")
+
+    @Slot(dict)
+    def save_db_changes(self, settings):
+        pass
 
     @Slot()
-    def save_db_changes_slot(self):
-        """
-        Save all changes to the database.
-        """
-        self.save_changes_signal.emit()
-
-    @Slot()
-    def discard_db_changes_slot(self):
-        """
-        Discard all changes to the database.
-        """
-        self.pending_changes = []
-        print(DEBUG_NAME + "Discarded all changes")
+    def discard_db_changes(self, settings):
+        pass

@@ -9,6 +9,8 @@ from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
 
+# TODO: add startup screen.
+
 
 class MainUI(QMainWindow):
     toggle_theme_signal = Signal(int)
@@ -33,24 +35,16 @@ class MainUI(QMainWindow):
         Initialize the instances.
         """
         # Call functions here.
-        self.setCentralWidget(QWidget())
         self.init_main_ui()
         self._theme_handler.init_theme_handler(self)
         EventsHandler.quit_on_key_press_event(self)
-
-        self.init_connections()
-
-    def init_connections(self):
-        """
-        Initialize the connections.
-        """
-        self.toggle_theme_signal.connect(self._events_handler.on_button_clicked_event)
 
     def init_main_ui(self):
         """
         Initialize the main UI.
         """
         # Set up the main window
+        self.setCentralWidget(QWidget())
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
