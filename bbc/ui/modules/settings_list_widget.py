@@ -53,23 +53,22 @@ class SettingsListWidget(QWidget):
 
     def set_column_width(self):
         """
-        Set the column widths.
+        Set the column width of the table widget.
         """
-        total_width = self.get_total_columns_width()
-        table_width = self.table_widget.viewport().width()
-        if total_width < table_width:
+        table_width = self.table_widget.viewport().size().width()
+        total_width = self.table_widget.horizontalHeader().length()
+
+        if total_width > 0:
             stretch_factor = table_width / total_width
         else:
-            stretch_factor = 1.0
-
-        for col in range(self.table_widget.columnCount()):
-            content_width = self.table_widget.columnWidth(col)
-            minimum_width = self.table_widget.sizeHintForColumn(col)
-            desired_width = max(content_width, minimum_width * stretch_factor)
-            self.table_widget.setColumnWidth(col, int(desired_width))
+            stretch_factor = 1
 
         self.table_widget.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeMode.Stretch
+        )
+        self.table_widget.horizontalHeader().setStretchLastSection(True)
+        self.table_widget.horizontalHeader().setDefaultSectionSize(
+            int(stretch_factor * 100)
         )
 
     def get_total_columns_width(self):
