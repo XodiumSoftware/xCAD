@@ -122,6 +122,15 @@ class SettingsListWidget(QWidget):
                         self.setting_model.rowCount() - 1, 1, value_item
                     )
 
+    def get_total_columns_width(self):
+        """
+        Calculate the total width of all columns in the table view.
+        """
+        total_width = 0
+        for column in range(self.setting_model.columnCount()):
+            total_width += self.table_view.columnWidth(column)
+        return total_width
+
     def save_setting_changes(self, setting_name, *args):
         """
         Save the changes made to a setting.
