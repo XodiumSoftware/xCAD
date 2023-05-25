@@ -1,14 +1,9 @@
 from functools import partial
 
-from constants import (
-    CHECKBOX_STYLE,
-    DEBUG_NAME,
-    HORIZONTAL_HEADER_LABELS,
-    SETTINGS_LIST,
-)
+from constants import CHECKBOX_STYLE, SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -121,116 +116,84 @@ class SettingsListWidget(QWidget):
         options = args[2] if len(args) > 2 else []
 
         setting_item = QTableWidgetItem(setting_name)
+        setting_item.setFlags(setting_item.flags() ^ ~Qt.ItemFlag.ItemIsEnabled)
         self.table_widget.setItem(row_count, 0, setting_item)
 
-        value_widget = None
+        if setting_type == "checkbox":
+            checkbox_widget = QCheckBox()
+            checkbox_widget.setStyleSheet(CHECKBOX_STYLE)
+            checkbox_widget.stateChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+            self.table_widget.setCellWidget(row_count, 1, checkbox_widget)
+            self.setting_widgets[setting_name] = checkbox_widget
 
-        if setting_type == "dropdown":
+        elif setting_type == "dropdown":
             value_widget = QComboBox()
-            value_widget.addItems(options)
+            value_widget.addItems(options)  # Specify the type of options as List[str]
             value_widget.setCurrentText(args[3] if len(args) > 3 else "")
             value_widget.currentTextChanged.connect(
                 partial(self.save_setting_changes, setting_name)
             )
-        elif setting_type == "input_text":
-            value_widget = QLineEdit(args[3] if len(args) > 3 else "")
-            value_widget.textChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-        elif setting_type == "input_int":
-            value_widget = QDoubleSpinBox()
-            value_widget.setValue(float(args[3] if len(args) > 3 else 0))
-            value_widget.valueChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-        elif setting_type == "checkbox":
-            value_widget = QCheckBox()
-            value_widget.setChecked(args[3] if len(args) > 3 else False)
-            value_widget.stateChanged.connect(
-                partial(self.save_setting_changes, setting_name)
-            )
-            value_widget.setStyleSheet(CHECKBOX_STYLE)
-        elif setting_type == "button":
-            value_widget = QPushButton()
-            value_widget.setChecked(args[3] if len(args) > 3 else False)
-            value_widget.clicked.connect(
-                partial(self.handle_button_click, setting_name)
-            )
-
-        if value_widget is not None:
             self.table_widget.setCellWidget(row_count, 1, value_widget)
             self.setting_widgets[setting_name] = value_widget
 
-    # FIXME: TypeError: SettingsListWidget.handle_button_click() missing 1 required positional argument: 'state'
-    def handle_button_click(self, setting_name, state):
-        print(DEBUG_NAME + f"{setting_name} button clicked! State: {state}")
-
-    def save_setting_changes(self, parameter, value):
-        sender_button = self.sender()
-        if isinstance(sender_button, QPushButton):
-            settings = {parameter: value}
-            self.db_handler.save_db_settings(settings)
-            print(
-                DEBUG_NAME
-                + f"Save button clicked for parameter: {parameter}, value: {value}"
+        elif setting_type == "input_text":
+            value_widget = QLineEdit()
+            value_widget.setText(args[3] if len(args) > 3 else "")
+            value_widget.textChanged.connect(
+                partial(self.save_setting_changes, setting_name)
             )
+            self.table_widget.setCellWidget(row_count, 1, value_widget)
+            self.setting_widgets[setting_name] = value_widget
 
-    def discard_setting_changes(self):
-        sender_button = self.sender()
-        if isinstance(sender_button, QPushButton):
-            self.db_handler.discard_db_settings()
-            print(DEBUG_NAME + "Changes discarded!")
+        elif setting_type == "input_int":
+            value_widget = QDoubleSpinBox()
+            value_widget.setValue(int(args[3]) if len(args) > 3 else 0)
+            value_widget.valueChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+            self.table_widget.setCellWidget(row_count, 1, value_widget)
+            self.setting_widgets[setting_name] = value_widget
+
+        elif setting_type == "button":
+            button_widget = QPushButton(args[2])
+            button_widget.clicked.connect(
+                partial(self.setting_button_clicked, setting_name)
+            )
+            self.table_widget.setCellWidget(row_count, 1, button_widget)
+            self.setting_widgets[setting_name] = button_widget
+
+    def setting_button_clicked(self, setting_name):
+        """
+        Handle the setting button click.
+        """
+        print("Setting button clicked:", setting_name)
 
     def setup_settings(self):
         """
-        Setup the settings list widget.
+        Setup the settings based on the SETTINGS_LIST constant.
         """
-        self.table_widget.setColumnCount(len(HORIZONTAL_HEADER_LABELS))
+        for setting_group in SETTINGS_LIST:
+            group_label = setting_group["group"]
+            group_item = QTableWidgetItem(group_label)
+            group_item.setForeground(QColor("gray"))
+            group_item.setFlags(group_item.flags() ^ ~Qt.ItemFlag.ItemIsEnabled)
+            self.table_widget.insertRow(self.table_widget.rowCount())
+            self.table_widget.setItem(self.table_widget.rowCount() - 1, 0, group_item)
 
-        header_items = [
-            QTableWidgetItem(label) if label else QTableWidgetItem()
-            for label in HORIZONTAL_HEADER_LABELS
-        ]
-        self.table_widget.setHorizontalHeaderLabels(
-            [label.text() for label in header_items]
-        )
+            for setting in setting_group["settings"]:
+                self.add_setting(*setting)
 
-        groups = set([setting["group"] for setting in SETTINGS_LIST])
+    def save_setting_changes(self, setting_name, *args):
+        """
+        Save the changes made to a setting.
+        """
+        setting_value = args[0] if args else None
+        self.save_changes_signal.emit({setting_name: setting_value})
 
-        for setting_group in groups:
-            row_count = self.table_widget.rowCount()
-            self.table_widget.insertRow(row_count)
-
-            group_item = QTableWidgetItem(setting_group)
-            group_item.setBackground(QColor(255, 0, 0))
-            self.table_widget.setItem(row_count, 0, group_item)
-
-            self.table_widget.setSpan(row_count, 0, 1, len(HORIZONTAL_HEADER_LABELS))
-
-        # FIXME: ValueError: not enough values to unpack (expected 3, got 2)
-        for setting in SETTINGS_LIST:
-            setting_name, setting_type, options = setting
-            self.add_setting(setting_name, setting_type, options)
-
-            for param, value in self.db_handler.get_db_settings():
-                if param == setting_name:
-                    widget = self.setting_widgets.get(setting_name)
-                    if widget is not None:
-                        if setting_type == "dropdown":
-                            combo_box = widget
-                            combo_box.setCurrentText(value)
-                        elif setting_type == "input_text":
-                            line_edit = widget
-                            line_edit.setText(value)
-                        elif setting_type == "input_int":
-                            spin_box = widget
-                            spin_box.setValue(float(value))
-                        elif setting_type == "checkbox":
-                            check_box = widget
-                            check_box.setChecked(bool(value))
-                        elif setting_type == "button":
-                            button = widget
-                            button.setChecked(bool(value))
-                    break
-
-        self.table_widget.resizeRowsToContents()
+    def discard_setting_changes(self):
+        """
+        Discard the changes made to all settings.
+        """
+        self.discard_changes_signal.emit()
