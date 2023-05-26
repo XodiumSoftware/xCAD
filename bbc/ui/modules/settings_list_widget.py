@@ -2,7 +2,9 @@ from constants import SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QAbstractTableModel, Qt, Signal
+from PySide6.QtGui import QFont, QFontMetrics
 from PySide6.QtWidgets import (
+    QAbstractItemView,
     QCheckBox,
     QComboBox,
     QHeaderView,
@@ -15,13 +17,6 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-# FIXME: Table column headers displaying numbers instead of text.
-# FIXME: parameters not under correct groups.
-# FIXME: parameters grouping all listed on top instead of functioning as a grouping.
-# FIXME: grouping not spanning across columns. cells are not merged.
-# FIXME: grouping headers not bold.
-# FIXME: columns need to have a width of 100 (keep in mind this is not the minimum!).
-
 
 class SettingsTableModel(QAbstractTableModel):
     def __init__(self, settings_list, parent=None):
@@ -29,9 +24,7 @@ class SettingsTableModel(QAbstractTableModel):
         self.settings_list = settings_list
 
     def rowCount(self, parent=None):
-        return sum(len(group["settings"]) for group in self.settings_list) + len(
-            self.settings_list
-        )
+        return sum(len(group["settings"]) + 1 for group in self.settings_list)
 
     def columnCount(self, parent=None):
         return 2
@@ -43,7 +36,7 @@ class SettingsTableModel(QAbstractTableModel):
 
             if row < len(self.settings_list):
                 if column == 0:
-                    return self.settings_list[row]["group"]
+                    return self.settings_list[row]["group"]["name"]
             else:
                 row -= len(self.settings_list)
                 group_index = 0
@@ -146,12 +139,57 @@ class MergingTableView(QTableView):
     def __init__(self, model, parent=None):
         super().__init__(parent)
         self.setModel(model)
-        if model:
-            self.setSpan(0, 0, 1, model.columnCount())
+        self.setSpan(0, 0, 1, model.columnCount())
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.horizontalHeader().setStretchLastSection(True)
+        self.verticalHeader().setVisible(False)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.setShowGrid(False)
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
+
+        self.setStyleSheet(
+            "QTableView::item:selected { background-color: transparent; }"
+        )
 
     def setSpan(self, row, column, rowSpan, columnSpan):
         if rowSpan > 1:
             super().setSpan(row, column, rowSpan, columnSpan)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.updateHeaderFont()
+
+    def updateHeaderFont(self):
+        header = self.horizontalHeader()
+        font = header.font()
+        font_metrics = QFontMetrics(font)
+        max_group_width = 0
+
+        for group in SETTINGS_LIST:
+            group_name = group["group"]["name"]
+            group_width = font_metrics.width(group_name)
+            if group_width > max_group_width:
+                max_group_width = group_width
+
+        font.setBold(True)
+        header_font = QFontMetrics(font)
+
+        for section in range(header.count()):
+            logical_index = header.logicalIndex(section)
+            is_group_header = logical_index % 2 == 0
+            if is_group_header:
+                header.setSectionResizeMode(logical_index, QHeaderView.ResizeMode.Fixed)
+                header.setSectionResizeMode(
+                    logical_index + 1, QHeaderView.ResizeMode.Stretch
+                )
+                header.resizeSection(logical_index, max_group_width + 20)
+                header.setFont(logical_index, header_font.font())
+            else:
+                header.setSectionResizeMode(
+                    logical_index, QHeaderView.ResizeMode.Stretch
+                )
+                header.setDefaultSectionSize(header_font.height() + 10)
 
 
 class SettingsListWidget(QWidget):
@@ -174,21 +212,10 @@ class SettingsListWidget(QWidget):
         self.layout: QVBoxLayout = QVBoxLayout(self)
 
         self.table_view = MergingTableView(self.setting_model)
-        self.table_view.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch
-        )
-        self.table_view.horizontalHeader().setStretchLastSection(True)
-
         self.layout.addWidget(self.table_view)
 
         self.delegate = WidgetDelegate(self)
         self.table_view.setItemDelegateForColumn(1, self.delegate)
-
-    def get_total_columns_width(self):
-        total_width = 0
-        for column in range(self.setting_model.columnCount()):
-            total_width += self.table_view.columnWidth(column)
-        return total_width
 
     def save_setting_changes(self, setting_name, *args):
         setting_value = args[0] if args else None
@@ -196,3 +223,9 @@ class SettingsListWidget(QWidget):
 
     def discard_setting_changes(self):
         self.discard_changes_signal.emit()
+
+    def get_total_columns_width(self):
+        total_width = 0
+        for column in range(self.setting_model.columnCount()):
+            total_width += self.table_view.columnWidth(column)
+        return total_width
