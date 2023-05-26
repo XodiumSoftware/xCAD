@@ -29,7 +29,7 @@ UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # SettingsListWidget
-TABLE_HEADER_LABELS = ["Parameter", "Value"]
+COLUMN_HEADER_LABELS = ["Parameter", "Value"]
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
 SETTINGS_LIST = [
