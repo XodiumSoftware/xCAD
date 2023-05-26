@@ -1,12 +1,15 @@
-from constants import COLUMN_HEADER_LABELS
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QHeaderView,
     QLineEdit,
     QPushButton,
     QSpinBox,
+    QStyledItemDelegate,
     QTableView,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -18,6 +21,15 @@ class SettingsListWidget(QWidget):
         self.view = QTableView()
         self.view.setModel(self.model)
 
+        layout = QVBoxLayout()
+        layout.addWidget(self.view)
+        self.setLayout(layout)
+
+        header = self.view.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        header.setStretchLastSection(True)
+        header.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+
     def get_total_columns_width(self):
         total_width = 0
         for column in range(self.model.columnCount()):
@@ -25,7 +37,7 @@ class SettingsListWidget(QWidget):
                 column, Qt.Orientation.Horizontal, Qt.ItemDataRole.SizeHintRole
             )
             if header_data is not None:
-                total_width += len(header_data)
+                total_width += header_data.width()
         return total_width
 
 
@@ -74,12 +86,6 @@ class SettingsTableModel(QAbstractTableModel):
                     elif setting_type == "button":
                         return self.create_button_widget()
 
-        return None
-
-    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
-        if role == Qt.ItemDataRole.DisplayRole:
-            if orientation == Qt.Orientation.Horizontal:
-                return COLUMN_HEADER_LABELS[section]
         return None
 
     def get_setting_indices(self, row):
