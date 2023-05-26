@@ -15,6 +15,13 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+# FIXME: Table column headers displaying numbers instead of text.
+# FIXME: parameters not under correct groups.
+# FIXME: parameters grouping all listed on top instead of functioning as a grouping.
+# FIXME: grouping not spanning across columns. cells are not merged.
+# FIXME: grouping headers not bold.
+# FIXME: columns need to have a width of 100 (keep in mind this is not the minimum!).
+
 
 class SettingsTableModel(QAbstractTableModel):
     def __init__(self, settings_list, parent=None):

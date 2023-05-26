@@ -1,6 +1,5 @@
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
-from handlers.theme_handler import ThemeHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtGui import QIcon
