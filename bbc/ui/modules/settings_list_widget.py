@@ -1,10 +1,7 @@
-from constants import COLUMN_HEADER_LABELS
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
-    QHeaderView,
     QLineEdit,
     QPushButton,
     QSpinBox,
@@ -24,11 +21,6 @@ class SettingsListWidget(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(self.view)
         self.setLayout(layout)
-
-        header = self.view.horizontalHeader()
-        header.setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
-        header.setStretchLastSection(True)
-        header.setFont(QFont("Arial", 10, QFont.Weight.Bold))
 
     def get_total_columns_width(self):
         total_width = 0
@@ -51,13 +43,6 @@ class SettingsTableModel(QAbstractTableModel):
 
     def columnCount(self, parent=QModelIndex()):
         return 2
-
-    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
-        if role == Qt.ItemDataRole.DisplayRole:
-            if orientation == Qt.Orientation.Horizontal:
-                if section < len(COLUMN_HEADER_LABELS):
-                    return COLUMN_HEADER_LABELS[section]
-        return None
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():
@@ -95,34 +80,38 @@ class SettingsTableModel(QAbstractTableModel):
 
         return None
 
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
+                if section == 0:
+                    return "Parameter"
+                elif section == 1:
+                    return "Value"
+
+        return super().headerData(section, orientation, role)
+
     def get_setting_indices(self, row):
         count = 0
         for group_index, group in enumerate(self.settings_list):
             count += 1  # Group header
             if row < count:
                 return group_index, -1
-            count += len(group["settings"])  # Settings
+            count += len(group["settings"])
             if row < count:
                 return group_index, row - count + len(group["settings"])
         return -1, -1
 
     def create_dropdown_widget(self, options):
-        widget = QComboBox()
-        widget.addItems(options)
-        return widget
+        return QComboBox(options)
 
     def create_input_text_widget(self):
-        widget = QLineEdit()
-        return widget
+        return QLineEdit()
 
     def create_input_int_widget(self):
-        widget = QSpinBox()
-        return widget
+        return QSpinBox()
 
     def create_checkbox_widget(self):
-        widget = QCheckBox()
-        return widget
+        return QCheckBox()
 
     def create_button_widget(self):
-        widget = QPushButton("Button")
-        return widget
+        return QPushButton("Button")
