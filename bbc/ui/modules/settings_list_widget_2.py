@@ -16,6 +16,34 @@
 # TODO: every setting type has to emit a signal that i can use in another file to save the content.
 # TODO: Make it as modular, optimized and compact as possible.
 
+# SettingsListWidget
+COLUMN_HEADER_LABELS = ["Parameter", "Value"]
+DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
+DROPDOWN_LIST_SOUND = ["On", "Off"]
+SETTINGS_LIST = [
+    {
+        "group": {"name": "General"},
+        "settings": [
+            ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
+            ("Wrapping at Inserts", "input_text", []),
+            ("Wrapping at Ends", "input_int", []),
+        ],
+    },
+    {
+        "group": {"name": "Sound"},
+        "settings": [
+            ("Width", "dropdown", DROPDOWN_LIST_SOUND),
+            ("Function", "checkbox", []),
+        ],
+    },
+    {
+        "group": {"name": "Actions"},
+        "settings": [
+            ("Test", "button", []),
+        ],
+    },
+]
+
 
 class SettingsTableModel:
     pass
