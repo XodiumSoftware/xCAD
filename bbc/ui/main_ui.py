@@ -1,4 +1,4 @@
-from constants import UI_ICON_PATH, UI_TITLE
+from constants import SETTINGS_LIST, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Signal
@@ -46,7 +46,7 @@ class MainUI(QMainWindow):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
-        settings_widget = SettingsListWidget(self)
+        settings_widget = SettingsListWidget(SETTINGS_LIST)
         button_widget = ButtonWidget(
             self._events_handler, self._settings, self._current_theme
         )
@@ -68,7 +68,7 @@ class MainUI(QMainWindow):
 
         total_columns_width = settings_widget.get_total_columns_width()
         total_columns_width += main_ui_layout.horizontalSpacing() * (
-            settings_widget.setting_model.columnCount() - 1
+            settings_widget.model.columnCount() - 1
         )
         window_width = (
             total_columns_width
