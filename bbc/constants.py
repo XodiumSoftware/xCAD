@@ -29,6 +29,7 @@ UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # SettingsListWidget
+TABLE_HEADER_LABELS = ["Parameter", "Value"]
 DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
 SETTINGS_LIST = [
@@ -55,8 +56,6 @@ SETTINGS_LIST = [
     },
 ]
 
-
-HORIZONTAL_HEADER_LABELS = ["Parameter", "Value"]
 SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
 CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
 

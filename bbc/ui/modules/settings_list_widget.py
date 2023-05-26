@@ -163,16 +163,16 @@ class MergingTableView(QTableView):
     def updateHeaderFont(self):
         header = self.horizontalHeader()
         font = header.font()
+        font.setBold(True)
         font_metrics = QFontMetrics(font)
         max_group_width = 0
 
         for group in SETTINGS_LIST:
             group_name = group["group"]["name"]
-            group_width = font_metrics.width(group_name)
+            group_width = font_metrics.boundingRect(group_name).width()
             if group_width > max_group_width:
                 max_group_width = group_width
 
-        font.setBold(True)
         header_font = QFontMetrics(font)
 
         for section in range(header.count()):
@@ -184,7 +184,7 @@ class MergingTableView(QTableView):
                     logical_index + 1, QHeaderView.ResizeMode.Stretch
                 )
                 header.resizeSection(logical_index, max_group_width + 20)
-                header.setFont(logical_index, header_font.font())
+                header.setFont(font)
             else:
                 header.setSectionResizeMode(
                     logical_index, QHeaderView.ResizeMode.Stretch
