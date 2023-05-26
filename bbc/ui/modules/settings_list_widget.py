@@ -2,7 +2,7 @@ from constants import SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
 from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QAbstractTableModel, Qt, Signal
-from PySide6.QtGui import QFont, QFontMetrics
+from PySide6.QtGui import QFontMetrics
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
