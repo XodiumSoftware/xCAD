@@ -1,3 +1,4 @@
+from constants import COLUMN_HEADER_LABELS
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
@@ -7,7 +8,6 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QSpinBox,
-    QStyledItemDelegate,
     QTableView,
     QVBoxLayout,
     QWidget,
@@ -51,6 +51,13 @@ class SettingsTableModel(QAbstractTableModel):
 
     def columnCount(self, parent=QModelIndex()):
         return 2
+
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
+                if section < len(COLUMN_HEADER_LABELS):
+                    return COLUMN_HEADER_LABELS[section]
+        return None
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():
