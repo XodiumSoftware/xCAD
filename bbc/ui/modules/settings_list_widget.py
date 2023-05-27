@@ -1,117 +1,220 @@
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
+from functools import partial
+
+from constants import CHECKBOX_STYLE, COLUMN_HEADER_LABELS, DEBUG_NAME, SETTINGS_LIST
+from handlers.db_handler import SettingsDatabaseHandler
+from handlers.events_handler import EventsHandler
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QDoubleSpinBox,
+    QHeaderView,
+    QLayout,
     QLineEdit,
     QPushButton,
-    QSpinBox,
-    QTableView,
+    QTableWidget,
+    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
 
 class SettingsListWidget(QWidget):
-    def __init__(self, settings_list, parent=None):
-        super().__init__(parent)
-        self.model = SettingsTableModel(settings_list)
-        self.view = QTableView()
-        self.view.setModel(self.model)
+    save_changes_signal = Signal(dict)
+    discard_changes_signal = Signal()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.view)
-        self.setLayout(layout)
+    def __init__(self, current_theme):
+        """
+        Initialize the SettingsListWidget.
+        """
+        super().__init__()
+        self.db_handler = SettingsDatabaseHandler()
+
+        self.events_handler = EventsHandler(current_theme)
+        self.events_handler.save_changes_signal.connect(self.save_setting_changes)
+        self.events_handler.discard_changes_signal.connect(self.discard_setting_changes)
+
+        self.init_settings_list_widget()
+
+    def init_settings_list_widget(self):
+        """
+        Initialize the settings list widget.
+        """
+        self.layout: QLayout = QVBoxLayout(self)
+        self.table_widget = QTableWidget()
+        self.layout.addWidget(self.table_widget)
+
+        self.setting_widgets = {}
+
+        self.setup_settings()
+        self.set_column_width()
+        self.set_row_height()
+
+    def set_column_width(self):
+        """
+        Set the column widths.
+        """
+        total_width = self.get_total_columns_width()
+        table_width = self.table_widget.viewport().width()
+        if total_width < table_width:
+            stretch_factor = table_width / total_width
+        else:
+            stretch_factor = 1.0
+
+        for col in range(self.table_widget.columnCount()):
+            content_width = self.table_widget.columnWidth(col)
+            minimum_width = self.table_widget.sizeHintForColumn(col)
+            desired_width = max(content_width, minimum_width * stretch_factor)
+            self.table_widget.setColumnWidth(col, int(desired_width))
+
+        self.table_widget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
 
     def get_total_columns_width(self):
+        """
+        Get the total columns width.
+        """
         total_width = 0
-        for column in range(self.model.columnCount()):
-            header_data = self.model.headerData(
-                column, Qt.Orientation.Horizontal, Qt.ItemDataRole.SizeHintRole
-            )
-            if header_data is not None:
-                total_width += header_data.width()
+        for col in range(self.table_widget.columnCount()):
+            total_width += self.table_widget.columnWidth(col)
         return total_width
 
+    def set_row_height(self):
+        """
+        Set the row heights.
+        """
+        max_height = 0
+        for row in range(self.table_widget.rowCount()):
+            row_height = 0
+            for col in range(self.table_widget.columnCount()):
+                item = self.table_widget.item(row, col)
+                if item is not None:
+                    item_height = item.sizeHint().height()
+                    row_height = max(row_height, item_height)
 
-class SettingsTableModel(QAbstractTableModel):
-    def __init__(self, settings_list):
-        super().__init__()
-        self.settings_list = settings_list
+                widget = self.table_widget.cellWidget(row, col)
+                if widget is not None:
+                    widget_height = widget.sizeHint().height()
+                    row_height = max(row_height, widget_height)
 
-    def rowCount(self, parent=QModelIndex()):
-        return sum(len(group["settings"]) + 1 for group in self.settings_list)
+            max_height = max(max_height, row_height)
 
-    def columnCount(self, parent=QModelIndex()):
-        return 2
+        for row in range(self.table_widget.rowCount()):
+            self.table_widget.setRowHeight(row, max_height)
 
-    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
-        if not index.isValid():
-            return None
+    def add_setting(self, *args):
+        """
+        Add a setting to the settings list widget.
+        """
+        row_count = self.table_widget.rowCount()
+        self.table_widget.insertRow(row_count)
 
-        row = index.row()
-        col = index.column()
-        group_index, setting_index = self.get_setting_indices(row)
+        setting_name = args[0]
+        setting_type = args[1]
+        options = args[2] if len(args) > 2 else []
 
-        if role == Qt.ItemDataRole.DisplayRole:
-            if col == 0:
-                if setting_index == -1:
-                    return self.settings_list[group_index]["group"]["name"]
-                else:
-                    return self.settings_list[group_index]["settings"][setting_index][0]
-            elif col == 1:
-                if setting_index != -1:
-                    setting_type = self.settings_list[group_index]["settings"][
-                        setting_index
-                    ][1]
-                    if setting_type == "dropdown":
-                        return self.create_dropdown_widget(
-                            self.settings_list[group_index]["settings"][setting_index][
-                                2
-                            ]
-                        )
-                    elif setting_type == "input_text":
-                        return self.create_input_text_widget()
-                    elif setting_type == "input_int":
-                        return self.create_input_int_widget()
-                    elif setting_type == "checkbox":
-                        return self.create_checkbox_widget()
-                    elif setting_type == "button":
-                        return self.create_button_widget()
+        setting_item = QTableWidgetItem(setting_name)
+        self.table_widget.setItem(row_count, 0, setting_item)
 
-        return None
+        value_widget = None
 
-    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
-        if role == Qt.ItemDataRole.DisplayRole:
-            if orientation == Qt.Orientation.Horizontal:
-                if section == 0:
-                    return "Parameter"
-                elif section == 1:
-                    return "Value"
+        if setting_type == "dropdown":
+            value_widget = QComboBox()
+            value_widget.addItems(options)
+            value_widget.setCurrentText(args[3] if len(args) > 3 else "")
+            value_widget.currentTextChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+        elif setting_type == "input_text":
+            value_widget = QLineEdit(args[3] if len(args) > 3 else "")
+            value_widget.textChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+        elif setting_type == "input_int":
+            value_widget = QDoubleSpinBox()
+            value_widget.setValue(float(args[3] if len(args) > 3 else 0))
+            value_widget.valueChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+        elif setting_type == "checkbox":
+            value_widget = QCheckBox()
+            value_widget.setChecked(args[3] if len(args) > 3 else False)
+            value_widget.stateChanged.connect(
+                partial(self.save_setting_changes, setting_name)
+            )
+            value_widget.setStyleSheet(CHECKBOX_STYLE)
+        elif setting_type == "button":
+            value_widget = QPushButton()
+            value_widget.setChecked(args[3] if len(args) > 3 else False)
+            value_widget.clicked.connect(
+                partial(self.handle_button_click, setting_name)
+            )
 
-        return super().headerData(section, orientation, role)
+        if value_widget is not None:
+            self.table_widget.setCellWidget(row_count, 1, value_widget)
+            self.setting_widgets[setting_name] = value_widget
 
-    def get_setting_indices(self, row):
-        count = 0
-        for group_index, group in enumerate(self.settings_list):
-            count += 1  # Group header
-            if row < count:
-                return group_index, -1
-            count += len(group["settings"])
-            if row < count:
-                return group_index, row - count + len(group["settings"])
-        return -1, -1
+    def handle_button_click(self, setting_name, state):
+        print(DEBUG_NAME + f"{setting_name} button clicked! State: {state}")
 
-    def create_dropdown_widget(self, options):
-        return QComboBox(options)
+    def save_setting_changes(self, parameter, value):
+        sender_button = self.sender()
+        if isinstance(sender_button, QPushButton):
+            settings = {parameter: value}
+            self.db_handler.save_db_settings(settings)
+            print(
+                DEBUG_NAME
+                + f"Save button clicked for parameter: {parameter}, value: {value}"
+            )
 
-    def create_input_text_widget(self):
-        return QLineEdit()
+    def discard_setting_changes(self):
+        sender_button = self.sender()
+        if isinstance(sender_button, QPushButton):
+            self.db_handler.discard_db_settings()
+            print(DEBUG_NAME + "Changes discarded!")
 
-    def create_input_int_widget(self):
-        return QSpinBox()
+    def setup_settings(self):
+        """
+        Setup the settings list widget.
+        """
+        self.table_widget.setColumnCount(len(COLUMN_HEADER_LABELS))
 
-    def create_checkbox_widget(self):
-        return QCheckBox()
+        header_items = [
+            QTableWidgetItem(label) if label else QTableWidgetItem()
+            for label in COLUMN_HEADER_LABELS
+        ]
+        self.table_widget.setHorizontalHeaderLabels(
+            [label.text() for label in header_items]
+        )
 
-    def create_button_widget(self):
-        return QPushButton("Button")
+        for group in SETTINGS_LIST:
+            group_name = group["group"]
+            group_settings = group["settings"]
+
+            for setting in group_settings:
+                setting_name, setting_type, options = setting
+                self.add_setting(group_name, setting_name, setting_type, options)
+
+                for param, value in self.db_handler.get_db_settings():
+                    if param == setting_name:
+                        widget = self.setting_widgets.get(setting_name)
+                        if widget is not None:
+                            if setting_type == "dropdown":
+                                combo_box = widget
+                                combo_box.setCurrentText(value)
+                            elif setting_type == "input_text":
+                                line_edit = widget
+                                line_edit.setText(value)
+                            elif setting_type == "input_int":
+                                spin_box = widget
+                                spin_box.setValue(float(value))
+                            elif setting_type == "checkbox":
+                                check_box = widget
+                                check_box.setChecked(bool(value))
+                            elif setting_type == "button":
+                                button = widget
+                                button.setChecked(bool(value))
+                        break
+
+        self.table_widget.resizeRowsToContents()

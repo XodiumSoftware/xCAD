@@ -34,7 +34,7 @@ DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
 DROPDOWN_LIST_SOUND = ["On", "Off"]
 SETTINGS_LIST = [
     {
-        "group": {"name": "General"},
+        "group": "General",
         "settings": [
             ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
             ("Wrapping at Inserts", "input_text", []),
@@ -42,14 +42,14 @@ SETTINGS_LIST = [
         ],
     },
     {
-        "group": {"name": "Sound"},
+        "group": "Sound",
         "settings": [
             ("Width", "dropdown", DROPDOWN_LIST_SOUND),
             ("Function", "checkbox", []),
         ],
     },
     {
-        "group": {"name": "Actions"},
+        "group": "Actions",
         "settings": [
             ("Test", "button", []),
         ],

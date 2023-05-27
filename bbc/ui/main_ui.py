@@ -68,7 +68,7 @@ class MainUI(QMainWindow):
 
         total_columns_width = settings_widget.get_total_columns_width()
         total_columns_width += main_ui_layout.horizontalSpacing() * (
-            settings_widget.model.columnCount() - 1
+            settings_widget.get_total_columns_width() - 1
         )
         window_width = (
             total_columns_width
