@@ -4,6 +4,7 @@ from constants import CHECKBOX_STYLE, COLUMN_HEADER_LABELS, DEBUG_NAME, SETTINGS
 from handlers.db_handler import SettingsDatabaseHandler
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
+    QAbstractScrollArea,
     QCheckBox,
     QComboBox,
     QDoubleSpinBox,
@@ -39,11 +40,17 @@ class SettingsListWidget(QWidget):
         self.table_widget = QTableWidget()
         self.layout.addWidget(self.table_widget)
 
+        self.table_widget.setSizeAdjustPolicy(
+            QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents
+        )
+
         self.setting_widgets = {}
 
         self.setup_settings()
         self.set_column_width()
         self.set_row_height()
+
+        print("Initializing settings list widget")
 
     def set_column_width(self):
         """
@@ -109,6 +116,9 @@ class SettingsListWidget(QWidget):
         setting_type = args[1]
         options = args[2] if len(args) > 2 else []
 
+        print("Adding setting:", setting_name)
+        print("Setting type:", setting_type)
+
         setting_item = QTableWidgetItem(setting_name)
         self.table_widget.setItem(row_count, 0, setting_item)
 
@@ -173,6 +183,7 @@ class SettingsListWidget(QWidget):
         """
         Setup the settings list widget.
         """
+        print(SETTINGS_LIST)
         self.table_widget.setColumnCount(len(COLUMN_HEADER_LABELS))
 
         header_items = [
@@ -191,7 +202,11 @@ class SettingsListWidget(QWidget):
                 setting_name, setting_type, options = setting
                 self.add_setting(group_name, setting_name, setting_type, options)
 
-                for param, value in self.db_handler.get_db_settings():
+        for param, value in self.db_handler.get_db_settings():
+            for setting in SETTINGS_LIST:
+                group_settings = setting["settings"]
+                for setting in group_settings:
+                    setting_name, setting_type, _ = setting
                     if param == setting_name:
                         widget = self.setting_widgets.get(setting_name)
                         if widget is not None:

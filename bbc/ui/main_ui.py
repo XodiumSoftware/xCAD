@@ -45,6 +45,8 @@ class MainUI(QMainWindow):
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
         settings_widget = SettingsListWidget()
+        settings_widget.setStyleSheet("background-color: red;")
+
         button_widget = ButtonWidget(
             self._events_handler, self._settings, self._current_theme
         )
@@ -74,6 +76,6 @@ class MainUI(QMainWindow):
             + main_ui_layout.contentsMargins().right()
         )
 
-        self.resize(window_width, self.height())
+        self.resize(window_width + 200, self.height() + 200)  # Increase the window size
 
         self._ui_handler.center_ui_on_screen_handler(self)
