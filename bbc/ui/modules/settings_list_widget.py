@@ -2,7 +2,6 @@ from functools import partial
 
 from constants import CHECKBOX_STYLE, COLUMN_HEADER_LABELS, DEBUG_NAME, SETTINGS_LIST
 from handlers.db_handler import SettingsDatabaseHandler
-from handlers.events_handler import EventsHandler
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -23,16 +22,12 @@ class SettingsListWidget(QWidget):
     save_changes_signal = Signal(dict)
     discard_changes_signal = Signal()
 
-    def __init__(self, current_theme):
+    def __init__(self):
         """
         Initialize the SettingsListWidget.
         """
         super().__init__()
         self.db_handler = SettingsDatabaseHandler()
-
-        self.events_handler = EventsHandler(current_theme)
-        self.events_handler.save_changes_signal.connect(self.save_setting_changes)
-        self.events_handler.discard_changes_signal.connect(self.discard_setting_changes)
 
         self.init_settings_list_widget()
 

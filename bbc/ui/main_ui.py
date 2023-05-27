@@ -22,8 +22,6 @@ class MainUI(QMainWindow):
 
         self._settings = QSettings("Qerimi_Engineering", "AutoFrameCAD")
         self._current_theme = None
-        # self._theme_handler = ThemeHandler(self._settings, self._current_theme)
-        # self._current_theme = self._theme_handler.get_current_theme()
         self._ui_handler = UIHandler()
         self._events_handler = EventsHandler(self._current_theme)
 
@@ -46,7 +44,7 @@ class MainUI(QMainWindow):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
-        settings_widget = SettingsListWidget(SETTINGS_LIST)
+        settings_widget = SettingsListWidget()
         button_widget = ButtonWidget(
             self._events_handler, self._settings, self._current_theme
         )

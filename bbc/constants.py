@@ -1,7 +1,6 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
 
 # General
 WINREG_THEME_KEY = os.path.join(
@@ -42,10 +41,10 @@ SETTINGS_LIST = [
         ],
     },
     {
-        "group": "Sound",
+        "group": "Dimensions",
         "settings": [
             ("Width", "dropdown", DROPDOWN_LIST_SOUND),
-            ("Function", "checkbox", None),
+            ("Length", "checkbox", None),
         ],
     },
     {
