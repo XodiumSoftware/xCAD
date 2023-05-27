@@ -37,21 +37,21 @@ SETTINGS_LIST = [
         "group": "General",
         "settings": [
             ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
-            ("Wrapping at Inserts", "input_text", []),
-            ("Wrapping at Ends", "input_int", []),
+            ("Wrapping at Inserts", "input_text", None),
+            ("Wrapping at Ends", "input_int", None),
         ],
     },
     {
         "group": "Sound",
         "settings": [
             ("Width", "dropdown", DROPDOWN_LIST_SOUND),
-            ("Function", "checkbox", []),
+            ("Function", "checkbox", None),
         ],
     },
     {
         "group": "Actions",
         "settings": [
-            ("Test", "button", []),
+            ("Test", "button", None),
         ],
     },
 ]
