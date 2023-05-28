@@ -33,7 +33,6 @@ class MainUI(QMainWindow):
         """
         # Call functions here.
         self.init_main_ui()
-        # self._theme_handler.init_theme_handler(self)
         EventsHandler.quit_on_key_press_event(self)
 
     def init_main_ui(self):
@@ -45,7 +44,6 @@ class MainUI(QMainWindow):
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
         settings_widget = SettingsListWidget()
-        settings_widget.setStyleSheet("background-color: red;")
 
         button_widget = ButtonWidget(
             self._events_handler, self._settings, self._current_theme
@@ -65,17 +63,5 @@ class MainUI(QMainWindow):
         central_widget = QWidget()
         central_widget.setLayout(main_ui_layout)
         self.setCentralWidget(central_widget)
-
-        total_columns_width = settings_widget.get_total_columns_width()
-        total_columns_width += main_ui_layout.horizontalSpacing() * (
-            settings_widget.get_total_columns_width() - 1
-        )
-        window_width = (
-            total_columns_width
-            + main_ui_layout.contentsMargins().left()
-            + main_ui_layout.contentsMargins().right()
-        )
-
-        self.resize(window_width + 200, self.height() + 200)  # Increase the window size
 
         self._ui_handler.center_ui_on_screen_handler(self)
