@@ -16,6 +16,12 @@ COLUMN_HEADER = [
     },
 ]
 
+ROW_HEADER = [
+    {
+        "row_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
+    },
+]
+
 SETTINGS_LIST = [
     {
         "settings_list_group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
@@ -81,10 +87,14 @@ class SettingsListWidget(QWidget):
 
         H_header = self.table_widget.horizontalHeader()
         H_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        H_header.setFont(COLUMN_HEADER[0]["column_header_font"])
+        H_header_font = COLUMN_HEADER[0]["column_header_font"][0]
+        H_header_font.setBold(True)
+        H_header.setFont(H_header_font)
 
         V_header = self.table_widget.verticalHeader()
-        V_header.setFont(COLUMN_HEADER[0]["column_header_font"])
+        V_header_font = ROW_HEADER[0]["row_header_font"][0]
+        V_header_font.setBold(True)
+        V_header.setFont(V_header_font)
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.table_widget)
