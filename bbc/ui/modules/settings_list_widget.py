@@ -11,14 +11,14 @@ from PySide6.QtWidgets import (
 
 COLUMN_HEADER = [
     {
-        "column_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "column_header_labels": ["Name", "Age", "Country"],
+        "column_header_stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
+        "column_header_labels": ["Parameters", "Values"],
     },
 ]
 
 ROW_HEADER = [
     {
-        "row_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
+        "row_header_stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
     },
 ]
 
@@ -28,10 +28,10 @@ SETTINGS_LIST = [
         "settings_list_group_header_title": "Group 1",
         "settings_list_item_font": [QFont("Arial", 8)],
         "settings_list_items": [
-            ("John Doe", 30, "USA"),
-            ("Jane Smith", 25, "Canada"),
-            ("Bob Johnson", 45, "UK"),
-            ("Alice Brown", 35, "Australia"),
+            ("John Doe", 30),
+            ("Jane Smith", 25),
+            ("Bob Johnson", 45),
+            ("Alice Brown", 35),
         ],
     },
     {
@@ -39,10 +39,10 @@ SETTINGS_LIST = [
         "settings_list_group_header_title": "Group 2",
         "settings_list_item_font": [QFont("Arial", 8)],
         "settings_list_items": [
-            ("Michael Williams", 50, "Germany"),
-            ("Emma Johnson", 28, "France"),
-            ("William Davis", 42, "Spain"),
-            ("Olivia Taylor", 32, "Italy"),
+            ("Michael Williams", 50),
+            ("Emma Johnson", 28),
+            ("William Davis", 42),
+            ("Olivia Taylor", 32),
         ],
     },
     {
@@ -50,10 +50,10 @@ SETTINGS_LIST = [
         "settings_list_group_header_title": "Group 3",
         "settings_list_item_font": [QFont("Arial", 8)],
         "settings_list_items": [
-            ("James Wilson", 37, "Brazil"),
-            ("Sophia Martinez", 31, "Mexico"),
-            ("Daniel Anderson", 48, "Argentina"),
-            ("Mia Thomas", 29, "Chile"),
+            ("James Wilson", 37),
+            ("Sophia Martinez", 31),
+            ("Daniel Anderson", 48),
+            ("Mia Thomas", 29),
         ],
     },
 ]
@@ -68,8 +68,8 @@ class SettingsListWidget(QWidget):
         self.setup_table()
 
         self.populate_table()
+        self.setup_table_headers()
         self.setup_column_sorting()
-        self.set_cell_size()
 
     def setup_table(self):
         """
@@ -84,17 +84,7 @@ class SettingsListWidget(QWidget):
         self.table_widget.setSelectionBehavior(
             QAbstractItemView.SelectionBehavior.SelectRows
         )
-
-        H_header = self.table_widget.horizontalHeader()
-        H_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        H_header_font = COLUMN_HEADER[0]["column_header_font"][0]
-        H_header_font.setBold(True)
-        H_header.setFont(H_header_font)
-
-        V_header = self.table_widget.verticalHeader()
-        V_header_font = ROW_HEADER[0]["row_header_font"][0]
-        V_header_font.setBold(True)
-        V_header.setFont(V_header_font)
+        self.table_widget.setCornerButtonEnabled(True)
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.table_widget)
@@ -104,6 +94,7 @@ class SettingsListWidget(QWidget):
         Populate the table with data.
         """
         self.table_widget.clearContents()
+
         for group_data in SETTINGS_LIST:
             group_name = group_data["settings_list_group_header_title"]
             group_item = QTableWidgetItem(group_name)
@@ -114,24 +105,33 @@ class SettingsListWidget(QWidget):
             item_font = group_data["settings_list_item_font"]
 
             for item in group_data["settings_list_items"]:
-                name, age, country = item
                 self.table_widget.insertRow(self.table_widget.rowCount())
 
-                name_item = QTableWidgetItem(name)
-                name_item.setFont(item_font[0])
-                self.table_widget.setItem(
-                    self.table_widget.rowCount() - 1, 0, name_item
-                )
+                for column, value in enumerate(item):
+                    item_text = str(value)
+                    item_item = QTableWidgetItem(item_text)
+                    item_item.setFont(item_font[0])
+                    self.table_widget.setItem(
+                        self.table_widget.rowCount() - 1, column, item_item
+                    )
 
-                age_item = QTableWidgetItem(str(age))
-                age_item.setFont(item_font[0])
-                self.table_widget.setItem(self.table_widget.rowCount() - 1, 1, age_item)
+                    if column > 0:
+                        item_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
-                country_item = QTableWidgetItem(country)
-                country_item.setFont(item_font[0])
-                self.table_widget.setItem(
-                    self.table_widget.rowCount() - 1, 2, country_item
-                )
+    def setup_table_headers(self):
+        """
+        Setup the column headers.
+        """
+        H_header = self.table_widget.horizontalHeader()
+        H_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        H_header_stylesheet = COLUMN_HEADER[0].get("column_header_stylesheet")
+        if H_header_stylesheet:
+            H_header.setStyleSheet(H_header_stylesheet)
+
+        V_header = self.table_widget.verticalHeader()
+        V_header_stylesheet = ROW_HEADER[0].get("row_header_stylesheet")
+        if V_header_stylesheet:
+            V_header.setStyleSheet(V_header_stylesheet)
 
     def setup_column_sorting(self):
         """
@@ -139,14 +139,3 @@ class SettingsListWidget(QWidget):
         """
         self.table_widget.setSortingEnabled(True)
         self.table_widget.sortItems(0, Qt.SortOrder.AscendingOrder)
-
-    def set_cell_size(self):
-        """
-        Set the cell size.
-        """
-        table_width = self.table_widget.viewport().width()
-        column_count = self.table_widget.columnCount()
-        column_width = table_width // column_count
-
-        for column in range(column_count):
-            self.table_widget.setColumnWidth(column, column_width)
