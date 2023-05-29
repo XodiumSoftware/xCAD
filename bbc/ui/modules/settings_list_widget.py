@@ -56,14 +56,19 @@ SETTINGS_LIST = [
 class SettingsListWidget(QWidget):
     def __init__(self):
         super().__init__()
-
-        self.setup_table
+        """
+        Initialize the widget.
+        """
+        self.setup_table()
 
         self.populate_table()
         self.setup_column_sorting()
         self.set_cell_size()
 
     def setup_table(self):
+        """
+        Setup the table widget.
+        """
         self.table_widget = QTableWidget()
         self.table_widget.setColumnCount(len(COLUMN_HEADER[0]["column_header_labels"]))
         self.table_widget.setHorizontalHeaderLabels(
@@ -74,17 +79,21 @@ class SettingsListWidget(QWidget):
             QAbstractItemView.SelectionBehavior.SelectRows
         )
 
-        header = self.table_widget.horizontalHeader()
-        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        header_font = COLUMN_HEADER[0]["column_header_font"][0]
-        header.setFont(header_font)
+        H_header = self.table_widget.horizontalHeader()
+        H_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        H_header.setFont(COLUMN_HEADER[0]["column_header_font"])
+
+        V_header = self.table_widget.verticalHeader()
+        V_header.setFont(COLUMN_HEADER[0]["column_header_font"])
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.table_widget)
 
     def populate_table(self):
+        """
+        Populate the table with data.
+        """
         self.table_widget.clearContents()
-
         for group_data in SETTINGS_LIST:
             group_name = group_data["settings_list_group_header_title"]
             group_item = QTableWidgetItem(group_name)
@@ -115,10 +124,16 @@ class SettingsListWidget(QWidget):
                 )
 
     def setup_column_sorting(self):
+        """
+        Setup the column sorting.
+        """
         self.table_widget.setSortingEnabled(True)
         self.table_widget.sortItems(0, Qt.SortOrder.AscendingOrder)
 
     def set_cell_size(self):
+        """
+        Set the cell size.
+        """
         table_width = self.table_widget.viewport().width()
         column_count = self.table_widget.columnCount()
         column_width = table_width // column_count
