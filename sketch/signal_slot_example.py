@@ -1,5 +1,6 @@
 import sys
 
+from PySide6.QtCore import QObject, Signal
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton
 
 
@@ -8,11 +9,27 @@ class MyWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Signal-Slot Example")
 
-        self.button = QPushButton("Click me", self)
-        self.button.clicked.connect(self.button_clicked)
+        self.button = MyButton()
+        self.setCentralWidget(self.button)
+
+
+class MyButton(QPushButton):
+    def __init__(self):
+        super().__init__("Click me")
+        self.clicked.connect(self.button_clicked)
 
     def button_clicked(self):
-        print("Button clicked!")
+        signal = MySignal()
+        signal.emit_signal()
+        print("Button clicked")
+
+
+class MySignal(QObject):
+    my_signal = Signal()
+
+    def emit_signal(self):
+        self.my_signal.emit()
+        print("Signal emitted")
 
 
 if __name__ == "__main__":
