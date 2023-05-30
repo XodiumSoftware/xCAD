@@ -8,8 +8,6 @@ from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget
 
-# TODO: Add startup page.
-
 
 class MainUI(QMainWindow):
     toggle_theme_signal = Signal(int)
@@ -29,15 +27,14 @@ class MainUI(QMainWindow):
 
     def setup_instances(self):
         """
-        Initialize the instances.
+        Setup the instances.
         """
-        # Call functions here.
         self.setup_main_ui()
         EventsHandler.quit_on_key_press_event(self)
 
     def setup_main_ui(self):
         """
-        Initialize the main UI.
+        Setup the MainUI.
         """
         self.setCentralWidget(QWidget())
         self.setWindowTitle(UI_TITLE)

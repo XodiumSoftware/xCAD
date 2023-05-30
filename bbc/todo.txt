@@ -1,6 +1,13 @@
 
-# settings_list_widget.py:
 
+# main_ui.py:
+# =============================================================================================
+# TODO: Add startup page.
+# =============================================================================================
+
+
+# settings_list_widget.py:
+# =============================================================================================
 # TODO: Move the constants to "constants.py".
 # TODO: Make the cells have different setting_types.
 # TODO: define the setting_types.
@@ -13,3 +20,4 @@
 # TODO: get the if saved data from the database and display it.
 # TODO: change the DATA items content to the appropriate content and don't forget to remove the 3rd column.
 # TODO: rename the column to an appropriate name based on the items.
+# =============================================================================================
