@@ -25,17 +25,17 @@ class MainUI(QMainWindow):
         self._ui_handler = UIHandler()
         self._events_handler = EventsHandler(self._current_theme)
 
-        self.init_instances()
+        self.setup_instances()
 
-    def init_instances(self):
+    def setup_instances(self):
         """
         Initialize the instances.
         """
         # Call functions here.
-        self.init_main_ui()
+        self.setup_main_ui()
         EventsHandler.quit_on_key_press_event(self)
 
-    def init_main_ui(self):
+    def setup_main_ui(self):
         """
         Initialize the main UI.
         """
