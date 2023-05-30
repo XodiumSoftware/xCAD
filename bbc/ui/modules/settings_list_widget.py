@@ -93,8 +93,6 @@ class SettingsListWidget(QWidget):
         """
         Populate the table with data.
         """
-        self.table_widget.clearContents()
-
         for group_data in SETTINGS_LIST:
             group_name = group_data["settings_list_group_header_title"]
             group_item = QTableWidgetItem(group_name)
