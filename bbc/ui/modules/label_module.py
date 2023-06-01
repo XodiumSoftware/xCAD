@@ -2,15 +2,15 @@ from constants import LABELS
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 
-class LabelWidget(QWidget):
+class LabelModule(QWidget):
     def __init__(self, label_index, parent=None):
         """
         Initialize the LabelWidget.
         """
         super().__init__(parent)
-        self.init_label_widget(label_index)
+        self.init_label_module(label_index)
 
-    def init_label_widget(self, label_index):
+    def init_label_module(self, label_index):
         """
         Initialize the label widget.
         """
@@ -21,12 +21,12 @@ class LabelWidget(QWidget):
         )
 
         if label_data:
-            label = self.create_label(label_data)
+            label = self.create_label_module(label_data)
             layout.addWidget(label)
 
         self.setLayout(layout)
 
-    def create_label(self, label_data):
+    def create_label_module(self, label_data):
         """
         Create the label.
         """
