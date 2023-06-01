@@ -23,6 +23,12 @@ THEME_FOLDER_PATH = os.path.join("bbc/themes/")
 ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
 DATA_FOLDER_PATH = os.path.join("bbc/data/")
 
+STARTUP_PAGE_CHECKBOX_TITLE = "Toggle startup page"
+
+QSETTINGS_ORGANIZATION_NAME = "Qerimi_Engineering"
+QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
+QSETTINGS = QSETTINGS_ORGANIZATION_NAME + QSETTINGS_APPLICATION_NAME
+
 # UI
 UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
@@ -68,8 +74,8 @@ LABELS = [
     },
     {
         "index": 1,
-        "title": "Test 1",
-        "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
+        "title": "AutoFrameCAD",
+        "stylesheet": "QLabel { font-size: 29px; font-style: italic; font-weight: bold; }",
         "alignment": Qt.AlignmentFlag.AlignCenter,
     },
     {

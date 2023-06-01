@@ -22,3 +22,10 @@ class UIHandler:
             center_point.y() - ui_center.y(),
         )
         ui.move(ui_top_left)
+
+    def delayed_center_ui_on_screen(self, ui):
+        """
+        Delayed centering of the UI on the screen.
+        """
+        ui.setup_main_ui()
+        self.center_ui_on_screen_handler(ui)
