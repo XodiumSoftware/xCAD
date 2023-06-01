@@ -1,4 +1,4 @@
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, QTimer
 from PySide6.QtGui import QGuiApplication
 
 
@@ -29,3 +29,10 @@ class UIHandler:
         """
         ui.setup_main_ui()
         self.center_ui_on_screen_handler(ui)
+
+    def toggle_ui_visibility_state(self, ui, visibility_state):
+        """
+        Toggle the UI visibility state.
+        """
+        ui._settings.setValue("checkbox_state", visibility_state)
+        QTimer.singleShot(0, lambda: self.delayed_center_ui_on_screen(ui))

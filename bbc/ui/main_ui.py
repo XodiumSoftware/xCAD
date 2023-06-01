@@ -80,14 +80,9 @@ class MainUI(QMainWindow):
             checkbox = QCheckBox(STARTUP_PAGE_CHECKBOX_TITLE)
             state = bool(self._settings.value("checkbox_state", True, bool))
             checkbox.setChecked(state)
-            checkbox.stateChanged.connect(self.toggle_state)
+            checkbox.stateChanged.connect(
+                lambda state: self._ui_handler.toggle_ui_visibility_state(self, state)
+            )
             self._modular_checkbox = checkbox
 
         return self._modular_checkbox
-
-    def toggle_state(self, state):
-        """
-        Toggle the state of the UI.
-        """
-        self._settings.setValue("checkbox_state", state)
-        QTimer.singleShot(0, lambda: self._ui_handler.delayed_center_ui_on_screen(self))
