@@ -3,7 +3,14 @@ from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QGridLayout,
+    QMainWindow,
+    QSizePolicy,
+    QSpacerItem,
+    QWidget,
+)
 from ui.modules.button_widget import ButtonWidget
 from ui.modules.label_widget import LabelWidget
 from ui.modules.settings_list_widget import SettingsListWidget

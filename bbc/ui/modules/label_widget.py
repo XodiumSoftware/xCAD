@@ -33,5 +33,5 @@ class LabelWidget(QWidget):
         label = QLabel(label_data["title"])
         label.setStyleSheet(label_data["stylesheet"])
         label.setAlignment(label_data["alignment"])
-        # Apply any additional properties or configurations to the label here
+        label.setSizePolicy(*label_data["size_policy"])
         return label

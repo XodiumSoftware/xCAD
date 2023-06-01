@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QSizePolicy
 
 # General
 WINREG_THEME_KEY = os.path.join(
@@ -71,18 +72,21 @@ LABELS = [
         "title": "© 2023 Qerimi Engineering. All rights reserved.",
         "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
         "alignment": Qt.AlignmentFlag.AlignLeft,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
     {
         "index": 1,
         "title": "AutoFrameCAD",
         "stylesheet": "QLabel { font-size: 29px; font-style: italic; font-weight: bold; }",
         "alignment": Qt.AlignmentFlag.AlignCenter,
+        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
     },
     {
         "index": 2,
         "title": "Test 2",
         "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
         "alignment": Qt.AlignmentFlag.AlignRight,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 
