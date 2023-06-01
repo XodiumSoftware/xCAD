@@ -1,7 +1,7 @@
 from constants import QSETTINGS, STARTUP_PAGE_CHECKBOX_TITLE, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings, QTimer, Signal
+from PySide6.QtCore import QSettings, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
@@ -31,6 +31,7 @@ class MainUI(QMainWindow):
         """
         self.setup_main_ui()
         EventsHandler.quit_on_key_press_event(self)
+        self._ui_handler.ui_size_handler(self, 600, 400)
 
     def setup_main_ui(self):
         """
@@ -81,7 +82,9 @@ class MainUI(QMainWindow):
             state = bool(self._settings.value("checkbox_state", True, bool))
             checkbox.setChecked(state)
             checkbox.stateChanged.connect(
-                lambda state: self._ui_handler.toggle_ui_visibility_state_handler(self, state)
+                lambda state: self._ui_handler.toggle_ui_visibility_state_handler(
+                    self, state
+                )
             )
             self._modular_checkbox = checkbox
 
