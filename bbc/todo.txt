@@ -21,3 +21,9 @@
 # TODO: change the DATA items content to the appropriate content and don't forget to remove the 3rd column.
 # TODO: rename the column to an appropriate name based on the items.
 # =============================================================================================
+
+
+# checkbox_module.py:
+# =============================================================================================
+# FIXME: The checkbox is not toggling properly.
+# =============================================================================================
