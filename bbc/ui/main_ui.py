@@ -81,7 +81,7 @@ class MainUI(QMainWindow):
             state = bool(self._settings.value("checkbox_state", True, bool))
             checkbox.setChecked(state)
             checkbox.stateChanged.connect(
-                lambda state: self._ui_handler.toggle_ui_visibility_state(self, state)
+                lambda state: self._ui_handler.toggle_ui_visibility_state_handler(self, state)
             )
             self._modular_checkbox = checkbox
 

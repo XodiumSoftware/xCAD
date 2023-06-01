@@ -23,16 +23,22 @@ class UIHandler:
         )
         ui.move(ui_top_left)
 
-    def delayed_center_ui_on_screen(self, ui):
+    def delayed_center_ui_on_screen_handler(self, ui):
         """
         Delayed centering of the UI on the screen.
         """
         ui.setup_main_ui()
         self.center_ui_on_screen_handler(ui)
 
-    def toggle_ui_visibility_state(self, ui, visibility_state):
+    def toggle_ui_visibility_state_handler(self, ui, visibility_state):
         """
         Toggle the UI visibility state.
         """
         ui._settings.setValue("checkbox_state", visibility_state)
-        QTimer.singleShot(0, lambda: self.delayed_center_ui_on_screen(ui))
+        QTimer.singleShot(0, lambda: self.delayed_center_ui_on_screen_handler(ui))
+
+    def ui_size_handler(self, ui, width, height):
+        """
+        Set the UI size.
+        """
+        ui.resize(width, height)
