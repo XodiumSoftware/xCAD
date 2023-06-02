@@ -45,6 +45,7 @@ class MainUI(QMainWindow):
         # Setup containers:
         button_container_0 = ContainerModule("HBox")
         button_container_0.add_widget(ButtonModule(0))
+        button_container_0.add_stretch(1)
         button_container_0.add_widget(ButtonModule(1))
 
         button_container_1 = ContainerModule("HBox")

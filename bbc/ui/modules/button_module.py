@@ -5,10 +5,16 @@ from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 class ButtonModule(QWidget):
     def __init__(self, button_index, parent=None):
+        """
+        Initialize the ButtonModule.
+        """
         super().__init__(parent)
-        self.init_button_module(button_index)
+        self.setup_button_module(button_index)
 
-    def init_button_module(self, button_index):
+    def setup_button_module(self, button_index):
+        """
+        Setup the ButtonModule.
+        """
         layout = QVBoxLayout(self)
 
         button_data = next(
@@ -23,6 +29,9 @@ class ButtonModule(QWidget):
         self.setLayout(layout)
 
     def create_button_module(self, button_data):
+        """
+        Create a button module.
+        """
         button = QPushButton()
         button.setFixedSize(*button_data["size"])
         if button_data["icon_path"]:

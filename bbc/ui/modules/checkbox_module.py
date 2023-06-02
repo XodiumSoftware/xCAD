@@ -4,10 +4,16 @@ from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
 class CheckBoxModule(QWidget):
     def __init__(self, checkbox_index, parent=None):
+        """
+        Initialize the CheckBoxModule.
+        """
         super().__init__(parent)
-        self.init_checkbox_module(checkbox_index)
+        self.setup_checkbox_module(checkbox_index)
 
-    def init_checkbox_module(self, checkbox_index):
+    def setup_checkbox_module(self, checkbox_index):
+        """
+        Setup the CheckBoxModule.
+        """
         layout = QVBoxLayout(self)
 
         checkbox_data = next(
@@ -26,6 +32,9 @@ class CheckBoxModule(QWidget):
         self.setLayout(layout)
 
     def create_checkbox_module(self, checkbox_data):
+        """
+        Create a checkbox module.
+        """
         checkbox = QCheckBox(checkbox_data["title"])
         checkbox.setChecked(checkbox_data["checked"])
         checkbox.setStyleSheet(checkbox_data["stylesheet"])

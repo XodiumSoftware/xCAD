@@ -11,10 +11,16 @@ from PySide6.QtWidgets import (
 
 class ContainerModule(QWidget):
     def __init__(self, layout_type, parent=None):
+        """
+        Initialize the ContainerModule.
+        """
         super().__init__(parent)
-        self.init_container_module(layout_type)
+        self.setup_container_module(layout_type)
 
-    def init_container_module(self, layout_type):
+    def setup_container_module(self, layout_type):
+        """
+        Setup the ContainerModule.
+        """
         if layout_type == "VBox":
             layout = QVBoxLayout(self)
         elif layout_type == "HBox":
@@ -38,4 +44,13 @@ class ContainerModule(QWidget):
         self.setLayout(layout)
 
     def add_widget(self, widget):
+        """
+        Add a widget to the container.
+        """
         self.layout().addWidget(widget)
+
+    def add_stretch(self, stretch):
+        """
+        Add a stretch to the container.
+        """
+        self.layout().addStretch(stretch)

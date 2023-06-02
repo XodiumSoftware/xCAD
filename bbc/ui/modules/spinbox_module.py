@@ -4,10 +4,16 @@ from PySide6.QtWidgets import QSpinBox, QVBoxLayout, QWidget
 
 class SpinBoxModule(QWidget):
     def __init__(self, spinbox_index, parent=None):
+        """
+        Initialize the SpinBoxModule.
+        """
         super().__init__(parent)
-        self.init_spinbox_module(spinbox_index)
+        self.setup_spinbox_module(spinbox_index)
 
-    def init_spinbox_module(self, spinbox_index):
+    def setup_spinbox_module(self, spinbox_index):
+        """
+        Setup the SpinBoxModule.
+        """
         layout = QVBoxLayout(self)
 
         spinbox_data = next(
@@ -22,6 +28,9 @@ class SpinBoxModule(QWidget):
         self.setLayout(layout)
 
     def create_spinbox_module(self, spinbox_data):
+        """
+        Create a spinbox module.
+        """
         spinbox = QSpinBox()
         spinbox.setMinimum(spinbox_data["minimum"])
         spinbox.setMaximum(spinbox_data["maximum"])
