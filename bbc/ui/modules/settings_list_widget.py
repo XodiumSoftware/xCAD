@@ -1,5 +1,5 @@
+from constants import COLUMN_HEADER, ROW_HEADER, SETTINGS_LIST
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QHeaderView,
@@ -8,55 +8,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
-COLUMN_HEADER = [
-    {
-        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-        "labels": ["Parameters", "Values"],
-    },
-]
-
-ROW_HEADER = [
-    {
-        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-    },
-]
-
-SETTINGS_LIST = [
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 1",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("John Doe", 30),
-            ("Jane Smith", 25),
-            ("Bob Johnson", 45),
-            ("Alice Brown", 35),
-        ],
-    },
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 2",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("Michael Williams", 50),
-            ("Emma Johnson", 28),
-            ("William Davis", 42),
-            ("Olivia Taylor", 32),
-        ],
-    },
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 3",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("James Wilson", 37),
-            ("Sophia Martinez", 31),
-            ("Daniel Anderson", 48),
-            ("Mia Thomas", 29),
-        ],
-    },
-]
 
 
 class SettingsListWidget(QWidget):
