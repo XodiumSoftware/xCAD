@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QSizePolicy
 
 # General
 WINREG_THEME_KEY = os.path.join(
@@ -22,8 +23,6 @@ VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
 THEME_FOLDER_PATH = os.path.join("bbc/themes/")
 ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
 DATA_FOLDER_PATH = os.path.join("bbc/data/")
-
-STARTUP_PAGE_CHECKBOX_TITLE = "Toggle startup page"
 
 QSETTINGS_ORGANIZATION_NAME = "Qerimi_Engineering"
 QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
@@ -64,25 +63,39 @@ SETTINGS_LIST = [
 SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
 CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
 
-# LabelWidget
+# LabelModule
 LABELS = [
     {
         "index": 0,
         "title": "© 2023 Qerimi Engineering. All rights reserved.",
         "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
         "alignment": Qt.AlignmentFlag.AlignLeft,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
     {
         "index": 1,
         "title": "AutoFrameCAD",
-        "stylesheet": "QLabel { font-size: 29px; font-style: italic; font-weight: bold; }",
+        "stylesheet": "QLabel { font-size: 30px; font-style: italic; font-weight: bold; }",
         "alignment": Qt.AlignmentFlag.AlignCenter,
+        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
     },
     {
         "index": 2,
         "title": "Test 2",
         "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
         "alignment": Qt.AlignmentFlag.AlignRight,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# CheckboxModule
+CHECKBOXES = [
+    {
+        "index": 0,
+        "title": "Toggle startup page",
+        "stylesheet": "QCheckBox { font-size: 12px; }",
+        "checked": True,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 

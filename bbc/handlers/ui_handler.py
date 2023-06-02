@@ -29,3 +29,9 @@ class UIHandler:
         """
         ui.setup_main_ui()
         self.center_ui_on_screen_handler(ui)
+
+    def ui_size_handler(self, ui, width, height):
+        """
+        Set the UI size.
+        """
+        ui.resize(width, height)

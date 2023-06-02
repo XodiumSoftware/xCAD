@@ -1,11 +1,11 @@
-from constants import QSETTINGS, STARTUP_PAGE_CHECKBOX_TITLE, UI_ICON_PATH, UI_TITLE
+from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
 from ui.modules.button_widget import ButtonWidget
-from ui.modules.label_widget import LabelWidget
+from ui.modules.label_module import LabelModule
 from ui.modules.settings_list_widget import SettingsListWidget
 
 
@@ -31,6 +31,7 @@ class MainUI(QMainWindow):
         """
         self.setup_main_ui()
         EventsHandler.quit_on_key_press_event(self)
+        self._ui_handler.ui_size_handler(self, 600, 400)
 
     def setup_main_ui(self):
         """
@@ -53,9 +54,9 @@ class MainUI(QMainWindow):
 
         # Visibility State 0:
         if self.modular_checkbox.isChecked():
-            main_ui_layout.addWidget(LabelWidget(1, self), 1, 0)
+            main_ui_layout.addWidget(LabelModule(1, self), 1, 0)
             main_ui_layout.addWidget(self.modular_checkbox, 2, 0)
-            main_ui_layout.addWidget(LabelWidget(0, self), 3, 0)
+            main_ui_layout.addWidget(LabelModule(0, self), 3, 0)
 
         # Visibility State 1:
         if not self.modular_checkbox.isChecked():
@@ -63,7 +64,7 @@ class MainUI(QMainWindow):
             main_ui_layout.addWidget(settings_widget, 1, 0)
             main_ui_layout.addWidget(button_widget.button_container_1, 2, 0)
             main_ui_layout.addWidget(self.modular_checkbox, 3, 0)
-            main_ui_layout.addWidget(LabelWidget(0, self), 4, 0)
+            main_ui_layout.addWidget(LabelModule(0, self), 4, 0)
 
         central_widget = QWidget()
         central_widget.setLayout(main_ui_layout)
@@ -77,7 +78,7 @@ class MainUI(QMainWindow):
         Create and configure the checkbox.
         """
         if not hasattr(self, "_modular_checkbox"):
-            checkbox = QCheckBox(STARTUP_PAGE_CHECKBOX_TITLE)
+            checkbox = QCheckBox("Toggle startup page")
             state = bool(self._settings.value("checkbox_state", True, bool))
             checkbox.setChecked(state)
             checkbox.stateChanged.connect(self.toggle_state)
