@@ -88,13 +88,35 @@ LABELS = [
     },
 ]
 
-# CheckboxModule
+# CheckBoxModule
 CHECKBOXES = [
     {
         "index": 0,
         "title": "Toggle startup page",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "checked": True,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# LineEditModule
+INPUTFIELDS = [
+    {
+        "index": 0,
+        "placeholder": "Test",
+        "stylesheet": "QLineEdit { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+SPINBOXES = [
+    {
+        "index": 0,
+        "minium": 0,
+        "maximum": 1.7e308,
+        "default": 0,
+        "step": 0.5,
+        "stylesheet": "QSpinBox { font-size: 12px; }",
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
