@@ -23,10 +23,11 @@ class ButtonModule(QWidget):
         self.setLayout(layout)
 
     def create_button_module(self, button_data):
-        button = QPushButton(button_data["title"])
+        button = QPushButton()
         button.setFixedSize(*button_data["size"])
-        button.setStyleSheet(button_data["stylesheet"])
         if button_data["icon_path"]:
             button.setIcon(QIcon(button_data["icon_path"]))
-        button.clicked.connect(button_data["action"])
+        else:
+            button.setText(button_data["title"])
+        # button.clicked.connect(button_data["action"])
         return button

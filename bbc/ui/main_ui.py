@@ -4,7 +4,8 @@ from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
-from ui.modules.button_widget import ButtonWidget
+from ui.modules.button_module import ButtonModule
+from ui.modules.container_module import ContainerModule
 from ui.modules.label_module import LabelModule
 from ui.modules.settings_list_widget import SettingsListWidget
 
@@ -41,11 +42,14 @@ class MainUI(QMainWindow):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
-        settings_widget = SettingsListWidget()
+        # Setup containers:
+        button_container_0 = ContainerModule("HBox")
+        button_container_0.add_widget(ButtonModule(0))
+        button_container_0.add_widget(ButtonModule(1))
 
-        button_widget = ButtonWidget(
-            self._events_handler, self._settings, self._current_theme
-        )
+        button_container_1 = ContainerModule("HBox")
+        button_container_1.add_widget(ButtonModule(2))
+        button_container_1.add_widget(ButtonModule(3))
 
         main_ui_layout = QGridLayout()
         main_ui_layout.setVerticalSpacing(5)
@@ -60,9 +64,9 @@ class MainUI(QMainWindow):
 
         # Visibility State 1:
         if not self.modular_checkbox.isChecked():
-            main_ui_layout.addWidget(button_widget.button_container_0, 0, 0)
-            main_ui_layout.addWidget(settings_widget, 1, 0)
-            main_ui_layout.addWidget(button_widget.button_container_1, 2, 0)
+            main_ui_layout.addWidget(button_container_0, 0, 0)
+            main_ui_layout.addWidget(SettingsListWidget(), 1, 0)
+            main_ui_layout.addWidget(button_container_1, 2, 0)
             main_ui_layout.addWidget(self.modular_checkbox, 3, 0)
             main_ui_layout.addWidget(LabelModule(0, self), 4, 0)
 

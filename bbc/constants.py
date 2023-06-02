@@ -131,32 +131,28 @@ BUTTONS = [
         "icon_path": os.path.join(
             ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
         ),
-        "stylesheet": "QPushButton { border: none; }",
-        "action": self.button_clicked,
+        # "action": self.button_clicked,
     },
     {
         "index": 1,
         "title": "ViewerButton",
         "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
-        "stylesheet": "QPushButton { border: none; }",
-        "action": self.button_clicked,
+        # "action": self.button_clicked,
     },
     {
         "index": 2,
         "title": "Save",
         "size": (50, 30),
         "icon_path": None,
-        "stylesheet": "QPushButton { border: none; }",
-        "action": self.button_clicked,
+        # "action": self.button_clicked,
     },
     {
         "index": 3,
         "title": "Discard",
         "size": (50, 30),
         "icon_path": None,
-        "stylesheet": "QPushButton { border: none; }",
-        "action": self.button_clicked,
+        # "action": self.button_clicked,
     },
 ]
 
