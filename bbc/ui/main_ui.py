@@ -1,7 +1,7 @@
 from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings, QTimer, Signal
+from PySide6.QtCore import QSettings, QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
@@ -11,8 +11,6 @@ from ui.modules.settings_list_widget import SettingsListWidget
 
 
 class MainUI(QMainWindow):
-    toggle_theme_signal = Signal(int)
-
     def __init__(self):
         """
         Initialize the MainUI.
@@ -20,9 +18,7 @@ class MainUI(QMainWindow):
         super().__init__()
 
         self._settings = QSettings(QSETTINGS)
-        self._current_theme = None
         self._ui_handler = UIHandler()
-        self._events_handler = EventsHandler(self._current_theme)
 
         self.setup_instances()
 

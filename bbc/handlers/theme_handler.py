@@ -10,7 +10,6 @@ from constants import (
     THEME_SYSTEM_DEFAULT,
     WINREG_THEME_KEY,
 )
-from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QObject
 
 
@@ -31,9 +30,6 @@ class ThemeHandler(QObject):
         self._main_ui = main_ui
         self.load_saved_theme()
         self.apply_theme()
-
-        events_handler = EventsHandler(self._current_theme)
-        events_handler.toggle_theme_signal.connect(self.toggle_theme)
 
     def toggle_theme(self):
         """
