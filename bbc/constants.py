@@ -1,94 +1,163 @@
-from pathlib import Path
+import os
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QSizePolicy
 
 # General
-UI_TITLE = "AFC"
-UI_FONT_TYPE = "Arial"
-UI_GROUPBOX_FONT_SIZE = 10
-UI_ICON_PATH = "bbc/icons/ui_icon.png"
-UI_CONTENTS_MARGINS = 5, 5, 5, 5
-UI_STYLE = "fusion"
-UI_GROUPBOX_STYLESHEET = "QGroupBox { border: 0; padding-top: 20; }"
-UI_GEOMETRY = 0, 0, 500, 300
-UI_MINIMUM_SIZE = 500, 300
-UI_MARGIN_BETWEEN_UI = 2
-UI_DESC_LABEL_STYLE = "font-style: bold; font-size: 18px;"
-
-# Copyright label
-COPYRIGHT_LABEL = "© 2023 Qerimi Engineering. All rights reserved."
-COPYRIGHT_LABEL_SIZE = 8
-COPYRIGHT_LABEL_STYLE = "font-style: italic;"
-
-# Main UI
-MAIN_UI_GROUPBOX_TITLE = "AutoFrameCAD"
-MAIN_UI_BUTTON_ICON_PATH = "bbc/icons/button_icon_light.png"
-MAIN_UI_BUTTON_SIZE = 30, 30
-MAIN_UI_BUTTON_ICON_SIZE = 10, 10
-
-THEME_BUTTON_TOOLTIP = "Toggle Theme"
-THEME_BUTTON_ICON_DEFAULT_PATH = "bbc/icons/theme_icon_default_light.png"
-THEME_BUTTON_ICON_LIGHT_PATH = "bbc/icons/theme_icon_light.png"
-THEME_BUTTON_ICON_DARK_PATH = "bbc/icons/theme_icon_dark.png"
-
-THEME_SETTINGS_PATH = "bbc/data/theme_settings.txt"
-THEME_DIR_PATH = "bbc/ui/themes/"
-LIGHT_THEME_FILE_PATH = "light_theme.css"
-DARK_THEME_FILE_PATH = "dark_theme.css"
-
-# Config UI
-CONFIG_UI_TITLE = "Configurator"
-CONFIG_UI_SUFFIX_MM = "mm"
-CONFIG_UI_SUFFIX_M2 = "m2"
-
-CONFIG_UI_BUTTON_TOOLTIP = "Toggle Configurator"
-CONFIG_UI_BUTTON_ICON_LIGHT_PATH = "bbc/icons/config_icon_light.png"
-CONFIG_UI_BUTTON_ICON_DARK_PATH = "bbc/icons/config_icon_dark.png"
-CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH = "bbc/icons/config_icon_flipped_light.png"
-CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH = "bbc/icons/config_icon_flipped_dark.png"
-
-# Input bar
-INPUT_BAR_WIDTH = 100
-INPUT_RANGE = 0, 1e100
-
-# Data
-DATA_DIR_FOLDER = "bbc/data/"
-DATA_DIR_FILE = "configurator_inputs.txt"
-
-# Database
-DB_DIR = Path("bbc", "data", "db")
-DB_FILE = DB_DIR / "inputs.db"
-
-# Define constants for the SQL statements
-CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS inputs
-    (id INTEGER PRIMARY KEY AUTOINCREMENT,
-    input_type TEXT,
-    input_data TEXT)"""
-INSERT_INPUT_SQL = "INSERT INTO inputs (input_type, input_data) VALUES (?, ?)"
-
-# Theme
-LIGHT_THEME_DIR_PATH = "bbc/ui/themes/light_theme.css"
-DARK_THEME_DIR_PATH = "bbc/ui/themes/dark_theme.css"
-
-THEME_DIR_FOLDER = DATA_DIR_FOLDER
-THEME_DIR_FILE = "theme_settings.txt"
-
-DARK_THEME_FILE = "bbc/data/themes/dark.css"
-LIGHT_THEME_FILE = "bbc/data/themes/light.css"
-
-SETTINGS_ORGANIZATION = "AFC"
-SETTINGS_APPLICATION = "CurrentThemeSetting"
-
-KEY_THEME = "theme"
-KEY_THEME_LIGHT = "light"
-KEY_THEME_DARK = "dark"
-
+WINREG_THEME_KEY = os.path.join(
+    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+)
 MS_VALUE_NAME = "AppsUseLightTheme"
 
-WINREG_THEME_KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
-
-# Debugging
-DEBUG_SAVE_INPUT_PRINT = "[DEBUG]: SAVING CHANGES:"
-DEBUG_SAVED_DATA_PRINT = "[DEBUG]: Saved Data:"
-DEBUG_PLACEHOLDER_TEXT_PRINT = "[DEBUG]: Placeholder Text:"
-
 DEBUG_NAME = "[DEBUG] "
-DEBUG_ERROR_DETECTING_SYSTEM_THEME = DEBUG_NAME + "Error detecting system theme: "
+
+THEME_DARK = "dark"
+THEME_LIGHT = "light"
+THEME_SYSTEM_DEFAULT = "system_default"
+
+VIEWER_DARK = THEME_DARK
+VIEWER_DARK_FLIPPED = VIEWER_DARK
+VIEWER_LIGHT = THEME_LIGHT
+VIEWER_LIGHT_FLIPPED = VIEWER_LIGHT
+
+THEME_FOLDER_PATH = os.path.join("bbc/themes/")
+ICONS_FOLDER_PATH = os.path.join("bbc/icons/")
+DATA_FOLDER_PATH = os.path.join("bbc/data/")
+
+QSETTINGS_ORGANIZATION_NAME = "Qerimi_Engineering"
+QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
+QSETTINGS = QSETTINGS_ORGANIZATION_NAME + QSETTINGS_APPLICATION_NAME
+
+# UI
+UI_TITLE = "AFC"
+UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+
+# SettingsListWidget
+COLUMN_HEADER_LABELS = ["Parameter", "Value"]
+DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
+DROPDOWN_LIST_SOUND = ["On", "Off"]
+SETTINGS_LIST = [
+    {
+        "group": "General",
+        "settings": [
+            ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
+            ("Wrapping at Inserts", "input_text", None),
+            ("Wrapping at Ends", "input_int", None),
+        ],
+    },
+    {
+        "group": "Dimensions",
+        "settings": [
+            ("Width", "dropdown", DROPDOWN_LIST_SOUND),
+            ("Length", "checkbox", None),
+        ],
+    },
+    {
+        "group": "Actions",
+        "settings": [
+            ("Test", "button", None),
+        ],
+    },
+]
+
+SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
+CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
+
+# LabelModule
+LABELS = [
+    {
+        "index": 0,
+        "title": "© 2023 Qerimi Engineering. All rights reserved.",
+        "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
+        "alignment": Qt.AlignmentFlag.AlignLeft,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+    {
+        "index": 1,
+        "title": "AutoFrameCAD",
+        "stylesheet": "QLabel { font-size: 30px; font-style: italic; font-weight: bold; }",
+        "alignment": Qt.AlignmentFlag.AlignCenter,
+        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
+    },
+    {
+        "index": 2,
+        "title": "Test 2",
+        "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
+        "alignment": Qt.AlignmentFlag.AlignRight,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# CheckboxModule
+CHECKBOXES = [
+    {
+        "index": 0,
+        "title": "Toggle startup page",
+        "stylesheet": "QCheckBox { font-size: 12px; }",
+        "checked": True,
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# ButtonWidget
+BUTTONS = [
+    {
+        "index": 0,
+        "title": "ThemeButton",
+        "size": (30, 30),
+        "icon_path": os.path.join(
+            ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
+        ),
+    },
+    {
+        "index": 1,
+        "title": "ViewerButton",
+        "size": (30, 30),
+        "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
+    },
+    {
+        "index": 2,
+        "title": "Save",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+    {
+        "index": 3,
+        "title": "Discard",
+        "size": (50, 30),
+        "icon_path": None,
+    },
+]  # Dont forget to add the necessary code into the EventHandler.
+
+# ThemeHandler
+THEME_FILE_PATHS = {
+    THEME_DARK: os.path.join(THEME_FOLDER_PATH, "dark_theme.css"),
+    THEME_LIGHT: os.path.join(THEME_FOLDER_PATH, "light_theme.css"),
+}
+
+ICONS_FILE_PATHS = {
+    "theme": {
+        THEME_DARK: os.path.join(ICONS_FOLDER_PATH, "theme_icon_dark.png"),
+        THEME_LIGHT: os.path.join(ICONS_FOLDER_PATH, "theme_icon_light.png"),
+        THEME_SYSTEM_DEFAULT
+        + "_"
+        + THEME_DARK: os.path.join(
+            ICONS_FOLDER_PATH, "theme_icon_system_default_dark.png"
+        ),
+        THEME_SYSTEM_DEFAULT
+        + "_"
+        + THEME_LIGHT: os.path.join(
+            ICONS_FOLDER_PATH, "theme_icon_system_default_light.png"
+        ),
+    },
+    "viewer": {
+        VIEWER_DARK: os.path.join(ICONS_FOLDER_PATH, "viewer_icon_dark.png"),
+        VIEWER_DARK_FLIPPED: os.path.join(
+            ICONS_FOLDER_PATH, "viewer_icon_flipped_dark.png"
+        ),
+        VIEWER_LIGHT: os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
+        VIEWER_LIGHT_FLIPPED: os.path.join(
+            ICONS_FOLDER_PATH, "viewer_icon_flipped_light.png"
+        ),
+    },
+}
