@@ -1,9 +1,8 @@
 from PySide6.QtWidgets import (
-    QBoxLayout,
     QFormLayout,
     QGridLayout,
     QHBoxLayout,
-    QStackedLayout,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -29,15 +28,6 @@ class ContainerModule(QWidget):
             layout = QGridLayout(self)
         elif layout_type == "Form":
             layout = QFormLayout(self)
-        elif layout_type == "Box":
-            layout = QBoxLayout(
-                QBoxLayout.Direction.LeftToRight
-                if layout_type == "Horizontal"
-                else QBoxLayout.Direction.TopToBottom,
-                self,
-            )
-        elif layout_type == "Stacked":
-            layout = QStackedLayout(self)
         else:
             raise ValueError(f"Invalid layout type: {layout_type}")
 
@@ -49,8 +39,24 @@ class ContainerModule(QWidget):
         """
         self.layout().addWidget(widget)
 
-    def add_stretch(self, stretch):
+    def add_stretch(self):
         """
         Add a stretch to the container.
         """
-        self.layout().addStretch(stretch)
+        layout = self.layout()
+        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
+            spacer_item = QWidget()
+            spacer_item.setSizePolicy(
+                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+            )
+
+            layout.addWidget(spacer_item)
+        elif isinstance(layout, QGridLayout):
+            empty_widget = QWidget()
+            layout.addWidget(empty_widget)
+            layout.setRowStretch(layout.rowCount(), 1)
+            layout.setColumnStretch(layout.columnCount(), 1)
+        else:
+            raise TypeError(
+                "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
+            )
