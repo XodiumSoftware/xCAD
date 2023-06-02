@@ -99,7 +99,7 @@ CHECKBOXES = [
     },
 ]
 
-# LineEditModule
+# InputFieldModule
 INPUTFIELDS = [
     {
         "index": 0,
@@ -109,6 +109,7 @@ INPUTFIELDS = [
     },
 ]
 
+# SpinBoxModule
 SPINBOXES = [
     {
         "index": 0,
