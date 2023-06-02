@@ -17,10 +17,8 @@ class ContainerModule(QWidget):
     def init_container_module(self, layout_type):
         if layout_type == "VBox":
             layout = QVBoxLayout(self)
-            layout.setSpacing(0)
         elif layout_type == "HBox":
             layout = QHBoxLayout(self)
-            layout.setSpacing(0)
         elif layout_type == "Grid":
             layout = QGridLayout(self)
         elif layout_type == "Form":
@@ -32,13 +30,10 @@ class ContainerModule(QWidget):
                 else QBoxLayout.Direction.TopToBottom,
                 self,
             )
-            layout.setSpacing(0)
         elif layout_type == "Stacked":
             layout = QStackedLayout(self)
         else:
             raise ValueError(f"Invalid layout type: {layout_type}")
-
-        layout.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(layout)
 
