@@ -51,11 +51,13 @@ class TableModule(QWidget):
         table_widget.setCornerButtonEnabled(True)
 
         table_widget.setSortingEnabled(True)
-        table_widget.sortItems(0, Qt.SortOrder.AscendingOrder)
+        table_widget.sortItems(0, Qt.SortOrder.DescendingOrder)
 
         for row, row_data in enumerate(table_data["data"]):
-            for col, item_data in enumerate(row_data):
-                item = QTableWidgetItem(item_data)
-                table_widget.setItem(row, col, item)
+            item_parameter = QTableWidgetItem(row_data[0])
+            item_value = QTableWidgetItem(row_data[1])
+
+            table_widget.setItem(row, 0, item_parameter)
+            table_widget.setItem(row, 1, item_value)
 
         return table_widget

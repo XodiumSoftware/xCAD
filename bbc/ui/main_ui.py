@@ -1,7 +1,7 @@
 from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings, QTimer
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
@@ -18,7 +18,7 @@ class MainUI(QMainWindow):
         super().__init__()
 
         self._settings = QSettings(QSETTINGS)
-        self._ui_handler = UIHandler()
+        self._ui_handler = UIHandler(self)
 
         self.setup_instances()
 
@@ -55,13 +55,13 @@ class MainUI(QMainWindow):
         main_ui_layout.setContentsMargins(5, 5, 5, 5)
 
         # Visibility State 0:
-        if self.modular_checkbox.isChecked():
+        if self._settings.value("checkbox_state", True, bool):
             main_ui_layout.addWidget(LabelModule(1, self), 1, 0)
             main_ui_layout.addWidget(self.modular_checkbox, 2, 0)
             main_ui_layout.addWidget(LabelModule(0, self), 3, 0)
 
         # Visibility State 1:
-        if not self.modular_checkbox.isChecked():
+        if not self._settings.value("checkbox_state", True, bool):
             main_ui_layout.addWidget(button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0, self), 1, 0)
             main_ui_layout.addWidget(button_container_1, 2, 0)
@@ -83,14 +83,7 @@ class MainUI(QMainWindow):
             checkbox = QCheckBox("Toggle startup page")
             state = bool(self._settings.value("checkbox_state", True, bool))
             checkbox.setChecked(state)
-            checkbox.stateChanged.connect(self.toggle_state)
+            checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
             self._modular_checkbox = checkbox
 
         return self._modular_checkbox
-
-    def toggle_state(self, state):
-        """
-        Toggle the state of the UI.
-        """
-        self._settings.setValue("checkbox_state", state)
-        QTimer.singleShot(0, lambda: self._ui_handler.delayed_center_ui_on_screen(self))
