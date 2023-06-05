@@ -1,254 +1,96 @@
-from constants import *
-from handlers.theme_handler import *
-from handlers.ui_handler import *
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-from ui.config_ui import *
+from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
+from handlers.events_handler import EventsHandler
+from handlers.ui_handler import UIHandler
+from PySide6.QtCore import QSettings, QTimer
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
+from ui.modules.button_module import ButtonModule
+from ui.modules.container_module import ContainerModule
+from ui.modules.label_module import LabelModule
+from ui.modules.settings_list_widget import SettingsListWidget
 
 
-# TODO: Make MainUI work with the new input_handler and theme_handler.
-class MainUI(QWidget, ConfigUI):
+class MainUI(QMainWindow):
     def __init__(self):
         """
-        Initialize the main application window.
+        Initialize the MainUI.
         """
         super().__init__()
-        # Instances
-        self.theme_handler_instance = ThemeHandler()
-        self.ui_handler_instance = UIHandler()
 
-        # States
-        self.config_ui_frame_visible = False
-        self.config_ui_button_flipped = False
+        self._settings = QSettings(QSETTINGS)
+        self._ui_handler = UIHandler()
 
-        self.main_ui_setup()
+        self.setup_instances()
 
-        print("[DEBUG] MainUI initialized.")
-
-    def keyPressEvent(self, event):
+    def setup_instances(self):
         """
-        This function is called when certain keys are pressed.
+        Setup the instances.
         """
-        if event.key() == Qt.Key.Key_Escape or (
-            event.key() == Qt.Key.Key_Q
-            and event.modifiers() == Qt.KeyboardModifier.ControlModifier
-        ):
-            self.close()
-        else:
-            super().keyPressEvent(event)
+        self.setup_main_ui()
+        EventsHandler.quit_on_key_press_event(self)
+        self._ui_handler.ui_size_handler(self, 600, 400)
 
-    def main_ui_setup(self):
+    def setup_main_ui(self):
         """
-        Set up the main user interface properties including the window title,
-        icon, geometry, minimum size, and size policy.
-        Also centers the window on the screen.
+        Setup the MainUI.
         """
-        # Set ui properties
+        self.setCentralWidget(QWidget())
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
-        self.setGeometry(*UI_GEOMETRY)
-        self.setMinimumSize(*UI_MINIMUM_SIZE)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        self.ui_handler_instance.center_ui_on_screen_handler(self)
+        # Setup containers:
+        button_container_0 = ContainerModule("HBox")
+        button_container_0.add_widget(ButtonModule(0))
+        button_container_0.add_stretch()
+        button_container_0.add_widget(ButtonModule(1))
 
-        self.main_ui_layout_setup()
+        button_container_1 = ContainerModule("HBox")
+        button_container_1.add_stretch()
+        button_container_1.add_widget(ButtonModule(2))
+        button_container_1.add_widget(ButtonModule(3))
 
-    def main_ui_layout_setup(self):
+        main_ui_layout = QGridLayout()
+        main_ui_layout.setVerticalSpacing(5)
+        main_ui_layout.setHorizontalSpacing(5)
+        main_ui_layout.setContentsMargins(5, 5, 5, 5)
+
+        # Visibility State 0:
+        if self.modular_checkbox.isChecked():
+            main_ui_layout.addWidget(LabelModule(1, self), 1, 0)
+            main_ui_layout.addWidget(self.modular_checkbox, 2, 0)
+            main_ui_layout.addWidget(LabelModule(0, self), 3, 0)
+
+        # Visibility State 1:
+        if not self.modular_checkbox.isChecked():
+            main_ui_layout.addWidget(button_container_0, 0, 0)
+            main_ui_layout.addWidget(SettingsListWidget(), 1, 0)
+            main_ui_layout.addWidget(button_container_1, 2, 0)
+            main_ui_layout.addWidget(self.modular_checkbox, 3, 0)
+            main_ui_layout.addWidget(LabelModule(0, self), 4, 0)
+
+        central_widget = QWidget()
+        central_widget.setLayout(main_ui_layout)
+        self.setCentralWidget(central_widget)
+
+        self._ui_handler.center_ui_on_screen_handler(self)
+
+    @property
+    def modular_checkbox(self):
         """
-        Set up the main UI layout by creating a QVBoxLayout and adding various widgets to it.
+        Create and configure the checkbox.
         """
-        # main_ui_layout properties
-        self.main_ui_layout = QGridLayout(self)
-        self.main_ui_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        if not hasattr(self, "_modular_checkbox"):
+            checkbox = QCheckBox("Toggle startup page")
+            state = bool(self._settings.value("checkbox_state", True, bool))
+            checkbox.setChecked(state)
+            checkbox.stateChanged.connect(self.toggle_state)
+            self._modular_checkbox = checkbox
 
-        # Call widgets
-        self.button_layout_setup()
-        self.desc_label()
-        self.central_layout_setup()
-        self.copy_right_label()
-        self.config_ui_frame_setup()
+        return self._modular_checkbox
 
-        # Add widgets to main_ui_layout
-        self.main_ui_layout.addWidget(self.button_frame, 0, 0)
-        self.main_ui_layout.addWidget(
-            self.main_label,
-            1,
-            0,
-            alignment=Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter,
-        )
-        self.main_ui_layout.addWidget(
-            self.central_frame, 2, 0, alignment=Qt.AlignmentFlag.AlignCenter
-        )
-        self.main_ui_layout.addWidget(
-            self.crlabel,
-            3,
-            0,
-            alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
-        )
-
-        self.main_ui_layout.addWidget(self.config_ui_frame, 0, 1, 4, 1)
-
-        # set row stretch
-        self.main_ui_layout.setRowStretch(2, 1)
-
-    def button_layout_setup(self):
+    def toggle_state(self, state):
         """
-        Sets up the button layout for the UI.
+        Toggle the state of the UI.
         """
-        # Create a new frame to hold the buttons
-        self.button_frame = QFrame(self)
-        self.button_frame.setFrameShape(QFrame.Shape.NoFrame)
-
-        self.button_layout = QHBoxLayout(self.button_frame)
-        self.button_layout.setAlignment(
-            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
-        )
-
-        self.button_setup()
-
-        self.button_layout.addWidget(self.theme_button)
-        self.button_layout.addStretch()
-        self.button_layout.addWidget(self.config_ui_button)
-
-        # Add the button frame to the main UI layout
-        self.main_ui_layout.addWidget(self.button_frame)
-
-    def button_setup(self):
-        """
-        Set up the theme and configuration UI buttons in the main UI.
-        """
-        # Set up the theme button
-        self.theme_button = QPushButton(self)
-        self.theme_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        self.theme_button.setToolTip(THEME_BUTTON_TOOLTIP)
-        self.theme_button.setFlat(True)
-        self.theme_button.setSizePolicy(
-            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-        )
-
-        # Set up the config UI button
-        self.config_ui_button = QPushButton(self)
-        self.config_ui_button.setFixedSize(*MAIN_UI_BUTTON_SIZE)
-        self.config_ui_button.setToolTip(CONFIG_UI_BUTTON_TOOLTIP)
-        self.config_ui_button.setFlat(True)
-        self.config_ui_button.setSizePolicy(
-            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-        )
-
-        # Connect signal-slot connections
-        self.theme_button.clicked.connect(
-            self.theme_handler_instance.cycle_theme_handler
-        )
-        self.config_ui_button.clicked.connect(self.toggle_config_ui)
-        self.theme_handler_instance.theme_changed.connect(self.update_button_icon)
-
-        # Update the buttons' icons
-        self.update_button_icon()
-
-    def update_button_icon(self):
-        # Update the button icon based on the theme.
-        theme_instance = self.theme_handler_instance.current_theme
-
-        if theme_instance == Theme.LIGHT:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_LIGHT_PATH))
-            if self.config_ui_button_flipped:
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
-                )
-            else:
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-        elif theme_instance == Theme.DARK:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DARK_PATH))
-            if self.config_ui_button_flipped:
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
-                )
-            else:
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
-        else:
-            self.theme_button.setIcon(QIcon(THEME_BUTTON_ICON_DEFAULT_PATH))
-
-    def toggle_config_ui(self):
-        theme_instance = self.theme_handler_instance.current_theme
-
-        if self.config_ui_frame.isVisible():
-            self.config_ui_frame.hide()
-
-            if theme_instance == Theme.DARK:
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_DARK_PATH))
-            else:
-                self.config_ui_button.setIcon(QIcon(CONFIG_UI_BUTTON_ICON_LIGHT_PATH))
-
-            new_width = self.width() - self.config_ui_frame.width()
-            self.setMinimumSize(*UI_MINIMUM_SIZE)
-
-            self.config_ui_button_flipped = False
-
-        else:
-            self.config_ui_frame.show()
-
-            if theme_instance == Theme.DARK:
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_DARK_PATH)
-                )
-            else:
-                self.config_ui_button.setIcon(
-                    QIcon(CONFIG_UI_BUTTON_ICON_FLIPPED_LIGHT_PATH)
-                )
-
-            new_width = self.width() + self.config_ui_frame.width()
-            self.setMinimumWidth(new_width)
-
-            self.config_ui_button_flipped = True
-
-        self.resize(new_width, self.height())
-
-    def desc_label(self):
-        """
-        Create a description label and set its style, font, and size policy.
-        """
-        self.main_label = QLabel(MAIN_UI_GROUPBOX_TITLE, self)
-        self.main_label.setStyleSheet(UI_DESC_LABEL_STYLE)
-        self.main_label.setFont(
-            QFont(UI_FONT_TYPE, UI_GROUPBOX_FONT_SIZE, QFont.Weight.Bold)
-        )
-        self.main_label.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum
-        )
-
-    def central_layout_setup(self):
-        """
-        Sets up the central layout for the application window.
-        """
-        # Create a new frame to hold the layout
-        self.central_frame = QFrame(self)
-        self.central_frame.setFrameShape(QFrame.Shape.NoFrame)
-
-        # central_layout properties
-        self.central_layout = QGridLayout(self.central_frame)
-        self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        # Add widgets
-        self.logo()
-
-        # Add widgets to central_layout
-        self.central_layout.addWidget(self.logo_label, 0, 0)
-
-        # Add the central frame to the main UI layout
-        self.main_ui_layout.addWidget(self.central_frame)
-
-    def copy_right_label(self):
-        """
-        This function creates a QLabel object with a text string containing a copyright label.
-        """
-        self.crlabel = QLabel(COPYRIGHT_LABEL, self)
-        self.crlabel.setFont(QFont(UI_FONT_TYPE, COPYRIGHT_LABEL_SIZE))
-        self.crlabel.setStyleSheet(COPYRIGHT_LABEL_STYLE)
-
-    def logo(self):
-        """
-        This function creates a QLabel object with a text string containing a logo.
-        """
-        self.logo_label = QLabel("3D Viewer COMING SOON!", self)
+        self._settings.setValue("checkbox_state", state)
+        QTimer.singleShot(0, lambda: self._ui_handler.delayed_center_ui_on_screen(self))

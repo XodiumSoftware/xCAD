@@ -1,6 +1,6 @@
-# BricsCAD plug-in
+# AutoFrameCAD 
 
-GUI window for creating basic objects in BricsCad (e.g. walls)
+A BricsCAD plug-in which includes GUI for creating basic objects (e.g. walls)
 
 # Installation
 

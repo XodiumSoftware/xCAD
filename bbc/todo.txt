@@ -1,0 +1,21 @@
+settings_list_widget.py:
+=============================================================================================
+TODO: REDO THE WHOLE FILE.
+TODO: Make the cells have different setting_types.
+TODO: define the setting_types.
+TODO: group_name be bold.
+TODO: group_name be centered.
+TODO: group header have background color.
+TODO: column header have background color.
+TODO: group be foldable to hide/show the items within.
+TODO: Make the content be saved in the SQLite database based on the save/discard button.
+TODO: get the if saved data from the database and display it.
+TODO: change the DATA items content to the appropriate content and don't forget to remove the 3rd column.
+TODO: rename the column to an appropriate name based on the items.
+=============================================================================================
+
+
+constants.py:
+=============================================================================================
+FIXME: constants.py -> ButtonModule -> "actions"
+=============================================================================================

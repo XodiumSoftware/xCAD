@@ -3,9 +3,14 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     },
-    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "python.analysis.extraPaths": ["${workspaceFolder}"],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.formatting.blackArgs": ["--fast"],
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "fit",
   "explorer.openEditors.visible": 0,
@@ -30,6 +35,8 @@
     "Frameless",
     "hlayout",
     "htdocs",
+    "INPUTFIELDS",
+    "lightgray",
     "mainui",
     "matplotlib",
     "modelspace",
@@ -41,8 +48,10 @@
     "pyautocad",
     "pyplot",
     "pythoncom",
+    "QSETTINGS",
     "readfile",
     "specfic",
+    "SPINBOXES",
     "subcontrol",
     "Teigha",
     "tfcc",
@@ -52,5 +61,6 @@
   ],
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
-  }
+  },
+  "C_Cpp.default.compilerPath": ""
 }

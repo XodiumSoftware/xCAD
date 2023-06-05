@@ -1,88 +1,102 @@
+import platform
 import winreg
 
-from constants import *
-from PySide6.QtCore import QFile, QSettings, QTextStream
-from PySide6.QtWidgets import QApplication
+from constants import (
+    DEBUG_NAME,
+    MS_VALUE_NAME,
+    THEME_DARK,
+    THEME_FILE_PATHS,
+    THEME_LIGHT,
+    THEME_SYSTEM_DEFAULT,
+    WINREG_THEME_KEY,
+)
+from PySide6.QtCore import QObject
 
 
-class ThemeHandler:
-    """
-    Handles the theme.
-    """
+class ThemeHandler(QObject):
+    def __init__(self, settings, current_theme):
+        """
+        Initialize the ThemeHandler.
+        """
+        super().__init__()
+        self._settings = settings
+        self._current_theme = current_theme
+        self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
 
-    def __init__(self):
+    def init_theme_handler(self, main_ui):
         """
-        Initializes the theme handler.
+        Initialize the theme handler.
         """
-        self.settings = QSettings(SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
-        self.app = QApplication([])
-        self.dark_stylesheet = self.load_stylesheet(DARK_THEME_FILE)
-        self.light_stylesheet = self.load_stylesheet(LIGHT_THEME_FILE)
-        self.load_theme()
+        self._main_ui = main_ui
+        self.load_saved_theme()
+        self.apply_theme()
 
-    def load_stylesheet(self, filename):
+    def toggle_theme(self):
         """
-        Loads a stylesheet from a file.
+        Toggle the theme.
         """
-        file = QFile(filename)
-        stylesheet = None
-        if file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text):
-            try:
-                stream = QTextStream(file)
-                stylesheet = stream.readAll()
-            finally:
-                file.close()
-        return stylesheet
+        self._current_theme = self._theme_states[
+            (self._theme_states.index(self._current_theme) + 1)
+            % len(self._theme_states)
+        ]
+        self.set_theme(self._current_theme)
+        self.apply_theme()
 
-    def detect_system_theme(self):
+    def set_theme(self, theme_name):
         """
-        Detects the system theme.
+        Set the theme.
+        """
+        if theme_name in THEME_FILE_PATHS:
+            self._current_theme = theme_name
+            self._settings.setValue("theme", theme_name)
+            self.apply_theme()
+
+    def get_current_theme(self):
+        """
+        Get the current theme.
+        """
+        return self._current_theme
+
+    def load_saved_theme(self):
+        """
+        Load the saved theme.
+        """
+        saved_theme = str(self._settings.value("theme"))
+        if saved_theme is not None:
+            self.set_theme(saved_theme)
+
+    def detect_system_theme_handler(self):
+        """
+        Detect the system theme.
         """
         try:
-            # Open the registry key that stores the system-wide color settings
-            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
+            if platform.system() != "Windows":
+                return None
 
-            # Read the value of the "AppsUseLightTheme" key
-            # If the value is set to 1, the system is using the light theme
-            # If the value is set to 0, the system is using the dark theme
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, WINREG_THEME_KEY)
             value_name = MS_VALUE_NAME
             value = winreg.QueryValueEx(key, value_name)[0]
-
-            # Set the theme based on the system-wide color setting
             if value == 0:
-                self.set_theme(KEY_THEME_DARK)
-            else:
-                self.set_theme(KEY_THEME_LIGHT)
-
+                return THEME_SYSTEM_DEFAULT + "_" + THEME_DARK
+            elif value == 1:
+                return THEME_SYSTEM_DEFAULT + "_" + THEME_LIGHT
         except Exception as e:
-            print(DEBUG_ERROR_DETECTING_SYSTEM_THEME, e)
+            print(DEBUG_NAME + "Error detecting system theme:", e)
 
-    def load_theme(self):
+    def apply_theme(self):
         """
-        Loads the theme.
+        Apply the theme.
         """
-        # Load the saved theme from the settings
-        theme = self.settings.value(KEY_THEME, KEY_THEME_LIGHT)
+        stylesheet = self._loadStyleSheet(THEME_FILE_PATHS[self._current_theme])
+        self._main_ui.setStyleSheet(stylesheet)
 
-        if theme == KEY_THEME_DARK:
-            self.set_theme(KEY_THEME_DARK)
-        elif theme == KEY_THEME_LIGHT:
-            self.set_theme(KEY_THEME_LIGHT)
-        else:
-            # If no theme is saved, detect the system-wide color setting
-            self.detect_system_theme()
-
-    def set_theme(self, theme):
+    @staticmethod
+    def _loadStyleSheet(file_path):
         """
-        Sets the theme.
+        Load the style sheet.
         """
-        if theme == KEY_THEME_DARK:
-            stylesheet = self.dark_stylesheet
-            theme_value = KEY_THEME_DARK
-        else:
-            stylesheet = self.light_stylesheet
-            theme_value = KEY_THEME_LIGHT
-
-        if stylesheet:
-            self.app.setStyleSheet(stylesheet)
-            self.settings.setValue(KEY_THEME, theme_value)
+        try:
+            with open(file_path, "r") as file:
+                return file.read()
+        except IOError:
+            return ""
