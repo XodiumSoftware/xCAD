@@ -55,13 +55,13 @@ class MainUI(QMainWindow):
         main_ui_layout.setContentsMargins(5, 5, 5, 5)
 
         # Visibility State 0:
-        if self._settings.value("checkbox_state", True, bool):
+        if self._settings.value("checkbox_state", True):
             main_ui_layout.addWidget(LabelModule(1, self), 1, 0)
             main_ui_layout.addWidget(self.modular_checkbox, 2, 0)
             main_ui_layout.addWidget(LabelModule(0, self), 3, 0)
 
         # Visibility State 1:
-        if not self._settings.value("checkbox_state", True, bool):
+        if not self._settings.value("checkbox_state", True):
             main_ui_layout.addWidget(button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0, self), 1, 0)
             main_ui_layout.addWidget(button_container_1, 2, 0)
@@ -81,7 +81,7 @@ class MainUI(QMainWindow):
         """
         if not hasattr(self, "_modular_checkbox"):
             checkbox = QCheckBox("Toggle startup page")
-            state = bool(self._settings.value("checkbox_state", True, bool))
+            state = bool(self._settings.value("checkbox_state", True))
             checkbox.setChecked(state)
             checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
             self._modular_checkbox = checkbox

@@ -44,7 +44,7 @@ class CheckBoxModule(QWidget):
         checkbox = QCheckBox(checkbox_data["title"])
         checkbox.setStyleSheet(checkbox_data["stylesheet"])
         checkbox.setSizePolicy(*checkbox_data["size_policy"])
-        checkbox.setChecked(bool(self._settings.value("checkbox_state", True, bool)))
+        checkbox.setChecked(bool(self._settings.value("checkbox_state", True)))
 
         checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
 
