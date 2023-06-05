@@ -1,4 +1,6 @@
-from constants import CHECKBOXES
+from constants import CHECKBOXES, QSETTINGS
+from handlers.ui_handler import UIHandler
+from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
 
@@ -8,6 +10,10 @@ class CheckBoxModule(QWidget):
         Initialize the CheckBoxModule.
         """
         super().__init__(parent)
+
+        self._settings = QSettings(QSETTINGS)
+        self._ui_handler = UIHandler(self)
+
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
@@ -35,8 +41,14 @@ class CheckBoxModule(QWidget):
         """
         Create a checkbox module.
         """
-        checkbox = QCheckBox(checkbox_data["title"])
-        checkbox.setChecked(checkbox_data["checked"])
-        checkbox.setStyleSheet(checkbox_data["stylesheet"])
-        checkbox.setSizePolicy(*checkbox_data["size_policy"])
-        return checkbox
+        if not hasattr(self, "checkbox_state"):
+            checkbox = QCheckBox(checkbox_data["title"])
+            checkbox.setStyleSheet(checkbox_data["stylesheet"])
+            checkbox.setSizePolicy(*checkbox_data["size_policy"])
+            checkbox.setChecked(
+                bool(self._settings.value("checkbox_state", True, bool))
+            )
+            checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
+            self.checkbox_state = checkbox
+
+        return self.checkbox_state

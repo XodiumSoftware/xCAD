@@ -116,7 +116,6 @@ CHECKBOXES = [
         "index": 0,
         "title": "Toggle startup page",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "checked": True,
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
