@@ -8,9 +8,9 @@ class LabelModule(QWidget):
         Initialize the LabelWidget.
         """
         super().__init__(parent)
-        self.init_label_module(label_index)
+        self.setup_label_module(label_index)
 
-    def init_label_module(self, label_index):
+    def setup_label_module(self, label_index):
         """
         Initialize the label widget.
         """

@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QSizePolicy
 
 # General
@@ -33,35 +34,56 @@ UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # SettingsListWidget
-COLUMN_HEADER_LABELS = ["Parameter", "Value"]
-DROPDOWN_LIST_GENERAL = ["Option 1", "Option 2", "Option 3"]
-DROPDOWN_LIST_SOUND = ["On", "Off"]
-SETTINGS_LIST = [
+SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings_database.json")
+
+COLUMN_HEADER = [
     {
-        "group": "General",
-        "settings": [
-            ("Structure", "dropdown", DROPDOWN_LIST_GENERAL),
-            ("Wrapping at Inserts", "input_text", None),
-            ("Wrapping at Ends", "input_int", None),
-        ],
-    },
-    {
-        "group": "Dimensions",
-        "settings": [
-            ("Width", "dropdown", DROPDOWN_LIST_SOUND),
-            ("Length", "checkbox", None),
-        ],
-    },
-    {
-        "group": "Actions",
-        "settings": [
-            ("Test", "button", None),
-        ],
+        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
+        "labels": ["Parameters", "Values"],
     },
 ]
 
-SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.sqlite")
-CHECKBOX_STYLE = "QCheckBox {margin-left: 100%; margin-right: 100%; padding-left: -10px; padding-right: -10px;}"
+ROW_HEADER = [
+    {
+        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
+    },
+]
+
+SETTINGS_LIST = [
+    {
+        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
+        "group_header_title": "Group 1",
+        "item_font": [QFont("Arial", 8)],
+        "items": [
+            ("John Doe", 30),
+            ("Jane Smith", 25),
+            ("Bob Johnson", 45),
+            ("Alice Brown", 35),
+        ],
+    },
+    {
+        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
+        "group_header_title": "Group 2",
+        "item_font": [QFont("Arial", 8)],
+        "items": [
+            ("Michael Williams", 50),
+            ("Emma Johnson", 28),
+            ("William Davis", 42),
+            ("Olivia Taylor", 32),
+        ],
+    },
+    {
+        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
+        "group_header_title": "Group 3",
+        "item_font": [QFont("Arial", 8)],
+        "items": [
+            ("James Wilson", 37),
+            ("Sophia Martinez", 31),
+            ("Daniel Anderson", 48),
+            ("Mia Thomas", 29),
+        ],
+    },
+]
 
 # LabelModule
 LABELS = [
@@ -88,7 +110,7 @@ LABELS = [
     },
 ]
 
-# CheckboxModule
+# CheckBoxModule
 CHECKBOXES = [
     {
         "index": 0,
@@ -99,7 +121,30 @@ CHECKBOXES = [
     },
 ]
 
-# ButtonWidget
+# InputFieldModule
+INPUTFIELDS = [
+    {
+        "index": 0,
+        "placeholder": "Test",
+        "stylesheet": "QLineEdit { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# SpinBoxModule
+SPINBOXES = [
+    {
+        "index": 0,
+        "minium": 0,
+        "maximum": 1.7e308,
+        "default": 0,
+        "step": 0.5,
+        "stylesheet": "QSpinBox { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
+# ButtonModule
 BUTTONS = [
     {
         "index": 0,
@@ -108,26 +153,30 @@ BUTTONS = [
         "icon_path": os.path.join(
             ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
         ),
+        # "action": self.button_clicked,
     },
     {
         "index": 1,
         "title": "ViewerButton",
         "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
+        # "action": self.button_clicked,
     },
     {
         "index": 2,
         "title": "Save",
         "size": (50, 30),
         "icon_path": None,
+        # "action": self.button_clicked,
     },
     {
         "index": 3,
         "title": "Discard",
         "size": (50, 30),
         "icon_path": None,
+        # "action": self.button_clicked,
     },
-]  # Dont forget to add the necessary code into the EventHandler.
+]
 
 # ThemeHandler
 THEME_FILE_PATHS = {

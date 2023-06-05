@@ -1,5 +1,5 @@
+from constants import COLUMN_HEADER, ROW_HEADER, SETTINGS_LIST
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QHeaderView,
@@ -8,55 +8,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
-COLUMN_HEADER = [
-    {
-        "column_header_stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-        "column_header_labels": ["Parameters", "Values"],
-    },
-]
-
-ROW_HEADER = [
-    {
-        "row_header_stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-    },
-]
-
-SETTINGS_LIST = [
-    {
-        "settings_list_group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "settings_list_group_header_title": "Group 1",
-        "settings_list_item_font": [QFont("Arial", 8)],
-        "settings_list_items": [
-            ("John Doe", 30),
-            ("Jane Smith", 25),
-            ("Bob Johnson", 45),
-            ("Alice Brown", 35),
-        ],
-    },
-    {
-        "settings_list_group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "settings_list_group_header_title": "Group 2",
-        "settings_list_item_font": [QFont("Arial", 8)],
-        "settings_list_items": [
-            ("Michael Williams", 50),
-            ("Emma Johnson", 28),
-            ("William Davis", 42),
-            ("Olivia Taylor", 32),
-        ],
-    },
-    {
-        "settings_list_group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "settings_list_group_header_title": "Group 3",
-        "settings_list_item_font": [QFont("Arial", 8)],
-        "settings_list_items": [
-            ("James Wilson", 37),
-            ("Sophia Martinez", 31),
-            ("Daniel Anderson", 48),
-            ("Mia Thomas", 29),
-        ],
-    },
-]
 
 
 class SettingsListWidget(QWidget):
@@ -76,10 +27,8 @@ class SettingsListWidget(QWidget):
         Setup the table widget.
         """
         self.table_widget = QTableWidget()
-        self.table_widget.setColumnCount(len(COLUMN_HEADER[0]["column_header_labels"]))
-        self.table_widget.setHorizontalHeaderLabels(
-            COLUMN_HEADER[0]["column_header_labels"]
-        )
+        self.table_widget.setColumnCount(len(COLUMN_HEADER[0]["labels"]))
+        self.table_widget.setHorizontalHeaderLabels(COLUMN_HEADER[0]["labels"])
         self.table_widget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table_widget.setSelectionBehavior(
             QAbstractItemView.SelectionBehavior.SelectRows
@@ -94,15 +43,15 @@ class SettingsListWidget(QWidget):
         Populate the table with data.
         """
         for group_data in SETTINGS_LIST:
-            group_name = group_data["settings_list_group_header_title"]
+            group_name = group_data["group_header_title"]
             group_item = QTableWidgetItem(group_name)
             group_item.setFlags(Qt.ItemFlag.NoItemFlags)
             self.table_widget.insertRow(self.table_widget.rowCount())
             self.table_widget.setItem(self.table_widget.rowCount() - 1, 0, group_item)
 
-            item_font = group_data["settings_list_item_font"]
+            item_font = group_data["item_font"]
 
-            for item in group_data["settings_list_items"]:
+            for item in group_data["items"]:
                 self.table_widget.insertRow(self.table_widget.rowCount())
 
                 for column, value in enumerate(item):
@@ -122,12 +71,12 @@ class SettingsListWidget(QWidget):
         """
         H_header = self.table_widget.horizontalHeader()
         H_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        H_header_stylesheet = COLUMN_HEADER[0].get("column_header_stylesheet")
+        H_header_stylesheet = COLUMN_HEADER[0].get("stylesheet")
         if H_header_stylesheet:
             H_header.setStyleSheet(H_header_stylesheet)
 
         V_header = self.table_widget.verticalHeader()
-        V_header_stylesheet = ROW_HEADER[0].get("row_header_stylesheet")
+        V_header_stylesheet = ROW_HEADER[0].get("stylesheet")
         if V_header_stylesheet:
             V_header.setStyleSheet(V_header_stylesheet)
 
