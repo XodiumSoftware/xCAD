@@ -1,6 +1,5 @@
 settings_list_widget.py:
 =============================================================================================
-TODO: REDO THE WHOLE FILE.
 TODO: Make the cells have different setting_types.
 TODO: define the setting_types.
 TODO: group_name be bold.
