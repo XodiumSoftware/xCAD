@@ -34,6 +34,8 @@ class TableModule(QWidget):
         )
 
         if table_data:
+            ordered_data = sorted(table_data["data"], key=lambda x: x[0])
+            table_data["data"] = ordered_data
             table_widget = self.create_table_module(table_data)
             layout.addWidget(table_widget)
 
