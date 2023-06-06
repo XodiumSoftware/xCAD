@@ -38,5 +38,5 @@ class ButtonModule(QWidget):
             button.setIcon(QIcon(button_data["icon_path"]))
         else:
             button.setText(button_data["title"])
-        # button.clicked.connect(button_data["action"])
+
         return button

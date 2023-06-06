@@ -50,9 +50,6 @@ class MainUI(QMainWindow):
         button_container_1.add_widget(ButtonModule(3))
 
         main_ui_layout = QGridLayout()
-        main_ui_layout.setVerticalSpacing(5)
-        main_ui_layout.setHorizontalSpacing(5)
-        main_ui_layout.setContentsMargins(5, 5, 5, 5)
 
         # Visibility State 0:
         if self._settings.value("checkbox_state", True):
