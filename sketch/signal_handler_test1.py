@@ -72,8 +72,10 @@ class MainUI(QMainWindow):
 
     def setup_signals(self):
         for value_type, signal in self._signals.items():
-            signal_instance = signal()  # FIXME: Object of type "Signal" is not callable
-            signal_instance.connect(partial(self.print_received_signal, value_type))
+            signal_instance = signal
+            signal_instance.connect(
+                partial(self.print_received_signal, value_type)
+            )  # FIXME: Cannot access member "connect" for type "Signal" Member "connect" is unknown
             setattr(self, f"{value_type.__name__}Signal", signal_instance)
 
     def emit_signals(self):
