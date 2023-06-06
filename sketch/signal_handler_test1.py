@@ -1,6 +1,8 @@
 import sys
+from collections import defaultdict
+from functools import partial
 
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtCore import Signal, Slot
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -9,62 +11,41 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-
-class SignalsHandler(QObject):
-    _signals = {}
-
-    def __init__(self, value_types):
-        super().__init__()
-
-        for value_type in value_types:
-            self._signals[value_type] = Signal(value_type)
-
-    def __getitem__(self, value_type):
-        return self._signals[value_type]
+UI_TITLE = "My Application"
 
 
 class MainUI(QMainWindow):
-    UI_TITLE = "My Application"
-    SUPPORTED_TYPES = [
-        int,
-        str,
-        bool,
-        float,
-        list,
-        tuple,
-        dict,
-        set,
-        frozenset,
-        bytes,
-        bytearray,
-        memoryview,
-        type(None),
-    ]
-
     def __init__(self):
         super().__init__()
-        self._signals = SignalsHandler(self.SUPPORTED_TYPES)
+        self.init_signals()
+        self.init_values()
         self.setup_main_ui()
+        self.setup_signals()
 
-    def setup_main_ui(self):
-        self.setCentralWidget(QWidget())
-        self.setWindowTitle(self.UI_TITLE)
+    def init_signals(self):
+        def create_signal():
+            return Signal(object)
 
-        layout = self.create_layout()
-        button = self.create_button()
+        self._signals = defaultdict(
+            create_signal,
+            {
+                int: Signal(int),
+                str: Signal(str),
+                bool: Signal(bool),
+                float: Signal(float),
+                list: Signal(list),
+                tuple: Signal(tuple),
+                dict: Signal(dict),
+                set: Signal(set),
+                frozenset: Signal(frozenset),
+                bytes: Signal(bytes),
+                bytearray: Signal(bytearray),
+                type(None): Signal(type(None)),
+            },
+        )
 
-        layout.addWidget(button)
-
-    def create_layout(self):
-        return QVBoxLayout(self.centralWidget())
-
-    def create_button(self):
-        button = QPushButton("Button")
-        button.clicked.connect(self.emit_signals)
-        return button
-
-    def emit_signals(self):
-        values = [
+    def init_values(self):
+        self._values = [
             1,
             "Hello",
             True,
@@ -76,14 +57,34 @@ class MainUI(QMainWindow):
             frozenset({4, 5, 6}),
             b"data",
             bytearray(b"data"),
-            memoryview(b"data"),
             None,
         ]
-        for value in values:
+
+    def setup_main_ui(self):
+        self.setCentralWidget(QWidget())
+        self.setWindowTitle(UI_TITLE)
+
+        layout = QVBoxLayout(self.centralWidget())
+        emitButton = QPushButton("Emit Signals")
+        emitButton.clicked.connect(self.emit_signals)
+
+        layout.addWidget(emitButton)
+
+    def setup_signals(self):
+        for value_type, signal in self._signals.items():
+            signal.connect(partial(self.print_received_signal, value_type))
+
+    def emit_signals(self):
+        for value in self._values:
             self.emit_signal(value)
 
+    @Slot(type)
+    def print_received_signal(self, value_type):
+        print(f"Received signal for type: {value_type}")
+
     def emit_signal(self, value):
-        self._signals[type(value)].emit(value)
+        signal = self._signals[type(value)]
+        signal.emit(value)
 
 
 def run():
