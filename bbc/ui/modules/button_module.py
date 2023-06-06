@@ -1,9 +1,14 @@
+from functools import partial
+
 from constants import BUTTONS
+from PySide6.QtCore import Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
+    onButtonClicked = Signal(int)
+
     def __init__(self, button_index, parent=None):
         """
         Initialize the ButtonModule.
@@ -24,6 +29,7 @@ class ButtonModule(QWidget):
 
         if button_data:
             button = self.create_button_module(button_data)
+            button.clicked.connect(partial(self.onButtonClicked.emit, button_index))
             layout.addWidget(button)
 
         self.setLayout(layout)
