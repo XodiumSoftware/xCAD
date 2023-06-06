@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 from functools import partial
 
-from PySide6.QtCore import Signal, Slot
+from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -72,19 +72,30 @@ class MainUI(QMainWindow):
 
     def setup_signals(self):
         for value_type, signal in self._signals.items():
-            signal.connect(partial(self.print_received_signal, value_type))
+            signal_instance = signal()  # FIXME: Object of type "Signal" is not callable
+            signal_instance.connect(partial(self.print_received_signal, value_type))
+            setattr(self, f"{value_type.__name__}Signal", signal_instance)
 
     def emit_signals(self):
         for value in self._values:
             self.emit_signal(value)
 
-    @Slot(type)
-    def print_received_signal(self, value_type):
-        print(f"Received signal for type: {value_type}")
+    @Slot(object)
+    def print_received_signal(self, value, value_type):
+        print(f"Received signal for type: {value_type}, value: {value}")
 
     def emit_signal(self, value):
         signal = self._signals[type(value)]
-        signal.emit(value)
+        signal.emit(
+            value
+        )  # FIXME: Cannot access member "emit" for type "Signal" Member "emit" is unknown
+
+
+class Emitter(QObject):
+    signal = Signal(object)
+
+    def emitSignal(self, value):
+        self.signal.emit(value)
 
 
 def run():
