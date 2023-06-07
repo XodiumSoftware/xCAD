@@ -39,4 +39,5 @@ class InputFieldModule(QWidget):
         input_field.setPlaceholderText(input_data["placeholder"])
         input_field.setStyleSheet(input_data["stylesheet"])
         input_field.setSizePolicy(*input_data["size_policy"])
+        
         return input_field

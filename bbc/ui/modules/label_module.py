@@ -34,4 +34,5 @@ class LabelModule(QWidget):
         label.setStyleSheet(label_data["stylesheet"])
         label.setAlignment(label_data["alignment"])
         label.setSizePolicy(*label_data["size_policy"])
+
         return label

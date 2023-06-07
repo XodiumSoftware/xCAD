@@ -38,4 +38,5 @@ class SpinBoxModule(QWidget):
         spinbox.setSingleStep(spinbox_data["step"])
         spinbox.setStyleSheet(spinbox_data["stylesheet"])
         spinbox.setSizePolicy(*spinbox_data["size_policy"])
+        
         return spinbox

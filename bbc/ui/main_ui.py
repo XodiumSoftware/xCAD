@@ -1,5 +1,3 @@
-from functools import partial
-
 from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
