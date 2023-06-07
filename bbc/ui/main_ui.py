@@ -3,8 +3,9 @@ from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QCheckBox, QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
+from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.label_module import LabelModule
 from ui.modules.settings_list_module import TableModule
@@ -38,6 +39,10 @@ class MainUI(QMainWindow):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
 
+        # Setup checkboxes:
+        self.checkbox_0 = CheckBoxModule(0)
+        self.checkbox_0.onCheckBoxClicked.connect(lambda: self.on_checkbox_clicked)
+
         # Setup buttons:
         self.button_0 = ButtonModule(0)
         self.button_0.onButtonClicked.connect(lambda: self.on_button_clicked(0))
@@ -52,30 +57,30 @@ class MainUI(QMainWindow):
         self.button_3.onButtonClicked.connect(lambda: self.on_button_clicked(3))
 
         # Setup containers:
-        button_container_0 = ContainerModule("HBox")
-        button_container_0.add_widget(self.button_0)
-        button_container_0.add_stretch()
-        button_container_0.add_widget(self.button_1)
+        self.button_container_0 = ContainerModule("HBox")
+        self.button_container_0.add_widget(self.button_0)
+        self.button_container_0.add_stretch()
+        self.button_container_0.add_widget(self.button_1)
 
-        button_container_1 = ContainerModule("HBox")
-        button_container_1.add_stretch()
-        button_container_1.add_widget(self.button_2)
-        button_container_1.add_widget(self.button_3)
+        self.button_container_1 = ContainerModule("HBox")
+        self.button_container_1.add_stretch()
+        self.button_container_1.add_widget(self.button_2)
+        self.button_container_1.add_widget(self.button_3)
 
         main_ui_layout = QGridLayout()
 
         # Visibility State 0:
         if self._settings.value("checkbox_state", True):
             main_ui_layout.addWidget(LabelModule(1), 1, 0)
-            main_ui_layout.addWidget(self.modular_checkbox, 2, 0)
+            main_ui_layout.addWidget(self.checkbox_0, 2, 0)
             main_ui_layout.addWidget(LabelModule(0), 3, 0)
 
         # Visibility State 1:
         if not self._settings.value("checkbox_state", True):
-            main_ui_layout.addWidget(button_container_0, 0, 0)
+            main_ui_layout.addWidget(self.button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0), 1, 0)
-            main_ui_layout.addWidget(button_container_1, 2, 0)
-            main_ui_layout.addWidget(self.modular_checkbox, 3, 0)
+            main_ui_layout.addWidget(self.button_container_1, 2, 0)
+            main_ui_layout.addWidget(self.checkbox_0, 3, 0)
             main_ui_layout.addWidget(LabelModule(0), 4, 0)
 
         central_widget = QWidget()
@@ -97,16 +102,11 @@ class MainUI(QMainWindow):
         elif button_index == 3:
             print(f"Button {button_index} clicked!")
 
-    @property
-    def modular_checkbox(self):
+    def on_checkbox_clicked(self, checkbox_index, checked):
         """
-        Create and configure the checkbox.
+        Handle the checkbox clicked event.
         """
-        if not hasattr(self, "_modular_checkbox"):
-            checkbox = QCheckBox("Toggle startup page")
-            state = bool(self._settings.value("checkbox_state", True))
-            checkbox.setChecked(state)
+        if checkbox_index == 0:
+            checkbox = self.checkbox_0.create_checkbox_module(0)
+            checkbox.setChecked(checked)
             checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
-            self._modular_checkbox = checkbox
-
-        return self._modular_checkbox
