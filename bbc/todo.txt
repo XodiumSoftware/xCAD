@@ -26,9 +26,3 @@ TODO: Move the modular_checkbox property to the checkbox module.
 TODO: convert the button connections in the main_ui from lambda to partial.
 TODO: move the on_button_clicked function to the events_handler.
 =============================================================================================
-
-
-General:
-=============================================================================================
-TODO: Add connect feature for every module that supports it.
-=============================================================================================
