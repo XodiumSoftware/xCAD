@@ -1,7 +1,6 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QSizePolicy
 
 # General
@@ -27,7 +26,6 @@ DATA_FOLDER_PATH = os.path.join("bbc/data/")
 
 QSETTINGS_ORGANIZATION_NAME = "Qerimi_Engineering"
 QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
-QSETTINGS = QSETTINGS_ORGANIZATION_NAME + QSETTINGS_APPLICATION_NAME
 
 # UI
 UI_TITLE = "AFC"

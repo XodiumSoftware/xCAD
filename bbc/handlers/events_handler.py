@@ -1,4 +1,4 @@
-from constants import DEBUG_NAME, QSETTINGS
+from constants import DEBUG_NAME
 from PySide6.QtCore import QObject, QSettings, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
@@ -10,7 +10,7 @@ class EventsHandler(QObject):
         Initialize the EventsHandler.
         """
         super().__init__()
-        self._settings = QSettings(QSETTINGS)
+        self._settings = QSettings()
 
     @Slot()
     def quit_on_key_press_event(self):
@@ -42,12 +42,12 @@ class EventsHandler(QObject):
         """
         if checkbox_index == 0:
             print(DEBUG_NAME + f"Checkbox {checkbox_index} clicked!")
-            current_checkbox_state = self._settings.value(
-                "startup_page_visibility_state", False
-            )
-            new_checkbox_state = not current_checkbox_state
-            self._settings.setValue("startup_page_visibility_state", new_checkbox_state)
-            print(
-                DEBUG_NAME
-                + f"Startup page visibility state set to: {current_checkbox_state}!"
-            )
+            # current_checkbox_state = self._settings.value(
+            #     "startup_page_visibility_state", False
+            # )
+            # new_checkbox_state = not current_checkbox_state
+            # self._settings.setValue("startup_page_visibility_state", new_checkbox_state)
+            # print(
+            #     DEBUG_NAME
+            #     + f"Startup page visibility state set to: {current_checkbox_state}!"
+            # )

@@ -1,4 +1,3 @@
-from constants import QSETTINGS
 from PySide6.QtCore import QPoint, QSettings, QTimer
 from PySide6.QtGui import QGuiApplication
 
@@ -8,7 +7,7 @@ class UIHandler:
         """
         Initialize the UIHandler.
         """
-        self._settings = QSettings(QSETTINGS)
+        self._settings = QSettings()
         self._main_ui = main_ui
 
     @staticmethod

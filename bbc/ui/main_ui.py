@@ -1,4 +1,4 @@
-from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings
@@ -18,7 +18,7 @@ class MainUI(QMainWindow):
         """
         super().__init__()
 
-        self._settings = QSettings(QSETTINGS)
+        self._settings = QSettings()
         self._ui_handler = UIHandler(self)
         self._events_handler = EventsHandler()
 
@@ -74,19 +74,19 @@ class MainUI(QMainWindow):
         main_ui_layout = QGridLayout()
 
         # Visibility State 0:
-        if self._settings.value("startup_page_visibility_state", True):
+        if self._settings.value("startup_page_visibility_state") == True:
             main_ui_layout.addWidget(LabelModule(1), 1, 0)
             main_ui_layout.addWidget(self.checkbox_0, 2, 0)
             main_ui_layout.addWidget(LabelModule(0), 3, 0)
 
         # Visibility State 1:
-        else:
+        elif not self._settings.value("startup_page_visibility_state") == True:
             main_ui_layout.addWidget(self.button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0), 1, 0)
             main_ui_layout.addWidget(self.button_container_1, 2, 0)
             main_ui_layout.addWidget(self.checkbox_0, 3, 0)
             main_ui_layout.addWidget(LabelModule(0), 4, 0)
-            # if self._settings.value("viewer_visibility_state", True):
+            # if self._settings.value("viewer_visibility_state") == True:
             #     pass
 
         central_widget = QWidget()

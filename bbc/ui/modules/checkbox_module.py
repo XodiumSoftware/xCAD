@@ -1,6 +1,6 @@
 from functools import partial
 
-from constants import CHECKBOXES, QSETTINGS
+from constants import CHECKBOXES
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
@@ -13,7 +13,7 @@ class CheckBoxModule(QWidget):
         Initialize the CheckBoxModule.
         """
         super().__init__(parent)
-        self._settings = QSettings(QSETTINGS)
+        self._settings = QSettings()
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
