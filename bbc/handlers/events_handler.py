@@ -1,4 +1,5 @@
-from PySide6.QtCore import QObject, Slot
+from constants import DEBUG_NAME, QSETTINGS
+from PySide6.QtCore import QObject, QSettings, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
 
@@ -9,17 +10,16 @@ class EventsHandler(QObject):
         Initialize the EventsHandler.
         """
         super().__init__()
+        self._settings = QSettings(QSETTINGS)
 
     @Slot()
     def quit_on_key_press_event(self):
         """
         Quit on Escape key or Ctrl+Q.
         """
-        # Create separate QShortcut instances for "Escape" and "Ctrl+Q"
         escape_shortcut = QShortcut(QKeySequence("Escape"), self)
         ctrl_q_shortcut = QShortcut(QKeySequence("Ctrl+Q"), self)
 
-        # Connect both shortcuts to the same slot
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
 
@@ -28,17 +28,22 @@ class EventsHandler(QObject):
         Handle the button clicked event.
         """
         if button_index == 0:
-            print(f"Button {button_index} clicked!")
+            print(DEBUG_NAME + f"Button {button_index} clicked!")
         elif button_index == 1:
-            print(f"Button {button_index} clicked!")
+            print(DEBUG_NAME + f"Button {button_index} clicked!")
         elif button_index == 2:
-            print(f"Button {button_index} clicked!")
+            print(DEBUG_NAME + f"Button {button_index} clicked!")
         elif button_index == 3:
-            print(f"Button {button_index} clicked!")
+            print(DEBUG_NAME + f"Button {button_index} clicked!")
 
     def on_checkbox_clicked(self, checkbox_index):
         """
         Handle the checkbox clicked event.
         """
         if checkbox_index == 0:
-            print(f"Checkbox {checkbox_index} clicked!")
+            print(DEBUG_NAME + f"Checkbox {checkbox_index} clicked!")
+            checkbox_state = self._settings.value("startup_page_visibility_state")
+            self._settings.setValue("startup_page_visibility_state", checkbox_state)
+            print(
+                DEBUG_NAME + f"Startup page visibility state set to: {checkbox_state}!"
+            )
