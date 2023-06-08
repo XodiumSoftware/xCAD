@@ -26,7 +26,7 @@ class MainUI(QMainWindow):
         Setup the settings.
         """
         self._settings = QSettings()
-        self._settings.setValue("startup_page_visibility_state", 0)
+        self._settings.setValue("main_ui_page_visibility_state", 0)
         self._settings.setValue("viewer_visibility_state", 0)
         self._settings.setValue("theme_state", 0)
 
@@ -76,28 +76,40 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        main_ui_layout = QGridLayout()
+        main_page_layout = QGridLayout()
+        startup_page_layout = QGridLayout()
 
-        self._settings.value("")
+        # Get the visibility states:
+        main_ui_page_visibility_state = self._settings.value(
+            "main_ui_page_visibility_state"
+        )
 
-        # Startup Page Visibility State 0:
-        if self._settings.value("startup_page_visibility_state") == 1:
-            main_ui_layout.addWidget(LabelModule(1), 1, 0)
-            main_ui_layout.addWidget(self.checkbox_0, 2, 0)
-            main_ui_layout.addWidget(LabelModule(0), 3, 0)
-
-        # Startup Page Visibility State 1:
-        elif self._settings.value("startup_page_visibility_state") == 0:
-            main_ui_layout.addWidget(self.button_container_0, 0, 0)
-            main_ui_layout.addWidget(TableModule(0), 1, 0)
-            main_ui_layout.addWidget(self.button_container_1, 2, 0)
-            main_ui_layout.addWidget(self.checkbox_0, 3, 0)
-            main_ui_layout.addWidget(LabelModule(0), 4, 0)
-
-            # Viewer Visibility State 0:
-            if self._settings.value("viewer_visibility_state") == 0:
-                main_ui_layout.addWidget(LabelModule(2), 0, 1)
+        viewer_page_visibility_state = self._settings.value(
+            "viewer_page_visibility_state"
+        )
 
         central_widget = QWidget()
-        central_widget.setLayout(main_ui_layout)
+
+        # Startup Page Visibility State 0:
+        if main_ui_page_visibility_state == 0:
+            startup_page_layout.addWidget(LabelModule(1), 1, 0)
+            startup_page_layout.addWidget(self.checkbox_0, 2, 0)
+            startup_page_layout.addWidget(LabelModule(0), 3, 0)
+
+            central_widget.setLayout(startup_page_layout)
+
+        # Startup Page Visibility State 1:
+        elif main_ui_page_visibility_state == 1:
+            main_page_layout.addWidget(self.button_container_0, 0, 0)
+            main_page_layout.addWidget(TableModule(0), 1, 0)
+            main_page_layout.addWidget(self.button_container_1, 2, 0)
+            main_page_layout.addWidget(self.checkbox_0, 3, 0)
+            main_page_layout.addWidget(LabelModule(0), 4, 0)
+
+            # Viewer Visibility State 0:
+            if viewer_page_visibility_state == 0:
+                main_page_layout.addWidget(LabelModule(2), 0, 1)
+
+            central_widget.setLayout(main_page_layout)
+
         self.setCentralWidget(central_widget)

@@ -51,7 +51,7 @@ class CheckBoxModule(QWidget):
         checkbox.setSizePolicy(*checkbox_data["size_policy"])
 
         if checkbox_index == 0:
-            checked_state = self._settings.value("startup_page_visibility_state") == 0
+            checked_state = self._settings.value("main_ui_page_visibility_state") == 0
             checkbox.setChecked(bool(checked_state))
 
         return checkbox
