@@ -17,4 +17,5 @@ TODO: rename the column to an appropriate name based on the items.
 General Notes:
 =============================================================================================
 TODO: Create a ui_module.py for reusable ui components.
+TODO: Link on_checkbox_clicked function to the QSetting "startup_page_visibility_state"
 =============================================================================================
