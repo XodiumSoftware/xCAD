@@ -17,4 +17,6 @@ General Notes:
 =============================================================================================
 TODO: Create a ui_module.py for reusable ui components.
 TODO: Make the startup_page_visibility_state actually change the visibility of certain elements.
+TODO: Make the viewer_visibility_state actually change the visibility of certain elements.
+TODO: Create the foundation of the viewer widget.
 =============================================================================================
