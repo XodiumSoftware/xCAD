@@ -10,6 +10,7 @@ class EventsHandler(QObject):
         Initialize the EventsHandler.
         """
         super().__init__()
+
         self._settings = QSettings()
 
     @Slot()
@@ -42,12 +43,17 @@ class EventsHandler(QObject):
         """
         if checkbox_index == 0:
             print(DEBUG_NAME + f"Checkbox {checkbox_index} clicked!")
-            # current_checkbox_state = self._settings.value(
-            #     "startup_page_visibility_state", False
-            # )
-            # new_checkbox_state = not current_checkbox_state
-            # self._settings.setValue("startup_page_visibility_state", new_checkbox_state)
-            # print(
-            #     DEBUG_NAME
-            #     + f"Startup page visibility state set to: {current_checkbox_state}!"
-            # )
+            current_checkbox_state = self._settings.value(
+                "startup_page_visibility_state"
+            )
+
+            if current_checkbox_state == 0:
+                self._settings.setValue("startup_page_visibility_state", 1)
+
+            elif current_checkbox_state == 1:
+                self._settings.setValue("startup_page_visibility_state", 0)
+
+            print(
+                DEBUG_NAME
+                + f"Startup page visibility state set to: {current_checkbox_state}!"
+            )

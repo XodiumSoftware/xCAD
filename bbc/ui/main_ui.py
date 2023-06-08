@@ -78,20 +78,20 @@ class MainUI(QMainWindow):
         main_ui_layout = QGridLayout()
 
         # Visibility State 0:
-        if self._settings.value("startup_page_visibility_state") == True:
+        if self._settings.value("startup_page_visibility_state") == 0:
             main_ui_layout.addWidget(LabelModule(1), 1, 0)
             main_ui_layout.addWidget(self.checkbox_0, 2, 0)
             main_ui_layout.addWidget(LabelModule(0), 3, 0)
 
         # Visibility State 1:
-        elif not self._settings.value("startup_page_visibility_state") == True:
+        elif self._settings.value("startup_page_visibility_state") == 1:
             main_ui_layout.addWidget(self.button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0), 1, 0)
             main_ui_layout.addWidget(self.button_container_1, 2, 0)
             main_ui_layout.addWidget(self.checkbox_0, 3, 0)
             main_ui_layout.addWidget(LabelModule(0), 4, 0)
-            # if self._settings.value("viewer_visibility_state") == True:
-            #     pass
+            if self._settings.value("viewer_visibility_state") == 0:
+                pass
 
         central_widget = QWidget()
         central_widget.setLayout(main_ui_layout)
