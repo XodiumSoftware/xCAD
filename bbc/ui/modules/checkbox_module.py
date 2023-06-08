@@ -1,12 +1,12 @@
 from functools import partial
 
 from constants import CHECKBOXES
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
 
 class CheckBoxModule(QWidget):
-    onCheckBoxClicked = Signal(int, bool)
+    onCheckBoxClicked = Signal(int)
 
     def __init__(self, checkbox_index, parent=None):
         """
@@ -33,9 +33,7 @@ class CheckBoxModule(QWidget):
         if checkbox_data:
             checkbox = self.create_checkbox_module(checkbox_data)
             checkbox.clicked.connect(
-                partial(
-                    self.onCheckBoxClicked.emit, checkbox_index, checkbox.isChecked()
-                )
+                partial(self.onCheckBoxClicked.emit, checkbox_index)
             )
             layout.addWidget(checkbox)
 

@@ -1,3 +1,5 @@
+from functools import partial
+
 from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
@@ -41,20 +43,20 @@ class MainUI(QMainWindow):
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.onCheckBoxClicked.connect(lambda: self.on_checkbox_clicked)
+        self.checkbox_0.onCheckBoxClicked.connect(partial(self.on_checkbox_clicked))
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
-        self.button_0.onButtonClicked.connect(lambda: self.on_button_clicked(0))
+        self.button_0.onButtonClicked.connect(partial(self.on_button_clicked))
 
         self.button_1 = ButtonModule(1)
-        self.button_1.onButtonClicked.connect(lambda: self.on_button_clicked(1))
+        self.button_1.onButtonClicked.connect(partial(self.on_button_clicked))
 
         self.button_2 = ButtonModule(2)
-        self.button_2.onButtonClicked.connect(lambda: self.on_button_clicked(2))
+        self.button_2.onButtonClicked.connect(partial(self.on_button_clicked))
 
         self.button_3 = ButtonModule(3)
-        self.button_3.onButtonClicked.connect(lambda: self.on_button_clicked(3))
+        self.button_3.onButtonClicked.connect(partial(self.on_button_clicked))
 
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox")
@@ -102,11 +104,9 @@ class MainUI(QMainWindow):
         elif button_index == 3:
             print(f"Button {button_index} clicked!")
 
-    def on_checkbox_clicked(self, checkbox_index, checked):
+    def on_checkbox_clicked(self, checkbox_index):
         """
         Handle the checkbox clicked event.
         """
         if checkbox_index == 0:
-            checkbox = self.checkbox_0.create_checkbox_module(0)
-            checkbox.setChecked(checked)
-            checkbox.stateChanged.connect(self._ui_handler.toggle_ui_state_handler)
+            print(f"Checkbox {checkbox_index} clicked!")
