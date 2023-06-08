@@ -1,17 +1,6 @@
+from constants import TABLES
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
-
-TABLES = [
-    {
-        "index": 0,
-        "headers": ["Parameters", "Values"],
-        "data": [
-            ["Name", "John Doe"],
-            ["Age", "30"],
-            ["Country", "USA"],
-        ],
-    },
-]
 
 
 class TableModule(QWidget):

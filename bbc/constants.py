@@ -36,51 +36,14 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 # SettingsListWidget
 SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings_database.json")
 
-COLUMN_HEADER = [
+TABLES = [
     {
-        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-        "labels": ["Parameters", "Values"],
-    },
-]
-
-ROW_HEADER = [
-    {
-        "stylesheet": "background-color: rgb(230, 230, 230); font: bold 10pt Arial;",
-    },
-]
-
-SETTINGS_LIST = [
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 1",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("John Doe", 30),
-            ("Jane Smith", 25),
-            ("Bob Johnson", 45),
-            ("Alice Brown", 35),
-        ],
-    },
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 2",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("Michael Williams", 50),
-            ("Emma Johnson", 28),
-            ("William Davis", 42),
-            ("Olivia Taylor", 32),
-        ],
-    },
-    {
-        "group_header_font": [QFont("Arial", 10, QFont.Weight.Bold)],
-        "group_header_title": "Group 3",
-        "item_font": [QFont("Arial", 8)],
-        "items": [
-            ("James Wilson", 37),
-            ("Sophia Martinez", 31),
-            ("Daniel Anderson", 48),
-            ("Mia Thomas", 29),
+        "index": 0,
+        "headers": ["Parameters", "Values"],
+        "data": [
+            ["Name", "John Doe"],
+            ["Age", "30"],
+            ["Country", "USA"],
         ],
     },
 ]
@@ -152,28 +115,24 @@ BUTTONS = [
         "icon_path": os.path.join(
             ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
         ),
-        # "action": self.button_clicked,
     },
     {
         "index": 1,
         "title": "ViewerButton",
         "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
-        # "action": self.button_clicked,
     },
     {
         "index": 2,
         "title": "Save",
         "size": (50, 30),
         "icon_path": None,
-        # "action": self.button_clicked,
     },
     {
         "index": 3,
         "title": "Discard",
         "size": (50, 30),
         "icon_path": None,
-        # "action": self.button_clicked,
     },
 ]
 
