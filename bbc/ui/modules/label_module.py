@@ -24,6 +24,8 @@ class LabelModule(QWidget):
             label = self.create_label_module(label_data)
             layout.addWidget(label)
 
+        layout.setContentsMargins(0, 0, 0, 0)
+
         self.setLayout(layout)
 
     def create_label_module(self, label_data):

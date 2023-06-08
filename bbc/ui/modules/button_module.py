@@ -32,6 +32,8 @@ class ButtonModule(QWidget):
             button.clicked.connect(partial(self.onButtonClicked.emit, button_index))
             layout.addWidget(button)
 
+        layout.setContentsMargins(0, 0, 0, 0)
+
         self.setLayout(layout)
 
     def create_button_module(self, button_data):

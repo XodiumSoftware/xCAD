@@ -39,6 +39,7 @@ class MainUI(QMainWindow):
         self.setCentralWidget(QWidget())
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
+        self.setContentsMargins(0, 0, 0, 0)
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
@@ -62,11 +63,11 @@ class MainUI(QMainWindow):
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_0.add_widget(self.button_0)
-        self.button_container_0.add_stretch()
+        self.button_container_0.add_spacer()
         self.button_container_0.add_widget(self.button_1)
 
         self.button_container_1 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.button_container_1.add_stretch()
+        self.button_container_1.add_spacer()
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 

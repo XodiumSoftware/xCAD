@@ -54,7 +54,7 @@ class ContainerModule(QWidget):
         """
         self.layout().addWidget(widget)
 
-    def add_stretch(self):
+    def add_spacer(self, size=None):
         """
         Add a stretch to the container.
         """
@@ -64,6 +64,8 @@ class ContainerModule(QWidget):
             spacer_item.setSizePolicy(
                 QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
             )
+            if size is not None:
+                spacer_item.setFixedWidth(size)
 
             layout.addWidget(spacer_item)
         elif isinstance(layout, QGridLayout):

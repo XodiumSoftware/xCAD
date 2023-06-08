@@ -28,6 +28,8 @@ class TableModule(QWidget):
             table_widget = self.create_table_module(table_data)
             layout.addWidget(table_widget)
 
+        layout.setContentsMargins(0, 0, 0, 0)
+
         self.setLayout(layout)
 
     def create_table_module(self, table_data):

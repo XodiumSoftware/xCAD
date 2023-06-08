@@ -37,6 +37,8 @@ class CheckBoxModule(QWidget):
             )
             layout.addWidget(checkbox)
 
+        layout.setContentsMargins(0, 0, 0, 0)
+
         self.setLayout(layout)
 
     def create_checkbox_module(self, checkbox_data):
