@@ -65,7 +65,7 @@ LABELS = [
     {
         "index": 2,
         "title": "Test 2",
-        "stylesheet": "QLabel { font-size: 8px; font-style: italic; }",
+        "stylesheet": "QLabel { font-size: 30px; font-style: italic; font-weight: bold; }",
         "alignment": Qt.AlignmentFlag.AlignRight,
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
