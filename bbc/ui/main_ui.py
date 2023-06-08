@@ -28,6 +28,7 @@ class MainUI(QMainWindow):
         self._settings = QSettings()
         self._settings.setValue("startup_page_visibility_state", 0)
         self._settings.setValue("viewer_visibility_state", 0)
+        self._settings.setValue("theme_state", 0)
 
     def setup_main_ui(self):
         """
@@ -91,7 +92,7 @@ class MainUI(QMainWindow):
             main_ui_layout.addWidget(self.checkbox_0, 3, 0)
             main_ui_layout.addWidget(LabelModule(0), 4, 0)
             if self._settings.value("viewer_visibility_state") == 0:
-                pass
+                main_ui_layout.addWidget(LabelModule(2), 0, 1)
 
         central_widget = QWidget()
         central_widget.setLayout(main_ui_layout)

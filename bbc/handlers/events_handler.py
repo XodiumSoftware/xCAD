@@ -30,10 +30,22 @@ class EventsHandler(QObject):
         """
         if button_index == 0:
             print(DEBUG_NAME + f"Button {button_index} clicked!")
+
         elif button_index == 1:
             print(DEBUG_NAME + f"Button {button_index} clicked!")
+            current_button_state = self._settings.value("viewer_visibility_state")
+            if current_button_state == 0:
+                self._settings.setValue("viewer_visibility_state", 1)
+            elif current_button_state == 1:
+                self._settings.setValue("viewer_visibility_state", 0)
+
+            print(
+                DEBUG_NAME + f"Viewer visibility state set to: {current_button_state}!"
+            )
+
         elif button_index == 2:
             print(DEBUG_NAME + f"Button {button_index} clicked!")
+
         elif button_index == 3:
             print(DEBUG_NAME + f"Button {button_index} clicked!")
 
