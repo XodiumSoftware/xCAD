@@ -10,7 +10,6 @@ TODO: group be foldable to hide/show the items within.
 TODO: Make the content be saved in the SQLite database based on the save/discard button.
 TODO: get the if saved data from the database and display it.
 TODO: change the DATA items content to the appropriate content and don't forget to remove the 3rd column.
-TODO: rename the column to an appropriate name based on the items.
 =============================================================================================
 
 
