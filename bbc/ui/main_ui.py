@@ -22,6 +22,7 @@ class MainUI(QMainWindow):
 
         self._settings = QSettings(QSETTINGS)
         self._ui_handler = UIHandler(self)
+        self._events_handler = EventsHandler()
 
         self.setup_instances()
 
@@ -43,20 +44,30 @@ class MainUI(QMainWindow):
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.onCheckBoxClicked.connect(partial(self.on_checkbox_clicked))
+        self.checkbox_0.onCheckBoxClicked.connect(
+            partial(self._events_handler.on_checkbox_clicked)
+        )
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
-        self.button_0.onButtonClicked.connect(partial(self.on_button_clicked))
+        self.button_0.onButtonClicked.connect(
+            partial(self._events_handler.on_button_clicked)
+        )
 
         self.button_1 = ButtonModule(1)
-        self.button_1.onButtonClicked.connect(partial(self.on_button_clicked))
+        self.button_1.onButtonClicked.connect(
+            partial(self._events_handler.on_button_clicked)
+        )
 
         self.button_2 = ButtonModule(2)
-        self.button_2.onButtonClicked.connect(partial(self.on_button_clicked))
+        self.button_2.onButtonClicked.connect(
+            partial(self._events_handler.on_button_clicked)
+        )
 
         self.button_3 = ButtonModule(3)
-        self.button_3.onButtonClicked.connect(partial(self.on_button_clicked))
+        self.button_3.onButtonClicked.connect(
+            partial(self._events_handler.on_button_clicked)
+        )
 
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox")
@@ -90,23 +101,3 @@ class MainUI(QMainWindow):
         self.setCentralWidget(central_widget)
 
         self._ui_handler.center_ui_on_screen_handler(self)
-
-    def on_button_clicked(self, button_index):
-        """
-        Handle the button clicked event.
-        """
-        if button_index == 0:
-            print(f"Button {button_index} clicked!")
-        elif button_index == 1:
-            print(f"Button {button_index} clicked!")
-        elif button_index == 2:
-            print(f"Button {button_index} clicked!")
-        elif button_index == 3:
-            print(f"Button {button_index} clicked!")
-
-    def on_checkbox_clicked(self, checkbox_index):
-        """
-        Handle the checkbox clicked event.
-        """
-        if checkbox_index == 0:
-            print(f"Checkbox {checkbox_index} clicked!")

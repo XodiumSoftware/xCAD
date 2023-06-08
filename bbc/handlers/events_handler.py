@@ -22,3 +22,23 @@ class EventsHandler(QObject):
         # Connect both shortcuts to the same slot
         escape_shortcut.activated.connect(QApplication.quit)
         ctrl_q_shortcut.activated.connect(QApplication.quit)
+
+    def on_button_clicked(self, button_index):
+        """
+        Handle the button clicked event.
+        """
+        if button_index == 0:
+            print(f"Button {button_index} clicked!")
+        elif button_index == 1:
+            print(f"Button {button_index} clicked!")
+        elif button_index == 2:
+            print(f"Button {button_index} clicked!")
+        elif button_index == 3:
+            print(f"Button {button_index} clicked!")
+
+    def on_checkbox_clicked(self, checkbox_index):
+        """
+        Handle the checkbox clicked event.
+        """
+        if checkbox_index == 0:
+            print(f"Checkbox {checkbox_index} clicked!")
