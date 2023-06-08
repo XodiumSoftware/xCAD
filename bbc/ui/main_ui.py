@@ -1,5 +1,3 @@
-from functools import partial
-
 from constants import QSETTINGS, UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
@@ -45,29 +43,21 @@ class MainUI(QMainWindow):
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
         self.checkbox_0.onCheckBoxClicked.connect(
-            partial(self._events_handler.on_checkbox_clicked)
+            self._events_handler.on_checkbox_clicked
         )
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
-        self.button_0.onButtonClicked.connect(
-            partial(self._events_handler.on_button_clicked)
-        )
+        self.button_0.onButtonClicked.connect(self._events_handler.on_button_clicked)
 
         self.button_1 = ButtonModule(1)
-        self.button_1.onButtonClicked.connect(
-            partial(self._events_handler.on_button_clicked)
-        )
+        self.button_1.onButtonClicked.connect(self._events_handler.on_button_clicked)
 
         self.button_2 = ButtonModule(2)
-        self.button_2.onButtonClicked.connect(
-            partial(self._events_handler.on_button_clicked)
-        )
+        self.button_2.onButtonClicked.connect(self._events_handler.on_button_clicked)
 
         self.button_3 = ButtonModule(3)
-        self.button_3.onButtonClicked.connect(
-            partial(self._events_handler.on_button_clicked)
-        )
+        self.button_3.onButtonClicked.connect(self._events_handler.on_button_clicked)
 
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox")
