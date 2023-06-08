@@ -80,7 +80,7 @@ class MainUI(QMainWindow):
             main_ui_layout.addWidget(LabelModule(0), 3, 0)
 
         # Visibility State 1:
-        if not self._settings.value("startup_page_visibility_state", True):
+        else:
             main_ui_layout.addWidget(self.button_container_0, 0, 0)
             main_ui_layout.addWidget(TableModule(0), 1, 0)
             main_ui_layout.addWidget(self.button_container_1, 2, 0)

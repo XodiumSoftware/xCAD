@@ -1,7 +1,7 @@
 from functools import partial
 
-from constants import CHECKBOXES
-from PySide6.QtCore import Signal
+from constants import CHECKBOXES, QSETTINGS
+from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
 
@@ -13,6 +13,7 @@ class CheckBoxModule(QWidget):
         Initialize the CheckBoxModule.
         """
         super().__init__(parent)
+        self._settings = QSettings(QSETTINGS)
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
@@ -31,7 +32,7 @@ class CheckBoxModule(QWidget):
         )
 
         if checkbox_data:
-            checkbox = self.create_checkbox_module(checkbox_data)
+            checkbox = self.create_checkbox_module(checkbox_data, checkbox_index)
             checkbox.clicked.connect(
                 partial(self.onCheckBoxClicked.emit, checkbox_index)
             )
@@ -41,12 +42,16 @@ class CheckBoxModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_checkbox_module(self, checkbox_data):
+    def create_checkbox_module(self, checkbox_data, checkbox_index):
         """
         Create a checkbox module.
         """
         checkbox = QCheckBox(checkbox_data["title"])
         checkbox.setStyleSheet(checkbox_data["stylesheet"])
         checkbox.setSizePolicy(*checkbox_data["size_policy"])
+
+        if checkbox_index == 0:
+            checked_state = self._settings.value("startup_page_visibility_state", True)
+            checkbox.setChecked(bool(checked_state))
 
         return checkbox
