@@ -1,3 +1,4 @@
+from constants import DEBUG_NAME
 from PySide6.QtWidgets import (
     QFormLayout,
     QGridLayout,
@@ -9,14 +10,14 @@ from PySide6.QtWidgets import (
 
 
 class ContainerModule(QWidget):
-    def __init__(self, layout_type, parent=None):
+    def __init__(self, layout_type, margins, parent=None):
         """
         Initialize the ContainerModule.
         """
         super().__init__(parent)
-        self.setup_container_module(layout_type)
+        self.setup_container_module(layout_type, margins)
 
-    def setup_container_module(self, layout_type):
+    def setup_container_module(self, layout_type, margins):
         """
         Setup the ContainerModule.
         """
@@ -31,7 +32,21 @@ class ContainerModule(QWidget):
         else:
             raise ValueError(f"Invalid layout type: {layout_type}")
 
+        if margins is not None:
+            layout.setContentsMargins(*margins)
+
         self.setLayout(layout)
+
+    def set_container_margins(self, margins):
+        """
+        Set the margins of the container.
+        """
+        if len(margins) != 4:
+            raise ValueError(
+                DEBUG_NAME + "Margins should be a tuple or list of four integers."
+            )
+        if self.layout() is not None:
+            self.layout().setContentsMargins(*margins)
 
     def add_widget(self, widget):
         """
@@ -58,5 +73,6 @@ class ContainerModule(QWidget):
             layout.setColumnStretch(layout.columnCount(), 1)
         else:
             raise TypeError(
-                "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
+                DEBUG_NAME
+                + "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )

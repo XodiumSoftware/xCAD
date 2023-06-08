@@ -60,12 +60,12 @@ class MainUI(QMainWindow):
         self.button_3.onButtonClicked.connect(self._events_handler.on_button_clicked)
 
         # Setup containers:
-        self.button_container_0 = ContainerModule("HBox")
+        self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_0.add_widget(self.button_0)
         self.button_container_0.add_stretch()
         self.button_container_0.add_widget(self.button_1)
 
-        self.button_container_1 = ContainerModule("HBox")
+        self.button_container_1 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_1.add_stretch()
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
