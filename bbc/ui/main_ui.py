@@ -71,9 +71,6 @@ class MainUI(QMainWindow):
         self.button_3 = ButtonModule(3)
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        # Setup frames:
-        self.frame_0 = FrameModule(0)
-
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_0.add_widget(self.button_0)
@@ -94,7 +91,7 @@ class MainUI(QMainWindow):
         if self.main_ui_page_visibility_state == 0:
             self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
             self.startup_page_layout.addWidget(
-                self.frame_0, 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
+                FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
             )
             self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
