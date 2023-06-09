@@ -12,18 +12,14 @@ from ui.modules.settings_list_module import TableModule
 
 
 class MainUI(QMainWindow):
-    main_ui_page_visibility_state_changed = Signal()
-    viewer_page_visibility_state_changed = Signal()
-    theme_state_changed = Signal()
-
     def __init__(self):
         """
         Initialize the MainUI.
         """
         super().__init__()
 
-        self.setup_settings()
         self.setup_main_ui()
+        self.setup_settings()
 
     def setup_settings(self):
         """
@@ -31,21 +27,13 @@ class MainUI(QMainWindow):
         """
         self._settings = QSettings()
 
-        self._settings.setValue("main_ui_page_visibility_state", 0)
         self.main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state"
+            "main_ui_page_visibility_state", 0
         )
-        self.main_ui_page_visibility_state_changed.emit()
-
-        self._settings.setValue("viewer_visibility_state", 0)
         self.viewer_page_visibility_state = self._settings.value(
-            "viewer_page_visibility_state"
+            "viewer_page_visibility_state", 0
         )
-        self.viewer_page_visibility_state_changed.emit()
-
-        self._settings.setValue("theme_state", 0)
-        self.theme_state = self._settings.value("theme_state")
-        self.theme_state_changed.emit()
+        self.theme_state = self._settings.value("theme_state", 0)
 
     def setup_main_ui(self):
         """
@@ -97,10 +85,6 @@ class MainUI(QMainWindow):
         self.startup_page_layout = QGridLayout()
 
         self.central_widget = QWidget()
-
-        self.main_ui_page_visibility_state_changed.connect(
-            self.toggle_visibility_state()
-        )
 
     def toggle_visibility_state(self):
         """
