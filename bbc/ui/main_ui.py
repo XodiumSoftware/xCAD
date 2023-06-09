@@ -26,16 +26,9 @@ class MainUI(QMainWindow):
         Setup the settings.
         """
         self._settings = QSettings()
-        # self._settings.valueChanged.connect(self.settings_changed_handler)
 
-        self.settings_changed_handler()
-
-    def settings_changed_handler(self):
-        """
-        Handle settings changes.
-        """
         self.main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state", defaultValue=0, type=int
+            "main_ui_page_visibility_state", defaultValue=True, type=bool
         )
         self.viewer_page_visibility_state = self._settings.value(
             "viewer_page_visibility_state", defaultValue=0, type=int
