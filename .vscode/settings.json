@@ -9,7 +9,7 @@
   "python.analysis.extraPaths": ["${workspaceFolder}/bbc"],
   "python.analysis.autoSearchPaths": true,
   "python.analysis.useLibraryCodeForTypes": true,
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "off",
   "python.formatting.blackArgs": ["--fast"],
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "fit",
