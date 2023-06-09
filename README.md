@@ -34,4 +34,3 @@ This ensures that the css files run and the docs are readable.
 Run the following cmd:
 
 1. python setup.py build_ext --inplace
-2. Done
