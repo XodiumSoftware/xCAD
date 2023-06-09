@@ -86,6 +86,8 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
+        self.toggle_visibility_state()
+
     def toggle_visibility_state(self):
         """
         Toggle the visibility state.
