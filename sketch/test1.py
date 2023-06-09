@@ -1,6 +1,6 @@
-from functools import partial
+import sqlite3
+import sys
 
-from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import (
     QApplication,
     QLabel,
@@ -11,77 +11,107 @@ from PySide6.QtWidgets import (
 )
 
 
+class SettingsManager:
+    def __init__(self, db_file):
+        self.db_file = db_file
+        self.create_database()
+        self.set_default_settings()
+
+    def create_database(self):
+        conn = sqlite3.connect(self.db_file)
+        c = conn.cursor()
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+            """
+        )
+        conn.commit()
+        conn.close()
+
+    def set_default_settings(self):
+        settings = [
+            ("layout_visibility", "0"),
+        ]
+        conn = sqlite3.connect(self.db_file)
+        c = conn.cursor()
+        c.executemany(
+            "INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", settings
+        )
+        conn.commit()
+        conn.close()
+
+    def get_setting(self, key):
+        conn = sqlite3.connect(self.db_file)
+        c = conn.cursor()
+        c.execute("SELECT value FROM settings WHERE key=?", (key,))
+        result = c.fetchone()
+        conn.close()
+        if result is not None:
+            return result[0]
+        return None
+
+    def set_setting(self, key, value):
+        conn = sqlite3.connect(self.db_file)
+        c = conn.cursor()
+        c.execute(
+            "INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)", (key, value)
+        )
+        conn.commit()
+        conn.close()
+
+
 class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
 
         self.resize(600, 400)
 
-        # Load the setting value from QSettings
-        settings = QSettings()
-        layout_visible = settings.value("layout_visibility", defaultValue=0, type=int)
+        db_file = "settings.db"
+        self.settings_manager = SettingsManager(db_file)
+        layout_visible = self.settings_manager.get_setting("layout_visibility")
         print(layout_visible)
 
-        # Create a stacked widget to manage the containers
         self.stacked_widget = QStackedWidget()
 
-        # Create the container 0 widget
-        container0_widget = QWidget()
-        container0_layout = QVBoxLayout(container0_widget)
-        container0_label = QLabel("Container 0")
-        container0_button = QPushButton("Toggle Container 0 Visibility")
-        container0_layout.addWidget(container0_label)
-        container0_layout.addWidget(container0_button)
+        containers = [
+            ("Container 0", QPushButton("Toggle Page")),
+            ("Container 1", QPushButton("Toggle Page")),
+            ("Container 2", QPushButton("Toggle Page")),
+        ]
 
-        # Create the container 1 widget
-        container1_widget = QWidget()
-        container1_layout = QVBoxLayout(container1_widget)
-        container1_label = QLabel("Container 1")
-        container1_button = QPushButton("Toggle Container 1 Visibility")
-        container1_layout.addWidget(container1_label)
-        container1_layout.addWidget(container1_button)
+        for container_title, container_button in containers:
+            container_widget = QWidget()
+            container_layout = QVBoxLayout(container_widget)
+            container_label = QLabel(container_title)
+            container_button.clicked.connect(
+                lambda _, index=containers.index(
+                    (container_title, container_button)
+                ): self.toggleContainerVisibility(index)
+            )
+            container_layout.addWidget(container_label)
+            container_layout.addWidget(container_button)
+            self.stacked_widget.addWidget(container_widget)
 
-        # Create the container 2 widget
-        container2_widget = QWidget()
-        container2_layout = QVBoxLayout(container2_widget)
-        container2_label = QLabel("Container 2")
-        container2_button = QPushButton("Toggle Container 2 Visibility")
-        container2_layout.addWidget(container2_label)
-        container2_layout.addWidget(container2_button)
+        self.stacked_widget.setCurrentIndex(int(layout_visible))
 
-        # Add the containers to the stacked widget
-        self.stacked_widget.addWidget(container0_widget)
-        self.stacked_widget.addWidget(container1_widget)
-        self.stacked_widget.addWidget(container2_widget)
-
-        # Set the initial visibility state of the containers
-        self.stacked_widget.setCurrentIndex(layout_visible)
-
-        # Create a layout for the main widget
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(self.stacked_widget)
 
-        # Connect button clicks to toggle container visibility
-        container0_button.clicked.connect(partial(self.setContainerVisibility, 1))
-        container1_button.clicked.connect(partial(self.setContainerVisibility, 2))
-        container2_button.clicked.connect(partial(self.setContainerVisibility, 0))
-
-    def setContainerVisibility(self, container_index):
+    def toggleContainerVisibility(self, container_index):
         current_index = self.stacked_widget.currentIndex()
         if current_index == container_index:
             return
 
         self.stacked_widget.setCurrentIndex(container_index)
         print(container_index)
-        self.saveVisibilityState(container_index)
-
-    def saveVisibilityState(self, value):
-        settings = QSettings()
-        settings.setValue("layout_visibility", value)
+        self.settings_manager.set_setting("layout_visibility", str(container_index))
 
 
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QApplication(sys.argv)
     widget = MyWidget()
     widget.show()
-    app.exec()
+    sys.exit(app.exec())

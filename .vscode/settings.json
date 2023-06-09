@@ -30,6 +30,7 @@
     "Cython",
     "cythonize",
     "defun",
+    "executemany",
     "ezdxf",
     "filemanagement",
     "Frameless",
