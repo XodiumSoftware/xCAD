@@ -13,8 +13,14 @@
   "python.formatting.blackArgs": ["--fast"],
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "fit",
-  "explorer.openEditors.visible": 0,
+  "explorer.openEditors.visible": 1,
   "workbench.sideBar.location": "left",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportWildcardImportFromLibrary": "none"
+  },
+  "C_Cpp.default.compilerPath": "",
+  "C_Cpp.errorSquiggles": "enabled",
+  "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
   "cSpell.words": [
     "Acad",
     "acgiutil",
@@ -70,11 +76,5 @@
     "tfccui",
     "Timberframe",
     "XAMPP"
-  ],
-  "python.analysis.diagnosticSeverityOverrides": {
-    "reportWildcardImportFromLibrary": "none"
-  },
-  "C_Cpp.default.compilerPath": "",
-  "C_Cpp.errorSquiggles": "enabled",
-  "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt"
+  ]
 }
