@@ -64,5 +64,6 @@
     "reportWildcardImportFromLibrary": "none"
   },
   "C_Cpp.default.compilerPath": "",
-  "C_Cpp.errorSquiggles": "enabled"
+  "C_Cpp.errorSquiggles": "enabled",
+  "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt"
 }
