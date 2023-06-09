@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
-    onButtonClicked = Signal(int)
+    on_button_clicked = Signal(int)
 
     def __init__(self, button_index, parent=None):
         """
@@ -29,7 +29,7 @@ class ButtonModule(QWidget):
 
         if button_data:
             button = self.create_button_module(button_data)
-            button.clicked.connect(partial(self.onButtonClicked.emit, button_index))
+            button.clicked.connect(partial(self.on_button_clicked.emit, button_index))
             layout.addWidget(button)
 
         layout.setContentsMargins(0, 0, 0, 0)

@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
 
 class CheckBoxModule(QWidget):
-    onCheckBoxClicked = Signal(int)
+    on_checkbox_clicked = Signal(int)
 
     def __init__(self, checkbox_index, parent=None):
         """
@@ -34,7 +34,7 @@ class CheckBoxModule(QWidget):
         if checkbox_data:
             checkbox = self.create_checkbox_module(checkbox_data, checkbox_index)
             checkbox.clicked.connect(
-                partial(self.onCheckBoxClicked.emit, checkbox_index)
+                partial(self.on_checkbox_clicked.emit, checkbox_index)
             )
             layout.addWidget(checkbox)
 

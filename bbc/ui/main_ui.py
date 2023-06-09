@@ -1,7 +1,7 @@
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
@@ -12,6 +12,10 @@ from ui.modules.settings_list_module import TableModule
 
 
 class MainUI(QMainWindow):
+    main_ui_page_visibility_state_changed = Signal()
+    viewer_page_visibility_state_changed = Signal()
+    theme_state_changed = Signal()
+
     def __init__(self):
         """
         Initialize the MainUI.
@@ -26,9 +30,22 @@ class MainUI(QMainWindow):
         Setup the settings.
         """
         self._settings = QSettings()
+
         self._settings.setValue("main_ui_page_visibility_state", 0)
+        self.main_ui_page_visibility_state = self._settings.value(
+            "main_ui_page_visibility_state"
+        )
+        self.main_ui_page_visibility_state_changed.emit()
+
         self._settings.setValue("viewer_visibility_state", 0)
+        self.viewer_page_visibility_state = self._settings.value(
+            "viewer_page_visibility_state"
+        )
+        self.viewer_page_visibility_state_changed.emit()
+
         self._settings.setValue("theme_state", 0)
+        self.theme_state = self._settings.value("theme_state")
+        self.theme_state_changed.emit()
 
     def setup_main_ui(self):
         """
@@ -48,22 +65,22 @@ class MainUI(QMainWindow):
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.onCheckBoxClicked.connect(
+        self.checkbox_0.on_checkbox_clicked.connect(
             self._events_handler.on_checkbox_clicked
         )
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
-        self.button_0.onButtonClicked.connect(self._events_handler.on_button_clicked)
+        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_1 = ButtonModule(1)
-        self.button_1.onButtonClicked.connect(self._events_handler.on_button_clicked)
+        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_2 = ButtonModule(2)
-        self.button_2.onButtonClicked.connect(self._events_handler.on_button_clicked)
+        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_3 = ButtonModule(3)
-        self.button_3.onButtonClicked.connect(self._events_handler.on_button_clicked)
+        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
@@ -76,40 +93,39 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        main_page_layout = QGridLayout()
-        startup_page_layout = QGridLayout()
+        self.main_page_layout = QGridLayout()
+        self.startup_page_layout = QGridLayout()
 
-        # Get the visibility states:
-        main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state"
+        self.central_widget = QWidget()
+
+        self.main_ui_page_visibility_state_changed.connect(
+            self.toggle_visibility_state()
         )
 
-        viewer_page_visibility_state = self._settings.value(
-            "viewer_page_visibility_state"
-        )
-
-        central_widget = QWidget()
-
+    def toggle_visibility_state(self):
+        """
+        Toggle the visibility state.
+        """
         # Startup Page Visibility State 0:
-        if main_ui_page_visibility_state == 0:
-            startup_page_layout.addWidget(LabelModule(1), 1, 0)
-            startup_page_layout.addWidget(self.checkbox_0, 2, 0)
-            startup_page_layout.addWidget(LabelModule(0), 3, 0)
+        if self.main_ui_page_visibility_state == 0:
+            self.startup_page_layout.addWidget(LabelModule(1), 1, 0)
+            self.startup_page_layout.addWidget(self.checkbox_0, 2, 0)
+            self.startup_page_layout.addWidget(LabelModule(0), 3, 0)
 
-            central_widget.setLayout(startup_page_layout)
+            self.central_widget.setLayout(self.startup_page_layout)
 
         # Startup Page Visibility State 1:
-        elif main_ui_page_visibility_state == 1:
-            main_page_layout.addWidget(self.button_container_0, 0, 0)
-            main_page_layout.addWidget(TableModule(0), 1, 0)
-            main_page_layout.addWidget(self.button_container_1, 2, 0)
-            main_page_layout.addWidget(self.checkbox_0, 3, 0)
-            main_page_layout.addWidget(LabelModule(0), 4, 0)
+        elif self.main_ui_page_visibility_state == 1:
+            self.main_page_layout.addWidget(self.button_container_0, 0, 0)
+            self.main_page_layout.addWidget(TableModule(0), 1, 0)
+            self.main_page_layout.addWidget(self.button_container_1, 2, 0)
+            self.main_page_layout.addWidget(self.checkbox_0, 3, 0)
+            self.main_page_layout.addWidget(LabelModule(0), 4, 0)
 
             # Viewer Visibility State 0:
-            if viewer_page_visibility_state == 0:
-                main_page_layout.addWidget(LabelModule(2), 0, 1)
+            if self.viewer_page_visibility_state == 0:
+                self.main_page_layout.addWidget(LabelModule(2), 0, 1)
 
-            central_widget.setLayout(main_page_layout)
+            self.central_widget.setLayout(self.main_page_layout)
 
-        self.setCentralWidget(central_widget)
+        self.setCentralWidget(self.central_widget)
