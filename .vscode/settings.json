@@ -6,7 +6,7 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
-  "python.analysis.extraPaths": ["${workspaceFolder}"],
+  "python.analysis.extraPaths": ["${workspaceFolder}/bbc"],
   "python.analysis.autoSearchPaths": true,
   "python.analysis.useLibraryCodeForTypes": true,
   "python.analysis.typeCheckingMode": "basic",

@@ -1,12 +1,13 @@
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
+from ui.modules.frame_module import FrameModule
 from ui.modules.label_module import LabelModule
 from ui.modules.settings_list_module import TableModule
 
@@ -70,6 +71,9 @@ class MainUI(QMainWindow):
         self.button_3 = ButtonModule(3)
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
+        # Setup frames:
+        self.frame_0 = FrameModule(0)
+
         # Setup containers:
         self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_0.add_widget(self.button_0)
@@ -88,23 +92,26 @@ class MainUI(QMainWindow):
 
         # Visibility State 0:
         if self.main_ui_page_visibility_state == 0:
-            self.startup_page_layout.addWidget(LabelModule(1), 1, 0)
-            self.startup_page_layout.addWidget(self.checkbox_0, 2, 0)
-            self.startup_page_layout.addWidget(LabelModule(0), 3, 0)
+            self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
+            self.startup_page_layout.addWidget(
+                self.frame_0, 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
+            )
+            self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
+            self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
 
             self.central_widget.setLayout(self.startup_page_layout)
 
         # Visibility State 1:
         elif self.main_ui_page_visibility_state == 1:
-            self.main_page_layout.addWidget(self.button_container_0, 0, 0)
-            self.main_page_layout.addWidget(TableModule(0), 1, 0)
-            self.main_page_layout.addWidget(self.button_container_1, 2, 0)
-            self.main_page_layout.addWidget(self.checkbox_0, 3, 0)
-            self.main_page_layout.addWidget(LabelModule(0), 4, 0)
+            self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
+            self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
+            self.main_page_layout.addWidget(self.button_container_1, 2, 0, 1, 1)
+            self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
+            self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
             # Viewer Visibility State 0:
             if self.viewer_page_visibility_state == 0:
-                self.main_page_layout.addWidget(LabelModule(2), 0, 1)
+                self.main_page_layout.addWidget(LabelModule(2), 0, 1, 1, 1)
 
             self.central_widget.setLayout(self.main_page_layout)
 

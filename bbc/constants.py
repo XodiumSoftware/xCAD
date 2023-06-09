@@ -62,13 +62,6 @@ LABELS = [
         "alignment": Qt.AlignmentFlag.AlignCenter,
         "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
     },
-    {
-        "index": 2,
-        "title": "Test 2",
-        "stylesheet": "QLabel { font-size: 30px; font-style: italic; font-weight: bold; }",
-        "alignment": Qt.AlignmentFlag.AlignRight,
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-    },
 ]
 
 # CheckBoxModule
@@ -137,22 +130,10 @@ BUTTONS = [
 # FrameModule
 FRAMES = [
     {
-        "index": 1,
-        "title": "Frame 1",
+        "index": 0,
+        "title": "Frame 0",
         "size": (200, 100),
-        "stylesheet": "background-color: red;",
-    },
-    {
-        "index": 2,
-        "title": "Frame 2",
-        "size": (150, 150),
-        "stylesheet": "background-color: green;",
-    },
-    {
-        "index": 3,
-        "title": "Frame 3",
-        "size": (300, 200),
-        "stylesheet": "background-color: blue;",
+        "stylesheet": "background-color: gray; border: 1.5px solid black; border-radius: 5px;",
     },
 ]
 
