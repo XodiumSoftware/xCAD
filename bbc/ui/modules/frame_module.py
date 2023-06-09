@@ -35,7 +35,8 @@ class FrameModule(QWidget):
         """
         frame = QFrame()
         frame.setFixedSize(*frame_data["size"])
-        frame.setWindowTitle(frame_data["title"])
+        if frame_data["title"] is not None:
+            frame.setWindowTitle(frame_data["title"])
         frame.setStyleSheet(frame_data["stylesheet"])
 
         return frame
