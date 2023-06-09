@@ -1,8 +1,8 @@
-cdef long long factorial_cython(int n):
+cdef long factorial_cython(int n):
     """
     Calculate the factorial of a given integer using Cython.
     """
-    cdef long long result = 1
+    cdef long result = 1
     cdef int i
     for i in range(1, n + 1):
         result *= i
@@ -19,8 +19,8 @@ def main():
     Demonstrate the usage of the factorial function.
     """
     cdef int n = 5
-    cdef long long result = factorial(n)
-    print(f"The factorial of {n} is: {result}")
+    cdef long result = factorial(n)
+    print("The factorial of {} is: {}".format(n, result))
 
 if __name__ == '__main__':
     main()
