@@ -134,6 +134,28 @@ BUTTONS = [
     },
 ]
 
+# FrameModule
+FRAMES = [
+    {
+        "index": 1,
+        "title": "Frame 1",
+        "size": (200, 100),
+        "stylesheet": "background-color: red;",
+    },
+    {
+        "index": 2,
+        "title": "Frame 2",
+        "size": (150, 150),
+        "stylesheet": "background-color: green;",
+    },
+    {
+        "index": 3,
+        "title": "Frame 3",
+        "size": (300, 200),
+        "stylesheet": "background-color: blue;",
+    },
+]
+
 # ThemeHandler
 THEME_FILE_PATHS = {
     THEME_DARK: os.path.join(THEME_FOLDER_PATH, "dark_theme.css"),
