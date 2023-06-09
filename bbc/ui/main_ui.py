@@ -18,22 +18,31 @@ class MainUI(QMainWindow):
         """
         super().__init__()
 
-        self.setup_main_ui()
         self.setup_settings()
+        self.setup_main_ui()
 
     def setup_settings(self):
         """
         Setup the settings.
         """
         self._settings = QSettings()
+        # self._settings.valueChanged.connect(self.settings_changed_handler)
 
+        self.settings_changed_handler()
+
+    def settings_changed_handler(self):
+        """
+        Handle settings changes.
+        """
         self.main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state", 0
+            "main_ui_page_visibility_state", defaultValue=0, type=int
         )
         self.viewer_page_visibility_state = self._settings.value(
-            "viewer_page_visibility_state", 0
+            "viewer_page_visibility_state", defaultValue=0, type=int
         )
-        self.theme_state = self._settings.value("theme_state", 0)
+        self.theme_state = self._settings.value("theme_state", defaultValue=0, type=int)
+
+        self.toggle_visibility_state()
 
     def setup_main_ui(self):
         """
@@ -85,8 +94,6 @@ class MainUI(QMainWindow):
         self.startup_page_layout = QGridLayout()
 
         self.central_widget = QWidget()
-
-        self.toggle_visibility_state()
 
     def toggle_visibility_state(self):
         """
