@@ -5,4 +5,4 @@ __pycache__
 *.egg-info
 .DS_Store
 settings.sqlite
-vcpkg
+vcpkg/
