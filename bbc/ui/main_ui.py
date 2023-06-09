@@ -28,14 +28,12 @@ class MainUI(QMainWindow):
         self._settings = QSettings()
 
         self.main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state", defaultValue=True, type=bool
+            "main_ui_page_visibility_state", defaultValue=0, type=int
         )
         self.viewer_page_visibility_state = self._settings.value(
             "viewer_page_visibility_state", defaultValue=0, type=int
         )
         self.theme_state = self._settings.value("theme_state", defaultValue=0, type=int)
-
-        self.toggle_visibility_state()
 
     def setup_main_ui(self):
         """
@@ -88,11 +86,7 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
-    def toggle_visibility_state(self):
-        """
-        Toggle the visibility state.
-        """
-        # Startup Page Visibility State 0:
+        # Visibility State 0:
         if self.main_ui_page_visibility_state == 0:
             self.startup_page_layout.addWidget(LabelModule(1), 1, 0)
             self.startup_page_layout.addWidget(self.checkbox_0, 2, 0)
@@ -100,7 +94,7 @@ class MainUI(QMainWindow):
 
             self.central_widget.setLayout(self.startup_page_layout)
 
-        # Startup Page Visibility State 1:
+        # Visibility State 1:
         elif self.main_ui_page_visibility_state == 1:
             self.main_page_layout.addWidget(self.button_container_0, 0, 0)
             self.main_page_layout.addWidget(TableModule(0), 1, 0)
