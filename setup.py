@@ -5,11 +5,12 @@ from setuptools import setup
 
 ext_modules = [
     Extension(
-        "bfc",
-        sources=["bbc/commands/*.pyx"],
-        libraries=["bbc/libs/bricscad/*.lib"],
-        library_dirs=["bbc/libs/bricscad/"],
-        include_dirs=["bbc/libs/BRXSDK_Bcad_V23_2_03/inc/"]
+        "afc",
+        # sources=["bbc/commands/*.pyx"],
+        sources=["sketch/*.pyx"],
+        # libraries=["bbc/libs/bricscad/*.lib"],
+        # library_dirs=["bbc/libs/bricscad/"],
+        # include_dirs=["bbc/libs/BRXSDK_Bcad_V23_2_03/inc/"],
     )
 ]
 if __name__ == "__main__":
