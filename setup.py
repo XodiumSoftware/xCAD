@@ -6,11 +6,10 @@ from setuptools import setup
 ext_modules = [
     Extension(
         "afc",
-        # sources=["bbc/commands/*.pyx"],
-        sources=["sketch/*.pyx"],
-        # libraries=["bbc/libs/bricscad/*.lib"],
-        # library_dirs=["bbc/libs/bricscad/"],
-        # include_dirs=["bbc/libs/BRXSDK_Bcad_V23_2_03/inc/"],
+        sources=["bbc/*/*.pyx"],
+        libraries=["bbc/libs/bricscad/*.lib"],
+        library_dirs=["bbc/libs/bricscad/"],
+        include_dirs=["bbc/libs/BRXSDK_Bcad_V23_2_03/inc/"],
     )
 ]
 if __name__ == "__main__":
