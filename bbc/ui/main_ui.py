@@ -114,10 +114,6 @@ class MainUI(QMainWindow):
             self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
-            # Viewer Visibility State 0:
-            if self.viewer_page_visibility_state == 0:
-                self.main_page_layout.addWidget(LabelModule(2), 0, 1, 1, 1)
-
             self.central_widget.setLayout(self.main_page_layout)
 
         self.setCentralWidget(self.central_widget)
