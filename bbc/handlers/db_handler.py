@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 from constants import DEBUG_NAME, SETTINGS_DATABASE_PATH
@@ -10,6 +11,9 @@ class DataBaseHandler(QObject):
         self.connection = self.create_or_connect_db()
 
     def create_or_connect_db(self):
+        if not os.path.exists(os.path.dirname(SETTINGS_DATABASE_PATH)):
+            os.makedirs(os.path.dirname(SETTINGS_DATABASE_PATH))
+
         connection = sqlite3.connect(SETTINGS_DATABASE_PATH)
         cursor = connection.cursor()
 

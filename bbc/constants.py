@@ -32,7 +32,7 @@ UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # SettingsListWidget
-SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings_database.json")
+SETTINGS_DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings_database.sqlite")
 
 TABLES = [
     {
