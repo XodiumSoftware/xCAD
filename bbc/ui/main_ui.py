@@ -1,4 +1,5 @@
 from constants import UI_ICON_PATH, UI_TITLE
+from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
@@ -19,6 +20,7 @@ class MainUI(QMainWindow):
         """
         super().__init__()
 
+        self.setup_database()
         self.setup_settings()
         self.setup_main_ui()
 
@@ -35,6 +37,12 @@ class MainUI(QMainWindow):
             "viewer_page_visibility_state", defaultValue=0, type=int
         )
         self.theme_state = self._settings.value("theme_state", defaultValue=0, type=int)
+
+    def setup_database(self):
+        """
+        Setup the database.
+        """
+        self.settings_db_handler = DataBaseHandler()
 
     def setup_main_ui(self):
         """
