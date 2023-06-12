@@ -37,9 +37,9 @@ class TableModule(QWidget):
         Create a table widget module.
         """
         table_widget = QTableWidget(self)
-        table_widget.setColumnCount(len(table_data["headers"]))
+        table_widget.setColumnCount(len(table_data["column_headers"]))
         table_widget.setRowCount(len(table_data["data"]))
-        table_widget.setHorizontalHeaderLabels(table_data["headers"])
+        table_widget.setHorizontalHeaderLabels(table_data["column_headers"])
 
         table_widget.setCornerButtonEnabled(True)
 

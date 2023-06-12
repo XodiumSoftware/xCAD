@@ -39,7 +39,7 @@ SETTINGS_DATABASE_PATH = os.path.join(
 TABLES = [
     {
         "index": 0,
-        "headers": ["Parameters", "Values"],
+        "column_headers": ["Parameters", "Values"],
         "data": [
             ["Name", "John Doe"],
             ["Age", "30"],
