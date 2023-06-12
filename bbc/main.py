@@ -2,7 +2,7 @@ import sys
 
 from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from PySide6.QtWidgets import QApplication
-from ui.main_ui import MainUI
+from ui.main_ui_old import MainUI
 
 
 def run():

@@ -95,29 +95,7 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
-        self.update_ui()
-
-        self.setCentralWidget(self.central_widget)
-
-    def flip_visibility_state(self):
-        """
-        Flip the visibility state and update the UI.
-        """
-        if self.main_ui_page_visibility_state == 0:
-            self.main_ui_page_visibility_state = 1
-        else:
-            self.main_ui_page_visibility_state = 0
-
-        self._settings.setValue(
-            "main_ui_page_visibility_state", self.main_ui_page_visibility_state
-        )
-
-        self.update_ui()
-
-    def update_ui(self):
-        """
-        Update the UI based on the visibility state.
-        """
+        # Visibility State 0:
         if self.main_ui_page_visibility_state == 0:
             self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
             self.startup_page_layout.addWidget(
@@ -126,10 +104,9 @@ class MainUI(QMainWindow):
             self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
 
-            self.main_page_layout.setParent(None)
+            self.central_widget.setLayout(self.startup_page_layout)
 
-            self.startup_page_layout.setParent(self.central_widget)
-
+        # Visibility State 1:
         elif self.main_ui_page_visibility_state == 1:
             self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
             self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
@@ -137,6 +114,6 @@ class MainUI(QMainWindow):
             self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
-            self.startup_page_layout.setParent(None)
+            self.central_widget.setLayout(self.main_page_layout)
 
-            self.main_page_layout.setParent(self.central_widget)
+        self.setCentralWidget(self.central_widget)
