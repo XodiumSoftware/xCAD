@@ -30,12 +30,8 @@ class MainUI(QMainWindow):
         """
         self._settings = QSettings()
 
-        self.main_ui_page_visibility_state = self._settings.value(
-            "main_ui_page_visibility_state", defaultValue=0, type=int
-        )
-        self.viewer_page_visibility_state = self._settings.value(
-            "viewer_page_visibility_state", defaultValue=0, type=int
-        )
+        self._settings.value("main_ui_page_visibility_state", defaultValue=0, type=int)
+        self._settings.value("viewer_page_visibility_state", defaultValue=0, type=int)
         self.theme_state = self._settings.value("theme_state", defaultValue=0, type=int)
 
     def setup_database(self):
@@ -99,26 +95,14 @@ class MainUI(QMainWindow):
 
         self.setCentralWidget(self.central_widget)
 
-    def flip_visibility_state(self):
-        """
-        Flip the visibility state and update the UI.
-        """
-        if self.main_ui_page_visibility_state == 0:
-            self.main_ui_page_visibility_state = 1
-        else:
-            self.main_ui_page_visibility_state = 0
-
-        self._settings.setValue(
-            "main_ui_page_visibility_state", self.main_ui_page_visibility_state
-        )
-
-        self.update_ui()
-
     def update_ui(self):
         """
         Update the UI based on the visibility state.
         """
-        if self.main_ui_page_visibility_state == 0:
+        if self._settings.value("main_ui_page_visibility_state") == 0:
+            print(
+                f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 0)}..."
+            )
             self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
             self.startup_page_layout.addWidget(
                 FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
@@ -126,17 +110,16 @@ class MainUI(QMainWindow):
             self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
 
-            self.main_page_layout.setParent(None)
+            self.central_widget.setLayout(self.startup_page_layout)
 
-            self.startup_page_layout.setParent(self.central_widget)
-
-        elif self.main_ui_page_visibility_state == 1:
+        elif self._settings.value("main_ui_page_visibility_state") == 1:
+            print(
+                f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
+            )
             self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
             self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
             self.main_page_layout.addWidget(self.button_container_1, 2, 0, 1, 1)
             self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
             self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
-            self.startup_page_layout.setParent(None)
-
-            self.main_page_layout.setParent(self.central_widget)
+            self.central_widget.setLayout(self.main_page_layout)

@@ -40,7 +40,8 @@ class EventsHandler(QObject):
                 self._settings.setValue("viewer_visibility_state", 0)
 
             print(
-                DEBUG_NAME + f"Viewer visibility state set to: {current_button_state}!"
+                DEBUG_NAME
+                + f"Viewer visibility state set to: {self._settings.value('viewer_visibility_state')}!"
             )
 
         elif button_index == 2:
@@ -67,5 +68,5 @@ class EventsHandler(QObject):
 
             print(
                 DEBUG_NAME
-                + f"Main UI page visibility state set to: {current_checkbox_state}!"
+                + f"Main UI page visibility state set to: {self._settings.value('main_ui_page_visibility_state')}!"
             )
