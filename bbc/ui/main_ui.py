@@ -136,19 +136,29 @@ class MainUI(QMainWindow):
         """
         if self._settings.value("main_ui_page_visibility_state") == 0:
             self._settings.setValue("main_ui_page_visibility_state", 1)
+            self.hide_layout(self.main_page_layout)
+            self.show_layout(self.startup_page_layout)
         elif self._settings.value("main_ui_page_visibility_state") == 1:
             self._settings.setValue("main_ui_page_visibility_state", 0)
+            self.hide_layout(self.startup_page_layout)
+            self.show_layout(self.main_page_layout)
 
         self.update_ui()
 
-    def hide_layout(self):
-        for i in range(self.main_page_layout.count()):
-            item = self.main_page_layout.itemAt(i)
+    def hide_layout(self, layout):
+        """
+        Hide the widgets in the given layout.
+        """
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
             if item.widget():
                 item.widget().hide()
 
-    def show_layout(self):
-        for i in range(self.main_page_layout.count()):
-            item = self.main_page_layout.itemAt(i)
+    def show_layout(self, layout):
+        """
+        Show the widgets in the given layout.
+        """
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
             if item.widget():
                 item.widget().show()
