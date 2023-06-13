@@ -84,9 +84,6 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        self.main_page_layout = QGridLayout()
-        self.startup_page_layout = QGridLayout()
-
         self.central_widget = QWidget()
 
         self.update_ui()
@@ -102,16 +99,9 @@ class MainUI(QMainWindow):
                 DEBUG_NAME
                 + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 0)}..."
             )
-            self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
-            self.startup_page_layout.addWidget(
-                FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
-            )
-            self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
-            self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
 
-            self.central_widget.setLayout(self.startup_page_layout)
+            self.setup_startup_page_layout()
 
-            self.update()
             print(DEBUG_NAME + "Done setting up the layout!")
 
         elif self._settings.value("main_ui_page_visibility_state") == 1:
@@ -119,15 +109,9 @@ class MainUI(QMainWindow):
                 DEBUG_NAME
                 + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
             )
-            self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
-            self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
-            self.main_page_layout.addWidget(self.button_container_1, 2, 0, 1, 1)
-            self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
-            self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
-            self.central_widget.setLayout(self.main_page_layout)
+            self.setup_main_page_layout()
 
-            self.update()
             print(DEBUG_NAME + "Done setting up the layout!")
 
     def toggle_visibility(self):
@@ -140,3 +124,40 @@ class MainUI(QMainWindow):
             self._settings.setValue("main_ui_page_visibility_state", 0)
 
         self.update_ui()
+
+    def setup_startup_page_layout(self):
+        """
+        Setup the startup page layout.
+        """
+        self.startup_page_layout_container = QWidget()
+        self.startup_page_layout = QGridLayout()
+
+        self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
+        self.startup_page_layout.addWidget(
+            FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
+        )
+        self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
+        self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
+
+        self.central_widget.setLayout(self.startup_page_layout)
+
+        self.startup_page_layout_container.setLayout(self.startup_page_layout)
+        self.startup_page_layout_container.hide()
+
+    def setup_main_page_layout(self):
+        """
+        Setup the main page layout.
+        """
+        self.main_page_layout_container = QWidget()
+        self.main_page_layout = QGridLayout()
+
+        self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
+        self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
+        self.main_page_layout.addWidget(self.button_container_1, 2, 0, 1, 1)
+        self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
+        self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
+
+        self.central_widget.setLayout(self.main_page_layout)
+
+        self.main_page_layout_container.setLayout(self.main_page_layout)
+        self.main_page_layout_container.hide()
