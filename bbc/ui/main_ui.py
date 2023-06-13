@@ -1,10 +1,10 @@
-from constants import UI_ICON_PATH, UI_TITLE
+from constants import DEBUG_NAME, UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QPushButton, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
@@ -99,7 +99,8 @@ class MainUI(QMainWindow):
         """
         if self._settings.value("main_ui_page_visibility_state") == 0:
             print(
-                f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 0)}..."
+                DEBUG_NAME
+                + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 0)}..."
             )
             self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
             self.startup_page_layout.addWidget(
@@ -111,11 +112,12 @@ class MainUI(QMainWindow):
             self.central_widget.setLayout(self.startup_page_layout)
 
             self.update()
-            print("Done setting up the layout!")
+            print(DEBUG_NAME + "Done setting up the layout!")
 
         elif self._settings.value("main_ui_page_visibility_state") == 1:
             print(
-                f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
+                DEBUG_NAME
+                + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
             )
             self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
             self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
@@ -126,7 +128,7 @@ class MainUI(QMainWindow):
             self.central_widget.setLayout(self.main_page_layout)
 
             self.update()
-            print("Done setting up the layout!")
+            print(DEBUG_NAME + "Done setting up the layout!")
 
     def toggle_visibility(self):
         """
@@ -138,3 +140,15 @@ class MainUI(QMainWindow):
             self._settings.setValue("main_ui_page_visibility_state", 0)
 
         self.update_ui()
+
+    def hide_layout(self):
+        for i in range(self.main_page_layout.count()):
+            item = self.main_page_layout.itemAt(i)
+            if item.widget():
+                item.widget().hide()
+
+    def show_layout(self):
+        for i in range(self.main_page_layout.count()):
+            item = self.main_page_layout.itemAt(i)
+            if item.widget():
+                item.widget().show()
