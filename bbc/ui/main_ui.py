@@ -4,7 +4,7 @@ from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QPushButton, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
@@ -58,9 +58,7 @@ class MainUI(QMainWindow):
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.on_checkbox_clicked.connect(
-            self._events_handler.on_checkbox_clicked
-        )
+        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility)
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
@@ -112,6 +110,9 @@ class MainUI(QMainWindow):
 
             self.central_widget.setLayout(self.startup_page_layout)
 
+            self.update()
+            print("Done setting up the layout!")
+
         elif self._settings.value("main_ui_page_visibility_state") == 1:
             print(
                 f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
@@ -123,3 +124,17 @@ class MainUI(QMainWindow):
             self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
 
             self.central_widget.setLayout(self.main_page_layout)
+
+            self.update()
+            print("Done setting up the layout!")
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the UI.
+        """
+        if self._settings.value("main_ui_page_visibility_state") == 0:
+            self._settings.setValue("main_ui_page_visibility_state", 1)
+        elif self._settings.value("main_ui_page_visibility_state") == 1:
+            self._settings.setValue("main_ui_page_visibility_state", 0)
+
+        self.update_ui()

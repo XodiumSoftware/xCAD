@@ -31,7 +31,7 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
-# SettingsListWidget
+# SettingsListModule
 SETTINGS_DATABASE_PATH = os.path.join(
     DATA_FOLDER_PATH + "settingstable_database.sqlite"
 )
