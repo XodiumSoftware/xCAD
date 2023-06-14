@@ -60,10 +60,23 @@ class MainUI(QMainWindow):
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
 
-        # Setup checkboxes:
-        self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility_states)
+        self.setup_widgets()
 
+        self.central_widget = QWidget()
+
+        self.layout = QVBoxLayout(self.central_widget)
+
+        self.stacked_widget = QStackedWidget()
+        self.layout.addWidget(self.stacked_widget)
+
+        self.setCentralWidget(self.central_widget)
+
+        self.setup_main_containers()
+
+    def setup_widgets(self):
+        """
+        Setup the widgets.
+        """
         # Setup buttons:
         self.button_0 = ButtonModule(0)
         self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
@@ -77,7 +90,41 @@ class MainUI(QMainWindow):
         self.button_3 = ButtonModule(3)
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        # Setup containers:
+        # Setup checkboxes:
+        self.checkbox_0 = CheckBoxModule(0)
+        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility_states)
+
+        self.setup_sub_containers()
+
+    def setup_main_containers(self):
+        """
+        Setup the main containers.
+        """
+        # Setup main container 1:
+        self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
+        self.main_container_0.add_widget(LabelModule(1), 1, 0)
+        self.main_container_0.add_widget(self.checkbox_container_0, 2, 0)
+        self.main_container_0.add_widget(LabelModule(0), 3, 0)
+
+        self.stacked_widget.addWidget(self.main_container_0)
+
+        # Setup main container 0:
+        self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
+        self.main_container_1.add_widget(self.button_container_0, 0, 0)
+        self.main_container_1.add_widget(TableModule(0), 1, 0)
+        self.main_container_1.add_widget(self.button_container_1, 2, 0)
+        self.main_container_1.add_widget(self.checkbox_container_0, 3, 0)
+        self.main_container_1.add_widget(LabelModule(0), 4, 0)
+
+        self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
+
+        self.stacked_widget.addWidget(self.main_container_1)
+
+    def setup_sub_containers(self):
+        """
+        Setup the sub containers.
+        """
+        # Setup button containers:
         self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_0.add_widget(self.button_0)
         self.button_container_0.add_spacer()
@@ -88,40 +135,9 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        self.central_widget = QWidget()
-
-        self.layout = QVBoxLayout(self.central_widget)
-
-        self.stacked_widget = QStackedWidget()
-        self.layout.addWidget(self.stacked_widget)
-
-        self.setCentralWidget(self.central_widget)
-
-        self.setup_main_containers()
-
-    def setup_main_containers(self):
-        """
-        Setup the main containers.
-        """
-        # Setup main container 1:
-        self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_0.add_widget(LabelModule(1), 1, 0)
-        self.main_container_0.add_widget(self.checkbox_0, 2, 0)
-        self.main_container_0.add_widget(LabelModule(0), 3, 0)
-
-        self.stacked_widget.addWidget(self.main_container_0)
-
-        # Setup main container 0:
-        self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(self.button_container_0, 0, 0)
-        self.main_container_1.add_widget(TableModule(0), 1, 0)
-        self.main_container_1.add_widget(self.button_container_1, 2, 0)
-        self.main_container_1.add_widget(self.checkbox_0, 3, 0)
-        self.main_container_1.add_widget(LabelModule(0), 4, 0)
-
-        self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
-
-        self.stacked_widget.addWidget(self.main_container_1)
+        # Setup checkbox containers:
+        self.checkbox_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.checkbox_container_0.add_widget(self.checkbox_0)
 
     def toggle_visibility_states(self):
         """
