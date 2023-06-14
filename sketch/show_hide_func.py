@@ -1,11 +1,10 @@
-import sys
 import random
+import sys
 
-from PySide6.QtCore import Qt, QCoreApplication, QSettings
+from PySide6.QtCore import QCoreApplication, QSettings, Qt
 from PySide6.QtWidgets import (
     QApplication,
     QDoubleSpinBox,
-    QHBoxLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
