@@ -127,6 +127,12 @@ BUTTONS = [
         "size": (50, 30),
         "icon_path": None,
     },
+    {
+        "index": 4,
+        "title": "Let's go!",
+        "size": (100, 30),
+        "icon_path": None,
+    },
 ]
 
 # FrameModule

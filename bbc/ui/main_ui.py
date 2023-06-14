@@ -6,7 +6,6 @@ from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
-from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.frame_module import FrameModule
 from ui.modules.label_module import LabelModule
@@ -60,7 +59,7 @@ class MainUI(QMainWindow):
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
 
-        self.setup_widgets()
+        self.setup_modules()
 
         self.central_widget = QWidget()
 
@@ -73,9 +72,9 @@ class MainUI(QMainWindow):
 
         self.setup_main_containers()
 
-    def setup_widgets(self):
+    def setup_modules(self):
         """
-        Setup the widgets.
+        Setup the modules.
         """
         # Setup buttons:
         self.button_0 = ButtonModule(0)
@@ -90,9 +89,8 @@ class MainUI(QMainWindow):
         self.button_3 = ButtonModule(3)
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        # Setup checkboxes:
-        self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility_states)
+        self.button_4 = ButtonModule(4)
+        self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.setup_sub_containers()
 
@@ -103,8 +101,9 @@ class MainUI(QMainWindow):
         # Setup main container 1:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(LabelModule(1), 1, 0)
-        self.main_container_0.add_widget(self.checkbox_container_0, 2, 0)
+        self.main_container_0.add_widget(self.button_container_2, 2, 0)
         self.main_container_0.add_widget(LabelModule(0), 3, 0)
+        self.main_container_0.add_widget(LabelModule(0), 4, 0)
 
         self.stacked_widget.addWidget(self.main_container_0)
 
@@ -113,7 +112,7 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(self.button_container_0, 0, 0)
         self.main_container_1.add_widget(TableModule(0), 1, 0)
         self.main_container_1.add_widget(self.button_container_1, 2, 0)
-        self.main_container_1.add_widget(self.checkbox_container_0, 3, 0)
+        self.main_container_1.add_widget(self.button_container_2, 3, 0)
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
         self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
@@ -135,9 +134,9 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        # Setup checkbox containers:
-        self.checkbox_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.checkbox_container_0.add_widget(self.checkbox_0)
+        self.button_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.button_container_2.add_widget(self.button_4)
+        self.button_container_2.add_spacer()
 
     def toggle_visibility_states(self):
         """
