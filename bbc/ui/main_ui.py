@@ -2,7 +2,7 @@ from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
@@ -92,6 +92,9 @@ class MainUI(QMainWindow):
         self.button_4 = ButtonModule(4)
         self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
 
+        self.button_5 = ButtonModule(4)
+        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
         self.setup_sub_containers()
 
     def setup_main_containers(self):
@@ -101,22 +104,24 @@ class MainUI(QMainWindow):
         # Setup main container 1:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(LabelModule(1), 1, 0)
-        self.main_container_0.add_widget(self.button_container_2, 2, 0)
+        self.main_container_0.add_widget(
+            self.button_container_2, 2, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
+        )
         self.main_container_0.add_widget(LabelModule(0), 3, 0)
-        self.main_container_0.add_widget(LabelModule(0), 4, 0)
-
-        self.stacked_widget.addWidget(self.main_container_0)
 
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_1.add_widget(self.button_container_0, 0, 0)
         self.main_container_1.add_widget(TableModule(0), 1, 0)
         self.main_container_1.add_widget(self.button_container_1, 2, 0)
-        self.main_container_1.add_widget(self.button_container_2, 3, 0)
+        self.main_container_1.add_widget(
+            self.button_container_3, 3, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
+        )
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
         self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
 
+        self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)
 
     def setup_sub_containers(self):
@@ -137,6 +142,10 @@ class MainUI(QMainWindow):
         self.button_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
         self.button_container_2.add_widget(self.button_4)
         self.button_container_2.add_spacer()
+
+        self.button_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.button_container_3.add_widget(self.button_5)
+        self.button_container_3.add_spacer()
 
     def toggle_visibility_states(self):
         """
