@@ -31,7 +31,9 @@ class TableViewModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_table_view_module(self, table_data):
+    def create_table_view_module(
+        self, table_data
+    ):  # FIXME: This whole function is a mess.
         """
         Create a table view module.
         """
@@ -39,17 +41,29 @@ class TableViewModule(QWidget):
         model = QStandardItemModel(self)
 
         column_headers = table_data["hor_headers"]
+        model.setColumnCount(len(column_headers))
         model.setHorizontalHeaderLabels(column_headers)
 
-        for row, item in enumerate(table_data["container_data"]):
-            for column, value in enumerate(item):
-                table_item = QStandardItem(str(value))
-                model.setItem(row, column, table_item)
+        containers = table_data.get("containers", [])
+        row = 0
+        for container in containers:
+            container_title = container.get("container_title", "")
+            container_data = container.get("container_data", [])
 
-        for row in range(model.rowCount()):
-            item = model.item(row, 0)
-            if item is not None:
-                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+            # Set container header title
+            title_item = QStandardItem(container_title)
+            model.setItem(row, 0, title_item)
+            for column in range(1, len(column_headers)):
+                model.setItem(row, column, QStandardItem(""))
+            row += 1
+
+            # Add container data to the table
+            for item in container_data:
+                for column, value in enumerate(item):
+                    table_item = QStandardItem(str(value))
+                    model.setItem(row, column, table_item)
+
+                row += 1
 
         table_view.setModel(model)
         table_view.setSortingEnabled(True)
@@ -58,5 +72,11 @@ class TableViewModule(QWidget):
 
         header = table_view.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
+
+        # Set span for container header titles
+        for i in range(len(column_headers)):
+            table_view.setSpan(
+                i * (len(container_data) + 1), 0, len(container_data) + 1, 1
+            )
 
         return table_view

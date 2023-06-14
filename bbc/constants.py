@@ -40,8 +40,19 @@ TABLES = [
     {
         "index": 0,
         "hor_headers": ["Parameters", "Values"],
-        "container_title": "Dimensions",
-        "container_data": [["Length", 6000], ["Height", 3000], ["Thickness", 170]],
+        "containers": [
+            {
+                "container_title": "Dimensions",
+                "container_data": [["Frame Length", 6000], ["Frame Height", 3000]],
+            },
+            {
+                "container_title": "Frame",
+                "container_data": [
+                    ["Frame Type", "SLS"],
+                    ["Frame Thickness", 170],
+                ],
+            },
+        ],
     },
 ]
 
