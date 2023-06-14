@@ -48,11 +48,32 @@ class ContainerModule(QWidget):
         if self.layout() is not None:
             self.layout().setContentsMargins(*margins)
 
-    def add_widget(self, widget):
+    def add_widget(
+        self,
+        widget,
+        row=None,
+        column=None,
+        rowspan=None,
+        columnspan=None,
+        alignment=None,
+    ):
         """
         Add a widget to the container.
         """
-        self.layout().addWidget(widget)
+        layout_type = self.layout().objectName()
+        if layout_type == "Grid":
+            if widget is None or row is None or column is None:
+                raise ValueError(
+                    DEBUG_NAME + "widget, row and column indices must be specified."
+                )
+            if alignment is not None:
+                self.layout().addWidget(
+                    widget, row, column, rowspan, columnspan, alignment
+                )
+            else:
+                self.layout().addWidget(widget, row, column, rowspan, columnspan)
+        else:
+            self.layout().addWidget(widget)
 
     def add_spacer(self, size=None):
         """

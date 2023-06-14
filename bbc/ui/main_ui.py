@@ -4,7 +4,7 @@ from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
@@ -88,29 +88,38 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        self.stacked_widget = QStackedWidget()
+        self.central_widget = QWidget()
 
-        self.setCentralWidget(self.stacked_widget)
+        self.layout = QVBoxLayout(self.central_widget)
+
+        self.stacked_widget = QStackedWidget()
+        self.layout.addWidget(self.stacked_widget)
+
+        self.setCentralWidget(self.central_widget)
+
+        self.setup_main_containers()
 
     def setup_main_containers(self):
         """
         Setup the main containers.
         """
+        # Setup main container 0:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_0.add_widget(self.button_container_0, 0, 0, 1, 1)
-        self.main_container_0.add_widget(TableModule(0), 1, 0, 1, 1)
-        self.main_container_0.add_widget(self.button_container_1, 2, 0, 1, 1)
-        self.main_container_0.add_widget(self.checkbox_0, 3, 0, 1, 1)
-        self.main_container_0.add_widget(LabelModule(0), 4, 0, 1, 1)
+        self.main_container_0.add_widget(self.button_container_0, 0, 0)
+        self.main_container_0.add_widget(TableModule(0), 1, 0)
+        self.main_container_0.add_widget(self.button_container_1, 2, 0)
+        self.main_container_0.add_widget(self.checkbox_0, 3, 0)
+        self.main_container_0.add_widget(LabelModule(0), 4, 0)
+
         self.stacked_widget.addWidget(self.main_container_0)
 
+        # Setup main container 1:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(LabelModule(1), 1, 0, 1, 1)
-        self.main_container_1.add_widget(
-            FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
-        )
-        self.main_container_1.add_widget(self.checkbox_0, 3, 0, 1, 1)
-        self.main_container_1.add_widget(LabelModule(0), 4, 0, 1, 2)
+        self.main_container_1.add_widget(LabelModule(1), 1, 0)
+        self.main_container_1.add_widget(FrameModule(0), 0, 1)
+        self.main_container_1.add_widget(self.checkbox_0, 3, 0)
+        self.main_container_1.add_widget(LabelModule(0), 4, 0)
+
         self.stacked_widget.addWidget(self.main_container_1)
 
     def toggle_visibility_states(self):
@@ -123,9 +132,6 @@ class MainUI(QMainWindow):
             self.main_ui_visibility_state = 0
 
         self.show_container()
-        self._settings.setValue(
-            "main_ui_visibility_state", self.main_ui_visibility_state
-        )  # NOTE: Do i need this? looks like duplicated code.
 
     def show_container(self):
         """
