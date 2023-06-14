@@ -1,10 +1,10 @@
-from constants import DEBUG_NAME, UI_ICON_PATH, UI_TITLE
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.checkbox_module import CheckBoxModule
 from ui.modules.container_module import ContainerModule
@@ -30,15 +30,19 @@ class MainUI(QMainWindow):
         """
         self._settings = QSettings()
 
-        self._settings.value("main_ui_page_visibility_state", defaultValue=0, type=int)
-        self._settings.value("viewer_page_visibility_state", defaultValue=0, type=int)
-        self.theme_state = self._settings.value("theme_state", defaultValue=0, type=int)
+        self.main_ui_visibility_state = self._settings.value(
+            "main_ui_visibility_state", 0, type=int
+        )
+        self.viewer_visibility_state = self._settings.value(
+            "viewer_visibility_state", 0, type=int
+        )
+        self.theme_state = self._settings.value("theme_state", 0, type=int)
 
     def setup_database(self):
         """
         Setup the database.
         """
-        self.settings_db_handler = DataBaseHandler()
+        self._settings_db_handler = DataBaseHandler()
 
     def setup_main_ui(self):
         """
@@ -58,7 +62,7 @@ class MainUI(QMainWindow):
 
         # Setup checkboxes:
         self.checkbox_0 = CheckBoxModule(0)
-        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility)
+        self.checkbox_0.on_checkbox_clicked.connect(self.toggle_visibility_states)
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
@@ -84,80 +88,47 @@ class MainUI(QMainWindow):
         self.button_container_1.add_widget(self.button_2)
         self.button_container_1.add_widget(self.button_3)
 
-        self.central_widget = QWidget()
+        self.stacked_widget = QStackedWidget()
 
-        self.update_ui()
+        self.setCentralWidget(self.stacked_widget)
 
-        self.setCentralWidget(self.central_widget)
-
-    def update_ui(self):
+    def setup_main_containers(self):
         """
-        Update the UI based on the visibility state.
+        Setup the main containers.
         """
-        if self._settings.value("main_ui_page_visibility_state") == 0:
-            print(
-                DEBUG_NAME
-                + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 0)}..."
-            )
+        self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
+        self.main_container_0.add_widget(self.button_container_0, 0, 0, 1, 1)
+        self.main_container_0.add_widget(TableModule(0), 1, 0, 1, 1)
+        self.main_container_0.add_widget(self.button_container_1, 2, 0, 1, 1)
+        self.main_container_0.add_widget(self.checkbox_0, 3, 0, 1, 1)
+        self.main_container_0.add_widget(LabelModule(0), 4, 0, 1, 1)
+        self.stacked_widget.addWidget(self.main_container_0)
 
-            self.setup_startup_page_layout()
-
-            print(DEBUG_NAME + "Done setting up the layout!")
-
-        elif self._settings.value("main_ui_page_visibility_state") == 1:
-            print(
-                DEBUG_NAME
-                + f"Setting up the layout for visibility state {self._settings.value('main_ui_page_visibility_state', 1)}..."
-            )
-
-            self.setup_main_page_layout()
-
-            print(DEBUG_NAME + "Done setting up the layout!")
-
-    def toggle_visibility(self):
-        """
-        Toggle the visibility of the UI.
-        """
-        if self._settings.value("main_ui_page_visibility_state") == 0:
-            self._settings.setValue("main_ui_page_visibility_state", 1)
-        elif self._settings.value("main_ui_page_visibility_state") == 1:
-            self._settings.setValue("main_ui_page_visibility_state", 0)
-
-        self.update_ui()
-
-    def setup_startup_page_layout(self):
-        """
-        Setup the startup page layout.
-        """
-        self.startup_page_layout_container = QWidget()
-        self.startup_page_layout = QGridLayout()
-
-        self.startup_page_layout.addWidget(LabelModule(1), 1, 0, 1, 1)
-        self.startup_page_layout.addWidget(
+        self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
+        self.main_container_1.add_widget(LabelModule(1), 1, 0, 1, 1)
+        self.main_container_1.add_widget(
             FrameModule(0), 0, 1, 4, 1, Qt.AlignmentFlag.AlignCenter
         )
-        self.startup_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
-        self.startup_page_layout.addWidget(LabelModule(0), 4, 0, 1, 2)
+        self.main_container_1.add_widget(self.checkbox_0, 3, 0, 1, 1)
+        self.main_container_1.add_widget(LabelModule(0), 4, 0, 1, 2)
+        self.stacked_widget.addWidget(self.main_container_1)
 
-        self.central_widget.setLayout(self.startup_page_layout)
-
-        self.startup_page_layout_container.setLayout(self.startup_page_layout)
-        self.startup_page_layout_container.hide()
-
-    def setup_main_page_layout(self):
+    def toggle_visibility_states(self):
         """
-        Setup the main page layout.
+        Toggle the visibility states.
         """
-        self.main_page_layout_container = QWidget()
-        self.main_page_layout = QGridLayout()
+        if self.main_ui_visibility_state == 0:
+            self.main_ui_visibility_state = 1
+        elif self.main_ui_visibility_state == 1:
+            self.main_ui_visibility_state = 0
 
-        self.main_page_layout.addWidget(self.button_container_0, 0, 0, 1, 1)
-        self.main_page_layout.addWidget(TableModule(0), 1, 0, 1, 1)
-        self.main_page_layout.addWidget(self.button_container_1, 2, 0, 1, 1)
-        self.main_page_layout.addWidget(self.checkbox_0, 3, 0, 1, 1)
-        self.main_page_layout.addWidget(LabelModule(0), 4, 0, 1, 1)
+        self.show_container()
+        self._settings.setValue(
+            "main_ui_visibility_state", self.main_ui_visibility_state
+        )  # NOTE: Do i need this? looks like duplicated code.
 
-        self.central_widget.setLayout(self.main_page_layout)
-
-        self.main_page_layout_container.setLayout(self.main_page_layout)
-        self.main_page_layout_container.hide()
+    def show_container(self):
+        """
+        Show the container.
+        """
+        self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)

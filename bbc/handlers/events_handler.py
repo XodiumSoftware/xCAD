@@ -50,23 +50,21 @@ class EventsHandler(QObject):
         elif button_index == 3:
             print(DEBUG_NAME + f"Button {button_index} clicked!")
 
-    def on_checkbox_clicked(self, checkbox_index):
-        """
-        Handle the checkbox clicked event.
-        """
-        if checkbox_index == 0:
-            print(DEBUG_NAME + f"Checkbox {checkbox_index} clicked!")
-            current_checkbox_state = self._settings.value(
-                "main_ui_page_visibility_state"
-            )
+    # def on_checkbox_clicked(self, checkbox_index):
+    #     """
+    #     Handle the checkbox clicked event.
+    #     """
+    #     if checkbox_index == 0:
+    #         print(DEBUG_NAME + f"Checkbox {checkbox_index} clicked!")
+    #         current_checkbox_state = self._settings.value("main_ui_visibility_state")
 
-            if current_checkbox_state == 0:
-                self._settings.setValue("main_ui_page_visibility_state", 1)
+    #         if current_checkbox_state == 0:
+    #             self._settings.setValue("main_ui_visibility_state", 1)
 
-            elif current_checkbox_state == 1:
-                self._settings.setValue("main_ui_page_visibility_state", 0)
+    #         elif current_checkbox_state == 1:
+    #             self._settings.setValue("main_ui_visibility_state", 0)
 
-            print(
-                DEBUG_NAME
-                + f"Main UI page visibility state set to: {self._settings.value('main_ui_page_visibility_state')}!"
-            )
+    #         print(
+    #             DEBUG_NAME
+    #             + f"Main UI visibility state set to: {self._settings.value('main_ui_visibility_state')}!"
+    #         )
