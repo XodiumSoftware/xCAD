@@ -106,9 +106,8 @@ class MainUI(QMainWindow):
         # Setup main container 1:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(LabelModule(1), 1, 0)
-        self.main_container_0.add_widget(FrameModule(0), 0, 1)
-        self.main_container_0.add_widget(self.checkbox_0, 3, 0)
-        self.main_container_0.add_widget(LabelModule(0), 4, 0)
+        self.main_container_0.add_widget(self.checkbox_0, 2, 0)
+        self.main_container_0.add_widget(LabelModule(0), 3, 0)
 
         self.stacked_widget.addWidget(self.main_container_0)
 
@@ -119,6 +118,8 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(self.button_container_1, 2, 0)
         self.main_container_1.add_widget(self.checkbox_0, 3, 0)
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
+
+        self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
 
         self.stacked_widget.addWidget(self.main_container_1)
 
