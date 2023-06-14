@@ -9,6 +9,7 @@ from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.frame_module import FrameModule
 from ui.modules.label_module import LabelModule
+from ui.modules.radio_button_module import RadioButtonModule
 from ui.modules.settings_list_module import TableModule
 
 
@@ -90,7 +91,7 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(TableModule(0), 1, 0)
         self.main_container_1.add_widget(self.button_container_1, 2, 0)
         self.main_container_1.add_widget(
-            self.button_container_3, 3, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
+            self.radio_button_container_0, 3, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
         )
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
@@ -119,8 +120,11 @@ class MainUI(QMainWindow):
         self.button_4 = ButtonModule(4)
         self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
 
-        self.button_5 = ButtonModule(4)
-        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+        # Setup radio buttons:
+        self.radio_button_0 = RadioButtonModule(0)
+        self.radio_button_0.on_radio_button_clicked.connect(
+            self.toggle_visibility_states
+        )
 
         self.setup_sub_containers()
 
@@ -143,9 +147,10 @@ class MainUI(QMainWindow):
         self.button_container_2.add_widget(self.button_4)
         self.button_container_2.add_spacer()
 
-        self.button_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.button_container_3.add_widget(self.button_5)
-        self.button_container_3.add_spacer()
+        # Setup radio button containers:
+        self.radio_button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.radio_button_container_0.add_widget(self.radio_button_0)
+        self.radio_button_container_0.add_spacer()
 
     def toggle_visibility_states(self):
         """

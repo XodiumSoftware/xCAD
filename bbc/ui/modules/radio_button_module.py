@@ -5,7 +5,7 @@ from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QRadioButton, QVBoxLayout, QWidget
 
 
-class RadioButtonModulesys(QWidget):
+class RadioButtonModule(QWidget):
     on_radio_button_clicked = Signal(int)
 
     def __init__(self, radio_button_index, parent=None):

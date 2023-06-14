@@ -149,7 +149,7 @@ FRAMES = [
 RADIO_BUTTONS = [
     {
         "index": 0,
-        "title": "Toggle startup page",
+        "title": "Startup Page",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
