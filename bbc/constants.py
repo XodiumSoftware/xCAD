@@ -145,6 +145,16 @@ FRAMES = [
     },
 ]
 
+# RadioButtonModule
+RADIO_BUTTONS = [
+    {
+        "index": 0,
+        "title": "Toggle startup page",
+        "stylesheet": "QCheckBox { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+    },
+]
+
 # ThemeHandler
 THEME_FILE_PATHS = {
     THEME_DARK: os.path.join(THEME_FOLDER_PATH, "dark_theme.css"),
