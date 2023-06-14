@@ -53,7 +53,7 @@ class MainUI(QMainWindow):
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
 
-        self._ui_handler = UIHandler(self)
+        self._ui_handler = UIHandler()
         self._ui_handler.ui_size_handler(self, 600, 400)
         self._ui_handler.center_ui_on_screen_handler(self)
 
@@ -161,10 +161,7 @@ class MainUI(QMainWindow):
         elif self.main_ui_visibility_state == 1:
             self.main_ui_visibility_state = 0
 
-        self.show_container()
+        self.show_containers()
 
-    def show_container(self):
-        """
-        Show the container.
-        """
+    def show_containers(self):
         self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)

@@ -3,11 +3,11 @@ from PySide6.QtGui import QGuiApplication
 
 
 class UIHandler:
-    def __init__(self, main_ui):
+    def __init__(self):
         """
         Initialize the UIHandler.
         """
-        self._main_ui = main_ui
+        super().__init__()
 
     @staticmethod
     def center_ui_on_screen_handler(ui):
