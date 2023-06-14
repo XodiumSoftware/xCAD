@@ -38,14 +38,10 @@ SETTINGS_DATABASE_PATH = os.path.join(
 
 TABLES = [
     {
-        "index": 1,
-        "headers": ["Name", "Age"],
-        "data": [["John", 25], ["Jane", 30], ["Bob", 40]],
-    },
-    {
-        "index": 2,
-        "headers": ["Product", "Price"],
-        "data": [["Keyboard", 20.99], ["Mouse", 12.50], ["Monitor", 199.99]],
+        "index": 0,
+        "hor_headers": ["Parameters", "Values"],
+        "container_title": "Dimensions",
+        "container_data": [["Length", 6000], ["Height", 3000], ["Thickness", 170]],
     },
 ]
 

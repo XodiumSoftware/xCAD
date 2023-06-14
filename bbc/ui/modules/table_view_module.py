@@ -1,6 +1,6 @@
 from constants import DEBUG_NAME, TABLES
-from PySide6.QtGui import QStandardItem, QStandardItemModel
-from PySide6.QtWidgets import QTableView, QVBoxLayout, QWidget
+from PySide6.QtGui import QStandardItem, QStandardItemModel, Qt
+from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
 
 
 class TableViewModule(QWidget):
@@ -38,17 +38,25 @@ class TableViewModule(QWidget):
         table_view = QTableView()
         model = QStandardItemModel(self)
 
-        column_headers = table_data["headers"]
+        column_headers = table_data["hor_headers"]
         model.setHorizontalHeaderLabels(column_headers)
 
-        for row, item in enumerate(table_data["data"]):
+        for row, item in enumerate(table_data["container_data"]):
             for column, value in enumerate(item):
                 table_item = QStandardItem(str(value))
                 model.setItem(row, column, table_item)
+
+        for row in range(model.rowCount()):
+            item = model.item(row, 0)
+            if item is not None:
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
         table_view.setModel(model)
         table_view.setSortingEnabled(True)
         table_view.setCornerButtonEnabled(True)
         table_view.resizeColumnsToContents()
+
+        header = table_view.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
 
         return table_view
