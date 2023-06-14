@@ -40,10 +40,28 @@ TABLES = [
     {
         "index": 0,
         "column_headers": ["Parameters", "Values"],
-        "data": [
-            ["Name", "John Doe"],
-            ["Age", "30"],
-            ["Country", "USA"],
+        "column_headers_stylesheet": "QHeaderView::section { font-size: 12px; }",
+        "containers": [
+            {
+                "container_title": "General",
+                "container_title_stylesheet": "QGroupBox::title { font-size: 12px; }",
+                "container_data": [
+                    ["Name", "John Doe"],
+                    ["Age", "30"],
+                    ["Country", "USA"],
+                ],
+                "container_data_stylesheet": "QTableWidget { font-size: 12px; }",
+            },
+            {
+                "container_title": "Dimensions",
+                "container_title_stylesheet": "QGroupBox::title { font-size: 12px; }",
+                "container_data": [
+                    ["Length", "6000"],
+                    ["Height", "3000"],
+                    ["Thickness", "170"],
+                ],
+                "container_data_stylesheet": "QTableWidget { font-size: 12px; }",
+            },
         ],
     },
 ]
