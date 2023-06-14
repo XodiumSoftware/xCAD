@@ -60,20 +60,22 @@ class ContainerModule(QWidget):
         """
         Add a widget to the container.
         """
-        layout_type = self.layout().objectName()
-        if layout_type == "Grid":
-            if widget is None or row is None or column is None:
+        layout = self.layout()
+        if isinstance(layout, QGridLayout):
+            if alignment is not None and (rowspan and columnspan is not None):
+                layout.addWidget(widget, row, column, rowspan, columnspan, alignment)
+            elif alignment is not None and (rowspan or columnspan is None):
+                layout.addWidget(widget, row, column, alignment)
+            elif alignment is None and (rowspan and columnspan is not None):
+                layout.addWidget(widget, row, column, rowspan, columnspan)
+            elif alignment is None and (rowspan or columnspan is None):
+                layout.addWidget(widget, row, column)
+            elif widget is None or row is None or column is None:
                 raise ValueError(
                     DEBUG_NAME + "widget, row and column indices must be specified."
                 )
-            if alignment is not None:
-                self.layout().addWidget(
-                    widget, row, column, rowspan, columnspan, alignment
-                )
-            else:
-                self.layout().addWidget(widget, row, column, rowspan, columnspan)
         else:
-            self.layout().addWidget(widget)
+            layout.addWidget(widget)
 
     def add_spacer(self, size=None):
         """

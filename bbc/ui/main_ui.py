@@ -2,7 +2,7 @@ from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings, Qt
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
@@ -103,20 +103,20 @@ class MainUI(QMainWindow):
         """
         Setup the main containers.
         """
-        # Setup main container 0:
+        # Setup main container 1:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_0.add_widget(self.button_container_0, 0, 0)
-        self.main_container_0.add_widget(TableModule(0), 1, 0)
-        self.main_container_0.add_widget(self.button_container_1, 2, 0)
+        self.main_container_0.add_widget(LabelModule(1), 1, 0)
+        self.main_container_0.add_widget(FrameModule(0), 0, 1)
         self.main_container_0.add_widget(self.checkbox_0, 3, 0)
         self.main_container_0.add_widget(LabelModule(0), 4, 0)
 
         self.stacked_widget.addWidget(self.main_container_0)
 
-        # Setup main container 1:
+        # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(LabelModule(1), 1, 0)
-        self.main_container_1.add_widget(FrameModule(0), 0, 1)
+        self.main_container_1.add_widget(self.button_container_0, 0, 0)
+        self.main_container_1.add_widget(TableModule(0), 1, 0)
+        self.main_container_1.add_widget(self.button_container_1, 2, 0)
         self.main_container_1.add_widget(self.checkbox_0, 3, 0)
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
