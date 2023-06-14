@@ -49,16 +49,12 @@ class RadioButtonModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_radio_button_module(self, radio_button_data, radio_button_index):
+    def create_radio_button_module(self, radio_button_data):
         """
         Create a radio button module.
         """
         radio_button = QRadioButton(radio_button_data["title"])
         radio_button.setStyleSheet(radio_button_data["stylesheet"])
         radio_button.setSizePolicy(*radio_button_data["size_policy"])
-
-        if radio_button_index == 0:
-            checked_state = self._settings.value("main_ui_visibility_state") == 1
-            radio_button.setChecked(bool(checked_state))
 
         return radio_button

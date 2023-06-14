@@ -81,7 +81,7 @@ class MainUI(QMainWindow):
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(LabelModule(1), 1, 0)
         self.main_container_0.add_widget(
-            self.button_container_2, 2, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
+            self.button_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
         )
         self.main_container_0.add_widget(LabelModule(0), 3, 0)
 

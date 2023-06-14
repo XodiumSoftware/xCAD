@@ -45,16 +45,12 @@ class CheckBoxModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_checkbox_module(self, checkbox_data, checkbox_index):
+    def create_checkbox_module(self, checkbox_data):
         """
         Create a checkbox module.
         """
         checkbox = QCheckBox(checkbox_data["title"])
         checkbox.setStyleSheet(checkbox_data["stylesheet"])
         checkbox.setSizePolicy(*checkbox_data["size_policy"])
-
-        if checkbox_index == 0:
-            checked_state = self._settings.value("main_ui_visibility_state") == 1
-            checkbox.setChecked(bool(checked_state))
 
         return checkbox
