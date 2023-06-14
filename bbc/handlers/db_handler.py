@@ -69,3 +69,4 @@ class DataBaseHandler(QObject):
     def close_db_connection(self):
         self.connection.close()
         print(DEBUG_NAME + "Connection closed.")
+

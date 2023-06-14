@@ -1,10 +1,10 @@
 from constants import DEBUG_NAME
-from PySide6.QtCore import QObject, QSettings, Slot
+from PySide6.QtCore import QSettings, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QApplication
 
 
-class EventsHandler(QObject):
+class EventsHandler:
     def __init__(self):
         """
         Initialize the EventsHandler.
