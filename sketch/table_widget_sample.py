@@ -55,7 +55,8 @@ for table in TABLES:
     group_box.setTitle(table["column_headers"][0])
 
     # Apply the stylesheet for the group box title
-    group_box.setStyleSheet(table["container_title_stylesheet"])
+    if "container_title_stylesheet" in table:
+        group_box.setStyleSheet(table["container_title_stylesheet"])
 
     # Create a table widget for each container
     table_widget = QTableWidget(
@@ -65,7 +66,8 @@ for table in TABLES:
     table_widget.horizontalHeader().setStyleSheet(table["column_headers_stylesheet"])
 
     # Apply the stylesheet for the table widget
-    table_widget.setStyleSheet(table["container_data_stylesheet"])
+    if "container_data_stylesheet" in table:
+        table_widget.setStyleSheet(table["container_data_stylesheet"])
 
     # Iterate over the container data and populate the table widget
     for row, data in enumerate(table["containers"][0]["container_data"]):
