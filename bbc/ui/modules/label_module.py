@@ -1,4 +1,4 @@
-from constants import LABELS
+from constants import DEBUG_NAME, LABELS
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 
@@ -23,6 +23,9 @@ class LabelModule(QWidget):
         if label_data:
             label = self.create_label_module(label_data)
             layout.addWidget(label)
+
+        else:
+            print(DEBUG_NAME + f'"index" {label_index} not found in LABELS')
 
         layout.setContentsMargins(0, 0, 0, 0)
 

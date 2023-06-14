@@ -72,31 +72,6 @@ class MainUI(QMainWindow):
 
         self.setup_main_containers()
 
-    def setup_modules(self):
-        """
-        Setup the modules.
-        """
-        # Setup buttons:
-        self.button_0 = ButtonModule(0)
-        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_1 = ButtonModule(1)
-        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_2 = ButtonModule(2)
-        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_3 = ButtonModule(3)
-        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_4 = ButtonModule(4)
-        self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.button_5 = ButtonModule(4)
-        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.setup_sub_containers()
-
     def setup_main_containers(self):
         """
         Setup the main containers.
@@ -123,6 +98,31 @@ class MainUI(QMainWindow):
 
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)
+
+    def setup_modules(self):
+        """
+        Setup the modules.
+        """
+        # Setup buttons:
+        self.button_0 = ButtonModule(0)
+        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_1 = ButtonModule(1)
+        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_2 = ButtonModule(2)
+        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_3 = ButtonModule(3)
+        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_4 = ButtonModule(4)
+        self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.button_5 = ButtonModule(4)
+        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.setup_sub_containers()
 
     def setup_sub_containers(self):
         """

@@ -1,6 +1,6 @@
 from functools import partial
 
-from constants import CHECKBOXES
+from constants import CHECKBOXES, DEBUG_NAME
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 
@@ -37,6 +37,9 @@ class CheckBoxModule(QWidget):
                 partial(self.on_checkbox_clicked.emit, checkbox_index)
             )
             layout.addWidget(checkbox)
+
+        else:
+            print(DEBUG_NAME + f'"index" {checkbox_index} not found in CHECKBOXES')
 
         layout.setContentsMargins(0, 0, 0, 0)
 

@@ -1,4 +1,4 @@
-from constants import TABLES
+from constants import DEBUG_NAME, TABLES
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
@@ -27,6 +27,9 @@ class TableModule(QWidget):
             table_data["data"] = ordered_data
             table_widget = self.create_table_module(table_data)
             layout.addWidget(table_widget)
+
+        else:
+            print(DEBUG_NAME + f'"index" {table_index} not found in TABLES')
 
         layout.setContentsMargins(0, 0, 0, 0)
 

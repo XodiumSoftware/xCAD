@@ -1,4 +1,4 @@
-from constants import INPUTFIELDS
+from constants import DEBUG_NAME, INPUTFIELDS
 from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
 
 
@@ -29,6 +29,9 @@ class InputFieldModule(QWidget):
             input_field = self.create_input_field_module(input_data)
             layout.addWidget(input_field)
 
+        else:
+            print(DEBUG_NAME + f'"index" {input_index} not found in INPUTFIELDS')
+
         self.setLayout(layout)
 
     def create_input_field_module(self, input_data):
@@ -39,5 +42,5 @@ class InputFieldModule(QWidget):
         input_field.setPlaceholderText(input_data["placeholder"])
         input_field.setStyleSheet(input_data["stylesheet"])
         input_field.setSizePolicy(*input_data["size_policy"])
-        
+
         return input_field

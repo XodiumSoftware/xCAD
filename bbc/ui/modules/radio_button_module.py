@@ -1,11 +1,11 @@
 from functools import partial
 
-from constants import RADIO_BUTTONS
+from constants import DEBUG_NAME, RADIO_BUTTONS
 from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QRadioButton, QVBoxLayout, QWidget
 
 
-class RadioButtonModule(QWidget):
+class RadioButtonModulesys(QWidget):
     on_radio_button_clicked = Signal(int)
 
     def __init__(self, radio_button_index, parent=None):
@@ -39,6 +39,11 @@ class RadioButtonModule(QWidget):
                 partial(self.on_radio_button_clicked.emit, radio_button_index)
             )
             layout.addWidget(radio_button)
+
+        else:
+            print(
+                DEBUG_NAME + f'"index" {radio_button_index} not found in RADIO_BUTTONS'
+            )
 
         layout.setContentsMargins(0, 0, 0, 0)
 

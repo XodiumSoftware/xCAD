@@ -1,6 +1,6 @@
 from functools import partial
 
-from constants import BUTTONS
+from constants import BUTTONS, DEBUG_NAME
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
@@ -31,6 +31,9 @@ class ButtonModule(QWidget):
             button = self.create_button_module(button_data)
             button.clicked.connect(partial(self.on_button_clicked.emit, button_index))
             layout.addWidget(button)
+
+        else:
+            print(DEBUG_NAME + f'"index" {button_index} not found in BUTTONS')
 
         layout.setContentsMargins(0, 0, 0, 0)
 

@@ -1,4 +1,4 @@
-from constants import FRAMES
+from constants import DEBUG_NAME, FRAMES
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QWidget
 
 
@@ -24,6 +24,9 @@ class FrameModule(QWidget):
         if frame_data:
             frame = self.create_frame_module(frame_data)
             layout.addWidget(frame)
+
+        else:
+            print(DEBUG_NAME + f'"index" {frame_index} not found in FRAMES')
 
         layout.setContentsMargins(0, 0, 0, 0)
 

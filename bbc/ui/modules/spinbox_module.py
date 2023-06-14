@@ -1,4 +1,4 @@
-from constants import SPINBOXES
+from constants import DEBUG_NAME, SPINBOXES
 from PySide6.QtWidgets import QSpinBox, QVBoxLayout, QWidget
 
 
@@ -25,6 +25,9 @@ class SpinBoxModule(QWidget):
             spinbox = self.create_spinbox_module(spinbox_data)
             layout.addWidget(spinbox)
 
+        else:
+            print(DEBUG_NAME + f'"index" {spinbox_index} not found in SPINBOXES')
+
         self.setLayout(layout)
 
     def create_spinbox_module(self, spinbox_data):
@@ -38,5 +41,5 @@ class SpinBoxModule(QWidget):
         spinbox.setSingleStep(spinbox_data["step"])
         spinbox.setStyleSheet(spinbox_data["stylesheet"])
         spinbox.setSizePolicy(*spinbox_data["size_policy"])
-        
+
         return spinbox
