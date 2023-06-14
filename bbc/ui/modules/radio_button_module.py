@@ -32,9 +32,7 @@ class RadioButtonModule(QWidget):
         )
 
         if radio_button_data:
-            radio_button = self.create_radio_button_module(
-                radio_button_data, radio_button_index
-            )
+            radio_button = self.create_radio_button_module(radio_button_data)
             radio_button.clicked.connect(
                 partial(self.on_radio_button_clicked.emit, radio_button_index)
             )

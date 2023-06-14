@@ -10,7 +10,7 @@ from ui.modules.container_module import ContainerModule
 from ui.modules.frame_module import FrameModule
 from ui.modules.label_module import LabelModule
 from ui.modules.radio_button_module import RadioButtonModule
-from ui.modules.settings_list_module import TableModule
+from ui.modules.table_view_module import TableViewModule
 
 
 class MainUI(QMainWindow):
@@ -88,7 +88,7 @@ class MainUI(QMainWindow):
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_1.add_widget(self.button_container_0, 0, 0)
-        self.main_container_1.add_widget(TableModule(0), 1, 0)
+        self.main_container_1.add_widget(TableViewModule(0), 1, 0)
         self.main_container_1.add_widget(self.button_container_1, 2, 0)
         self.main_container_1.add_widget(
             self.radio_button_container_0, 3, 0, alignment=Qt.AlignLeft | Qt.AlignBottom

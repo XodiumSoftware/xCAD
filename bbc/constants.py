@@ -38,33 +38,17 @@ SETTINGS_DATABASE_PATH = os.path.join(
 
 TABLES = [
     {
-        "index": 0,
-        "column_headers": ["Parameters", "Values"],
-        "column_headers_stylesheet": "QHeaderView::section { font-size: 12px; }",
-        "containers": [
-            {
-                "container_title": "General",
-                "container_title_stylesheet": "QGroupBox::title { font-size: 12px; }",
-                "container_data": [
-                    ["Name", "John Doe"],
-                    ["Age", "30"],
-                    ["Country", "USA"],
-                ],
-                "container_data_stylesheet": "QTableWidget { font-size: 12px; }",
-            },
-            {
-                "container_title": "Dimensions",
-                "container_title_stylesheet": "QGroupBox::title { font-size: 12px; }",
-                "container_data": [
-                    ["Length", "6000"],
-                    ["Height", "3000"],
-                    ["Thickness", "170"],
-                ],
-                "container_data_stylesheet": "QTableWidget { font-size: 12px; }",
-            },
-        ],
+        "index": 1,
+        "headers": ["Name", "Age"],
+        "data": [["John", 25], ["Jane", 30], ["Bob", 40]],
+    },
+    {
+        "index": 2,
+        "headers": ["Product", "Price"],
+        "data": [["Keyboard", 20.99], ["Mouse", 12.50], ["Monitor", 199.99]],
     },
 ]
+
 
 # LabelModule
 LABELS = [
