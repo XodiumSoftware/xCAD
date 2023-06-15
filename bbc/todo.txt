@@ -1,4 +1,5 @@
 General Notes:
 =============================================================================================
 TODO: graphics_view_module
+TODO: switch from stacked widget to tab widget or something better.
 =============================================================================================
