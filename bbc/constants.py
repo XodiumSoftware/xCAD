@@ -144,16 +144,6 @@ BUTTONS = [
     },
 ]
 
-# FrameModule
-FRAMES = [
-    {
-        "index": 0,
-        "title": "Frame 0",
-        "size": (200, 100),
-        "stylesheet": "background-color: gray; border: 1.5px solid black; border-radius: 5px;",
-    },
-]
-
 # RadioButtonModule
 RADIO_BUTTONS = [
     {

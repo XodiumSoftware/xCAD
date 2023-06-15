@@ -7,7 +7,6 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
-from ui.modules.frame_module import FrameModule
 from ui.modules.graphics_view_module import GraphicsViewModule
 from ui.modules.label_module import LabelModule
 from ui.modules.radio_button_module import RadioButtonModule
