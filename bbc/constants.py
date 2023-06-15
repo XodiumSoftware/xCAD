@@ -63,7 +63,7 @@ LABELS = [
         "index": 0,
         "title": "© 2023 Qerimi Engineering. All rights reserved.",
         "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
-        "alignment": Qt.AlignmentFlag.AlignLeft,
+        "alignment": (Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom),
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
     {
@@ -142,17 +142,14 @@ BUTTONS = [
         "size": (100, 30),
         "icon_path": None,
     },
-]
-
-# RadioButtonModule
-RADIO_BUTTONS = [
     {
-        "index": 0,
-        "title": "Startup Page",
-        "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
+        "index": 5,
+        "title": "Startup page",
+        "size": (30, 30),
+        "icon_path": os.path.join(ICONS_FOLDER_PATH + "home_icon_light.png"),
     },
 ]
+
 
 # ThemeHandler
 THEME_FILE_PATHS = {

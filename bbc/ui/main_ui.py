@@ -9,7 +9,6 @@ from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.graphics_view_module import GraphicsViewModule
 from ui.modules.label_module import LabelModule
-from ui.modules.radio_button_module import RadioButtonModule
 from ui.modules.table_view_module import TableViewModule
 
 
@@ -81,21 +80,20 @@ class MainUI(QMainWindow):
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(LabelModule(1), 1, 0)
         self.main_container_0.add_widget(
-            self.button_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
+            self.sub_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
         )
         self.main_container_0.add_widget(LabelModule(0), 3, 0)
 
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(self.button_container_0, 0, 0)
+        self.main_container_1.add_widget(self.sub_container_0, 0, 0)
         self.main_container_1.add_widget(TableViewModule(0), 1, 0)
-        self.main_container_1.add_widget(self.button_container_1, 2, 0)
+        self.main_container_1.add_widget(self.sub_container_1, 2, 0)
         self.main_container_1.add_widget(
-            self.radio_button_container_0, 3, 0, alignment=Qt.AlignLeft | Qt.AlignBottom
+            self.sub_container_3, 3, 0, alignment=Qt.AlignRight | Qt.AlignBottom
         )
-        self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
-        self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 5, 1)
+        self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)
 
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)
@@ -120,11 +118,8 @@ class MainUI(QMainWindow):
         self.button_4 = ButtonModule(4)
         self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
 
-        # Setup radio buttons:
-        self.radio_button_0 = RadioButtonModule(0)
-        self.radio_button_0.on_radio_button_clicked.connect(
-            self.toggle_visibility_states
-        )
+        self.button_5 = ButtonModule(5)
+        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.setup_sub_containers()
 
@@ -132,25 +127,23 @@ class MainUI(QMainWindow):
         """
         Setup the sub containers.
         """
-        # Setup button containers:
-        self.button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.button_container_0.add_widget(self.button_0)
-        self.button_container_0.add_spacer()
-        self.button_container_0.add_widget(self.button_1)
+        self.sub_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.sub_container_0.add_widget(self.button_0)
+        self.sub_container_0.add_spacer()
+        self.sub_container_0.add_widget(self.button_1)
 
-        self.button_container_1 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.button_container_1.add_spacer()
-        self.button_container_1.add_widget(self.button_2)
-        self.button_container_1.add_widget(self.button_3)
+        self.sub_container_1 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.sub_container_1.add_spacer()
+        self.sub_container_1.add_widget(self.button_2)
+        self.sub_container_1.add_widget(self.button_3)
 
-        self.button_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.button_container_2.add_widget(self.button_4)
-        self.button_container_2.add_spacer()
+        self.sub_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.sub_container_2.add_widget(self.button_4)
 
-        # Setup radio button containers:
-        self.radio_button_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.radio_button_container_0.add_widget(self.radio_button_0)
-        self.radio_button_container_0.add_spacer()
+        self.sub_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
+        self.sub_container_3.add_widget(LabelModule(0))
+        self.sub_container_3.add_spacer()
+        self.sub_container_3.add_widget(self.button_5)
 
     def toggle_visibility_states(self):
         """
