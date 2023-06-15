@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.frame_module import FrameModule
+from ui.modules.graphics_view_module import GraphicsViewModule
 from ui.modules.label_module import LabelModule
 from ui.modules.radio_button_module import RadioButtonModule
 from ui.modules.table_view_module import TableViewModule
@@ -95,7 +96,7 @@ class MainUI(QMainWindow):
         )
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
-        self.main_container_1.add_widget(FrameModule(0), 0, 1, 4, 1)
+        self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)
 
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)

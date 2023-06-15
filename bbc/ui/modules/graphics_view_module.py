@@ -1,12 +1,12 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPainter, QPen
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsView
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsView, QVBoxLayout
 
 
-class GraphicsView(QGraphicsView):
+class GraphicsViewModule(QGraphicsView):
     def __init__(self, parent=None):
         """
-        A QGraphicsView with a grid background.
+        Initialize the GraphicsView.
         """
         super().__init__(parent)
 
@@ -19,6 +19,21 @@ class GraphicsView(QGraphicsView):
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
+
+    def setup_graphics_view(self):
+        """
+        Setup the GraphicsView.
+        """
+        layout = QVBoxLayout(self)
+
+        # Add any other widgets or elements here as needed
+        # ...
+
+        layout.addWidget(self)
+
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.setLayout(layout)
 
     def drawBackground(self, painter: QPainter, rect):
         """
