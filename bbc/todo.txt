@@ -15,4 +15,5 @@ TODO: get the if saved data from the database and display it.
 General Notes:
 =============================================================================================
 TODO: Create a ui_module.py for reusable ui components.
+TODO: graphics_view_module
 =============================================================================================
