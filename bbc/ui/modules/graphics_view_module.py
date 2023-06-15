@@ -55,6 +55,6 @@ class GraphicsViewModule(QGraphicsView):
         """
         Draw the items.
         """
-        rect = QGraphicsRectItem(50, 50, 100, 100)
+        rect = QGraphicsRectItem(0, 0, 100, 100)
         rect.setBrush(QColor(255, 0, 0))
         self.scene.addItem(rect)
