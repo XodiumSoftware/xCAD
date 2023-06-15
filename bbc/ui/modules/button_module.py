@@ -2,8 +2,8 @@ from functools import partial
 
 from constants import BUTTONS, DEBUG_NAME
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
@@ -44,10 +44,17 @@ class ButtonModule(QWidget):
         Create a button module.
         """
         button = QPushButton()
-        button.setFixedSize(*button_data["size"])
+
+        if button_data["size"] is not None:
+            button.setFixedSize(*button_data["size"])
+
         if button_data["icon_path"]:
             button.setIcon(QIcon(button_data["icon_path"]))
+
         else:
             button.setText(button_data["title"])
+
+        if button_data["stylesheet"]:
+            button.setStyleSheet(button_data["stylesheet"])
 
         return button

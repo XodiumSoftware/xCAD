@@ -51,9 +51,9 @@ class MainUI(QMainWindow):
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
+        self.sizeHint()
 
         self._ui_handler = UIHandler()
-        self._ui_handler.ui_size_handler(self, 600, 400)
         self._ui_handler.center_ui_on_screen_handler(self)
 
         self._events_handler = EventsHandler()
@@ -78,7 +78,7 @@ class MainUI(QMainWindow):
         """
         # Setup main container 1:
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_0.add_widget(LabelModule(1), 1, 0)
+        self.main_container_0.add_widget(self.button_4, 1, 0)
         self.main_container_0.add_widget(
             self.sub_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
         )

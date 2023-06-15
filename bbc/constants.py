@@ -66,13 +66,6 @@ LABELS = [
         "alignment": (Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom),
         "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
-    {
-        "index": 1,
-        "title": "AutoFrameCAD",
-        "stylesheet": "QLabel { font-size: 30px; font-style: italic; font-weight: bold; }",
-        "alignment": Qt.AlignmentFlag.AlignCenter,
-        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
-    },
 ]
 
 # CheckBoxModule
@@ -113,6 +106,7 @@ BUTTONS = [
     {
         "index": 0,
         "title": "ThemeButton",
+        "stylesheet": None,
         "size": (30, 30),
         "icon_path": os.path.join(
             ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
@@ -121,30 +115,35 @@ BUTTONS = [
     {
         "index": 1,
         "title": "ViewerButton",
+        "stylesheet": None,
         "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
     },
     {
         "index": 2,
         "title": "Save",
+        "stylesheet": None,
         "size": (50, 30),
         "icon_path": None,
     },
     {
         "index": 3,
         "title": "Discard",
+        "stylesheet": None,
         "size": (50, 30),
         "icon_path": None,
     },
     {
         "index": 4,
-        "title": "Let's go!",
-        "size": (100, 30),
+        "title": "AutoFrameCAD",
+        "stylesheet": "QPushButton { font-size: 30px; font-style: italic; font-weight: bold; border: none;}",
+        "size": None,
         "icon_path": None,
     },
     {
         "index": 5,
         "title": "Startup page",
+        "stylesheet": None,
         "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "home_icon_light.png"),
     },
