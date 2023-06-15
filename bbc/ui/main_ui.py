@@ -96,7 +96,7 @@ class MainUI(QMainWindow):
         )
         self.main_container_1.add_widget(LabelModule(0), 4, 0)
 
-        self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)
+        self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 5, 1)
 
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)

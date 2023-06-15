@@ -13,7 +13,7 @@ class GraphicsViewModule(QGraphicsView):
         self.scene = QGraphicsScene(self)
         self.setScene(self.scene)
 
-        self.scene.setBackgroundBrush(Qt.white)
+        self.scene.setBackgroundBrush(Qt.black)
 
         self.setRenderHint(QPainter.Antialiasing)
         self.setDragMode(QGraphicsView.ScrollHandDrag)
@@ -55,4 +55,4 @@ class GraphicsViewModule(QGraphicsView):
             lines.append(((rect.left(), y), (rect.right(), y)))
 
         for line in lines:
-            painter.drawLine(*line)
+            painter.drawLine(*line[0], *line[1])
