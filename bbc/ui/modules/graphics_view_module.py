@@ -1,8 +1,7 @@
-from cgitb import text
-
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen, QTransform
 from PySide6.QtWidgets import (
+    QGraphicsLineItem,
     QGraphicsRectItem,
     QGraphicsScene,
     QGraphicsTextItem,
@@ -70,6 +69,7 @@ class GraphicsViewModule(QGraphicsView):
                 "pen_thickness": 1,
                 "pen_style": Qt.SolidLine,
                 "fill_pattern": Qt.SolidPattern,
+                "fill_pattern_scale": 1.0,
                 "fill_pattern_angle": None,
                 "fill_color": QColor(255, 0, 0),
                 "fill": True,
@@ -82,6 +82,7 @@ class GraphicsViewModule(QGraphicsView):
                 "pen_thickness": 1,
                 "pen_style": Qt.DashLine,
                 "fill_pattern": Qt.DiagCrossPattern,
+                "fill_pattern_scale": 10.0,
                 "fill_pattern_angle": None,
                 "fill_color": QColor(0, 255, 0),
                 "fill": True,
@@ -94,6 +95,7 @@ class GraphicsViewModule(QGraphicsView):
                 "pen_thickness": 1,
                 "pen_style": Qt.SolidLine,
                 "fill_pattern": Qt.BDiagPattern,
+                "fill_pattern_scale": 1.0,
                 "fill_pattern_angle": 90,
                 "fill_color": QColor(0, 0, 255),
                 "fill": True,
@@ -101,12 +103,25 @@ class GraphicsViewModule(QGraphicsView):
             },
         ]
 
-        # TODO: add func that based on the draw_order in the item_data, raises the items when overlapping based on an numerical order.
+        total_length = sum(data["thickness"] for data in item_data)
+        item_width = 100
+
+        top_text = QGraphicsTextItem("Outside Face")
+        top_text.setDefaultTextColor(QColor(255, 255, 255))
+        top_text.setPos(
+            (item_width - top_text.boundingRect().width()) / 2,
+            -top_text.boundingRect().height(),
+        )
+
+        bottom_text = QGraphicsTextItem("Inside Face")
+        bottom_text.setDefaultTextColor(QColor(255, 255, 255))
+        bottom_text.setPos(
+            (item_width - bottom_text.boundingRect().width()) / 2, total_length
+        )
 
         y_position = 0
         for data in item_data:
             item_thickness = data["thickness"]
-            item_width = 100
             item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
             pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
             item.setPen(pen)
@@ -122,18 +137,52 @@ class GraphicsViewModule(QGraphicsView):
                     brush.setTransform(pattern_transform)
 
                 brush.setStyle(data["fill_pattern"])
+                brush.setTransform(
+                    QTransform().scale(
+                        data["fill_pattern_scale"], data["fill_pattern_scale"]
+                    )
+                )  # FIXME: this is not working
                 item.setBrush(brush)
 
-            self.scene.addItem(item)
+            dimension_text = f"{item_thickness}"
+            dim_offset = 50
+            dim_item = QGraphicsTextItem(dimension_text)
+            dim_item.setDefaultTextColor(QColor(255, 0, 0))
+            dim_item.setPos(
+                item_width + dim_offset,
+                y_position + item_thickness / 2 - dim_item.boundingRect().height() / 2,
+            )
 
-            dimension_text = f"{item_thickness} mm"
-            text_item = QGraphicsTextItem(dimension_text)
-            text_item.setPos(item_width + 50, y_position)
-            text_item.setDefaultTextColor(QColor(255, 255, 255))
-            text_item.setRotation(90)
-            self.scene.addItem(text_item)
+            dim_line = QGraphicsLineItem()
+            dim_line.setPos(item_width + dim_offset, y_position)
+            dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+            dim_line.setLine(0, 0, 0, item_thickness)
+
+            total_dimension_text = f"{total_length}"
+            total_dim_offset = 100
+            total_dim_item = QGraphicsTextItem(total_dimension_text)
+            total_dim_item.setPos(
+                item_width + total_dim_offset,
+                total_length / 2 - total_dim_item.boundingRect().height() / 2,
+            )
+            total_dim_item.setDefaultTextColor(QColor(255, 0, 0))
+            total_dim_item.setRotation(0)
+
+            total_dim_line = QGraphicsLineItem()
+            total_dim_line.setPos(item_width + total_dim_offset, y_position)
+            total_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+            total_dim_line.setLine(0, 0, 0, item_thickness)
+
+            self.scene.addItem(item)
+            self.scene.addItem(dim_item)
+            self.scene.addItem(dim_line)
+            self.scene.addItem(total_dim_item)
+            self.scene.addItem(total_dim_line)
 
             y_position += item_thickness
+
+        self.scene.addItem(top_text)
+        self.scene.addItem(bottom_text)
 
     def fit_to_items(self):
         """
