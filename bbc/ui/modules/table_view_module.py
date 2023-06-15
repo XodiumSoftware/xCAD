@@ -1,5 +1,5 @@
 from constants import DEBUG_NAME, TABLES
-from PySide6.QtGui import QStandardItem, QStandardItemModel, Qt
+from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
 
 
