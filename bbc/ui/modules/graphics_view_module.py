@@ -128,7 +128,6 @@ class GraphicsViewModule(QGraphicsView):
 
             y_position += item_thickness
 
-        # FIXME: the total dimension line is not drawn and or visible. it looks like the x position is not correct. it should be twice that of the dim_offset.
         self.create_dimension(
             None, item_width, total_length, y_position - total_length, total_length
         )
@@ -161,15 +160,17 @@ class GraphicsViewModule(QGraphicsView):
         Create the dimension for an item or the total dimension.
         """
         dim_ext = 10
+        dim_offset = 50
+        dim_label_color = QColor(255, 0, 0)
+        dim_pen = QPen(QColor(0, 255, 0), 1, Qt.SolidLine)
 
         if item:
             dimension_text = f"{item_thickness}"
         else:
             dimension_text = f"{total_length}"
 
-        dim_offset = 50
         dim_label = QGraphicsTextItem(dimension_text)
-        dim_label.setDefaultTextColor(QColor(255, 0, 0))
+        dim_label.setDefaultTextColor(dim_label_color)
 
         if item:
             dim_label.setPos(
@@ -189,7 +190,7 @@ class GraphicsViewModule(QGraphicsView):
         else:
             dim_line.setPos(item_width + (dim_offset * 2), y_position - dim_ext)
 
-        dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+        dim_line.setPen(dim_pen)
 
         if item:
             dim_line.setLine(0, 0, 0, item_thickness + (dim_ext * 2))
@@ -198,7 +199,7 @@ class GraphicsViewModule(QGraphicsView):
 
         start_dim_line = QGraphicsLineItem()
         start_dim_line.setPos(item_width, y_position)
-        start_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+        start_dim_line.setPen(dim_pen)
 
         if item:
             start_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
@@ -207,7 +208,7 @@ class GraphicsViewModule(QGraphicsView):
 
         end_dim_line = QGraphicsLineItem()
         end_dim_line.setPos(item_width, y_position + item_thickness)
-        end_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+        end_dim_line.setPen(dim_pen)
 
         if item:
             end_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
