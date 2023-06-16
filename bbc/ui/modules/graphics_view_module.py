@@ -1,5 +1,5 @@
 from PySide6.QtCore import QRectF, Qt
-from PySide6.QtGui import QBrush, QColor, QPainter, QPen, QTransform
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
 from PySide6.QtWidgets import (
     QGraphicsLineItem,
     QGraphicsRectItem,
@@ -8,6 +8,48 @@ from PySide6.QtWidgets import (
     QGraphicsView,
     QSizePolicy,
 )
+
+ITEM_DATA = [
+    {
+        "draw_order": 0,
+        "thickness": 60,
+        "pen_color": QColor(255, 255, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.SolidLine,
+        "fill_pattern": Qt.SolidPattern,
+        "fill_pattern_scale": 1.0,
+        "fill_pattern_angle": None,
+        "fill_color": QColor(255, 0, 0),
+        "fill": True,
+        "fill_opacity": 0.5,
+    },
+    {
+        "draw_order": 1,
+        "thickness": 170,
+        "pen_color": QColor(255, 255, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.DashLine,
+        "fill_pattern": Qt.DiagCrossPattern,
+        "fill_pattern_scale": 10.0,
+        "fill_pattern_angle": None,
+        "fill_color": QColor(0, 255, 0),
+        "fill": True,
+        "fill_opacity": 1.0,
+    },
+    {
+        "draw_order": 2,
+        "thickness": 12,
+        "pen_color": QColor(0, 0, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.SolidLine,
+        "fill_pattern": Qt.BDiagPattern,
+        "fill_pattern_scale": 1.0,
+        "fill_pattern_angle": 90,
+        "fill_color": QColor(0, 0, 255),
+        "fill": True,
+        "fill_opacity": 1.0,
+    },
+]
 
 
 class GraphicsViewModule(QGraphicsView):
@@ -33,7 +75,7 @@ class GraphicsViewModule(QGraphicsView):
         self.setMinimumSize(300, 300)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        self.draw_items()
+        self.create_items()
 
     def drawBackground(self, painter: QPainter, rect: QRectF):
         """
@@ -57,55 +99,45 @@ class GraphicsViewModule(QGraphicsView):
         for line in lines:
             painter.drawLine(*line[0], *line[1])
 
-    def draw_items(self):
+    def create_items(self):
         """
         Draw the items.
         """
-        item_data = [
-            {
-                "draw_order": 0,
-                "thickness": 60,
-                "pen_color": QColor(255, 255, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.SolidLine,
-                "fill_pattern": Qt.SolidPattern,
-                "fill_pattern_scale": 1.0,
-                "fill_pattern_angle": None,
-                "fill_color": QColor(255, 0, 0),
-                "fill": True,
-                "fill_opacity": 0.5,
-            },
-            {
-                "draw_order": 1,
-                "thickness": 170,
-                "pen_color": QColor(255, 255, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.DashLine,
-                "fill_pattern": Qt.DiagCrossPattern,
-                "fill_pattern_scale": 10.0,
-                "fill_pattern_angle": None,
-                "fill_color": QColor(0, 255, 0),
-                "fill": True,
-                "fill_opacity": 1.0,
-            },
-            {
-                "draw_order": 2,
-                "thickness": 12,
-                "pen_color": QColor(0, 0, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.SolidLine,
-                "fill_pattern": Qt.BDiagPattern,
-                "fill_pattern_scale": 1.0,
-                "fill_pattern_angle": 90,
-                "fill_color": QColor(0, 0, 255),
-                "fill": True,
-                "fill_opacity": 1.0,
-            },
-        ]
-
-        total_length = sum(data["thickness"] for data in item_data)
+        total_length = sum(data["thickness"] for data in ITEM_DATA)
         item_width = 100
 
+        y_position = 0
+        for data in ITEM_DATA:
+            item_thickness = data["thickness"]
+            item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
+            pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
+            item.setPen(pen)
+
+            if data["fill"]:
+                fill_color = QColor(data["fill_color"])
+                fill_color.setAlphaF(data["fill_opacity"])
+
+                brush = QBrush(fill_color)
+                brush.setStyle(data["fill_pattern"])
+
+                item.setBrush(brush)
+
+            self.scene.addItem(item)
+
+            self.create_dimension(item, item_width, item_thickness, y_position)
+
+            y_position += item_thickness
+
+        # FIXME: the total dimension line is not drawn and or visible. it looks like the x position is not correct. it should be twice that of the dim_offset.
+        self.create_dimension(
+            None, item_width, total_length, y_position - total_length, total_length
+        )
+        self.create_label(item_width, total_length)
+
+    def create_label(self, item_width, total_length):
+        """
+        Create the label.
+        """
         top_text = QGraphicsTextItem("Outside Face")
         top_text.setDefaultTextColor(QColor(255, 255, 255))
         top_text.setPos(
@@ -119,70 +151,73 @@ class GraphicsViewModule(QGraphicsView):
             (item_width - bottom_text.boundingRect().width()) / 2, total_length
         )
 
-        y_position = 0
-        for data in item_data:
-            item_thickness = data["thickness"]
-            item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
-            pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
-            item.setPen(pen)
-
-            if data["fill"]:
-                fill_color = QColor(data["fill_color"])
-                fill_color.setAlphaF(data["fill_opacity"])
-                brush = QBrush(fill_color)
-
-                if data["fill_pattern_angle"] is not None:
-                    pattern_transform = QTransform()  # FIXME: this is not working
-                    pattern_transform.rotate(data["fill_pattern_angle"])
-                    brush.setTransform(pattern_transform)
-
-                brush.setStyle(data["fill_pattern"])
-                brush.setTransform(
-                    QTransform().scale(
-                        data["fill_pattern_scale"], data["fill_pattern_scale"]
-                    )
-                )  # FIXME: this is not working
-                item.setBrush(brush)
-
-            dimension_text = f"{item_thickness}"
-            dim_offset = 50
-            dim_item = QGraphicsTextItem(dimension_text)
-            dim_item.setDefaultTextColor(QColor(255, 0, 0))
-            dim_item.setPos(
-                item_width + dim_offset,
-                y_position + item_thickness / 2 - dim_item.boundingRect().height() / 2,
-            )
-
-            dim_line = QGraphicsLineItem()
-            dim_line.setPos(item_width + dim_offset, y_position)
-            dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
-            dim_line.setLine(0, 0, 0, item_thickness)
-
-            total_dimension_text = f"{total_length}"
-            total_dim_offset = 100
-            total_dim_item = QGraphicsTextItem(total_dimension_text)
-            total_dim_item.setPos(
-                item_width + total_dim_offset,
-                total_length / 2 - total_dim_item.boundingRect().height() / 2,
-            )
-            total_dim_item.setDefaultTextColor(QColor(255, 0, 0))
-            total_dim_item.setRotation(0)
-
-            total_dim_line = QGraphicsLineItem()
-            total_dim_line.setPos(item_width + total_dim_offset, y_position)
-            total_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
-            total_dim_line.setLine(0, 0, 0, item_thickness)
-
-            self.scene.addItem(item)
-            self.scene.addItem(dim_item)
-            self.scene.addItem(dim_line)
-            self.scene.addItem(total_dim_item)
-            self.scene.addItem(total_dim_line)
-
-            y_position += item_thickness
-
         self.scene.addItem(top_text)
         self.scene.addItem(bottom_text)
+
+    def create_dimension(
+        self, item, item_width, item_thickness, y_position, total_length=None
+    ):
+        """
+        Create the dimension for an item or the total dimension.
+        """
+        dim_ext = 10
+
+        if item:
+            dimension_text = f"{item_thickness}"
+        else:
+            dimension_text = f"{total_length}"
+
+        dim_offset = 50
+        dim_label = QGraphicsTextItem(dimension_text)
+        dim_label.setDefaultTextColor(QColor(255, 0, 0))
+
+        if item:
+            dim_label.setPos(
+                item_width + dim_offset,
+                y_position + item_thickness / 2 - dim_label.boundingRect().height() / 2,
+            )
+        else:
+            dim_label.setPos(
+                item_width + (dim_offset * 2),
+                y_position + total_length / 2 - dim_label.boundingRect().height() / 2,
+            )
+
+        dim_line = QGraphicsLineItem()
+
+        if item:
+            dim_line.setPos(item_width + dim_offset, y_position - dim_ext)
+        else:
+            dim_line.setPos(item_width + (dim_offset * 2), y_position - dim_ext)
+
+        dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+
+        if item:
+            dim_line.setLine(0, 0, 0, item_thickness + (dim_ext * 2))
+        else:
+            dim_line.setLine(0, 0, 0, total_length + (dim_ext * 2))
+
+        start_dim_line = QGraphicsLineItem()
+        start_dim_line.setPos(item_width, y_position)
+        start_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+
+        if item:
+            start_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
+        else:
+            start_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
+
+        end_dim_line = QGraphicsLineItem()
+        end_dim_line.setPos(item_width, y_position + item_thickness)
+        end_dim_line.setPen(QPen(QColor(0, 255, 0), 1, Qt.SolidLine))
+
+        if item:
+            end_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
+        else:
+            end_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
+
+        self.scene.addItem(dim_label)
+        self.scene.addItem(start_dim_line)
+        self.scene.addItem(dim_line)
+        self.scene.addItem(end_dim_line)
 
     def fit_to_items(self):
         """
