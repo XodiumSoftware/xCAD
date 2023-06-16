@@ -1,55 +1,22 @@
-from PySide6.QtCore import QRectF, Qt
+import os
+import sqlite3
+
+from constants import DATABASE_PATH, DEBUG_NAME, INITIAL_GRAPHICS_OBJECT_DATA
+from PySide6.QtCore import QObject, QRectF, Qt, Slot
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen
 from PySide6.QtWidgets import (
+    QDoubleSpinBox,
     QGraphicsLineItem,
     QGraphicsRectItem,
     QGraphicsScene,
     QGraphicsTextItem,
     QGraphicsView,
+    QHeaderView,
+    QLineEdit,
     QSizePolicy,
+    QTableWidget,
+    QTableWidgetItem,
 )
-
-ITEM_DATA = [
-    {
-        "draw_order": 0,
-        "thickness": 60,
-        "pen_color": QColor(255, 255, 255),
-        "pen_thickness": 1,
-        "pen_style": Qt.SolidLine,
-        "fill_pattern": Qt.SolidPattern,
-        "fill_pattern_scale": 1.0,
-        "fill_pattern_angle": None,
-        "fill_color": QColor(255, 0, 0),
-        "fill": True,
-        "fill_opacity": 0.5,
-    },
-    {
-        "draw_order": 1,
-        "thickness": 170,
-        "pen_color": QColor(255, 255, 255),
-        "pen_thickness": 1,
-        "pen_style": Qt.DashLine,
-        "fill_pattern": Qt.DiagCrossPattern,
-        "fill_pattern_scale": 10.0,
-        "fill_pattern_angle": None,
-        "fill_color": QColor(0, 255, 0),
-        "fill": True,
-        "fill_opacity": 1.0,
-    },
-    {
-        "draw_order": 2,
-        "thickness": 12,
-        "pen_color": QColor(0, 0, 255),
-        "pen_thickness": 1,
-        "pen_style": Qt.SolidLine,
-        "fill_pattern": Qt.BDiagPattern,
-        "fill_pattern_scale": 1.0,
-        "fill_pattern_angle": 90,
-        "fill_color": QColor(0, 0, 255),
-        "fill": True,
-        "fill_opacity": 1.0,
-    },
-]
 
 
 class GraphicsViewModule(QGraphicsView):
@@ -103,22 +70,33 @@ class GraphicsViewModule(QGraphicsView):
         """
         Draw the items.
         """
-        total_length = sum(data["thickness"] for data in ITEM_DATA)
+        total_length = 0
         item_width = 100
 
+        data_handler = DataBaseHandler()
+
         y_position = 0
-        for data in ITEM_DATA:
-            item_thickness = data["thickness"]
+
+        item_data = data_handler.execute_db_query(
+            """
+            SELECT * FROM GraphicsObjectData ORDER BY id
+            """
+        )
+
+        for row in item_data:
+            item_name = row["item_name"]
+            item_thickness = row["thickness"]
+
             item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
-            pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
+            pen = QPen(row["pen_color"], row["pen_thickness"], row["pen_style"])
             item.setPen(pen)
 
-            if data["fill"]:
-                fill_color = QColor(data["fill_color"])
-                fill_color.setAlphaF(data["fill_opacity"])
+            if row["fill"]:
+                fill_color = QColor(row["fill_color"])
+                fill_color.setAlphaF(row["fill_opacity"])
 
                 brush = QBrush(fill_color)
-                brush.setStyle(data["fill_pattern"])
+                brush.setStyle(row["fill_pattern"])
 
                 item.setBrush(brush)
 
@@ -126,6 +104,25 @@ class GraphicsViewModule(QGraphicsView):
 
             self.create_dimension(item, item_width, item_thickness, y_position)
 
+            data_handler.execute_db_query(
+                """
+                INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)
+                """,
+                "item_name",
+                item_name,
+            )
+
+            for parameter, value in row.items():
+                if parameter not in ["id", "item_name", "thickness"]:
+                    data_handler.execute_db_query(
+                        """
+                        INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)
+                        """,
+                        parameter,
+                        str(value),
+                    )
+
+            total_length += item_thickness
             y_position += item_thickness
 
         self.create_dimension(
@@ -164,56 +161,43 @@ class GraphicsViewModule(QGraphicsView):
         dim_label_color = QColor(255, 0, 0)
         dim_pen = QPen(QColor(0, 255, 0), 1, Qt.SolidLine)
 
-        if item:
-            dimension_text = f"{item_thickness}"
-        else:
-            dimension_text = f"{total_length}"
+        dimension_text = item_thickness if item else total_length
 
-        dim_label = QGraphicsTextItem(dimension_text)
+        dim_label = QGraphicsTextItem(str(dimension_text))
         dim_label.setDefaultTextColor(dim_label_color)
-
-        if item:
-            dim_label.setPos(
-                item_width + dim_offset,
-                y_position + item_thickness / 2 - dim_label.boundingRect().height() / 2,
-            )
-        else:
-            dim_label.setPos(
-                item_width + (dim_offset * 2),
-                y_position + total_length / 2 - dim_label.boundingRect().height() / 2,
-            )
+        dim_label.setPos(
+            item_width + (dim_offset if item else dim_offset * 2),
+            y_position
+            + (item_thickness if item else total_length) / 2
+            - dim_label.boundingRect().height() / 2,
+        )
 
         dim_line = QGraphicsLineItem()
-
-        if item:
-            dim_line.setPos(item_width + dim_offset, y_position - dim_ext)
-        else:
-            dim_line.setPos(item_width + (dim_offset * 2), y_position - dim_ext)
-
+        dim_line.setPos(
+            item_width + (dim_offset if item else dim_offset * 2),
+            y_position - dim_ext,
+        )
         dim_line.setPen(dim_pen)
-
-        if item:
-            dim_line.setLine(0, 0, 0, item_thickness + (dim_ext * 2))
-        else:
-            dim_line.setLine(0, 0, 0, total_length + (dim_ext * 2))
+        dim_line.setLine(
+            0,
+            0,
+            0,
+            item_thickness + (dim_ext * 2) if item else total_length + (dim_ext * 2),
+        )
 
         start_dim_line = QGraphicsLineItem()
         start_dim_line.setPos(item_width, y_position)
         start_dim_line.setPen(dim_pen)
-
-        if item:
-            start_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
-        else:
-            start_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
+        start_dim_line.setLine(
+            0, 0, (dim_offset if item else dim_offset * 2) + dim_ext, 0
+        )
 
         end_dim_line = QGraphicsLineItem()
         end_dim_line.setPos(item_width, y_position + item_thickness)
         end_dim_line.setPen(dim_pen)
-
-        if item:
-            end_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
-        else:
-            end_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
+        end_dim_line.setLine(
+            0, 0, (dim_offset if item else dim_offset * 2) + dim_ext, 0
+        )
 
         self.scene.addItem(dim_label)
         self.scene.addItem(start_dim_line)
@@ -237,3 +221,163 @@ class GraphicsViewModule(QGraphicsView):
         """
         super().resizeEvent(event)
         self.fit_to_items()
+
+
+class GraphicsTableViewModule(QTableWidget):
+    def __init__(self, graphics_view, parent=None):
+        """
+        Initialize the table view module.
+        """
+        super().__init__(parent)
+        self.graphics_view = graphics_view
+
+        header_labels = ["Parameters", "Value"]
+        self.setColumnCount(len(header_labels))
+        self.setHorizontalHeaderLabels(header_labels)
+        self.setEditTriggers(QTableWidget.AllEditTriggers)
+
+        self.populate_table()
+        self.set_column_properties()
+
+    def populate_table(self):
+        """
+        Populate the table with the data from the database.
+        """
+        data_handler = DataBaseHandler()
+        db_data = data_handler.get_db_data()
+
+        self.setRowCount(len(db_data))
+        for row, (parameter, value) in enumerate(db_data.items()):
+            parameter_item = QTableWidgetItem(parameter)
+            parameter_item.setFlags(parameter_item.flags() & ~Qt.ItemIsEditable)
+
+            value_item = QTableWidgetItem(str(value))
+            value_item.setFlags(value_item.flags() | Qt.ItemIsEditable)
+
+            self.setItem(row, 0, parameter_item)
+            self.setItem(row, 1, value_item)
+
+    def set_column_properties(self):
+        """
+        Set the column properties.
+        """
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.verticalHeader().setVisible(True)
+
+        for row in range(self.rowCount()):
+            thickness_item = self.item(row, 1)
+            if thickness_item is not None:
+                thickness_text = thickness_item.text()
+                try:
+                    thickness_value = float(thickness_text)
+                    if thickness_value.is_integer():
+                        # Use QDoubleSpinBox for integer values
+                        spin_box = QDoubleSpinBox()
+                        spin_box.setRange(0, 999)
+                        spin_box.setSingleStep(1)
+                        spin_box.setValue(thickness_value)
+                        self.setCellWidget(row, 1, spin_box)
+                        spin_box.editingFinished.connect(self.update_graphics_view)
+                    else:
+                        # Use QLineEdit for non-integer values
+                        line_edit = QLineEdit()
+                        line_edit.setText(thickness_text)
+                        self.setCellWidget(row, 1, line_edit)
+                        line_edit.editingFinished.connect(self.update_graphics_view)
+                except ValueError:
+                    # Use QLineEdit for non-numeric values
+                    line_edit = QLineEdit()
+                    line_edit.setText(thickness_text)
+                    self.setCellWidget(row, 1, line_edit)
+                    line_edit.editingFinished.connect(self.update_graphics_view)
+
+    def update_graphics_view(self):
+        """
+        Update the graphics view when the value is changed.
+        """
+        for row in range(self.rowCount()):
+            spin_box = self.cellWidget(row, 1)
+            value = spin_box.value()
+            item_data = INITIAL_GRAPHICS_OBJECT_DATA[row]
+            item_data["thickness"] = value
+
+        self.graphics_view.scene.clear()
+        self.graphics_view.create_items()
+
+
+class DataBaseHandler(QObject):
+    def __init__(self):
+        super().__init__()
+        self.connection = self.create_or_connect_db()
+
+    def create_or_connect_db(self):
+        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
+            os.makedirs(os.path.dirname(DATABASE_PATH))
+
+        connection = sqlite3.connect(DATABASE_PATH)
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS GraphicsObjectData ("
+            "id INTEGER PRIMARY KEY,"
+            "parameter TEXT,"
+            "value TEXT)"
+        )
+
+        cursor.execute("SELECT COUNT(*) FROM GraphicsObjectData")
+        count = cursor.fetchone()[0]
+
+        if count == 0:
+            cursor.executemany(
+                "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
+                [
+                    (data["parameter"], data["value"])
+                    for data in INITIAL_GRAPHICS_OBJECT_DATA
+                ],
+            )
+            connection.commit()
+        else:
+            pass
+
+        return connection
+
+    def execute_db_query(self, query, *params):
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        self.connection.commit()
+        return cursor.fetchall()
+
+    def get_db_data(self):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT parameter, value FROM GraphicsObjectData")
+        settings = cursor.fetchall()
+        return dict(settings)
+
+    @Slot(dict)
+    def save_db_data(self, settings):
+        current_settings = self.get_db_data()
+
+        if settings == current_settings:
+            print(DEBUG_NAME + "No changes detected. Skipping save operation.")
+            return
+
+        with self.connection:
+            self.execute_db_query("DELETE FROM settings")
+
+            for name, value in settings.items():
+                self.execute_db_query(
+                    "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
+                    name,
+                    value,
+                )
+
+        print(DEBUG_NAME + "Changes saved successfully.")
+
+    @Slot()
+    def discard_db_data(self):
+        self.execute_db_query("ROLLBACK")
+        print(DEBUG_NAME + "Changes discarded successfully.")
+
+    def close_db_data(self):
+        self.connection.close()
+        print(DEBUG_NAME + "Connection closed.")

@@ -1,5 +1,4 @@
 from constants import UI_ICON_PATH, UI_TITLE
-from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
@@ -7,9 +6,12 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
-from ui.modules.graphics_view_module import GraphicsViewModule
+from ui.modules.graphics_view_module import (
+    DataBaseHandler,
+    GraphicsTableViewModule,
+    GraphicsViewModule,
+)
 from ui.modules.label_module import LabelModule
-from ui.modules.table_view_module import TableViewModule
 
 
 class MainUI(QMainWindow):
@@ -87,7 +89,7 @@ class MainUI(QMainWindow):
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_1.add_widget(self.sub_container_0, 0, 0)
-        self.main_container_1.add_widget(TableViewModule(0), 1, 0)
+        self.main_container_1.add_widget(GraphicsTableViewModule(self), 1, 0)
         self.main_container_1.add_widget(self.sub_container_1, 2, 0)
         self.main_container_1.add_widget(
             self.sub_container_3, 3, 0, alignment=Qt.AlignRight | Qt.AlignBottom

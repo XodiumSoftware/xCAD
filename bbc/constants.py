@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QSizePolicy
 
 # General
@@ -31,28 +32,57 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
-# SettingsListModule
-SETTINGS_DATABASE_PATH = os.path.join(
-    DATA_FOLDER_PATH + "settingstable_database.sqlite"
-)
+# DataBaseHandler
+DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 
-TABLES = [
+INITIAL_GRAPHICS_OBJECT_DATA = [
     {
-        "index": 0,
-        "hor_headers": ["Parameters", "Values"],
-        "containers": [
-            {
-                "container_title": "Dimensions",
-                "container_data": [["Frame Length", 6000], ["Frame Height", 3000]],
-            },
-            {
-                "container_title": "Frame",
-                "container_data": [
-                    ["Frame Type", "SLS"],
-                    ["Frame Thickness", 170],
-                ],
-            },
-        ],
+        "parameter": "item_name",
+        "value": "item_1",
+    },
+    {
+        "parameter": "draw_order",
+        "value": "0",
+    },
+    {
+        "parameter": "thickness",
+        "value": "60",
+    },
+    {
+        "parameter": "pen_color",
+        "value": str(QColor(255, 255, 255)),
+    },
+    {
+        "parameter": "pen_thickness",
+        "value": "1",
+    },
+    {
+        "parameter": "pen_style",
+        "value": str(Qt.SolidLine),
+    },
+    {
+        "parameter": "fill_pattern",
+        "value": str(Qt.SolidPattern),
+    },
+    {
+        "parameter": "fill_pattern_scale",
+        "value": "1.0",
+    },
+    {
+        "parameter": "fill_pattern_angle",
+        "value": "None",
+    },
+    {
+        "parameter": "fill_color",
+        "value": str(QColor(255, 0, 0)),
+    },
+    {
+        "parameter": "fill",
+        "value": "True",
+    },
+    {
+        "parameter": "fill_opacity",
+        "value": "0.5",
     },
 ]
 
