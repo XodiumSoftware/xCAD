@@ -1,4 +1,3 @@
-from constants import INITIAL_GRAPHICS_OBJECT_DATA
 from handlers.db_handler import DataBaseHandler
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -63,35 +62,16 @@ class GraphicsTableViewModule(QTableWidget):
                 try:
                     thickness_value = float(thickness_text)
                     if thickness_value.is_integer():
-                        # Use QDoubleSpinBox for integer values
                         spin_box = QDoubleSpinBox()
                         spin_box.setRange(0, 999)
                         spin_box.setSingleStep(1)
                         spin_box.setValue(thickness_value)
                         self.setCellWidget(row, 1, spin_box)
-                        spin_box.editingFinished.connect(self.update_graphics_view)
                     else:
-                        # Use QLineEdit for non-integer values
                         line_edit = QLineEdit()
                         line_edit.setText(thickness_text)
                         self.setCellWidget(row, 1, line_edit)
-                        line_edit.editingFinished.connect(self.update_graphics_view)
                 except ValueError:
-                    # Use QLineEdit for non-numeric values
                     line_edit = QLineEdit()
                     line_edit.setText(thickness_text)
                     self.setCellWidget(row, 1, line_edit)
-                    line_edit.editingFinished.connect(self.update_graphics_view)
-
-    def update_graphics_view(self):
-        """
-        Update the graphics view when the value is changed.
-        """
-        for row in range(self.rowCount()):
-            spin_box = self.cellWidget(row, 1)
-            value = spin_box.value()
-            item_data = INITIAL_GRAPHICS_OBJECT_DATA[row]
-            item_data["thickness"] = value
-
-        self.graphics_view.scene.clear()
-        self.graphics_view.create_items()
