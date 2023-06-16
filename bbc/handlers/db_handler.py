@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from constants import DEBUG_NAME, SETTINGS_DATABASE_PATH
+from constants import DATABASE_PATH, DEBUG_NAME, INITIAL_GRAPHICS_OBJECT_DATA
 from PySide6.QtCore import QObject, Slot
 
 
@@ -11,22 +11,33 @@ class DataBaseHandler(QObject):
         self.connection = self.create_or_connect_db()
 
     def create_or_connect_db(self):
-        if not os.path.exists(os.path.dirname(SETTINGS_DATABASE_PATH)):
-            os.makedirs(os.path.dirname(SETTINGS_DATABASE_PATH))
+        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
+            os.makedirs(os.path.dirname(DATABASE_PATH))
 
-        connection = sqlite3.connect(SETTINGS_DATABASE_PATH)
+        connection = sqlite3.connect(DATABASE_PATH)
         cursor = connection.cursor()
 
         cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS settings (
-                id INTEGER PRIMARY KEY,
-                setting_name TEXT,
-                setting_value TEXT
-            )
-            """
+            "CREATE TABLE IF NOT EXISTS GraphicsObjectData ("
+            "id INTEGER PRIMARY KEY,"
+            "parameter TEXT,"
+            "value TEXT)"
         )
-        connection.commit()
+
+        cursor.execute("SELECT COUNT(*) FROM GraphicsObjectData")
+        count = cursor.fetchone()[0]
+
+        if count == 0:
+            cursor.executemany(
+                "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
+                [
+                    (data["parameter"], data["value"])
+                    for data in INITIAL_GRAPHICS_OBJECT_DATA
+                ],
+            )
+            connection.commit()
+        else:
+            pass
 
         return connection
 
@@ -34,16 +45,17 @@ class DataBaseHandler(QObject):
         cursor = self.connection.cursor()
         cursor.execute(query, params)
         self.connection.commit()
+        return cursor.fetchall()
 
-    def get_db_settings(self):
+    def get_db_data(self):
         cursor = self.connection.cursor()
-        cursor.execute("SELECT setting_name, setting_value FROM settings")
+        cursor.execute("SELECT parameter, value FROM GraphicsObjectData")
         settings = cursor.fetchall()
         return dict(settings)
 
     @Slot(dict)
-    def save_db_settings(self, settings):
-        current_settings = self.get_db_settings()
+    def save_db_data(self, settings):
+        current_settings = self.get_db_data()
 
         if settings == current_settings:
             print(DEBUG_NAME + "No changes detected. Skipping save operation.")
@@ -54,7 +66,7 @@ class DataBaseHandler(QObject):
 
             for name, value in settings.items():
                 self.execute_db_query(
-                    "INSERT INTO settings (setting_name, setting_value) VALUES (?, ?)",
+                    "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
                     name,
                     value,
                 )
@@ -62,11 +74,10 @@ class DataBaseHandler(QObject):
         print(DEBUG_NAME + "Changes saved successfully.")
 
     @Slot()
-    def discard_db_settings(self):
+    def discard_db_data(self):
         self.execute_db_query("ROLLBACK")
         print(DEBUG_NAME + "Changes discarded successfully.")
 
-    def close_db_connection(self):
+    def close_db_data(self):
         self.connection.close()
         print(DEBUG_NAME + "Connection closed.")
-
