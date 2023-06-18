@@ -1,8 +1,9 @@
+import re
 import sys
 from functools import partial
 
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSettings, Qt
-from PySide6.QtGui import QColor
+from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSettings, QSize, Qt
+from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import (
     QApplication,
     QDoubleSpinBox,
@@ -14,16 +15,16 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+# TODO: add something that designs the table grid for example cell color, cell borders, table borders, etc.
+
 
 class DoubleSpinBoxDelegate(QStyledItemDelegate):
     def createEditor(self, parent, option, index):
         editor = QDoubleSpinBox(parent)
         editor.setFrame(False)
-        editor.setButtonSymbols(QDoubleSpinBox.NoButtons)
-        editor.setMinimum(0.0)
-        editor.setMaximum(100.0)
-        editor.setDecimals(2)
-        editor.setSingleStep(0.01)
+        editor.setRange(0, 999)
+        editor.setDecimals(0)
+        editor.setSingleStep(1)
         return editor
 
     def setEditorData(self, editor, index):
@@ -36,7 +37,7 @@ class DoubleSpinBoxDelegate(QStyledItemDelegate):
 
 
 class CustomTableModel(QAbstractTableModel):
-    group_key = "my_unique_key"
+    group_key = "Group 1"
 
     def __init__(self, data, parent=None):
         super().__init__(parent)
@@ -64,12 +65,13 @@ class CustomTableModel(QAbstractTableModel):
         if role == Qt.DisplayRole:
             return self._data[row][col]
         elif role == Qt.BackgroundRole:
-            if row % 2 == 0:
-                return QColor(230, 230, 230)
-            else:
-                return QColor(255, 255, 255)
+            if self._data[row][0] == self.group_key:
+                return QColor(192, 192, 192)  # TODO change color to something blue.
         elif role == Qt.EditRole and col == 1:
             return self._data[row][col]
+        elif role == Qt.ItemDataRole:
+            if self._data[row][0] == self.group_key:
+                return QSize(self.columnCount(), 1)
         elif role == Qt.ItemIsEditable and col == 1:
             return True
 
@@ -109,11 +111,14 @@ class CustomTableModel(QAbstractTableModel):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
             return self.header_labels[section]
 
+        elif role == Qt.DisplayRole and orientation == Qt.Vertical:
+            return section + 1
+
         return None
 
     def insertRow(self, row, parent=QModelIndex()):
         self.beginInsertRows(parent, row, row)
-        self._data.insert(row, ["New Group", "0.00"])
+        self._data.insert(row, ["New Group", None])
         self.endInsertRows()
         return True
 
@@ -149,14 +154,34 @@ class CustomTableModel(QAbstractTableModel):
                 return True
 
         return super().editorEvent(event, model, option, index)
+ 
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setPen(QPen(Qt.black))
+        painter.setBrush(Qt.NoBrush)
+
+        for row in range(self.model.rowCount()):
+            for col in range(self.model.columnCount()):
+                rect = self.table_view.visualRect(self.model.index(row, col))
+                painter.drawRect(rect)
+
+        table_rect = self.table_view.viewport().rect()
+        painter.drawRect(table_rect)
+
+        return super().paintEvent(event)
 
 
 class TableViewWidget(QWidget):
     def __init__(self):
         super().__init__()
 
+        # FIXME: cell not editable after changing group name in the cell.
         self.model = CustomTableModel(
-            [[self.model.group_key, None], ["Length", "0.00"], ["Height", "0.00"]],
+            [
+                [CustomTableModel.group_key, None],
+                ["Length", "0"],
+                ["Height", "0"],
+            ],
             parent=self,
         )
         self.table_view = QTableView()
