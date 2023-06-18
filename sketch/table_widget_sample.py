@@ -1,4 +1,3 @@
-import re
 import sys
 from functools import partial
 
@@ -154,7 +153,7 @@ class CustomTableModel(QAbstractTableModel):
                 return True
 
         return super().editorEvent(event, model, option, index)
- 
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setPen(QPen(Qt.black))
@@ -176,6 +175,9 @@ class TableViewWidget(QWidget):
         super().__init__()
 
         # FIXME: cell not editable after changing group name in the cell.
+        # So setting up a key doesnt really work.
+        # i need to setup the cell to be a inputbox or something.
+        # and then link the properties of that cell to the box?
         self.model = CustomTableModel(
             [
                 [CustomTableModel.group_key, None],
