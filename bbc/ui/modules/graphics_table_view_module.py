@@ -1,5 +1,6 @@
+import pandas as pd
 from constants import DEBUG_NAME, TABLES
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtWidgets import (
     QHeaderView,
     QTableWidget,
@@ -8,7 +9,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-# TODO: make the table expand to fill the space in the window.
+# TODOLATER: make the table expand to fill the space in the window.
+# TODOLATER: make the row_groups be dynamic.
 
 
 class GraphicsTableViewModule(QWidget):
@@ -49,21 +51,38 @@ class GraphicsTableViewModule(QWidget):
         table = QTableWidget(self)
 
         columns = table_data["data"][0]["columns"][0]
-        rows = table_data["data"][0]["row_group_1"][0]  # TODO: make this dynamic
+        row_group = table_data["data"][0]["row_group_1"]
 
         table.setColumnCount(len(columns))
+        table.setRowCount(len(row_group))
 
         for column_index, column in enumerate(columns):
             header_item = QTableWidgetItem(column)
             table.setHorizontalHeaderItem(column_index, header_item)
 
-        for row_index, rows in enumerate(rows):
-            # TODO: use the constant and ask for it if you dont have it.
-            # TODO: set row group.
-            # TODO: set row group header being "row_group_1" or "row_group_2" etc.
-            # TODO: set row group header color blue.
-            # TODO: set the rows in the row group.
-            pass  # TODO: remove this when content has been added.
+        for row_index, row_values in enumerate(row_group):
+            item = QTableWidgetItem(row_values[0, 0])
+            table.setItem(row_index, 0, item)
+
+            for column_index, cell_data in enumerate(row_values[1:]):
+                cell_value, cell_type, cell_editable = cell_data
+
+                item = QTableWidgetItem(str(cell_value))
+
+                if cell_type == 0:
+                    item.setData(Qt.EditRole, cell_value)
+                elif cell_type == 1:
+                    item.setData(Qt.EditRole, str(cell_value))
+                elif cell_type == 2:
+                    item.setData(Qt.EditRole, float(cell_value))
+                elif cell_type == 3:
+                    item.setData(Qt.EditRole, cell_value)
+
+                item.setFlags(
+                    item.flags() | Qt.ItemIsEditable if cell_editable else item.flags()
+                )
+
+                table.setItem(row_index, column_index + 1, item)
 
         table.resizeColumnsToContents()
         table.resizeRowsToContents()
