@@ -37,7 +37,7 @@
       "name": "Python: test.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/sketch/table_widget_sample.py",
+      "program": "${workspaceFolder}/bbc/table_widget_sample.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }

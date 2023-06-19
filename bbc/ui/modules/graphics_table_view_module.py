@@ -1,77 +1,73 @@
-from handlers.db_handler import DataBaseHandler
-from PySide6.QtCore import Qt
+from constants import DEBUG_NAME, TABLES
+from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import (
-    QDoubleSpinBox,
     QHeaderView,
-    QLineEdit,
     QTableWidget,
     QTableWidgetItem,
+    QVBoxLayout,
+    QWidget,
 )
 
+# TODO: make the table expand to fill the space in the window.
 
-class GraphicsTableViewModule(QTableWidget):
-    def __init__(self, graphics_view, parent=None):
+
+class GraphicsTableViewModule(QWidget):
+    def __init__(self, table_index, parent=None):
         """
-        Initialize the table view module.
+        Initialize the tableModule.
         """
         super().__init__(parent)
-        self.graphics_view = graphics_view
-        self.setup_table_view()
+        self._settings = QSettings()
+        self.setup_table_module(table_index)
 
-    def setup_table_view(self):
+    def setup_table_module(self, table_index):
         """
-        Setup the table view.
+        Setup the tableModule.
         """
-        header_labels = ["Parameters", "Value"]
-        self.setColumnCount(len(header_labels))
-        self.setHorizontalHeaderLabels(header_labels)
-        self.setEditTriggers(QTableWidget.AllEditTriggers)
+        layout = QVBoxLayout(self)
 
-        self.populate_table()
-        self.set_column_properties()
+        table_data = next(
+            (table for table in TABLES if table["index"] == table_index),
+            None,
+        )
 
-    def populate_table(self):
+        if table_data:
+            table = self.create_table_module(table_data)
+            layout.addWidget(table)
+
+        else:
+            print(DEBUG_NAME + f'"index" {table_index} not found in TABLES')
+
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.setLayout(layout)
+
+    def create_table_module(self, table_data):
         """
-        Populate the table with the data from the database.
+        Create a table module.
         """
-        data_handler = DataBaseHandler()
-        db_data = data_handler.get_db_data()
+        table = QTableWidget(self)
 
-        self.setRowCount(len(db_data))
-        for row, (parameter, value) in enumerate(db_data.items()):
-            parameter_item = QTableWidgetItem(parameter)
-            parameter_item.setFlags(parameter_item.flags() & ~Qt.ItemIsEditable)
+        columns = table_data["data"][0]["columns"][0]
+        rows = table_data["data"][0]["row_group_1"][0]  # TODO: make this dynamic
 
-            value_item = QTableWidgetItem(str(value))
-            value_item.setFlags(value_item.flags() | Qt.ItemIsEditable)
+        table.setColumnCount(len(columns))
 
-            self.setItem(row, 0, parameter_item)
-            self.setItem(row, 1, value_item)
+        for column_index, column in enumerate(columns):
+            header_item = QTableWidgetItem(column)
+            table.setHorizontalHeaderItem(column_index, header_item)
 
-    def set_column_properties(self):
-        """
-        Set the column properties.
-        """
-        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.verticalHeader().setVisible(True)
+        for row_index, rows in enumerate(rows):
+            # TODO: use the constant and ask for it if you dont have it.
+            # TODO: set row group.
+            # TODO: set row group header being "row_group_1" or "row_group_2" etc.
+            # TODO: set row group header color blue.
+            # TODO: set the rows in the row group.
+            pass  # TODO: remove this when content has been added.
 
-        for row in range(self.rowCount()):
-            thickness_item = self.item(row, 1)
-            if thickness_item is not None:
-                thickness_text = thickness_item.text()
-                try:
-                    thickness_value = float(thickness_text)
-                    if thickness_value.is_integer():
-                        spin_box = QDoubleSpinBox()
-                        spin_box.setRange(0, 999)
-                        spin_box.setSingleStep(1)
-                        spin_box.setValue(thickness_value)
-                        self.setCellWidget(row, 1, spin_box)
-                    else:
-                        line_edit = QLineEdit()
-                        line_edit.setText(thickness_text)
-                        self.setCellWidget(row, 1, line_edit)
-                except ValueError:
-                    line_edit = QLineEdit()
-                    line_edit.setText(thickness_text)
-                    self.setCellWidget(row, 1, line_edit)
+        table.resizeColumnsToContents()
+        table.resizeRowsToContents()
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        table.setSortingEnabled(True)
+
+        return table
