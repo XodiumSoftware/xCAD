@@ -56,13 +56,13 @@ TABLES = {
             (
                 "Area (m2)",
                 "[False,0]",
-                None,
+                None,  # TODO: Calculate using 6000 * 3000 from above.
                 "[False,2]",
             ),
             (
                 "Perimeter (m1)",
                 "[False,0]",
-                None,
+                None,  # TODO: Calculate using 6000 + 6000 + 3000 + 3000 from above.
                 "[False,2]",
             ),
         ],
@@ -139,6 +139,19 @@ TABLES = {
     ),
     # Add more tables here as needed
 }
+
+TABLE_0_M2 = (TABLES["TABLE_0"].loc[1, "Col_1"] * TABLES["TABLE_0"].loc[2, "Col_1"]) / (
+    10**6
+)
+TABLES["TABLE_0"].loc[3, "Col_1"] = TABLE_0_M2
+
+TABLE_0_M1 = (
+    TABLES["TABLE_0"].loc[1, "Col_1"]
+    + TABLES["TABLE_0"].loc[1, "Col_1"]
+    + TABLES["TABLE_0"].loc[2, "Col_1"]
+    + TABLES["TABLE_0"].loc[2, "Col_1"]
+) / (10**3)
+TABLES["TABLE_0"].loc[4, "Col_1"] = TABLE_0_M1
 
 
 # Print the combined tables
