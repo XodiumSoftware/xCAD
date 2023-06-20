@@ -1,7 +1,34 @@
 from constants import DEBUG_NAME, TABLES
 from PySide6.QtCore import QAbstractTableModel, Qt
-from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
+from PySide6.QtGui import QDoubleValidator, QFont
+from PySide6.QtWidgets import (
+    QDoubleSpinBox,
+    QHeaderView,
+    QLineEdit,
+    QStyledItemDelegate,
+    QTableView,
+    QVBoxLayout,
+    QWidget,
+)
+
+
+class CellDelegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        cell_type = index.data(Qt.ItemDataRole.UserRole)
+        if cell_type == "LineEdit":
+            editor = QLineEdit(parent)
+
+        elif cell_type == "DoubleSpinBox":
+            editor = QDoubleSpinBox(parent)
+            editor.setDecimals(2)
+            editor.setSingleStep(0.1)
+            editor.setRange(0, 100)
+            editor.setValidator(QDoubleValidator(0, 100, 2, parent))
+
+        else:
+            print(DEBUG_NAME + f'"{cell_type}" not found in CellDelegate')
+
+        return editor
 
 
 class PandasModel(QAbstractTableModel):
@@ -30,9 +57,19 @@ class PandasModel(QAbstractTableModel):
         Return the data at the given index.
         """
         if index.isValid():
+            column_index = index.column() * 2
+            flag_index = index.column() * 2 + 1
+
             if role == Qt.ItemDataRole.DisplayRole:
-                column_index = index.column() * 2
                 return str(self._data.iloc[index.row(), column_index])
+
+            if flag_index in TABLES:
+                if role == Qt.ItemDataRole.EditRole:
+                    flag_value = self._data.iloc[index.row(), flag_index][0]
+                    return flag_value
+
+                return flag_index
+
         return None
 
     def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
@@ -44,7 +81,10 @@ class PandasModel(QAbstractTableModel):
                 column_index = section * 2
                 return self._column_names[column_index]
 
-        if role == Qt.FontRole and orientation == Qt.Orientation.Horizontal:
+        if (
+            role == Qt.ItemDataRole.FontRole
+            and orientation == Qt.Orientation.Horizontal
+        ):
             font = QFont()
             font.setBold(True)
             return font
@@ -101,6 +141,6 @@ class TableModule(QWidget):
         table_view.setSortingEnabled(True)
 
         header = table_view.horizontalHeader()
-        header.setSectionResizeMode(QHeaderView.Stretch)
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
         return table_view
