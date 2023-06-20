@@ -84,13 +84,17 @@ class MainUI(QMainWindow):
         self.main_container_0.add_widget(
             self.sub_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
         )
-        self.main_container_0.add_widget(LabelModule(0), 3, 0)
+        self.main_container_0.add_widget(LabelModule(0, [0, 0, 0, 0]), 3, 0)
 
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(self.sub_container_0, 0, 0)
+        self.main_container_1.add_widget(
+            self.sub_container_0, 0, 0, alignment=Qt.AlignTop
+        )
         self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
-        self.main_container_1.add_widget(self.sub_container_1, 2, 0)
+        self.main_container_1.add_widget(
+            self.sub_container_1, 2, 0, alignment=Qt.AlignRight | Qt.AlignBottom
+        )
         self.main_container_1.add_widget(
             self.sub_container_3, 3, 0, alignment=Qt.AlignRight | Qt.AlignBottom
         )
@@ -105,22 +109,22 @@ class MainUI(QMainWindow):
         Setup the modules.
         """
         # Setup buttons:
-        self.button_0 = ButtonModule(0)
+        self.button_0 = ButtonModule(0, [0, 0, 0, 0])
         self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        self.button_1 = ButtonModule(1)
+        self.button_1 = ButtonModule(1, [0, 0, 0, 0])
         self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        self.button_2 = ButtonModule(2)
+        self.button_2 = ButtonModule(2, [0, 0, 0, 0])
         self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        self.button_3 = ButtonModule(3)
+        self.button_3 = ButtonModule(3, [0, 0, 0, 0])
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
-        self.button_4 = ButtonModule(4)
+        self.button_4 = ButtonModule(4, [0, 0, 0, 0])
         self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
 
-        self.button_5 = ButtonModule(5)
+        self.button_5 = ButtonModule(5, [0, 0, 0, 0])
         self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.setup_sub_containers()
@@ -143,7 +147,7 @@ class MainUI(QMainWindow):
         self.sub_container_2.add_widget(self.button_4)
 
         self.sub_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_3.add_widget(LabelModule(0))
+        self.sub_container_3.add_widget(LabelModule(0, [0, 0, 0, 0]))
         self.sub_container_3.add_spacer()
         self.sub_container_3.add_widget(self.button_5)
 

@@ -51,7 +51,7 @@ class PandasModel(QAbstractTableModel):
 
 
 class TableModule(QWidget):
-    def __init__(self, table_index, margins, parent=None):
+    def __init__(self, table_index, margins=None, parent=None):
         """
         Initialize the table module.
         """
@@ -73,7 +73,9 @@ class TableModule(QWidget):
         else:
             print(DEBUG_NAME + f'"table_index" {table_index} not found in TABLES')
 
-        self.setContentsMargins(*self.margins)
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
+
         self.setLayout(layout)
 
     def get_table_data(self, table_index):

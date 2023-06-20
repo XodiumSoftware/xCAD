@@ -9,11 +9,12 @@ from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 class ButtonModule(QWidget):
     on_button_clicked = Signal(int)
 
-    def __init__(self, button_index, parent=None):
+    def __init__(self, button_index, margins=None, parent=None):
         """
         Initialize the ButtonModule.
         """
         super().__init__(parent)
+        self.margins = margins
         self.setup_button_module(button_index)
 
     def setup_button_module(self, button_index):
@@ -35,7 +36,8 @@ class ButtonModule(QWidget):
         else:
             print(DEBUG_NAME + f'"index" {button_index} not found in BUTTONS')
 
-        layout.setContentsMargins(0, 0, 0, 0)
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 

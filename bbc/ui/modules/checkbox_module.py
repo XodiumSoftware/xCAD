@@ -8,12 +8,13 @@ from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 class CheckBoxModule(QWidget):
     on_checkbox_clicked = Signal(int)
 
-    def __init__(self, checkbox_index, parent=None):
+    def __init__(self, checkbox_index, margins=None, parent=None):
         """
         Initialize the CheckBoxModule.
         """
         super().__init__(parent)
         self._settings = QSettings()
+        self.margins = margins
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
@@ -41,7 +42,8 @@ class CheckBoxModule(QWidget):
         else:
             print(DEBUG_NAME + f'"index" {checkbox_index} not found in CHECKBOXES')
 
-        layout.setContentsMargins(0, 0, 0, 0)
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 

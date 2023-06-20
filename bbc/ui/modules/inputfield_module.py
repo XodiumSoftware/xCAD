@@ -3,11 +3,12 @@ from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
 
 
 class InputFieldModule(QWidget):
-    def __init__(self, input_index, parent=None):
+    def __init__(self, input_index, margins=None, parent=None):
         """
         Initialize the InputFieldModule.
         """
         super().__init__(parent)
+        self.margins = margins
         self.setup_input_field_module(input_index)
 
     def setup_input_field_module(self, input_index):
@@ -31,6 +32,9 @@ class InputFieldModule(QWidget):
 
         else:
             print(DEBUG_NAME + f'"index" {input_index} not found in INPUTFIELDS')
+
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 

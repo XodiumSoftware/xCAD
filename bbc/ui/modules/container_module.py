@@ -10,14 +10,15 @@ from PySide6.QtWidgets import (
 
 
 class ContainerModule(QWidget):
-    def __init__(self, layout_type, margins, parent=None):
+    def __init__(self, layout_type, margins=None, parent=None):
         """
         Initialize the ContainerModule.
         """
         super().__init__(parent)
-        self.setup_container_module(layout_type, margins)
+        self.margins = margins
+        self.setup_container_module(layout_type)
 
-    def setup_container_module(self, layout_type, margins):
+    def setup_container_module(self, layout_type):
         """
         Setup the ContainerModule.
         """
@@ -32,8 +33,8 @@ class ContainerModule(QWidget):
         else:
             raise ValueError(f"Invalid layout type: {layout_type}")
 
-        if margins is not None:
-            layout.setContentsMargins(*margins)
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 
@@ -82,7 +83,7 @@ class ContainerModule(QWidget):
         Add a stretch to the container.
         """
         layout = self.layout()
-        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
+        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout, QGridLayout)):
             spacer_item = QWidget()
             spacer_item.setSizePolicy(
                 QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding

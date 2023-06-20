@@ -3,11 +3,12 @@ from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 
 class LabelModule(QWidget):
-    def __init__(self, label_index, parent=None):
+    def __init__(self, label_index, margins=None, parent=None):
         """
         Initialize the LabelWidget.
         """
         super().__init__(parent)
+        self.margins = margins
         self.setup_label_module(label_index)
 
     def setup_label_module(self, label_index):
@@ -27,7 +28,8 @@ class LabelModule(QWidget):
         else:
             print(DEBUG_NAME + f'"index" {label_index} not found in LABELS')
 
-        layout.setContentsMargins(0, 0, 0, 0)
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 
