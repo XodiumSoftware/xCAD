@@ -89,7 +89,7 @@ class MainUI(QMainWindow):
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_1.add_widget(self.sub_container_0, 0, 0)
-        self.main_container_1.add_widget(TableModule(0), 1, 0)
+        self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
         self.main_container_1.add_widget(self.sub_container_1, 2, 0)
         self.main_container_1.add_widget(
             self.sub_container_3, 3, 0, alignment=Qt.AlignRight | Qt.AlignBottom

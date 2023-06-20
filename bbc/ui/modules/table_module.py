@@ -14,18 +14,30 @@ class PandasModel(QAbstractTableModel):
         self._column_names = column_names
 
     def rowCount(self, parent=None):
+        """
+        Return the number of rows in the table.
+        """
         return self._data.shape[0]
 
     def columnCount(self, parent=None):
+        """
+        Return the number of columns in the table.
+        """
         return self._data.shape[1]
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
+        """
+        Return the data at the given index.
+        """
         if index.isValid():
             if role == Qt.ItemDataRole.DisplayRole:
                 return str(self._data.iloc[index.row(), index.column()])
         return None
 
     def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        """
+        Return the header data at the given section.
+        """
         if role == Qt.ItemDataRole.DisplayRole:
             if orientation == Qt.Orientation.Horizontal:
                 return self._column_names[section]
@@ -39,11 +51,12 @@ class PandasModel(QAbstractTableModel):
 
 
 class TableModule(QWidget):
-    def __init__(self, table_index, parent=None):
+    def __init__(self, table_index, margins, parent=None):
         """
         Initialize the table module.
         """
         super().__init__(parent)
+        self.margins = margins
         self.setup_table_module(table_index)
 
     def setup_table_module(self, table_index):
@@ -60,10 +73,13 @@ class TableModule(QWidget):
         else:
             print(DEBUG_NAME + f'"table_index" {table_index} not found in TABLES')
 
-        layout.setContentsMargins(0, 0, 0, 0)  # TODO: Make this be set in the class.
+        self.setContentsMargins(*self.margins)
         self.setLayout(layout)
 
     def get_table_data(self, table_index):
+        """
+        Get the table data from the TABLES constant.
+        """
         for table in TABLES:
             if table.get("table_index") == table_index:
                 table_data = table.get("table_data")
