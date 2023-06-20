@@ -1,4 +1,3 @@
-import pandas as pd
 from PySide6.QtWidgets import QVBoxLayout, QWidget
 
 
@@ -30,7 +29,7 @@ class TableModule(QWidget):
 
         layout.setContentsMargins(
             0, 0, 0, 0
-        )  # TODO: define this in the class. do it for every module.
+        )  # TODOLATER: define this in the class. (do it for every module).
 
         self.setLayout(layout)
 
@@ -38,6 +37,5 @@ class TableModule(QWidget):
         """
         Create a table module.
         """
-        tables = pd.DataFrame(columns=["Col1", "Col2", "Col3"])
 
-        return tables
+        return 

@@ -1,10 +1,3 @@
-import json
-import sqlite3
-
-import pandas as pd
-
-# ====================================================================================================
-# Group Index [0, 1, 2, 3, etc.]:
 # ====================================================================================================
 # Editable: 0 = False, 1 = True
 # ====================================================================================================
@@ -14,87 +7,142 @@ import pandas as pd
 # 2: Input Box
 # 3: Double Spin Box
 # 4: Dropdown list
+# 5: Checkbox
 # Add more cell types here as needed
 # ====================================================================================================
 
+import pandas as pd
+from PySide6.QtGui import Qt
 
-def convert_values_to_string(value):
-    if isinstance(value, list):
-        return json.dumps(value)
-    return value
+FILL_PATTERNS = {
+    Qt.BrushStyle.SolidPattern,  # Solid fill pattern
+    Qt.BrushStyle.Dense1Pattern,  # Dense fill pattern 1
+    Qt.BrushStyle.Dense2Pattern,  # Dense fill pattern 2
+}
+
+PEN_STYLES = {
+    Qt.PenStyle.SolidLine,  # Solid line style
+    Qt.PenStyle.DashLine,  # Dashed line style
+    Qt.PenStyle.DotLine,  # Dotted line style
+}
+
+TABLES = {
+    "TABLE_0": pd.DataFrame(
+        columns=[
+            "Col_0",
+            "Flag_0",
+            "Col_1",
+            "Flag_1",
+        ],
+        data=[
+            (
+                "Structure",
+                "[False,0]",
+                "Select",
+                "[False,1]",
+            ),
+            (
+                "Length (mm)",
+                "[False,0]",
+                6000,
+                "[True,3]",
+            ),
+            (
+                "Height (mm)",
+                "[False,0]",
+                3000,
+                "[True,3]",
+            ),
+            (
+                "Area (m2)",
+                "[False,0]",
+                None,
+                "[False,2]",
+            ),
+            (
+                "Perimeter (m1)",
+                "[False,0]",
+                None,
+                "[False,2]",
+            ),
+        ],
+    ),
+    "TABLE_1": pd.DataFrame(
+        columns=[
+            "Col_0",
+            "Flag_0",
+            "Col_1",
+            "Flag_1",
+        ],
+        data=[
+            (
+                "Thickness",
+                "[False,0]",
+                60,
+                "[True,2]",
+            ),
+            (
+                "Pen color",
+                "[False,0]",
+                "255, 255, 255",
+                "[True,2]",
+            ),
+            (
+                "Pen thickness",
+                "[False,0]",
+                1,
+                "[True,2]",
+            ),
+            (
+                "Pen style",
+                "[False,0]",
+                PEN_STYLES,
+                "[True,4]",
+            ),
+            (
+                "Fill pattern",
+                "[False,0]",
+                FILL_PATTERNS,
+                "[True,4]",
+            ),
+            (
+                "Fill pattern scale",
+                "[False,0]",
+                1,
+                "[True,2]",
+            ),
+            (
+                "Fill pattern angle",
+                "[False,0]",
+                0,
+                "[True,2]",
+            ),
+            (
+                "Fill",
+                "[False,0]",
+                True,
+                "[True,5]",
+            ),
+            (
+                "Fill color",
+                "[False,0]",
+                "255, 0, 0",
+                "[True,2]",
+            ),
+            (
+                "Fill opacity",
+                "[False,0]",
+                0.5,
+                "[True,2]",
+            ),
+        ],
+    ),
+    # Add more tables here as needed
+}
 
 
-tables = pd.DataFrame(
-    columns=[
-        "Col_0",
-        "Flags_0",
-        "Col_1",
-        "Flags_1",
-    ]
-)
-
-tables.loc[0] = [
-    ["Structure"],  # Col_0
-    [0, False, 0],  # Flags_0
-    ["Select"],  # Col_1
-    [0, True, 1],  # Flags_1
-]
-
-tables.loc[1] = [
-    ["Length (mm)"],
-    [0, False, 0],
-    [6000],
-    [0, True, 3],
-]
-
-tables.loc[2] = [
-    ["Height (mm)"],
-    [0, False, 0],
-    [3000],
-    [0, True, 3],
-]
-
-tables.loc[3] = [
-    ["Area (m2)"],
-    [1, False, 0],
-    [(tables.loc[1, "Col_1"][0] * tables.loc[2, "Col_1"][0]) / 10**6],
-    [1, False, 0],
-]
-
-tables.loc[4] = [
-    ["Perimeter (m1)"],
-    [1, False, 0],
-    [(tables.loc[1, "Col_1"][0] + tables.loc[2, "Col_1"][0]) * 2 / 10**3],
-    [1, False, 0],
-]
-
-tables["Col_1"] = tables["Col_1"].apply(convert_values_to_string)
-
-conn = sqlite3.connect("database.sqlite")
-
-cursor = conn.cursor()
-cursor.execute("DROP TABLE IF EXISTS Tables")
-cursor.execute(
-    """
-    CREATE TABLE Tables (
-        Col_0 TEXT,
-        Flags_0 TEXT,
-        Col_1 TEXT,
-        Flags_1 TEXT
-    )
-    """
-)
-
-data = tables.to_dict(orient="records")
-cursor.executemany(
-    """
-    INSERT INTO Tables (Col_0, Flags_0, Col_1, Flags_1)
-    VALUES (?, ?, ?, ?)
-    """,
-    [(d["Col_0"], d["Flags_0"], d["Col_1"], d["Flags_1"]) for d in data],
-)
-
-conn.commit()
-conn.close()
-
-print(tables)
+# Print the combined tables
+for table_name, table_data in TABLES.items():
+    print(f"{table_name}:")
+    print(table_data)
+    print()

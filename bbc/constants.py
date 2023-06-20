@@ -1,7 +1,6 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QSizePolicy
 
 # General
@@ -35,64 +34,18 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 # DataBaseHandler
 DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 
-INITIAL_GRAPHICS_OBJECT_DATA = [
-    {
-        "parameter": "item_name",
-        "value": "item_1",
-    },
-    {
-        "parameter": "draw_order",
-        "value": "0",
-    },
-    {
-        "parameter": "thickness",
-        "value": "60",
-    },
-    {
-        "parameter": "pen_color",
-        "value": str(QColor(255, 255, 255)),
-    },
-    {
-        "parameter": "pen_thickness",
-        "value": "1",
-    },
-    {
-        "parameter": "pen_style",
-        "value": str(Qt.SolidLine),
-    },
-    {
-        "parameter": "fill_pattern",
-        "value": str(Qt.SolidPattern),
-    },
-    {
-        "parameter": "fill_pattern_scale",
-        "value": "1.0",
-    },
-    {
-        "parameter": "fill_pattern_angle",
-        "value": "None",
-    },
-    {
-        "parameter": "fill_color",
-        "value": str(QColor(255, 0, 0)),
-    },
-    {
-        "parameter": "fill",
-        "value": "True",
-    },
-    {
-        "parameter": "fill_opacity",
-        "value": "0.5",
-    },
-]
-
-# GraphicsTableViewModule
+# TableModule
+# ====================================================================================================
+# Group Index [0, 1, 2, 3, etc.]:
+# ====================================================================================================
+# Editable: 0 = False, 1 = True
 # ====================================================================================================
 # Cell Types:
-# 0: Button
-# 1: Input Box
-# 2: Double Spin Box
-# 3: Dropdown list
+# 0: Label
+# 1: Button
+# 2: Input Box
+# 3: Double Spin Box
+# 4: Dropdown list
 # Add more cell types here as needed
 # ====================================================================================================
 
@@ -113,155 +66,8 @@ PEN_STYLES = {
     # Add more dropdown options here as needed
 }
 
-TABLES = [
-    {
-        "index": 0,
-        "data": [
-            {
-                "columns": [
-                    [
-                        "Parameters",
-                        "Values",
-                        # Add more columns here as needed.
-                    ],
-                ],
-                "row_group_1": [
-                    {
-                        "Structure": [
-                            [
-                                "Select",  # Initial value
-                                0,  # Cell type
-                                False,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Length": [
-                            [
-                                "6000",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Height": [
-                            [
-                                "3000",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    # Add more rows here as needed.
-                ],
-                # Add more row groups here as needed.
-            }
-        ],
-    },
-    {
-        "index": 1,
-        "data": [
-            {
-                "columns": [
-                    [
-                        "Parameters",
-                        "Values",
-                        # Add more columns here as needed.
-                    ],
-                ],
-                "row_group_1": [
-                    {
-                        "Draw Order": [
-                            [
-                                "0",  # Initial value
-                                1,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Thickness": [
-                            [
-                                "60",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Pen Color": [
-                            [
-                                "255, 255, 255",  # Initial value
-                                1,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Pen Thickness": [
-                            [
-                                "1",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Pen Style": [
-                            [
-                                PEN_STYLES,  # Initial value
-                                3,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Fill Pattern": [
-                            [
-                                FILL_PATTERNS,  # Initial value
-                                3,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Fill Pattern Scale": [
-                            [
-                                "1",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    {
-                        "Fill Pattern Angle": [
-                            [
-                                "0",  # Initial value
-                                2,  # Cell type
-                                True,  # Editable
-                            ],
-                            # Add more values here based on the amount of columns you have.
-                        ]
-                    },
-                    # Add more rows here as needed.
-                ],
-                # Add more row groups here as needed.
-            }
-        ],
-        # Add more tables here as needed.
-    },
-]
+# TODO: Add table data here
+
 
 # LabelModule
 LABELS = [
