@@ -23,7 +23,7 @@ class PandasModel(QAbstractTableModel):
         """
         Return the number of columns in the table.
         """
-        return self._data.shape[1]
+        return (self._data.shape[1] + 1) // 2
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         """
@@ -31,7 +31,8 @@ class PandasModel(QAbstractTableModel):
         """
         if index.isValid():
             if role == Qt.ItemDataRole.DisplayRole:
-                return str(self._data.iloc[index.row(), index.column()])
+                column_index = index.column() * 2
+                return str(self._data.iloc[index.row(), column_index])
         return None
 
     def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
@@ -40,7 +41,8 @@ class PandasModel(QAbstractTableModel):
         """
         if role == Qt.ItemDataRole.DisplayRole:
             if orientation == Qt.Orientation.Horizontal:
-                return self._column_names[section]
+                column_index = section * 2
+                return self._column_names[column_index]
 
         if role == Qt.FontRole and orientation == Qt.Orientation.Horizontal:
             font = QFont()

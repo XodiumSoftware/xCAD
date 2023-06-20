@@ -43,7 +43,7 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 
 # TableModule:
 # ====================================================================================================
-# Editable: 0 = False, 1 = True
+# Editable: True/False
 # ====================================================================================================
 # Cell Types:
 # 0: Label
@@ -72,9 +72,9 @@ TABLES = [
         "table_index": 0,
         "table_data": pd.DataFrame(
             columns=[
-                "Col_0",
+                "Parameters",
                 "Flag_0",
-                "Col_1",
+                "Values",
                 "Flag_1",
             ],
             data=[
@@ -115,9 +115,9 @@ TABLES = [
         "table_data": 1,
         "table_data": pd.DataFrame(
             columns=[
-                "Col_0",
+                "Parameters",
                 "Flag_0",
-                "Col_1",
+                "Values",
                 "Flag_1",
             ],
             data=[
@@ -190,17 +190,17 @@ TABLES = [
 
 # Calculate TABLE_0_M2 and update TABLES
 TABLE_0 = TABLES[0]["table_data"]
-TABLE_0_M2 = (TABLE_0.loc[1, "Col_1"] * TABLE_0.loc[2, "Col_1"]) / (10**6)
-TABLES[0]["table_data"].loc[3, "Col_1"] = TABLE_0_M2
+TABLE_0_M2 = (TABLE_0.loc[1, "Values"] * TABLE_0.loc[2, "Values"]) / (10**6)
+TABLES[0]["table_data"].loc[3, "Values"] = TABLE_0_M2
 
 # Calculate TABLE_0_M1 and update TABLES
 TABLE_0_M1 = (
-    TABLE_0.loc[1, "Col_1"]
-    + TABLE_0.loc[1, "Col_1"]
-    + TABLE_0.loc[2, "Col_1"]
-    + TABLE_0.loc[2, "Col_1"]
+    TABLE_0.loc[1, "Values"]
+    + TABLE_0.loc[1, "Values"]
+    + TABLE_0.loc[2, "Values"]
+    + TABLE_0.loc[2, "Values"]
 ) / (10**3)
-TABLES[0]["table_data"].loc[4, "Col_1"] = TABLE_0_M1
+TABLES[0]["table_data"].loc[4, "Values"] = TABLE_0_M1
 # ====================================================================================================
 
 # LabelModule
