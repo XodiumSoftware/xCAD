@@ -52,22 +52,19 @@ class DataBaseHandler:
         data = json.loads(serialized_data)
         return data
 
-    def insert_data(self, data):
+    def insert_data(self, table_name, data):
         """
         Insert data into the specified table.
         """
         conn = sqlite3.connect(DATABASE_PATH)
-        serialized_data = self.serialize_data(data)
-
         cursor = conn.cursor()
 
-        for table_name in DATA_TABLES:
-            cursor.execute(
-                f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
-            )
+        serialized_data = self.serialize_data(data)
+        cursor.execute(
+            f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
+        )
 
         conn.commit()
-
         conn.close()
 
     def retrieve_data(self):
