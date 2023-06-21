@@ -2,7 +2,15 @@ import os
 
 import pandas as pd
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QSizePolicy
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QDoubleSpinBox,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QSizePolicy,
+)
 
 # General
 # ====================================================================================================
@@ -46,12 +54,12 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 # Editable: True/False
 # ====================================================================================================
 # Cell Types:
-# 0: Label
-# 1: Button
-# 2: Input Box
-# 3: Double Spin Box
-# 4: Dropdown list
-# 5: Checkbox
+# - QLabel
+# - QPushButton
+# - QLineEdit
+# - QDoubleSpinBox
+# - QComboBox
+# - QCheckBox
 # Add more cell types here as needed
 # ====================================================================================================
 
@@ -67,140 +75,124 @@ PEN_STYLES = [
     Qt.PenStyle.DotLine,  # Dotted line style
 ]
 
-TABLES = [
-    {
-        "table_index": 0,
-        "table_data": pd.DataFrame(
-            columns=[
-                "Parameters",
-                "Flag_0",
-                "Values",
-                "Flag_1",
-            ],
-            data=[
-                [
-                    "Structure",
-                    "[False,0]",
-                    "Select",
-                    "[False,1]",
-                ],
-                [
-                    "Length (mm)",
-                    "[False,0]",
-                    6000,
-                    "[True,3]",
-                ],
-                [
-                    "Height (mm)",
-                    "[False,0]",
-                    3000,
-                    "[True,3]",
-                ],
-                [
-                    "Area (m2)",
-                    "[False,0]",
-                    None,
-                    "[False,2]",
-                ],
-                [
-                    "Perimeter (m1)",
-                    "[False,0]",
-                    None,
-                    "[False,2]",
-                ],
-            ],
-        ),
-    },
-    {
-        "table_data": 1,
-        "table_data": pd.DataFrame(
-            columns=[
-                "Parameters",
-                "Flag_0",
-                "Values",
-                "Flag_1",
-            ],
-            data=[
-                [
-                    "Thickness",
-                    "[False,0]",
-                    60,
-                    "[True,2]",
-                ],
-                [
-                    "Pen color",
-                    "[False,0]",
-                    "255, 255, 255",
-                    "[True,2]",
-                ],
-                [
-                    "Pen thickness",
-                    "[False,0]",
-                    1,
-                    "[True,2]",
-                ],
-                [
-                    "Pen style",
-                    "[False,0]",
-                    PEN_STYLES,
-                    "[True,4]",
-                ],
-                [
-                    "Fill pattern",
-                    "[False,0]",
-                    FILL_PATTERNS,
-                    "[True,4]",
-                ],
-                [
-                    "Fill pattern scale",
-                    "[False,0]",
-                    1,
-                    "[True,2]",
-                ],
-                [
-                    "Fill pattern angle",
-                    "[False,0]",
-                    0,
-                    "[True,2]",
-                ],
-                [
-                    "Fill",
-                    "[False,0]",
-                    True,
-                    "[True,5]",
-                ],
-                [
-                    "Fill color",
-                    "[False,0]",
-                    "255, 0, 0",
-                    "[True,2]",
-                ],
-                [
-                    "Fill opacity",
-                    "[False,0]",
-                    0.5,
-                    "[True,2]",
-                ],
-            ],
-        ),
-    },
-    # Add more tables here as needed
-]
+FRAME_DATA = pd.DataFrame(
+    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
+    data=[
+        [
+            "Structure",
+            [False, QLabel],
+            "Select",
+            [False, QPushButton],
+        ],
+        [
+            "Length (mm)",
+            [False, QLabel],
+            6000,
+            [True, QDoubleSpinBox],
+        ],
+        [
+            "Height (mm)",
+            [False, QLabel],
+            3000,
+            [True, QDoubleSpinBox],
+        ],
+        [
+            "Area (m2)",
+            [False, QLabel],
+            None,
+            [False, QLabel],
+        ],
+        [
+            "Perimeter (m1)",
+            [False, QLabel],
+            None,
+            [False, QLabel],
+        ],
+    ],
+)
 
+OBJECT_ASSEMBLY_DATA = pd.DataFrame(
+    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
+    data=[
+        [
+            "Thickness",
+            [False, QLabel],
+            60,
+            [True, QLineEdit],
+        ],
+        [
+            "Pen color",
+            [False, QLabel],
+            "255, 255, 255",
+            [True, QLineEdit],
+        ],
+        [
+            "Pen thickness",
+            [False, QLabel],
+            1,
+            [True, QLineEdit],
+        ],
+        [
+            "Pen style",
+            [False, QLabel],
+            PEN_STYLES,
+            [True, QComboBox],
+        ],
+        [
+            "Fill pattern",
+            [False, QLabel],
+            FILL_PATTERNS,
+            [True, QComboBox],
+        ],
+        [
+            "Fill pattern scale",
+            [False, QLabel],
+            1,
+            [True, QLineEdit],
+        ],
+        [
+            "Fill pattern angle",
+            [False, QLabel],
+            0,
+            [True, QLineEdit],
+        ],
+        [
+            "Fill",
+            [False, QLabel],
+            True,
+            [True, QCheckBox],
+        ],
+        [
+            "Fill color",
+            [False, QLabel],
+            "255, 0, 0",
+            [True, QLineEdit],
+        ],
+        [
+            "Fill opacity",
+            [False, QLabel],
+            0.5,
+            [True, QLineEdit],
+        ],
+    ],
+)
 
-# Calculate TABLE_0_M2 and update TABLES
-TABLE_0 = TABLES[0]["table_data"]
-TABLE_0_M2 = (TABLE_0.loc[1, "Values"] * TABLE_0.loc[2, "Values"]) / (10**6)
-TABLES[0]["table_data"].loc[3, "Values"] = TABLE_0_M2
+# Add more dataframes here as needed,
+# this will then be automatically added to the table and database.
+DATA_TABLES = [FRAME_DATA, OBJECT_ASSEMBLY_DATA]
 
-# Calculate TABLE_0_M1 and update TABLES
-TABLE_0_M1 = (
-    TABLE_0.loc[1, "Values"]
-    + TABLE_0.loc[1, "Values"]
-    + TABLE_0.loc[2, "Values"]
-    + TABLE_0.loc[2, "Values"]
+# Calculate FRAME_DATA_M2 and update FRAME_DATA
+FRAME_DATA_M2 = (FRAME_DATA.loc[1, "Values"] * FRAME_DATA.loc[2, "Values"]) / (10**6)
+FRAME_DATA.loc[3, "Values"] = FRAME_DATA_M2
+
+# Calculate FRAME_DATA_M1 and update FRAME_DATA
+FRAME_DATA_M1 = (
+    FRAME_DATA.loc[1, "Values"]
+    + FRAME_DATA.loc[1, "Values"]
+    + FRAME_DATA.loc[2, "Values"]
+    + FRAME_DATA.loc[2, "Values"]
 ) / (10**3)
-TABLES[0]["table_data"].loc[4, "Values"] = TABLE_0_M1
+FRAME_DATA.loc[4, "Values"] = FRAME_DATA_M1
 # ====================================================================================================
 
 # LabelModule

@@ -1,83 +1,96 @@
-# import os
-# import sqlite3
+import json
+import os
+import sqlite3
 
-# from constants import DATABASE_PATH, DEBUG_NAME, INITIAL_GRAPHICS_OBJECT_DATA
-# from PySide6.QtCore import QObject, Slot
+from constants import DATABASE_PATH
+
+DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
 
 
-# class DataBaseHandler(QObject):
-#     def __init__(self):
-#         super().__init__()
-#         self.connection = self.create_or_connect_db()
+class DataBaseHandler:
+    def __init__(self):
+        """
+        Initialize the database handler.
+        """
+        super().__init__()
+        self.create_database()
 
-#     def create_or_connect_db(self):
-#         if not os.path.exists(os.path.dirname(DATABASE_PATH)):
-#             os.makedirs(os.path.dirname(DATABASE_PATH))
+    def create_database(self):
+        """
+        Create the database and tables.
+        """
+        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
+            os.makedirs(os.path.dirname(DATABASE_PATH))
 
-#         connection = sqlite3.connect(DATABASE_PATH)
-#         cursor = connection.cursor()
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
 
-#         cursor.execute(
-#             "CREATE TABLE IF NOT EXISTS GraphicsObjectData ("
-#             "id INTEGER PRIMARY KEY,"
-#             "parameter TEXT,"
-#             "value TEXT)"
-#         )
+        for table_name in DATA_TABLES:
+            cursor.execute(
+                f"""
+                CREATE TABLE IF NOT EXISTS {table_name} (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    data TEXT
+                )
+                """
+            )
 
-#         cursor.execute("SELECT COUNT(*) FROM GraphicsObjectData")
-#         count = cursor.fetchone()[0]
+        conn.commit()
+        conn.close()
 
-#         if count == 0:
-#             cursor.executemany(
-#                 "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
-#                 [
-#                     (data["parameter"], data["value"])
-#                     for data in INITIAL_GRAPHICS_OBJECT_DATA
-#                 ],
-#             )
-#             connection.commit()
-#         else:
-#             pass
+    def serialize_data(self, data):
+        """
+        Serialize the data using JSON.
+        """
+        serialized_data = json.dumps(data)
+        return serialized_data
 
-#         return connection
+    def deserialize_data(self, serialized_data):
+        """
+        Deserialize the serialized data using JSON.
+        """
+        data = json.loads(serialized_data)
+        return data
 
-#     def execute_db_query(self, query, *params):
-#         cursor = self.connection.cursor()
-#         cursor.execute(query, params)
-#         self.connection.commit()
-#         return cursor.fetchall()
+    def insert_data(self, data):
+        """
+        Insert data into the specified table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        serialized_data = self.serialize_data(data)
 
-#     def get_db_data(self):
-#         cursor = self.connection.cursor()
-#         cursor.execute("SELECT parameter, value FROM GraphicsObjectData")
-#         settings = cursor.fetchall()
-#         return dict(settings)
+        cursor = conn.cursor()
 
-#     @Slot(dict)
-#     def save_db_data(self, settings):
-#         current_settings = self.get_db_data()
+        for table_name in DATA_TABLES:
+            cursor.execute(
+                f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
+            )
 
-#         if settings == current_settings:
-#             print(DEBUG_NAME + "No changes detected. Skipping save operation.")
-#             return
+        conn.commit()
 
-#         with self.connection:
-#             self.execute_db_query("DELETE FROM settings")
+        conn.close()
 
-#             for name, value in settings.items():
-#                 self.execute_db_query(
-#                     "INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)",
-#                     name,
-#                     value,
-#                 )
+    def retrieve_data(self):
+        """
+        Retrieve data from the specified tables.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
 
-#         print(DEBUG_NAME + "Changes saved successfully.")
+        data_list = []
+        for table_name in DATA_TABLES:
+            cursor.execute(f"SELECT data FROM {table_name}")
+            rows = cursor.fetchall()
 
-#     @Slot()
-#     def discard_db_data(self):
-#         self.execute_db_query("ROLLBACK")
-#         print(DEBUG_NAME + "Changes discarded successfully.")
+            table_data = []
 
-#     def close_db_data(self):
-#         self.connection.close()
-#         print(DEBUG_NAME + "Connection closed.")
+            for row in rows:
+                serialized_data = row[0]
+                data = self.deserialize_data(serialized_data)
+                table_data.append(data)
+
+            data_list.append(table_data)
+
+        conn.close()
+
+        return data_list
