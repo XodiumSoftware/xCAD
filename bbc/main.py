@@ -1,5 +1,6 @@
 import sys
 
+from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from PySide6.QtWidgets import QApplication
 from ui.main_ui import MainUI
 
@@ -11,6 +12,8 @@ def run():
     and starts the application event loop.
     """
     app = QApplication([])
+    app.setOrganizationName(QSETTINGS_ORGANIZATION_NAME)
+    app.setApplicationName(QSETTINGS_APPLICATION_NAME)
     main_ui = MainUI()
     main_ui.show()
 

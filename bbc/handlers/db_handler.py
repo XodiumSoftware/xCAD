@@ -1,81 +1,93 @@
+import json
+import os
 import sqlite3
 
-from constants import DEBUG_NAME, SETTINGS_DATABASE_PATH
-from PySide6.QtCore import QObject, Slot
+from constants import DATABASE_PATH
+
+DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
 
 
-class SettingsDatabaseHandler(QObject):
+class DataBaseHandler:
     def __init__(self):
         """
-        Initialize the SettingsDatabaseHandler.
+        Initialize the database handler.
         """
-        self.connection = self.create_or_connect_db()
+        super().__init__()
+        self.create_database()
 
-    def create_or_connect_db(self):
+    def create_database(self):
         """
-        Create or connect to the database.
+        Create the database and tables.
         """
-        connection = sqlite3.connect(SETTINGS_DATABASE_PATH)
-        cursor = connection.cursor()
+        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
+            os.makedirs(os.path.dirname(DATABASE_PATH))
 
-        cursor.execute(
-            """CREATE TABLE IF NOT EXISTS settings
-                          (id INTEGER PRIMARY KEY, setting_name TEXT, setting_value TEXT)"""
-        )
-        connection.commit()
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
 
-        return connection
-
-    def execute_db_query(self, query, *params):
-        """
-        Execute a query on the database with optional parameters.
-        """
-        cursor = self.connection.cursor()
-        cursor.execute(query, params)
-        self.connection.commit()
-
-    def get_db_settings(self):
-        """
-        Get the settings from the database.
-        """
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT setting_name, setting_value FROM settings")
-        settings = cursor.fetchall()
-        return dict(settings)
-
-    @Slot(dict)
-    def save_db_settings(self, settings):
-        """
-        Save the settings to the database.
-        """
-        current_settings = self.get_db_settings()
-
-        if settings == current_settings:
-            print(DEBUG_NAME + "No changes detected. Skipping save operation.")
-            return
-
-        self.execute_db_query("DELETE FROM settings")
-
-        for name, value in settings.items():
-            self.execute_db_query(
-                "INSERT INTO settings (setting_name, setting_value) VALUES (?, ?)",
-                name,
-                value,
+        for table_name in DATA_TABLES:
+            cursor.execute(
+                f"""
+                CREATE TABLE IF NOT EXISTS {table_name} (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    data TEXT
+                )
+                """
             )
 
-        print(DEBUG_NAME + "Changes saved successfully.")
+        conn.commit()
+        conn.close()
 
-    @Slot()
-    def discard_db_settings(self):
+    def serialize_data(self, data):
         """
-        Discard the settings from the database.
+        Serialize the data using JSON.
         """
-        self.execute_db_query("ROLLBACK")
-        print(DEBUG_NAME + "Changes discarded successfully.")
+        serialized_data = json.dumps(data)
+        return serialized_data
 
-    def close_db_connection(self):
+    def deserialize_data(self, serialized_data):
         """
-        Close the database connection.
+        Deserialize the serialized data using JSON.
         """
-        self.connection.close()
-        print(DEBUG_NAME + "Connection closed.")
+        data = json.loads(serialized_data)
+        return data
+
+    def insert_data(self, table_name, data):
+        """
+        Insert data into the specified table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        serialized_data = self.serialize_data(data)
+        cursor.execute(
+            f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
+        )
+
+        conn.commit()
+        conn.close()
+
+    def retrieve_data(self):
+        """
+        Retrieve data from the specified tables.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        data_list = []
+        for table_name in DATA_TABLES:
+            cursor.execute(f"SELECT data FROM {table_name}")
+            rows = cursor.fetchall()
+
+            table_data = []
+
+            for row in rows:
+                serialized_data = row[0]
+                data = self.deserialize_data(serialized_data)
+                table_data.append(data)
+
+            data_list.append(table_data)
+
+        conn.close()
+
+        return data_list

@@ -7,7 +7,7 @@ class UIHandler:
         """
         Initialize the UIHandler.
         """
-        pass
+        super().__init__()
 
     @staticmethod
     def center_ui_on_screen_handler(ui):
@@ -22,16 +22,3 @@ class UIHandler:
             center_point.y() - ui_center.y(),
         )
         ui.move(ui_top_left)
-
-    def delayed_center_ui_on_screen(self, ui):
-        """
-        Delayed centering of the UI on the screen.
-        """
-        ui.setup_main_ui()
-        self.center_ui_on_screen_handler(ui)
-
-    def ui_size_handler(self, ui, width, height):
-        """
-        Set the UI size.
-        """
-        ui.resize(width, height)
