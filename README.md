@@ -38,4 +38,4 @@ Run the following cmd:
 # Setup c/c++ compiler:
 
 1. Navigate to: https://code.visualstudio.com/docs/cpp/config-mingw and follow its instruction.
-   1.1 ATTENTION! when the tutorial says to use the following cmd: pacman -S mingw-w64-ucrt-x86_64-gcc instead use: pacman -S mingw-w64-x86_64-gcc (so without the ucrt).
+   1.1 **ATTENTION!** when the tutorial says to use the following cmd: pacman -S mingw-w64-ucrt-x86_64-gcc instead use: pacman -S mingw-w64-x86_64-gcc (so without the ucrt).
