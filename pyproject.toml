@@ -1,3 +1,4 @@
 [build-system]
 requires = ["setuptools>=42", "Cython"]
 build-backend = "setuptools.build_meta"
+[tool.cyright]

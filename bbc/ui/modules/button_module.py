@@ -1,14 +1,20 @@
-from constants import BUTTONS
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
+from functools import partial
+
+from constants import BUTTONS, DEBUG_NAME
+from PySide6.QtCore import Signal
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
-    def __init__(self, button_index, parent=None):
+    on_button_clicked = Signal(int)
+
+    def __init__(self, button_index, margins=None, parent=None):
         """
         Initialize the ButtonModule.
         """
         super().__init__(parent)
+        self.margins = margins
         self.setup_button_module(button_index)
 
     def setup_button_module(self, button_index):
@@ -24,7 +30,14 @@ class ButtonModule(QWidget):
 
         if button_data:
             button = self.create_button_module(button_data)
+            button.clicked.connect(partial(self.on_button_clicked.emit, button_index))
             layout.addWidget(button)
+
+        else:
+            print(DEBUG_NAME + f'"index" {button_index} not found in BUTTONS')
+
+        if self.margins is not None:
+            layout.setContentsMargins(*self.margins)
 
         self.setLayout(layout)
 
@@ -33,10 +46,17 @@ class ButtonModule(QWidget):
         Create a button module.
         """
         button = QPushButton()
-        button.setFixedSize(*button_data["size"])
+
+        if button_data["size"] is not None:
+            button.setFixedSize(*button_data["size"])
+
         if button_data["icon_path"]:
             button.setIcon(QIcon(button_data["icon_path"]))
+
         else:
             button.setText(button_data["title"])
-        # button.clicked.connect(button_data["action"])
+
+        if button_data["stylesheet"]:
+            button.setStyleSheet(button_data["stylesheet"])
+
         return button
