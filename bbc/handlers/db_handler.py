@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from constants import DATA_TABLES, DATABASE_PATH
+from constants import DATABASE_PATH, TABLES
 
 
 class DataBaseHandler:
@@ -27,8 +27,8 @@ class DataBaseHandler:
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
-        for table_data in DATA_TABLES:
-            table_name = table_data["table_name"]
+        for table_data in TABLES:
+            table_name = table_data["desc"]
             columns = table_data["columns"]
             rows = table_data["rows"]
 

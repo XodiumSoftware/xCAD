@@ -9,9 +9,9 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.label_module import LabelModule
+from ui.modules.table_module import TableModule
 
 # from ui.modules.graphics_view_module import GraphicsViewModule
-# from ui.modules.table_module import TableModule
 
 
 class MainUI(QMainWindow):
@@ -95,7 +95,7 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(
             self.sub_container_0, 0, 0, alignment=Qt.AlignTop
         )
-        # self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
+        self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
         self.main_container_1.add_widget(
             self.sub_container_1, 2, 0, alignment=Qt.AlignRight | Qt.AlignBottom
         )
