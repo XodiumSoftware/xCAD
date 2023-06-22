@@ -36,8 +36,8 @@ class DataBaseHandler:
         """
         Create and populate a database if it doesn't exist.
         """
-        if not os.path.exists(DATABASE_PATH):
-            os.makedirs(DATABASE_PATH)
+        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
+            os.makedirs(os.path.dirname(DATABASE_PATH))
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName(DATABASE_PATH)

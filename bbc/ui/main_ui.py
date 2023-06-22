@@ -1,7 +1,5 @@
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
-
-# from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.settings_handler import SettingsHandler
 from handlers.ui_handler import UIHandler
@@ -10,10 +8,9 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
-
-# from ui.modules.graphics_view_module import GraphicsViewModule
 from ui.modules.label_module import LabelModule
 
+# from ui.modules.graphics_view_module import GraphicsViewModule
 # from ui.modules.table_module import TableModule
 
 
@@ -46,7 +43,8 @@ class MainUI(QMainWindow):
         """
         Setup the database.
         """
-        self._settings_db_handler = DataBaseHandler()
+        self._db_handler = DataBaseHandler()
+        self._db_handler.setup_database()
 
     def setup_main_ui(self):
         """
