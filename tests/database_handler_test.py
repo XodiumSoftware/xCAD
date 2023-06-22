@@ -11,5 +11,5 @@ for i, table_name in enumerate(DATA_TABLES):
     handler.insert_data(table_name, data_to_insert[i])
 
 # Retrieve data
-retrieved_data = handler.retrieve_data(DATA_TABLES)
+retrieved_data = handler.retrieve_data()
 print(retrieved_data)  # Output: [[1, 2, 3, 4], [5, 6, 7, 8]]

@@ -6,7 +6,10 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
-  "python.analysis.extraPaths": ["${workspaceFolder}/bbc"],
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/bbc",
+    "${workspaceFolder}"
+  ],
   "python.analysis.autoSearchPaths": true,
   "python.analysis.useLibraryCodeForTypes": true,
   "python.analysis.typeCheckingMode": "off",
@@ -21,5 +24,9 @@
   "C_Cpp.default.compilerPath": "",
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
-  "jupyter.notebookFileRoot": "${workspaceFolder}/bbc"
+  "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.addImport.exactMatchOnly": false,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.diagnosticMode": "workspace"
 }

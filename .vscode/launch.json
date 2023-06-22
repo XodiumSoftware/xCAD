@@ -32,6 +32,14 @@
       "program": "${workspaceFolder}/bbc/main.py",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Python: test.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/bbc/test.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 }
