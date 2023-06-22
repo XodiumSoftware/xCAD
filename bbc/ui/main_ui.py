@@ -3,6 +3,7 @@ from handlers.db_handler import DataBaseHandler
 
 # from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
+from handlers.settings_handler import SettingsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
@@ -62,6 +63,9 @@ class MainUI(QMainWindow):
 
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
+
+        self._settings_handler = SettingsHandler()
+        self._settings_handler.load_visibility_state(self)
 
         self.setup_modules()
 
@@ -166,3 +170,13 @@ class MainUI(QMainWindow):
 
     def show_containers(self):
         self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)
+
+    # Sample:
+    # ==================================================================================================================
+    # def toggle_label(self):
+    #     """
+    #     Toggle the label's visibility.
+    #     """
+    #     self.label.setVisible(not self.label.isVisible())
+    #     self.settings_handler.save_visibility_state(self.label)
+    # ==================================================================================================================

@@ -10,7 +10,6 @@ class EventsHandler:
         Initialize the EventsHandler.
         """
         super().__init__()
-
         self._settings = QSettings()
 
     @Slot()

@@ -8,13 +8,59 @@ from PySide6.QtGui import QFont
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
+    QDoubleSpinBox,
     QHeaderView,
+    QLabel,
     QMainWindow,
     QPushButton,
+    QStyledItemDelegate,
     QTableView,
     QVBoxLayout,
     QWidget,
 )
+
+INIT_DATA = {
+    "Parameter": [
+        "Structure",
+        "Length (mm)",
+        "Height (mm)",
+        "Area (m2)",
+        "Perimeter (m1)",
+    ],
+    "Value": [
+        "Select",
+        6000,
+        3000,
+        18,
+        18,
+    ],
+}
+
+
+class CellDelegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        source_index = index.model().mapToSource(index)
+        source_column = source_index.column()
+        source_row = source_index.row()
+
+        if source_column == 2:
+            if source_row == 0:
+                editor = QComboBox(parent)
+                editor.addItem("Option 1")
+                editor.addItem("Option 2")
+                return editor
+            elif source_row in (1, 2):
+                editor = QDoubleSpinBox(parent)
+                editor.setRange(0, 1.79769e308)
+                editor.setDecimals(0)
+                editor.setSingleStep(1)
+                return editor
+            elif source_row in (3, 4):
+                editor = QLabel(parent)
+                return editor
+
+        return None
 
 
 class DataBaseHandler:
@@ -34,13 +80,10 @@ class DataBaseHandler:
 
         if not model.select():
             conn = sqlite3.connect(self.database_file)
-            init_data = {
-                "Name": ["John", "Jane", "Alice"],
-                "Age": [25, 30, 27],
-                "Country": ["USA", "Canada", "UK"],
-            }
-            df = pd.DataFrame(init_data)
-            df.to_sql("my_table", conn, if_exists="replace", index=True)
+            df = pd.DataFrame(INIT_DATA)
+            df.to_sql(
+                "my_table", conn, if_exists="replace", index=True, index_label="Index"
+            )
             conn.close()
             model.select()
 
@@ -67,16 +110,14 @@ class TableViewWidget(QWidget):
         self.table_view.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.table_view.hideColumn(0)
         self.table_view.setSortingEnabled(True)
-        
-        pen = QPen()
-        pen.setStyle(Qt.SolidLine)
-        pen.setWidth(2)
-        self.table_view.setGridStyle(Qt.PenStyle(pen))
 
         font = QFont()
         font.setBold(True)
         self.table_view.horizontalHeader().setFont(font)
         self.table_view.verticalHeader().setFont(font)
+
+        delegate = CellDelegate()
+        self.table_view.setItemDelegate(delegate)
 
         column_sort_index = self.settings.value(
             "column_sort_index",
@@ -141,9 +182,13 @@ class MainWindow(QMainWindow):
         discard_button = QPushButton("Discard Changes")
         discard_button.clicked.connect(self.discard_changes)
 
+        reset_button = QPushButton("Reset Data")
+        reset_button.clicked.connect(self.reset_data)
+
         layout.addWidget(self.table_widget)
         layout.addWidget(save_button)
         layout.addWidget(discard_button)
+        layout.addWidget(reset_button)
 
         self.model.dataChanged.connect(self.update_window_title)
 
@@ -169,6 +214,20 @@ class MainWindow(QMainWindow):
         Discard the changes and update the window title.
         """
         self.model.revertAll()
+        self.update_window_title()
+
+    def reset_data(self):
+        """
+        Reset the data to its initial state and update the window title.
+        """
+        conn = sqlite3.connect(self.database_file)
+        df = pd.DataFrame(INIT_DATA)
+        df.to_sql(
+            "my_table", conn, if_exists="replace", index=True, index_label="Index"
+        )
+        conn.close()
+
+        self.model.select()
         self.update_window_title()
 
     def keyPressEvent(self, event):

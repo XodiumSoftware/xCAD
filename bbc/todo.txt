@@ -1,7 +1,6 @@
 General Notes:
 =============================================================================================
 TODO: GraphicsViewModule
-TODO: switch from stacked widget to tab widget or something better.
+TODO: VisibilityHandler
 TODO: GraphicsTableViewModule
-TODO: DataBaseHandler
 =============================================================================================

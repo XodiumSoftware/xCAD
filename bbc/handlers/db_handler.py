@@ -1,93 +1,58 @@
-import json
 import os
 import sqlite3
 
+import pandas as pd
 from constants import DATABASE_PATH
+from PySide6.QtSql import QSqlDatabase, QSqlTableModel
 
 DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
+
+INIT_DATA = {
+    "Parameter": [
+        "Structure",
+        "Length (mm)",
+        "Height (mm)",
+        "Area (m2)",
+        "Perimeter (m1)",
+    ],
+    "Value": [
+        "Select",
+        6000,
+        3000,
+        18,
+        18,
+    ],
+}
 
 
 class DataBaseHandler:
     def __init__(self):
         """
-        Initialize the database handler.
+        Initialize the DataBaseHandler.
         """
         super().__init__()
-        self.create_database()
 
-    def create_database(self):
+    def setup_database(self):
         """
-        Create the database and tables.
+        Create and populate a database if it doesn't exist.
         """
-        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
-            os.makedirs(os.path.dirname(DATABASE_PATH))
+        if not os.path.exists(DATABASE_PATH):
+            os.makedirs(DATABASE_PATH)
 
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
+        db = QSqlDatabase.addDatabase("QSQLITE")
+        db.setDatabaseName(DATABASE_PATH)
+        db.open()
 
-        for table_name in DATA_TABLES:
-            cursor.execute(
-                f"""
-                CREATE TABLE IF NOT EXISTS {table_name} (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    data TEXT
-                )
-                """
+        model = QSqlTableModel()
+        model.setTable("my_table")
+
+        if not model.select():
+            conn = sqlite3.connect(DATABASE_PATH)
+            df = pd.DataFrame(INIT_DATA)
+            df.to_sql(
+                "my_table", conn, if_exists="replace", index=True, index_label="Index"
             )
+            conn.close()
+            model.select()
 
-        conn.commit()
-        conn.close()
-
-    def serialize_data(self, data):
-        """
-        Serialize the data using JSON.
-        """
-        serialized_data = json.dumps(data)
-        return serialized_data
-
-    def deserialize_data(self, serialized_data):
-        """
-        Deserialize the serialized data using JSON.
-        """
-        data = json.loads(serialized_data)
-        return data
-
-    def insert_data(self, table_name, data):
-        """
-        Insert data into the specified table.
-        """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-
-        serialized_data = self.serialize_data(data)
-        cursor.execute(
-            f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
-        )
-
-        conn.commit()
-        conn.close()
-
-    def retrieve_data(self):
-        """
-        Retrieve data from the specified tables.
-        """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-
-        data_list = []
-        for table_name in DATA_TABLES:
-            cursor.execute(f"SELECT data FROM {table_name}")
-            rows = cursor.fetchall()
-
-            table_data = []
-
-            for row in rows:
-                serialized_data = row[0]
-                data = self.deserialize_data(serialized_data)
-                table_data.append(data)
-
-            data_list.append(table_data)
-
-        conn.close()
-
-        return data_list
+        return model
