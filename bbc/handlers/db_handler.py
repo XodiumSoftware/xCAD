@@ -1,8 +1,7 @@
 import os
 import sqlite3
 
-from constants import DATA_TABLES, DATABASE, DATABASE_PATH
-from PySide6.QtSql import QSqlDatabase
+from constants import DATA_TABLES, DATABASE_PATH
 
 
 class DataBaseHandler:
@@ -18,10 +17,6 @@ class DataBaseHandler:
         """
         if not os.path.exists(os.path.dirname(DATABASE_PATH)):
             os.makedirs(os.path.dirname(DATABASE_PATH))
-
-        db = QSqlDatabase.addDatabase(DATABASE)
-        db.setDatabaseName(DATABASE_PATH)
-        db.open()
 
         self.setup_database_model()
 

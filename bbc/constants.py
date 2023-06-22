@@ -45,7 +45,6 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # DataBaseHandler
 # ====================================================================================================
-DATABASE = "QSQLITE"
 DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 # ====================================================================================================
 
