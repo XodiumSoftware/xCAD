@@ -127,10 +127,13 @@ class MainUI(QMainWindow):
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_4 = ButtonModule(4, [0, 0, 0, 0])
-        self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
+        self.button_4.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_5 = ButtonModule(5, [0, 0, 0, 0])
         self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.button_6 = ButtonModule(6, [0, 0, 0, 0])
+        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.setup_sub_containers()
 
@@ -147,14 +150,15 @@ class MainUI(QMainWindow):
         self.sub_container_1.add_spacer()
         self.sub_container_1.add_widget(self.button_2)
         self.sub_container_1.add_widget(self.button_3)
+        self.sub_container_1.add_widget(self.button_4)
 
         self.sub_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_2.add_widget(self.button_4)
+        self.sub_container_2.add_widget(self.button_5)
 
         self.sub_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
         self.sub_container_3.add_widget(LabelModule(0, [0, 0, 0, 0]))
         self.sub_container_3.add_spacer()
-        self.sub_container_3.add_widget(self.button_5)
+        self.sub_container_3.add_widget(self.button_6)
 
     def toggle_visibility_states(self):
         """

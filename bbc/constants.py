@@ -278,13 +278,20 @@ BUTTONS = [
     },
     {
         "index": 4,
+        "title": "Reset",
+        "stylesheet": None,
+        "size": (50, 30),
+        "icon_path": None,
+    },
+    {
+        "index": 5,
         "title": "AutoFrameCAD",
         "stylesheet": "QPushButton { font-size: 30px; font-style: italic; font-weight: bold; border: none;}",
         "size": None,
         "icon_path": None,
     },
     {
-        "index": 5,
+        "index": 6,
         "title": "Startup page",
         "stylesheet": None,
         "size": (30, 30),

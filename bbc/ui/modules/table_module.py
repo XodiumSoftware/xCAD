@@ -1,6 +1,43 @@
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
+from PySide6.QtCore import Qt
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
-from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QHeaderView,
+    QLineEdit,
+    QStyledItemDelegate,
+    QTableView,
+    QVBoxLayout,
+    QWidget,
+)
+
+
+class CellDelegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        """
+        Create an editor.
+        """
+        editor = QLineEdit(parent)
+        editor.setAlignment(Qt.AlignCenter)
+
+    def setEditorData(self, editor, index):
+        """
+        Set the editor data.
+        """
+        value = index.model().data(index, Qt.EditRole)
+        editor.setText(value)
+
+    def setModelData(self, editor, model, index):
+        """
+        Set the model data.
+        """
+        value = editor.text()
+        model.setData(index, value, Qt.EditRole)
+
+    def updateEditorGeometry(self, editor, option, index):
+        """
+        Update the editor geometry.
+        """
+        editor.setGeometry(option.rect)
 
 
 class TableModule(QWidget):
@@ -76,5 +113,8 @@ class TableModule(QWidget):
         column_count = model.columnCount()
         for column in range(0, column_count, 2):
             table.hideColumn(column)
+
+        delegate = CellDelegate()
+        table.setItemDelegate(delegate)
 
         return table
