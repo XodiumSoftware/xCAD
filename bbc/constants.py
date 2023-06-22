@@ -1,6 +1,5 @@
 import os
 
-import pandas as pd
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -46,6 +45,7 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # DataBaseHandler
 # ====================================================================================================
+DATABASE = "QSQLITE"
 DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
 # ====================================================================================================
 
@@ -75,9 +75,10 @@ PEN_STYLES = [
     Qt.PenStyle.DotLine,  # Dotted line style
 ]
 
-FRAME_DATA = pd.DataFrame(
-    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
-    data=[
+FRAME_DATA = {
+    "table_name": "FRAME_DATA",
+    "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+    "rows": [
         [
             "Structure",
             [False, QLabel],
@@ -109,11 +110,12 @@ FRAME_DATA = pd.DataFrame(
             [False, QLabel],
         ],
     ],
-)
+}
 
-OBJECT_ASSEMBLY_DATA = pd.DataFrame(
-    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
-    data=[
+OBJECT_ASSEMBLY_DATA = {
+    "table_name": "OBJECT_ASSEMBLY_DATA",
+    "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+    "rows": [
         [
             "Thickness",
             [False, QLabel],
@@ -175,24 +177,11 @@ OBJECT_ASSEMBLY_DATA = pd.DataFrame(
             [True, QLineEdit],
         ],
     ],
-)
+}
 
 # Add more dataframes here as needed,
 # this will then be automatically added to the table and database.
 DATA_TABLES = [FRAME_DATA, OBJECT_ASSEMBLY_DATA]
-
-# Calculate FRAME_DATA_M2 and update FRAME_DATA
-FRAME_DATA_M2 = (FRAME_DATA.loc[1, "Values"] * FRAME_DATA.loc[2, "Values"]) / (10**6)
-FRAME_DATA.loc[3, "Values"] = FRAME_DATA_M2
-
-# Calculate FRAME_DATA_M1 and update FRAME_DATA
-FRAME_DATA_M1 = (
-    FRAME_DATA.loc[1, "Values"]
-    + FRAME_DATA.loc[1, "Values"]
-    + FRAME_DATA.loc[2, "Values"]
-    + FRAME_DATA.loc[2, "Values"]
-) / (10**3)
-FRAME_DATA.loc[4, "Values"] = FRAME_DATA_M1
 # ====================================================================================================
 
 # LabelModule
