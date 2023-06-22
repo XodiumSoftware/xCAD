@@ -57,6 +57,7 @@ class MainUI(QMainWindow):
         self.sizeHint()
 
         self._ui_handler = UIHandler()
+        self._ui_handler.set_ui_size(self)
         self._ui_handler.center_ui_on_screen_handler(self)
 
         self._events_handler = EventsHandler()
@@ -95,7 +96,7 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(
             self.sub_container_0, 0, 0, alignment=Qt.AlignTop
         )
-        self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
+        self.main_container_1.add_widget(TableModule(1, [0, 0, 0, 0]), 1, 0)
         self.main_container_1.add_widget(
             self.sub_container_1, 2, 0, alignment=Qt.AlignRight | Qt.AlignBottom
         )

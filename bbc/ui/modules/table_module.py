@@ -1,6 +1,6 @@
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
-from PySide6.QtWidgets import QTableView, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
 
 
 class TableModule(QWidget):
@@ -19,12 +19,11 @@ class TableModule(QWidget):
         layout = QVBoxLayout(self)
 
         table_data = next(
-            (table for table in TABLES if table["index"] == table_index),
-            None,
+            (table for table in TABLES if table["index"] == table_index), None
         )
 
         if table_index:
-            table = self.create_table_module(table_data, table_index, table_data)
+            table = self.create_table_module(table_data)
             layout.addWidget(table)
 
         else:
@@ -35,17 +34,30 @@ class TableModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_table_module(self, table_index):
+    def create_table_module(self, table_data):
         """
         Create a table module.
         """
         table = QTableView()
-        table.setStyleSheet(table_index["stylesheet"])
-        table.setSizePolicy(*table_index["size_policy"])
-        table.setSortingEnabled(table_index["sorting"])
-        table.setAlternatingRowColors(table_index["alternating_row_colors"])
+        table.setStyleSheet(table_data["stylesheet"])
+        table.setSizePolicy(*table_data["size_policy"])
+        table.setSortingEnabled(table_data["sorting"])
+        table.setAlternatingRowColors(table_data["alternating_row_colors"])
 
-        table_name = table_index["desc"]
+        font = table.font()
+        font.setBold(True)
+
+        hor_header = table.horizontalHeader()
+        hor_header.setVisible(True)
+        hor_header.setSectionResizeMode(QHeaderView.Stretch)
+        hor_header.setFont(font)
+
+        ver_header = table.verticalHeader()
+        ver_header.setVisible(True)
+        ver_header.setSectionResizeMode(QHeaderView.Fixed)
+        ver_header.setFont(font)
+
+        table_name = table_data["desc"]
         model = QSqlQueryModel()
 
         db = QSqlDatabase.addDatabase("QSQLITE")
@@ -60,5 +72,9 @@ class TableModule(QWidget):
             print(DEBUG_NAME + f"failed to open {DATABASE_PATH}")
 
         table.setModel(model)
+
+        column_count = model.columnCount()
+        for column in range(0, column_count, 2):
+            table.hideColumn(column)
 
         return table

@@ -22,3 +22,9 @@ class UIHandler:
             center_point.y() - ui_center.y(),
         )
         ui.move(ui_top_left)
+
+    def set_ui_size(self, ui):
+        """
+        Sets the size of the UI.
+        """
+        ui.resize(600, 400)
