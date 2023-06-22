@@ -2,5 +2,6 @@ General Notes:
 =============================================================================================
 TODO: GraphicsViewModule
 TODO: VisibilityHandler
-TODO: GraphicsTableViewModule
+TODO: TableModule
+TODO: Look into pyautogui
 =============================================================================================

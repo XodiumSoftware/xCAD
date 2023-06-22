@@ -66,3 +66,61 @@ class DataBaseHandler:
             (table_name,),
         )
         return cursor.fetchone() is not None
+
+    def get_table_data(self, table_name):
+        """
+        Get all the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM {table_name}".format(table_name=table_name))
+        table_data = cursor.fetchall()
+
+        conn.close()
+
+        return table_data
+
+    def save_table_data(self, table_name, table_data):
+        """
+        Save the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+        for row in table_data:
+            column_count = len(row)
+            values_placeholder = ", ".join(["?"] * column_count)
+            insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
+                table_name=table_name, values=values_placeholder
+            )
+            cursor.execute(insert_query, tuple(row))
+
+        conn.commit()
+        conn.close()
+
+    def discard_table_data(self, table_name):
+        """
+        Discard the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+
+        conn.commit()
+        conn.close()
+
+    def reset_table_data(self, table_name):
+        """
+        Reset the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+        cursor.execute("VACUUM")
+
+        conn.commit()
+        conn.close()
