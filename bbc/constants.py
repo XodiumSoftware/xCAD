@@ -1,6 +1,6 @@
 import os
+from re import T
 
-import pandas as pd
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -75,124 +75,120 @@ PEN_STYLES = [
     Qt.PenStyle.DotLine,  # Dotted line style
 ]
 
-FRAME_DATA = pd.DataFrame(
-    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
-    data=[
-        [
-            "Structure",
-            [False, QLabel],
-            "Select",
-            [False, QPushButton],
+TABLES = [
+    {
+        "index": 0,
+        "desc": "FRAME_DATA",
+        "stylesheet": "QCheckBox { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
+        "sorting": True,
+        "alternating_row_colors": True,
+        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "rows": [
+            [
+                "Structure",
+                [False, QLabel],
+                "Select",
+                [False, QPushButton],
+            ],
+            [
+                "Length (mm)",
+                [False, QLabel],
+                6000,
+                [True, QDoubleSpinBox],
+            ],
+            [
+                "Height (mm)",
+                [False, QLabel],
+                3000,
+                [True, QDoubleSpinBox],
+            ],
+            [
+                "Area (m2)",
+                [False, QLabel],
+                None,
+                [False, QLabel],
+            ],
+            [
+                "Perimeter (m1)",
+                [False, QLabel],
+                None,
+                [False, QLabel],
+            ],
         ],
-        [
-            "Length (mm)",
-            [False, QLabel],
-            6000,
-            [True, QDoubleSpinBox],
+    },
+    {
+        "index": 1,
+        "desc": "OBJECT_ASSEMBLY_DATA",
+        "stylesheet": "QCheckBox { font-size: 12px; }",
+        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
+        "sorting": True,
+        "alternating_row_colors": True,
+        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "rows": [
+            [
+                "Thickness",
+                [False, QLabel],
+                60,
+                [True, QLineEdit],
+            ],
+            [
+                "Pen color",
+                [False, QLabel],
+                "255, 255, 255",
+                [True, QLineEdit],
+            ],
+            [
+                "Pen thickness",
+                [False, QLabel],
+                1,
+                [True, QLineEdit],
+            ],
+            [
+                "Pen style",
+                [False, QLabel],
+                PEN_STYLES,
+                [True, QComboBox],
+            ],
+            [
+                "Fill pattern",
+                [False, QLabel],
+                FILL_PATTERNS,
+                [True, QComboBox],
+            ],
+            [
+                "Fill pattern scale",
+                [False, QLabel],
+                1,
+                [True, QLineEdit],
+            ],
+            [
+                "Fill pattern angle",
+                [False, QLabel],
+                0,
+                [True, QLineEdit],
+            ],
+            [
+                "Fill",
+                [False, QLabel],
+                True,
+                [True, QCheckBox],
+            ],
+            [
+                "Fill color",
+                [False, QLabel],
+                "255, 0, 0",
+                [True, QLineEdit],
+            ],
+            [
+                "Fill opacity",
+                [False, QLabel],
+                0.5,
+                [True, QLineEdit],
+            ],
         ],
-        [
-            "Height (mm)",
-            [False, QLabel],
-            3000,
-            [True, QDoubleSpinBox],
-        ],
-        [
-            "Area (m2)",
-            [False, QLabel],
-            None,
-            [False, QLabel],
-        ],
-        [
-            "Perimeter (m1)",
-            [False, QLabel],
-            None,
-            [False, QLabel],
-        ],
-    ],
-)
-
-OBJECT_ASSEMBLY_DATA = pd.DataFrame(
-    columns=["Parameters", "Flag_0", "Values", "Flag_1"],
-    data=[
-        [
-            "Thickness",
-            [False, QLabel],
-            60,
-            [True, QLineEdit],
-        ],
-        [
-            "Pen color",
-            [False, QLabel],
-            "255, 255, 255",
-            [True, QLineEdit],
-        ],
-        [
-            "Pen thickness",
-            [False, QLabel],
-            1,
-            [True, QLineEdit],
-        ],
-        [
-            "Pen style",
-            [False, QLabel],
-            PEN_STYLES,
-            [True, QComboBox],
-        ],
-        [
-            "Fill pattern",
-            [False, QLabel],
-            FILL_PATTERNS,
-            [True, QComboBox],
-        ],
-        [
-            "Fill pattern scale",
-            [False, QLabel],
-            1,
-            [True, QLineEdit],
-        ],
-        [
-            "Fill pattern angle",
-            [False, QLabel],
-            0,
-            [True, QLineEdit],
-        ],
-        [
-            "Fill",
-            [False, QLabel],
-            True,
-            [True, QCheckBox],
-        ],
-        [
-            "Fill color",
-            [False, QLabel],
-            "255, 0, 0",
-            [True, QLineEdit],
-        ],
-        [
-            "Fill opacity",
-            [False, QLabel],
-            0.5,
-            [True, QLineEdit],
-        ],
-    ],
-)
-
-# Add more dataframes here as needed,
-# this will then be automatically added to the table and database.
-DATA_TABLES = [FRAME_DATA, OBJECT_ASSEMBLY_DATA]
-
-# Calculate FRAME_DATA_M2 and update FRAME_DATA
-FRAME_DATA_M2 = (FRAME_DATA.loc[1, "Values"] * FRAME_DATA.loc[2, "Values"]) / (10**6)
-FRAME_DATA.loc[3, "Values"] = FRAME_DATA_M2
-
-# Calculate FRAME_DATA_M1 and update FRAME_DATA
-FRAME_DATA_M1 = (
-    FRAME_DATA.loc[1, "Values"]
-    + FRAME_DATA.loc[1, "Values"]
-    + FRAME_DATA.loc[2, "Values"]
-    + FRAME_DATA.loc[2, "Values"]
-) / (10**3)
-FRAME_DATA.loc[4, "Values"] = FRAME_DATA_M1
+    },
+]
 # ====================================================================================================
 
 # LabelModule
@@ -282,13 +278,20 @@ BUTTONS = [
     },
     {
         "index": 4,
+        "title": "Reset",
+        "stylesheet": None,
+        "size": (50, 30),
+        "icon_path": None,
+    },
+    {
+        "index": 5,
         "title": "AutoFrameCAD",
         "stylesheet": "QPushButton { font-size: 30px; font-style: italic; font-weight: bold; border: none;}",
         "size": None,
         "icon_path": None,
     },
     {
-        "index": 5,
+        "index": 6,
         "title": "Startup page",
         "stylesheet": None,
         "size": (30, 30),

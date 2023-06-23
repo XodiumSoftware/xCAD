@@ -1,7 +1,9 @@
 General Notes:
 =============================================================================================
-TODO: GraphicsViewModule
-TODO: switch from stacked widget to tab widget or something better.
-TODO: GraphicsTableViewModule
-TODO: DataBaseHandler
+TODO: GraphicsViewModule.
+TODO: VisibilityHandler.
+TODO: Look into pyautogui.
+TODO: DB make the save, discard and reset buttons work.
+FIXME: TableModule sorting.
+TODO: CellDelegate.
 =============================================================================================

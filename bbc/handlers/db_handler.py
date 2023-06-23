@@ -1,93 +1,121 @@
-import json
 import os
 import sqlite3
 
-from constants import DATABASE_PATH
-
-DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
+from constants import DATABASE_PATH, TABLES
 
 
 class DataBaseHandler:
     def __init__(self):
         """
-        Initialize the database handler.
+        Initialize the DataBaseHandler.
         """
         super().__init__()
-        self.create_database()
 
-    def create_database(self):
+    def setup_database(self):
         """
-        Create the database and tables.
+        Setup the database.
         """
         if not os.path.exists(os.path.dirname(DATABASE_PATH)):
             os.makedirs(os.path.dirname(DATABASE_PATH))
 
+        self.setup_database_model()
+
+    def setup_database_model(self):
+        """
+        Create and populate a database if it doesn't exist.
+        """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
-        for table_name in DATA_TABLES:
-            cursor.execute(
-                f"""
-                CREATE TABLE IF NOT EXISTS {table_name} (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    data TEXT
+        for table_data in TABLES:
+            table_name = table_data["desc"]
+            columns = table_data["columns"]
+            rows = table_data["rows"]
+
+            if not self.table_exists(cursor, table_name):
+                column_names = ["Id"] + columns
+                create_table_query = "CREATE TABLE {table_name} ({columns})".format(
+                    table_name=table_name, columns=", ".join(column_names)
                 )
-                """
-            )
+                cursor.execute(create_table_query)
+
+                for i, row in enumerate(rows):
+                    column_count = len(columns)
+                    values_placeholder = ", ".join(["?"] * (column_count + 1))
+                    insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
+                        table_name=table_name, values=values_placeholder
+                    )
+                    values = [i] + [str(val) for val in row]
+                    cursor.execute(insert_query, tuple(values))
 
         conn.commit()
         conn.close()
 
-    def serialize_data(self, data):
+    @staticmethod
+    def table_exists(cursor, table_name):
         """
-        Serialize the data using JSON.
+        Check if a table exists in the SQLite database.
         """
-        serialized_data = json.dumps(data)
-        return serialized_data
-
-    def deserialize_data(self, serialized_data):
-        """
-        Deserialize the serialized data using JSON.
-        """
-        data = json.loads(serialized_data)
-        return data
-
-    def insert_data(self, table_name, data):
-        """
-        Insert data into the specified table.
-        """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-
-        serialized_data = self.serialize_data(data)
         cursor.execute(
-            f"INSERT INTO {table_name} (data) VALUES (?)", (serialized_data,)
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+            (table_name,),
         )
+        return cursor.fetchone() is not None
 
-        conn.commit()
-        conn.close()
-
-    def retrieve_data(self):
+    def get_table_data(self, table_name):
         """
-        Retrieve data from the specified tables.
+        Get all the data from a table.
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
-        data_list = []
-        for table_name in DATA_TABLES:
-            cursor.execute(f"SELECT data FROM {table_name}")
-            rows = cursor.fetchall()
-
-            table_data = []
-
-            for row in rows:
-                serialized_data = row[0]
-                data = self.deserialize_data(serialized_data)
-                table_data.append(data)
-
-            data_list.append(table_data)
+        cursor.execute("SELECT * FROM {table_name}".format(table_name=table_name))
+        table_data = cursor.fetchall()
 
         conn.close()
 
-        return data_list
+        return table_data
+
+    def save_table_data(self, table_name, table_data):
+        """
+        Save the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+        for row in table_data:
+            column_count = len(row)
+            values_placeholder = ", ".join(["?"] * column_count)
+            insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
+                table_name=table_name, values=values_placeholder
+            )
+            cursor.execute(insert_query, tuple(row))
+
+        conn.commit()
+        conn.close()
+
+    def discard_table_data(self, table_name):
+        """
+        Discard the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+
+        conn.commit()
+        conn.close()
+
+    def reset_table_data(self, table_name):
+        """
+        Reset the data from a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
+        cursor.execute("VACUUM")
+
+        conn.commit()
+        conn.close()

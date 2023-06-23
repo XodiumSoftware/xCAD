@@ -1,19 +1,17 @@
 from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
-
-# from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
+from handlers.settings_handler import SettingsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
+from ui.modules.label_module import LabelModule
+from ui.modules.table_module import TableModule
 
 # from ui.modules.graphics_view_module import GraphicsViewModule
-from ui.modules.label_module import LabelModule
-
-# from ui.modules.table_module import TableModule
 
 
 class MainUI(QMainWindow):
@@ -45,7 +43,8 @@ class MainUI(QMainWindow):
         """
         Setup the database.
         """
-        self._settings_db_handler = DataBaseHandler()
+        self._db_handler = DataBaseHandler()
+        self._db_handler.setup_database()
 
     def setup_main_ui(self):
         """
@@ -58,10 +57,14 @@ class MainUI(QMainWindow):
         self.sizeHint()
 
         self._ui_handler = UIHandler()
+        self._ui_handler.set_ui_size(self)
         self._ui_handler.center_ui_on_screen_handler(self)
 
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
+
+        self._settings_handler = SettingsHandler()
+        self._settings_handler.load_visibility_state(self)
 
         self.setup_modules()
 
@@ -93,7 +96,7 @@ class MainUI(QMainWindow):
         self.main_container_1.add_widget(
             self.sub_container_0, 0, 0, alignment=Qt.AlignTop
         )
-        # self.main_container_1.add_widget(TableModule(0, [0, 0, 0, 0]), 1, 0)
+        self.main_container_1.add_widget(TableModule(1, [0, 0, 0, 0]), 1, 0)
         self.main_container_1.add_widget(
             self.sub_container_1, 2, 0, alignment=Qt.AlignRight | Qt.AlignBottom
         )
@@ -124,10 +127,13 @@ class MainUI(QMainWindow):
         self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_4 = ButtonModule(4, [0, 0, 0, 0])
-        self.button_4.on_button_clicked.connect(self.toggle_visibility_states)
+        self.button_4.on_button_clicked.connect(self._events_handler.on_button_clicked)
 
         self.button_5 = ButtonModule(5, [0, 0, 0, 0])
         self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.button_6 = ButtonModule(6, [0, 0, 0, 0])
+        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.setup_sub_containers()
 
@@ -144,14 +150,15 @@ class MainUI(QMainWindow):
         self.sub_container_1.add_spacer()
         self.sub_container_1.add_widget(self.button_2)
         self.sub_container_1.add_widget(self.button_3)
+        self.sub_container_1.add_widget(self.button_4)
 
         self.sub_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_2.add_widget(self.button_4)
+        self.sub_container_2.add_widget(self.button_5)
 
         self.sub_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
         self.sub_container_3.add_widget(LabelModule(0, [0, 0, 0, 0]))
         self.sub_container_3.add_spacer()
-        self.sub_container_3.add_widget(self.button_5)
+        self.sub_container_3.add_widget(self.button_6)
 
     def toggle_visibility_states(self):
         """
@@ -166,3 +173,13 @@ class MainUI(QMainWindow):
 
     def show_containers(self):
         self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)
+
+    # Sample:
+    # ==================================================================================================================
+    # def toggle_label(self):
+    #     """
+    #     Toggle the label's visibility.
+    #     """
+    #     self.label.setVisible(not self.label.isVisible())
+    #     self.settings_handler.save_visibility_state(self.label)
+    # ==================================================================================================================
