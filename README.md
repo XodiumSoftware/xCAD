@@ -29,12 +29,6 @@ This ensures that the css files run and the docs are readable.
 5. Double click on `Admin` to open `localhost\dashboard`.
 6. Rename the address in the address bar to `localhost\[name of the folder]` (localhost\docs).
 
-# To cythonize code:
-
-Run the following cmd:
-
-1. `python setup.py build_ext --inplace`.
-
 # Setup c/c++ compiler:
 
 1. Navigate to: https://code.visualstudio.com/docs/cpp/config-mingw and follow its instruction.
