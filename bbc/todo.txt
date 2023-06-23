@@ -6,4 +6,5 @@ TODO: Look into pyautogui.
 TODO: DB make the save, discard and reset buttons work.
 FIXME: TableModule sorting.
 TODO: CellDelegate.
+TODO: AFCCMD.
 =============================================================================================
