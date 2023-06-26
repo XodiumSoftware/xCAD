@@ -1,9 +1,11 @@
+from functools import partial
+
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
 from PySide6.QtCore import Qt
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 from PySide6.QtWidgets import (
+    QDoubleSpinBox,
     QHeaderView,
-    QLineEdit,
     QStyledItemDelegate,
     QTableView,
     QVBoxLayout,
@@ -11,33 +13,35 @@ from PySide6.QtWidgets import (
 )
 
 
-class CellDelegate(QStyledItemDelegate):
-    def createEditor(self, parent, option, index):
+class EditableQueryModel(QSqlQueryModel):
+    def setData(self, index, value, role=Qt.EditRole):
         """
-        Create an editor.
+        Set the data at the given index in the model to the given value.
         """
-        editor = QLineEdit(parent)
-        editor.setAlignment(Qt.AlignCenter)
+        if index.isValid() and role == Qt.EditRole:
+            row = index.row()
+            column = index.column()
+            self._data[row][column] = value
+            self.dataChanged.emit(index, index, [role])
+            return True
+        return False
 
-    def setEditorData(self, editor, index):
+    def data(self, index, role=Qt.DisplayRole):
         """
-        Set the editor data.
+        Return the data at the given index and role in the model.
         """
-        value = index.model().data(index, Qt.EditRole)
-        editor.setText(value)
+        if not index.isValid():
+            return None
 
-    def setModelData(self, editor, model, index):
-        """
-        Set the model data.
-        """
-        value = editor.text()
-        model.setData(index, value, Qt.EditRole)
+        if role == Qt.DisplayRole or role == Qt.EditRole:
+            row = index.row()
+            column = index.column()
+            value = self._data[row][column]
 
-    def updateEditorGeometry(self, editor, option, index):
-        """
-        Update the editor geometry.
-        """
-        editor.setGeometry(option.rect)
+            if role == Qt.DisplayRole:
+                return value
+
+        return None
 
 
 class TableModule(QWidget):
@@ -95,7 +99,7 @@ class TableModule(QWidget):
         ver_header.setFont(font)
 
         table_name = table_data["desc"]
-        model = QSqlQueryModel()
+        model = EditableQueryModel()
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName(DATABASE_PATH)
@@ -114,7 +118,20 @@ class TableModule(QWidget):
         for column in range(0, column_count, 2):
             table.hideColumn(column)
 
-        delegate = CellDelegate()
-        table.setItemDelegate(delegate)
+            # FIXME: adjust to reference to the correct key.
+            for column in range(1, column_count, 2):
+                delegate = QStyledItemDelegate()
+                double_spin_box = QDoubleSpinBox()
+                double_spin_box.setRange(0, 1.8e308)
+                delegate.setEditorData = partial(
+                    lambda index, editor: editor.setValue(float(index.data())),
+                    editor=double_spin_box,
+                )
+                delegate.setModelData = partial(
+                    lambda index, editor, model: model.setData(index, editor.value()),
+                    editor=double_spin_box,
+                    model=model,
+                )
+                table.setItemDelegateForColumn(column, delegate)
 
         return table

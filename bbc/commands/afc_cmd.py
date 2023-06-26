@@ -3,6 +3,7 @@ import sys
 
 import pyautocad
 
+# TODO: move the constants to constants.py
 LAYER_PROPERTIES = {
     "KBG_SLS": {
         "Color": 1,
@@ -77,13 +78,8 @@ class AFCCMD:
         self.doc.SaveAs(output_path)
         self.cad.app.WindowState = self.cad.constants.acWindowStateMax
 
-    def quit(self):
-        """
-        Close the AutoCAD application.
-        """
-        self.cad.quit()
 
-
+# TODO: merge this with main.py
 def run():
     """
     Run the AFC command.
