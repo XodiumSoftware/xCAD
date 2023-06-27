@@ -87,21 +87,30 @@ class MainUI(QMainWindow):
         self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_0.add_widget(self.sub_container_2, 1, 0)
         self.main_container_0.add_widget(
-            self.sub_container_2, 2, 0, alignment=Qt.AlignCenter | Qt.AlignBottom
+            self.sub_container_2,
+            2,
+            0,
+            alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_0.add_widget(LabelModule(0, [0, 0, 0, 0]), 3, 0)
 
         # Setup main container 0:
         self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
         self.main_container_1.add_widget(
-            self.sub_container_0, 0, 0, alignment=Qt.AlignTop
+            self.sub_container_0, 0, 0, alignment=Qt.AlignmentFlag.AlignTop
         )
         self.main_container_1.add_widget(TableModule(1, [0, 0, 0, 0]), 1, 0)
         self.main_container_1.add_widget(
-            self.sub_container_1, 2, 0, alignment=Qt.AlignRight | Qt.AlignBottom
+            self.sub_container_1,
+            2,
+            0,
+            alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_1.add_widget(
-            self.sub_container_3, 3, 0, alignment=Qt.AlignRight | Qt.AlignBottom
+            self.sub_container_3,
+            3,
+            0,
+            alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
 
         # self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)

@@ -14,11 +14,11 @@ from PySide6.QtWidgets import (
 
 
 class EditableQueryModel(QSqlQueryModel):
-    def setData(self, index, value, role=Qt.EditRole):
+    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
         """
         Set the data at the given index in the model to the given value.
         """
-        if index.isValid() and role == Qt.EditRole:
+        if index.isValid() and role == Qt.ItemDataRole.EditRole:
             row = index.row()
             column = index.column()
             self._data[row][column] = value
@@ -26,19 +26,19 @@ class EditableQueryModel(QSqlQueryModel):
             return True
         return False
 
-    def data(self, index, role=Qt.DisplayRole):
+    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         """
         Return the data at the given index and role in the model.
         """
         if not index.isValid():
             return None
 
-        if role == Qt.DisplayRole or role == Qt.EditRole:
+        if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
             row = index.row()
             column = index.column()
             value = self._data[row][column]
 
-            if role == Qt.DisplayRole:
+            if role == Qt.ItemDataRole.DisplayRole:
                 return value
 
         return None
@@ -90,12 +90,12 @@ class TableModule(QWidget):
 
         hor_header = table.horizontalHeader()
         hor_header.setVisible(True)
-        hor_header.setSectionResizeMode(QHeaderView.Stretch)
+        hor_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         hor_header.setFont(font)
 
         ver_header = table.verticalHeader()
         ver_header.setVisible(True)
-        ver_header.setSectionResizeMode(QHeaderView.Fixed)
+        ver_header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
         ver_header.setFont(font)
 
         table_name = table_data["desc"]
