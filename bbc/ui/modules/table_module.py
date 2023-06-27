@@ -1,55 +1,6 @@
-from dataclasses import dataclass
-from functools import partial
-
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
-from PySide6.QtCore import Qt
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
-from PySide6.QtWidgets import (
-    QDoubleSpinBox,
-    QHeaderView,
-    QStyledItemDelegate,
-    QTableView,
-    QVBoxLayout,
-    QWidget,
-)
-
-
-class EditableQueryModel(QSqlQueryModel):
-    def __init__(self, data, parent=None):
-        """
-        Initialize the EditableQueryModel.
-        """
-        super().__init__(parent)
-        self._data = data
-
-    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
-        """
-        Set the data at the given index in the model to the given value.
-        """
-        if index.isValid() and role == Qt.ItemDataRole.EditRole:
-            row = index.row()
-            column = index.column()
-            self._data[row][column] = value
-            self.dataChanged.emit(index, index, [role])
-            return True
-        return False
-
-    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
-        """
-        Return the data at the given index and role in the model.
-        """
-        if not index.isValid():
-            return None
-
-        if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
-            row = index.row()
-            column = index.column()
-            value = self._data[row][column]
-
-            if role == Qt.ItemDataRole.DisplayRole:
-                return value
-
-        return None
+from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
 
 
 class TableModule(QWidget):
@@ -107,7 +58,7 @@ class TableModule(QWidget):
         ver_header.setFont(font)
 
         table_name = table_data["desc"]
-        model = EditableQueryModel()
+        model = QSqlQueryModel()
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName(DATABASE_PATH)
@@ -125,25 +76,5 @@ class TableModule(QWidget):
         column_count = model.columnCount()
         for column in range(0, column_count, 2):
             table.hideColumn(column)
-
-            # FIXME: adjust to reference to the correct key.
-            # TODO:
-            # BUG:
-            # ERROR:
-            # FIXME: lambda still being used.
-            for column in range(1, column_count, 2):
-                delegate = QStyledItemDelegate()
-                double_spin_box = QDoubleSpinBox()
-                double_spin_box.setRange(0, 1.8e308)
-                delegate.setEditorData = partial(
-                    lambda index, editor: editor.setValue(float(index.data())),
-                    editor=double_spin_box,
-                )
-                delegate.setModelData = partial(
-                    lambda index, editor, model: model.setData(index, editor.value()),
-                    editor=double_spin_box,
-                    model=model,
-                )
-                table.setItemDelegateForColumn(column, delegate)
 
         return table

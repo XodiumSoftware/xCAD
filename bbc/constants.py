@@ -77,7 +77,7 @@ PEN_STYLES = [
 
 TABLES = [
     {
-        "index": 0,
+        "index": 1,
         "desc": "FRAME_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
@@ -118,7 +118,7 @@ TABLES = [
         ],
     },
     {
-        "index": 1,
+        "index": 2,
         "desc": "OBJECT_ASSEMBLY_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),

@@ -6,6 +6,9 @@
   // CMake Settings
   "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
 
+  // Code Runner Settings
+  "code-runner.clearPreviousOutput": true,
+
   // Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {

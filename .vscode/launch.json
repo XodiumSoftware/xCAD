@@ -31,7 +31,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/bbc/main.py",
       "console": "integratedTerminal",
-      "justMyCode": true
+      "justMyCode": true,
     },
     {
       "name": "Python: test.py",
@@ -39,7 +39,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/bbc/test.py",
       "console": "integratedTerminal",
-      "justMyCode": true
+      "justMyCode": true,
     },
     {
       "name": "Python: test2.py",
@@ -47,7 +47,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/bbc/test2.py",
       "console": "integratedTerminal",
-      "justMyCode": true
+      "justMyCode": true,
     }
   ]
 }
