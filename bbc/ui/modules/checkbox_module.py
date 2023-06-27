@@ -8,7 +8,9 @@ from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 class CheckBoxModule(QWidget):
     on_checkbox_clicked = Signal(int)
 
-    def __init__(self, checkbox_index, margins=None, alignment=None, parent=None):
+    def __init__(
+        self, checkbox_index, margins=None, alignment=None, visible=None, parent=None
+    ):
         """
         Initialize the CheckBoxModule.
         """
@@ -16,6 +18,7 @@ class CheckBoxModule(QWidget):
         self._settings = QSettings()
         self.margins = margins
         self.alignment = alignment
+        self.visible = visible
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
@@ -51,6 +54,9 @@ class CheckBoxModule(QWidget):
         if self.alignment is not None:
             layout.setAlignment(*self.alignment)
 
+        if self.visible is not None:
+            self.setVisible(self.visible)
+
         self.setLayout(layout)
 
     def create_checkbox_module(self, checkbox_data):
@@ -61,3 +67,9 @@ class CheckBoxModule(QWidget):
         checkbox.setStyleSheet(checkbox_data["stylesheet"])
 
         return checkbox
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the checkbox.
+        """
+        self.setVisible(not self.isVisible())

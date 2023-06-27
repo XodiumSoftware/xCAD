@@ -1,5 +1,5 @@
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 from PySide6.QtWidgets import (
     QDoubleSpinBox,
@@ -19,9 +19,13 @@ class TableModule(QWidget):
         Initialize the TableModule.
         """
         super().__init__(parent)
+        self.table_index = table_index
         self.margins = margins
         self.alignment = alignment
+        self.settings = QSettings()
+
         self.setup_table_module(table_index)
+        self.load_visibility_state()
 
     def setup_table_module(self, table_index):
         """
@@ -98,6 +102,39 @@ class TableModule(QWidget):
             table.hideColumn(column)
 
         return table
+
+    def toggle_visibility_state(self):
+        """
+        Toggle the visibility of the label.
+        """
+        self.setVisible(not self.isVisible())
+        self.save_visibility_state()
+
+    def load_visibility_state(self):
+        """
+        Load the visibility state from QSettings.
+        """
+        visibility_state = self.settings.value(
+            f"visibility_state_table_{self.table_index}", defaultValue=True, type=bool
+        )
+        print(
+            DEBUG_NAME
+            + f"Loaded visibility_state_table_{self.table_index}: {visibility_state}"
+        )
+        self.setVisible(visibility_state)
+
+    def save_visibility_state(self):
+        """
+        Save the visibility state to QSettings.
+        """
+        visibility_state = self.isVisible()
+        self.settings.setValue(
+            f"visibility_state_table_{self.table_index}", visibility_state
+        )
+        print(
+            DEBUG_NAME
+            + f"Saved visibility_state_table_{self.table_index}: {visibility_state}"
+        )
 
 
 class CustomDelegate(QStyledItemDelegate):

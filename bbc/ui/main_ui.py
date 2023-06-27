@@ -1,7 +1,6 @@
-from constants import UI_ICON_PATH, UI_TITLE
+from constants import DEBUG_NAME, UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
-from handlers.settings_handler import SettingsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
@@ -10,8 +9,6 @@ from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.label_module import LabelModule
 from ui.modules.table_module import TableModule
-
-# from ui.modules.graphics_view_module import GraphicsViewModule
 
 
 class MainUI(QMainWindow):
@@ -63,9 +60,6 @@ class MainUI(QMainWindow):
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
 
-        self._settings_handler = SettingsHandler()
-        self._settings_handler.load_visibility_state(self)
-
         self.central_widget = QWidget()
 
         self.layout = QVBoxLayout(self.central_widget)
@@ -81,34 +75,30 @@ class MainUI(QMainWindow):
         """
         Setup the modules.
         """
-        # Setup buttons:
-        self.button_0 = ButtonModule(0)
-        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_1 = ButtonModule(1)
-        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_2 = ButtonModule(2)
-        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_3 = ButtonModule(3)
-        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_4 = ButtonModule(4)
-        self.button_4.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_5 = ButtonModule(5)
-        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.button_6 = ButtonModule(6)
-        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
-
         # Setup labels:
         self.label_0 = LabelModule(0)
         self.label_1 = LabelModule(0)
 
         # Setup tables:
         self.table_0 = TableModule(1)
+
+        # Setup buttons:
+        self.button_0 = ButtonModule(0)
+
+        self.button_1 = ButtonModule(1)
+        self.button_1.on_button_clicked.connect(self.table_0.toggle_visibility_state)
+
+        self.button_2 = ButtonModule(2)
+
+        self.button_3 = ButtonModule(3)
+
+        self.button_4 = ButtonModule(4)
+
+        self.button_5 = ButtonModule(5)
+        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.button_6 = ButtonModule(6)
+        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
 
     def setup_sub_containers(self):
         """
@@ -189,8 +179,6 @@ class MainUI(QMainWindow):
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
-        # self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)
-
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)
 
@@ -207,13 +195,3 @@ class MainUI(QMainWindow):
 
     def show_containers(self):
         self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)
-
-    # Sample:
-    # ==================================================================================================================
-    # def toggle_label(self):
-    #     """
-    #     Toggle the label's visibility.
-    #     """
-    #     self.label.setVisible(not self.label.isVisible())
-    #     self.settings_handler.save_visibility_state(self.label)
-    # ==================================================================================================================

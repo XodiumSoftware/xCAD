@@ -1,15 +1,22 @@
 from constants import DEBUG_NAME, LABELS
+from PySide6.QtCore import QSettings, Signal
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 
 class LabelModule(QWidget):
-    def __init__(self, label_index, margins=None, alignment=None, parent=None):
+    visibilityChanged = Signal(bool)
+
+    def __init__(
+        self, label_index, margins=None, alignment=None, visible=None, parent=None
+    ):
         """
         Initialize the LabelWidget.
         """
         super().__init__(parent)
         self.margins = margins
         self.alignment = alignment
+        self.visible = visible
+
         self.setup_label_module(label_index)
 
     def setup_label_module(self, label_index):
@@ -37,6 +44,9 @@ class LabelModule(QWidget):
         if self.alignment is not None:
             layout.setAlignment(*self.alignment)
 
+        if self.visible is not None:
+            self.setVisible(self.visible)
+
         self.setLayout(layout)
 
     def create_label_module(self, label_data):
@@ -47,3 +57,9 @@ class LabelModule(QWidget):
         label.setStyleSheet(label_data["stylesheet"])
 
         return label
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the checkbox.
+        """
+        self.setVisible(not self.isVisible())

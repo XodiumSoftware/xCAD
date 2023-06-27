@@ -3,13 +3,16 @@ from PySide6.QtWidgets import QSpinBox, QVBoxLayout, QWidget
 
 
 class SpinBoxModule(QWidget):
-    def __init__(self, spinbox_index, margins=None, alignment=None, parent=None):
+    def __init__(
+        self, spinbox_index, margins=None, alignment=None, visible=None, parent=None
+    ):
         """
         Initialize the SpinBoxModule.
         """
         super().__init__(parent)
         self.margins = margins
         self.alignment = alignment
+        self.visible = visible
         self.setup_spinbox_module(spinbox_index)
 
     def setup_spinbox_module(self, spinbox_index):
@@ -38,6 +41,9 @@ class SpinBoxModule(QWidget):
         if self.alignment is not None:
             layout.setAlignment(*self.alignment)
 
+        if self.visible is not None:
+            self.setVisible(self.visible)
+
         self.setLayout(layout)
 
     def create_spinbox_module(self, spinbox_data):
@@ -52,3 +58,9 @@ class SpinBoxModule(QWidget):
         spinbox.setStyleSheet(spinbox_data["stylesheet"])
 
         return spinbox
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the spinbox.
+        """
+        self.setVisible(not self.isVisible())

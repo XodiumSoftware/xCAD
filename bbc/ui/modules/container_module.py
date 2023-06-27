@@ -11,13 +11,16 @@ from PySide6.QtWidgets import (
 
 
 class ContainerModule(QWidget):
-    def __init__(self, layout_type, margins=None, alignment=None, parent=None):
+    def __init__(
+        self, layout_type, margins=None, alignment=None, visible=None, parent=None
+    ):
         """
         Initialize the ContainerModule.
         """
         super().__init__(parent)
         self.margins = margins
         self.alignment = alignment
+        self.visible = visible
         self.setup_container_module(layout_type)
 
     def setup_container_module(self, layout_type):
@@ -47,18 +50,10 @@ class ContainerModule(QWidget):
         if self.alignment is not None:
             layout.setAlignment(*self.alignment)
 
-        self.setLayout(layout)
+        if self.visible is not None:
+            self.setVisible(self.visible)
 
-    def set_container_margins(self, margins):
-        """
-        Set the margins of the container.
-        """
-        if len(margins) != 4:
-            raise ValueError(
-                DEBUG_NAME + "Margins should be a tuple or list of four integers."
-            )
-        if self.layout() is not None:
-            self.layout().setContentsMargins(*margins)
+        self.setLayout(layout)
 
     def add_widget(
         self,
@@ -68,6 +63,7 @@ class ContainerModule(QWidget):
         rowspan=None,
         columnspan=None,
         alignment=None,
+        visible=None,
     ):
         """
         Add a widget to the container.
@@ -93,6 +89,9 @@ class ContainerModule(QWidget):
 
         else:
             layout.addWidget(widget)
+
+        if visible is not None:
+            widget.setVisible(visible)
 
     # FIXME: labelmodule(0) and button6 not being affected by spacer.
     def add_spacer(self, size=None):
@@ -122,3 +121,9 @@ class ContainerModule(QWidget):
                 DEBUG_NAME
                 + "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the container.
+        """
+        self.setVisible(not self.isVisible())

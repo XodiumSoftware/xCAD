@@ -9,13 +9,16 @@ from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 class ButtonModule(QWidget):
     on_button_clicked = Signal(int)
 
-    def __init__(self, button_index, margins=None, alignment=None, parent=None):
+    def __init__(
+        self, button_index, margins=None, alignment=None, visible=None, parent=None
+    ):
         """
         Initialize the ButtonModule.
         """
         super().__init__(parent)
         self.margins = margins
         self.alignment = alignment
+        self.visible = visible
         self.setup_button_module(button_index)
 
     def setup_button_module(self, button_index):
@@ -66,3 +69,9 @@ class ButtonModule(QWidget):
             button.setStyleSheet(button_data["stylesheet"])
 
         return button
+
+    def toggle_visibility(self):
+        """
+        Toggle the visibility of the button.
+        """
+        self.setVisible(not self.isVisible())
