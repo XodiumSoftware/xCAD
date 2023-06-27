@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from functools import partial
 
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
@@ -14,6 +15,13 @@ from PySide6.QtWidgets import (
 
 
 class EditableQueryModel(QSqlQueryModel):
+    def __init__(self, data, parent=None):
+        """
+        Initialize the EditableQueryModel.
+        """
+        super().__init__(parent)
+        self._data = data
+
     def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
         """
         Set the data at the given index in the model to the given value.
@@ -119,6 +127,10 @@ class TableModule(QWidget):
             table.hideColumn(column)
 
             # FIXME: adjust to reference to the correct key.
+            # TODO:
+            # BUG:
+            # ERROR:
+            # FIXME: lambda still being used.
             for column in range(1, column_count, 2):
                 delegate = QStyledItemDelegate()
                 double_spin_box = QDoubleSpinBox()
