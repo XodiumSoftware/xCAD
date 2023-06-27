@@ -3,12 +3,13 @@ from PySide6.QtWidgets import QSpinBox, QVBoxLayout, QWidget
 
 
 class SpinBoxModule(QWidget):
-    def __init__(self, spinbox_index, margins=None, parent=None):
+    def __init__(self, spinbox_index, margins=None, alignment=None, parent=None):
         """
         Initialize the SpinBoxModule.
         """
         super().__init__(parent)
         self.margins = margins
+        self.alignment = alignment
         self.setup_spinbox_module(spinbox_index)
 
     def setup_spinbox_module(self, spinbox_index):
@@ -31,6 +32,11 @@ class SpinBoxModule(QWidget):
 
         if self.margins is not None:
             layout.setContentsMargins(*self.margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if self.alignment is not None:
+            layout.setAlignment(*self.alignment)
 
         self.setLayout(layout)
 
@@ -44,6 +50,5 @@ class SpinBoxModule(QWidget):
         spinbox.setValue(spinbox_data["default"])
         spinbox.setSingleStep(spinbox_data["step"])
         spinbox.setStyleSheet(spinbox_data["stylesheet"])
-        spinbox.setSizePolicy(*spinbox_data["size_policy"])
 
         return spinbox

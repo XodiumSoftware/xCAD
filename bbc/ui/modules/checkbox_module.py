@@ -8,13 +8,14 @@ from PySide6.QtWidgets import QCheckBox, QVBoxLayout, QWidget
 class CheckBoxModule(QWidget):
     on_checkbox_clicked = Signal(int)
 
-    def __init__(self, checkbox_index, margins=None, parent=None):
+    def __init__(self, checkbox_index, margins=None, alignment=None, parent=None):
         """
         Initialize the CheckBoxModule.
         """
         super().__init__(parent)
         self._settings = QSettings()
         self.margins = margins
+        self.alignment = alignment
         self.setup_checkbox_module(checkbox_index)
 
     def setup_checkbox_module(self, checkbox_index):
@@ -44,6 +45,11 @@ class CheckBoxModule(QWidget):
 
         if self.margins is not None:
             layout.setContentsMargins(*self.margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if self.alignment is not None:
+            layout.setAlignment(*self.alignment)
 
         self.setLayout(layout)
 
@@ -53,6 +59,5 @@ class CheckBoxModule(QWidget):
         """
         checkbox = QCheckBox(checkbox_data["title"])
         checkbox.setStyleSheet(checkbox_data["stylesheet"])
-        checkbox.setSizePolicy(*checkbox_data["size_policy"])
 
         return checkbox

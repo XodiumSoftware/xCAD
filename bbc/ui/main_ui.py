@@ -66,8 +66,6 @@ class MainUI(QMainWindow):
         self._settings_handler = SettingsHandler()
         self._settings_handler.load_visibility_state(self)
 
-        self.setup_modules()
-
         self.central_widget = QWidget()
 
         self.layout = QVBoxLayout(self.central_widget)
@@ -79,27 +77,105 @@ class MainUI(QMainWindow):
 
         self.setup_main_containers()
 
+    def setup_modules(self):
+        """
+        Setup the modules.
+        """
+        # Setup buttons:
+        self.button_0 = ButtonModule(0)
+        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_1 = ButtonModule(1)
+        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_2 = ButtonModule(2)
+        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_3 = ButtonModule(3)
+        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_4 = ButtonModule(4)
+        self.button_4.on_button_clicked.connect(self._events_handler.on_button_clicked)
+
+        self.button_5 = ButtonModule(5)
+        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
+
+        self.button_6 = ButtonModule(6)
+        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
+
+        # Setup labels:
+        self.label_0 = LabelModule(0)
+        self.label_1 = LabelModule(0)
+
+        # Setup tables:
+        self.table_0 = TableModule(1)
+
+    def setup_sub_containers(self):
+        """
+        Setup the sub containers.
+        """
+        self.setup_modules()
+
+        self.sub_container_0 = ContainerModule("HBox")
+        self.sub_container_0.add_widget(self.button_0)
+        self.sub_container_0.add_spacer()
+        self.sub_container_0.add_widget(self.button_1)
+
+        self.sub_container_1 = ContainerModule("HBox")
+        self.sub_container_1.add_spacer()
+        self.sub_container_1.add_widget(self.button_2)
+        self.sub_container_1.add_widget(self.button_3)
+        self.sub_container_1.add_widget(self.button_4)
+
+        self.sub_container_2 = ContainerModule("HBox")
+        self.sub_container_2.add_widget(self.button_5)
+
+        self.sub_container_3 = ContainerModule("HBox")
+        self.sub_container_3.add_widget(self.label_0)
+        self.sub_container_3.add_spacer()
+        self.sub_container_3.add_widget(self.button_6)
+
+        self.sub_container_4 = ContainerModule("HBox")
+        self.sub_container_4.add_widget(self.label_1)
+        self.sub_container_4.add_spacer()
+
+        self.sub_container_5 = ContainerModule("HBox")
+        self.sub_container_5.add_widget(self.table_0)
+
     def setup_main_containers(self):
         """
         Setup the main containers.
         """
-        # Setup main container 1:
-        self.main_container_0 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_0.add_widget(self.sub_container_2, 1, 0)
+        self.setup_sub_containers()
+
+        # Setup main container 0:
+        self.main_container_0 = ContainerModule("Grid")
         self.main_container_0.add_widget(
             self.sub_container_2,
-            2,
+            1,
             0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
-        self.main_container_0.add_widget(LabelModule(0, [0, 0, 0, 0]), 3, 0)
-
-        # Setup main container 0:
-        self.main_container_1 = ContainerModule("Grid", [0, 0, 0, 0])
-        self.main_container_1.add_widget(
-            self.sub_container_0, 0, 0, alignment=Qt.AlignmentFlag.AlignTop
+        self.main_container_0.add_widget(
+            self.sub_container_4,
+            3,
+            0,
+            alignment=Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom,
         )
-        self.main_container_1.add_widget(TableModule(1, [0, 0, 0, 0]), 1, 0)
+
+        # Setup main container 1:
+        self.main_container_1 = ContainerModule("Grid")
+        self.main_container_1.add_widget(
+            self.sub_container_0,
+            0,
+            0,
+            alignment=Qt.AlignmentFlag.AlignTop,
+        )
+        self.main_container_1.add_widget(
+            self.sub_container_5,
+            1,
+            0,
+        )
         self.main_container_1.add_widget(
             self.sub_container_1,
             2,
@@ -110,64 +186,13 @@ class MainUI(QMainWindow):
             self.sub_container_3,
             3,
             0,
-            alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
+            alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
         # self.main_container_1.add_widget(GraphicsViewModule(), 0, 1, 4, 1)
 
         self.stacked_widget.addWidget(self.main_container_0)
         self.stacked_widget.addWidget(self.main_container_1)
-
-    def setup_modules(self):
-        """
-        Setup the modules.
-        """
-        # Setup buttons:
-        self.button_0 = ButtonModule(0, [0, 0, 0, 0])
-        self.button_0.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_1 = ButtonModule(1, [0, 0, 0, 0])
-        self.button_1.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_2 = ButtonModule(2, [0, 0, 0, 0])
-        self.button_2.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_3 = ButtonModule(3, [0, 0, 0, 0])
-        self.button_3.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_4 = ButtonModule(4, [0, 0, 0, 0])
-        self.button_4.on_button_clicked.connect(self._events_handler.on_button_clicked)
-
-        self.button_5 = ButtonModule(5, [0, 0, 0, 0])
-        self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.button_6 = ButtonModule(6, [0, 0, 0, 0])
-        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.setup_sub_containers()
-
-    def setup_sub_containers(self):
-        """
-        Setup the sub containers.
-        """
-        self.sub_container_0 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_0.add_widget(self.button_0)
-        self.sub_container_0.add_spacer()
-        self.sub_container_0.add_widget(self.button_1)
-
-        self.sub_container_1 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_1.add_spacer()
-        self.sub_container_1.add_widget(self.button_2)
-        self.sub_container_1.add_widget(self.button_3)
-        self.sub_container_1.add_widget(self.button_4)
-
-        self.sub_container_2 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_2.add_widget(self.button_5)
-
-        self.sub_container_3 = ContainerModule("HBox", [0, 0, 0, 0])
-        self.sub_container_3.add_widget(LabelModule(0, [0, 0, 0, 0]))
-        self.sub_container_3.add_spacer()
-        self.sub_container_3.add_widget(self.button_6)
 
     def toggle_visibility_states(self):
         """

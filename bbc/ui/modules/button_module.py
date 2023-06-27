@@ -9,12 +9,13 @@ from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 class ButtonModule(QWidget):
     on_button_clicked = Signal(int)
 
-    def __init__(self, button_index, margins=None, parent=None):
+    def __init__(self, button_index, margins=None, alignment=None, parent=None):
         """
         Initialize the ButtonModule.
         """
         super().__init__(parent)
         self.margins = margins
+        self.alignment = alignment
         self.setup_button_module(button_index)
 
     def setup_button_module(self, button_index):
@@ -38,6 +39,11 @@ class ButtonModule(QWidget):
 
         if self.margins is not None:
             layout.setContentsMargins(*self.margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if self.alignment is not None:
+            layout.setAlignment(*self.alignment)
 
         self.setLayout(layout)
 

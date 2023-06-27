@@ -1,5 +1,4 @@
 import os
-from re import T
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -80,7 +79,6 @@ TABLES = [
         "index": 1,
         "desc": "FRAME_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
@@ -121,7 +119,6 @@ TABLES = [
         "index": 2,
         "desc": "OBJECT_ASSEMBLY_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
@@ -198,8 +195,6 @@ LABELS = [
         "index": 0,
         "title": "© 2023 Qerimi Engineering. All rights reserved.",
         "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
-        "alignment": (Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom),
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -211,7 +206,6 @@ CHECKBOXES = [
         "index": 0,
         "title": "Toggle startup page",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -223,7 +217,6 @@ INPUTFIELDS = [
         "index": 0,
         "placeholder": "Test",
         "stylesheet": "QLineEdit { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -238,7 +231,6 @@ SPINBOXES = [
         "default": 0,
         "step": 0.5,
         "stylesheet": "QSpinBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
