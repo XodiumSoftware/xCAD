@@ -17,13 +17,13 @@ class CellDelegate(QStyledItemDelegate):
         Create an editor.
         """
         editor = QLineEdit(parent)
-        editor.setAlignment(Qt.AlignCenter)
+        editor.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def setEditorData(self, editor, index):
         """
         Set the editor data.
         """
-        value = index.model().data(index, Qt.EditRole)
+        value = index.model().data(index, Qt.ItemDataRole.EditRole)
         editor.setText(value)
 
     def setModelData(self, editor, model, index):
@@ -31,7 +31,7 @@ class CellDelegate(QStyledItemDelegate):
         Set the model data.
         """
         value = editor.text()
-        model.setData(index, value, Qt.EditRole)
+        model.setData(index, value, Qt.ItemDataRole.EditRole)
 
     def updateEditorGeometry(self, editor, option, index):
         """
@@ -86,12 +86,12 @@ class TableModule(QWidget):
 
         hor_header = table.horizontalHeader()
         hor_header.setVisible(True)
-        hor_header.setSectionResizeMode(QHeaderView.Stretch)
+        hor_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         hor_header.setFont(font)
 
         ver_header = table.verticalHeader()
         ver_header.setVisible(True)
-        ver_header.setSectionResizeMode(QHeaderView.Fixed)
+        ver_header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
         ver_header.setFont(font)
 
         table_name = table_data["desc"]
