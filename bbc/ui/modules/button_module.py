@@ -2,8 +2,8 @@ from functools import partial
 
 from constants import BUTTONS, DEBUG_NAME
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QIcon, Qt
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
