@@ -1,4 +1,4 @@
-from constants import DEBUG_NAME, UI_ICON_PATH, UI_TITLE
+from constants import UI_ICON_PATH, UI_TITLE
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
@@ -86,7 +86,7 @@ class MainUI(QMainWindow):
         self.button_0 = ButtonModule(0)
 
         self.button_1 = ButtonModule(1)
-        self.button_1.on_button_clicked.connect(self.table_0.toggle_visibility_state)
+        self.button_1.on_button_clicked.connect(self.table_0.visibility_state)
 
         self.button_2 = ButtonModule(2)
 

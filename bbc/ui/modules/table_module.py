@@ -1,206 +1,98 @@
 from constants import DATABASE_PATH, DEBUG_NAME, TABLES
-from PySide6.QtCore import QSettings, Qt
+from delegates.cell_delegate import CellDelegate
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
-from PySide6.QtWidgets import (
-    QDoubleSpinBox,
-    QHeaderView,
-    QLineEdit,
-    QSpinBox,
-    QStyledItemDelegate,
-    QTableView,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtWidgets import QHeaderView, QTableView, QVBoxLayout, QWidget
 
 
 class TableModule(QWidget):
-    def __init__(self, table_index, margins=None, alignment=None, parent=None):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the TableModule.
         """
         super().__init__(parent)
-        self.table_index = table_index
-        self.margins = margins
-        self.alignment = alignment
-        self.settings = QSettings()
+        self.visibility_handler = VisibilityHandler()
 
-        self.setup_table_module(table_index)
-        self.load_visibility_state()
+        self.setup_module(module_index, margins, alignment)
 
-    def setup_table_module(self, table_index):
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the TableModule.
         """
         layout = QVBoxLayout(self)
 
-        table_data = next(
-            (table for table in TABLES if table["index"] == table_index), None
+        module_data = next(
+            (module for module in TABLES if module["index"] == module_index), None
         )
 
-        if table_index:
-            table = self.create_table_module(table_data)
-            layout.addWidget(table)
-
+        if module_index:
+            module = self.create_module(module_data)
+            layout.addWidget(module)
         else:
-            print(DEBUG_NAME + f'"index" {table_index} not found in TABLES')
+            print(DEBUG_NAME + f'"index" {module_index} not found in TABLES')
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        if margins is not None:
+            layout.setContentsMargins(*margins)
         else:
             layout.setContentsMargins(0, 0, 0, 0)
 
-        if self.alignment is not None:
-            layout.setAlignment(*self.alignment)
+        if alignment is not None:
+            layout.setAlignment(*alignment)
 
         self.setLayout(layout)
 
-    def create_table_module(self, table_data):
+    def create_module(self, module_data):
         """
         Create a table module.
         """
-        table = QTableView()
-        table.setStyleSheet(table_data["stylesheet"])
-        table.setSortingEnabled(table_data["sorting"])
-        table.setAlternatingRowColors(table_data["alternating_row_colors"])
+        module = QTableView()
+        module.setStyleSheet(module_data["stylesheet"])
+        module.setSortingEnabled(module_data["sorting"])
+        module.setAlternatingRowColors(module_data["alternating_row_colors"])
 
-        font = table.font()
+        font = module.font()
         font.setBold(True)
 
-        hor_header = table.horizontalHeader()
+        hor_header = module.horizontalHeader()
         hor_header.setVisible(True)
         hor_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         hor_header.setFont(font)
 
-        ver_header = table.verticalHeader()
+        ver_header = module.verticalHeader()
         ver_header.setVisible(True)
         ver_header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
         ver_header.setFont(font)
 
-        table_name = table_data["desc"]
+        module_name = module_data["desc"]
         model = QSqlTableModel()
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName(DATABASE_PATH)
         if db.open():
             query = QSqlQuery(db)
-            query.exec(f"SELECT * FROM {table_name}")
+            query.exec(f"SELECT * FROM {module_name}")
             model.setQuery(query)
             model.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
             db.close()
-
         else:
             print(DEBUG_NAME + f"failed to open {DATABASE_PATH}")
 
-        table.setModel(model)
+        module.setModel(model)
 
-        delegate = CustomDelegate()
-        # TODO: make this be 1,3,5,7,etc. apply the correct logic in the delegate.
-        table.setItemDelegateForColumn(1, delegate)
+        delegate = CellDelegate()
+        module.setItemDelegateForColumn(1, delegate)
 
         column_count = model.columnCount()
         for column in range(0, column_count, 2):
-            table.hideColumn(column)
+            module.hideColumn(column)
 
-        return table
+        return module
 
-    def toggle_visibility_state(self):
+    # TODO: Can we make it so this func is not needed?
+    def visibility_state(self, module_index):
         """
         Toggle the visibility of the label.
         """
-        self.setVisible(not self.isVisible())
-        self.save_visibility_state()
-
-    def load_visibility_state(self):
-        """
-        Load the visibility state from QSettings.
-        """
-        visibility_state = self.settings.value(
-            f"visibility_state_table_{self.table_index}", defaultValue=True, type=bool
-        )
-        print(
-            DEBUG_NAME
-            + f"Loaded visibility_state_table_{self.table_index}: {visibility_state}"
-        )
-        self.setVisible(visibility_state)
-
-    def save_visibility_state(self):
-        """
-        Save the visibility state to QSettings.
-        """
-        visibility_state = self.isVisible()
-        self.settings.setValue(
-            f"visibility_state_table_{self.table_index}", visibility_state
-        )
-        print(
-            DEBUG_NAME
-            + f"Saved visibility_state_table_{self.table_index}: {visibility_state}"
-        )
-
-
-class CustomDelegate(QStyledItemDelegate):
-    def __init__(self, parent=None):
-        """
-        Initialize the CustomDelegate.
-        """
-        super().__init__(parent)
-
-    def createEditor(self, parent, option, index):
-        """
-        Create an editor.
-        """
-        flags_index = index.sibling(index.row(), 2)
-        flags = flags_index.data(Qt.ItemDataRole.UserRole)
-
-        editable = flags[0]
-        widget_type = flags[1]
-
-        if editable:
-            if widget_type == "QSpinBox":
-                editor = QSpinBox(parent)
-
-                return editor
-
-            elif widget_type == "QDoubleSpinBox":
-                editor = QDoubleSpinBox(parent)
-
-                return editor
-
-            elif widget_type == "QLineEdit":
-                editor = QLineEdit(parent)
-
-                return editor
-
-            else:
-                print(DEBUG_NAME + f"widget_type {widget_type} not found")
-
-        else:
-            print(DEBUG_NAME + f"column {index.column()} not editable")
-
-        return super().createEditor(parent, option, index)
-
-    def setEditorData(self, editor, index):
-        """
-        Set the editor data.
-        """
-        if index.column() == 1:
-            flags_index = index.sibling(index.row(), 2)
-            flags = flags_index.data(Qt.ItemDataRole.UserRole)
-
-            editable = flags[0]
-
-            if editable:
-                data = index.data(Qt.ItemDataRole.DisplayRole)
-                editor.setValue(data)
-
-    def setModelData(self, editor, model, index):
-        """
-        Set the model data.
-        """
-        value = editor.value()
-        model.setData(index, value, Qt.ItemDataRole.EditRole)
-
-    def updateEditorGeometry(self, editor, option, index):
-        """
-        Update the editor geometry.
-        """
-        editor.setGeometry(option.rect)
+        self.visibility_handler.toggle_visibility_state(self, module_index)

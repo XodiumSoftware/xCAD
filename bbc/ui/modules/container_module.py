@@ -1,4 +1,5 @@
 from constants import DEBUG_NAME
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtWidgets import (
     QFormLayout,
     QGridLayout,
@@ -11,47 +12,43 @@ from PySide6.QtWidgets import (
 
 
 class ContainerModule(QWidget):
-    def __init__(
-        self, layout_type, margins=None, alignment=None, visible=None, parent=None
-    ):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the ContainerModule.
         """
         super().__init__(parent)
-        self.margins = margins
-        self.alignment = alignment
-        self.visible = visible
-        self.setup_container_module(layout_type)
+        self.visibility_handler = VisibilityHandler()
 
-    def setup_container_module(self, layout_type):
+        self.setup_module(module_index, margins, alignment)
+
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the ContainerModule.
         """
-        if layout_type == "VBox":
+        if module_index == "VBox":
             layout = QVBoxLayout(self)
 
-        elif layout_type == "HBox":
+        elif module_index == "HBox":
             layout = QHBoxLayout(self)
 
-        elif layout_type == "Grid":
+        elif module_index == "Grid":
             layout = QGridLayout(self)
 
-        elif layout_type == "Form":
+        elif module_index == "Form":
             layout = QFormLayout(self)
 
         else:
-            raise ValueError(f"Invalid layout type: {layout_type}")
+            raise ValueError(f"Invalid layout type: {module_index}")
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        if margins is not None:
+            layout.setContentsMargins(*margins)
         else:
             layout.setContentsMargins(0, 0, 0, 0)
 
-        if self.alignment is not None:
-            layout.setAlignment(*self.alignment)
-
-        if self.visible is not None:
-            self.setVisible(self.visible)
+        if alignment is not None:
+            layout.setAlignment(*alignment)
 
         self.setLayout(layout)
 
@@ -63,7 +60,6 @@ class ContainerModule(QWidget):
         rowspan=None,
         columnspan=None,
         alignment=None,
-        visible=None,
     ):
         """
         Add a widget to the container.
@@ -89,9 +85,6 @@ class ContainerModule(QWidget):
 
         else:
             layout.addWidget(widget)
-
-        if visible is not None:
-            widget.setVisible(visible)
 
     # FIXME: labelmodule(0) and button6 not being affected by spacer.
     def add_spacer(self, size=None):
@@ -122,8 +115,9 @@ class ContainerModule(QWidget):
                 + "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
 
-    def toggle_visibility(self):
+    # TODO: Can we make it so this func is not needed?
+    def visibility_state(self, module_index):
         """
-        Toggle the visibility of the container.
+        Toggle the visibility of the label.
         """
-        self.setVisible(not self.isVisible())
+        self.visibility_handler.toggle_visibility_state(self, module_index)

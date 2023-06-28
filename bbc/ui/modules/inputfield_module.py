@@ -1,67 +1,61 @@
 from constants import DEBUG_NAME, INPUTFIELDS
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
 
 
 class InputFieldModule(QWidget):
-    def __init__(
-        self, input_index, margins=None, alignment=None, visible=None, parent=None
-    ):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the InputFieldModule.
         """
         super().__init__(parent)
-        self.margins = margins
-        self.alignment = alignment
-        self.visible = visible
-        self.setup_input_field_module(input_index)
+        self.visibility_handler = VisibilityHandler()
 
-    def setup_input_field_module(self, input_index):
+        self.setup_module(module_index, margins, alignment)
+
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the InputFieldModule.
         """
         layout = QVBoxLayout(self)
 
-        input_data = next(
-            (
-                input_field
-                for input_field in INPUTFIELDS
-                if input_field["index"] == input_index
-            ),
+        module_data = next(
+            (module for module in INPUTFIELDS if module["index"] == module_index),
             None,
         )
 
-        if input_data:
-            input_field = self.create_input_field_module(input_data)
-            layout.addWidget(input_field)
+        if module_data:
+            module = self.create_module(module_data)
+            layout.addWidget(module)
 
         else:
-            print(DEBUG_NAME + f'"index" {input_index} not found in INPUTFIELDS')
+            print(DEBUG_NAME + f'"index" {module_index} not found in INPUTFIELDS')
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        if margins is not None:
+            layout.setContentsMargins(*margins)
         else:
             layout.setContentsMargins(0, 0, 0, 0)
 
-        if self.alignment is not None:
-            layout.setAlignment(*self.alignment)
-
-        if self.visible is not None:
-            self.setVisible(self.visible)
+        if alignment is not None:
+            layout.setAlignment(*alignment)
 
         self.setLayout(layout)
 
-    def create_input_field_module(self, input_data):
+    def create_module(self, module_data):
         """
         Create an input field module.
         """
-        input_field = QLineEdit()
-        input_field.setPlaceholderText(input_data["placeholder"])
-        input_field.setStyleSheet(input_data["stylesheet"])
+        module = QLineEdit()
+        module.setPlaceholderText(module_data["placeholder"])
+        module.setStyleSheet(module_data["stylesheet"])
 
-        return input_field
+        return module
 
-    def toggle_visibility(self):
+    # TODO: Can we make it so this func is not needed?
+    def visibility_state(self, module_index):
         """
-        Toggle the visibility of the input field.
+        Toggle the visibility of the label.
         """
-        self.setVisible(not self.isVisible())
+        self.visibility_handler.toggle_visibility_state(self, module_index)

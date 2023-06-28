@@ -1,66 +1,64 @@
 from constants import DEBUG_NAME, SPINBOXES
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtWidgets import QSpinBox, QVBoxLayout, QWidget
 
 
 class SpinBoxModule(QWidget):
-    def __init__(
-        self, spinbox_index, margins=None, alignment=None, visible=None, parent=None
-    ):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the SpinBoxModule.
         """
         super().__init__(parent)
-        self.margins = margins
-        self.alignment = alignment
-        self.visible = visible
-        self.setup_spinbox_module(spinbox_index)
+        self.visibility_handler = VisibilityHandler()
 
-    def setup_spinbox_module(self, spinbox_index):
+        self.setup_module(module_index, margins, alignment)
+
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the SpinBoxModule.
         """
         layout = QVBoxLayout(self)
 
-        spinbox_data = next(
-            (spinbox for spinbox in SPINBOXES if spinbox["index"] == spinbox_index),
+        module_data = next(
+            (module for module in SPINBOXES if module["index"] == module_index),
             None,
         )
 
-        if spinbox_data:
-            spinbox = self.create_spinbox_module(spinbox_data)
-            layout.addWidget(spinbox)
+        if module_data:
+            module = self.create_module(module_data)
+            layout.addWidget(module)
 
         else:
-            print(DEBUG_NAME + f'"index" {spinbox_index} not found in SPINBOXES')
+            print(DEBUG_NAME + f'"index" {module_index} not found in SPINBOXES')
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        if margins is not None:
+            layout.setContentsMargins(*margins)
         else:
             layout.setContentsMargins(0, 0, 0, 0)
 
-        if self.alignment is not None:
-            layout.setAlignment(*self.alignment)
-
-        if self.visible is not None:
-            self.setVisible(self.visible)
+        if alignment is not None:
+            layout.setAlignment(*alignment)
 
         self.setLayout(layout)
 
-    def create_spinbox_module(self, spinbox_data):
+    def create_module(self, module_data):
         """
         Create a spinbox module.
         """
-        spinbox = QSpinBox()
-        spinbox.setMinimum(spinbox_data["minimum"])
-        spinbox.setMaximum(spinbox_data["maximum"])
-        spinbox.setValue(spinbox_data["default"])
-        spinbox.setSingleStep(spinbox_data["step"])
-        spinbox.setStyleSheet(spinbox_data["stylesheet"])
+        module = QSpinBox()
+        module.setMinimum(module_data["minimum"])
+        module.setMaximum(module_data["maximum"])
+        module.setValue(module_data["default"])
+        module.setSingleStep(module_data["step"])
+        module.setStyleSheet(module_data["stylesheet"])
 
-        return spinbox
+        return module
 
-    def toggle_visibility(self):
+    # TODO: Can we make it so this func is not needed?
+    def visibility_state(self, module_index):
         """
-        Toggle the visibility of the spinbox.
+        Toggle the visibility of the label.
         """
-        self.setVisible(not self.isVisible())
+        self.visibility_handler.toggle_visibility_state(self, module_index)
