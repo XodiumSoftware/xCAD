@@ -102,5 +102,8 @@
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "fit",
   "workbench.sideBar.location": "left",
-  "workbench.colorTheme": "Monokai Dimmed"
+  "workbench.colorTheme": "Monokai Dimmed",
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true
 }
