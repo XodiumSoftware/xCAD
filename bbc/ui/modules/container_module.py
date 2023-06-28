@@ -92,7 +92,6 @@ class ContainerModule(QWidget):
         if columnspan == -1:
             layout.setColumnStretch(column, layout.columnCount())
 
-    # FIXME: labelmodule(0) and button6 not being affected by spacer.
     def add_spacer(self, size=None):
         """
         Add a stretch to the container.

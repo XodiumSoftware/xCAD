@@ -190,7 +190,7 @@ class MainUI(QMainWindow):
             self.sub_container_6,
             0,
             1,
-            rowspan=4,  # FIXME: -1 not working properly. it should worke like 4.
+            rowspan=4,
             columnspan=1,
         )
 

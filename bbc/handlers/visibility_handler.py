@@ -2,7 +2,6 @@ from constants import DEBUG_NAME
 from PySide6.QtCore import QSettings
 
 
-# FIXME: We need it to save the visibility state of the modules_index but also save if its a table or button or etc.
 class VisibilityHandler:
     def __init__(self):
         """
