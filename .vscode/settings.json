@@ -56,25 +56,25 @@
   // Todo Tree Settings
   "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
   "todo-tree.general.statusBar": "current file",
-  "todo-tree.general.tags": ["BUG", "ERROR", "FIXME", "TODO", "NOTE"],
+  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
   "todo-tree.highlights.defaultHighlight": {
     "opacity": 0.5, // Make the background color semi-transparent
     "borderRadius": "0.2em", // Make the background corners slightly curved
     "gutterIcon": "True"
   },
   "todo-tree.highlights.customHighlight": {
-    "BUG": {
-      "icon": "bug",
-      "iconColor": "#FFA500", // Orange icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#FFA500" // Orange background color
-    },
     "ERROR": {
       "icon": "x",
       "iconColor": "#FF0000", // Red icon color
       "foreground": "#FFFFFF", // White foreground color
       "background": "#FF0000" // Red background color
     },
+    "BUG": {
+      "icon": "bug",
+      "iconColor": "#FFA500", // Orange icon color
+      "foreground": "#FFFFFF", // White foreground color
+      "background": "#FFA500" // Orange background color
+    },    
     "FIXME": {
       "icon": "flame",
       "iconColor": "#0000FF", // Blue icon color

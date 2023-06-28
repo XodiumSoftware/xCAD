@@ -1,3 +1,13 @@
+Different types of commentation:
+=============================================================================================
+ERROR: Code causes on run terminal error on the program.
+BUG: Code causes glithes/unintended behaviour on the program.
+FIXME: Code is non functional or causes uninteded function behaviour, but not BUGS or ERRORS. 
+TODO: Code is not implemented yet.
+NOTE: General notes about the code.
+=============================================================================================
+
+
 General Notes:
 =============================================================================================
 TODO: DB make the save, discard and reset buttons work.
@@ -9,4 +19,5 @@ FIXME: CellDelegate.
 FIXME: Different types modules not affected by spacer.
 FIXME: ContainerModule rowspan and colspan value -1 not working as intended.
 FIXME: QSettings module_index value saved but needs more parameters to determine difference.
+BUG: VisibilityHandler load_visibility_state func causing the ui to bug out on run.
 =============================================================================================
