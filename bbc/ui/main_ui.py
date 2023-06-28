@@ -7,6 +7,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
+from ui.modules.graphics_view_module import GraphicsViewModule
 from ui.modules.label_module import LabelModule
 from ui.modules.table_module import TableModule
 
@@ -82,11 +83,14 @@ class MainUI(QMainWindow):
         # Setup tables:
         self.table_0 = TableModule(1)
 
+        # Setup graphics views:
+        self.graphics_view_0 = GraphicsViewModule()
+
         # Setup buttons:
         self.button_0 = ButtonModule(0)
 
         self.button_1 = ButtonModule(1)
-        self.button_1.on_button_clicked.connect(self.table_0.visibility_state)
+        self.button_1.on_button_clicked.connect(self.table_0.toggle_module)
 
         self.button_2 = ButtonModule(2)
 
@@ -131,6 +135,9 @@ class MainUI(QMainWindow):
 
         self.sub_container_5 = ContainerModule("HBox")
         self.sub_container_5.add_widget(self.table_0)
+
+        self.sub_container_6 = ContainerModule("HBox")
+        self.sub_container_6.add_widget(self.graphics_view_0)
 
     def setup_main_containers(self):
         """
@@ -177,6 +184,14 @@ class MainUI(QMainWindow):
             3,
             0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
+        )
+
+        self.main_container_1.add_widget(
+            self.sub_container_6,
+            0,
+            1,
+            rowspan=4,  # FIXME: -1 not working properly. it should worke like 4.
+            columnspan=1,
         )
 
         self.stacked_widget.addWidget(self.main_container_0)

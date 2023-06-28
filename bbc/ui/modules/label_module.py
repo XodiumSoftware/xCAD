@@ -38,7 +38,7 @@ class LabelModule(QWidget):
             layout.setContentsMargins(0, 0, 0, 0)
 
         if alignment is not None:
-            layout.setAlignment(*alignment)
+            layout.setAlignment(alignment)
 
         self.setLayout(layout)
 
@@ -51,8 +51,7 @@ class LabelModule(QWidget):
 
         return module
 
-    # TODO: Can we make it so this func is not needed?
-    def visibility_state(self, module_index):
+    def toggle_module(self, module_index):
         """
         Toggle the visibility of the label.
         """

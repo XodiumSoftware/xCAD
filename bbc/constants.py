@@ -1,6 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -8,7 +9,6 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
-    QSizePolicy,
 )
 
 # General
@@ -326,4 +326,51 @@ ICONS_FILE_PATHS = {
         ),
     },
 }
+# ====================================================================================================
+
+
+# GraphicsViewModule
+# ====================================================================================================
+ITEM_DATA = [
+    {
+        "draw_order": 0,
+        "thickness": 60,
+        "pen_color": QColor(255, 255, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.PenStyle.SolidLine,
+        "fill_pattern": Qt.BrushStyle.SolidPattern,
+        "fill_pattern_scale": 1.0,
+        "fill_pattern_angle": None,
+        "fill_color": QColor(255, 0, 0),
+        "fill": True,
+        "fill_opacity": 0.5,
+    },
+    {
+        "draw_order": 1,
+        "thickness": 170,
+        "pen_color": QColor(255, 255, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.PenStyle.DashLine,
+        "fill_pattern": Qt.BrushStyle.DiagCrossPattern,
+        "fill_pattern_scale": 10.0,
+        "fill_pattern_angle": None,
+        "fill_color": QColor(0, 255, 0),
+        "fill": True,
+        "fill_opacity": 1.0,
+    },
+    {
+        "draw_order": 2,
+        "thickness": 12,
+        "pen_color": QColor(0, 0, 255),
+        "pen_thickness": 1,
+        "pen_style": Qt.PenStyle.SolidLine,
+        "fill_pattern": Qt.BrushStyle.BDiagPattern,
+        "fill_pattern_scale": 1.0,
+        "fill_pattern_angle": 90,
+        "fill_color": QColor(0, 0, 255),
+        "fill": True,
+        "fill_opacity": 1.0,
+    },
+]
+
 # ====================================================================================================

@@ -48,7 +48,7 @@ class ContainerModule(QWidget):
             layout.setContentsMargins(0, 0, 0, 0)
 
         if alignment is not None:
-            layout.setAlignment(*alignment)
+            layout.setAlignment(alignment)
 
         self.setLayout(layout)
 
@@ -86,6 +86,12 @@ class ContainerModule(QWidget):
         else:
             layout.addWidget(widget)
 
+        if rowspan == -1:
+            layout.setRowStretch(row, layout.rowCount())
+
+        if columnspan == -1:
+            layout.setColumnStretch(column, layout.columnCount())
+
     # FIXME: labelmodule(0) and button6 not being affected by spacer.
     def add_spacer(self, size=None):
         """
@@ -115,8 +121,7 @@ class ContainerModule(QWidget):
                 + "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
 
-    # TODO: Can we make it so this func is not needed?
-    def visibility_state(self, module_index):
+    def toggle_module(self, module_index):
         """
         Toggle the visibility of the label.
         """

@@ -1,223 +1,209 @@
-# from constants import DEBUG_NAME
-# # from handlers.db_handler import DataBaseHandler
-# from PySide6.QtCore import QRectF, Qt
-# from PySide6.QtGui import QBrush, QColor, QPainter, QPen
-# from PySide6.QtWidgets import (
-#     QGraphicsLineItem,
-#     QGraphicsRectItem,
-#     QGraphicsScene,
-#     QGraphicsTextItem,
-#     QGraphicsView,
-#     QSizePolicy,
-# )
+from constants import ITEM_DATA
+from handlers.visibility_handler import VisibilityHandler
+from PySide6.QtCore import QRectF, Qt
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
+from PySide6.QtWidgets import (
+    QGraphicsLineItem,
+    QGraphicsRectItem,
+    QGraphicsScene,
+    QGraphicsTextItem,
+    QGraphicsView,
+    QSizePolicy,
+)
 
 
-# class GraphicsViewModule(QGraphicsView):
-#     def __init__(self, parent=None):
-#         """
-#         Initialize the GraphicsView.
-#         """
-#         super().__init__(parent)
-#         self.setup_graphics_view()
+class GraphicsViewModule(QGraphicsView):
+    def __init__(self, margins=None, alignment=None, parent=None):
+        """
+        Initialize the GraphicsView.
+        """
+        super().__init__(parent)
+        self.visibility_handler = VisibilityHandler()
 
-#     def setup_graphics_view(self):
-#         """
-#         Setup the GraphicsView.
-#         """
-#         self.scene = QGraphicsScene(self)
-#         self.setScene(self.scene)
+        self.setup_graphics_view(margins, alignment)
 
-#         self.scene.setBackgroundBrush(QColor(0, 0, 0))
+        # self.visibility_handler.load_visibility_state(self, module_index)
 
-#         self.setDragMode(QGraphicsView.ScrollHandDrag)
-#         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-#         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
-#         self.setMinimumSize(300, 300)
-#         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+    def setup_graphics_view(self, margins, alignment):
+        """
+        Setup the GraphicsView.
+        """
+        self.scene = QGraphicsScene(self)
+        self.setScene(self.scene)
 
-#         self.create_items()
+        self.scene.setBackgroundBrush(QColor(0, 0, 0))
 
-#     def drawBackground(self, painter: QPainter, rect: QRectF):
-#         """
-#         Draw the background.
-#         """
-#         super().drawBackground(painter, rect)
+        self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
+        self.setResizeAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-#         painter.setPen(QPen(QColor(200, 200, 200), 0.5, Qt.SolidLine))
+        if margins is not None:
+            self.setContentsMargins(*margins)
+        else:
+            self.setContentsMargins(0, 0, 0, 0)
 
-#         grid_size = 50
+        if alignment is not None:
+            self.setAlignment(alignment)
 
-#         left = int(rect.left()) - (int(rect.left()) % grid_size)
-#         top = int(rect.top()) - (int(rect.top()) % grid_size)
+        self.create_items()
 
-#         lines = []
-#         for x in range(int(left), int(rect.right()), grid_size):
-#             lines.append(((x, rect.top()), (x, rect.bottom())))
-#         for y in range(int(top), int(rect.bottom()), grid_size):
-#             lines.append(((rect.left(), y), (rect.right(), y)))
+    def drawBackground(self, painter: QPainter, rect: QRectF):
+        """
+        Draw the background.
+        """
+        super().drawBackground(painter, rect)
 
-#         for line in lines:
-#             painter.drawLine(*line[0], *line[1])
+        painter.setPen(QPen(QColor(200, 200, 200), 0.5, Qt.PenStyle.SolidLine))
 
-#     def create_items(self):
-#         """
-#         Draw the items.
-#         """
-#         total_length = 0
-#         item_width = 100
+        grid_size = 50
 
-#         # data_handler = DataBaseHandler()
+        left = int(rect.left()) - (int(rect.left()) % grid_size)
+        top = int(rect.top()) - (int(rect.top()) % grid_size)
 
-#         y_position = 0
+        lines = []
+        for x in range(int(left), int(rect.right()), grid_size):
+            lines.append(((x, rect.top()), (x, rect.bottom())))
+        for y in range(int(top), int(rect.bottom()), grid_size):
+            lines.append(((rect.left(), y), (rect.right(), y)))
 
-#         # item_data = data_handler.execute_db_query(
-#             """
-#             SELECT * FROM GraphicsObjectData ORDER BY id
-#             """
-#         )
+        for line in lines:
+            painter.drawLine(*line[0], *line[1])
 
-#         # for row in item_data:
-#             item_name = row[0]
-#             item_thickness = row[1]
+    def create_items(self):
+        """
+        Draw the items.
+        """
+        total_length = sum(data["thickness"] for data in ITEM_DATA)
+        item_width = 100
 
-#             try:
-#                 item_thickness = int(item_thickness)
-#             except ValueError:
-#                 print(
-#                     DEBUG_NAME
-#                     + f"Skipping item '{item_name}' due to invalid thickness value: {item_thickness}"
-#                 )
-#                 continue
+        y_position = 0
+        for data in ITEM_DATA:
+            item_thickness = data["thickness"]
+            item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
+            pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
+            item.setPen(pen)
 
-#             item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
-#             pen = QPen(row["pen_color"], row["pen_thickness"], row["pen_style"])
-#             item.setPen(pen)
+            if data["fill"]:
+                fill_color = QColor(data["fill_color"])
+                fill_color.setAlphaF(data["fill_opacity"])
 
-#             if row["fill"]:
-#                 fill_color = QColor(row["fill_color"])
-#                 fill_color.setAlphaF(row["fill_opacity"])
+                brush = QBrush(fill_color)
+                brush.setStyle(data["fill_pattern"])
 
-#                 brush = QBrush(fill_color)
-#                 brush.setStyle(row["fill_pattern"])
+                item.setBrush(brush)
 
-#                 item.setBrush(brush)
+            self.scene.addItem(item)
 
-#             self.scene.addItem(item)
+            self.create_dimension(item, item_width, item_thickness, y_position)
 
-#             self.create_dimension(item, item_width, item_thickness, y_position)
+            y_position += item_thickness
 
-#             data_handler.execute_db_query(
-#                 """
-#                 INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)
-#                 """,
-#                 ("item_name", item_name),
-#             )
+        self.create_dimension(
+            None, item_width, total_length, y_position - total_length, total_length
+        )
+        self.create_label(item_width, total_length)
 
-#             for parameter, value in row.items():
-#                 if parameter not in ["id", "item_name", "thickness"]:
-#                     data_handler.execute_db_query(
-#                         """
-#                         INSERT INTO GraphicsObjectData (parameter, value) VALUES (?, ?)
-#                         """,
-#                         (str(value), parameter),
-#                     )
+    def create_label(self, item_width, total_length):
+        """
+        Create the label.
+        """
+        top_text = QGraphicsTextItem("Outside Face")
+        top_text.setDefaultTextColor(QColor(255, 255, 255))
+        top_text.setPos(
+            (item_width - top_text.boundingRect().width()) / 2,
+            -top_text.boundingRect().height(),
+        )
 
-#             total_length += item_thickness
-#             y_position += item_thickness
+        bottom_text = QGraphicsTextItem("Inside Face")
+        bottom_text.setDefaultTextColor(QColor(255, 255, 255))
+        bottom_text.setPos(
+            (item_width - bottom_text.boundingRect().width()) / 2, total_length
+        )
 
-#         self.create_dimension(
-#             None, item_width, total_length, y_position - total_length, total_length
-#         )
-#         self.create_label(item_width, total_length)
+        self.scene.addItem(top_text)
+        self.scene.addItem(bottom_text)
 
-#     def create_label(self, item_width, total_length):
-#         """
-#         Create the label.
-#         """
-#         top_text = QGraphicsTextItem("Outside Face")
-#         top_text.setDefaultTextColor(QColor(255, 255, 255))
-#         top_text.setPos(
-#             (item_width - top_text.boundingRect().width()) / 2,
-#             -top_text.boundingRect().height(),
-#         )
+    def create_dimension(
+        self, item, item_width, item_thickness, y_position, total_length=None
+    ):
+        """
+        Create the dimension for an item or the total dimension.
+        """
+        dim_ext = 10
+        dim_offset = 50
+        dim_label_color = QColor(255, 0, 0)
+        dim_pen = QPen(QColor(0, 255, 0), 1, Qt.PenStyle.SolidLine)
 
-#         bottom_text = QGraphicsTextItem("Inside Face")
-#         bottom_text.setDefaultTextColor(QColor(255, 255, 255))
-#         bottom_text.setPos(
-#             (item_width - bottom_text.boundingRect().width()) / 2, total_length
-#         )
+        if item:
+            dimension_text = f"{item_thickness}"
+        else:
+            dimension_text = f"{total_length}"
 
-#         self.scene.addItem(top_text)
-#         self.scene.addItem(bottom_text)
+        dim_label = QGraphicsTextItem(dimension_text)
+        dim_label.setDefaultTextColor(dim_label_color)
 
-#     def create_dimension(
-#         self, item, item_width, item_thickness, y_position, total_length=None
-#     ):
-#         """
-#         Create the dimension for an item or the total dimension.
-#         """
-#         dim_ext = 10
-#         dim_offset = 50
-#         dim_label_color = QColor(255, 0, 0)
-#         dim_pen = QPen(QColor(0, 255, 0), 1, Qt.SolidLine)
+        if item:
+            dim_label.setPos(
+                item_width + dim_offset,
+                y_position + item_thickness / 2 - dim_label.boundingRect().height() / 2,
+            )
+        else:
+            dim_label.setPos(
+                item_width + (dim_offset * 2),
+                y_position + total_length / 2 - dim_label.boundingRect().height() / 2,
+            )
 
-#         dimension_text = item_thickness if item else total_length
+        dim_line = QGraphicsLineItem()
 
-#         dim_label = QGraphicsTextItem(str(dimension_text))
-#         dim_label.setDefaultTextColor(dim_label_color)
-#         dim_label.setPos(
-#             item_width + (dim_offset if item else dim_offset * 2),
-#             y_position
-#             + (item_thickness if item else total_length) / 2
-#             - dim_label.boundingRect().height() / 2,
-#         )
+        if item:
+            dim_line.setPos(item_width + dim_offset, y_position - dim_ext)
+        else:
+            dim_line.setPos(item_width + (dim_offset * 2), y_position - dim_ext)
 
-#         dim_line = QGraphicsLineItem()
-#         dim_line.setPos(
-#             item_width + (dim_offset if item else dim_offset * 2),
-#             y_position - dim_ext,
-#         )
-#         dim_line.setPen(dim_pen)
-#         dim_line.setLine(
-#             0,
-#             0,
-#             0,
-#             item_thickness + (dim_ext * 2) if item else total_length + (dim_ext * 2),
-#         )
+        dim_line.setPen(dim_pen)
 
-#         start_dim_line = QGraphicsLineItem()
-#         start_dim_line.setPos(item_width, y_position)
-#         start_dim_line.setPen(dim_pen)
-#         start_dim_line.setLine(
-#             0, 0, (dim_offset if item else dim_offset * 2) + dim_ext, 0
-#         )
+        if item:
+            dim_line.setLine(0, 0, 0, item_thickness + (dim_ext * 2))
+        else:
+            dim_line.setLine(0, 0, 0, total_length + (dim_ext * 2))
 
-#         end_dim_line = QGraphicsLineItem()
-#         end_dim_line.setPos(item_width, y_position + item_thickness)
-#         end_dim_line.setPen(dim_pen)
-#         end_dim_line.setLine(
-#             0, 0, (dim_offset if item else dim_offset * 2) + dim_ext, 0
-#         )
+        start_dim_line = QGraphicsLineItem()
+        start_dim_line.setPos(item_width, y_position)
+        start_dim_line.setPen(dim_pen)
 
-#         self.scene.addItem(dim_label)
-#         self.scene.addItem(start_dim_line)
-#         self.scene.addItem(dim_line)
-#         self.scene.addItem(end_dim_line)
+        if item:
+            start_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
+        else:
+            start_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
 
-#     def fit_to_items(self):
-#         """
-#         Automatically zoom in to fit the items in the view with some extra space.
-#         """
-#         extra_space = 50
-#         items_rect = self.scene.itemsBoundingRect()
-#         scene_rect = items_rect.adjusted(
-#             -extra_space, -extra_space, extra_space, extra_space
-#         )
-#         self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
+        end_dim_line = QGraphicsLineItem()
+        end_dim_line.setPos(item_width, y_position + item_thickness)
+        end_dim_line.setPen(dim_pen)
 
-#     def resizeEvent(self, event):
-#         """
-#         Override the resize event to fit the items whenever the view is resized.
-#         """
-#         super().resizeEvent(event)
-#         self.fit_to_items()
+        if item:
+            end_dim_line.setLine(0, 0, dim_offset + dim_ext, 0)
+        else:
+            end_dim_line.setLine(0, 0, (dim_offset * 2) + dim_ext, 0)
+
+        self.scene.addItem(dim_label)
+        self.scene.addItem(start_dim_line)
+        self.scene.addItem(dim_line)
+        self.scene.addItem(end_dim_line)
+
+    def fit_to_items(self):
+        """
+        Automatically zoom in to fit the items in the view with some extra space.
+        """
+        extra_space = 50
+        items_rect = self.scene.itemsBoundingRect()
+        scene_rect = items_rect.adjusted(
+            -extra_space, -extra_space, extra_space, extra_space
+        )
+        self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
+
+    def resizeEvent(self, event):
+        """
+        Override the resize event to fit the items whenever the view is resized.
+        """
+        super().resizeEvent(event)
+        self.fit_to_items()
