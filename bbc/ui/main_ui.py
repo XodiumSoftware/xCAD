@@ -88,6 +88,7 @@ class MainUI(QMainWindow):
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
+        self.button_0.on_button_clicked.connect(self.toggle_visibility_states)
 
         self.button_1 = ButtonModule(1)
         self.button_1.on_button_clicked.connect(self.graphics_view_0.toggle_module)
@@ -100,9 +101,6 @@ class MainUI(QMainWindow):
 
         self.button_5 = ButtonModule(5)
         self.button_5.on_button_clicked.connect(self.toggle_visibility_states)
-
-        self.button_6 = ButtonModule(6)
-        self.button_6.on_button_clicked.connect(self.toggle_visibility_states)
 
     def setup_sub_containers(self):
         """
@@ -117,12 +115,12 @@ class MainUI(QMainWindow):
         self.sub_container_0.add_widget(self.button_4)
 
         self.sub_container_1 = ContainerModule("HBox")
-        self.sub_container_1.add_widget(self.button_5)
+        self.sub_container_1.add_widget(self.button_0)
 
         self.sub_container_2 = ContainerModule("HBox")
         self.sub_container_2.add_widget(self.label_0)
         self.sub_container_2.add_spacer()
-        self.sub_container_2.add_widget(self.button_6)
+        self.sub_container_2.add_widget(self.button_5)
         self.sub_container_2.add_widget(self.button_1)
 
         self.sub_container_3 = ContainerModule("HBox")

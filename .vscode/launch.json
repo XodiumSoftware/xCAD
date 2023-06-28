@@ -34,15 +34,15 @@
       "justMyCode": true,
     },
     {
-      "name": "Python: test.py",
+      "name": "Python: test0.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/bbc/test.py",
+      "program": "${workspaceFolder}/bbc/test0.py",
       "console": "integratedTerminal",
       "justMyCode": true,
     },
     {
-      "name": "Python: test2.py",
+      "name": "Python: test1.py",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/bbc/test2.py",

@@ -1,10 +1,10 @@
 from functools import partial
 
 from constants import BUTTONS, DEBUG_NAME
+from delegates.button_delegate import ButtonDelegate
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
@@ -33,7 +33,7 @@ class ButtonModule(QWidget):
         )
 
         if module_data:
-            module = self.create_module(module_data)
+            module = self.create_module()
             module.clicked.connect(partial(self.on_button_clicked.emit, module_index))
             layout.addWidget(module)
 
@@ -50,24 +50,11 @@ class ButtonModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_module(self, module_data):
+    def create_module(self):
         """
         Create a button module.
         """
-        module = QPushButton()
-
-        if module_data["size"] is not None:
-            module.setFixedSize(*module_data["size"])
-
-        if module_data["icon_path"]:
-            module.setIcon(QIcon(module_data["icon_path"]))
-
-        else:
-            module.setText(module_data["title"])
-
-        if module_data["stylesheet"]:
-            module.setStyleSheet(module_data["stylesheet"])
-
+        module = ButtonDelegate()
         return module
 
     def toggle_module(self, module_index):
