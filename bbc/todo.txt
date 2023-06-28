@@ -1,6 +1,6 @@
 Different types of commentation:
 =============================================================================================
-ERROR: Code causes on run terminal error on the program.
+ERROR: Code causes terminal error on the program.
 BUG: Code causes glithes/unintended behaviour on the program.
 FIXME: Code is non functional or causes uninteded function behaviour, but not BUGS or ERRORS. 
 TODO: Code is not implemented yet.
