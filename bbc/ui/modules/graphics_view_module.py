@@ -1,4 +1,4 @@
-from constants import ITEM_DATA
+from constants import DEBUG_NAME, GRAPHIC_VIEWS
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen
@@ -9,22 +9,76 @@ from PySide6.QtWidgets import (
     QGraphicsTextItem,
     QGraphicsView,
     QSizePolicy,
+    QVBoxLayout,
+    QWidget,
 )
 
 
-class GraphicsViewModule(QGraphicsView):
-    def __init__(self, margins=None, alignment=None, parent=None):
+class GraphicsViewModule(QWidget):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the GraphicsView.
         """
         super().__init__(parent)
         self.visibility_handler = VisibilityHandler()
 
-        self.setup_graphics_view(margins, alignment)
+        self.setup_module(module_index, margins, alignment)
 
         # self.visibility_handler.load_visibility_state(self, module_index)
 
-    def setup_graphics_view(self, margins, alignment):
+    def setup_module(self, module_index, margins, alignment):
+        """
+        Initialize the graphics view widget.
+        """
+        layout = QVBoxLayout(self)
+
+        module_data = next(
+            (module for module in GRAPHIC_VIEWS if module["index"] == module_index),
+            None,
+        )
+
+        if module_data:
+            module = self.create_module(module_data)
+            layout.addWidget(module)
+
+        else:
+            print(DEBUG_NAME + f'"index" {module_index} not found in ITEM_DATA')
+
+        if margins is not None:
+            layout.setContentsMargins(*margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if alignment is not None:
+            layout.setAlignment(alignment)
+
+        self.setLayout(layout)
+
+    def create_module(self, module_data):
+        """
+        Setup the GraphicsView.
+        """
+        module = GraphicsModule(module_data)
+
+        return module
+
+    def toggle_module(self, module_index):
+        """
+        Toggle the visibility of the label.
+        """
+        self.visibility_handler.toggle_visibility_state(self, module_index)
+
+
+class GraphicsModule(QGraphicsView):
+    def __init__(self, module_data=None, parent=None):
+        """
+        Initialize the GraphicsView.
+        """
+        super().__init__(parent)
+        self.module_data = module_data
+        self.setup_graphics_view()
+
+    def setup_graphics_view(self):
         """
         Setup the GraphicsView.
         """
@@ -35,15 +89,8 @@ class GraphicsViewModule(QGraphicsView):
 
         self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
+        self.setMinimumSize(300, 300)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-
-        if margins is not None:
-            self.setContentsMargins(*margins)
-        else:
-            self.setContentsMargins(0, 0, 0, 0)
-
-        if alignment is not None:
-            self.setAlignment(alignment)
 
         self.create_items()
 
@@ -73,30 +120,31 @@ class GraphicsViewModule(QGraphicsView):
         """
         Draw the items.
         """
-        total_length = sum(data["thickness"] for data in ITEM_DATA)
+        total_length = sum(data["thickness"] for data in GRAPHIC_VIEWS[0]["data"])
         item_width = 100
 
         y_position = 0
-        for data in ITEM_DATA:
-            item_thickness = data["thickness"]
-            item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
-            pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
-            item.setPen(pen)
+        for module_data in GRAPHIC_VIEWS:
+            for data in module_data["data"]:
+                item_thickness = data["thickness"]
+                item = QGraphicsRectItem(0, y_position, item_width, item_thickness)
+                pen = QPen(data["pen_color"], data["pen_thickness"], data["pen_style"])
+                item.setPen(pen)
 
-            if data["fill"]:
-                fill_color = QColor(data["fill_color"])
-                fill_color.setAlphaF(data["fill_opacity"])
+                if data["fill"]:
+                    fill_color = QColor(data["fill_color"])
+                    fill_color.setAlphaF(data["fill_opacity"])
 
-                brush = QBrush(fill_color)
-                brush.setStyle(data["fill_pattern"])
+                    brush = QBrush(fill_color)
+                    brush.setStyle(data["fill_pattern"])
 
-                item.setBrush(brush)
+                    item.setBrush(brush)
 
-            self.scene.addItem(item)
+                self.scene.addItem(item)
 
-            self.create_dimension(item, item_width, item_thickness, y_position)
+                self.create_dimension(item, item_width, item_thickness, y_position)
 
-            y_position += item_thickness
+                y_position += item_thickness
 
         self.create_dimension(
             None, item_width, total_length, y_position - total_length, total_length

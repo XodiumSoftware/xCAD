@@ -84,13 +84,13 @@ class MainUI(QMainWindow):
         self.table_0 = TableModule(1)
 
         # Setup graphics views:
-        self.graphics_view_0 = GraphicsViewModule()
+        self.graphics_view_0 = GraphicsViewModule(1)
 
         # Setup buttons:
         self.button_0 = ButtonModule(0)
 
         self.button_1 = ButtonModule(1)
-        self.button_1.on_button_clicked.connect(self.table_0.toggle_module)
+        self.button_1.on_button_clicked.connect(self.graphics_view_0.toggle_module)
 
         self.button_2 = ButtonModule(2)
 
