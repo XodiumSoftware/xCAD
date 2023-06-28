@@ -10,16 +10,17 @@ NOTE: General notes about the code.
 
 General Notes:
 =============================================================================================
-TODO: DB make the save, discard and reset buttons work.
+BUG: VisibilityHandler load_visibility_state func causing the ui to bug out on run.
 FIXME: TableModule sorting.
-TODO: AFCCMD.
-TODO: CellDelegate: Make modular.
-TODO: GraphicsViewModule use DataBaseHandler and show settings in the TableModule.
 FIXME: CellDelegate.
 FIXME: Different types modules not affected by spacer.
 FIXME: ContainerModule rowspan and colspan value -1 not working as intended.
 FIXME: QSettings module_index value saved but needs more parameters to determine difference.
-BUG: VisibilityHandler load_visibility_state func causing the ui to bug out on run.
+TODO: DB make the save, discard and reset buttons work.
+TODO: AFCCMD.
+TODO: CellDelegate: Make modular.
+TODO: GraphicsViewModule use DataBaseHandler and show settings in the TableModule.
 TODO: AFCCMD: Move the constants to constants.py
 TODO: AFCCMD: Merge run func with the one in the main.py.
+TODO: ThemeHandler.
 =============================================================================================

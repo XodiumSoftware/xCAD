@@ -111,33 +111,29 @@ class MainUI(QMainWindow):
         self.setup_modules()
 
         self.sub_container_0 = ContainerModule("HBox")
-        self.sub_container_0.add_widget(self.button_0)
         self.sub_container_0.add_spacer()
-        self.sub_container_0.add_widget(self.button_1)
+        self.sub_container_0.add_widget(self.button_2)
+        self.sub_container_0.add_widget(self.button_3)
+        self.sub_container_0.add_widget(self.button_4)
 
         self.sub_container_1 = ContainerModule("HBox")
-        self.sub_container_1.add_spacer()
-        self.sub_container_1.add_widget(self.button_2)
-        self.sub_container_1.add_widget(self.button_3)
-        self.sub_container_1.add_widget(self.button_4)
+        self.sub_container_1.add_widget(self.button_5)
 
         self.sub_container_2 = ContainerModule("HBox")
-        self.sub_container_2.add_widget(self.button_5)
+        self.sub_container_2.add_widget(self.label_0)
+        self.sub_container_2.add_spacer()
+        self.sub_container_2.add_widget(self.button_6)
+        self.sub_container_2.add_widget(self.button_1)
 
         self.sub_container_3 = ContainerModule("HBox")
-        self.sub_container_3.add_widget(self.label_0)
+        self.sub_container_3.add_widget(self.label_1)
         self.sub_container_3.add_spacer()
-        self.sub_container_3.add_widget(self.button_6)
 
         self.sub_container_4 = ContainerModule("HBox")
-        self.sub_container_4.add_widget(self.label_1)
-        self.sub_container_4.add_spacer()
+        self.sub_container_4.add_widget(self.table_0)
 
         self.sub_container_5 = ContainerModule("HBox")
-        self.sub_container_5.add_widget(self.table_0)
-
-        self.sub_container_6 = ContainerModule("HBox")
-        self.sub_container_6.add_widget(self.graphics_view_0)
+        self.sub_container_5.add_widget(self.graphics_view_0)
 
     def setup_main_containers(self):
         """
@@ -148,13 +144,13 @@ class MainUI(QMainWindow):
         # Setup main container 0:
         self.main_container_0 = ContainerModule("Grid")
         self.main_container_0.add_widget(
-            self.sub_container_2,
+            self.sub_container_1,
             1,
             0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_0.add_widget(
-            self.sub_container_4,
+            self.sub_container_3,
             3,
             0,
             alignment=Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom,
@@ -163,31 +159,25 @@ class MainUI(QMainWindow):
         # Setup main container 1:
         self.main_container_1 = ContainerModule("Grid")
         self.main_container_1.add_widget(
+            self.sub_container_4,
+            0,
+            0,
+        )
+        self.main_container_1.add_widget(
             self.sub_container_0,
-            0,
-            0,
-            alignment=Qt.AlignmentFlag.AlignTop,
-        )
-        self.main_container_1.add_widget(
-            self.sub_container_5,
             1,
-            0,
-        )
-        self.main_container_1.add_widget(
-            self.sub_container_1,
-            2,
             0,
             alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_1.add_widget(
-            self.sub_container_3,
-            3,
+            self.sub_container_2,
+            2,
             0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
         self.main_container_1.add_widget(
-            self.sub_container_6,
+            self.sub_container_5,
             0,
             1,
             rowspan=4,
