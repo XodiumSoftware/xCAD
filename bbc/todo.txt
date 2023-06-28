@@ -20,4 +20,6 @@ FIXME: Different types modules not affected by spacer.
 FIXME: ContainerModule rowspan and colspan value -1 not working as intended.
 FIXME: QSettings module_index value saved but needs more parameters to determine difference.
 BUG: VisibilityHandler load_visibility_state func causing the ui to bug out on run.
+TODO: AFCCMD: Move the constants to constants.py
+TODO: AFCCMD: Merge run func with the one in the main.py.
 =============================================================================================
