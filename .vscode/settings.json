@@ -23,6 +23,7 @@
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "editor.tabCompletion": "on",
   "editor.wordBasedSuggestions": true,
+  "editor.formatOnSave": true,
 
   // Explorer Settings
   "explorer.openEditors.visible": 1,
@@ -104,6 +105,5 @@
   "workbench.sideBar.location": "left",
   "workbench.colorTheme": "Monokai Dimmed",
   "files.autoSave": "onFocusChange",
-  "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true
 }
