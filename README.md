@@ -1,6 +1,6 @@
 # AutoFrameCAD
 
-A BricsCAD plug-in which includes GUI for creating basic objects (e.g. walls).
+BricsCAD addon/plug-in to automize frameworks.
 
 # Installation:
 
