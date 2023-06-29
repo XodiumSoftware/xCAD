@@ -41,6 +41,13 @@
         AutoFrameCAD<sup>&copy;</sup>
         empowers engineers and designers to efficiently generate precise and customizable frameworks with minimal
         effort.</p>
+
+      <!-- Add the slideshow container -->
+      <div class="slideshow">
+        <div><img src="image1.jpg" alt="Image 1"></div>
+        <div><img src="image2.jpg" alt="Image 2"></div>
+        <div><img src="image3.jpg" alt="Image 3"></div>
+      </div>
     </section>
   </div>
 
@@ -51,6 +58,17 @@
       <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
     </footer>
   </div>
+
+  <!-- Add the required JavaScript libraries -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+  <!-- Initialize the slideshow -->
+  <script>
+    $(document).ready(function () {
+      $('.slideshow').slick();
+    });
+  </script>
 
 </body>
 
