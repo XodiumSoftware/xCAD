@@ -1,7 +1,0 @@
-theme: jekyll-theme-slate
-title: [AutoFrameCAD]
-description:
-  [
-    A BricsCAD plug-in which includes GUI for creating basic objects (e.g. walls),
-  ]
-show_downloads: true
