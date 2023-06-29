@@ -1,7 +1,7 @@
 import os
-from re import T
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
-    QSizePolicy,
 )
 
 # General
@@ -77,10 +76,9 @@ PEN_STYLES = [
 
 TABLES = [
     {
-        "index": 0,
+        "index": 1,
         "desc": "FRAME_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
@@ -118,10 +116,9 @@ TABLES = [
         ],
     },
     {
-        "index": 1,
+        "index": 2,
         "desc": "OBJECT_ASSEMBLY_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
@@ -198,8 +195,6 @@ LABELS = [
         "index": 0,
         "title": "© 2023 Qerimi Engineering. All rights reserved.",
         "stylesheet": "QLabel { font-size: 12px; font-style: italic; }",
-        "alignment": (Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom),
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -211,7 +206,6 @@ CHECKBOXES = [
         "index": 0,
         "title": "Toggle startup page",
         "stylesheet": "QCheckBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -223,7 +217,6 @@ INPUTFIELDS = [
         "index": 0,
         "placeholder": "Test",
         "stylesheet": "QLineEdit { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -238,7 +231,6 @@ SPINBOXES = [
         "default": 0,
         "step": 0.5,
         "stylesheet": "QSpinBox { font-size: 12px; }",
-        "size_policy": (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
     },
 ]
 # ====================================================================================================
@@ -248,54 +240,75 @@ SPINBOXES = [
 BUTTONS = [
     {
         "index": 0,
-        "title": "ThemeButton",
-        "stylesheet": None,
-        "size": (30, 30),
-        "icon_path": os.path.join(
-            ICONS_FOLDER_PATH + "theme_icon_system_default_light.png"
-        ),
+        "icon_path": None,
+        "size": [200, 100],
+        "titles": ["AutoFrameCAD", "Click me!"],
+        "font_size": [12, 8],
+        "bold": [True, False],
+        "italic": [False, False],
+        "underline": [False, False],
+        "strikeout": [False, False],
+        "font_color": [[0, 0, 0], [0, 0, 0]],
     },
     {
         "index": 1,
-        "title": "ViewerButton",
-        "stylesheet": None,
-        "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
+        "size": [30, 30],
+        "titles": ["ViewerButton"],
+        "font_size": [12],
+        "bold": [False],
+        "italic": [False],
+        "underline": [False],
+        "strikeout": [False],
+        "font_color": [[0, 0, 0]],
     },
     {
         "index": 2,
-        "title": "Save",
-        "stylesheet": None,
-        "size": (50, 30),
         "icon_path": None,
+        "size": [30, 30],
+        "titles": ["Save"],
+        "font_size": [8],
+        "bold": [False],
+        "italic": [False],
+        "underline": [False],
+        "strikeout": [False],
+        "font_color": [[0, 0, 0]],
     },
     {
         "index": 3,
-        "title": "Discard",
-        "stylesheet": None,
-        "size": (50, 30),
         "icon_path": None,
+        "size": [30, 30],
+        "titles": ["Discard"],
+        "font_size": [8],
+        "bold": [False],
+        "italic": [False],
+        "underline": [False],
+        "strikeout": [False],
+        "font_color": [[0, 0, 0]],
     },
     {
         "index": 4,
-        "title": "Reset",
-        "stylesheet": None,
-        "size": (50, 30),
         "icon_path": None,
+        "size": [30, 30],
+        "titles": ["Reset"],
+        "font_size": [12],
+        "bold": [False],
+        "italic": [False],
+        "underline": [False],
+        "strikeout": [False],
+        "font_color": [[0, 0, 0]],
     },
     {
         "index": 5,
-        "title": "AutoFrameCAD",
-        "stylesheet": "QPushButton { font-size: 30px; font-style: italic; font-weight: bold; border: none;}",
-        "size": None,
-        "icon_path": None,
-    },
-    {
-        "index": 6,
-        "title": "Startup page",
-        "stylesheet": None,
-        "size": (30, 30),
         "icon_path": os.path.join(ICONS_FOLDER_PATH + "home_icon_light.png"),
+        "size": [30, 30],
+        "titles": ["Startup page"],
+        "font_size": [12],
+        "bold": [False],
+        "italic": [False],
+        "underline": [False],
+        "strikeout": [False],
+        "font_color": [[0, 0, 0]],
     },
 ]
 # ====================================================================================================
@@ -334,4 +347,56 @@ ICONS_FILE_PATHS = {
         ),
     },
 }
+# ====================================================================================================
+
+
+# GraphicsViewModule
+# ====================================================================================================
+GRAPHIC_VIEWS = [
+    {
+        "index": 1,
+        "data": [
+            {
+                "draw_order": 0,
+                "thickness": 60,
+                "pen_color": QColor(255, 255, 255),
+                "pen_thickness": 1,
+                "pen_style": Qt.PenStyle.SolidLine,
+                "fill_pattern": Qt.BrushStyle.SolidPattern,
+                "fill_pattern_scale": 1.0,
+                "fill_pattern_angle": None,
+                "fill_color": QColor(255, 0, 0),
+                "fill": True,
+                "fill_opacity": 0.5,
+            },
+            {
+                "draw_order": 1,
+                "thickness": 170,
+                "pen_color": QColor(255, 255, 255),
+                "pen_thickness": 1,
+                "pen_style": Qt.PenStyle.DashLine,
+                "fill_pattern": Qt.BrushStyle.DiagCrossPattern,
+                "fill_pattern_scale": 10.0,
+                "fill_pattern_angle": None,
+                "fill_color": QColor(0, 255, 0),
+                "fill": True,
+                "fill_opacity": 1.0,
+            },
+            {
+                "draw_order": 2,
+                "thickness": 12,
+                "pen_color": QColor(0, 0, 255),
+                "pen_thickness": 1,
+                "pen_style": Qt.PenStyle.SolidLine,
+                "fill_pattern": Qt.BrushStyle.BDiagPattern,
+                "fill_pattern_scale": 1.0,
+                "fill_pattern_angle": 90,
+                "fill_color": QColor(0, 0, 255),
+                "fill": True,
+                "fill_opacity": 1.0,
+            },
+        ],
+    },
+]
+
 # ====================================================================================================

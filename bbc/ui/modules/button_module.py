@@ -1,62 +1,64 @@
 from functools import partial
 
 from constants import BUTTONS, DEBUG_NAME
+from delegates.button_delegate import ButtonDelegate
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
     on_button_clicked = Signal(int)
 
-    def __init__(self, button_index, margins=None, parent=None):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the ButtonModule.
         """
         super().__init__(parent)
-        self.margins = margins
-        self.setup_button_module(button_index)
+        self.visibility_handler = VisibilityHandler()
 
-    def setup_button_module(self, button_index):
+        self.setup_module(module_index, margins, alignment)
+
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the ButtonModule.
         """
         layout = QVBoxLayout(self)
 
-        button_data = next(
-            (button for button in BUTTONS if button["index"] == button_index),
+        module_data = next(
+            (module for module in BUTTONS if module["index"] == module_index),
             None,
         )
 
-        if button_data:
-            button = self.create_button_module(button_data)
-            button.clicked.connect(partial(self.on_button_clicked.emit, button_index))
-            layout.addWidget(button)
+        if module_data:
+            module = self.create_module()
+            module.clicked.connect(partial(self.on_button_clicked.emit, module_index))
+            layout.addWidget(module)
 
         else:
-            print(DEBUG_NAME + f'"index" {button_index} not found in BUTTONS')
+            print(DEBUG_NAME + f'"index" {module_index} not found in BUTTONS')
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        if margins is not None:
+            layout.setContentsMargins(*margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if alignment is not None:
+            layout.setAlignment(alignment)
 
         self.setLayout(layout)
 
-    def create_button_module(self, button_data):
+    def create_module(self):
         """
         Create a button module.
         """
-        button = QPushButton()
+        module = ButtonDelegate()
+        return module
 
-        if button_data["size"] is not None:
-            button.setFixedSize(*button_data["size"])
-
-        if button_data["icon_path"]:
-            button.setIcon(QIcon(button_data["icon_path"]))
-
-        else:
-            button.setText(button_data["title"])
-
-        if button_data["stylesheet"]:
-            button.setStyleSheet(button_data["stylesheet"])
-
-        return button
+    def toggle_module(self, module_index):
+        """
+        Toggle the visibility of the label.
+        """
+        self.visibility_handler.toggle_visibility_state(self, module_index)

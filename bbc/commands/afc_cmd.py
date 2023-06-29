@@ -3,7 +3,6 @@ import sys
 
 import pyautocad
 
-# TODO: move the constants to constants.py
 LAYER_PROPERTIES = {
     "KBG_SLS": {
         "Color": 1,
@@ -79,7 +78,6 @@ class AFCCMD:
         self.cad.app.WindowState = self.cad.constants.acWindowStateMax
 
 
-# TODO: merge this with main.py
 def run():
     """
     Run the AFC command.

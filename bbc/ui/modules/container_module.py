@@ -1,53 +1,56 @@
 from constants import DEBUG_NAME
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtWidgets import (
     QFormLayout,
     QGridLayout,
     QHBoxLayout,
     QSizePolicy,
+    QSpacerItem,
     QVBoxLayout,
     QWidget,
 )
 
 
 class ContainerModule(QWidget):
-    def __init__(self, layout_type, margins=None, parent=None):
+    def __init__(self, module_index, margins=None, alignment=None, parent=None):
         """
         Initialize the ContainerModule.
         """
         super().__init__(parent)
-        self.margins = margins
-        self.setup_container_module(layout_type)
+        self.visibility_handler = VisibilityHandler()
 
-    def setup_container_module(self, layout_type):
+        self.setup_module(module_index, margins, alignment)
+
+        # self.visibility_handler.load_visibility_state(self, module_index)
+
+    def setup_module(self, module_index, margins, alignment):
         """
         Setup the ContainerModule.
         """
-        if layout_type == "VBox":
+        if module_index == "VBox":
             layout = QVBoxLayout(self)
-        elif layout_type == "HBox":
-            layout = QHBoxLayout(self)
-        elif layout_type == "Grid":
-            layout = QGridLayout(self)
-        elif layout_type == "Form":
-            layout = QFormLayout(self)
-        else:
-            raise ValueError(f"Invalid layout type: {layout_type}")
 
-        if self.margins is not None:
-            layout.setContentsMargins(*self.margins)
+        elif module_index == "HBox":
+            layout = QHBoxLayout(self)
+
+        elif module_index == "Grid":
+            layout = QGridLayout(self)
+
+        elif module_index == "Form":
+            layout = QFormLayout(self)
+
+        else:
+            raise ValueError(f"Invalid layout type: {module_index}")
+
+        if margins is not None:
+            layout.setContentsMargins(*margins)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+
+        if alignment is not None:
+            layout.setAlignment(alignment)
 
         self.setLayout(layout)
-
-    def set_container_margins(self, margins):
-        """
-        Set the margins of the container.
-        """
-        if len(margins) != 4:
-            raise ValueError(
-                DEBUG_NAME + "Margins should be a tuple or list of four integers."
-            )
-        if self.layout() is not None:
-            self.layout().setContentsMargins(*margins)
 
     def add_widget(
         self,
@@ -65,40 +68,60 @@ class ContainerModule(QWidget):
         if isinstance(layout, QGridLayout):
             if alignment is not None and (rowspan and columnspan is not None):
                 layout.addWidget(widget, row, column, rowspan, columnspan, alignment)
+
             elif alignment is not None and (rowspan or columnspan is None):
                 layout.addWidget(widget, row, column, alignment)
+
             elif alignment is None and (rowspan and columnspan is not None):
                 layout.addWidget(widget, row, column, rowspan, columnspan)
+
             elif alignment is None and (rowspan or columnspan is None):
                 layout.addWidget(widget, row, column)
+
             elif widget is None or row is None or column is None:
                 raise ValueError(
                     DEBUG_NAME + "widget, row and column indices must be specified."
                 )
+
         else:
             layout.addWidget(widget)
+
+        if rowspan == -1:
+            layout.setRowStretch(row, layout.rowCount())
+
+        if columnspan == -1:
+            layout.setColumnStretch(column, layout.columnCount())
 
     def add_spacer(self, size=None):
         """
         Add a stretch to the container.
         """
         layout = self.layout()
-        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout, QGridLayout)):
-            spacer_item = QWidget()
-            spacer_item.setSizePolicy(
-                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
+            spacer_item = QSpacerItem(
+                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
             )
             if size is not None:
-                spacer_item.setFixedWidth(size)
+                spacer_item.changeSize(size, 0, QSizePolicy.Policy.Fixed)
 
-            layout.addWidget(spacer_item)
+            layout.addItem(spacer_item)
+
         elif isinstance(layout, QGridLayout):
-            empty_widget = QWidget()
-            layout.addWidget(empty_widget)
+            empty_spacer = QSpacerItem(
+                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+            )
+            layout.addItem(empty_spacer, layout.rowCount(), 0)
             layout.setRowStretch(layout.rowCount(), 1)
             layout.setColumnStretch(layout.columnCount(), 1)
+
         else:
             raise TypeError(
                 DEBUG_NAME
                 + "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
+
+    def toggle_module(self, module_index):
+        """
+        Toggle the visibility of the label.
+        """
+        self.visibility_handler.toggle_visibility_state(self, module_index)
