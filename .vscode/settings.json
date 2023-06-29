@@ -74,7 +74,7 @@
       "iconColor": "#FFA500", // Orange icon color
       "foreground": "#FFFFFF", // White foreground color
       "background": "#FFA500" // Orange background color
-    },    
+    },
     "FIXME": {
       "icon": "flame",
       "iconColor": "#0000FF", // Blue icon color
@@ -105,5 +105,8 @@
   "workbench.sideBar.location": "left",
   "workbench.colorTheme": "Monokai Dimmed",
   "files.autoSave": "onFocusChange",
-  "notebook.formatOnSave.enabled": true
+  "notebook.formatOnSave.enabled": true,
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
