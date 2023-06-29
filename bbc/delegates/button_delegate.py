@@ -1,6 +1,3 @@
-import os
-
-from constants import ICONS_FOLDER_PATH
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QIcon, QPainter, QPen
 from PySide6.QtWidgets import QPushButton
