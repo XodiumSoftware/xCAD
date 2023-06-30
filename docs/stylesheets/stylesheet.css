@@ -220,13 +220,33 @@ Full-Width Styles
   background: url(../images/sprite_download.png) no-repeat top right;
 }
 
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+.slideshow-container img {
+  display: none;
+  width: 100%;
+}
+
+.slideshow-container img.active {
+  display: block;
+}
+
+
 #main_content_wrap {
   background: #f2f2f2;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
 }
 
-#main_content {
+#about_content, 
+#features_content, 
+#media_content, 
+#documentation_content,
+#contact_content, {
   padding-top: 40px;
 }
 
