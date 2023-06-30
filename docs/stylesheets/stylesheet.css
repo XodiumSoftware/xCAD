@@ -1,8 +1,3 @@
-/*******************************************************************************
-Slate Theme for GitHub Pages
-by Jason Costello, @jsncostello
-*******************************************************************************/
-
 @import url(normalize.css);
 @import url(pygment_trac.css);
 
@@ -11,13 +6,11 @@ Theme Styles
 *******************************************************************************/
 
 *, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 body {
-  color:#373737;
+  color: #373737;
   background: #212121;
   font-size: 18px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
@@ -25,39 +18,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 10px 0;
-  font-weight: 700;
-  color:#222222;
-  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
-  letter-spacing: -1px;
-}
-
 h1 {
+  margin: 10px 0;
   font-size: 36px;
   font-weight: 700;
-}
-
-h2 {
-  padding-bottom: 10px;
-  font-size: 32px;
-  background: url('../images/bg_hr.png') repeat-x bottom;
-}
-
-h3 {
-  font-size: 24px;
-}
-
-h4 {
-  font-size: 21px;
-}
-
-h5 {
-  font-size: 18px;
-}
-
-h6 {
-  font-size: 16px;
+  color: #222222;
+  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
+  letter-spacing: -1px;
 }
 
 p {
@@ -72,22 +39,16 @@ footer p {
 a {
   text-decoration: none;
   color: #007edf;
-  text-shadow: none;
 }
 
-a:hover, a:focus {text-decoration: underline;}
-
-footer a {
-  color: #F2F2F2;
+a:hover,
+a:focus {
   text-decoration: underline;
 }
 
-em {
-  font-style: italic;
-}
-
-strong {
-  font-weight: bold;
+footer a {
+  color: #f2f2f2;
+  text-decoration: underline;
 }
 
 img {
@@ -97,12 +58,7 @@ img {
   padding: 5px;
   margin: 10px 0 10px 0;
   border: 1px solid #ebebeb;
-
   box-shadow: 0 0 5px #ebebeb;
-  -webkit-box-shadow: 0 0 5px #ebebeb;
-  -moz-box-shadow: 0 0 5px #ebebeb;
-  -o-box-shadow: 0 0 5px #ebebeb;
-  -ms-box-shadow: 0 0 5px #ebebeb;
 }
 
 p img {
@@ -114,19 +70,15 @@ p img {
   border: none;
 }
 
-pre, code {
+pre,
+code {
   width: 100%;
   color: #222;
   background-color: #fff;
-
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   font-size: 14px;
-
   border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 pre {
@@ -142,23 +94,6 @@ code {
 pre code {
   display: block;
   box-shadow: none;
-}
-
-blockquote {
-  color: #666;
-  margin: 0 0 20px 2px;
-  padding-left: 20px;
-  border-left: 3px solid #bbb;
-  font-style: italic;
-}
-
-ul, ol, dl {
-  margin: 0 0 15px 0;
-  padding-left: 20px;
-}
-
-dl dt {
-  font-weight: bold;
 }
 
 dl dd {
@@ -183,23 +118,13 @@ table {
   border: 1px solid #373737;
   margin-bottom: 20px;
   text-align: left;
- }
+}
 
 th {
   font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 10px;
   background: #373737;
   color: #fff;
- }
-
-td {
-  padding: 10px;
-  border: 1px solid #373737;
- }
-
-form {
-  background: #f2f2f2;
-  padding: 20px;
 }
 
 /*******************************************************************************
@@ -220,14 +145,14 @@ Full-Width Styles
 #forkme_banner {
   display: block;
   position: absolute;
-  top:0;
+  top: 0;
   right: 10px;
   z-index: 10;
   padding: 10px 50px 10px 10px;
   color: #fff;
   background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
   font-weight: 700;
-  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 }
@@ -270,7 +195,7 @@ Full-Width Styles
   display: block;
   float: right;
   width: 90px;
-  height:70px;
+  height: 70px;
   text-indent: -5000px;
   overflow: hidden;
   background: url(../images/sprite_download.png) no-repeat bottom left;
@@ -280,7 +205,7 @@ Full-Width Styles
   display: block;
   float: right;
   width: 90px;
-  height:70px;
+  height: 70px;
   text-indent: -5000px;
   overflow: hidden;
   background: url(../images/sprite_download.png) no-repeat bottom right;
@@ -295,13 +220,33 @@ Full-Width Styles
   background: url(../images/sprite_download.png) no-repeat top right;
 }
 
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+.slideshow-container img {
+  display: none;
+  width: 100%;
+}
+
+.slideshow-container img.active {
+  display: block;
+}
+
+
 #main_content_wrap {
   background: #f2f2f2;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
 }
 
-#main_content {
+#about_content, 
+#features_content, 
+#media_content, 
+#documentation_content,
+#contact_content, {
   padding-top: 40px;
 }
 
@@ -315,7 +260,7 @@ Small Device Styles
 
 @media screen and (max-width: 480px) {
   body {
-    font-size:14px;
+    font-size: 14px;
   }
 
   #downloads {
@@ -328,7 +273,7 @@ Small Device Styles
   }
 
   #project_title {
-  font-size: 32px;
+    font-size: 32px;
   }
 
   h1 {
@@ -355,7 +300,8 @@ Small Device Styles
     font-size: 12px;
   }
 
-  code, pre {
+  code,
+  pre {
     min-width: 320px;
     max-width: 480px;
     font-size: 11px;
