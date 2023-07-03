@@ -6,11 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   <meta name="description" content="Slate is a responsive theme for GitHub Pages" />
 
-  <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="./stylesheets/stylesheet.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- SCRIPTS -->
   <script src="./scripts/carousel.js" defer></script>
+  <script src="./scripts/carousel_button.js" defer></script>
 
   <title>AutoFrameCAD</title>
 </head>
@@ -32,6 +33,29 @@
           as a tar.gz file</a>
       </section>
     </header>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div id="carousel_content_wrap" class="carousel" data-carousel>
+    <button class="carousel-button prev" data-carousel-button="prev">
+      <img src="./images/left-arrow.png" alt="Previous">
+    </button>
+    <button class="carousel-button next" data-carousel-button="next">
+      <img src="./images/right-arrow.png" alt="Next">
+    </button>
+    <section aria-label="Image Gallery" id="media_content" class="inner-carousel">
+      <ul data-slides>
+        <li2 class="slide" data-active>
+          <img src="https://source.unsplash.com/78A265wPiO4" alt="AFC Image #1">
+        </li2>
+        <li2 class="slide">
+          <img src="https://source.unsplash.com/eOpewngf68w" alt="AFC Image #2">
+        </li2>
+        <li2 class="slide">
+          <img src="https://source.unsplash.com/ndN00KmbJ1c" alt="AFC Image #2">
+        </li2>
+      </ul>
+    </section>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -60,24 +84,6 @@
         <li>Time-saving and efficient</li>
       </ul>
     </section>
-
-    <div class="carousel" data-carousel>
-      <button class="carousel-button prev" data-carousel-button="prev">&#8678;</button>
-      <button class="carousel-button next" data-carousel-button="next">&#8680;</button>
-      <section aria-label="Image Gallery" id="media_content" class="inner">
-        <ul data-slides>
-          <li2 class="slide" data-active>
-            <img src="https://picsum.photos/3000/" alt="AFC Image #1">
-          </li2>
-          <li2 class="slide">
-            <img src="https://picsum.photos/3000/" alt="AFC Image #2">
-          </li2>
-          <li2 class="slide">
-            <img src="https://picsum.photos/3000/" alt="AFC Image #2">
-          </li2>
-        </ul>
-      </section>
-    </div>
 
     <section id="documentation_content" class="inner">
       <h2 id="documentation">Documentation</h2>
