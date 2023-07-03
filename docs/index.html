@@ -11,7 +11,12 @@
 
   <!-- SCRIPTS -->
   <script src="./scripts/carousel.js" defer></script>
-  <script src="./scripts/carousel_button.js" defer></script>
+  <script src="./scripts/image_security.js" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      disableContextMenuForImages()
+    });
+  </script>
 
   <title>AutoFrameCAD</title>
 </head>
