@@ -9,6 +9,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
+  <!-- SCRIPTS -->
+  <script src="./scripts/carousel.js" defer></script>
+
   <title>AutoFrameCAD</title>
 </head>
 
@@ -23,8 +26,10 @@
       <h2 id="project_tagline">BricsCAD addon/plug-in to automize frameworks</h2>
 
       <section id="downloads">
-        <a class="zip_download_link" href="#">Download this project as a .zip file</a>
-        <a class="tar_download_link" href="#">Download this project as a tar.gz file</a>
+        <a class="zip_download_link" href="https://github.com/illyrius666/AutoFrameCAD/releases">Download this project
+          as a .zip file</a>
+        <a class="tar_download_link" href="https://github.com/illyrius666/AutoFrameCAD/releases">Download this project
+          as a tar.gz file</a>
       </section>
     </header>
   </div>
@@ -56,15 +61,23 @@
       </ul>
     </section>
 
-    <section id="media_content" class="inner">
-      <h2 id="media">Media</h2>
-      <div class="slideshow-container">
-        <img class="active" src="https://picsum.photos/600/400" alt="Image 1">
-        <img src="https://picsum.photos/600/400" alt="Image 2">
-        <img src="https://picsum.photos/600/400" alt="Image 3">
-        <img src="https://picsum.photos/600/400" alt="Image 4">
-      </div>
-    </section>
+    <div class="carousel" data-carousel>
+      <button class="carousel-button prev" data-carousel-button="prev">&#8678;</button>
+      <button class="carousel-button next" data-carousel-button="next">&#8680;</button>
+      <section aria-label="Image Gallery" id="media_content" class="inner">
+        <ul data-slides>
+          <li2 class="slide" data-active>
+            <img src="https://picsum.photos/3000/" alt="AFC Image #1">
+          </li2>
+          <li2 class="slide">
+            <img src="https://picsum.photos/3000/" alt="AFC Image #2">
+          </li2>
+          <li2 class="slide">
+            <img src="https://picsum.photos/3000/" alt="AFC Image #2">
+          </li2>
+        </ul>
+      </section>
+    </div>
 
     <section id="documentation_content" class="inner">
       <h2 id="documentation">Documentation</h2>
@@ -89,10 +102,6 @@
       <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
     </footer>
   </div>
-
-  <!-- SCRIPTS -->
-  <script src="scripts/slideshow.js"></script>
-
 </body>
 
 </html>
