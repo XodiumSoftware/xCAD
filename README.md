@@ -1,6 +1,8 @@
-# AutoFrameCAD
-
-BricsCAD addon/plug-in to automize frameworks.
+<p align="center">
+  <a href="https://illyrius.me/AutoFrameCAD">
+    <img src="https://github.com/illyrius666/illyrius666/blob/master/images/AutoFrameCAD.png" alt="AutoFrameCAD">
+  </a>
+</p>
 
 # Installation:
 
