@@ -5,7 +5,7 @@ class Carousel {
     this.buttons = this.carousel.querySelectorAll("[data-carousel-button]");
     this.currentIndex = 0;
     this.intervalId = null;
-    this.intervalTime = 6000;
+    this.intervalTime = 5000;
 
     this.changeSlide = this.changeSlide.bind(this);
     this.startSlideInterval = this.startSlideInterval.bind(this);
