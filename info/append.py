@@ -1,7 +1,7 @@
-l = ["a", "b", "c"]
-m = [1, 2, 3]
+list0 = ["a", "b", "c"]
+list1 = [1, 2, 3]
 
-l += m
-l.append("A")
+list0 += list1
+list0.append("A")
 
-print(l)
+print(list0)

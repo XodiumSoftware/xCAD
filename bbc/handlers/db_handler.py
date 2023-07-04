@@ -17,7 +17,6 @@ class DataBaseHandler:
         """
         if not os.path.exists(os.path.dirname(DATABASE_PATH)):
             os.makedirs(os.path.dirname(DATABASE_PATH))
-
         self.setup_database_model()
 
     def setup_database_model(self):
@@ -26,28 +25,24 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-
         for table_data in TABLES:
             table_name = table_data["desc"]
             columns = table_data["columns"]
             rows = table_data["rows"]
-
             if not self.table_exists(cursor, table_name):
                 column_names = ["Id"] + columns
                 create_table_query = "CREATE TABLE {table_name} ({columns})".format(
                     table_name=table_name, columns=", ".join(column_names)
                 )
                 cursor.execute(create_table_query)
-
                 for i, row in enumerate(rows):
                     column_count = len(columns)
                     values_placeholder = ", ".join(["?"] * (column_count + 1))
                     insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
                         table_name=table_name, values=values_placeholder
                     )
-                    values = [i] + [str(val) for val in row]
-                    cursor.execute(insert_query, tuple(values))
-
+                    values = [i] + row
+                    cursor.execute(insert_query, values)
         conn.commit()
         conn.close()
 
@@ -68,12 +63,9 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-
         cursor.execute("SELECT * FROM {table_name}".format(table_name=table_name))
         table_data = cursor.fetchall()
-
         conn.close()
-
         return table_data
 
     def save_table_data(self, table_name, table_data):
@@ -82,16 +74,11 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-
         cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
-        for row in table_data:
-            column_count = len(row)
-            values_placeholder = ", ".join(["?"] * column_count)
-            insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
-                table_name=table_name, values=values_placeholder
-            )
-            cursor.execute(insert_query, tuple(row))
-
+        insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
+            table_name=table_name, values=",".join(["?"] * len(table_data[0]))
+        )
+        cursor.executemany(insert_query, table_data)
         conn.commit()
         conn.close()
 
@@ -101,9 +88,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-
         cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
-
         conn.commit()
         conn.close()
 
@@ -113,9 +98,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-
         cursor.execute("DELETE FROM {table_name}".format(table_name=table_name))
         cursor.execute("VACUUM")
-
         conn.commit()
         conn.close()
