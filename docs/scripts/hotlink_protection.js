@@ -1,6 +1,11 @@
 (function () {
     // Array of authorized domains
-    var authorizedDomains = ['https://illyrius.me/AutoFrameCAD', 'https://github.com/illyrius666', 'https://github.com/illyrius666/AutoFrameCAD'];
+    var authorizedDomains = [
+        'https://illyrius.me/AutoFrameCAD',
+        'https://github.com/illyrius666',
+        'https://github.com/illyrius666/AutoFrameCAD',
+        'https://github.com/illyrius666/AutoFrameCAD/tree/web-dev'
+    ];
 
     // Get the referring URL
     var referringURL = document.referrer;
