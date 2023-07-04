@@ -235,7 +235,8 @@ Full-Width Styles
 #features_content,
 #media_content,
 #documentation_content,
-#contact_content {
+#contact_content,
+#error_page_content {
   padding-top: 40px;
 }
 
