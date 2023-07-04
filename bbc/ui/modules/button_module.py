@@ -33,7 +33,7 @@ class ButtonModule(QWidget):
         )
 
         if module_data:
-            module = self.create_module()
+            module = self.create_module(module_data)
             module.clicked.connect(partial(self.on_button_clicked.emit, module_index))
             layout.addWidget(module)
 
@@ -50,11 +50,11 @@ class ButtonModule(QWidget):
 
         self.setLayout(layout)
 
-    def create_module(self):
+    def create_module(self, module_data):
         """
         Create a button module.
         """
-        module = ButtonDelegate()
+        module = ButtonDelegate(module_data)
         return module
 
     def toggle_module(self, module_index):
