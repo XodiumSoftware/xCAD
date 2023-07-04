@@ -33,7 +33,7 @@ h1 {
 
 p {
   font-size: 18px;
-  margin: 10px 0 15px 0;
+  margin: 10px 0 15px;
 }
 
 footer p {
@@ -98,7 +98,7 @@ Full-Width Styles
 }
 
 #header_wrap .inner {
-  padding: 50px 10px 30px 10px;
+  padding: 50px 10px 30px;
 }
 
 #project_title {
