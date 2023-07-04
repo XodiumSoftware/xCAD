@@ -73,7 +73,7 @@ class DataBaseHandler:
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
-        delete_query = "DELETE FROM {table_name}".format(table_name=table_name)
+        delete_query = ("DELETE FROM ?", (table_name,))
         cursor.execute(delete_query)
 
         insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
