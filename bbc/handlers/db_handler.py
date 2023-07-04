@@ -15,12 +15,16 @@ class DataBaseHandler:
         """
         Setup the database.
         """
-        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
-            os.makedirs(os.path.dirname(DATABASE_PATH))
+        database_directory = os.path.dirname(os.path.abspath(self.DATABASE_PATH))
+        if not os.path.exists(database_directory):
+            os.makedirs(database_directory)
         self.setup_database_model()
 
     def setup_database_model(self):
-        conn = sqlite3.connect(DATABASE_PATH)
+        """
+        Setup the database model.
+        """
+        conn = sqlite3.connect(self.DATABASE_PATH)
         cursor = conn.cursor()
 
         for table_data in TABLES:
@@ -35,14 +39,14 @@ class DataBaseHandler:
                 )
                 cursor.execute(create_table_query)
 
-                for i, row in enumerate(rows):
-                    column_count = len(columns)
-                    values_placeholder = ", ".join(["?"] * (column_count + 1))
-                    insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
-                        table_name=table_name, values=values_placeholder
+                insert_query = (
+                    "INSERT INTO {table_name} VALUES ({placeholders})".format(
+                        table_name=table_name,
+                        placeholders=",".join(["?"] * len(column_names)),
                     )
-                    values = [i] + row
-                    cursor.execute(insert_query, values)
+                )
+                values = [(i,) + tuple(row) for i, row in enumerate(rows)]
+                cursor.executemany(insert_query, values)
 
         conn.commit()
         conn.close()
@@ -62,22 +66,26 @@ class DataBaseHandler:
         """
         Get all the data from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
+        conn = sqlite3.connect(self.DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM ?", (table_name,))
+        select_query = "SELECT * FROM {}".format(table_name)
+        cursor.execute(select_query)
         table_data = cursor.fetchall()
         conn.close()
         return table_data
 
     def save_table_data(self, table_name, table_data):
+        """
+        Save the data from a table.
+        """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
-        delete_query = ("DELETE FROM ?", (table_name,))
+        delete_query = "DELETE FROM {}".format(table_name)
         cursor.execute(delete_query)
 
-        insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
-            table_name=table_name, values=",".join(["?"] * len(table_data[0]))
+        insert_query = "INSERT INTO {table_name} VALUES ({placeholders})".format(
+            table_name=table_name, placeholders=",".join(["?"] * len(table_data[0]))
         )
         cursor.executemany(insert_query, table_data)
 
@@ -88,9 +96,10 @@ class DataBaseHandler:
         """
         Discard the data from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
+        conn = sqlite3.connect(self.DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM ?", (table_name,))
+        delete_query = "DELETE FROM {}".format(table_name)
+        cursor.execute(delete_query)
         conn.commit()
         conn.close()
 
@@ -98,9 +107,9 @@ class DataBaseHandler:
         """
         Reset the data from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
+        conn = sqlite3.connect(self.DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM ?", (table_name,))
-        cursor.execute("VACUUM", ())
+        delete_query = "DELETE FROM {}".format(table_name)
+        cursor.execute(delete_query)
         conn.commit()
         conn.close()
