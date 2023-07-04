@@ -6,3 +6,6 @@ function disableContextMenuForImages() {
         });
     });
 }
+
+// Call the disableContextMenuForImages function after the DOM is fully loaded
+window.addEventListener('DOMContentLoaded', disableContextMenuForImages);

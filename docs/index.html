@@ -11,12 +11,8 @@
   <!-- SCRIPTS -->
   <script src="./scripts/carousel.js" defer></script>
   <script src="./scripts/image_security.js" defer></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      disableContextMenuForImages()
-    });
-  </script>
-  <script src="./scripts/hotlink-protection.js"></script>
+  <script src="./scripts/hotlink_protection.js" defer></script>
+  <script src="./scripts/image_obfuscation.js" defer></script>
 
   <title>AutoFrameCAD</title>
 </head>
@@ -43,21 +39,21 @@
   <!-- CAROUSEL -->
   <div id="carousel_content_wrap" class="carousel" data-carousel>
     <button class="carousel-button prev" data-carousel-button="prev">
-      <img src="./images/left-arrow.png" alt="Previous">
+      <img src="./images/left-arrow.png" alt="Previous" data-obfuscate>
     </button>
     <button class="carousel-button next" data-carousel-button="next">
-      <img src="./images/right-arrow.png" alt="Next">
+      <img src="./images/right-arrow.png" alt="Next" data-obfuscate>
     </button>
     <section aria-label="Image Gallery" id="media_content" class="inner-carousel">
       <ul data-slides>
         <li2 class="slide" data-active>
-          <img src="https://source.unsplash.com/78A265wPiO4" alt="AFC Image #1">
+          <img src="https://source.unsplash.com/78A265wPiO4" alt="AFC Image #1" data-obfuscate>
         </li2>
         <li2 class="slide">
-          <img src="https://source.unsplash.com/eOpewngf68w" alt="AFC Image #2">
+          <img src="https://source.unsplash.com/eOpewngf68w" alt="AFC Image #2" data-obfuscate>
         </li2>
         <li2 class="slide">
-          <img src="https://source.unsplash.com/ndN00KmbJ1c" alt="AFC Image #2">
+          <img src="https://source.unsplash.com/ndN00KmbJ1c" alt="AFC Image #2" data-obfuscate>
         </li2>
       </ul>
     </section>
