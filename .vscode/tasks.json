@@ -5,7 +5,9 @@
       "label": "Run Install Script on Startup",
       "type": "shell",
       "command": "python",
-      "args": ["${workspaceFolder}/install_script.py"],
+      "args": [
+        "${workspaceFolder}/install_script.py"
+      ],
       "presentation": {
         "reveal": "silent"
       },
