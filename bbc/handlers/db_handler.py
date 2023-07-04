@@ -34,7 +34,7 @@ class DataBaseHandler:
                 create_table_query = "CREATE TABLE {table_name} ({columns})".format(
                     table_name=table_name, columns=", ".join(column_names)
                 )
-                cursor.execute(create_table_query, column_names)
+                cursor.execute(create_table_query, (column_names,))
                 for i, row in enumerate(rows):
                     column_count = len(columns)
                     values_placeholder = ", ".join(["?"] * (column_count + 1))
@@ -63,7 +63,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM {table_name}".format(table_name=table_name), ())
+        cursor.execute("SELECT * FROM ?", (table_name,))
         table_data = cursor.fetchall()
         conn.close()
         return table_data
@@ -74,7 +74,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name), ())
+        cursor.execute("DELETE FROM ?", (table_name,))
         insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
             table_name=table_name, values=",".join(["?"] * len(table_data[0]))
         )
@@ -88,7 +88,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name), ())
+        cursor.execute("DELETE FROM ?", (table_name,))
         conn.commit()
         conn.close()
 
@@ -98,7 +98,7 @@ class DataBaseHandler:
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM {table_name}".format(table_name=table_name), ())
+        cursor.execute("DELETE FROM ?", (table_name,))
         cursor.execute("VACUUM", ())
         conn.commit()
         conn.close()
