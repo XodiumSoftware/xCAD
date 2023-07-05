@@ -6,12 +6,18 @@ from PySide6.QtWidgets import QPushButton
 class ButtonDelegate(QPushButton):
     clickedCustom = Signal()
 
-    def __init__(self, module_data, parent=None):
+    def __init__(self, button_data, parent=None):
+        """
+        Initialize the ButtonDelegate.
+        """
         super().__init__(parent)
-        self.button_data = module_data
+        self.button_data = button_data
         self.setStyleSheet(self.generateStylesheet())
 
     def paintEvent(self, event):
+        """
+        Handle the paint event for the button.
+        """
         painter = QPainter(self)
         if painter.isActive():
             painter.setRenderHints(
@@ -27,10 +33,21 @@ class ButtonDelegate(QPushButton):
                 rect.setHeight(icon_size)
                 icon.paint(painter, rect, Qt.AlignmentFlag.AlignCenter)
 
-            for i, title in enumerate(self.button_data.get("button_titles", [])):
+            font = self.font()
+            font_metrics = self.fontMetrics()
+            line_spacing = self.button_data.get("stylesheets", {}).get(
+                "line-spacing", 0
+            )
+
+            for i, title in enumerate(self.button_data.get("title", [])):
+                painter.setFont(font)
                 painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, title)
+                font.setPointSize(font.pointSize() + line_spacing)
 
     def sizeHint(self):
+        """
+        Return the recommended size for the button.
+        """
         content_width = 0
         content_height = 0
 
@@ -41,58 +58,48 @@ class ButtonDelegate(QPushButton):
             content_height += icon_size
 
         font_metrics = self.fontMetrics()
-        for title in self.button_data.get("button_titles", []):
+        for title in self.button_data.get("title", []):
             text_width = font_metrics.horizontalAdvance(title)
             content_width = max(content_width, text_width)
 
-        if self.button_data.get("button_size") == [None, None]:
+        if self.button_data.get("size") == [None, None]:
             size_hint = super().sizeHint()
             size_hint.setWidth(content_width)
             size_hint.setHeight(content_height)
             return size_hint
         else:
-            return QSize(*self.button_data.get("button_size"))
+            return QSize(*self.button_data.get("size"))
 
     def generateStylesheet(self):
+        """
+        Generate the stylesheet for the button.
+        """
         stylesheet = ""
 
-        # Button size
-        button_size = self.button_data.get("button_size", [None, None])
-        if button_size[0] is not None:
-            stylesheet += f"width: {button_size[0]}px;"
-        if button_size[1] is not None:
-            stylesheet += f"height: {button_size[1]}px;"
+        size = self.button_data.get("size", [None, None])
+        if size[0] is not None:
+            stylesheet += f"width: {size[0]}px;"
+        if size[1] is not None:
+            stylesheet += f"height: {size[1]}px;"
 
-        # Button titles
-        button_titles = self.button_data.get("button_titles", [])
-        if button_titles:
+        title = self.button_data.get("title", [])
+        if title:
             stylesheet += "QAbstractButton {"
 
-            # Font properties
-            stylesheets = self.button_data.get("stylesheets")
-            if stylesheets is not None:
-                for key, value in stylesheets.items():
-                    stylesheet += f"{key}: {value};"
+            stylesheets = self.button_data.get("stylesheets", [])
+            if stylesheets:
+                for style in stylesheets:
+                    for key, value in style.items():
+                        if key != "line-spacing":
+                            stylesheet += f"{key}: {value};"
 
             stylesheet += "}"
 
         return stylesheet
 
     def mousePressEvent(self, event):
+        """
+        Handle the mouse press event for the button.
+        """
         super().mousePressEvent(event)
         self.clickedCustom.emit()
-
-
-# Example usage
-module_data = [
-    {
-        "index": 0,
-        "icon_path": None,
-        "button_size": [None, None],
-        "button_titles": ["AutoFrameCAD", "Click me!"],
-        "stylesheets": {
-            "line1": "font-size: 20px; font-weight: bold; color: #000000;",
-            "line2": "font-size: 15px; font-weight: normal; color: #000000;",
-        },
-    },
-]

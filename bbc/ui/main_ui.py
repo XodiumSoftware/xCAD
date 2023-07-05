@@ -63,7 +63,6 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
-        # FIXME: Cannot assign member "layout" for type "MainUI" Type "QVBoxLayout" cannot be assigned to type "() -> QLayout"
         self.layout = QVBoxLayout(self.central_widget)  # type: ignore
 
         self.stacked_widget = QStackedWidget()
@@ -71,6 +70,8 @@ class MainUI(QMainWindow):
 
         self.setCentralWidget(self.central_widget)
 
+        self.setup_modules()
+        self.setup_sub_containers()
         self.setup_main_containers()
 
     def setup_modules(self):
@@ -107,8 +108,6 @@ class MainUI(QMainWindow):
         """
         Setup the sub containers.
         """
-        self.setup_modules()
-
         self.sub_container_0 = ContainerModule("HBox")
         self.sub_container_0.add_spacer()
         self.sub_container_0.add_widget(self.button_2)
@@ -138,8 +137,6 @@ class MainUI(QMainWindow):
         """
         Setup the main containers.
         """
-        self.setup_sub_containers()
-
         # Setup main container 0:
         self.main_container_0 = ContainerModule("Grid")
         self.main_container_0.add_widget(
