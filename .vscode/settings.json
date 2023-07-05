@@ -42,7 +42,7 @@
     "${workspaceFolder}/bbc",
     "${workspaceFolder}"
   ],
-  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,
   "python.formatting.blackArgs": [
     "--fast"
