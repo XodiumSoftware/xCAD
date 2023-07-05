@@ -4,9 +4,6 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://app.codacy.com/gh/illyrius666/AutoFrameCAD/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
-    <img src="https://app.codacy.com/project/badge/Grade/a5c4e68cb1604598a2abf1f6c23d0934" alt="Codacy">
-  </a>
   <a href="https://www.codefactor.io/repository/github/illyrius666/autoframecad">
     <img src="https://www.codefactor.io/repository/github/illyrius666/autoframecad/badge" alt="CodeFactor">
   </a>

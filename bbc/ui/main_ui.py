@@ -63,7 +63,9 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
-        self.layout = QVBoxLayout(self.central_widget)
+        self.layout = QVBoxLayout(
+            self.central_widget
+        )  # FIXME: Cannot assign member "layout" for type "MainUI" Type "QVBoxLayout" cannot be assigned to type "() -> QLayout"
 
         self.stacked_widget = QStackedWidget()
         self.layout.addWidget(self.stacked_widget)

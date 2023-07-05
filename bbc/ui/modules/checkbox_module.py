@@ -27,7 +27,7 @@ class CheckBoxModule(QWidget):
         )
 
         if module_data:
-            module = self.create_module(module_data, module_index)
+            module = self.create_module(module_data)
             layout.addWidget(module)
 
         else:

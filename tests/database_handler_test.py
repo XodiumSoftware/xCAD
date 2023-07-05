@@ -1,15 +1,33 @@
 from handlers.db_handler import DataBaseHandler
 
-handler = DataBaseHandler()
 
-DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
+class DataBaseHandlerTest:
+    def __init__(self):
+        """
+        This class is used to test the DataBaseHandler class.
+        """
+        self.handler = DataBaseHandler()
+        self.DATA_TABLES = ["FRAME_DATA", "OBJECT_ASSEMBLY_DATA"]
 
-# Insert data
-data_to_insert = [[1, 2, 3, 4], [5, 6, 7, 8]]
+    def process_data(self):
+        """
+        This method is used to test the DataBaseHandler class.
+        """
+        data_to_insert = [[1, 2, 3, 4], [5, 6, 7, 8]]
+        retrieved_data = []
 
-for i, table_name in enumerate(DATA_TABLES):
-    handler.insert_data(table_name, data_to_insert[i])
+        for i, table_name in enumerate(self.DATA_TABLES):
+            self.handler.save_table_data(table_name, data_to_insert[i])
+            table_data = self.handler.get_table_data(table_name)
+            retrieved_data.append(table_data)
 
-# Retrieve data
-retrieved_data = handler.retrieve_data()
-print(retrieved_data)  # Output: [[1, 2, 3, 4], [5, 6, 7, 8]]
+        return retrieved_data
+
+
+def run():
+    processor = DataBaseHandlerTest()
+    processed_data = processor.process_data()
+    print(processed_data)  # Output: [[1, 2, 3, 4], [5, 6, 7, 8]]
+
+
+run()
