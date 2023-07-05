@@ -199,6 +199,9 @@ class MainUI(QMainWindow):
         # Toggle visibility of main container 0
         self.main_container_0.toggle_visibility(0)
 
+        # Toggle visibility of main container 1
+        self.main_container_1.toggle_visibility(1)
+
         # Toggle visibility of sub container 0
         self.sub_container_0.toggle_visibility(0)
 
@@ -221,10 +224,5 @@ class MainUI(QMainWindow):
         """
         Show the containers.
         """
-        self.main_container_0.show()
-        self.sub_container_0.show()
-        self.sub_container_1.show()
-        self.sub_container_2.show()
-        self.sub_container_3.show()
-        self.sub_container_4.show()
-        self.sub_container_5.show()
+        self.main_container_0.hide()
+        self.main_container_1.show()

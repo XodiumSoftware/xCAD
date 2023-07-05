@@ -417,3 +417,30 @@ GRAPHIC_VIEWS = [
 ]
 
 # ====================================================================================================
+
+# AFCCMD
+# ====================================================================================================
+LAYER_PROPERTIES = {
+    "KBG_SLS": {
+        "Color": 1,
+        "Linetype": "Continuous",
+        "LinetypeScale": 1,
+        "Lineweight": -1,
+    }
+}
+
+OBJECT_PROPERTIES = {
+    "rectangle": {
+        "TrueColor": None,
+        "Layer": "KBG_SLS",
+        "Linetype": "ByLayer",
+        "LinetypeScale": 1,
+        "Lineweight": -1,
+        "Transparency": -1,
+        "Hyperlinks": None,
+        "RecordGraphicsModified": True,
+        "Thickness": 0,
+        "Material": "ByLayer",
+    },
+}
+# ====================================================================================================
