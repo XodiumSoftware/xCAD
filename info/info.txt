@@ -19,3 +19,7 @@ This ensures that the css files run and the docs are readable.
 
 1. Navigate to: https://code.visualstudio.com/docs/cpp/config-mingw and follow its instruction.
    1.1 **ATTENTION!** when the tutorial says to use the following cmd: pacman -S mingw-w64-ucrt-x86_64-gcc instead use: pacman -S mingw-w64-x86_64-gcc (so without the ucrt).
+
+# To automatically update all the pip packages:
+
+1. pip list --outdated --format=columns | Select-String -Pattern "(?<!^\-e)^\S+" | ForEach-Object { $_.Matches.Value } | ForEach-Object { pip install --upgrade --user $_ }

@@ -82,7 +82,8 @@ class GraphicsModule(QGraphicsView):
         """
         Setup the GraphicsView.
         """
-        self.scene = QGraphicsScene(self)
+        # FIXME:Cannot assign member "scene" for type "GraphicsModule" Type "QGraphicsScene" cannot be assigned to type "() -> QGraphicsScene"
+        self.scene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.scene)
 
         self.scene.setBackgroundBrush(QColor(0, 0, 0))
@@ -142,7 +143,9 @@ class GraphicsModule(QGraphicsView):
 
                 self.scene.addItem(item)
 
-                self.create_dimension(item, item_width, item_thickness, y_position)
+                self.create_dimension(
+                    item, item_width, item_thickness, y_position, total_length
+                )
 
                 y_position += item_thickness
 
@@ -172,7 +175,7 @@ class GraphicsModule(QGraphicsView):
         self.scene.addItem(bottom_text)
 
     def create_dimension(
-        self, item, item_width, item_thickness, y_position, total_length=None
+        self, item, item_width, item_thickness, y_position, total_length
     ):
         """
         Create the dimension for an item or the total dimension.

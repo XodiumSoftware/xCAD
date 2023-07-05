@@ -40,7 +40,8 @@ class AFCCMD:
         """
         Setup the AFC command.
         """
-        self.cad = pyautocad.Acad()
+        # FIXME: "Acad" is not a known member of module "pyautocad"
+        self.cad = pyautocad.Acad()  # type: ignore
         self.doc = self.cad.doc
         self.setup_layers()
 
@@ -84,7 +85,6 @@ def run():
     """
     afc_cmd = AFCCMD()
     afc_cmd.draw_rectangle((0, 0), (10, 10), "C:\\Users\\User\\Desktop\\test.dwg")
-    afc_cmd.quit()
 
     parser = argparse.ArgumentParser(
         description="Draw a rectangle in an AutoCAD drawing."

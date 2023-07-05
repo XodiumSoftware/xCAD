@@ -63,9 +63,8 @@ class MainUI(QMainWindow):
 
         self.central_widget = QWidget()
 
-        self.layout = QVBoxLayout(
-            self.central_widget
-        )  # FIXME: Cannot assign member "layout" for type "MainUI" Type "QVBoxLayout" cannot be assigned to type "() -> QLayout"
+        # FIXME: Cannot assign member "layout" for type "MainUI" Type "QVBoxLayout" cannot be assigned to type "() -> QLayout"
+        self.layout = QVBoxLayout(self.central_widget)  # type: ignore
 
         self.stacked_widget = QStackedWidget()
         self.layout.addWidget(self.stacked_widget)
@@ -199,4 +198,4 @@ class MainUI(QMainWindow):
         self.show_containers()
 
     def show_containers(self):
-        self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)
+        self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)  # type: ignore
