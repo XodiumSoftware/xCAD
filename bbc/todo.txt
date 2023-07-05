@@ -23,4 +23,5 @@ TODO: GraphicsViewModule use DataBaseHandler and show settings in the TableModul
 TODO: AFCCMD: Move the constants to constants.py
 TODO: AFCCMD: Merge run func with the one in the main.py.
 TODO: ThemeHandler.
+TODO: TableModule: Make the table use constants for modularity.
 =============================================================================================
