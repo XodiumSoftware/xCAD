@@ -242,23 +242,14 @@ BUTTONS = [
         "index": 0,
         "icon_path": None,
         "size": [None, None],
-        "title": ["AutoFrameCAD", "Click me!"],
-        "stylesheets": [
+        "title": "AutoFrameCAD",
+        "stylesheet": [
             {
                 "font-size": "32px",
                 "font-weight": "bold",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
-            },
-            {
-                "font-size": "8px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-                "line-spacing": "6px",
             },
         ],
     },
@@ -266,15 +257,14 @@ BUTTONS = [
         "index": 1,
         "icon_path": os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
         "size": [30, 30],
-        "title": ["ViewerButton"],
-        "stylesheets": [
+        "title": "ViewerButton",
+        "stylesheet": [
             {
                 "font-size": "12px",
                 "font-weight": "normal",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
             }
         ],
     },
@@ -282,15 +272,14 @@ BUTTONS = [
         "index": 2,
         "icon_path": None,
         "size": [30, 30],
-        "title": ["Save"],
-        "stylesheets": [
+        "title": "Save",
+        "stylesheet": [
             {
                 "font-size": "8px",
                 "font-weight": "normal",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
             }
         ],
     },
@@ -298,15 +287,14 @@ BUTTONS = [
         "index": 3,
         "icon_path": None,
         "size": [30, 30],
-        "title": ["Discard"],
-        "stylesheets": [
+        "title": "Discard",
+        "stylesheet": [
             {
                 "font-size": "8px",
                 "font-weight": "normal",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
             }
         ],
     },
@@ -314,15 +302,14 @@ BUTTONS = [
         "index": 4,
         "icon_path": None,
         "size": [30, 30],
-        "title": ["Reset"],
-        "stylesheets": [
+        "title": "Reset",
+        "stylesheet": [
             {
                 "font-size": "12px",
                 "font-weight": "normal",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
             }
         ],
     },
@@ -330,15 +317,14 @@ BUTTONS = [
         "index": 5,
         "icon_path": os.path.join(ICONS_FOLDER_PATH, "home_icon_light.png"),
         "size": [30, 30],
-        "title": ["Startup page"],
-        "stylesheets": [
+        "title": "Startup page",
+        "stylesheet": [
             {
                 "font-size": "12px",
                 "font-weight": "normal",
                 "font-style": "normal",
                 "text-decoration": "none",
                 "color": "#000000",
-                "line-spacing": "6px",
             }
         ],
     },

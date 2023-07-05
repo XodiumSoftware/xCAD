@@ -1,10 +1,10 @@
 from functools import partial
 
 from constants import BUTTONS, DEBUG_NAME
-from delegates.button_delegate import ButtonDelegate
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QVBoxLayout, QWidget
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 
 class ButtonModule(QWidget):
@@ -34,7 +34,6 @@ class ButtonModule(QWidget):
 
         if module_data:
             module = self.create_module(module_data)
-            module.clicked.connect(partial(self.on_button_clicked.emit, module_index))
             layout.addWidget(module)
 
         else:
@@ -52,10 +51,36 @@ class ButtonModule(QWidget):
 
     def create_module(self, module_data):
         """
-        Create a button module.
+        Create button modules.
         """
-        module = ButtonDelegate(module_data)
+        module = QPushButton()
+
+        if module_data["icon_path"]:
+            icon = QIcon(module_data["icon_path"])
+            module.setIcon(icon)
+        else:
+            module.setText(module_data["title"])
+
+        stylesheet = self.create_stylesheet(module_data["stylesheet"])
+        module.setStyleSheet(stylesheet)
+
+        module.clicked.connect(
+            partial(self.on_button_clicked.emit, module_data["index"])
+        )
+
         return module
+
+    def create_stylesheet(self, stylesheet_data):
+        """
+        Create a CSS stylesheet string from the stylesheet data.
+        """
+        stylesheet = ""
+
+        for style in stylesheet_data:
+            for key, value in style.items():
+                stylesheet += f"{key}: {value}; "
+
+        return stylesheet
 
     def toggle_module(self, module_index):
         """

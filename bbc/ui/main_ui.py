@@ -4,7 +4,7 @@ from handlers.events_handler import EventsHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.button_module import ButtonModule
 from ui.modules.container_module import ContainerModule
 from ui.modules.graphics_view_module import GraphicsViewModule
@@ -48,7 +48,6 @@ class MainUI(QMainWindow):
         """
         Setup the MainUI.
         """
-        self.setCentralWidget(QWidget())
         self.setWindowTitle(UI_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
@@ -61,18 +60,23 @@ class MainUI(QMainWindow):
         self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
 
-        self.central_widget = QWidget()
-
-        self.layout = QVBoxLayout(self.central_widget)  # type: ignore
-
-        self.stacked_widget = QStackedWidget()
-        self.layout.addWidget(self.stacked_widget)
-
-        self.setCentralWidget(self.central_widget)
-
         self.setup_modules()
         self.setup_sub_containers()
         self.setup_main_containers()
+
+        # Create a central widget for the main window
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+
+        # Create the main layout for the central widget
+        layout = QGridLayout(central_widget)
+
+        # Add the main containers to the layout
+        layout.addWidget(self.main_container_0, 0, 0)
+        layout.addWidget(self.main_container_1, 1, 0)
+        layout.addWidget(self.main_container_2, 1, 1)
+
+        self.show_containers()
 
     def setup_modules(self):
         """
@@ -180,19 +184,47 @@ class MainUI(QMainWindow):
             columnspan=1,
         )
 
-        self.stacked_widget.addWidget(self.main_container_0)
-        self.stacked_widget.addWidget(self.main_container_1)
+        # Setup main container 2:
+        self.main_container_2 = ContainerModule("Grid")
+        self.main_container_2.add_widget(
+            self.sub_container_5,
+            0,
+            0,
+        )
 
     def toggle_visibility_states(self):
         """
-        Toggle the visibility states.
+        Toggle the visibility states of the containers.
         """
-        if self.main_ui_visibility_state == 0:
-            self.main_ui_visibility_state = 1
-        elif self.main_ui_visibility_state == 1:
-            self.main_ui_visibility_state = 0
+        # Toggle visibility of main container 0
+        self.main_container_0.toggle_visibility(0)
 
-        self.show_containers()
+        # Toggle visibility of sub container 0
+        self.sub_container_0.toggle_visibility(0)
+
+        # Toggle visibility of sub container 1
+        self.sub_container_1.toggle_visibility(1)
+
+        # Toggle visibility of sub container 2
+        self.sub_container_2.toggle_visibility(2)
+
+        # Toggle visibility of sub container 3
+        self.sub_container_3.toggle_visibility(3)
+
+        # Toggle visibility of sub container 4
+        self.sub_container_4.toggle_visibility(4)
+
+        # Toggle visibility of sub container 5
+        self.sub_container_5.toggle_visibility(5)
 
     def show_containers(self):
-        self.stacked_widget.setCurrentIndex(self.main_ui_visibility_state)  # type: ignore
+        """
+        Show the containers.
+        """
+        self.main_container_0.show()
+        self.sub_container_0.show()
+        self.sub_container_1.show()
+        self.sub_container_2.show()
+        self.sub_container_3.show()
+        self.sub_container_4.show()
+        self.sub_container_5.show()
