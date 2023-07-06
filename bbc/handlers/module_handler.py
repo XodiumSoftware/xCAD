@@ -5,21 +5,23 @@ from constants import (
     BUTTONS,
     CHECKBOXES,
     DEBUG_NAME,
-    GRAPHIC_VIEWS,
+    GRAPHICS_VIEWS,
     INPUTFIELDS,
     LABELS,
     SPINBOXES,
     TABLES,
 )
 from delegates.graphics_delegate import GraphicsDelegate
+from delegates.table_delegate import TableDelegate
+from handlers.db_handler import DataBaseHandler
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QIcon, QStandardItem, QStandardItemModel
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
     QGraphicsView,
-    QHeaderView,
     QLabel,
     QLayout,
     QLineEdit,
@@ -28,9 +30,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
-from .db_handler import DataBaseHandler
-from .visibility_handler import VisibilityHandler
 
 
 class ModuleHandler(QWidget):
@@ -95,7 +94,7 @@ class ModuleHandler(QWidget):
             "SpinBox": SPINBOXES,
             "InputField": INPUTFIELDS,
             "Button": BUTTONS,
-            "GraphicView": GRAPHIC_VIEWS,
+            "GraphicsView": GRAPHICS_VIEWS,
             "TableView": TABLES,
         }.get(module_type, [])
 
@@ -115,7 +114,7 @@ class ModuleHandler(QWidget):
             "SpinBox": QDoubleSpinBox,
             "InputField": QLineEdit,
             "Button": QPushButton,
-            "GraphicView": QGraphicsView,
+            "GraphicsView": QGraphicsView,
             "TableView": QTableView,
         }.get(module_type)
 
@@ -124,7 +123,7 @@ class ModuleHandler(QWidget):
 
         module = module_class()
 
-        if module_type != "GraphicView":
+        if module_type != "GraphicsView":
             module.setStyleSheet(module_data["stylesheet"])
 
         if module_type == "Label":
@@ -155,44 +154,11 @@ class ModuleHandler(QWidget):
             module.clicked.connect(
                 partial(self.on_button_clicked.emit, module_data["index"])
             )
-
-        elif module_type == "GraphicView":
-            delegate = GraphicsDelegate(module_data)
-            module = delegate
+        elif module_type == "GraphicsView":
+            module = GraphicsDelegate(module_data)
 
         elif module_type == "TableView":
-            module.setSortingEnabled(module_data["sorting"])
-            module.setAlternatingRowColors(module_data["alternating_row_colors"])
-
-            font = module.font()
-            font.setBold(True)
-
-            hor_header = module.horizontalHeader()
-            hor_header.setVisible(True)
-            hor_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-            hor_header.setFont(font)
-
-            ver_header = module.verticalHeader()
-            ver_header.setVisible(True)
-            ver_header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
-            ver_header.setFont(font)
-
-            module_name = module_data["desc"]
-            table_data = self.db_handler.get_table_data(module_name)
-
-            column_names = module_data["columns"]
-
-            model = QStandardItemModel(len(table_data), len(table_data[0]))
-
-            for col_idx, col_data in enumerate(column_names, start=1):
-                model.setHorizontalHeaderItem(col_idx, QStandardItem(col_data))
-
-            for row_idx, row_data in enumerate(table_data):
-                for col_idx, value in enumerate(row_data):
-                    model.setItem(row_idx, col_idx, QStandardItem(str(value)))
-
-            module.setModel(model)
-            module.hideColumn(0)
+            module = TableDelegate(module_data)
 
         else:
             raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from constants import GRAPHIC_VIEWS
+from constants import GRAPHICS_VIEWS
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen
 from PySide6.QtWidgets import (
@@ -64,11 +64,11 @@ class GraphicsDelegate(QGraphicsView):
         """
         Draw the items.
         """
-        total_length = sum(data["thickness"] for data in GRAPHIC_VIEWS[0]["data"])
+        total_length = sum(data["thickness"] for data in GRAPHICS_VIEWS[0]["data"])
         item_width = 100
 
         y_position = 0
-        for module_data in GRAPHIC_VIEWS:
+        for module_data in GRAPHICS_VIEWS:
             for data in module_data["data"]:
                 item_thickness = data["thickness"]
                 item = QGraphicsRectItem(0, y_position, item_width, item_thickness)

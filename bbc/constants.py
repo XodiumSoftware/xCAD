@@ -228,7 +228,7 @@ ICONS_FILE_PATHS = {
 
 # GraphicsViewModule
 # ====================================================================================================
-GRAPHIC_VIEWS = [
+GRAPHICS_VIEWS = [
     {
         "index": 1,
         "data": [
