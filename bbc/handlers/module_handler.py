@@ -1,13 +1,26 @@
 from functools import partial
+from typing import Dict, Optional, Tuple, Union
 
-from constants import BUTTONS, CHECKBOXES, DEBUG_NAME, INPUTFIELDS, LABELS, SPINBOXES
+from constants import (
+    BUTTONS,
+    CHECKBOXES,
+    DEBUG_NAME,
+    GRAPHIC_VIEWS,
+    INPUTFIELDS,
+    LABELS,
+    SPINBOXES,
+)
+from delegates.graphics_delegate import GraphicsDelegate
 from handlers.visibility_handler import VisibilityHandler
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
+    QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
+    QGraphicsView,
     QLabel,
+    QLayout,
     QLineEdit,
     QPushButton,
     QVBoxLayout,
@@ -20,23 +33,23 @@ class ModuleHandler(QWidget):
 
     def __init__(
         self,
-        module_type,
-        module_index,
-        margins=None,
-        alignment=None,
-        parent=None,
-    ):
-        """
-        Initialize the ModuleHandler widget.
-        """
+        module_type: str,
+        module_index: int,
+        margins: Optional[Tuple[int, int, int, int]] = None,
+        alignment: Optional[str] = None,
+        parent: Optional[QWidget] = None,
+    ) -> None:
         super().__init__(parent)
         self.visibility_handler = VisibilityHandler()
         self.setup_module(module_type, module_index, margins, alignment)
 
-    def setup_module(self, module_type, module_index, margins, alignment):
-        """
-        Set up the module based on its type and index.
-        """
+    def setup_module(
+        self,
+        module_type: str,
+        module_index: int,
+        margins: Optional[Tuple[int, int, int, int]] = None,
+        alignment: Optional[str] = None,
+    ) -> None:
         layout = QVBoxLayout(self)
         module_data = self.get_module_data(module_type, module_index)
 
@@ -45,62 +58,64 @@ class ModuleHandler(QWidget):
             if module:
                 layout.addWidget(module)
             else:
-                print(DEBUG_NAME + f'"{module_type}" is not a valid module type')
+                raise ValueError(
+                    f'{DEBUG_NAME}"{module_type}" is not a valid module type'
+                )
         else:
-            print(DEBUG_NAME + f'"index" {module_index} not found')
+            raise ValueError(f'{DEBUG_NAME}"index" {module_index} not found')
 
-        layout.setContentsMargins(*margins) if margins else layout.setContentsMargins(
-            0, 0, 0, 0
-        )
-        layout.setAlignment(alignment) if alignment else None
+        layout.setContentsMargins(*(margins or (0, 0, 0, 0)))
+        if alignment:
+            self.setAlignment(layout, alignment)
         self.setLayout(layout)
 
-    def get_module_data(self, module_type, module_index):
-        """
-        Get the data for the module based on its type and index.
-        """
-        if module_type == "Label":
-            module_list = LABELS
-        elif module_type == "Checkbox":
-            module_list = CHECKBOXES
-        elif module_type == "SpinBox":
-            module_list = SPINBOXES
-        elif module_type == "InputField":
-            module_list = INPUTFIELDS
-        elif module_type == "Button":
-            module_list = BUTTONS
-        else:
-            module_list = []
-
+    def get_module_data(
+        self, module_type: str, module_index: int
+    ) -> Optional[Dict[str, Union[str, int, float]]]:
+        module_list = {
+            "Label": LABELS,
+            "Checkbox": CHECKBOXES,
+            "SpinBox": SPINBOXES,
+            "InputField": INPUTFIELDS,
+            "Button": BUTTONS,
+            "GraphicView": GRAPHIC_VIEWS,
+        }.get(module_type, [])
         module_data = next(
             (module for module in module_list if module["index"] == module_index), None
         )
         return module_data
 
-    def create_module(self, module_type, module_data):
-        """
-        Create the module widget based on its type and data.
-        """
+    def create_module(self, module_type: str, module_data: dict) -> Optional[QWidget]:
+        module_class = {
+            "Label": QLabel,
+            "Checkbox": QCheckBox,
+            "SpinBox": QDoubleSpinBox,
+            "InputField": QLineEdit,
+            "Button": QPushButton,
+            "GraphicView": GraphicsDelegate,
+        }.get(module_type)
+
+        if not module_class:
+            raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
+
+        module = module_class()
+
+        if module_type != "GraphicView":
+            module.setStyleSheet(module_data["stylesheet"])
+
         if module_type == "Label":
-            module = QLabel(module_data["title"])
-            module.setStyleSheet(module_data["stylesheet"])
+            module.setText(module_data["title"])
         elif module_type == "Checkbox":
-            module = QCheckBox(module_data["title"])
-            module.setStyleSheet(module_data["stylesheet"])
+            module.setText(module_data["title"])
         elif module_type == "SpinBox":
-            module = QDoubleSpinBox()
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
             module.setValue(module_data["default_value"])
             module.setSingleStep(module_data["step"])
-            module.setStyleSheet(module_data["stylesheet"])
             module.setSuffix(module_data["suffix"])
         elif module_type == "InputField":
-            module = QLineEdit()
             module.setPlaceholderText(module_data["placeholder"])
-            module.setStyleSheet(module_data["stylesheet"])
         elif module_type == "Button":
-            module = QPushButton()
             if module_data["icon_path"]:
                 icon = QIcon(module_data["icon_path"])
                 module.setIcon(icon)
@@ -111,12 +126,21 @@ class ModuleHandler(QWidget):
                 partial(self.on_button_clicked.emit, module_data["index"])
             )
         else:
-            module = None
-            print(DEBUG_NAME + f'"{module_type}" is not a valid module type')
+            raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
         return module
 
-    def toggle_module(self, module_type, module_index):
-        """
-        Toggle the visibility state of the module.
-        """
+    def setAlignment(self, layout: Union[QLayout, QBoxLayout], alignment: str) -> None:
+        alignment_mapping = {
+            "Left": Qt.AlignmentFlag.AlignLeft,
+            "Right": Qt.AlignmentFlag.AlignRight,
+            "Center": Qt.AlignmentFlag.AlignCenter,
+            "Justify": Qt.AlignmentFlag.AlignJustify,
+            "Top": Qt.AlignmentFlag.AlignTop,
+            "Bottom": Qt.AlignmentFlag.AlignBottom,
+        }
+        layout.setAlignment(
+            alignment_mapping.get(alignment, Qt.AlignmentFlag.AlignLeft)
+        )
+
+    def toggle_module(self, module_type: str, module_index: int) -> None:
         self.visibility_handler.toggle_visibility_state(self, module_type, module_index)

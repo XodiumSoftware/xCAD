@@ -87,6 +87,7 @@ class MainUI(QMainWindow):
         self.table_0 = TableModule(1)
 
         # Setup graphics views:
+        # self.graphics_view_0 = ModuleHandler("GraphicView", 1)
         self.graphics_view_0 = GraphicsViewModule(1)
 
         # Setup buttons:
