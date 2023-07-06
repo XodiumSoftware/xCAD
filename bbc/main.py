@@ -19,18 +19,18 @@ def run():
     main_ui = MainUI()
     main_ui.show()
 
-    afc_cmd = AFCCMD()
-    afc_cmd.draw_rectangle((0, 0), (10, 10), "C:\\Users\\User\\Desktop\\test.dwg")
+    # afc_cmd = AFCCMD()
+    # afc_cmd.draw_rectangle((0, 0), (10, 10), "C:\\Users\\User\\Desktop\\test.dwg")
 
-    parser = argparse.ArgumentParser(
-        description="Draw a rectangle in an AutoCAD drawing."
-    )
-    parser.add_argument("x1", type=float, help="X coordinate of the first corner point")
-    parser.add_argument("y1", type=float, help="Y coordinate of the first corner point")
-    parser.add_argument(
-        "x2", type=float, help="X coordinate of the second corner point"
-    )
-    parser.add_argument
+    # parser = argparse.ArgumentParser(
+    #     description="Draw a rectangle in an AutoCAD drawing."
+    # )
+    # parser.add_argument("x1", type=float, help="X coordinate of the first corner point")
+    # parser.add_argument("y1", type=float, help="Y coordinate of the first corner point")
+    # parser.add_argument(
+    #     "x2", type=float, help="X coordinate of the second corner point"
+    # )
+    # parser.add_argument
 
     return app.exec()
 

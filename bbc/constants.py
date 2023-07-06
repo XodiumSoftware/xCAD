@@ -226,11 +226,12 @@ INPUTFIELDS = [
 SPINBOXES = [
     {
         "index": 0,
-        "minium": 0,
-        "maximum": 1.7e308,
-        "default": 0,
+        "min_value": 0,
+        "max_value": 1.7e308,
+        "default_value": 0,
         "step": 0.5,
         "stylesheet": "QSpinBox { font-size: 12px; }",
+        "suffix": "mm",
     },
 ]
 # ====================================================================================================
@@ -243,90 +244,42 @@ BUTTONS = [
         "icon_path": None,
         "size": [None, None],
         "title": "AutoFrameCAD",
-        "stylesheet": [
-            {
-                "font-size": "32px",
-                "font-weight": "bold",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            },
-        ],
+        "stylesheet": "QPushButton {font-size: 32px;font-weight: bold;font-style: normal;border: none;}",
     },
     {
         "index": 1,
         "icon_path": os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
         "size": [30, 30],
         "title": "ViewerButton",
-        "stylesheet": [
-            {
-                "font-size": "12px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            }
-        ],
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 2,
         "icon_path": None,
         "size": [30, 30],
         "title": "Save",
-        "stylesheet": [
-            {
-                "font-size": "8px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            }
-        ],
+        "stylesheet": "QPushButton {font-size: 8px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 3,
         "icon_path": None,
         "size": [30, 30],
         "title": "Discard",
-        "stylesheet": [
-            {
-                "font-size": "8px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            }
-        ],
+        "stylesheet": "QPushButton {font-size: 8px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 4,
         "icon_path": None,
         "size": [30, 30],
         "title": "Reset",
-        "stylesheet": [
-            {
-                "font-size": "12px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            }
-        ],
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 5,
         "icon_path": os.path.join(ICONS_FOLDER_PATH, "home_icon_light.png"),
         "size": [30, 30],
         "title": "Startup page",
-        "stylesheet": [
-            {
-                "font-size": "12px",
-                "font-weight": "normal",
-                "font-style": "normal",
-                "text-decoration": "none",
-                "color": "#000000",
-            }
-        ],
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
 ]
 # ====================================================================================================

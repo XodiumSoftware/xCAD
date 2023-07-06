@@ -9,16 +9,16 @@ class VisibilityHandler:
         """
         self.settings = QSettings()
 
-    def toggle_visibility_state(self, widget, module_index):
+    def toggle_visibility_state(self, module, module_type, module_index):
         """
-        Toggle the visibility of the widget.
+        Toggle the visibility of the module.
         """
-        widget.setVisible(not widget.isVisible())
-        self.save_visibility_state(widget.isVisible(), module_index)
+        module.setVisible(not module.isVisible())
+        self.save_visibility_state(module.isVisible(), module_type, module_index)
 
-    def load_visibility_state(self, widget, module_index):
+    def load_visibility_state(self, module, module_index):
         """
-        Load the visibility state from QSettings and apply it to the widget.
+        Load the visibility state from QSettings and apply it to the module.
         """
         visibility_state = self.settings.value(
             f"visibility_state_module_{module_index}",
@@ -29,16 +29,17 @@ class VisibilityHandler:
             DEBUG_NAME
             + f"Loaded visibility_state for module_{module_index}: {visibility_state}"
         )
-        widget.setVisible(visibility_state)
+        module.setVisible(visibility_state)
 
-    def save_visibility_state(self, visibility_state, module_index):
+    def save_visibility_state(self, visibility_state, module_type, module_index):
         """
         Save the visibility state to QSettings.
         """
         self.settings.setValue(
-            f"visibility_state_module_{module_index}", visibility_state
+            f"visibility_state_module_{module_type}_index_{module_index}",
+            visibility_state,
         )
         print(
             DEBUG_NAME
-            + f"Saved visibility_state for module_{module_index}: {visibility_state}"
+            + f"Saved visibility state for module_{module_type}_{module_index}: {visibility_state}"
         )

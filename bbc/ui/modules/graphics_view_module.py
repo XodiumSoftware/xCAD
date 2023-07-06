@@ -62,11 +62,11 @@ class GraphicsViewModule(QWidget):
 
         return module
 
-    def toggle_module(self, module_index):
-        """
-        Toggle the visibility of the label.
-        """
-        self.visibility_handler.toggle_visibility_state(self, module_index)
+    # def toggle_module(self, module_index):
+    #     """
+    #     Toggle the visibility of the label.
+    #     """
+    #     self.visibility_handler.toggle_visibility_state(self, module_index)
 
 
 class GraphicsModule(QGraphicsView):
