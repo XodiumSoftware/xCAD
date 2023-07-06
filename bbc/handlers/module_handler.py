@@ -14,7 +14,6 @@ from constants import (
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
 from handlers.db_handler import DataBaseHandler
-from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -47,7 +46,6 @@ class ModuleHandler(QWidget):
         Initialize the ModuleHandler.
         """
         super().__init__(parent)
-        self.visibility_handler = VisibilityHandler()
         self.db_handler = DataBaseHandler()
         self.setup_module(module_type, module_index, margins, alignment)
 
@@ -179,11 +177,11 @@ class ModuleHandler(QWidget):
         }
 
         layout.setAlignment(
-            alignment_mapping.get(alignment, Qt.AlignmentFlag.AlignLeft)
+            alignment_mapping.get(alignment, Qt.AlignmentFlag.AlignJustify)
         )
 
-    def toggle_module(self, module_type: str, module_index: int) -> None:
+    def toggle_module(self):
         """
         Toggle the module.
         """
-        self.visibility_handler.toggle_visibility_state(self, module_type, module_index)
+        self.setVisible(not self.isVisible())

@@ -1,5 +1,4 @@
 from constants import DEBUG_NAME
-from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtWidgets import (
     QFormLayout,
     QGridLayout,
@@ -17,8 +16,6 @@ class ContainerModule(QWidget):
         Initialize the ContainerModule.
         """
         super().__init__(parent)
-        self.visibility_handler = VisibilityHandler()
-
         self.setup_module(layout_type, margins, widget_alignment)
 
     def setup_module(self, layout_type, margins, widget_alignment):

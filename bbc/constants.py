@@ -65,10 +65,10 @@ TABLES = [
         "columns": ["Parameter", "Value"],
         "rows": [
             ["Structure", "Select"],
-            ["Length (mm)", 6000],
-            ["Height (mm)", 3000],
-            ["Area (m2)", None],
-            ["Perimeter (m1)", None],
+            ["Length", 6000],
+            ["Height", 3000],
+            ["Area", None],
+            ["Perimeter", None],
         ],
     },
     {

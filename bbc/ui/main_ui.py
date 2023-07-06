@@ -176,16 +176,12 @@ class MainUI(QMainWindow):
         Setup the connections.
         """
         self.button_0.on_button_clicked.connect(self.toggle_main_containers)
-        # self.button_1.on_button_clicked.connect(self.graphics_view_0.toggle_module)
+        self.button_1.on_button_clicked.connect(self.graphics_view_0.toggle_module)
         self.button_5.on_button_clicked.connect(self.toggle_main_containers)
 
     def toggle_main_containers(self):
         """
         Toggle the main containers.
         """
-        if self.main_container_0.isVisible():
-            self.main_container_0.setVisible(False)
-            self.main_container_1.setVisible(True)
-        else:
-            self.main_container_0.setVisible(True)
-            self.main_container_1.setVisible(False)
+        self.main_container_0.setVisible(not self.main_container_0.isVisible())
+        self.main_container_1.setVisible(not self.main_container_1.isVisible())

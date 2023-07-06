@@ -25,6 +25,7 @@ class TableDelegate(QTableView):
 
         self.setSortingEnabled(self.module_data["sorting"])
         self.setAlternatingRowColors(self.module_data["alternating_row_colors"])
+        # self.openPersistentEditor(self.model().index(0, 0))
 
         font = QFont()
         font.setBold(True)
