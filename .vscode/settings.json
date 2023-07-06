@@ -29,8 +29,6 @@
   "git.confirmSync": false,
   // Jupyter Notebook Settings
   "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
-  // Python Analysis Settings
-  "python.analysis.addImport.exactMatchOnly": false,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
@@ -105,4 +103,5 @@
   "workbench.colorTheme": "Monokai Dimmed",
   "files.autoSave": "onFocusChange",
   "notebook.formatOnSave.enabled": true,
+  "python.analysis.importFormat": "relative",
 }
