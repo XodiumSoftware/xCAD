@@ -17,22 +17,7 @@ class MainUI(QMainWindow):
         super().__init__()
 
         self.setup_database()
-        self.setup_settings()
         self.setup_main_ui()
-
-    def setup_settings(self):
-        """
-        Setup the settings.
-        """
-        self._settings = QSettings()
-
-        self.main_ui_visibility_state = self._settings.value(
-            "main_ui_visibility_state", 0, type=int
-        )
-        self.viewer_visibility_state = self._settings.value(
-            "viewer_visibility_state", 0, type=int
-        )
-        self.theme_state = self._settings.value("theme_state", 0, type=int)
 
     def setup_database(self):
         """

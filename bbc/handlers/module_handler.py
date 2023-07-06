@@ -14,7 +14,7 @@ from constants import (
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
 from handlers.db_handler import DataBaseHandler
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import QSettings, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QBoxLayout,
@@ -46,8 +46,16 @@ class ModuleHandler(QWidget):
         Initialize the ModuleHandler.
         """
         super().__init__(parent)
+
         self.db_handler = DataBaseHandler()
+
+        self._settings = QSettings()
+
+        self.module_type = module_type
+        self.module_index = module_index
+
         self.setup_module(module_type, module_index, margins, alignment)
+        QTimer.singleShot(0, self.load_visibility_state)
 
     def setup_module(
         self,
@@ -185,3 +193,24 @@ class ModuleHandler(QWidget):
         Toggle the module.
         """
         self.setVisible(not self.isVisible())
+        self.save_visibility_state()
+
+    def save_visibility_state(self):
+        """
+        Save the visibility state of the module.
+        """
+        self._settings.setValue(
+            f"{self.module_type}_{self.module_index}", self.isVisible()
+        )
+        print(f"Visibility state saved: {self.isVisible()}")
+
+    def load_visibility_state(self):
+        """
+        Load the visibility state of the module.
+        """
+        # FIXME
+        visible = self._settings.value(
+            f"{self.module_type}_{self.module_index}", True, type=bool
+        )
+        self.setVisible(bool(visible))
+        print(f"Visibility state loaded: {self.setVisible(bool(visible))}")
