@@ -37,7 +37,7 @@
       "name": "Python: test0.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/bbc/test0.py",
+      "program": "${workspaceFolder}/bbc/sketch/test0.py",
       "console": "integratedTerminal",
       "justMyCode": true,
     },
@@ -45,7 +45,7 @@
       "name": "Python: test1.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/bbc/test2.py",
+      "program": "${workspaceFolder}/bbc/sketch/test2.py",
       "console": "integratedTerminal",
       "justMyCode": true,
     }

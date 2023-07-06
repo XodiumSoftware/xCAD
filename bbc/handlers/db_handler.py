@@ -21,9 +21,6 @@ class DataBaseHandler:
         self.setup_database_model()
 
     def setup_database_model(self):
-        """
-        Setup the database model.
-        """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 

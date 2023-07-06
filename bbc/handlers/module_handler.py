@@ -12,7 +12,6 @@ from constants import (
     SPINBOXES,
     TABLES,
 )
-from delegates.cell_delegate import CellDelegate
 from delegates.graphics_delegate import GraphicsDelegate
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt, Signal
@@ -198,9 +197,6 @@ class ModuleHandler(QWidget):
                 print(DEBUG_NAME + f"failed to open {DATABASE_PATH}")
 
             module.setModel(model)
-
-            delegate = CellDelegate()
-            module.setItemDelegateForColumn(1, delegate)
 
             column_count = model.columnCount()
             for column in range(0, column_count, 2):

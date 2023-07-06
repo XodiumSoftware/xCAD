@@ -2,14 +2,6 @@ import os
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QComboBox,
-    QDoubleSpinBox,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-)
 
 # General
 # ====================================================================================================
@@ -45,21 +37,10 @@ UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 # DataBaseHandler
 # ====================================================================================================
-DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
+DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 # ====================================================================================================
 
 # TableModule:
-# ====================================================================================================
-# Editable: True/False
-# ====================================================================================================
-# Cell Types:
-# - QLabel
-# - QPushButton
-# - QLineEdit
-# - QDoubleSpinBox
-# - QComboBox
-# - QCheckBox
-# Add more cell types here as needed
 # ====================================================================================================
 
 FILL_PATTERNS = [
@@ -81,38 +62,13 @@ TABLES = [
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
-        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "columns": ["Parameter", "Value"],
         "rows": [
-            [
-                "Structure",
-                [False, QLabel],
-                "Select",
-                [False, QPushButton],
-            ],
-            [
-                "Length (mm)",
-                [False, QLabel],
-                6000,
-                [True, QDoubleSpinBox],
-            ],
-            [
-                "Height (mm)",
-                [False, QLabel],
-                3000,
-                [True, QDoubleSpinBox],
-            ],
-            [
-                "Area (m2)",
-                [False, QLabel],
-                None,
-                [False, QLabel],
-            ],
-            [
-                "Perimeter (m1)",
-                [False, QLabel],
-                None,
-                [False, QLabel],
-            ],
+            ["Structure", "Select"],
+            ["Length (mm)", 6000],
+            ["Height (mm)", 3000],
+            ["Area (m2)", None],
+            ["Perimeter (m1)", None],
         ],
     },
     {
@@ -121,68 +77,18 @@ TABLES = [
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
-        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "columns": ["Parameter", "Value"],
         "rows": [
-            [
-                "Thickness",
-                [False, QLabel],
-                60,
-                [True, QLineEdit],
-            ],
-            [
-                "Pen color",
-                [False, QLabel],
-                "255, 255, 255",
-                [True, QLineEdit],
-            ],
-            [
-                "Pen thickness",
-                [False, QLabel],
-                1,
-                [True, QLineEdit],
-            ],
-            [
-                "Pen style",
-                [False, QLabel],
-                PEN_STYLES,
-                [True, QComboBox],
-            ],
-            [
-                "Fill pattern",
-                [False, QLabel],
-                FILL_PATTERNS,
-                [True, QComboBox],
-            ],
-            [
-                "Fill pattern scale",
-                [False, QLabel],
-                1,
-                [True, QLineEdit],
-            ],
-            [
-                "Fill pattern angle",
-                [False, QLabel],
-                0,
-                [True, QLineEdit],
-            ],
-            [
-                "Fill",
-                [False, QLabel],
-                True,
-                [True, QCheckBox],
-            ],
-            [
-                "Fill color",
-                [False, QLabel],
-                "255, 0, 0",
-                [True, QLineEdit],
-            ],
-            [
-                "Fill opacity",
-                [False, QLabel],
-                0.5,
-                [True, QLineEdit],
-            ],
+            ["Thickness", 60],
+            ["Pen color", "255, 255, 255"],
+            ["Pen thickness", 1],
+            ["Pen style", ",".join(str(style) for style in PEN_STYLES)],
+            ["Fill pattern", ",".join(str(pattern) for pattern in FILL_PATTERNS)],
+            ["Fill pattern scale", 1],
+            ["Fill pattern angle", 0],
+            ["Fill", True],
+            ["Fill color", "255, 0, 0"],
+            ["Fill opacity", 0.5],
         ],
     },
 ]

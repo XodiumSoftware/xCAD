@@ -104,4 +104,5 @@
   "files.autoSave": "onFocusChange",
   "notebook.formatOnSave.enabled": true,
   "python.analysis.importFormat": "relative",
+  "sqliteViewer.maxFileSize": 0,
 }

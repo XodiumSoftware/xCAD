@@ -1,7 +1,7 @@
-import argparse
+# import argparse
 import sys
 
-from commands.afc_cmd import AFCCMD
+# from commands.afc_cmd import AFCCMD
 from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from PySide6.QtWidgets import QApplication
 from ui.main_ui import MainUI
