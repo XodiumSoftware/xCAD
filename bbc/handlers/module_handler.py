@@ -4,25 +4,30 @@ from typing import Dict, Optional, Tuple, Union
 from constants import (
     BUTTONS,
     CHECKBOXES,
+    DATABASE_PATH,
     DEBUG_NAME,
     GRAPHIC_VIEWS,
     INPUTFIELDS,
     LABELS,
     SPINBOXES,
+    TABLES,
 )
+from delegates.cell_delegate import CellDelegate
 from delegates.graphics_delegate import GraphicsDelegate
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
+from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 from PySide6.QtWidgets import (
     QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
-    QGraphicsView,
+    QHeaderView,
     QLabel,
     QLayout,
     QLineEdit,
     QPushButton,
+    QTableView,
     QVBoxLayout,
     QWidget,
 )
@@ -79,6 +84,7 @@ class ModuleHandler(QWidget):
             "InputField": INPUTFIELDS,
             "Button": BUTTONS,
             "GraphicView": GRAPHIC_VIEWS,
+            "TableView": TABLES,
         }.get(module_type, [])
         module_data = next(
             (module for module in module_list if module["index"] == module_index), None
@@ -93,6 +99,7 @@ class ModuleHandler(QWidget):
             "InputField": QLineEdit,
             "Button": QPushButton,
             "GraphicView": GraphicsDelegate,
+            "TableView": QTableView,
         }.get(module_type)
 
         if not module_class:
@@ -125,6 +132,52 @@ class ModuleHandler(QWidget):
             module.clicked.connect(
                 partial(self.on_button_clicked.emit, module_data["index"])
             )
+        elif module_type == "TableView":
+            module.setSortingEnabled(module_data["sorting"])
+            module.setAlternatingRowColors(module_data["alternating_row_colors"])
+
+            font = module.font()
+            font.setBold(True)
+
+            hor_header = module.horizontalHeader()
+            hor_header.setVisible(True)
+            hor_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+            hor_header.setFont(font)
+
+            ver_header = module.verticalHeader()
+            ver_header.setVisible(True)
+            ver_header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
+            ver_header.setFont(font)
+
+            module_name = module_data["desc"]
+            model = QSqlTableModel()
+
+            db = QSqlDatabase.addDatabase("QSQLITE")
+            db.setDatabaseName(DATABASE_PATH)
+
+            if db.open():
+                query = QSqlQuery(db)
+                query.prepare(
+                    "SELECT * FROM table_name WHERE module_name = :module_name"
+                )
+                query.bindValue(":module_name", module_name)
+                query.exec_()
+                model.setQuery(query)
+                model.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
+                db.close()
+
+            else:
+                print(DEBUG_NAME + f"failed to open {DATABASE_PATH}")
+
+            module.setModel(model)
+            delegate = CellDelegate()
+
+            module.setItemDelegateForColumn(1, delegate)
+            column_count = model.columnCount()
+
+            for column in range(0, column_count, 2):
+                module.hideColumn(column)
+
         else:
             raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
         return module

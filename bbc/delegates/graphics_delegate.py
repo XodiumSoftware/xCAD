@@ -24,7 +24,6 @@ class GraphicsDelegate(QGraphicsView):
         """
         Setup the GraphicsView.
         """
-        # FIXME:Cannot assign member "scene" for type "GraphicsModule" Type "QGraphicsScene" cannot be assigned to type "() -> QGraphicsScene"
         self.scene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.scene)
 

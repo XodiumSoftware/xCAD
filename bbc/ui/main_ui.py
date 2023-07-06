@@ -8,7 +8,6 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.container_module import ContainerModule
 from ui.modules.graphics_view_module import GraphicsViewModule
-from ui.modules.table_module import TableModule
 
 
 class MainUI(QMainWindow):
@@ -84,7 +83,7 @@ class MainUI(QMainWindow):
         self.label_1 = ModuleHandler("Label", 0)
 
         # Setup tables:
-        self.table_0 = TableModule(1)
+        self.table_0 = ModuleHandler("TableView", 1)
 
         # Setup graphics views:
         # self.graphics_view_0 = ModuleHandler("GraphicView", 1)
