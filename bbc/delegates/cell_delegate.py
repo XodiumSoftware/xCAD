@@ -58,6 +58,7 @@ class CellDelegate(QStyledItemDelegate):
                 data = index.data(Qt.ItemDataRole.DisplayRole)
                 if isinstance(editor, (QSpinBox, QDoubleSpinBox)):
                     editor.setValue(data)
+
                 elif isinstance(editor, QLineEdit):
                     editor.setText(data)
 
@@ -68,14 +69,7 @@ class CellDelegate(QStyledItemDelegate):
         if isinstance(editor, (QSpinBox, QDoubleSpinBox)):
             value = editor.value()
             model.setData(index, value, Qt.ItemDataRole.EditRole)
+
         elif isinstance(editor, QLineEdit):
             value = editor.text()
             model.setData(index, value, Qt.ItemDataRole.EditRole)
-
-    def updateEditorGeometry(self, editor, option, index):
-        """
-        Update the editor geometry.
-        """
-        # FIXME: Cannot access member "rect" for type "QStyleOptionViewItem" Member "rect" is unknown
-        # editor.setGeometry(option.rect)
-        pass

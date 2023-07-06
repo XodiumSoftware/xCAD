@@ -121,9 +121,3 @@ class ContainerModule(QWidget):
             raise TypeError(
                 f"{DEBUG_NAME} Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
-
-    # def toggle_module(self, layout_type=None):
-    #     """
-    #     Toggle the visibility of the label.
-    #     """
-    #     self.visibility_handler.toggle_visibility_state(self, layout_type)

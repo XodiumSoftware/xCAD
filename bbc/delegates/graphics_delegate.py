@@ -1,3 +1,5 @@
+from typing import Optional
+
 from constants import GRAPHIC_VIEWS
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen
@@ -12,7 +14,7 @@ from PySide6.QtWidgets import (
 
 
 class GraphicsDelegate(QGraphicsView):
-    def __init__(self, module_data=None, parent=None):
+    def __init__(self, module_data: Optional[dict] = None, parent=None):
         """
         Initialize the GraphicsView.
         """
@@ -95,7 +97,7 @@ class GraphicsDelegate(QGraphicsView):
         )
         self.create_label(item_width, total_length)
 
-    def create_label(self, item_width, total_length):
+    def create_label(self, item_width: int, total_length: int):
         """
         Create the label.
         """
@@ -116,7 +118,12 @@ class GraphicsDelegate(QGraphicsView):
         self.scene.addItem(bottom_text)
 
     def create_dimension(
-        self, item, item_width, item_thickness, y_position, total_length
+        self,
+        item: Optional[QGraphicsRectItem],
+        item_width: int,
+        item_thickness: int,
+        y_position: int,
+        total_length: int,
     ):
         """
         Create the dimension for an item or the total dimension.
