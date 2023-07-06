@@ -13,10 +13,8 @@ from constants import (
     TABLES,
 )
 from delegates.graphics_delegate import GraphicsDelegate
-from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QIcon
-from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
+from PySide6.QtGui import QIcon, QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
     QBoxLayout,
     QCheckBox,
@@ -31,6 +29,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from .db_handler import DataBaseHandler
+from .visibility_handler import VisibilityHandler
 
 
 class ModuleHandler(QWidget):
@@ -49,6 +50,7 @@ class ModuleHandler(QWidget):
         """
         super().__init__(parent)
         self.visibility_handler = VisibilityHandler()
+        self.db_handler = DataBaseHandler()
         self.setup_module(module_type, module_index, margins, alignment)
 
     def setup_module(
@@ -177,24 +179,13 @@ class ModuleHandler(QWidget):
             ver_header.setFont(font)
 
             module_name = module_data["desc"]
-            model = QSqlTableModel()
+            table_data = self.db_handler.get_table_data(module_name)
 
-            db = QSqlDatabase.addDatabase("QSQLITE")
-            db.setDatabaseName(DATABASE_PATH)
+            model = QStandardItemModel(len(table_data), len(table_data[0]))
 
-            if db.open():
-                query = QSqlQuery(db)
-                query.prepare(
-                    "SELECT * FROM table_name WHERE module_name = :module_name"
-                )
-                query.bindValue(":module_name", module_name)
-                query.exec_()
-                model.setQuery(query)
-                model.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
-                db.close()
-
-            else:
-                print(DEBUG_NAME + f"failed to open {DATABASE_PATH}")
+            for row_idx, row_data in enumerate(table_data):
+                for col_idx, value in enumerate(row_data):
+                    model.setItem(row_idx, col_idx, QStandardItem(str(value)))
 
             module.setModel(model)
 
