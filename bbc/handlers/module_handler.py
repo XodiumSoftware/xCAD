@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (
     QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
+    QGraphicsView,
     QHeaderView,
     QLabel,
     QLayout,
@@ -98,7 +99,7 @@ class ModuleHandler(QWidget):
             "SpinBox": QDoubleSpinBox,
             "InputField": QLineEdit,
             "Button": QPushButton,
-            "GraphicView": GraphicsDelegate,
+            "GraphicView": QGraphicsView,
             "TableView": QTableView,
         }.get(module_type)
 
@@ -132,6 +133,9 @@ class ModuleHandler(QWidget):
             module.clicked.connect(
                 partial(self.on_button_clicked.emit, module_data["index"])
             )
+        elif module_type == "GraphicView":
+            delegate = GraphicsDelegate(module_data)
+            module = delegate
         elif module_type == "TableView":
             module.setSortingEnabled(module_data["sorting"])
             module.setAlternatingRowColors(module_data["alternating_row_colors"])

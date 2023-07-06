@@ -7,7 +7,6 @@ from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.container_module import ContainerModule
-from ui.modules.graphics_view_module import GraphicsViewModule
 
 
 class MainUI(QMainWindow):
@@ -86,8 +85,7 @@ class MainUI(QMainWindow):
         self.table_0 = ModuleHandler("TableView", 1)
 
         # Setup graphics views:
-        # self.graphics_view_0 = ModuleHandler("GraphicView", 1)
-        self.graphics_view_0 = GraphicsViewModule(1)
+        self.graphics_view_0 = ModuleHandler("GraphicView", 1)
 
         # Setup buttons:
         self.button_0 = ModuleHandler("Button", 0)
