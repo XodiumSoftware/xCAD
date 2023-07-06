@@ -4,7 +4,6 @@ from typing import Dict, Optional, Tuple, Union
 from constants import (
     BUTTONS,
     CHECKBOXES,
-    DATABASE_PATH,
     DEBUG_NAME,
     GRAPHIC_VIEWS,
     INPUTFIELDS,
@@ -181,17 +180,19 @@ class ModuleHandler(QWidget):
             module_name = module_data["desc"]
             table_data = self.db_handler.get_table_data(module_name)
 
+            column_names = module_data["columns"]
+
             model = QStandardItemModel(len(table_data), len(table_data[0]))
+
+            for col_idx, col_data in enumerate(column_names, start=1):
+                model.setHorizontalHeaderItem(col_idx, QStandardItem(col_data))
 
             for row_idx, row_data in enumerate(table_data):
                 for col_idx, value in enumerate(row_data):
                     model.setItem(row_idx, col_idx, QStandardItem(str(value)))
 
             module.setModel(model)
-
-            column_count = model.columnCount()
-            for column in range(0, column_count, 2):
-                module.hideColumn(column)
+            module.hideColumn(0)
 
         else:
             raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
