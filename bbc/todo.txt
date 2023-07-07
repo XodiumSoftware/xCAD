@@ -10,15 +10,9 @@ NOTE: General notes about the code.
 
 General Notes:
 =============================================================================================
-BUG: VisibilityHandler load_visibility_state func causing the ui to bug out on run.
-FIXME: TableModule sorting.
-FIXME: CellDelegate.
 FIXME: Different types modules not affected by spacer.
 FIXME: ContainerModule rowspan and colspan value -1 not working as intended.
-TODO: MainUI: make use of the VisibilityHandler.
 TODO: DB make the save, discard and reset buttons work.
 TODO: AFCCMD.
-TODO: CellDelegate: Make modular.
-TODO: GraphicsViewModule use DataBaseHandler and show settings in the TableModule.
 TODO: ThemeHandler.
 =============================================================================================
