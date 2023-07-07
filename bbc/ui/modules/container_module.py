@@ -40,7 +40,9 @@ class ContainerModule(QWidget):
                 0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
             )
             if size is not None:
-                spacer_item.changeSize(size, 0, QSizePolicy.Policy.Fixed)
+                spacer_item.changeSize(
+                    size, size, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
+                )
             layout.addItem(spacer_item)
         elif isinstance(layout, QGridLayout):
             empty_spacer = QSpacerItem(

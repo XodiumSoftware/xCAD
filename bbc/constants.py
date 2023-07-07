@@ -57,22 +57,22 @@ PEN_STYLES = [
 
 TABLES = [
     {
-        "index": 1,
+        "index": 0,
         "desc": "FRAME_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Value"],
         "rows": [
-            ["Structure", "Select"],
+            ["Structure", True],
             ["Length", 6000],
             ["Height", 3000],
-            ["Area", None],
-            ["Perimeter", None],
+            ["Area", ((6000 * 3000) / 1000000)],
+            ["Perimeter", (((6000 + 3000) * 2) / 1000)],
         ],
     },
     {
-        "index": 2,
+        "index": 1,
         "desc": "OBJECT_ASSEMBLY_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
@@ -230,7 +230,7 @@ ICONS_FILE_PATHS = {
 # ====================================================================================================
 GRAPHICS_VIEWS = [
     {
-        "index": 1,
+        "index": 0,
         "data": [
             {
                 "draw_order": 0,

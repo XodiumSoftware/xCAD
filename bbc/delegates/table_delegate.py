@@ -1,9 +1,9 @@
 from typing import Optional
 
-from delegates.item_delegate import ItemDelegate
+from delegates.item_delegate import ItemDelegate, StandardItemDelegate
 from handlers.db_handler import DataBaseHandler
 from PySide6.QtGui import QFont, QStandardItem, QStandardItemModel
-from PySide6.QtWidgets import QHeaderView, QTableView
+from PySide6.QtWidgets import QHeaderView, QStyleOptionViewItem, QTableView
 
 
 class TableDelegate(QTableView):
@@ -25,7 +25,6 @@ class TableDelegate(QTableView):
 
         self.setSortingEnabled(self.module_data["sorting"])
         self.setAlternatingRowColors(self.module_data["alternating_row_colors"])
-        # self.openPersistentEditor(self.model().index(0, 0))
 
         font = QFont()
         font.setBold(True)
@@ -52,7 +51,10 @@ class TableDelegate(QTableView):
 
         for row_idx, row_data in enumerate(table_data):
             for col_idx, value in enumerate(row_data):
-                item = QStandardItem(str(value))
+                if col_idx == 1:
+                    item = QStandardItem(str(value))
+                else:
+                    item = StandardItemDelegate(str(value))
                 model.setItem(row_idx, col_idx, item)
 
         self.setModel(model)
@@ -60,3 +62,12 @@ class TableDelegate(QTableView):
 
         delegate = ItemDelegate()
         self.setItemDelegate(delegate)
+
+        for row in range(model.rowCount()):
+            for column in range(model.columnCount()):
+                index = model.index(row, column)
+                option = QStyleOptionViewItem()
+                editor = delegate.createEditor(self.viewport(), option, index)
+                if editor is not None:
+                    delegate.setEditorData(editor, index)
+                    self.setIndexWidget(index, editor)

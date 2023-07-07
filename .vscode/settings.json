@@ -38,7 +38,8 @@
   },
   "python.analysis.extraPaths": [
     "${workspaceFolder}/bbc",
-    "${workspaceFolder}"
+    "${workspaceFolder}",
+    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages",
   ],
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,

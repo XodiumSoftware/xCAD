@@ -67,10 +67,10 @@ class MainUI(QMainWindow):
         self.label_1 = ModuleHandler("VBox", "Label", 0)
 
         # Setup tables:
-        self.table_0 = ModuleHandler("VBox", "TableView", 1)
+        self.table_0 = ModuleHandler("VBox", "TableView", 0)
 
         # Setup graphics views:
-        self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 1)
+        self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 0)
 
         # Setup buttons:
         self.button_0 = ModuleHandler("VBox", "Button", 0)
