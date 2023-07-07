@@ -33,27 +33,19 @@ class ContainerModule(QWidget):
             raise ValueError(f"Invalid layout type: {module_layout_type}")
         return layout
 
-    def add_spacer(self, size=None):
+    def add_spacer(self):
         layout = self.layout()
-        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
-            spacer_item = QSpacerItem(
-                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-            )
-            if size is not None:
-                spacer_item.changeSize(
-                    size, size, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-                )
-            layout.addItem(spacer_item)
+        if isinstance(layout, (QVBoxLayout, QHBoxLayout)):
+            layout.addStretch()
         elif isinstance(layout, QGridLayout):
             empty_spacer = QSpacerItem(
                 0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
             )
-            layout.addItem(empty_spacer, layout.rowCount(), 0)
-            layout.setRowStretch(layout.rowCount(), 1)
-            layout.setColumnStretch(layout.columnCount(), 1)
+            row = layout.rowCount()
+            layout.addItem(empty_spacer, row, 0, 1, layout.columnCount())
         else:
             raise TypeError(
-                "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
+                "Spacer can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
             )
 
     def add_module(

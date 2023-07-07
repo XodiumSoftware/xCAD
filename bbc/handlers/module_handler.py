@@ -209,12 +209,12 @@ class ModuleHandler(QWidget):
         Set the alignment of the layout.
         """
         alignment_mapping = {
-            "Left": Qt.AlignmentFlag.AlignLeft,
-            "Right": Qt.AlignmentFlag.AlignRight,
-            "Center": Qt.AlignmentFlag.AlignCenter,
-            "Justify": Qt.AlignmentFlag.AlignJustify,
-            "Top": Qt.AlignmentFlag.AlignTop,
-            "Bottom": Qt.AlignmentFlag.AlignBottom,
+            "AlignLeft": Qt.AlignmentFlag.AlignLeft,
+            "AlignRight": Qt.AlignmentFlag.AlignRight,
+            "AlignCenter": Qt.AlignmentFlag.AlignCenter,
+            "AlignJustify": Qt.AlignmentFlag.AlignJustify,
+            "AlignTop": Qt.AlignmentFlag.AlignTop,
+            "AlignBottom": Qt.AlignmentFlag.AlignBottom,
         }
 
         layout.setAlignment(
@@ -236,9 +236,6 @@ class ModuleHandler(QWidget):
         self._settings.setValue(
             f"{self.module_type}_{self.module_index}", visibility_state
         )
-        print(
-            f"Visibility state saved: {self.module_type}_{self.module_index}:{visibility_state}"
-        )
 
     def load_visibility_state(self):
         """
@@ -248,6 +245,3 @@ class ModuleHandler(QWidget):
             f"{self.module_type}_{self.module_index}", True, type=bool
         )
         self.setVisible(bool(visibility_state))
-        print(
-            f"Visibility state loaded: {self.module_type}_{self.module_index}:{visibility_state}"
-        )

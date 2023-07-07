@@ -80,6 +80,25 @@ class MainUI(QMainWindow):
         self.button_4 = ModuleHandler("VBox", "Button", 4)
         self.button_5 = ModuleHandler("VBox", "Button", 5)
 
+        print(
+            "label_0 size policy:",
+            self.label_0.sizePolicy().horizontalPolicy(),
+            self.label_0.sizePolicy().verticalPolicy(),
+        )
+        print(
+            "button_1 size policy:",
+            self.button_1.sizePolicy().horizontalPolicy(),
+            self.button_1.sizePolicy().verticalPolicy(),
+        )
+        print(
+            "button_5 size policy:",
+            self.button_5.sizePolicy().horizontalPolicy(),
+            self.button_5.sizePolicy().verticalPolicy(),
+        )
+        print("label_0 size hint:", self.label_0.sizeHint())
+        print("button_5 size hint:", self.button_5.sizeHint())
+        print("button_1 size hint:", self.button_1.sizeHint())
+
     def setup_sub_containers(self):
         """
         Setup the sub containers.
@@ -155,6 +174,11 @@ class MainUI(QMainWindow):
             rowspan="auto",
             columnspan="auto",
         )
+
+        print("main_container_0 size:", self.main_container_0.size())
+        print("main_container_0 position:", self.main_container_0.pos())
+        print("main_container_1 size:", self.main_container_1.size())
+        print("main_container_1 position:", self.main_container_1.pos())
 
     def setup_connections(self):
         """
