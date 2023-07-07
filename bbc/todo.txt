@@ -11,7 +11,7 @@ NOTE: General notes about the code.
 General Notes:
 =============================================================================================
 FIXME: Different types modules not affected by spacer.
-FIXME: ContainerModule rowspan and colspan value -1 not working as intended.
+FIXME load_visibility_state func ModuleHandler
 TODO: DB make the save, discard and reset buttons work.
 TODO: AFCCMD.
 TODO: ThemeHandler.

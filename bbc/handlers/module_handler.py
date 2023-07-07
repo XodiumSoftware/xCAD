@@ -21,6 +21,8 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QDoubleSpinBox,
     QGraphicsView,
+    QGridLayout,
+    QHBoxLayout,
     QLabel,
     QLayout,
     QLineEdit,
@@ -36,6 +38,7 @@ class ModuleHandler(QWidget):
 
     def __init__(
         self,
+        module_layout_type: str,
         module_type: str,
         module_index: int,
         margins: Optional[Tuple[int, int, int, int]] = None,
@@ -54,11 +57,14 @@ class ModuleHandler(QWidget):
         self.module_type = module_type
         self.module_index = module_index
 
-        self.setup_module(module_type, module_index, margins, alignment)
+        self._setup_module(
+            module_layout_type, module_type, module_index, margins, alignment
+        )
         QTimer.singleShot(0, self.load_visibility_state)
 
-    def setup_module(
+    def _setup_module(
         self,
+        module_layout_type: str,
         module_type: str,
         module_index: int,
         margins: Optional[Tuple[int, int, int, int]] = None,
@@ -67,11 +73,11 @@ class ModuleHandler(QWidget):
         """
         Setup the module.
         """
-        layout = QVBoxLayout(self)
-        module_data = self.get_module_data(module_type, module_index)
+        layout = self._setup_module_layout(module_layout_type)
+        module_data = self._setup_module_data(module_type, module_index)
 
         if module_data:
-            module = self.create_module(module_type, module_data)
+            module = self._setup_module_creation(module_type, module_data)
             if module:
                 layout.addWidget(module)
             else:
@@ -88,7 +94,22 @@ class ModuleHandler(QWidget):
 
         self.setLayout(layout)
 
-    def get_module_data(
+    def _setup_module_layout(self, module_layout_type):
+        """
+        Setup the module layout.
+        """
+        module_layouts = {
+            "VBox": QVBoxLayout(),
+            "HBox": QHBoxLayout(),
+            "Grid": QGridLayout(),
+        }.get(module_layout_type)
+
+        if module_layouts is None:
+            raise ValueError(f"Invalid layout type: {module_layout_type}")
+
+        return module_layouts
+
+    def _setup_module_data(
         self, module_type: str, module_index: int
     ) -> Optional[Dict[str, Union[str, int, float]]]:
         """
@@ -110,7 +131,9 @@ class ModuleHandler(QWidget):
 
         return module_data
 
-    def create_module(self, module_type: str, module_data: dict) -> Optional[QWidget]:
+    def _setup_module_creation(
+        self, module_type: str, module_data: dict
+    ) -> Optional[QWidget]:
         """
         Create the module.
         """
@@ -208,7 +231,6 @@ class ModuleHandler(QWidget):
         """
         Load the visibility state of the module.
         """
-        # FIXME
         visible = self._settings.value(
             f"{self.module_type}_{self.module_index}", True, type=bool
         )

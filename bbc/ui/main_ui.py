@@ -3,7 +3,7 @@ from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import QSettings, Qt
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 from ui.modules.container_module import ContainerModule
@@ -63,22 +63,22 @@ class MainUI(QMainWindow):
         Setup the modules.
         """
         # Setup labels:
-        self.label_0 = ModuleHandler("Label", 0)
-        self.label_1 = ModuleHandler("Label", 0)
+        self.label_0 = ModuleHandler("VBox", "Label", 0)
+        self.label_1 = ModuleHandler("VBox", "Label", 0)
 
         # Setup tables:
-        self.table_0 = ModuleHandler("TableView", 1)
+        self.table_0 = ModuleHandler("VBox", "TableView", 1)
 
         # Setup graphics views:
-        self.graphics_view_0 = ModuleHandler("GraphicsView", 1)
+        self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 1)
 
         # Setup buttons:
-        self.button_0 = ModuleHandler("Button", 0)
-        self.button_1 = ModuleHandler("Button", 1)
-        self.button_2 = ModuleHandler("Button", 2)
-        self.button_3 = ModuleHandler("Button", 3)
-        self.button_4 = ModuleHandler("Button", 4)
-        self.button_5 = ModuleHandler("Button", 5)
+        self.button_0 = ModuleHandler("VBox", "Button", 0)
+        self.button_1 = ModuleHandler("VBox", "Button", 1)
+        self.button_2 = ModuleHandler("VBox", "Button", 2)
+        self.button_3 = ModuleHandler("VBox", "Button", 3)
+        self.button_4 = ModuleHandler("VBox", "Button", 4)
+        self.button_5 = ModuleHandler("VBox", "Button", 5)
 
     def setup_sub_containers(self):
         """
@@ -152,8 +152,8 @@ class MainUI(QMainWindow):
             self.sub_container_5,
             row=0,
             column=1,
-            rowspan=4,
-            columnspan=1,
+            rowspan="auto",
+            columnspan="auto",
         )
 
     def setup_connections(self):

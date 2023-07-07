@@ -84,6 +84,12 @@ class ContainerModule(QWidget):
         if widget is None or row is None or column is None:
             raise ValueError("Widget, row, and column indices must be specified.")
 
+        if rowspan == "auto":
+            rowspan = layout.rowCount()
+
+        if columnspan == "auto":
+            columnspan = layout.columnCount()
+
         if alignment is not None:
             if rowspan is not None and columnspan is not None:
                 layout.addWidget(widget, row, column, rowspan, columnspan, alignment)
