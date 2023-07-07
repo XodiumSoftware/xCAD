@@ -1,6 +1,7 @@
 import sys
 
 from constants import COLOR_PICKER_TITLE, UI_ICON_PATH
+from handlers.db_handler import DataBaseHandler
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor, QIcon, QStandardItem
 from PySide6.QtWidgets import (
@@ -55,6 +56,7 @@ class ItemDelegate(QStyledItemDelegate):
         Initialize the ItemDelegate.
         """
         super().__init__(parent)
+        self._db_handler = DataBaseHandler()
 
     def createEditor(self, parent, option, index):
         """
@@ -125,8 +127,16 @@ class ItemDelegate(QStyledItemDelegate):
 
             elif value_in_column_1 in ("Fill color", "Pen color"):
                 editor = QPushButton(parent)
-                editor.setText(cell_value)
-                editor.setStyleSheet("font-style: italic;")
+                rgb_tuple = tuple(map(int, cell_value.split(",")))
+                color = QColor(*rgb_tuple)
+                editor.setStyleSheet(
+                    f"""
+                    background-color: {color.name()};
+                    border-radius: 5px;
+                    border: 1px solid grey;
+                    padding: 5px;
+                    """
+                )
                 editor.clicked.connect(lambda: self.open_color_picker(index))
                 return editor
 
@@ -160,11 +170,4 @@ class ItemDelegate(QStyledItemDelegate):
     def open_color_picker(self, index):
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
-        color_picker.colorSelected.connect(
-            lambda color: self.handle_color_selected(index, color)
-        )
-        color_picker.exec_()
-
-    def handle_color_selected(self, index, color):
-        model = index.model()
-        model.setData(index, color.name(), role=Qt.ItemDataRole.EditRole)
+        color_picker.exec()

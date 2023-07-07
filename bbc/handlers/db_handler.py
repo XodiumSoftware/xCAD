@@ -133,3 +133,20 @@ class DataBaseHandler:
         if not identifier.isidentifier():
             raise ValueError(f"Invalid identifier: {identifier}")
         return identifier.replace('"', '""')
+
+    def insert_db_data(self, table_name, data):
+        """
+        Insert data into a table.
+        """
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        table_name_identified = self.validate_and_sanitize_identifier(table_name)
+
+        num_columns = len(data)
+        placeholders = ", ".join("?" * num_columns)
+        insert_query = f"INSERT INTO {table_name_identified} VALUES ({placeholders})"
+        cursor.executemany(insert_query, data)
+
+        conn.commit()
+        conn.close()
