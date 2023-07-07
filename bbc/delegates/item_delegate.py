@@ -1,8 +1,41 @@
 import sys
 
+from constants import COLOR_PICKER_TITLE, UI_ICON_PATH
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QStandardItem
-from PySide6.QtWidgets import QDoubleSpinBox, QLabel, QPushButton, QStyledItemDelegate
+from PySide6.QtGui import QColor, QIcon, QStandardItem
+from PySide6.QtWidgets import (
+    QColorDialog,
+    QDoubleSpinBox,
+    QLabel,
+    QPushButton,
+    QStyledItemDelegate,
+)
+
+
+class ColorPicker(QColorDialog):
+    colorSelected = Signal(QColor)
+
+    def __init__(self, color, parent=None):
+        """
+        Initialize the ColorPicker.
+        """
+        super().__init__(parent)
+
+        self.setWindowTitle(COLOR_PICKER_TITLE)
+        self.setWindowIcon(QIcon(UI_ICON_PATH))
+
+        self.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
+        self.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
+        self.setCurrentColor(QColor(color))
+
+        self.currentColorChanged.connect(self.emit_color_selected)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.show()
+
+    def emit_color_selected(self, color):
+        self.colorSelected.emit(color)
 
 
 class StandardItemDelegate(QStandardItem):
@@ -17,8 +50,6 @@ class StandardItemDelegate(QStandardItem):
 
 
 class ItemDelegate(QStyledItemDelegate):
-    on_button_clicked = Signal(int)
-
     def __init__(self, parent=None):
         """
         Initialize the ItemDelegate.
@@ -29,42 +60,78 @@ class ItemDelegate(QStyledItemDelegate):
         """
         Create an editor widget for the given index.
         """
+        cell_value = index.data(Qt.ItemDataRole.EditRole)
+
         if index.column() in (0, 1):
             return None
 
         if index.column() == 2:
-            if index.row() == 0:
+            value_in_column_1 = index.sibling(index.row(), 1).data()
+            if value_in_column_1 == "Structure":
                 editor = QPushButton(parent)
-                saved_data = index.data(Qt.ItemDataRole.EditRole)
-                if saved_data is not None:
+                if cell_value is not None:
                     editor.setText("Select")
                     editor.setStyleSheet("font-style: italic;")
-                    # editor.clicked.connect(self.on_button_clicked)
                 return editor
 
-            elif index.row() in (1, 2):
+            elif value_in_column_1 in (
+                "Length",
+                "Height",
+                "Thickness",
+                "Pen thickness",
+                "Fill pattern angle",
+                "Fill pattern scale",
+                "Fill opacity",
+            ):
                 editor = QDoubleSpinBox(parent)
                 max_double_value = sys.float_info.max
-                editor.setRange(0, max_double_value)
                 editor.setDecimals(0)
-                editor.setSuffix(" mm")
-                return editor
+                if value_in_column_1 == "Fill pattern angle":
+                    editor.setRange(0, 360)
+                    editor.setSuffix(" °")
+                    return editor
 
-            elif index.row() in (3, 4):
+                elif value_in_column_1 == "Pen thickness":
+                    editor.setRange(0, 10)
+                    return editor
+
+                elif value_in_column_1 == "Fill pattern scale":
+                    editor.setRange(0, 100)
+                    return editor
+
+                elif value_in_column_1 == "Fill opacity":
+                    editor.setRange(0, 100)
+                    editor.setSuffix(" %")
+                    return editor
+                else:
+                    editor.setRange(0, max_double_value)
+                    editor.setSuffix(" mm")
+                    return editor
+
+            elif value_in_column_1 in ("Area", "Perimeter"):
                 editor = QLabel(parent)
                 decimals = 0
-                value = index.model().data(index, role=Qt.ItemDataRole.EditRole)
-                if index.row() == 3:
+                if value_in_column_1 == "Area":
                     suffix = " m2"
-                    text = "{:.{}f}{}".format(float(value), decimals, suffix)
+                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
                     editor.setText(text)
                     return editor
 
-                elif index.row() == 4:
+                elif value_in_column_1 == "Perimeter":
                     suffix = " m1"
-                    text = "{:.{}f}{}".format(float(value), decimals, suffix)
+                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
                     editor.setText(text)
                     return editor
+
+            elif value_in_column_1 in ("Fill color", "Pen color"):
+                editor = QPushButton(parent)
+                editor.setText(cell_value)
+                editor.setStyleSheet("font-style: italic;")
+                editor.clicked.connect(lambda: self.open_color_picker(index))
+                return editor
+
+            else:
+                editor = QLabel(parent)
 
         return super().createEditor(parent, option, index)
 
@@ -89,3 +156,15 @@ class ItemDelegate(QStyledItemDelegate):
 
         else:
             super().setModelData(editor, model, index)
+
+    def open_color_picker(self, index):
+        cell_value = index.data(Qt.ItemDataRole.EditRole)
+        color_picker = ColorPicker(cell_value)
+        color_picker.colorSelected.connect(
+            lambda color: self.handle_color_selected(index, color)
+        )
+        color_picker.exec_()
+
+    def handle_color_selected(self, index, color):
+        model = index.model()
+        model.setData(index, color.name(), role=Qt.ItemDataRole.EditRole)

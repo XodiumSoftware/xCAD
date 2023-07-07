@@ -67,7 +67,7 @@ class MainUI(QMainWindow):
         self.label_1 = ModuleHandler("VBox", "Label", 0)
 
         # Setup tables:
-        self.table_0 = ModuleHandler("VBox", "TableView", 0)
+        self.table_0 = ModuleHandler("VBox", "TableView", 1)
 
         # Setup graphics views:
         self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 0)

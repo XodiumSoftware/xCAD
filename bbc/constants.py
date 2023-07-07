@@ -33,6 +33,8 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 # ====================================================================================================
 UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+
+COLOR_PICKER_TITLE = "Color Picker"
 # ====================================================================================================
 
 # DataBaseHandler
