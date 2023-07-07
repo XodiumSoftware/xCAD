@@ -11,10 +11,10 @@ NOTE: General notes about the code.
 General Notes:
 =============================================================================================
 FIXME: Different types modules not affected by spacer.
-FIXME: load_visibility_state func ModuleHandler
 FIXME: TableDelegate sorting not working anymore.
 FIXME: ItemDelegate setting widgets based on columns and rows instead of cell value types.
 TODO: DB make the save, discard and reset buttons work.
+TODO: TABLE MAKE UI TITLE HAVE A * WHEN CHANGES ARE MADE.
 TODO: AFCCMD.
 TODO: ThemeHandler.
 TODO: Move ContainerModule to ModuleHandler.

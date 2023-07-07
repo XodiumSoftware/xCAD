@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
     QLayout,
     QLineEdit,
     QPushButton,
+    QSizePolicy,
     QTableView,
     QVBoxLayout,
     QWidget,
@@ -180,6 +181,15 @@ class ModuleHandler(QWidget):
                 module.setText(module_data["title"])
 
             module.setStyleSheet(module_data["stylesheet"])
+
+            if module_data["size"] != None:
+                module.setFixedSize(*module_data["size"])
+
+            else:
+                module.setSizePolicy(
+                    QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum
+                )
+
             module.clicked.connect(
                 partial(self.on_button_clicked.emit, module_data["index"])
             )
@@ -222,17 +232,22 @@ class ModuleHandler(QWidget):
         """
         Save the visibility state of the module.
         """
+        visibility_state = self.isVisible()
         self._settings.setValue(
-            f"{self.module_type}_{self.module_index}", self.isVisible()
+            f"{self.module_type}_{self.module_index}", visibility_state
         )
-        print(f"Visibility state saved: {self.isVisible()}")
+        print(
+            f"Visibility state saved: {self.module_type}_{self.module_index}:{visibility_state}"
+        )
 
     def load_visibility_state(self):
         """
         Load the visibility state of the module.
         """
-        visible = self._settings.value(
+        visibility_state = self._settings.value(
             f"{self.module_type}_{self.module_index}", True, type=bool
         )
-        self.setVisible(bool(visible))
-        print(f"Visibility state loaded: {self.setVisible(bool(visible))}")
+        self.setVisible(bool(visibility_state))
+        print(
+            f"Visibility state loaded: {self.module_type}_{self.module_index}:{visibility_state}"
+        )
