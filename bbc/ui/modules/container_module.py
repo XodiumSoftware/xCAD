@@ -1,4 +1,3 @@
-from constants import DEBUG_NAME
 from PySide6.QtWidgets import (
     QFormLayout,
     QGridLayout,
@@ -11,46 +10,49 @@ from PySide6.QtWidgets import (
 
 
 class ContainerModule(QWidget):
-    def __init__(self, layout_type, margins=None, widget_alignment=None, parent=None):
-        """
-        Initialize the ContainerModule.
-        """
+    def __init__(self, layout_type, margins=None, alignment=None, parent=None):
         super().__init__(parent)
-        self.setup_module(layout_type, margins, widget_alignment)
+        self.setup_module(layout_type, margins, alignment)
 
-    def setup_module(self, layout_type, margins, widget_alignment):
-        """
-        Setup the ContainerModule.
-        """
+    def setup_module(self, layout_type, margins, alignment):
         layout = self._get_layout(layout_type)
-        if margins is not None:
-            layout.setContentsMargins(*margins)
-
-        else:
-            layout.setContentsMargins(0, 0, 0, 0)
-
-        if widget_alignment is not None:
-            layout.setAlignment(widget_alignment)
+        layout.setContentsMargins(*margins) if margins else layout.setContentsMargins(
+            0, 0, 0, 0
+        )
+        layout.setAlignment(alignment) if alignment else None
         self.setLayout(layout)
 
     def _get_layout(self, layout_type):
-        """
-        Get the appropriate layout based on the layout_type.
-        """
-        if layout_type == "VBox":
-            return QVBoxLayout(self)
-
-        elif layout_type == "HBox":
-            return QHBoxLayout(self)
-
-        elif layout_type == "Grid":
-            return QGridLayout(self)
-
-        elif layout_type == "Form":
-            return QFormLayout(self)
-
-        else:
+        layouts = {
+            "VBox": QVBoxLayout(),
+            "HBox": QHBoxLayout(),
+            "Grid": QGridLayout(),
+        }
+        layout = layouts.get(layout_type)
+        if layout is None:
             raise ValueError(f"Invalid layout type: {layout_type}")
+        return layout
+
+    def add_spacer(self, size=None):
+        layout = self.layout()
+        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
+            spacer_item = QSpacerItem(
+                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+            )
+            if size is not None:
+                spacer_item.changeSize(size, 0, QSizePolicy.Policy.Fixed)
+            layout.addItem(spacer_item)
+        elif isinstance(layout, QGridLayout):
+            empty_spacer = QSpacerItem(
+                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+            )
+            layout.addItem(empty_spacer, layout.rowCount(), 0)
+            layout.setRowStretch(layout.rowCount(), 1)
+            layout.setColumnStretch(layout.columnCount(), 1)
+        else:
+            raise TypeError(
+                "Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
+            )
 
     def add_widget(
         self,
@@ -80,41 +82,15 @@ class ContainerModule(QWidget):
         Add a widget to a QGridLayout.
         """
         if widget is None or row is None or column is None:
-            raise ValueError(
-                f"{DEBUG_NAME} Widget, row, and column indices must be specified."
-            )
-        if alignment is not None and (rowspan is not None and columnspan is not None):
-            layout.addWidget(widget, row, column, rowspan, columnspan, alignment)
+            raise ValueError("Widget, row, and column indices must be specified.")
 
-        elif alignment is not None and (rowspan is not None or columnspan is None):
-            layout.addWidget(widget, row, column, alignment)
-
-        elif alignment is None and (rowspan is not None and columnspan is not None):
-            layout.addWidget(widget, row, column, rowspan, columnspan)
-
+        if alignment is not None:
+            if rowspan is not None and columnspan is not None:
+                layout.addWidget(widget, row, column, rowspan, columnspan, alignment)
+            else:
+                layout.addWidget(widget, row, column, alignment)
         else:
-            layout.addWidget(widget, row, column)
-
-    def add_spacer(self, size=None):
-        """
-        Add a stretch to the container.
-        """
-        layout = self.layout()
-        if isinstance(layout, (QVBoxLayout, QHBoxLayout, QFormLayout)):
-            spacer_item = QSpacerItem(
-                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-            )
-            if size is not None:
-                spacer_item.changeSize(size, 0, QSizePolicy.Policy.Fixed)
-            layout.addItem(spacer_item)
-        elif isinstance(layout, QGridLayout):
-            empty_spacer = QSpacerItem(
-                0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-            )
-            layout.addItem(empty_spacer, layout.rowCount(), 0)
-            layout.setRowStretch(layout.rowCount(), 1)
-            layout.setColumnStretch(layout.columnCount(), 1)
-        else:
-            raise TypeError(
-                f"{DEBUG_NAME} Stretch can only be added to QVBoxLayout, QHBoxLayout, QFormLayout, or QGridLayout."
-            )
+            if rowspan is not None and columnspan is not None:
+                layout.addWidget(widget, row, column, rowspan, columnspan)
+            else:
+                layout.addWidget(widget, row, column)

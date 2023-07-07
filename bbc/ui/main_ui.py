@@ -117,14 +117,14 @@ class MainUI(QMainWindow):
         self.main_container_0 = ContainerModule("Grid")
         self.main_container_0.add_widget(
             self.sub_container_1,
-            1,
-            0,
+            row=1,
+            column=0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_0.add_widget(
             self.sub_container_3,
-            3,
-            0,
+            row=3,
+            column=0,
             alignment=Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom,
         )
 
@@ -132,26 +132,26 @@ class MainUI(QMainWindow):
         self.main_container_1 = ContainerModule("Grid")
         self.main_container_1.add_widget(
             self.sub_container_4,
-            0,
-            0,
+            row=0,
+            column=0,
         )
         self.main_container_1.add_widget(
             self.sub_container_0,
-            1,
-            0,
+            row=1,
+            column=0,
             alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_1.add_widget(
             self.sub_container_2,
-            2,
-            0,
+            row=2,
+            column=0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
         self.main_container_1.add_widget(
             self.sub_container_5,
-            0,
-            1,
+            row=0,
+            column=1,
             rowspan=4,
             columnspan=1,
         )
