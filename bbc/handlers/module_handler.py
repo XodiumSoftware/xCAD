@@ -13,7 +13,7 @@ from constants import (
 )
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
-from handlers.db_handler import DataBaseHandler
+from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QSettings, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -35,7 +35,7 @@ from PySide6.QtWidgets import (
 
 
 class ModuleHandler(QWidget):
-    on_button_clicked = Signal(int)
+    onButtonModuleClicked = Signal(int)
 
     def __init__(
         self,
@@ -51,7 +51,7 @@ class ModuleHandler(QWidget):
         """
         super().__init__(parent)
 
-        self.db_handler = DataBaseHandler()
+        self._signal_handler = SignalHandler()
 
         self._settings = QSettings()
 
@@ -191,7 +191,7 @@ class ModuleHandler(QWidget):
                 )
 
             module.clicked.connect(
-                partial(self.on_button_clicked.emit, module_data["index"])
+                partial(self.onButtonModuleClicked.emit, module_data["index"])
             )
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)

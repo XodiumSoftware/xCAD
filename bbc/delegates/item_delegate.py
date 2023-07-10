@@ -1,8 +1,10 @@
 import sys
+from functools import partial
 
 from constants import COLOR_PICKER_TITLE, UI_ICON_PATH
 from handlers.db_handler import DataBaseHandler
-from PySide6.QtCore import Qt, Signal
+from handlers.signal_handler import SignalHandler
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QIcon, QStandardItem
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -48,14 +50,13 @@ class StandardItemDelegate(QStandardItem):
 
 
 class ItemDelegate(QStyledItemDelegate):
-    commitData = Signal(QWidget)
-
     def __init__(self, table_name, parent=None):
         """
         Initialize the ItemDelegate.
         """
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
+        self._signal_handler = SignalHandler()
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
@@ -71,6 +72,9 @@ class ItemDelegate(QStyledItemDelegate):
             value_in_column_1 = index.sibling(index.row(), 1).data()
             if value_in_column_1 == "Structure":
                 editor = QPushButton(parent)
+                editor.clicked.connect(
+                    partial(self._signal_handler.structureButtonClicked.emit, index)
+                )
                 if cell_value is not None:
                     editor.setText("Select")
                     editor.setStyleSheet("font-style: italic;")
@@ -102,28 +106,29 @@ class ItemDelegate(QStyledItemDelegate):
                     return editor
 
                 elif value_in_column_1 == "Fill opacity":
-                    editor.setRange(0, 100)
-                    editor.setSuffix(" %")
+                    editor.setRange(0, 1)
+                    editor.setDecimals(3)
+                    editor.setSingleStep(0.005)
                     return editor
                 else:
                     editor.setRange(0, max_double_value)
                     editor.setSuffix(" mm")
                     return editor
 
-            elif value_in_column_1 in ("Area", "Perimeter"):
-                editor = QLabel(parent)
-                decimals = 0
-                if value_in_column_1 == "Area":
-                    suffix = " m2"
-                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-                    editor.setText(text)
-                    return editor
+            # elif value_in_column_1 in ("Area", "Perimeter"):
+            #     editor = QLabel(parent)
+            #     decimals = 0
+            #     if value_in_column_1 == "Area":
+            #         suffix = " m2"
+            #         text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+            #         editor.setText(text)
+            #         return editor
 
-                elif value_in_column_1 == "Perimeter":
-                    suffix = " m1"
-                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-                    editor.setText(text)
-                    return editor
+            #     elif value_in_column_1 == "Perimeter":
+            #         suffix = " m1"
+            #         text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+            #         editor.setText(text)
+            #         return editor
 
             elif value_in_column_1 in ("Fill color", "Pen color"):
                 editor = QPushButton(parent)
@@ -144,7 +149,7 @@ class ItemDelegate(QStyledItemDelegate):
                     color: {text_color};
                     """
                 )
-                # editor.clicked.connect(lambda: self.open_color_picker(index))
+                editor.clicked.connect(partial(self.open_color_picker, index))
                 return editor
 
             elif value_in_column_1 == "Fill":
@@ -188,31 +193,14 @@ class ItemDelegate(QStyledItemDelegate):
         if isinstance(editor, QDoubleSpinBox):
             value = editor.value()
             model.setData(index, value, role=Qt.ItemDataRole.EditRole)
-            self.commit_editor_data(index, value, model)
 
         else:
             super().setModelData(editor, model, index)
 
-    def open_color_picker(self, index, model):
+    def open_color_picker(self, index):
         """
         Open a color picker dialog.
         """
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
-        if color_picker.exec() == QColorDialog.Accepted:  # type: ignore
-            selected_color = color_picker.currentColor()
-            rgb_value = f"{selected_color.red()},{selected_color.green()},{selected_color.blue()}"
-            index.model().setData(index, rgb_value, role=Qt.ItemDataRole.EditRole)
-            # FIXME:Argument missing for parameter "model"
-            self.commit_editor_data(index, rgb_value, model)
-
-    def commit_editor_data(self, index, value, model):
-        """
-        Commit the data from the editor to the model and update the database.
-        """
-        row = index.row()
-        column_1 = index.sibling(row, 1).data()
-        column_0 = index.sibling(row, 0).data()
-
-        model.setData(index, value, role=Qt.ItemDataRole.EditRole)
-        self._db_handler.update_data(self._table_name, column_0, column_1, value)
+        color_picker.exec()
