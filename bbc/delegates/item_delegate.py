@@ -5,17 +5,19 @@ from handlers.db_handler import DataBaseHandler
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor, QIcon, QStandardItem
 from PySide6.QtWidgets import (
+    QCheckBox,
     QColorDialog,
+    QComboBox,
     QDoubleSpinBox,
+    QHBoxLayout,
     QLabel,
     QPushButton,
     QStyledItemDelegate,
+    QWidget,
 )
 
 
 class ColorPicker(QColorDialog):
-    colorSelected = Signal(QColor)
-
     def __init__(self, color, parent=None):
         """
         Initialize the ColorPicker.
@@ -29,14 +31,9 @@ class ColorPicker(QColorDialog):
         self.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
         self.setCurrentColor(QColor(color))
 
-        self.currentColorChanged.connect(self.emit_color_selected)
-
     def showEvent(self, event):
         super().showEvent(event)
         self.show()
-
-    def emit_color_selected(self, color):
-        self.colorSelected.emit(color)
 
 
 class StandardItemDelegate(QStandardItem):
@@ -51,12 +48,15 @@ class StandardItemDelegate(QStandardItem):
 
 
 class ItemDelegate(QStyledItemDelegate):
-    def __init__(self, parent=None):
+    commitData = Signal(QWidget)
+
+    def __init__(self, table_name, parent=None):
         """
         Initialize the ItemDelegate.
         """
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
+        self._table_name = table_name
 
     def createEditor(self, parent, option, index):
         """
@@ -129,15 +129,40 @@ class ItemDelegate(QStyledItemDelegate):
                 editor = QPushButton(parent)
                 rgb_tuple = tuple(map(int, cell_value.split(",")))
                 color = QColor(*rgb_tuple)
+                editor.setText(cell_value)
+                luminance = (
+                    0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()
+                ) / 255
+                text_color = "black" if luminance > 0.5 else "white"
                 editor.setStyleSheet(
                     f"""
                     background-color: {color.name()};
-                    border-radius: 5px;
+                    border-radius: 1px;
                     border: 1px solid grey;
                     padding: 5px;
+                    font-weight: bold;
+                    color: {text_color};
                     """
                 )
                 editor.clicked.connect(lambda: self.open_color_picker(index))
+                return editor
+
+            elif value_in_column_1 == "Fill":
+                editor = QWidget(parent)
+                layout = QHBoxLayout(editor)
+                layout.setContentsMargins(0, 0, 0, 0)
+
+                checkbox = QCheckBox()
+                checkbox.setChecked(bool(cell_value))
+                layout.addWidget(checkbox)
+                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+                return editor
+
+            elif value_in_column_1 in ("Pen style", "Fill pattern"):
+                editor = QComboBox(parent)
+                editor.addItems(cell_value)
+                editor.setCurrentIndex(0)
                 return editor
 
             else:
@@ -163,11 +188,31 @@ class ItemDelegate(QStyledItemDelegate):
         if isinstance(editor, QDoubleSpinBox):
             value = editor.value()
             model.setData(index, value, role=Qt.ItemDataRole.EditRole)
+            self.commit_editor_data(index, value, model)
 
         else:
             super().setModelData(editor, model, index)
 
-    def open_color_picker(self, index):
+    def open_color_picker(self, index, model):
+        """
+        Open a color picker dialog.
+        """
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
-        color_picker.exec()
+        if color_picker.exec() == QColorDialog.Accepted:  # type: ignore
+            selected_color = color_picker.currentColor()
+            rgb_value = f"{selected_color.red()},{selected_color.green()},{selected_color.blue()}"
+            index.model().setData(index, rgb_value, role=Qt.ItemDataRole.EditRole)
+            # FIXME:Argument missing for parameter "model"
+            self.commit_editor_data(index, rgb_value, model)
+
+    def commit_editor_data(self, index, value, model):
+        """
+        Commit the data from the editor to the model and update the database.
+        """
+        row = index.row()
+        column_1 = index.sibling(row, 1).data()
+        column_0 = index.sibling(row, 0).data()
+
+        model.setData(index, value, role=Qt.ItemDataRole.EditRole)
+        self._db_handler.update_data(self._table_name, column_0, column_1, value)

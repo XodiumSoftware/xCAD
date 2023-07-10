@@ -60,7 +60,7 @@ class TableDelegate(QTableView):
         self.setModel(model)
         self.hideColumn(0)
 
-        delegate = ItemDelegate()
+        delegate = ItemDelegate(module_name)
         self.setItemDelegate(delegate)
 
         for row in range(model.rowCount()):

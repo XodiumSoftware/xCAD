@@ -21,6 +21,9 @@ class DataBaseHandler:
         self.setup_database_model()
 
     def setup_database_model(self):
+        """
+        Setup the database model.
+        """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
@@ -130,23 +133,24 @@ class DataBaseHandler:
         conn.close()
 
     def validate_and_sanitize_identifier(self, identifier):
+        """
+        Validate and sanitize an identifier.
+        """
         if not identifier.isidentifier():
             raise ValueError(f"Invalid identifier: {identifier}")
         return identifier.replace('"', '""')
 
-    def insert_db_data(self, table_name, data):
+    def update_data(self, table_name, column_0, column_1, value):
         """
-        Insert data into a table.
+        Update the data from a table.
         """
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
 
         table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
-        num_columns = len(data)
-        placeholders = ", ".join("?" * num_columns)
-        insert_query = f"INSERT INTO {table_name_identified} VALUES ({placeholders})"
-        cursor.executemany(insert_query, data)
+        update_query = f"UPDATE {table_name_identified} SET value = ? WHERE column_0 = ? AND column_1 = ?"
+        cursor.execute(update_query, (value, column_0, column_1))
 
         conn.commit()
         conn.close()
