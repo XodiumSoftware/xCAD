@@ -10,7 +10,15 @@
       "request": "launch",
       "program": "${workspaceFolder}/bbc/main.py",
       "console": "integratedTerminal",
-      "justMyCode": true,
+      "justMyCode": true
     },
+    {
+      "name": "Python: test.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/test1.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
   ]
 }

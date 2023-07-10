@@ -144,7 +144,7 @@ class ItemDelegate(QStyledItemDelegate):
                     color: {text_color};
                     """
                 )
-                editor.clicked.connect(lambda: self.open_color_picker(index))
+                # editor.clicked.connect(lambda: self.open_color_picker(index))
                 return editor
 
             elif value_in_column_1 == "Fill":
