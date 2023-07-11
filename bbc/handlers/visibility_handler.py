@@ -22,8 +22,6 @@ class VisibilityHandler(QObject):
         """
         if isinstance(ui, QMainWindow):
             self._uis.append(weakref.ref(ui))
-            for attr_value in vars(ui).items():
-                self.add_ui(attr_value)
 
     def handle_close_event(self, handler):
         """

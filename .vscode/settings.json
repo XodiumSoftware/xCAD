@@ -39,23 +39,15 @@
   "python.analysis.extraPaths": [
     "${workspaceFolder}/bbc",
     "${workspaceFolder}",
-    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages",
+    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages"
   ],
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,
-  "python.formatting.blackArgs": [
-    "--fast"
-  ],
+  "python.formatting.blackArgs": ["--fast"],
   // Todo Tree Settings
   "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
   "todo-tree.general.statusBar": "current file",
-  "todo-tree.general.tags": [
-    "ERROR",
-    "BUG",
-    "FIXME",
-    "TODO",
-    "NOTE"
-  ],
+  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
   "todo-tree.highlights.defaultHighlight": {
     "opacity": 0.5, // Make the background color semi-transparent
     "borderRadius": "0.2em", // Make the background corners slightly curved
@@ -106,4 +98,7 @@
   "notebook.formatOnSave.enabled": true,
   "python.analysis.importFormat": "relative",
   "sqliteViewer.maxFileSize": 0,
+  "chatgpt.lang": "en",
+  "chatgpt.model": "gpt-3.5-turbo-16k",
+  "chatgpt.temperature": 0.1
 }

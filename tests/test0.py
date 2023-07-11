@@ -22,10 +22,11 @@ class VisibilityHandler(QObject):
     def add_ui(self, ui):
         if isinstance(ui, QMainWindow):
             self._uis.append(weakref.ref(ui))
-            for attr_value in vars(ui).items():
-                self.add_ui(attr_value)
 
     def handle_close_event(self, handler):
+        """
+        Handle close event of all UIs
+        """
         self._uis = [ui for ui in self._uis if ui() is not None]
         for ui in self._uis:
             ui_instance = ui()

@@ -115,20 +115,20 @@ class ItemDelegate(QStyledItemDelegate):
                     editor.setSuffix(" mm")
                     return editor
 
-            # elif value_in_column_1 in ("Area", "Perimeter"):
-            #     editor = QLabel(parent)
-            #     decimals = 0
-            #     if value_in_column_1 == "Area":
-            #         suffix = " m2"
-            #         text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            #         editor.setText(text)
-            #         return editor
+            elif value_in_column_1 in ("Area", "Perimeter"):
+                editor = QLabel(parent)
+                decimals = 0
+                if value_in_column_1 == "Area":
+                    suffix = " m2"
+                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+                    editor.setText(text)
+                    return editor
 
-            #     elif value_in_column_1 == "Perimeter":
-            #         suffix = " m1"
-            #         text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            #         editor.setText(text)
-            #         return editor
+                elif value_in_column_1 == "Perimeter":
+                    suffix = " m1"
+                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+                    editor.setText(text)
+                    return editor
 
             elif value_in_column_1 in ("Fill color", "Pen color"):
                 editor = QPushButton(parent)

@@ -1,7 +1,9 @@
 import os
 import sqlite3
 
-from constants import DATABASE_PATH, TABLES
+from constants import TABLES
+
+DATABASE_PATH = os.path.join("bbc/data/database.db")
 
 
 class DataBaseHandler:
@@ -9,6 +11,9 @@ class DataBaseHandler:
         """
         Initialize the DataBaseHandler.
         """
+        self._conn = sqlite3.connect(DATABASE_PATH)
+        self._c = self._conn.cursor()
+
         self.create_directory_if_not_exists(
             os.path.dirname(os.path.abspath(DATABASE_PATH))
         )
@@ -26,9 +31,7 @@ class DataBaseHandler:
         """
         Setup the database model.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
-
+        with self._conn:
             for table_data in TABLES:
                 table_name_identified = self.validate_and_sanitize_identifier(
                     table_data["desc"]
@@ -42,13 +45,13 @@ class DataBaseHandler:
                     for column_name in column_names
                 ]
 
-                if not self.table_exists(cursor, table_name_identified):
+                if not self.table_exists(self._c, table_name_identified):
                     create_table_query = f"CREATE TABLE {table_name_identified} ({', '.join(column_names)})"
-                    cursor.execute(create_table_query)
+                    self._c.execute(create_table_query)
 
-                    insert_query = f"INSERT INTO {table_name_identified} VALUES ({', '.join(['?'] * len(column_names))})"
+                    insert_query = f"INSERT INTO {table_name_identified} VALUES ({', '.join(['?'] * len(column_names))})"  # FIXME
                     values = [(i,) + tuple(row) for i, row in enumerate(rows)]
-                    cursor.executemany(insert_query, values)
+                    self._c.executemany(insert_query, values)
 
     @staticmethod
     def table_exists(cursor, table_name):
@@ -65,15 +68,13 @@ class DataBaseHandler:
         """
         Get all the data from a table.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
-
+        with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
-            select_query = f"SELECT * FROM {table_name_identified}"
-            cursor.execute(select_query)
+            select_query = f"SELECT * FROM {table_name_identified}"  # FIXME
+            self._c.execute(select_query)
 
-            table_data = cursor.fetchall()
+            table_data = self._c.fetchall()
 
         return table_data
 
@@ -81,36 +82,32 @@ class DataBaseHandler:
         """
         Save the data from a table.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
-
+        with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
-            delete_query = f"DELETE FROM {table_name_identified}"
-            cursor.execute(delete_query)
+            delete_query = f"DELETE FROM {table_name_identified}"  # FIXME
+            self._c.execute(delete_query)
 
             num_columns = len(table_data[0])
             placeholders = ", ".join("?" * num_columns)
             insert_query = (
-                f"INSERT INTO {table_name_identified} VALUES ({placeholders})"
+                f"INSERT INTO {table_name_identified} VALUES ({placeholders})"  # FIXME
             )
-            cursor.executemany(insert_query, table_data)
+            self._c.executemany(insert_query, table_data)
 
-            conn.commit()
+            self._conn.commit()
 
     def discard_table_data(self, table_name):
         """
         Discard the data from a table.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
-
+        with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
-            delete_query = f"DELETE FROM {table_name_identified}"
-            cursor.execute(delete_query)
+            delete_query = f"DELETE FROM {table_name_identified}"  # FIXME
+            self._c.execute(delete_query)
 
-            conn.commit()
+            self._conn.commit()
 
     def reset_table_data(self, table_name):
         """
@@ -130,31 +127,28 @@ class DataBaseHandler:
         """
         Update the data from a table.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
-
+        with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
             column_0_identified = self.validate_and_sanitize_identifier(column_0)
             column_1_identified = self.validate_and_sanitize_identifier(column_1)
 
-            update_query = f"UPDATE {table_name_identified} SET value = ? WHERE {column_0_identified} = ? AND {column_1_identified} = ?"
-            cursor.execute(update_query, (value, column_0, column_1))
+            update_query = f"UPDATE {table_name_identified} SET value = ? WHERE {column_0_identified} = ? AND {column_1_identified} = ?"  # FIXME
+            self._c.execute(update_query, (value, column_0, column_1))
 
-            conn.commit()
+            self._conn.commit()
 
     def execute_query(self, query, params=None):
         """
         Execute a query with optional parameters.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
+        with self._conn:
             try:
                 if params:
-                    cursor.execute(query, params)
+                    self._c.execute(query, params)
                 else:
-                    cursor.execute(query)
+                    self._c.execute(query)
 
-                conn.commit()
+                self._conn.commit()
             except sqlite3.Error as e:
                 print(f"An error occurred: {e}")
 
@@ -162,15 +156,14 @@ class DataBaseHandler:
         """
         Execute a select query with optional parameters and return the result.
         """
-        with sqlite3.connect(DATABASE_PATH) as conn:
-            cursor = conn.cursor()
+        with self._conn:
             try:
                 if params:
-                    cursor.execute(query, params)
+                    self._c.execute(query, params)
                 else:
-                    cursor.execute(query)
+                    self._c.execute(query)
 
-                result = cursor.fetchall()
+                result = self._c.fetchall()
                 return result
             except sqlite3.Error as e:
                 print(f"An error occurred: {e}")

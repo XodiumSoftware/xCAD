@@ -27,3 +27,8 @@ This ensures that the css files run and the docs are readable.
 # My VSC profile:
 
 1. https://vscode.dev/profileprofile/github/95a1af1b0d85808ab9250cce92e4d903
+
+# Bandit run:
+
+1. cd C:\Python311\Scripts
+2. python -m bandit {absolute_file_path}
