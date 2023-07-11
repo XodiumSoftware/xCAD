@@ -1,40 +1,30 @@
-from constants import MAIN_TITLE, UI_ICON_PATH
-from handlers.db_handler import DataBaseHandler
+from constants import CONFIGURATOR_TITLE, UI_ICON_PATH
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
-from ui.configurator_ui import ConfiguratorUI
+from PySide6.QtWidgets import QGridLayout, QWidget
 from ui.modules.container_module import ContainerModule
 
 
-class MainUI(QMainWindow):
+class ConfiguratorUI(QWidget):
     def __init__(self):
         """
-        Initialize the MainUI.
+        Initialize the ConfiguratorUI.
         """
         super().__init__()
 
-        self.setup_database()
-        self.setup_main_ui()
+        self._toggle_configurator_ui = SignalHandler()
 
-    def setup_database(self):
-        """
-        Setup the database.
-        """
-        self._db_handler = DataBaseHandler()
-        self._configurator_ui = ConfiguratorUI()
-        self._signal_handler = SignalHandler()
-        self._db_handler.setup_database()
+        self.setup_configurator_ui()
 
-    def setup_main_ui(self):
+    def setup_configurator_ui(self):
         """
-        Setup the MainUI.
+        Setup the ConfiguratorUI.
         """
-        self.setWindowTitle(MAIN_TITLE)
+        self.setWindowTitle(CONFIGURATOR_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
         self.sizeHint()
@@ -51,16 +41,9 @@ class MainUI(QMainWindow):
         self.setup_main_containers()
         self.setup_connections()
 
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-
-        layout = QGridLayout(central_widget)
+        layout = QGridLayout(self)
 
         layout.addWidget(self.main_container_0, 0, 0)
-        layout.addWidget(self.main_container_1, 1, 0)
-
-        self.main_container_0.show()
-        self.main_container_1.hide()
 
     def setup_modules(self):
         """
@@ -71,10 +54,14 @@ class MainUI(QMainWindow):
         self.label_1 = ModuleHandler("VBox", "Label", 0)
 
         # Setup tables:
-        self.table_0 = ModuleHandler("VBox", "TableView", 0)
+        self.table_0 = ModuleHandler("VBox", "TableView", 1)
+
+        # Setup graphics views:
+        self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 0)
 
         # Setup buttons:
         self.button_0 = ModuleHandler("VBox", "Button", 0)
+        self.button_1 = ModuleHandler("VBox", "Button", 1)
         self.button_2 = ModuleHandler("VBox", "Button", 2)
         self.button_3 = ModuleHandler("VBox", "Button", 3)
         self.button_4 = ModuleHandler("VBox", "Button", 4)
@@ -97,6 +84,7 @@ class MainUI(QMainWindow):
         self.sub_container_2.add_module(self.label_0)
         self.sub_container_2.add_spacer()
         self.sub_container_2.add_module(self.button_5)
+        self.sub_container_2.add_module(self.button_1)
 
         self.sub_container_3 = ContainerModule("HBox")
         self.sub_container_3.add_module(self.label_1)
@@ -106,6 +94,7 @@ class MainUI(QMainWindow):
         self.sub_container_4.add_module(self.table_0)
 
         self.sub_container_5 = ContainerModule("HBox")
+        self.sub_container_5.add_module(self.graphics_view_0)
 
     def setup_main_containers(self):
         """
@@ -158,20 +147,7 @@ class MainUI(QMainWindow):
         """
         Setup the connections.
         """
-        self.button_0.onButtonModuleClicked.connect(self.toggle_main_containers)
-        self.button_5.onButtonModuleClicked.connect(self.toggle_main_containers)
-        self._signal_handler.structureButtonClicked.connect(self.toggle_configurator_ui)
-
-    def toggle_main_containers(self):
-        """
-        Toggle the main containers.
-        """
-        self.main_container_0.setVisible(not self.main_container_0.isVisible())
-        self.main_container_1.setVisible(not self.main_container_1.isVisible())
-
-    def toggle_configurator_ui(self):
-        """
-        Toggle the configurator UI.
-        """
-        self._configurator_ui.setVisible(not self.isVisible())
-        self.setVisible(not self._configurator_ui.isVisible())
+        self.button_1.onButtonModuleClicked.connect(self.graphics_view_0.toggle_module)
+        self.button_5.onButtonModuleClicked.connect(
+            self._toggle_configurator_ui.toggleConfiguratorUI
+        )
