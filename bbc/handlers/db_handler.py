@@ -3,7 +3,8 @@ import sqlite3
 
 from constants import TABLES
 
-DATABASE_PATH = os.path.join("bbc/data/database.db")
+# TODO: Move the constant to constants.py
+DATABASE_PATH = os.path.join(r"bbc/data/database.db")
 
 
 class DataBaseHandler:
@@ -108,12 +109,6 @@ class DataBaseHandler:
             self._c.execute(delete_query)
 
             self._conn.commit()
-
-    def reset_table_data(self, table_name):
-        """
-        Reset the data from a table.
-        """
-        self.discard_table_data(table_name)
 
     def validate_and_sanitize_identifier(self, identifier):
         """
