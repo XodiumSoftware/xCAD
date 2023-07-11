@@ -28,7 +28,6 @@ class MainUI(QMainWindow):
         self._db_handler = DataBaseHandler()
         self._configurator_ui = ConfiguratorUI()
         self._signal_handler = SignalHandler()
-        self._db_handler.setup_database()
 
     def setup_main_ui(self):
         """
