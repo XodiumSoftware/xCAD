@@ -134,8 +134,44 @@ class DataBaseHandler:
             cursor = conn.cursor()
 
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
+            column_0_identified = self.validate_and_sanitize_identifier(column_0)
+            column_1_identified = self.validate_and_sanitize_identifier(column_1)
 
-            update_query = f"UPDATE {table_name_identified} SET value = ? WHERE column_0 = ? AND column_1 = ?"
+            update_query = f"UPDATE {table_name_identified} SET value = ? WHERE {column_0_identified} = ? AND {column_1_identified} = ?"
             cursor.execute(update_query, (value, column_0, column_1))
 
             conn.commit()
+
+    def execute_query(self, query, params=None):
+        """
+        Execute a query with optional parameters.
+        """
+        with sqlite3.connect(DATABASE_PATH) as conn:
+            cursor = conn.cursor()
+            try:
+                if params:
+                    cursor.execute(query, params)
+                else:
+                    cursor.execute(query)
+
+                conn.commit()
+            except sqlite3.Error as e:
+                print(f"An error occurred: {e}")
+
+    def execute_select_query(self, query, params=None):
+        """
+        Execute a select query with optional parameters and return the result.
+        """
+        with sqlite3.connect(DATABASE_PATH) as conn:
+            cursor = conn.cursor()
+            try:
+                if params:
+                    cursor.execute(query, params)
+                else:
+                    cursor.execute(query)
+
+                result = cursor.fetchall()
+                return result
+            except sqlite3.Error as e:
+                print(f"An error occurred: {e}")
+                return []
