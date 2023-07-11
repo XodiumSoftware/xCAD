@@ -148,6 +148,6 @@ class ConfiguratorUI(QWidget):
         Setup the connections.
         """
         self.button_1.onButtonModuleClicked.connect(self.graphics_view_0.toggle_module)
-        self.button_5.onButtonModuleClicked.connect(
-            self._toggle_configurator_ui.toggleConfiguratorUI
-        )
+        # self.button_5.onButtonModuleClicked.connect(
+        #     self._toggle_configurator_ui.toggleConfiguratorUI
+        # )
