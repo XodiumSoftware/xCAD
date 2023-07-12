@@ -30,7 +30,7 @@ class ConfiguratorUI(QWidget):
         self._ui_handler.center_ui_on_screen_handler(self)
 
         self._events_handler = EventsHandler()
-        EventsHandler.quit_on_key_press_event(
+        self._events_handler.quit_on_key_press_event(
             self
         )  # TODO: Implement properly so it only quits the window not the whole program.
 

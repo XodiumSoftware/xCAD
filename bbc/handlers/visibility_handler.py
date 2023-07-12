@@ -1,51 +1,54 @@
 import weakref
-from functools import partial
+from typing import Optional, Type
 
+from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QObject
+from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QMainWindow, QWidget
 
 
-class VisibilityHandler(QObject):
-    def __init__(self, signal_handler, parent=None):
+class VisibilityHandler(SignalHandler, QObject):
+    def __new__(cls, *args: QMainWindow) -> "VisibilityHandler":
         """
-        Visibility handler for UIs
+        Create a new VisibilityHandler instance.
         """
-        super().__init__(parent)
-        self._uis = []
+        instance: VisibilityHandler = super().__new__(cls)
+        instance._uis = []
+        for arg in args:
+            if isinstance(arg, QMainWindow):
+                instance._uis.append(weakref.ref(arg))
+                arg.closeEvent = instance.handle_close_event
+        return instance
 
-        self._signal_handler = signal_handler
-
-    def add_ui(self, ui):
-        """
-        Add UI to the list of UIs
-        """
-        if isinstance(ui, QMainWindow):
-            self._uis.append(weakref.ref(ui))
-
-    def handle_close_event(self, handler):
+    def handle_close_event(self, event: QCloseEvent) -> None:
         """
         Handle close event of all UIs
         """
         self._uis = [ui for ui in self._uis if ui() is not None]
         for ui in self._uis:
-            ui_instance = ui()
+            ui_instance: Optional[QMainWindow] = ui()
             if ui_instance is not None:
-                ui_instance.closeEvent = partial(handler, ui_instance)
+                event.accept()
 
-        all_visible = all(ui().isVisible() for ui in self._uis if ui() is not None)
-        self._signal_handler.visibilityChanged.emit(all_visible)
+        all_visible = all(
+            ui().isVisible()
+            for ui in self._uis
+            if isinstance(
+                ui(), QWidget
+            )  # FIXME: .isVisible() "(function) isVisible: Unknown"
+        )
+        self.visibilityChanged.emit(all_visible)
 
-    def toggle_visibility(self, current_ui: QWidget, target_ui: QWidget):
+    def toggle_visibility(
+        self, current_ui: Type[QWidget], target_ui: Type[QWidget]
+    ) -> None:
         """
         Toggle visibility of target_ui_type and hide current_ui
         """
         for ui_ref in self._uis:
-            ui_instance = ui_ref()
+            ui_instance: Optional[QWidget] = ui_ref()
             if ui_instance is not None:
                 if isinstance(ui_instance, target_ui):
                     ui_instance.setVisible(True)
-                elif ui_instance == current_ui:
+                elif isinstance(ui_instance, current_ui):
                     ui_instance.setVisible(False)
-
-                print(f"{current_ui} visibility state: {current_ui.isVisible()}")
-                print(f"{target_ui} visibility state: {target_ui.isVisible()}")

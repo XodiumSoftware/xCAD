@@ -32,7 +32,7 @@ class MainUI(QMainWindow):
         self._configurator_ui = ConfiguratorUI()
         self._configurator_ui.show()  # TODO: Implement properly.
         self._signal_handler = SignalHandler()
-        self._visibility_handler = VisibilityHandler(self._signal_handler)
+        self._visibility_handler = VisibilityHandler()
         self._ui_handler = UIHandler()
         self._events_handler = EventsHandler()
 
@@ -47,7 +47,7 @@ class MainUI(QMainWindow):
         self._ui_handler.set_ui_size(self, (600, 400))
         self._ui_handler.center_ui_on_screen_handler(self)
 
-        EventsHandler.quit_on_key_press_event(self)
+        self._events_handler.quit_on_key_press_event(self)
 
         self.setup_modules()
         self.setup_sub_containers()

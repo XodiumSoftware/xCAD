@@ -1,23 +1,34 @@
-from PySide6.QtCore import QObject, QSettings, Slot
-from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QApplication
+from constants import UI_ICON_PATH
+from PySide6.QtCore import Qt, Slot
+from PySide6.QtGui import QIcon, QKeySequence, QShortcut
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 
-class EventsHandler(QObject):
-    def __init__(self):
-        """
-        Initialize the EventsHandler.
-        """
-        super().__init__()
-        self._settings = QSettings()
-
+class EventsHandler:
     @Slot()
-    def quit_on_key_press_event(self):
+    def quit_on_key_press_event(self, parent) -> None:
         """
         Quit on Escape key or Ctrl+Q.
         """
-        escape_shortcut = QShortcut(QKeySequence("Escape"), self)
-        ctrl_q_shortcut = QShortcut(QKeySequence("Ctrl+Q"), self)
+        shortcuts = ["Escape", "Ctrl+Q"]
+        for shortcut in shortcuts:
+            key_sequence = QKeySequence(shortcut)
+            shortcut = QShortcut(key_sequence, parent)
+            shortcut.activated.connect(self.show_quit_message_box)
 
-        escape_shortcut.activated.connect(QApplication.quit)
-        ctrl_q_shortcut.activated.connect(QApplication.quit)
+    def show_quit_message_box(self):
+        """
+        Show a dialog to confirm quitting.
+        """
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Exit?")
+        msg_box.setWindowIcon(QIcon(UI_ICON_PATH))
+        msg_box.setIcon(QMessageBox.Icon.Warning)
+        msg_box.setText(
+            "<b>Are you sure you want to quit?</b><br>Any unsaved changes will be lost!"
+        )
+        msg_box.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if msg_box.exec() == QMessageBox.StandardButton.Yes:
+            QApplication.quit()

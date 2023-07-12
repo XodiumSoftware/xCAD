@@ -58,7 +58,7 @@ class ItemDelegate(QStyledItemDelegate):
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
-        self._visibility_handler = VisibilityHandler(self._signal_handler)
+        self._visibility_handler = VisibilityHandler()
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
