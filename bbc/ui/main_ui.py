@@ -30,6 +30,7 @@ class MainUI(QMainWindow):
         """
         self._db_handler = DataBaseHandler()
         self._configurator_ui = ConfiguratorUI()
+        self._configurator_ui.show()  # TODO: Implement properly.
         self._signal_handler = SignalHandler()
         self._visibility_handler = VisibilityHandler(self._signal_handler)
         self._ui_handler = UIHandler()

@@ -48,7 +48,6 @@ class ConfiguratorUI(QWidget):
         """
         # Setup labels:
         self.label_0 = ModuleHandler("VBox", "Label", 0)
-        self.label_1 = ModuleHandler("VBox", "Label", 0)
 
         # Setup tables:
         self.table_0 = ModuleHandler("VBox", "TableView", 1)
@@ -57,7 +56,6 @@ class ConfiguratorUI(QWidget):
         self.graphics_view_0 = ModuleHandler("VBox", "GraphicsView", 0)
 
         # Setup buttons:
-        self.button_0 = ModuleHandler("VBox", "Button", 0)
         self.button_1 = ModuleHandler("VBox", "Button", 1)
         self.button_2 = ModuleHandler("VBox", "Button", 2)
         self.button_3 = ModuleHandler("VBox", "Button", 3)
@@ -74,18 +72,11 @@ class ConfiguratorUI(QWidget):
         self.sub_container_0.add_module(self.button_3)
         self.sub_container_0.add_module(self.button_4)
 
-        self.sub_container_1 = ContainerModule("HBox")
-        self.sub_container_1.add_module(self.button_0)
-
         self.sub_container_2 = ContainerModule("HBox")
         self.sub_container_2.add_module(self.label_0)
         self.sub_container_2.add_spacer()
         self.sub_container_2.add_module(self.button_5)
         self.sub_container_2.add_module(self.button_1)
-
-        self.sub_container_3 = ContainerModule("HBox")
-        self.sub_container_3.add_module(self.label_1)
-        self.sub_container_3.add_spacer()
 
         self.sub_container_4 = ContainerModule("HBox")
         self.sub_container_4.add_module(self.table_0)
@@ -100,39 +91,24 @@ class ConfiguratorUI(QWidget):
         # Setup main container 0:
         self.main_container_0 = ContainerModule("Grid")
         self.main_container_0.add_module(
-            self.sub_container_1,
-            row=1,
-            column=0,
-            alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
-        )
-        self.main_container_0.add_module(
-            self.sub_container_3,
-            row=3,
-            column=0,
-            alignment=Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom,
-        )
-
-        # Setup main container 1:
-        self.main_container_1 = ContainerModule("Grid")
-        self.main_container_1.add_module(
             self.sub_container_4,
             row=0,
             column=0,
         )
-        self.main_container_1.add_module(
+        self.main_container_0.add_module(
             self.sub_container_0,
             row=1,
             column=0,
             alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
-        self.main_container_1.add_module(
+        self.main_container_0.add_module(
             self.sub_container_2,
             row=2,
             column=0,
             alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
-        self.main_container_1.add_module(
+        self.main_container_0.add_module(
             self.sub_container_5,
             row=0,
             column=1,

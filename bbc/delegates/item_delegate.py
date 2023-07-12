@@ -73,14 +73,7 @@ class ItemDelegate(QStyledItemDelegate):
         if index.column() == 2:
             value_in_column_1 = index.sibling(index.row(), 1).data()
             if value_in_column_1 == "Structure":
-                editor = QPushButton(parent)
-                editor.clicked.connect(
-                    partial(self._signal_handler.structureButtonClicked.emit)
-                )
-                if cell_value is not None:
-                    editor.setText("Select")
-                    editor.setStyleSheet("font-style: italic;")
-                return editor
+                return self.createStructureEditor(parent)
 
             elif value_in_column_1 in (
                 "Length",
@@ -91,89 +84,22 @@ class ItemDelegate(QStyledItemDelegate):
                 "Fill pattern scale",
                 "Fill opacity",
             ):
-                editor = QDoubleSpinBox(parent)
-                max_double_value = sys.float_info.max
-                editor.setDecimals(0)
-                if value_in_column_1 == "Fill pattern angle":
-                    editor.setRange(0, 360)
-                    editor.setSuffix(" °")
-                    return editor
-
-                elif value_in_column_1 == "Pen thickness":
-                    editor.setRange(0, 10)
-                    return editor
-
-                elif value_in_column_1 == "Fill pattern scale":
-                    editor.setRange(0, 100)
-                    return editor
-
-                elif value_in_column_1 == "Fill opacity":
-                    editor.setRange(0, 1)
-                    editor.setDecimals(3)
-                    editor.setSingleStep(0.005)
-                    return editor
-                else:
-                    editor.setRange(0, max_double_value)
-                    editor.setSuffix(" mm")
-                    return editor
+                return self.createDoubleSpinBoxEditor(parent, value_in_column_1)
 
             elif value_in_column_1 in ("Area", "Perimeter"):
-                editor = QLabel(parent)
-                decimals = 0
-                if value_in_column_1 == "Area":
-                    suffix = " m2"
-                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-                    editor.setText(text)
-                    return editor
-
-                elif value_in_column_1 == "Perimeter":
-                    suffix = " m1"
-                    text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-                    editor.setText(text)
-                    return editor
+                return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
             elif value_in_column_1 in ("Fill color", "Pen color"):
-                editor = QPushButton(parent)
-                rgb_tuple = tuple(map(int, cell_value.split(",")))
-                color = QColor(*rgb_tuple)
-                editor.setText(cell_value)
-                luminance = (
-                    0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()
-                ) / 255
-                text_color = "black" if luminance > 0.5 else "white"
-                editor.setStyleSheet(
-                    f"""
-                    background-color: {color.name()};
-                    border-radius: 1px;
-                    border: 1px solid grey;
-                    padding: 5px;
-                    font-weight: bold;
-                    color: {text_color};
-                    """
-                )
-                editor.clicked.connect(partial(self.open_color_picker, index))
-                return editor
+                return self.createColorButtonEditor(parent, cell_value, index)
 
             elif value_in_column_1 == "Fill":
-                editor = QWidget(parent)
-                layout = QHBoxLayout(editor)
-                layout.setContentsMargins(0, 0, 0, 0)
-
-                checkbox = QCheckBox()
-                checkbox.setChecked(bool(cell_value))
-                layout.addWidget(checkbox)
-                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-                return editor
+                return self.createFillEditor(parent, cell_value)
 
             elif value_in_column_1 in ("Pen style", "Fill pattern"):
-                editor = QComboBox(parent)
-                editor.addItems(cell_value)
-                editor.setCurrentIndex(0)
-                return editor
+                return self.createComboBoxEditor(parent, cell_value)
 
             else:
-                editor = QLabel(parent)
+                return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
         return super().createEditor(parent, option, index)
 
@@ -206,3 +132,85 @@ class ItemDelegate(QStyledItemDelegate):
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
         color_picker.exec()
+
+    def createStructureEditor(self, parent):
+        editor = QPushButton(parent)
+        editor.clicked.connect(
+            partial(self._signal_handler.structureButtonClicked.emit)
+        )
+        editor.setText("Select")
+        editor.setStyleSheet("font-style: italic;")
+        return editor
+
+    def createDoubleSpinBoxEditor(self, parent, value_in_column_1):
+        editor = QDoubleSpinBox(parent)
+        max_double_value = sys.float_info.max
+        editor.setDecimals(0)
+        if value_in_column_1 == "Fill pattern angle":
+            editor.setRange(0, 360)
+            editor.setSuffix(" °")
+        elif value_in_column_1 == "Pen thickness":
+            editor.setRange(0, 10)
+        elif value_in_column_1 == "Fill pattern scale":
+            editor.setRange(0, 100)
+        elif value_in_column_1 == "Fill opacity":
+            editor.setRange(0, 1)
+            editor.setDecimals(3)
+            editor.setSingleStep(0.005)
+        else:
+            editor.setRange(0, max_double_value)
+            editor.setSuffix(" mm")
+        return editor
+
+    def createLabelEditor(self, parent, value_in_column_1, cell_value):
+        editor = QLabel(parent)
+        decimals = 0
+        if value_in_column_1 == "Area":
+            suffix = " m2"
+            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+            editor.setText(text)
+        elif value_in_column_1 == "Perimeter":
+            suffix = " m1"
+            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
+            editor.setText(text)
+        return editor
+
+    def createColorButtonEditor(self, parent, cell_value, index):
+        editor = QPushButton(parent)
+        rgb_tuple = tuple(map(int, cell_value.split(",")))
+        color = QColor(*rgb_tuple)
+        editor.setText(cell_value)
+        luminance = (
+            0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()
+        ) / 255
+        text_color = "black" if luminance > 0.5 else "white"
+        editor.setStyleSheet(
+            f"""
+            background-color: {color.name()};
+            border-radius: 1px;
+            border: 1px solid grey;
+            padding: 5px;
+            font-weight: bold;
+            color: {text_color};
+            """
+        )
+        editor.clicked.connect(partial(self.open_color_picker, index))
+        return editor
+
+    def createFillEditor(self, parent, cell_value):
+        editor = QWidget(parent)
+        layout = QHBoxLayout(editor)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        checkbox = QCheckBox()
+        checkbox.setChecked(bool(cell_value))
+        layout.addWidget(checkbox)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        return editor
+
+    def createComboBoxEditor(self, parent, cell_value):
+        editor = QComboBox(parent)
+        editor.addItems(cell_value)
+        editor.setCurrentIndex(0)
+        return editor
