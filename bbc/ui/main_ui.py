@@ -43,9 +43,8 @@ class MainUI(QMainWindow):
         self.setWindowTitle(MAIN_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
-        self.sizeHint()
 
-        self._ui_handler.set_ui_size(self)
+        self._ui_handler.set_ui_size(self, (600, 400))
         self._ui_handler.center_ui_on_screen_handler(self)
 
         EventsHandler.quit_on_key_press_event(self)

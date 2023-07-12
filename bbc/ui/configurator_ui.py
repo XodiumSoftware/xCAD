@@ -24,14 +24,15 @@ class ConfiguratorUI(QWidget):
         self.setWindowTitle(CONFIGURATOR_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
         self.setContentsMargins(0, 0, 0, 0)
-        self.sizeHint()
 
         self._ui_handler = UIHandler()
-        self._ui_handler.set_ui_size(self)
+        self._ui_handler.set_ui_size(self, (800, 400))
         self._ui_handler.center_ui_on_screen_handler(self)
 
         self._events_handler = EventsHandler()
-        EventsHandler.quit_on_key_press_event(self)
+        EventsHandler.quit_on_key_press_event(
+            self
+        )  # TODO: Implement properly so it only quits the window not the whole program.
 
         self.setup_modules()
         self.setup_sub_containers()

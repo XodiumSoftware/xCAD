@@ -2,7 +2,7 @@ import weakref
 from functools import partial
 
 from PySide6.QtCore import QObject
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QWidget
 
 
 class VisibilityHandler(QObject):
@@ -35,7 +35,7 @@ class VisibilityHandler(QObject):
         all_visible = all(ui().isVisible() for ui in self._uis if ui() is not None)
         self._signal_handler.visibilityChanged.emit(all_visible)
 
-    def toggle_visibility(self, current_ui, target_ui):
+    def toggle_visibility(self, current_ui: QWidget, target_ui: QWidget):
         """
         Toggle visibility of target_ui_type and hide current_ui
         """
