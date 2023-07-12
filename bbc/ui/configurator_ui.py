@@ -1,7 +1,6 @@
 from constants import CONFIGURATOR_TITLE, UI_ICON_PATH
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
-from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
@@ -15,8 +14,6 @@ class ConfiguratorUI(QWidget):
         Initialize the ConfiguratorUI.
         """
         super().__init__()
-
-        self._toggle_configurator_ui = SignalHandler()
 
         self.setup_configurator_ui()
 
@@ -148,6 +145,3 @@ class ConfiguratorUI(QWidget):
         Setup the connections.
         """
         self.button_1.onButtonModuleClicked.connect(self.graphics_view_0.toggle_module)
-        # self.button_5.onButtonModuleClicked.connect(
-        #     self._toggle_configurator_ui.toggleConfiguratorUI
-        # )

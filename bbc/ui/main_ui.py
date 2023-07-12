@@ -1,9 +1,12 @@
+from functools import partial
+
 from constants import MAIN_TITLE, UI_ICON_PATH
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
@@ -18,16 +21,19 @@ class MainUI(QMainWindow):
         """
         super().__init__()
 
-        self.setup_database()
+        self.setup_imports()
         self.setup_main_ui()
 
-    def setup_database(self):
+    def setup_imports(self):
         """
         Setup the database.
         """
         self._db_handler = DataBaseHandler()
         self._configurator_ui = ConfiguratorUI()
         self._signal_handler = SignalHandler()
+        self._visibility_handler = VisibilityHandler(self._signal_handler)
+        self._ui_handler = UIHandler()
+        self._events_handler = EventsHandler()
 
     def setup_main_ui(self):
         """
@@ -38,11 +44,9 @@ class MainUI(QMainWindow):
         self.setContentsMargins(0, 0, 0, 0)
         self.sizeHint()
 
-        self._ui_handler = UIHandler()
         self._ui_handler.set_ui_size(self)
         self._ui_handler.center_ui_on_screen_handler(self)
 
-        self._events_handler = EventsHandler()
         EventsHandler.quit_on_key_press_event(self)
 
         self.setup_modules()
@@ -159,7 +163,9 @@ class MainUI(QMainWindow):
         """
         self.button_0.onButtonModuleClicked.connect(self.toggle_main_containers)
         self.button_5.onButtonModuleClicked.connect(self.toggle_main_containers)
-        self._signal_handler.structureButtonClicked.connect(self.toggle_configurator_ui)
+        self._signal_handler.structureButtonClicked.connect(
+            partial(self._visibility_handler.toggle_visibility, MainUI, ConfiguratorUI)
+        )
 
     def toggle_main_containers(self):
         """
@@ -167,10 +173,3 @@ class MainUI(QMainWindow):
         """
         self.main_container_0.setVisible(not self.main_container_0.isVisible())
         self.main_container_1.setVisible(not self.main_container_1.isVisible())
-
-    def toggle_configurator_ui(self):
-        """
-        Toggle the configurator UI.
-        """
-        self._configurator_ui.setVisible(not self.isVisible())
-        self.setVisible(not self._configurator_ui.isVisible())

@@ -4,6 +4,7 @@ from functools import partial
 from constants import COLOR_PICKER_TITLE, UI_ICON_PATH
 from handlers.db_handler import DataBaseHandler
 from handlers.signal_handler import SignalHandler
+from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QIcon, QStandardItem
 from PySide6.QtWidgets import (
@@ -57,6 +58,7 @@ class ItemDelegate(QStyledItemDelegate):
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
+        self._visibility_handler = VisibilityHandler(self._signal_handler)
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
@@ -73,7 +75,7 @@ class ItemDelegate(QStyledItemDelegate):
             if value_in_column_1 == "Structure":
                 editor = QPushButton(parent)
                 editor.clicked.connect(
-                    partial(self._signal_handler.structureButtonClicked.emit, index)
+                    partial(self._signal_handler.structureButtonClicked.emit)
                 )
                 if cell_value is not None:
                     editor.setText("Select")
