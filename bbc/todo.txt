@@ -19,4 +19,5 @@ TODO: AFCCMD.
 TODO: ThemeHandler.
 TODO: Move ContainerModule to ModuleHandler.
 TODO: Implement the on_button_clicked signal in ItemDelegate to do something.
+TODO: Implement a data_handler func in the db_handler.py to easily handle data for other func.
 =============================================================================================
