@@ -153,7 +153,7 @@ BUTTONS = [
         "icon_path": None,
         "size": None,
         "title": "AutoFrameCAD",
-        "stylesheet": "QPushButton {font-size: 32px;font-weight: bold;font-style: normal;border: none;}",
+        "stylesheet": "QPushButton {font-size: 36px;font-weight: bold;font-style: normal;border: none;}",
     },
     {
         "index": 1,
