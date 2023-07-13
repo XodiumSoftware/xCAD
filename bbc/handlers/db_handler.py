@@ -9,12 +9,11 @@ class DataBaseHandler:
         """
         Initialize the DataBaseHandler.
         """
-        self._conn = sqlite3.connect(DATABASE_PATH)
-        self._c = self._conn.cursor()
-
         self.create_directory_if_not_exists(
             os.path.dirname(os.path.abspath(DATABASE_PATH))
         )
+        self._conn = sqlite3.connect(DATABASE_PATH)
+        self._c = self._conn.cursor()
         self.setup_database_model()
 
     @staticmethod
