@@ -73,9 +73,12 @@ class ConfiguratorUI(QWidget):
         self.sub_container_0.add_module(self.button_3)
         self.sub_container_0.add_module(self.button_4)
 
+        self.sub_container_1 = ContainerModule(
+            "HBox", alignment=Qt.AlignmentFlag.AlignBottom
+        )
+        self.sub_container_1.add_module(self.label_0)
+
         self.sub_container_2 = ContainerModule("HBox")
-        self.sub_container_2.add_module(self.label_0)
-        self.sub_container_2.add_spacer()
         self.sub_container_2.add_module(self.button_5)
         self.sub_container_2.add_module(self.button_1)
 
@@ -84,6 +87,11 @@ class ConfiguratorUI(QWidget):
 
         self.sub_container_5 = ContainerModule("HBox")
         self.sub_container_5.add_module(self.graphics_view_0)
+
+        self.sub_container_a = ContainerModule("HBox")
+        self.sub_container_a.add_module(self.sub_container_1)
+        self.sub_container_a.add_spacer()
+        self.sub_container_a.add_module(self.sub_container_2)
 
     def setup_main_containers(self):
         """
@@ -95,24 +103,26 @@ class ConfiguratorUI(QWidget):
             self.sub_container_4,
             row=0,
             column=0,
+            columnspan=1,
         )
+
         self.main_container_0.add_module(
             self.sub_container_0,
             row=1,
             column=0,
-            alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
+            alignment=Qt.AlignmentFlag.AlignRight,
         )
+
         self.main_container_0.add_module(
-            self.sub_container_2,
+            self.sub_container_a,
             row=2,
             column=0,
-            alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
         self.main_container_0.add_module(
             self.sub_container_5,
             row=0,
-            column=1,
+            column=2,
             rowspan="auto",
             columnspan="auto",
         )

@@ -93,13 +93,16 @@ class MainUI(QMainWindow):
         self.sub_container_0.add_module(self.button_3)
         self.sub_container_0.add_module(self.button_4)
 
-        self.sub_container_1 = ContainerModule("HBox")
+        self.sub_container_1 = ContainerModule(
+            "HBox", alignment=Qt.AlignmentFlag.AlignBottom
+        )
         self.sub_container_1.add_module(self.button_0)
 
         self.sub_container_2 = ContainerModule("HBox")
         self.sub_container_2.add_module(self.label_0)
-        self.sub_container_2.add_spacer()
-        self.sub_container_2.add_module(self.button_5)
+
+        self.sub_container_6 = ContainerModule("HBox")
+        self.sub_container_6.add_module(self.button_5)
 
         self.sub_container_3 = ContainerModule("HBox")
         self.sub_container_3.add_module(self.label_1)
@@ -109,6 +112,11 @@ class MainUI(QMainWindow):
         self.sub_container_4.add_module(self.table_0)
 
         self.sub_container_5 = ContainerModule("HBox")
+
+        self.sub_container_a = ContainerModule("HBox")
+        self.sub_container_a.add_module(self.sub_container_2)
+        self.sub_container_a.add_spacer()
+        self.sub_container_a.add_module(self.sub_container_6)
 
     def setup_main_containers(self):
         """
@@ -143,10 +151,9 @@ class MainUI(QMainWindow):
             alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom,
         )
         self.main_container_1.add_module(
-            self.sub_container_2,
+            self.sub_container_a,
             row=2,
             column=0,
-            alignment=Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignBottom,
         )
 
         self.main_container_1.add_module(

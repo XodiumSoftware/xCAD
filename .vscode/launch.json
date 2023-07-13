@@ -16,7 +16,7 @@
       "name": "Python: test.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/tests/test0.py",
+      "program": "${workspaceFolder}/tests/test4.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }
