@@ -1,10 +1,7 @@
 import os
 import sqlite3
 
-from constants import TABLES
-
-# TODO: Move the constant to constants.py
-DATABASE_PATH = os.path.join(r"bbc/data/database.db")
+from constants import DATABASE_PATH, TABLES
 
 
 class DataBaseHandler:
@@ -79,37 +76,6 @@ class DataBaseHandler:
 
         return table_data
 
-    def save_table_data(self, table_name, table_data):
-        """
-        Save the data from a table.
-        """
-        with self._conn:
-            table_name_identified = self.validate_and_sanitize_identifier(table_name)
-
-            delete_query = f"DELETE FROM {table_name_identified}"  # FIXME
-            self._c.execute(delete_query)
-
-            num_columns = len(table_data[0])
-            placeholders = ", ".join("?" * num_columns)
-            insert_query = (
-                f"INSERT INTO {table_name_identified} VALUES ({placeholders})"  # FIXME
-            )
-            self._c.executemany(insert_query, table_data)
-
-            self._conn.commit()
-
-    def discard_table_data(self, table_name):
-        """
-        Discard the data from a table.
-        """
-        with self._conn:
-            table_name_identified = self.validate_and_sanitize_identifier(table_name)
-
-            delete_query = f"DELETE FROM {table_name_identified}"  # FIXME
-            self._c.execute(delete_query)
-
-            self._conn.commit()
-
     def validate_and_sanitize_identifier(self, identifier):
         """
         Validate and sanitize an identifier.
@@ -117,49 +83,3 @@ class DataBaseHandler:
         if not identifier.isidentifier():
             raise ValueError(f"Invalid identifier: {identifier}")
         return identifier.replace('"', '""')
-
-    def update_data(self, table_name, column_0, column_1, value):
-        """
-        Update the data from a table.
-        """
-        with self._conn:
-            table_name_identified = self.validate_and_sanitize_identifier(table_name)
-            column_0_identified = self.validate_and_sanitize_identifier(column_0)
-            column_1_identified = self.validate_and_sanitize_identifier(column_1)
-
-            update_query = f"UPDATE {table_name_identified} SET value = ? WHERE {column_0_identified} = ? AND {column_1_identified} = ?"  # FIXME
-            self._c.execute(update_query, (value, column_0, column_1))
-
-            self._conn.commit()
-
-    def execute_query(self, query, params=None):
-        """
-        Execute a query with optional parameters.
-        """
-        with self._conn:
-            try:
-                if params:
-                    self._c.execute(query, params)
-                else:
-                    self._c.execute(query)
-
-                self._conn.commit()
-            except sqlite3.Error as e:
-                print(f"An error occurred: {e}")
-
-    def execute_select_query(self, query, params=None):
-        """
-        Execute a select query with optional parameters and return the result.
-        """
-        with self._conn:
-            try:
-                if params:
-                    self._c.execute(query, params)
-                else:
-                    self._c.execute(query)
-
-                result = self._c.fetchall()
-                return result
-            except sqlite3.Error as e:
-                print(f"An error occurred: {e}")
-                return []
