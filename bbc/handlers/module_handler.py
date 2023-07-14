@@ -50,6 +50,8 @@ class ModuleHandler(QWidget):
 
         self._settings = QSettings()
 
+        self.module_visibility_state = {}
+
         self.create_modules_from_matrix(module_matrix_pos)
         QTimer.singleShot(0, self.load_module_visibility_state)
 
