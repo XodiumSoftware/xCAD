@@ -1,6 +1,16 @@
 from functools import partial
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
+from constants import (
+    BUTTONS,
+    CHECKBOXES,
+    DEBUG_NAME,
+    GRAPHICS_VIEWS,
+    INPUTFIELDS,
+    LABELS,
+    SPINBOXES,
+    TABLES,
+)
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
 from PySide6.QtCore import Qt
@@ -22,8 +32,6 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from bbc.constants import DEBUG_NAME
-
 
 class ModuleHandler:
     @staticmethod
@@ -33,28 +41,13 @@ class ModuleHandler:
                 Optional[Tuple[Optional[int], Optional[str], Optional[Tuple[int, int]]]]
             ]
         ],
-        layout: QLayout,
+        layout: QGridLayout,
         margins: Optional[Tuple[int, int, int, int]] = None,
     ) -> None:
         for row, row_info in enumerate(module_grid_pos_matrix):
             for column, module_info in enumerate(row_info):
-                if module_info is not None:
-                    module_type, alignment, span = module_info
-                    module = ModuleHandler.init_module_type(module_type)
-                    if module is not None:
-                        alignment_flag = ModuleHandler.init_module_alignment(alignment)
-                        rowspan, columnspan = ModuleHandler.init_module_span(*span)
-                        layout.addWidget(
-                            module,
-                            row,
-                            column,
-                            rowspan,
-                            columnspan,
-                            alignment=alignment_flag,
-                        )
-
-        if margins is not None:
-            layout.setContentsMargins(*margins)
+                # TODO: finish implementation.
+                return
 
     @staticmethod
     def init_module_margins(
@@ -66,22 +59,35 @@ class ModuleHandler:
             return margins
 
     @staticmethod
-    def init_module_span(rowspan, columnspan) -> Tuple[int, int]:
+    def init_module_span(
+        module_grid_pos_matrix: List[
+            List[
+                Optional[Tuple[Optional[int], Optional[str], Optional[Tuple[int, int]]]]
+            ]
+        ],
+        rowspan: Union[int, str],
+        columnspan: Union[int, str],
+    ) -> Tuple[int, int]:
         if rowspan == "Auto" or columnspan == "Auto":
-            return 1, 1
+            total_rows = len(module_grid_pos_matrix)
+            total_columns = len(module_grid_pos_matrix[0])
+            if rowspan == "Auto":
+                rowspan = total_rows
+            if columnspan == "Auto":
+                columnspan = total_columns
 
-        return rowspan, columnspan
+        return int(rowspan), int(columnspan)
 
     @staticmethod
     def init_module_layout(module_layout_type: str) -> QLayout:
-        module_layouts: Dict[str, QLayout] = {
+        layouts: Dict[str, QLayout] = {
             "VBox": QVBoxLayout(),
             "HBox": QHBoxLayout(),
             "Grid": QGridLayout(),
             "Form": QFormLayout(),
         }
 
-        return module_layouts.get(module_layout_type, QGridLayout())
+        return layouts.get(module_layout_type, QGridLayout())
 
     @staticmethod
     def init_module_alignment(module_alignment: Optional[str]) -> Qt.AlignmentFlag:
@@ -104,11 +110,34 @@ class ModuleHandler:
         return alignments.get(module_alignment, Qt.AlignmentFlag.AlignJustify)
 
     @staticmethod
-    def init_module_type(module_type: str, module_data: dict) -> Optional[QWidget]:
+    def init_module_data(
+        module_type: str, module_index: int
+    ) -> Optional[Dict[str, Union[str, int, float]]]:
+        """
+        Get the module data.
+        """
+        module_list = {
+            "Label": LABELS,
+            "Checkbox": CHECKBOXES,
+            "SpinBox": SPINBOXES,
+            "InputField": INPUTFIELDS,
+            "Button": BUTTONS,
+            "GraphicsView": GRAPHICS_VIEWS,
+            "TableView": TABLES,
+        }.get(module_type, [])
+
+        module_data = next(
+            (module for module in module_list if module["index"] == module_index), None
+        )
+
+        return module_data
+
+    @staticmethod
+    def init_module_type(module_type: str) -> Optional[QWidget]:
         """
         Create the module.
         """
-        module_class = {
+        module_types = {
             "Label": QLabel,
             "Checkbox": QCheckBox,
             "SpinBox": QDoubleSpinBox,
@@ -116,13 +145,14 @@ class ModuleHandler:
             "Button": QPushButton,
             "GraphicsView": QGraphicsView,
             "TableView": QTableView,
-        }.get(module_type)
+        }
 
-        if not module_class:
-            raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
+        return module_types.get(module_type, QWidget)
 
-        module = module_class()
-
+    @staticmethod
+    def init_module_properties(
+        module: int, module_type: str, module_data: dict
+    ) -> Optional[QWidget]:
         if module_type != "GraphicsView":
             module.setStyleSheet(module_data["stylesheet"])
 
