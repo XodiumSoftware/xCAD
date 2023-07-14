@@ -43,8 +43,8 @@ class ModuleHandler(QWidget):
         module_layout_type: str,
         module_type: str,
         module_index: int,
-        margins: Optional[Tuple[int, int, int, int]] = None,
-        alignment: Optional[str] = None,
+        module_margins: Optional[Tuple[int, int, int, int]] = None,
+        module_alignment: Optional[str] = None,
         parent: Optional[QWidget] = None,
     ) -> None:
         """
@@ -60,7 +60,11 @@ class ModuleHandler(QWidget):
         self.module_index = module_index
 
         self._setup_module(
-            module_layout_type, module_type, module_index, margins, alignment
+            module_layout_type,
+            module_type,
+            module_index,
+            module_margins,
+            module_alignment,
         )
         QTimer.singleShot(0, self.load_visibility_state)
 
@@ -69,7 +73,7 @@ class ModuleHandler(QWidget):
         module_layout_type: str,
         module_type: str,
         module_index: int,
-        margins: Optional[Tuple[int, int, int, int]] = None,
+        module_margins: Optional[Tuple[int, int, int, int]] = None,
         alignment: Optional[str] = None,
     ) -> None:
         """
@@ -89,7 +93,7 @@ class ModuleHandler(QWidget):
         else:
             raise ValueError(f'{DEBUG_NAME}"index" {module_index} not found')
 
-        layout.setContentsMargins(*(margins or (0, 0, 0, 0)))
+        layout.setContentsMargins(*(module_margins or (0, 0, 0, 0)))
 
         if alignment:
             self.setAlignment(layout, alignment)
@@ -105,12 +109,9 @@ class ModuleHandler(QWidget):
             "HBox": QHBoxLayout(),
             "Grid": QGridLayout(),
             "Form": QFormLayout(),
-        }.get(module_layout_type)
+        }
 
-        if module_layouts is None:
-            raise ValueError(f"Invalid layout type: {module_layout_type}")
-
-        return module_layouts
+        return module_layouts.get(module_layout_type, QGridLayout())
 
     def _setup_module_data(
         self, module_type: str, module_index: int
@@ -140,7 +141,7 @@ class ModuleHandler(QWidget):
         """
         Create the module.
         """
-        module_class = {
+        module_types = {
             "Label": QLabel,
             "Checkbox": QCheckBox,
             "SpinBox": QDoubleSpinBox,
@@ -150,10 +151,10 @@ class ModuleHandler(QWidget):
             "TableView": QTableView,
         }.get(module_type)
 
-        if not module_class:
+        if not module_types:
             raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
 
-        module = module_class()
+        module = module_types()
 
         if module_type != "GraphicsView":
             module.setStyleSheet(module_data["stylesheet"])
@@ -206,7 +207,9 @@ class ModuleHandler(QWidget):
 
         return module
 
-    def setAlignment(self, layout: Union[QLayout, QBoxLayout], alignment: str) -> None:
+    def setAlignment(
+        self, layout: Union[QLayout, QBoxLayout], module_alignment: str
+    ) -> None:
         """
         Set the alignment of the layout.
         """
@@ -220,7 +223,7 @@ class ModuleHandler(QWidget):
         }
 
         layout.setAlignment(
-            alignment_mapping.get(alignment, Qt.AlignmentFlag.AlignJustify)
+            alignment_mapping.get(module_alignment, Qt.AlignmentFlag.AlignJustify)
         )
 
     def toggle_module(self):

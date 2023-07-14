@@ -36,8 +36,8 @@ from PySide6.QtWidgets import (
 class ModuleHandler:
     @staticmethod
     def init_module(
-        module_grid_pos_matrix: list[
-            list[
+        module_grid_pos_matrix: List[
+            List[
                 Optional[Tuple[Optional[int], Optional[str], Optional[Tuple[int, int]]]]
             ]
         ],
@@ -46,8 +46,29 @@ class ModuleHandler:
     ) -> None:
         for row, row_info in enumerate(module_grid_pos_matrix):
             for column, module_info in enumerate(row_info):
-                # TODO: finish implementation.
-                return
+                if module_info is not None:
+                    (
+                        module_type,
+                        module_index,
+                        module_layout_type,
+                        module_span,
+                        module_alignment,
+                        module_layout_margins,
+                    ) = module_info
+                    module_data = ModuleHandler.init_module_data(
+                        module_type, module_index
+                    )
+                    if module_data is not None:
+                        module = ModuleHandler.init_module_type(module_type)
+                        module = ModuleHandler.init_module_properties(
+                            module, module_type, module_data
+                        )
+                        row_span, col_span = ModuleHandler.init_module_span(
+                            module_grid_pos_matrix, module_span[0], module_span[1]
+                        )
+                        layout.addWidget(module, row, column, row_span, col_span)
+
+        layout.setContentsMargins(*ModuleHandler.init_module_margins(margins))
 
     @staticmethod
     def init_module_margins(
@@ -151,8 +172,8 @@ class ModuleHandler:
 
     @staticmethod
     def init_module_properties(
-        module: int, module_type: str, module_data: dict
-    ) -> Optional[QWidget]:
+        module: QWidget, module_type: str, module_data: dict
+    ) -> QWidget:
         if module_type != "GraphicsView":
             module.setStyleSheet(module_data["stylesheet"])
 
@@ -176,15 +197,13 @@ class ModuleHandler:
             if module_data["icon_path"]:
                 icon = QIcon(module_data["icon_path"])
                 module.setIcon(icon)
-
             else:
                 module.setText(module_data["title"])
 
             module.setStyleSheet(module_data["stylesheet"])
 
-            if module_data["size"] != None:
+            if module_data["size"] is not None:
                 module.setFixedSize(*module_data["size"])
-
             else:
                 module.setSizePolicy(
                     QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum
@@ -193,6 +212,7 @@ class ModuleHandler:
             module.clicked.connect(
                 partial(self.onButtonModuleClicked.emit, module_data["index"])
             )
+
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)
 
