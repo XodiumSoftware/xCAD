@@ -38,7 +38,7 @@ class MainUI(QWidget):
         self._events_handler = EventsHandler()
         self._events_handler.quit_on_key_press_event(self)
 
-        self._main_layout = ModuleHandler.init_layout("Grid")
+        self._main_layout = ModuleHandler.init_module_layout("Grid")
 
         self._main_layout.addWidget(self._main_module)
 
@@ -54,20 +54,26 @@ class MainUI(QWidget):
                 [
                     (0, "VBox", "Label", "Leading", (1, 1), (0, 0, 0, 0)),
                     (3, "VBox", "Checkbox", "Center", (1, 1), (0, 0, 0, 0)),
-                    (4, "VBox", "Checkbox", "Right", (1, 2), (0, 0, 0, 0)),
-                    (1, "VBox", "SpinBox", "Left", (2, 1), (0, 0, 0, 0)),
+                    (4, "VBox", "Checkbox", "Right", (1, 1), (0, 0, 0, 0)),
+                    (1, "VBox", "SpinBox", "Left", (1, 1), (0, 0, 0, 0)),
+                    # Add more columns here
                 ],
                 [
-                    (0, "VBox", "Button", "Left", (1, 2), (0, 0, 0, 0)),
+                    (0, "VBox", "Button", "Left", (1, 1), (0, 0, 0, 0)),
                     (4, "VBox", "Button", "Right", (1, 1), (0, 0, 0, 0)),
                     (3, "VBox", "GraphicsView", "Center", (1, 1), (0, 0, 0, 0)),
                     (1, "VBox", "TableView", "Leading", (1, 1), (0, 0, 0, 0)),
+                    # Add more columns here
                 ],
                 [
                     (0, "VBox", "SpinBox", "Right", (1, 1), (0, 0, 0, 0)),
                     (2, "VBox", "SpinBox", "Center", (1, 1), (0, 0, 0, 0)),
                     None,
                     (1, "VBox", "SpinBox", "Trailing", (1, 1), (0, 0, 0, 0)),
+                    # Add more columns here
                 ],
+                # Add more rows here
             ],
+            layout=self._main_layout,
+            margins=(0, 0, 0, 0),
         )
