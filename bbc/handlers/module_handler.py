@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
+    QFormLayout,
     QGraphicsView,
     QGridLayout,
     QHBoxLayout,
@@ -103,6 +104,7 @@ class ModuleHandler(QWidget):
             "VBox": QVBoxLayout(),
             "HBox": QHBoxLayout(),
             "Grid": QGridLayout(),
+            "Form": QFormLayout(),
         }.get(module_layout_type)
 
         if module_layouts is None:
