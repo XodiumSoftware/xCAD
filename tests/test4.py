@@ -34,7 +34,10 @@ class MainWindow(QWidget):
             for column in range(len(module_grid_pos_matrix[row])):
                 module_type = module_grid_pos_matrix[row][column]
                 module = self._setup_module(module_type)
-                self.main_layout.addWidget(module, row, column)
+                if module is not None:
+                    self.main_layout.addWidget(
+                        module, row, column, 1, 1
+                    )  # BUG: Says "Expected 1 positional argument"? should accept 5 as mentioned in the docs. BTW code runs fine though.
 
     def _setup_module_layout(self, module_layout_type: str) -> QLayout:
         module_layouts: Dict[str, QLayout] = {
@@ -46,7 +49,9 @@ class MainWindow(QWidget):
         return module_layouts.get(module_layout_type, QGridLayout())
 
     def _setup_module(self, module_type: int) -> Optional[QWidget]:
-        if module_type == 0:
+        if module_type is None:
+            module = QWidget()
+        elif module_type == 0:
             module = QLabel()
             module.setText("Label")
         elif module_type == 1:
@@ -61,7 +66,7 @@ class MainWindow(QWidget):
             module = QLineEdit()
             module.setPlaceholderText("InputField")
         else:
-            return None
+            module = None
 
         return module
 
