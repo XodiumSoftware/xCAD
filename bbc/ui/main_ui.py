@@ -180,3 +180,26 @@ class MainUI(QMainWindow):
         """
         self.main_container_0.setVisible(not self.main_container_0.isVisible())
         self.main_container_1.setVisible(not self.main_container_1.isVisible())
+
+    def setup_modules2(self):
+        """
+        Setup the modules.
+        """
+        self._main_module = ModuleHandler(
+            module_matrix_pos=[
+                [
+                    ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
+                    ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
+                    ("HBox", "SpinBox", 2, (0, 0, 0, 0), "AlignCenter"),
+                    ("Grid", "Checkbox", 3, (0, 0, 0, 0), "AlignTrailing"),
+                    # Add more columns here...
+                ],
+                [
+                    ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
+                    ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
+                    ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
+                    # Add more columns here...
+                ],
+                # Add more rows here...
+            ]
+        )
