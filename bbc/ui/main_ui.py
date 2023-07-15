@@ -56,8 +56,8 @@ class MainUI(QMainWindow, SignalHandler):
                 [
                     ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
                     ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
-                    ("HBox", "SpinBox", 2, (0, 0, 0, 0), "AlignCenter"),
-                    ("Grid", "Checkbox", 3, (0, 0, 0, 0), "AlignTrailing"),
+                    ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
+                    ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
                     # Add more columns here...
                 ],
                 [
