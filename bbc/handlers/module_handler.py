@@ -110,7 +110,7 @@ class ModuleHandler(QWidget):
                     f'{DEBUG_NAME}"{module_type}" is not a valid module type'
                 )
         else:
-            raise ValueError(f'{DEBUG_NAME}"index" {module_index} not found')
+            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
 
         self.setLayout(layout)
 
