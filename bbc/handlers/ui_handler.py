@@ -25,3 +25,11 @@ class UIHandler:
         else:
             width, height = size
             ui.resize(width, height)
+
+    @staticmethod
+    def toggle_ui_visibility(ui: QWidget, target_ui: QWidget) -> None:
+        """
+        Toggles the visibility of the UI.
+        """
+        ui.setVisible(not ui.isVisible())
+        target_ui.setVisible(not target_ui.isVisible())

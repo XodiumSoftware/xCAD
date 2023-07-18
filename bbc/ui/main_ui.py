@@ -38,9 +38,6 @@ class MainUI(QWidget):
         self._events_handler.quit_on_key_press_event(self)
 
         self._main_module = ModuleHandler(0)
-        self._main_module.module_connect(
-            "Button", 0, {"target"}
-        )  # NOTE: I want something like this.
 
         layout = QGridLayout(self)
         layout.addWidget(self._main_module)

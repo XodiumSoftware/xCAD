@@ -1,4 +1,3 @@
-from functools import partial
 from typing import Dict, Optional, Tuple, Union, cast
 
 from constants import (
@@ -14,7 +13,8 @@ from constants import (
 )
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
-from PySide6.QtCore import QSettings, Qt, QTimer, Signal
+from handlers.signal_handler import SignalHandler
+from PySide6.QtCore import QSettings, Qt, QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -32,9 +32,6 @@ from PySide6.QtWidgets import (
 
 
 class ModuleHandler(QWidget):
-    onButtonModuleClicked = Signal(int)
-    onCheckBoxModuleClicked = Signal(int)
-
     def __init__(
         self,
         matrix_index: int,
@@ -47,6 +44,8 @@ class ModuleHandler(QWidget):
         super().__init__(parent)
 
         self._settings = QSettings()
+
+        self._signal_handler = SignalHandler()
 
         self._module_visibility_state = {}
 
@@ -236,9 +235,6 @@ class ModuleHandler(QWidget):
                 module.setSizePolicy(
                     QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum
                 )
-            module.clicked.connect(
-                partial(self.onButtonModuleClicked.emit, module_data["index"])
-            )
 
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)
@@ -316,12 +312,25 @@ class ModuleHandler(QWidget):
         else:
             return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
 
-    def toggle_module(self):
+    def module_emit_signal(self, module_type: str, module_index: int):
         """
-        Toggle the module.
+        Emit the signal to toggle the module.
         """
-        self.setVisible(not self.isVisible())
-        self.save_module_visibility_state()
+        module_key = f"{module_type}_{module_index}"
+        self._module_visibility_state[module_key] = not self._module_visibility_state[
+            module_key
+        ]
+        self._signal_handler.toggleModuleSignal.emit(module_type, module_index)
+
+    def toggle_module_visibility(self, module_type: str, module_index: int):
+        """
+        Toggle the visibility of the module.
+        """
+        module_key = f"{module_type}_{module_index}"
+        self._module_visibility_state[module_key] = not self._module_visibility_state[
+            module_key
+        ]
+        self.setVisible(self._module_visibility_state[module_key])
 
     def save_module_visibility_state(self):
         """
