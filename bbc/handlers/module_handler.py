@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Dict, List, Optional, Tuple, Union, cast
+from typing import Dict, Optional, Tuple, Union, cast
 
 from constants import (
     BUTTONS,
@@ -51,6 +51,8 @@ class ModuleHandler(QWidget):
         self._module_visibility_state = {}
 
         QTimer.singleShot(0, self.load_module_visibility_state)
+
+        self.create_modules_from_matrix()
 
     def create_modules_from_matrix(self) -> None:
         """

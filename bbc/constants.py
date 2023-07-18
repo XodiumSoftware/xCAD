@@ -51,15 +51,15 @@ MODULE_MATRICES = [
         "module_matrix_pos": [
             [
                 ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
-                ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
-                ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
-                ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
+                ("VBox", "Button", 0, (0, 0, 0, 0), "AlignRight"),
+                ("HBox", "Button", 0, (0, 0, 0, 0), "AlignCenter"),
+                ("Grid", "Button", 0, (0, 0, 0, 0), "AlignTrailing"),
                 # Add more columns here...
             ],
             [
-                ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
-                ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
-                ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
+                ("VBox", "GraphicsView", 0, (0, 0, 0, 0), "AlignLeft"),
+                ("HBox", "InputField", 0, (0, 0, 0, 0), "AlignBaseline"),
+                ("Grid", "TableView", 0, (0, 0, 0, 0), "AlignRight"),
                 # Add more columns here...
             ],
             # Add more rows here...
@@ -70,15 +70,15 @@ MODULE_MATRICES = [
         "module_matrix_pos": [
             [
                 ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
-                ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
-                ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
-                ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
+                ("VBox", "Button", 0, (0, 0, 0, 0), "AlignRight"),
+                ("HBox", "Button", 0, (0, 0, 0, 0), "AlignCenter"),
+                ("Grid", "Button", 0, (0, 0, 0, 0), "AlignTrailing"),
                 # Add more columns here...
             ],
             [
-                ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
-                ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
-                ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
+                ("VBox", "GraphicsView", 0, (0, 0, 0, 0), "AlignLeft"),
+                ("HBox", "InputField", 0, (0, 0, 0, 0), "AlignBaseline"),
+                ("Grid", "TableView", 0, (0, 0, 0, 0), "AlignRight"),
                 # Add more columns here...
             ],
             # Add more rows here...
