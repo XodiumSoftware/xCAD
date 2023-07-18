@@ -8,12 +8,12 @@ from constants import (
     GRAPHICS_VIEWS,
     INPUTFIELDS,
     LABELS,
+    MODULE_MATRICES,
     SPINBOXES,
     TABLES,
 )
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
-from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QSettings, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -36,9 +36,7 @@ class ModuleHandler(QWidget):
 
     def __init__(
         self,
-        module_matrix_pos: List[
-            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
-        ],
+        matrix_index: int,
         parent: Optional[QWidget] = None,
     ) -> None:
         """
@@ -46,40 +44,45 @@ class ModuleHandler(QWidget):
         """
         super().__init__(parent)
 
-        self._signal_handler = SignalHandler()
-
         self._settings = QSettings()
 
-        self.module_visibility_state = {}
+        self._matrix_index = matrix_index
 
-        self.create_modules_from_matrix(module_matrix_pos)
+        self._module_visibility_state = {}
+
         QTimer.singleShot(0, self.load_module_visibility_state)
 
-    def create_modules_from_matrix(
-        self,
-        module_matrix_pos: List[
-            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
-        ],
-    ) -> None:
+    def create_modules_from_matrix(self) -> None:
         """
-        Create modules based on the module matrix position.
+        Create modules based on the module matrix position corresponding to the matrix_index.
         """
-        for row in module_matrix_pos:
-            for module_args in row:
-                (
-                    module_layout_type,
-                    module_type,
-                    module_index,
-                    module_margins,
-                    module_alignment,
-                ) = module_args
-                self.setup_module(
-                    module_layout_type,
-                    module_type,
-                    module_index,
-                    module_margins,
-                    module_alignment,
-                )
+        module_matrix_data = next(
+            (data for data in MODULE_MATRICES if data["index"] == self._matrix_index),
+            None,
+        )
+
+        if module_matrix_data:
+            module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
+            for row in module_matrix_pos:
+                for module_args in row:
+                    (
+                        module_layout_type,
+                        module_type,
+                        module_index,
+                        module_margins,
+                        module_alignment,
+                    ) = module_args
+                    self.setup_module(
+                        module_layout_type,
+                        module_type,
+                        module_index,
+                        module_margins,
+                        module_alignment,
+                    )
+        else:
+            raise ValueError(
+                f"{DEBUG_NAME}Module index {self._matrix_index} not found in MODULE_MATRICES"
+            )
 
     def setup_module(
         self,
@@ -115,7 +118,7 @@ class ModuleHandler(QWidget):
         self.setLayout(layout)
 
         module_key = f"{module_type}_{module_index}"
-        self.module_visibility_state[module_key] = self.isVisible()
+        self._module_visibility_state[module_key] = self.isVisible()
 
     def setup_module_layout(self, module_layout_type):
         """
@@ -255,14 +258,14 @@ class ModuleHandler(QWidget):
         """
         Save the visibility state of the modules.
         """
-        for module_key, visible in self.module_visibility_state.items():
+        for module_key, visible in self._module_visibility_state.items():
             self._settings.setValue(module_key, visible)
 
     def load_module_visibility_state(self):
         """
         Load the visibility state of the modules.
         """
-        for module_key in self.module_visibility_state.keys():
+        for module_key in self._module_visibility_state.keys():
             visibility_state = self._settings.value(module_key, True, type=bool)
-            self.module_visibility_state[module_key] = bool(visibility_state)
+            self._module_visibility_state[module_key] = bool(visibility_state)
             self.setVisible(bool(visibility_state))

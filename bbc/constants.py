@@ -43,9 +43,52 @@ CONFIGURATOR_TITLE = "Structure Configurator"
 DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 # ====================================================================================================
 
-# TableModule:
+# ModuleHandler:
+# ====================================================================================================
+MODULE_MATRICES = [
+    {
+        "index": 0,
+        "module_matrix_pos": [
+            [
+                ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
+                ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
+                ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
+                ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
+                # Add more columns here...
+            ],
+            [
+                ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
+                ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
+                ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
+                # Add more columns here...
+            ],
+            # Add more rows here...
+        ],
+    },
+    {
+        "index": 1,
+        "module_matrix_pos": [
+            [
+                ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
+                ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
+                ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
+                ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
+                # Add more columns here...
+            ],
+            [
+                ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
+                ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
+                ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
+                # Add more columns here...
+            ],
+            # Add more rows here...
+        ],
+    },
+]
 # ====================================================================================================
 
+# TableModule:
+# ====================================================================================================
 FILL_PATTERNS = [
     Qt.BrushStyle.SolidPattern,  # Solid fill pattern
     Qt.BrushStyle.Dense1Pattern,  # Dense fill pattern 1

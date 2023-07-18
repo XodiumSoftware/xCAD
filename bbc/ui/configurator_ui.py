@@ -2,10 +2,8 @@ from constants import CONFIGURATOR_TITLE, UI_ICON_PATH
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QWidget
-from ui.modules.container_module import ContainerModule
 
 
 class ConfiguratorUI(QWidget):
@@ -34,31 +32,7 @@ class ConfiguratorUI(QWidget):
             self
         )  # TODO: Implement properly so it only quits the window not the whole program.
 
-        self.setup_modules()
+        self._configurator_module = ModuleHandler(1)
 
         layout = QGridLayout(self)
         layout.addWidget(self._configurator_module)
-
-    def setup_modules(self):
-        """
-        Setup the modules.
-        """
-        # TODO: replace content with actual modules.
-        self._configurator_module = ModuleHandler(
-            module_matrix_pos=[
-                [
-                    ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
-                    ("VBox", "Button", 1, (0, 0, 0, 0), "AlignRight"),
-                    ("HBox", "Button", 2, (0, 0, 0, 0), "AlignCenter"),
-                    ("Grid", "Button", 3, (0, 0, 0, 0), "AlignTrailing"),
-                    # Add more columns here...
-                ],
-                [
-                    ("VBox", "GraphicsView", 4, (0, 0, 0, 0), "AlignLeft"),
-                    ("HBox", "InputField", 5, (0, 0, 0, 0), "AlignBaseline"),
-                    ("Grid", "TableView", 6, (0, 0, 0, 0), "AlignRight"),
-                    # Add more columns here...
-                ],
-                # Add more rows here...
-            ]
-        )
