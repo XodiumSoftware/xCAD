@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, cast
 
 from constants import (
     BUTTONS,
@@ -36,11 +36,9 @@ class ModuleHandler(QWidget):
 
     def __init__(
         self,
-        module_layout_type: str,
-        module_type: str,
-        module_index: int,
-        module_margins: Optional[Tuple[int, int, int, int]] = None,
-        module_alignment: Optional[str] = None,
+        module_matrix_pos: List[
+            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
+        ],
         parent: Optional[QWidget] = None,
     ) -> None:
         """
@@ -52,17 +50,36 @@ class ModuleHandler(QWidget):
 
         self._settings = QSettings()
 
-        self.module_type = module_type
-        self.module_index = module_index
+        self.module_visibility_state = {}
 
-        self.setup_module(
-            module_layout_type,
-            module_type,
-            module_index,
-            module_margins,
-            module_alignment,
-        )
+        self.create_modules_from_matrix(module_matrix_pos)
         QTimer.singleShot(0, self.load_module_visibility_state)
+
+    def create_modules_from_matrix(
+        self,
+        module_matrix_pos: List[
+            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
+        ],
+    ) -> None:
+        """
+        Create modules based on the module matrix position.
+        """
+        for row in module_matrix_pos:
+            for module_args in row:
+                (
+                    module_layout_type,
+                    module_type,
+                    module_index,
+                    module_margins,
+                    module_alignment,
+                ) = module_args
+                self.setup_module(
+                    module_layout_type,
+                    module_type,
+                    module_index,
+                    module_margins,
+                    module_alignment,
+                )
 
     def setup_module(
         self,
@@ -76,8 +93,12 @@ class ModuleHandler(QWidget):
         Setup the module.
         """
         layout = self.setup_module_layout(module_layout_type)
-        layout.setContentsMargins(*module_margins)
-        layout.setAlignment(module_alignment)
+        layout.setContentsMargins(*self.setup_module_margins(module_margins))
+
+        if module_alignment is not None:
+            layout.setAlignment(
+                cast(Qt.AlignmentFlag, self.setup_module_alignment(module_alignment))
+            )
         module_data = self.setup_module_data(module_type, module_index)
 
         if module_data:
@@ -89,9 +110,12 @@ class ModuleHandler(QWidget):
                     f'{DEBUG_NAME}"{module_type}" is not a valid module type'
                 )
         else:
-            raise ValueError(f'{DEBUG_NAME}"index" {module_index} not found')
+            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
 
         self.setLayout(layout)
+
+        module_key = f"{module_type}_{module_index}"
+        self.module_visibility_state[module_key] = self.isVisible()
 
     def setup_module_layout(self, module_layout_type):
         """
@@ -184,31 +208,35 @@ class ModuleHandler(QWidget):
         return module
 
     def setup_module_alignment(
-        self, module_alignment: str
+        self, module_alignment: Optional[str]
     ) -> Optional[Qt.AlignmentFlag]:
         """
         Set the alignment of the layout.
         """
-        alignment_mapping = {
-            "AlignLeading": Qt.AlignmentFlag.AlignLeading,
-            "AlignLeft": Qt.AlignmentFlag.AlignLeft,
-            "AlignRight": Qt.AlignmentFlag.AlignRight,
-            "AlignTrailing": Qt.AlignmentFlag.AlignTrailing,
-            "AlignHCenter": Qt.AlignmentFlag.AlignHCenter,
-            "AlignVCenter": Qt.AlignmentFlag.AlignVCenter,
-            "AlignJustify": Qt.AlignmentFlag.AlignJustify,
-            "AlignAbsolute": Qt.AlignmentFlag.AlignAbsolute,
-            "AlignHorizontalMask": Qt.AlignmentFlag.AlignHorizontal_Mask,
-            "AlignTop": Qt.AlignmentFlag.AlignTop,
-            "AlignBottom": Qt.AlignmentFlag.AlignBottom,
-            "AlignAlignCenter": Qt.AlignmentFlag.AlignCenter,
-            "AlignBaseline": Qt.AlignmentFlag.AlignBaseline,
-            "AlignVerticalMask": Qt.AlignmentFlag.AlignVertical_Mask,
-        }
+        if module_alignment is not None:
+            alignment_mapping = {
+                "AlignLeading": Qt.AlignmentFlag.AlignLeading,
+                "AlignLeft": Qt.AlignmentFlag.AlignLeft,
+                "AlignRight": Qt.AlignmentFlag.AlignRight,
+                "AlignTrailing": Qt.AlignmentFlag.AlignTrailing,
+                "AlignHCenter": Qt.AlignmentFlag.AlignHCenter,
+                "AlignVCenter": Qt.AlignmentFlag.AlignVCenter,
+                "AlignJustify": Qt.AlignmentFlag.AlignJustify,
+                "AlignAbsolute": Qt.AlignmentFlag.AlignAbsolute,
+                "AlignHorizontalMask": Qt.AlignmentFlag.AlignHorizontal_Mask,
+                "AlignTop": Qt.AlignmentFlag.AlignTop,
+                "AlignBottom": Qt.AlignmentFlag.AlignBottom,
+                "AlignAlignCenter": Qt.AlignmentFlag.AlignCenter,
+                "AlignBaseline": Qt.AlignmentFlag.AlignBaseline,
+                "AlignVerticalMask": Qt.AlignmentFlag.AlignVertical_Mask,
+            }
+            return alignment_mapping.get(
+                module_alignment, Qt.AlignmentFlag.AlignJustify
+            )
+        else:
+            return None
 
-        return alignment_mapping.get(module_alignment, Qt.AlignmentFlag.AlignJustify)
-
-    def init_module_margins(
+    def setup_module_margins(
         self, module_margins: Optional[Tuple[int, int, int, int]]
     ) -> Tuple[int, int, int, int]:
         if module_margins is None:
@@ -225,18 +253,16 @@ class ModuleHandler(QWidget):
 
     def save_module_visibility_state(self):
         """
-        Save the visibility state of the module.
+        Save the visibility state of the modules.
         """
-        visibility_state = self.isVisible()
-        self._settings.setValue(
-            f"{self.module_type}_{self.module_index}", visibility_state
-        )
+        for module_key, visible in self.module_visibility_state.items():
+            self._settings.setValue(module_key, visible)
 
     def load_module_visibility_state(self):
         """
-        Load the visibility state of the module.
+        Load the visibility state of the modules.
         """
-        visibility_state = self._settings.value(
-            f"{self.module_type}_{self.module_index}", True, type=bool
-        )
-        self.setVisible(bool(visibility_state))
+        for module_key in self.module_visibility_state.keys():
+            visibility_state = self._settings.value(module_key, True, type=bool)
+            self.module_visibility_state[module_key] = bool(visibility_state)
+            self.setVisible(bool(visibility_state))
