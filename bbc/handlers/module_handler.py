@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, cast
 
 from constants import (
     BUTTONS,
@@ -17,18 +17,15 @@ from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QSettings, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
-    QBoxLayout,
     QCheckBox,
     QDoubleSpinBox,
-    QGraphicsView,
+    QFormLayout,
     QGridLayout,
     QHBoxLayout,
     QLabel,
-    QLayout,
     QLineEdit,
     QPushButton,
     QSizePolicy,
-    QTableView,
     QVBoxLayout,
     QWidget,
 )
@@ -39,11 +36,9 @@ class ModuleHandler(QWidget):
 
     def __init__(
         self,
-        module_layout_type: str,
-        module_type: str,
-        module_index: int,
-        margins: Optional[Tuple[int, int, int, int]] = None,
-        alignment: Optional[str] = None,
+        module_matrix_pos: List[
+            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
+        ],
         parent: Optional[QWidget] = None,
     ) -> None:
         """
@@ -55,30 +50,59 @@ class ModuleHandler(QWidget):
 
         self._settings = QSettings()
 
-        self.module_type = module_type
-        self.module_index = module_index
+        self.module_visibility_state = {}
 
-        self._setup_module(
-            module_layout_type, module_type, module_index, margins, alignment
-        )
-        QTimer.singleShot(0, self.load_visibility_state)
+        self.create_modules_from_matrix(module_matrix_pos)
+        QTimer.singleShot(0, self.load_module_visibility_state)
 
-    def _setup_module(
+    def create_modules_from_matrix(
+        self,
+        module_matrix_pos: List[
+            List[Tuple[str, str, int, Tuple[int, int, int, int], str]]
+        ],
+    ) -> None:
+        """
+        Create modules based on the module matrix position.
+        """
+        for row in module_matrix_pos:
+            for module_args in row:
+                (
+                    module_layout_type,
+                    module_type,
+                    module_index,
+                    module_margins,
+                    module_alignment,
+                ) = module_args
+                self.setup_module(
+                    module_layout_type,
+                    module_type,
+                    module_index,
+                    module_margins,
+                    module_alignment,
+                )
+
+    def setup_module(
         self,
         module_layout_type: str,
         module_type: str,
         module_index: int,
-        margins: Optional[Tuple[int, int, int, int]] = None,
-        alignment: Optional[str] = None,
+        module_margins: Optional[Tuple[int, int, int, int]] = None,
+        module_alignment: Optional[str] = None,
     ) -> None:
         """
         Setup the module.
         """
-        layout = self._setup_module_layout(module_layout_type)
-        module_data = self._setup_module_data(module_type, module_index)
+        layout = self.setup_module_layout(module_layout_type)
+        layout.setContentsMargins(*self.setup_module_margins(module_margins))
+
+        if module_alignment is not None:
+            layout.setAlignment(
+                cast(Qt.AlignmentFlag, self.setup_module_alignment(module_alignment))
+            )
+        module_data = self.setup_module_data(module_type, module_index)
 
         if module_data:
-            module = self._setup_module_creation(module_type, module_data)
+            module = self.setup_module_creation(module_type, module_data)
             if module:
                 layout.addWidget(module)
             else:
@@ -86,16 +110,14 @@ class ModuleHandler(QWidget):
                     f'{DEBUG_NAME}"{module_type}" is not a valid module type'
                 )
         else:
-            raise ValueError(f'{DEBUG_NAME}"index" {module_index} not found')
-
-        layout.setContentsMargins(*(margins or (0, 0, 0, 0)))
-
-        if alignment:
-            self.setAlignment(layout, alignment)
+            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
 
         self.setLayout(layout)
 
-    def _setup_module_layout(self, module_layout_type):
+        module_key = f"{module_type}_{module_index}"
+        self.module_visibility_state[module_key] = self.isVisible()
+
+    def setup_module_layout(self, module_layout_type):
         """
         Setup the module layout.
         """
@@ -103,18 +125,16 @@ class ModuleHandler(QWidget):
             "VBox": QVBoxLayout(),
             "HBox": QHBoxLayout(),
             "Grid": QGridLayout(),
-        }.get(module_layout_type)
+            "Form": QFormLayout(),
+        }
 
-        if module_layouts is None:
-            raise ValueError(f"Invalid layout type: {module_layout_type}")
+        return module_layouts.get(module_layout_type, QGridLayout())
 
-        return module_layouts
-
-    def _setup_module_data(
+    def setup_module_data(
         self, module_type: str, module_index: int
     ) -> Optional[Dict[str, Union[str, int, float]]]:
         """
-        Get the module data.
+        Setup the module data.
         """
         module_list = {
             "Label": LABELS,
@@ -132,37 +152,22 @@ class ModuleHandler(QWidget):
 
         return module_data
 
-    def _setup_module_creation(
-        self, module_type: str, module_data: dict
-    ) -> Optional[QWidget]:
+    def setup_module_creation(self, module_type: str, module_data: dict) -> QWidget:
         """
-        Create the module.
+        Setup the module creation.
         """
-        module_class = {
-            "Label": QLabel,
-            "Checkbox": QCheckBox,
-            "SpinBox": QDoubleSpinBox,
-            "InputField": QLineEdit,
-            "Button": QPushButton,
-            "GraphicsView": QGraphicsView,
-            "TableView": QTableView,
-        }.get(module_type)
-
-        if not module_class:
-            raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
-
-        module = module_class()
-
-        if module_type != "GraphicsView":
-            module.setStyleSheet(module_data["stylesheet"])
+        module = QWidget()
 
         if module_type == "Label":
+            module = QLabel()
             module.setText(module_data["title"])
 
         elif module_type == "Checkbox":
+            module = QCheckBox()
             module.setText(module_data["title"])
 
         elif module_type == "SpinBox":
+            module = QDoubleSpinBox()
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
             module.setValue(module_data["default_value"])
@@ -170,78 +175,94 @@ class ModuleHandler(QWidget):
             module.setSuffix(module_data["suffix"])
 
         elif module_type == "InputField":
+            module = QLineEdit()
             module.setPlaceholderText(module_data["placeholder"])
 
         elif module_type == "Button":
+            module = QPushButton()
             if module_data["icon_path"]:
                 icon = QIcon(module_data["icon_path"])
                 module.setIcon(icon)
-
             else:
                 module.setText(module_data["title"])
-
             module.setStyleSheet(module_data["stylesheet"])
-
-            if module_data["size"] != None:
+            if module_data["size"] is not None:
                 module.setFixedSize(*module_data["size"])
-
             else:
                 module.setSizePolicy(
                     QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum
                 )
-
             module.clicked.connect(
                 partial(self.onButtonModuleClicked.emit, module_data["index"])
             )
+
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)
 
         elif module_type == "TableView":
             module = TableDelegate(module_data)
 
-        else:
-            raise ValueError(f'{DEBUG_NAME}"{module_type}" is not a valid module type')
+        elif module_type != "GraphicsView":
+            module.setStyleSheet(module_data["stylesheet"])
 
         return module
 
-    def setAlignment(self, layout: Union[QLayout, QBoxLayout], alignment: str) -> None:
+    def setup_module_alignment(
+        self, module_alignment: Optional[str]
+    ) -> Optional[Qt.AlignmentFlag]:
         """
         Set the alignment of the layout.
         """
-        alignment_mapping = {
-            "AlignLeft": Qt.AlignmentFlag.AlignLeft,
-            "AlignRight": Qt.AlignmentFlag.AlignRight,
-            "AlignCenter": Qt.AlignmentFlag.AlignCenter,
-            "AlignJustify": Qt.AlignmentFlag.AlignJustify,
-            "AlignTop": Qt.AlignmentFlag.AlignTop,
-            "AlignBottom": Qt.AlignmentFlag.AlignBottom,
-        }
+        if module_alignment is not None:
+            alignment_mapping = {
+                "AlignLeading": Qt.AlignmentFlag.AlignLeading,
+                "AlignLeft": Qt.AlignmentFlag.AlignLeft,
+                "AlignRight": Qt.AlignmentFlag.AlignRight,
+                "AlignTrailing": Qt.AlignmentFlag.AlignTrailing,
+                "AlignHCenter": Qt.AlignmentFlag.AlignHCenter,
+                "AlignVCenter": Qt.AlignmentFlag.AlignVCenter,
+                "AlignJustify": Qt.AlignmentFlag.AlignJustify,
+                "AlignAbsolute": Qt.AlignmentFlag.AlignAbsolute,
+                "AlignHorizontalMask": Qt.AlignmentFlag.AlignHorizontal_Mask,
+                "AlignTop": Qt.AlignmentFlag.AlignTop,
+                "AlignBottom": Qt.AlignmentFlag.AlignBottom,
+                "AlignAlignCenter": Qt.AlignmentFlag.AlignCenter,
+                "AlignBaseline": Qt.AlignmentFlag.AlignBaseline,
+                "AlignVerticalMask": Qt.AlignmentFlag.AlignVertical_Mask,
+            }
+            return alignment_mapping.get(
+                module_alignment, Qt.AlignmentFlag.AlignJustify
+            )
+        else:
+            return None
 
-        layout.setAlignment(
-            alignment_mapping.get(alignment, Qt.AlignmentFlag.AlignJustify)
-        )
+    def setup_module_margins(
+        self, module_margins: Optional[Tuple[int, int, int, int]]
+    ) -> Tuple[int, int, int, int]:
+        if module_margins is None:
+            return (0, 0, 0, 0)
+        else:
+            return module_margins
 
     def toggle_module(self):
         """
         Toggle the module.
         """
         self.setVisible(not self.isVisible())
-        self.save_visibility_state()
+        self.save_module_visibility_state()
 
-    def save_visibility_state(self):
+    def save_module_visibility_state(self):
         """
-        Save the visibility state of the module.
+        Save the visibility state of the modules.
         """
-        visibility_state = self.isVisible()
-        self._settings.setValue(
-            f"{self.module_type}_{self.module_index}", visibility_state
-        )
+        for module_key, visible in self.module_visibility_state.items():
+            self._settings.setValue(module_key, visible)
 
-    def load_visibility_state(self):
+    def load_module_visibility_state(self):
         """
-        Load the visibility state of the module.
+        Load the visibility state of the modules.
         """
-        visibility_state = self._settings.value(
-            f"{self.module_type}_{self.module_index}", True, type=bool
-        )
-        self.setVisible(bool(visibility_state))
+        for module_key in self.module_visibility_state.keys():
+            visibility_state = self._settings.value(module_key, True, type=bool)
+            self.module_visibility_state[module_key] = bool(visibility_state)
+            self.setVisible(bool(visibility_state))
