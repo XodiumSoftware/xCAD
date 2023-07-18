@@ -19,8 +19,6 @@ class MainUI(QWidget):
 
         self._db_handler = DataBaseHandler()
         self._visibility_handler = VisibilityHandler()
-        self._ui_handler = UIHandler()
-        self._events_handler = EventsHandler()
         self._signal_handler = SignalHandler()
 
         self.setup_main_ui()
@@ -31,14 +29,18 @@ class MainUI(QWidget):
         """
         self.setWindowTitle(MAIN_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
-        self.setContentsMargins(0, 0, 0, 0)
 
+        self._ui_handler = UIHandler()
         self._ui_handler.set_ui_size(self, (600, 400))
         self._ui_handler.center_ui_on_screen_handler(self)
 
+        self._events_handler = EventsHandler()
         self._events_handler.quit_on_key_press_event(self)
 
         self._main_module = ModuleHandler(0)
+        self._main_module.module_connect(
+            "Button", 0, {"target"}
+        )  # NOTE: I want something like this.
 
         layout = QGridLayout(self)
         layout.addWidget(self._main_module)

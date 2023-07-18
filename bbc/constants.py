@@ -45,21 +45,30 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 
 # ModuleHandler:
 # ====================================================================================================
-MODULE_MATRICES = [
+MATRICES = [
     {
         "index": 0,
         "module_matrix_pos": [
             [
-                ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
-                ("VBox", "Button", 0, (0, 0, 0, 0), "AlignRight"),
-                ("HBox", "Button", 0, (0, 0, 0, 0), "AlignCenter"),
-                ("Grid", "Button", 0, (0, 0, 0, 0), "AlignTrailing"),
+                (
+                    "VBox",
+                    "Button",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ),
                 # Add more columns here...
             ],
             [
-                ("VBox", "GraphicsView", 0, (0, 0, 0, 0), "AlignLeft"),
-                ("HBox", "InputField", 0, (0, 0, 0, 0), "AlignBaseline"),
-                ("Grid", "TableView", 0, (0, 0, 0, 0), "AlignRight"),
+                (
+                    "VBox",
+                    "Label",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignBottom",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
                 # Add more columns here...
             ],
             # Add more rows here...
@@ -69,18 +78,81 @@ MODULE_MATRICES = [
         "index": 1,
         "module_matrix_pos": [
             [
-                ("VBox", "Label", 0, (0, 0, 0, 0), "AlignLeading"),
-                ("VBox", "Button", 0, (0, 0, 0, 0), "AlignRight"),
-                ("HBox", "Button", 0, (0, 0, 0, 0), "AlignCenter"),
-                ("Grid", "Button", 0, (0, 0, 0, 0), "AlignTrailing"),
+                (
+                    "VBox",
+                    "TableView",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ),
+                (
+                    "VBox",
+                    "GraphicsView",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ),
                 # Add more columns here...
             ],
             [
-                ("VBox", "GraphicsView", 0, (0, 0, 0, 0), "AlignLeft"),
-                ("HBox", "InputField", 0, (0, 0, 0, 0), "AlignBaseline"),
-                ("Grid", "TableView", 0, (0, 0, 0, 0), "AlignRight"),
+                (
+                    "VBox",
+                    "Button",
+                    5,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
+                (
+                    "VBox",
+                    "Button",
+                    1,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
                 # Add more columns here...
             ],
+            [
+                (
+                    "VBox",
+                    "Button",
+                    2,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
+                (
+                    "VBox",
+                    "Button",
+                    3,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
+                (
+                    "VBox",
+                    "Button",
+                    4,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
+                # Add more columns here...
+            ],
+            [
+                (
+                    "VBox",
+                    "Label",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ),
+                # Add more columns here...
+            ]
             # Add more rows here...
         ],
     },

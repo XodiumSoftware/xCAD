@@ -21,7 +21,6 @@ class ConfiguratorUI(QWidget):
         """
         self.setWindowTitle(CONFIGURATOR_TITLE)
         self.setWindowIcon(QIcon(UI_ICON_PATH))
-        self.setContentsMargins(0, 0, 0, 0)
 
         self._ui_handler = UIHandler()
         self._ui_handler.set_ui_size(self, (800, 400))

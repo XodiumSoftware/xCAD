@@ -8,7 +8,7 @@ from constants import (
     GRAPHICS_VIEWS,
     INPUTFIELDS,
     LABELS,
-    MODULE_MATRICES,
+    MATRICES,
     SPINBOXES,
     TABLES,
 )
@@ -33,10 +33,12 @@ from PySide6.QtWidgets import (
 
 class ModuleHandler(QWidget):
     onButtonModuleClicked = Signal(int)
+    onCheckBoxModuleClicked = Signal(int)
 
     def __init__(
         self,
         matrix_index: int,
+        matrix_margins: Optional[Tuple[int, int, int, int]] = None,
         parent: Optional[QWidget] = None,
     ) -> None:
         """
@@ -46,44 +48,72 @@ class ModuleHandler(QWidget):
 
         self._settings = QSettings()
 
-        self._matrix_index = matrix_index
-
         self._module_visibility_state = {}
 
         QTimer.singleShot(0, self.load_module_visibility_state)
 
-        self.create_modules_from_matrix()
+        self.create_modules_from_matrix(matrix_index, matrix_margins)
 
-    def create_modules_from_matrix(self) -> None:
-        """
-        Create modules based on the module matrix position corresponding to the matrix_index.
-        """
+    def create_modules_from_matrix(self, matrix_index, matrix_margins):
         module_matrix_data = next(
-            (data for data in MODULE_MATRICES if data["index"] == self._matrix_index),
+            (data for data in MATRICES if data["index"] == matrix_index),
             None,
         )
 
         if module_matrix_data:
             module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
-            for row in module_matrix_pos:
-                for module_args in row:
+            layout = QGridLayout(self)
+            layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
+
+            for row, row_modules in enumerate(module_matrix_pos):
+                for column, module_args in enumerate(row_modules):
                     (
                         module_layout_type,
                         module_type,
                         module_index,
                         module_margins,
                         module_alignment,
+                        module_size_policy,
                     ) = module_args
-                    self.setup_module(
-                        module_layout_type,
-                        module_type,
-                        module_index,
-                        module_margins,
-                        module_alignment,
+
+                    module_container = self.setup_module_layout(module_layout_type)
+                    module_container.setContentsMargins(
+                        *self.setup_module_margins(module_margins)
                     )
+
+                    if module_alignment is not None:
+                        module_container.setAlignment(
+                            self.setup_module_alignment(module_alignment)
+                        )
+
+                    module_data = self.setup_module_data(module_type, module_index)
+
+                    if module_data:
+                        module = self.setup_module_creation(module_type, module_data)
+                        if module:
+                            if module_size_policy is not None:
+                                (
+                                    size_policy_x,
+                                    size_policy_y,
+                                ) = self.setup_module_size_policy(module_size_policy)
+                                module.setSizePolicy(size_policy_x, size_policy_y)
+
+                            module_container.addWidget(module)
+
+                            layout.addLayout(module_container, row, column)
+
+                        else:
+                            raise ValueError(
+                                f'{DEBUG_NAME}"{module_type}" is not a valid module type'
+                            )
+                    else:
+                        raise ValueError(
+                            f"{DEBUG_NAME}{module_type}_{module_index}: not found"
+                        )
+
         else:
             raise ValueError(
-                f"{DEBUG_NAME}Module index {self._matrix_index} not found in MODULE_MATRICES"
+                f"{DEBUG_NAME}Module index {matrix_index} not found in MODULE_MATRICES"
             )
 
     def setup_module(
@@ -93,6 +123,7 @@ class ModuleHandler(QWidget):
         module_index: int,
         module_margins: Optional[Tuple[int, int, int, int]] = None,
         module_alignment: Optional[str] = None,
+        module_size_policy: Optional[Tuple[str, str]] = None,
     ) -> None:
         """
         Setup the module.
@@ -106,10 +137,18 @@ class ModuleHandler(QWidget):
             )
         module_data = self.setup_module_data(module_type, module_index)
 
+        print(f"Setting up module: {module_type}_{module_index}")
+
         if module_data:
             module = self.setup_module_creation(module_type, module_data)
             if module:
+                if module_size_policy is not None:
+                    size_policy_x, size_policy_y = self.setup_module_size_policy(
+                        module_size_policy
+                    )
+                    module.setSizePolicy(size_policy_x, size_policy_y)
                 layout.addWidget(module)
+                print(f"Module: {module_type}_{module_index} added to layout")
             else:
                 raise ValueError(
                     f'{DEBUG_NAME}"{module_type}" is not a valid module type'
@@ -213,8 +252,8 @@ class ModuleHandler(QWidget):
         return module
 
     def setup_module_alignment(
-        self, module_alignment: Optional[str]
-    ) -> Optional[Qt.AlignmentFlag]:
+        self, module_alignment: Optional[Union[str, None]]
+    ) -> Qt.AlignmentFlag:
         """
         Set the alignment of the layout.
         """
@@ -235,11 +274,13 @@ class ModuleHandler(QWidget):
                 "AlignBaseline": Qt.AlignmentFlag.AlignBaseline,
                 "AlignVerticalMask": Qt.AlignmentFlag.AlignVertical_Mask,
             }
+
             return alignment_mapping.get(
                 module_alignment, Qt.AlignmentFlag.AlignJustify
             )
+
         else:
-            return None
+            return Qt.AlignmentFlag.AlignJustify
 
     def setup_module_margins(
         self, module_margins: Optional[Tuple[int, int, int, int]]
@@ -248,6 +289,32 @@ class ModuleHandler(QWidget):
             return (0, 0, 0, 0)
         else:
             return module_margins
+
+    def setup_module_size_policy(
+        self, module_size_policy: Optional[Tuple[str, str]]
+    ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
+        """
+        Set the size policy for the module.
+        """
+        if module_size_policy is not None:
+            size_policy_mapping = {
+                "SizeMinimum": QSizePolicy.Policy.Minimum,
+                "SizeMaximum": QSizePolicy.Policy.Maximum,
+                "SizeFixed": QSizePolicy.Policy.Fixed,
+                "SizePreferred": QSizePolicy.Policy.Preferred,
+                "SizeExpanding": QSizePolicy.Policy.Expanding,
+                "SizeMinimumExpanding": QSizePolicy.Policy.MinimumExpanding,
+                "SizeIgnored": QSizePolicy.Policy.Ignored,
+            }
+            size_policy_x = size_policy_mapping.get(
+                module_size_policy[0], QSizePolicy.Policy.Expanding
+            )
+            size_policy_y = size_policy_mapping.get(
+                module_size_policy[1], QSizePolicy.Policy.Expanding
+            )
+            return size_policy_x, size_policy_y
+        else:
+            return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
 
     def toggle_module(self):
         """
