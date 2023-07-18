@@ -6,7 +6,7 @@ from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
 from handlers.visibility_handler import VisibilityHandler
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow
 
 
 class MainUI(QMainWindow, SignalHandler):
@@ -40,10 +40,7 @@ class MainUI(QMainWindow, SignalHandler):
 
         self.setup_modules()
 
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-
-        layout = QGridLayout(central_widget)
+        layout = QGridLayout(self)
         layout.addWidget(self._main_module)
 
     def setup_modules(self):
