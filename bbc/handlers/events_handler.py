@@ -1,19 +1,19 @@
 from constants import UI_ICON_PATH
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
-from PySide6.QtWidgets import QApplication, QMessageBox
+from PySide6.QtWidgets import QApplication, QMessageBox, QWidget
 
 
 class EventsHandler:
     @Slot()
-    def quit_on_key_press_event(self, parent) -> None:
+    def quit_on_key_press_event(self, ui: QWidget) -> None:
         """
         Quit on Escape key or Ctrl+Q.
         """
         shortcuts = ["Escape", "Ctrl+Q"]
         for shortcut in shortcuts:
             key_sequence = QKeySequence(shortcut)
-            shortcut = QShortcut(key_sequence, parent)
+            shortcut = QShortcut(key_sequence, ui)
             shortcut.activated.connect(self.show_quit_message_box)
 
     def show_quit_message_box(self) -> None:

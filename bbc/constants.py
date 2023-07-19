@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QIcon
 
 # General
 # ====================================================================================================
@@ -31,11 +31,29 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 
 # UI
 # ====================================================================================================
-UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+UI_ICON_PATH = QIcon(os.path.join(ICONS_FOLDER_PATH + "ui_icon.png"))
 
-MAIN_TITLE = "AFC"
 COLOR_PICKER_TITLE = "Color Picker"
-CONFIGURATOR_TITLE = "Structure Configurator"
+
+UIS = [
+    {
+        "index": 0,
+        "name": "MainUI",
+        "title": "AFC",
+        "icon": UI_ICON_PATH,
+        "initial_size": (600, 400),
+        "initial_visibility": True,
+    },
+    {
+        "index": 1,
+        "name": "ConfiguratorUI",
+        "title": "Structure Configurator",
+        "icon": UI_ICON_PATH,
+        "initial_size": (800, 400),
+        "initial_visibility": False,
+    },
+]
+
 # ====================================================================================================
 
 # DataBaseHandler

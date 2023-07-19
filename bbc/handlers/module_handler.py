@@ -47,9 +47,7 @@ class ModuleHandler(QWidget):
 
         self._signal_handler = SignalHandler()
 
-        self._module_visibility_state = {}
-
-        QTimer.singleShot(0, self.load_module_visibility_state)
+        # QTimer.singleShot(0)  # TODO: Add second arg.
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
 
@@ -156,9 +154,6 @@ class ModuleHandler(QWidget):
             raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
 
         self.setLayout(layout)
-
-        module_key = f"{module_type}_{module_index}"
-        self._module_visibility_state[module_key] = self.isVisible()
 
     def setup_module_layout(self, module_layout_type):
         """
@@ -311,39 +306,3 @@ class ModuleHandler(QWidget):
             return size_policy_x, size_policy_y
         else:
             return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-
-    def module_emit_signal(self, module_type: str, module_index: int):
-        """
-        Emit the signal to toggle the module.
-        """
-        module_key = f"{module_type}_{module_index}"
-        self._module_visibility_state[module_key] = not self._module_visibility_state[
-            module_key
-        ]
-        self._signal_handler.toggleModuleSignal.emit(module_type, module_index)
-
-    def toggle_module_visibility(self, module_type: str, module_index: int):
-        """
-        Toggle the visibility of the module.
-        """
-        module_key = f"{module_type}_{module_index}"
-        self._module_visibility_state[module_key] = not self._module_visibility_state[
-            module_key
-        ]
-        self.setVisible(self._module_visibility_state[module_key])
-
-    def save_module_visibility_state(self):
-        """
-        Save the visibility state of the modules.
-        """
-        for module_key, visible in self._module_visibility_state.items():
-            self._settings.setValue(module_key, visible)
-
-    def load_module_visibility_state(self):
-        """
-        Load the visibility state of the modules.
-        """
-        for module_key in self._module_visibility_state.keys():
-            visibility_state = self._settings.value(module_key, True, type=bool)
-            self._module_visibility_state[module_key] = bool(visibility_state)
-            self.setVisible(bool(visibility_state))
