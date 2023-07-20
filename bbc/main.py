@@ -1,4 +1,3 @@
-# import argparse
 import sys
 
 from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME

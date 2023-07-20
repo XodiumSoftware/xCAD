@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QIcon
+from PySide6.QtGui import QColor
 
 # General
 # ====================================================================================================
@@ -31,7 +31,7 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 
 # UI
 # ====================================================================================================
-UI_ICON_PATH = QIcon(os.path.join(ICONS_FOLDER_PATH + "ui_icon.png"))
+UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
 COLOR_PICKER_TITLE = "Color Picker"
 
