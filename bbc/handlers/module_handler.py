@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Tuple, Union, cast
+from typing import Callable, Dict, Optional, Tuple, Union, cast
 
 from constants import (
     BUTTONS,
@@ -14,7 +14,7 @@ from constants import (
 from delegates.graphics_delegate import GraphicsDelegate
 from delegates.table_delegate import TableDelegate
 from handlers.signal_handler import SignalHandler
-from PySide6.QtCore import QSettings, Qt, QTimer
+from PySide6.QtCore import QSettings, Qt, Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -48,6 +48,8 @@ class ModuleHandler(QWidget):
         self._signal_handler = SignalHandler()
 
         # QTimer.singleShot(0)  # TODO: Add second arg.
+
+        self._module_visibility = {}
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
 
@@ -198,14 +200,17 @@ class ModuleHandler(QWidget):
 
         if module_type == "Label":
             module = QLabel()
+            module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
         elif module_type == "Checkbox":
             module = QCheckBox()
+            module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
         elif module_type == "SpinBox":
             module = QDoubleSpinBox()
+            module.setObjectName(str((module_type, module_data["index"])))
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
             module.setValue(module_data["default_value"])
@@ -214,10 +219,13 @@ class ModuleHandler(QWidget):
 
         elif module_type == "InputField":
             module = QLineEdit()
+            module.setObjectName(str((module_type, module_data["index"])))
             module.setPlaceholderText(module_data["placeholder"])
 
         elif module_type == "Button":
             module = QPushButton()
+            module.setObjectName(str((module_type, module_data["index"])))
+
             if module_data["icon_path"]:
                 icon = QIcon(module_data["icon_path"])
                 module.setIcon(icon)
@@ -233,11 +241,14 @@ class ModuleHandler(QWidget):
 
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)
+            module.setObjectName(str((module_type, module_data["index"])))
 
         elif module_type == "TableView":
             module = TableDelegate(module_data)
+            module.setObjectName(str((module_type, module_data["index"])))
 
         elif module_type != "GraphicsView":
+            module.setObjectName(str((module_type, module_data["index"])))
             module.setStyleSheet(module_data["stylesheet"])
 
         return module
@@ -306,3 +317,31 @@ class ModuleHandler(QWidget):
             return size_policy_x, size_policy_y
         else:
             return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+
+    def module_connection(
+        self, module_type: str, module_index: int, target_method: Callable
+    ) -> None:
+        """
+        Connect the module signal to the target method.
+        """
+        module = self.findChild(QWidget, str((module_type, module_index)))
+
+        if isinstance(module, QPushButton):
+            module.clicked.connect(target_method)
+
+        else:
+            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
+
+    @Slot(str, int)
+    def toggle_module_visibility(self, module_type: str, module_index: int) -> None:
+        """
+        Toggle the module visibility.
+        """
+        module = self.findChild(QWidget, str((module_type, module_index)))
+
+        if isinstance(module, QWidget):
+            module.setVisible(not module.isVisible())
+        else:
+            raise ValueError(
+                f"{DEBUG_NAME}{module_type}_{module_index}: not found or not supported for visibility toggling"
+            )

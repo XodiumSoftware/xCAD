@@ -99,7 +99,7 @@ MATRICES = [
                 (
                     "VBox",
                     "TableView",
-                    0,
+                    1,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeExpanding", "SizeExpanding"),

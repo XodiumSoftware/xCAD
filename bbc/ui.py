@@ -1,9 +1,12 @@
+from functools import partial
+
 from constants import UIS
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
+from PySide6.QtCore import Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 
@@ -69,9 +72,34 @@ class UI(QMainWindow):
         else:
             self._configurator_ui.hide()
 
+        self.setup_connections()
+
+    def setup_connections(self) -> None:
+        """
+        Setup the connections.
+        """
+        self._main_module.module_connection(
+            "Button",
+            0,
+            partial(self.toggle_ui_visibility, ui=self._configurator_ui),
+        )
+        self._configurator_module.module_connection(
+            "Button",
+            5,
+            partial(self.toggle_ui_visibility, ui=self._configurator_ui),
+        )
+        self._configurator_module.module_connection(
+            "Button",
+            1,
+            partial(
+                self._configurator_module.toggle_module_visibility, "GraphicsView", 0
+            ),
+        )
+
+    @Slot(QWidget)
     @staticmethod
     def toggle_ui_visibility(ui: QWidget) -> None:
         """
         Toggles the visibility of the UI.
         """
-        ui.setVisible(not ui.isVisible())
+        return ui.setVisible(not ui.isVisible())
