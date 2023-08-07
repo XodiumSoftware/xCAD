@@ -81,18 +81,34 @@ class UI(QMainWindow):
         self._main_module.module_connection(
             "Button",
             0,
-            partial(self.toggle_ui_visibility, ui=self._configurator_ui),
+            partial(
+                self.toggle_ui_visibility,
+                ui=self._configurator_ui,
+            ),
         )
         self._configurator_module.module_connection(
             "Button",
             5,
-            partial(self.toggle_ui_visibility, ui=self._configurator_ui),
+            partial(
+                self.toggle_ui_visibility,
+                ui=self._configurator_ui,
+            ),
         )
         self._configurator_module.module_connection(
             "Button",
             1,
             partial(
-                self._configurator_module.toggle_module_visibility, "GraphicsView", 0
+                self._configurator_module.toggle_module_visibility,
+                "GraphicsView",
+                0,
+            ),
+        )
+        self._configurator_module.module_connection(
+            "Button",
+            2,
+            partial(
+                self._db_handler.save_table_data_changes,
+                "OBJECT_ASSEMBLY_DATA",
             ),
         )
 

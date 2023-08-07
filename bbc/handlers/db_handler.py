@@ -1,7 +1,11 @@
 import os
 import sqlite3
+from re import L
+from typing import Dict, List, Tuple, Union
 
 from constants import DATABASE_PATH, TABLES
+
+CellValue = Union[str, int, float, bool]
 
 
 class DataBaseHandler:
@@ -17,14 +21,14 @@ class DataBaseHandler:
         self.setup_database_model()
 
     @staticmethod
-    def create_directory_if_not_exists(directory):
+    def create_directory_if_not_exists(directory: str) -> None:
         """
         Create a directory if it does not exist.
         """
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def setup_database_model(self):
+    def setup_database_model(self) -> None:
         """
         Setup the database model.
         """
@@ -51,7 +55,7 @@ class DataBaseHandler:
                     self._c.executemany(insert_query, values)
 
     @staticmethod
-    def table_exists(cursor, table_name):
+    def table_exists(cursor: sqlite3.Cursor, table_name: str) -> bool:
         """
         Check if a table exists in the SQLite database.
         """
@@ -61,7 +65,7 @@ class DataBaseHandler:
         )
         return cursor.fetchone() is not None
 
-    def get_table_data(self, table_name):
+    def get_table_data(self, table_name: str) -> List[Tuple[CellValue, ...]]:
         """
         Get all the data from a table.
         """
@@ -75,10 +79,64 @@ class DataBaseHandler:
 
         return table_data
 
-    def validate_and_sanitize_identifier(self, identifier):
+    def validate_and_sanitize_identifier(self, identifier: str) -> str:
         """
         Validate and sanitize an identifier.
         """
         if not identifier.isidentifier():
             raise ValueError(f"Invalid identifier: {identifier}")
         return identifier.replace('"', '""')
+
+    def save_table_data_changes(
+        self, table_name: str, updated_data: List[Dict[str, CellValue]]
+    ) -> None:
+        """
+        Save all the data changes from a table.
+        """
+        with self._conn:
+            table_name_identified = self.validate_and_sanitize_identifier(table_name)
+
+            update_query = f"UPDATE {table_name_identified} SET "
+            set_columns = []
+            values = []
+
+            for row in updated_data:
+                for column, value in row.items():
+                    set_columns.append(f"{column} = ?")
+                    values.append(value)
+                update_query += ", ".join(set_columns) + " WHERE Id = ?"
+                values.append(row["Id"])
+
+            self._c.execute(update_query, values)
+
+    def discard_table_data_changes(self, table_name: str) -> None:
+        """
+        Discard all the data changes from a table.
+        """
+        original_data = self.get_table_data(table_name)
+        original_data_dict = [
+            {"Id": row[0], **dict(zip(TABLES[0]["columns"], row[1:]))}
+            for row in original_data
+        ]
+        self.save_table_data_changes(table_name, original_data_dict)
+
+    def reset_table_data(self, table_name: str) -> None:
+        """
+        Reset all the data from a table.
+        """
+        with self._conn:
+            table_name_identified = self.validate_and_sanitize_identifier(table_name)
+
+            for table_data in TABLES:
+                if table_data["desc"] == table_name_identified:
+                    default_data = table_data["rows"]
+                    break
+            else:
+                raise ValueError(
+                    f"Table '{table_name_identified}' not found in TABLES."
+                )
+
+            self._c.execute(f"DELETE FROM {table_name_identified}")
+            insert_query = f"INSERT INTO {table_name_identified} VALUES ({', '.join(['?'] * len(default_data[0]))})"
+            values = [(i,) + tuple(row) for i, row in enumerate(default_data)]
+            self._c.executemany(insert_query, values)

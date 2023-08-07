@@ -9,9 +9,10 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- SCRIPTS -->
-  <script src="./scripts/carousel.js" defer></script>
-  <script src="./scripts/image_security.js" defer></script>
-  <script src="./scripts/image_obfuscation.js" defer></script>
+  <script src="./scripts/js/carousel.js" defer></script>
+  <script src="./scripts/js/image_security.js" defer></script>
+  <script src="./scripts/js/image_obfuscation.js" defer></script>
+  <script src="./scripts/js/popup.js" defer></script>
 
   <title>AutoFrameCAD</title>
 </head>
@@ -22,6 +23,11 @@
   <div id="header_wrap" class="outer">
     <header class="inner">
       <a id="forkme_banner" href="https://github.com/illyrius666/AutoFrameCAD">View on GitHub</a>
+
+      <!-- REGISTER/LOGIN BANNER -->
+      <div id="register_login_banner">
+        <a href="#" id="loginLink">Login</a> | <a href="#" id="registerLink">Register</a>
+      </div>
 
       <h1 id="project_title">AutoFrameCAD<sup>&copy;</sup></h1>
       <h2 id="project_tagline">BricsCAD addon/plug-in to automize frameworks</h2>
@@ -90,15 +96,6 @@
       <p>Access the user guide and documentation for AutoFrameCAD<sup>&copy;</sup>:</p>
       <a href="documentation.pdf">User Guide</a>
     </section>
-
-    <section id="contact_content" class="inner">
-      <h2 id="contact">Contact</h2>
-      <p>For inquiries and support, please contact us:</p>
-      <ul>
-        <li>Email: -</li>
-        <li>Phone: -</li>
-      </ul>
-    </section>
   </div>
 
   <!-- FOOTER  -->
@@ -107,6 +104,39 @@
       <p>&copy; AutoFrameCAD 2023 Qerimi-Engineering&copy;. All rights reserved.</p>
       <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
     </footer>
+  </div>
+
+  <!-- LOGIN POPUP -->
+  <div id="loginPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2>Login</h2>
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- REGISTER POPUP -->
+  <div id="registerPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2>Register</h2>
+      <form>
+        <label for="registerUsername">Username:</label>
+        <input type="text" id="registerUsername" required>
+        <label for="registerEmail">Email:</label>
+        <input type="email" id="registerEmail" required>
+        <label for="registerPassword">Password:</label>
+        <div class="password-strength-meter">
+          <div class="password-strength-bar"></div>
+        </div>
+        <input type="password" id="registerPassword" required>
+        <button type="submit" id="registerButton">Register</button>
+      </form>
+    </div>
   </div>
 </body>
 

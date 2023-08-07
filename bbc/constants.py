@@ -63,118 +63,116 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 
 # ModuleHandler:
 # ====================================================================================================
+# Define the matrix data with support for nested containers
+# Each element in module_matrix_pos can contain either a list of widgets
+# or another set of "module_args" representing a nested container.
+# For nested containers, specify the nested layout as a string.
+# ====================================================================================================
 MATRICES = [
     {
         "index": 0,
         "module_matrix_pos": [
             [
-                (
+                [
                     "VBox",
                     "Button",
                     0,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeExpanding", "SizeExpanding"),
-                ),
-                # Add more columns here...
+                ],
             ],
             [
-                (
+                [
                     "VBox",
                     "Label",
                     0,
                     (0, 0, 0, 0),
                     "AlignBottom",
                     ("SizeMinimum", "SizeMinimum"),
-                ),
-                # Add more columns here...
+                ],
             ],
-            # Add more rows here...
         ],
     },
     {
         "index": 1,
         "module_matrix_pos": [
             [
-                (
+                [
                     "VBox",
                     "TableView",
                     1,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeExpanding", "SizeExpanding"),
-                ),
-                (
+                ],
+                [
                     "VBox",
                     "GraphicsView",
                     0,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeExpanding", "SizeExpanding"),
-                ),
-                # Add more columns here...
+                ],
             ],
             [
-                (
-                    "VBox",
-                    "Button",
-                    5,
-                    (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
-                ),
-                (
-                    "VBox",
-                    "Button",
-                    1,
-                    (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
-                ),
-                # Add more columns here...
-            ],
-            [
-                (
+                [
                     "VBox",
                     "Button",
                     2,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeMinimum", "SizeMinimum"),
-                ),
-                (
+                ],
+                [
                     "VBox",
                     "Button",
                     3,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeMinimum", "SizeMinimum"),
-                ),
-                (
+                ],
+                [
                     "VBox",
                     "Button",
                     4,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeMinimum", "SizeMinimum"),
-                ),
-                # Add more columns here...
+                ],
             ],
             [
-                (
+                [
+                    "VBox",
+                    "Button",
+                    5,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    1,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+            [
+                [
                     "VBox",
                     "Label",
                     0,
                     (0, 0, 0, 0),
                     "AlignCenter",
                     ("SizeMinimum", "SizeMinimum"),
-                ),
-                # Add more columns here...
-            ]
-            # Add more rows here...
+                ],
+            ],
         ],
     },
 ]
+
 # ====================================================================================================
 
 # TableModule:
