@@ -186,6 +186,26 @@ input {
   transition: width 0.3s ease-in-out;
 }
 
+.icons-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.icons-list a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+}
+
+.icons-list img {
+  width: 40px;
+  height: 40px;
+}
+
 #register_login_banner {
   display: inline-block;
   position: absolute;
