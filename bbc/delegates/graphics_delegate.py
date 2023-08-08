@@ -15,17 +15,13 @@ from PySide6.QtWidgets import (
 
 class GraphicsDelegate(QGraphicsView):
     def __init__(self, module_data: Optional[dict] = None, parent=None):
-        """
-        Initialize the GraphicsView.
-        """
+        """Initialize the GraphicsView."""
         super().__init__(parent)
         self.module_data = module_data
         self.setup_graphics_view()
 
     def setup_graphics_view(self):
-        """
-        Setup the GraphicsView.
-        """
+        """Setup the GraphicsView."""
         self.scene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.scene)
 
@@ -39,9 +35,7 @@ class GraphicsDelegate(QGraphicsView):
         self.create_items()
 
     def drawBackground(self, painter: QPainter, rect: QRectF):
-        """
-        Draw the background.
-        """
+        """Draw the background."""
         super().drawBackground(painter, rect)
 
         painter.setPen(QPen(QColor(200, 200, 200), 0.5, Qt.PenStyle.SolidLine))
@@ -61,9 +55,7 @@ class GraphicsDelegate(QGraphicsView):
             painter.drawLine(*line[0], *line[1])
 
     def create_items(self):
-        """
-        Draw the items.
-        """
+        """Draw the items."""
         total_length = sum(data["thickness"] for data in GRAPHICS_VIEWS[0]["data"])
         item_width = 100
 
@@ -98,9 +90,7 @@ class GraphicsDelegate(QGraphicsView):
         self.create_label(item_width, total_length)
 
     def create_label(self, item_width: int, total_length: int):
-        """
-        Create the label.
-        """
+        """Create the label."""
         top_text = QGraphicsTextItem("Outside Face")
         top_text.setDefaultTextColor(QColor(255, 255, 255))
         top_text.setPos(
@@ -125,9 +115,7 @@ class GraphicsDelegate(QGraphicsView):
         y_position: int,
         total_length: int,
     ):
-        """
-        Create the dimension for an item or the total dimension.
-        """
+        """Create the dimension for an item or the total dimension."""
         dim_ext = 10
         dim_offset = 50
         dim_label_color = QColor(255, 0, 0)
@@ -190,9 +178,7 @@ class GraphicsDelegate(QGraphicsView):
         self.scene.addItem(end_dim_line)
 
     def fit_to_items(self):
-        """
-        Automatically zoom in to fit the items in the view with some extra space.
-        """
+        """Automatically zoom in to fit the items in the view with some extra space."""
         extra_space = 50
         items_rect = self.scene.itemsBoundingRect()
         scene_rect = items_rect.adjusted(
@@ -201,8 +187,6 @@ class GraphicsDelegate(QGraphicsView):
         self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
 
     def resizeEvent(self, event):
-        """
-        Override the resize event to fit the items whenever the view is resized.
-        """
+        """Override the resize event to fit the items whenever the view is resized."""
         super().resizeEvent(event)
         self.fit_to_items()

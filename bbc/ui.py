@@ -13,9 +13,7 @@ from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 
 class UI(QMainWindow):
     def __init__(self) -> None:
-        """
-        Initialize the MainUI.
-        """
+        """Initialize the MainUI."""
         super().__init__()
 
         self._db_handler = DataBaseHandler()
@@ -32,9 +30,7 @@ class UI(QMainWindow):
         self.setup_ui()
 
     def setup_ui(self) -> None:
-        """
-        Setup the UIs.
-        """
+        """Setup the UIs."""
         main_ui_info = UIS[0]
         configurator_ui_info = UIS[1]
 
@@ -75,9 +71,7 @@ class UI(QMainWindow):
         self.setup_connections()
 
     def setup_connections(self) -> None:
-        """
-        Setup the connections.
-        """
+        """Setup the connections."""
         self._main_module.module_connection(
             "Button",
             0,
@@ -115,7 +109,5 @@ class UI(QMainWindow):
     @Slot(QWidget)
     @staticmethod
     def toggle_ui_visibility(ui: QWidget) -> None:
-        """
-        Toggles the visibility of the UI.
-        """
+        """Toggles the visibility of the UI."""
         return ui.setVisible(not ui.isVisible())
