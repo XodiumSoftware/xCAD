@@ -11,6 +11,94 @@ Theme Styles
   box-sizing: border-box;
 }
 
+.matrix-select-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#matrixSelect {
+  margin-left: 10px;
+}
+
+.matrix {
+  border: 5px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.matrix h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.matrix-row {
+  display: flex;
+  width: 100%;
+}
+
+.matrix-column {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #afafaf;
+  background-color: #ccc;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.module-title {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+table {
+  width: 100%;
+  margin-top: 5px;
+}
+
+table tr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+table tr td {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+  align-items: center;
+}
+
+table tr td:first-child {
+  flex: 0 0 120px;
+}
+
+table tr td select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 50px;
+  padding: 0px;
+}
+
+.size-policy-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0px;
+}
+
 body {
   color: #373737;
   background: #212121;
