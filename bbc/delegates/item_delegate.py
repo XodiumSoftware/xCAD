@@ -32,6 +32,7 @@ class ColorPicker(QColorDialog):
         self.setCurrentColor(QColor(color))
 
     def showEvent(self, event):
+        """Show the ColorPicker."""
         super().showEvent(event)
         self.show()
 
