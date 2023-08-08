@@ -155,7 +155,8 @@ class ModuleHandler(QWidget):
 
         self.setLayout(layout)
 
-    def setup_module_layout(self, module_layout_type):
+    @staticmethod
+    def setup_module_layout(module_layout_type):
         """
         Setup the module layout.
         """
@@ -168,8 +169,9 @@ class ModuleHandler(QWidget):
 
         return module_layouts.get(module_layout_type, QGridLayout())
 
+    @staticmethod
     def setup_module_data(
-        self, module_type: str, module_index: int
+        module_type: str, module_index: int
     ) -> Optional[Dict[str, Union[str, int, float]]]:
         """
         Setup the module data.
@@ -190,7 +192,8 @@ class ModuleHandler(QWidget):
 
         return module_data
 
-    def setup_module_creation(self, module_type: str, module_data: dict) -> QWidget:
+    @staticmethod
+    def setup_module_creation(module_type: str, module_data: dict) -> QWidget:
         """
         Setup the module creation.
         """
@@ -251,8 +254,9 @@ class ModuleHandler(QWidget):
 
         return module
 
+    @staticmethod
     def setup_module_alignment(
-        self, module_alignment: Optional[Union[str, None]]
+        module_alignment: Optional[Union[str, None]]
     ) -> Qt.AlignmentFlag:
         """
         Set the alignment of the layout.
@@ -280,15 +284,17 @@ class ModuleHandler(QWidget):
             )
         return Qt.AlignmentFlag.AlignJustify
 
+    @staticmethod
     def setup_module_margins(
-        self, module_margins: Optional[Tuple[int, int, int, int]]
+        module_margins: Optional[Tuple[int, int, int, int]]
     ) -> Tuple[int, int, int, int]:
         if module_margins is None:
             return (0, 0, 0, 0)
         return module_margins
 
+    @staticmethod
     def setup_module_size_policy(
-        self, module_size_policy: Optional[Tuple[str, str]]
+        module_size_policy: Optional[Tuple[str, str]]
     ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
         """
         Set the size policy for the module.
