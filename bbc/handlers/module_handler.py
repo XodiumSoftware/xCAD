@@ -32,6 +32,8 @@ from PySide6.QtWidgets import (
 
 
 class ModuleHandler(QWidget):
+    """A class to handle the modules."""
+
     def __init__(
         self,
         matrix_index: int,

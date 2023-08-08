@@ -5,6 +5,8 @@ from PySide6.QtWidgets import QApplication, QMessageBox, QWidget
 
 
 class EventsHandler:
+    """A class to handle events."""
+
     @Slot()
     def quit_on_key_press_event(self, ui: QWidget) -> None:
         """Quit on Escape key or Ctrl+Q."""

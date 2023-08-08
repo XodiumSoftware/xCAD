@@ -8,6 +8,8 @@ CellValue = Union[str, int, float, bool]
 
 
 class DataBaseHandler:
+    """A class to handle the database."""
+
     def __init__(self):
         """Initialize the DataBaseHandler."""
         self.create_directory_if_not_exists(

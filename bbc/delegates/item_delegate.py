@@ -20,6 +20,8 @@ from PySide6.QtWidgets import (
 
 
 class ColorPicker(QColorDialog):
+    """A custom QColorDialog that allows for alpha channel."""
+
     def __init__(self, color, parent=None):
         """Initialize the ColorPicker."""
         super().__init__(parent)
@@ -38,6 +40,8 @@ class ColorPicker(QColorDialog):
 
 
 class StandardItemDelegate(QStandardItem):
+    """A custom QStandardItem that allows for sorting."""
+
     def data(self, role=Qt.ItemDataRole.DisplayRole):
         """Return the data for the given role."""
         if role == Qt.ItemDataRole.DisplayRole:
@@ -47,6 +51,8 @@ class StandardItemDelegate(QStandardItem):
 
 
 class ItemDelegate(QStyledItemDelegate):
+    """A custom QStyledItemDelegate that creates editors for the table."""
+
     def __init__(self, table_name, parent=None):
         """Initialize the ItemDelegate."""
         super().__init__(parent)

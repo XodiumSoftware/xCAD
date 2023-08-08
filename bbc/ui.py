@@ -12,6 +12,8 @@ from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 
 
 class UI(QMainWindow):
+    """A class to handle the UI."""
+
     def __init__(self) -> None:
         """Initialize the MainUI."""
         super().__init__()

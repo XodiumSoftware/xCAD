@@ -14,6 +14,8 @@ from PySide6.QtWidgets import (
 
 
 class GraphicsDelegate(QGraphicsView):
+    """A custom QGraphicsView that draws the graphics for the module."""
+
     def __init__(self, module_data: Optional[dict] = None, parent=None):
         """Initialize the GraphicsView."""
         super().__init__(parent)

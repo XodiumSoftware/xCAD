@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QHeaderView, QStyleOptionViewItem, QTableView
 
 
 class TableDelegate(QTableView):
+    """A custom QTableView that displays the data for the module."""
+
     def __init__(self, module_data: Optional[dict] = None, parent=None):
         super().__init__(parent)
         """Initialize the TableDelegate."""

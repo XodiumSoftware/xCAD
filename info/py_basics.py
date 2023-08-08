@@ -1,4 +1,6 @@
 class Foo:
+    """A class to demonstrate the difference between class attributes and properties."""
+
     attribute_1 = []
     attribute_2 = 1
 
