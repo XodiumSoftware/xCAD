@@ -150,14 +150,15 @@ class ItemDelegate(QStyledItemDelegate):
     def createLabelEditor(parent, value_in_column_1, cell_value):
         editor = QLabel(parent)
         decimals = 0
+        suffix = ""
+
         if value_in_column_1 == "Area":
             suffix = " m2"
-            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            editor.setText(text)
         elif value_in_column_1 == "Perimeter":
             suffix = " m1"
-            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            editor.setText(text)
+
+        text = f"{float(cell_value):.{decimals}f}{suffix}"
+        editor.setText(text)
         return editor
 
     def createColorButtonEditor(self, parent, cell_value, index):
