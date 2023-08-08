@@ -1,15 +1,19 @@
 class ImageSecurity {
     constructor() {
         this.images = document.querySelectorAll('img[data-obfuscate]');
-        this.disableContextMenuForImages();
-        this.blockImageDrag();
+        this.addEventListeners();
         this.obfuscateImageURLs();
     }
 
-    disableContextMenuForImages() {
+    addEventListeners() {
+        const disableEvent = event => event.preventDefault();
         this.images.forEach(image => {
-            image.addEventListener('contextmenu', event => {
-                event.preventDefault();
+            image.addEventListener('contextmenu', disableEvent);
+            image.addEventListener('dragstart', disableEvent);
+            image.addEventListener('keydown', event => {
+                if (event.ctrlKey && (event.key === 'c' || event.key === 'i')) {
+                    event.preventDefault();
+                }
             });
         });
     }
@@ -26,14 +30,6 @@ class ImageSecurity {
             const originalSrc = image.getAttribute('src');
             const uniqueFilename = this.generateUniqueFilename(originalSrc);
             image.setAttribute('src', uniqueFilename);
-        });
-    }
-
-    blockImageDrag() {
-        this.images.forEach(image => {
-            image.addEventListener('dragstart', event => {
-                event.preventDefault();
-            });
         });
     }
 }
