@@ -35,5 +35,5 @@ class ImageSecurity {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const imageSecurity = new ImageSecurity();
+    new ImageSecurity();
 });
