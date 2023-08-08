@@ -48,7 +48,7 @@ class ImageSecurity {
   obfuscateImageURLs() {
     this.images.forEach((image) => {
       const originalSrc = image.getAttribute('src');
-      const uniqueFilename = this.generateUniqueFilename(originalSrc);
+      const uniqueFilename = this.generateUniqueFilename.call(this, originalSrc);
       image.setAttribute('src', uniqueFilename);
     });
   }
