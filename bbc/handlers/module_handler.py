@@ -47,8 +47,6 @@ class ModuleHandler(QWidget):
 
         self._signal_handler = SignalHandler()
 
-        # QTimer.singleShot(0)  # TODO: Add second arg.
-
         self._module_visibility = {}
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
@@ -280,17 +278,14 @@ class ModuleHandler(QWidget):
             return alignment_mapping.get(
                 module_alignment, Qt.AlignmentFlag.AlignJustify
             )
-
-        else:
-            return Qt.AlignmentFlag.AlignJustify
+        return Qt.AlignmentFlag.AlignJustify
 
     def setup_module_margins(
         self, module_margins: Optional[Tuple[int, int, int, int]]
     ) -> Tuple[int, int, int, int]:
         if module_margins is None:
             return (0, 0, 0, 0)
-        else:
-            return module_margins
+        return module_margins
 
     def setup_module_size_policy(
         self, module_size_policy: Optional[Tuple[str, str]]
@@ -315,8 +310,7 @@ class ModuleHandler(QWidget):
                 module_size_policy[1], QSizePolicy.Policy.Expanding
             )
             return size_policy_x, size_policy_y
-        else:
-            return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
 
     def module_connection(
         self, module_type: str, module_index: int, target_method: Callable

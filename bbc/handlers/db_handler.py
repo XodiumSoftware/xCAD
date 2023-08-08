@@ -1,6 +1,5 @@
 import os
 import sqlite3
-from re import L
 from typing import Dict, List, Tuple, Union
 
 from constants import DATABASE_PATH, TABLES

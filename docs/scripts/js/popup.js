@@ -102,4 +102,4 @@ class RegistrationPopupManager {
 }
 
 const clientId = "Iv1.c014788a30bf9f06";
-const popupManager = new RegistrationPopupManager();
+new RegistrationPopupManager();

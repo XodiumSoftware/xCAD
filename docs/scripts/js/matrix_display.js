@@ -279,3 +279,4 @@ const matrices = [
 ]
 
 const matrixDisplay = new MatrixDisplay(matrices)
+new MatrixDisplay(matrices)
