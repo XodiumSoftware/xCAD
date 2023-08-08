@@ -187,6 +187,24 @@ Full-Width Styles
   border-radius: 8px;
 }
 
+.tool-item {
+  text-align: center;
+}
+
+.tool-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+.tool-title {
+  font-size: 16px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+
 form {
   display: flex;
   flex-direction: column;
@@ -319,7 +337,7 @@ input {
   z-index: 10;
   padding: 10px 50px 10px 10px;
   color: #000000;
-  background: url('../images/github-mark.png') #f4c211 no-repeat 95% 50%;
+  background: url('../images/github_mark.png') #f4c211 no-repeat 95% 50%;
   background-size: 35px;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

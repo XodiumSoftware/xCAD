@@ -1,7 +1,7 @@
 class MatrixDisplay {
     constructor(matrices) {
         this.matrices = matrices;
-        this.constantsEditorContent = document.getElementById("constants_editor_content");
+        this.constantsEditorContent = document.getElementById("matrix_editor_content");
         this.matrixSelect = document.getElementById("matrixSelect");
         this.matrixSelect.addEventListener("change", this.handleMatrixChange.bind(this));
 
