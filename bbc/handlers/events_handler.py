@@ -7,9 +7,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox, QWidget
 class EventsHandler:
     @Slot()
     def quit_on_key_press_event(self, ui: QWidget) -> None:
-        """
-        Quit on Escape key or Ctrl+Q.
-        """
+        """Quit on Escape key or Ctrl+Q."""
         shortcuts = ["Escape", "Ctrl+Q"]
         for shortcut in shortcuts:
             key_sequence = QKeySequence(shortcut)
@@ -17,9 +15,7 @@ class EventsHandler:
             shortcut.activated.connect(self.show_quit_message_box)
 
     def show_quit_message_box(self) -> None:
-        """
-        Show a dialog to confirm quitting.
-        """
+        """Show a dialog to confirm quitting."""
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Exit?")
         msg_box.setWindowIcon(QIcon(UI_ICON_PATH))

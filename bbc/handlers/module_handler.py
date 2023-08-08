@@ -38,9 +38,7 @@ class ModuleHandler(QWidget):
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
         parent: Optional[QWidget] = None,
     ) -> None:
-        """
-        Initialize the ModuleHandler.
-        """
+        """Initialize the ModuleHandler."""
         super().__init__(parent)
 
         self._settings = QSettings()
@@ -122,9 +120,7 @@ class ModuleHandler(QWidget):
         module_alignment: Optional[str] = None,
         module_size_policy: Optional[Tuple[str, str]] = None,
     ) -> None:
-        """
-        Setup the module.
-        """
+        """Setup the module."""
         layout = self.setup_module_layout(module_layout_type)
         layout.setContentsMargins(*self.setup_module_margins(module_margins))
 
@@ -156,9 +152,7 @@ class ModuleHandler(QWidget):
         self.setLayout(layout)
 
     def setup_module_layout(self, module_layout_type):
-        """
-        Setup the module layout.
-        """
+        """Setup the module layout."""
         module_layouts = {
             "VBox": QVBoxLayout(),
             "HBox": QHBoxLayout(),
@@ -171,9 +165,7 @@ class ModuleHandler(QWidget):
     def setup_module_data(
         self, module_type: str, module_index: int
     ) -> Optional[Dict[str, Union[str, int, float]]]:
-        """
-        Setup the module data.
-        """
+        """Setup the module data."""
         module_list = {
             "Label": LABELS,
             "Checkbox": CHECKBOXES,
@@ -191,9 +183,7 @@ class ModuleHandler(QWidget):
         return module_data
 
     def setup_module_creation(self, module_type: str, module_data: dict) -> QWidget:
-        """
-        Setup the module creation.
-        """
+        """Setup the module creation."""
         module = QWidget()
 
         if module_type == "Label":
@@ -254,9 +244,7 @@ class ModuleHandler(QWidget):
     def setup_module_alignment(
         self, module_alignment: Optional[Union[str, None]]
     ) -> Qt.AlignmentFlag:
-        """
-        Set the alignment of the layout.
-        """
+        """Set the alignment of the layout."""
         if module_alignment is not None:
             alignment_mapping = {
                 "AlignLeading": Qt.AlignmentFlag.AlignLeading,
@@ -290,9 +278,7 @@ class ModuleHandler(QWidget):
     def setup_module_size_policy(
         self, module_size_policy: Optional[Tuple[str, str]]
     ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
-        """
-        Set the size policy for the module.
-        """
+        """Set the size policy for the module."""
         if module_size_policy is not None:
             size_policy_mapping = {
                 "SizeMinimum": QSizePolicy.Policy.Minimum,
@@ -315,9 +301,7 @@ class ModuleHandler(QWidget):
     def module_connection(
         self, module_type: str, module_index: int, target_method: Callable
     ) -> None:
-        """
-        Connect the module signal to the target method.
-        """
+        """Connect the module signal to the target method."""
         module = self.findChild(QWidget, str((module_type, module_index)))
 
         if isinstance(module, QPushButton):
@@ -328,9 +312,7 @@ class ModuleHandler(QWidget):
 
     @Slot(str, int)
     def toggle_module_visibility(self, module_type: str, module_index: int) -> None:
-        """
-        Toggle the module visibility.
-        """
+        """Toggle the module visibility."""
         module = self.findChild(QWidget, str((module_type, module_index)))
 
         if isinstance(module, QWidget):

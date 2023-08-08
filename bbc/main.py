@@ -6,9 +6,7 @@ from ui import UI
 
 
 def run():
-    """
-    Run the application.
-    """
+    """Run the application."""
     app = QApplication([])
     app.setOrganizationName(QSETTINGS_ORGANIZATION_NAME)
     app.setApplicationName(QSETTINGS_APPLICATION_NAME)

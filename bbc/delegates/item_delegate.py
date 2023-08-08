@@ -21,9 +21,7 @@ from PySide6.QtWidgets import (
 
 class ColorPicker(QColorDialog):
     def __init__(self, color, parent=None):
-        """
-        Initialize the ColorPicker.
-        """
+        """Initialize the ColorPicker."""
         super().__init__(parent)
 
         self.setWindowTitle(COLOR_PICKER_TITLE)
@@ -40,9 +38,7 @@ class ColorPicker(QColorDialog):
 
 class StandardItemDelegate(QStandardItem):
     def data(self, role=Qt.ItemDataRole.DisplayRole):
-        """
-        Return the data for the given role.
-        """
+        """Return the data for the given role."""
         if role == Qt.ItemDataRole.DisplayRole:
             return ""
 
@@ -51,18 +47,14 @@ class StandardItemDelegate(QStandardItem):
 
 class ItemDelegate(QStyledItemDelegate):
     def __init__(self, table_name, parent=None):
-        """
-        Initialize the ItemDelegate.
-        """
+        """Initialize the ItemDelegate."""
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
-        """
-        Create an editor widget for the given index.
-        """
+        """Create an editor widget for the given index."""
         cell_value = index.data(Qt.ItemDataRole.EditRole)
 
         if index.column() in (0, 1):
@@ -100,9 +92,7 @@ class ItemDelegate(QStyledItemDelegate):
         return super().createEditor(parent, option, index)
 
     def setEditorData(self, editor, index):
-        """
-        Set the data to be displayed and edited by the editor from the data model.
-        """
+        """Set the data to be displayed and edited by the editor from the data model."""
         if isinstance(editor, QDoubleSpinBox):
             value = index.model().data(index, role=Qt.ItemDataRole.EditRole)
             editor.setValue(float(value))
@@ -111,9 +101,7 @@ class ItemDelegate(QStyledItemDelegate):
             super().setEditorData(editor, index)
 
     def setModelData(self, editor, model, index):
-        """
-        Set the data to be displayed and edited by the editor from the data model.
-        """
+        """Set the data to be displayed and edited by the editor from the data model."""
         if isinstance(editor, QDoubleSpinBox):
             value = editor.value()
             model.setData(index, value, role=Qt.ItemDataRole.EditRole)
@@ -122,9 +110,7 @@ class ItemDelegate(QStyledItemDelegate):
             super().setModelData(editor, model, index)
 
     def open_color_picker(self, index):
-        """
-        Open a color picker dialog.
-        """
+        """Open a color picker dialog."""
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
         color_picker.exec()

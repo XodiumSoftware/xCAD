@@ -17,9 +17,7 @@ class TableDelegate(QTableView):
         self.setup_table_delegate()
 
     def setup_table_delegate(self) -> None:
-        """
-        Setup the TableDelegate.
-        """
+        """Setup the TableDelegate."""
         if self.module_data is None:
             return
 
