@@ -1,4 +1,10 @@
+/**
+ * Represents a class for managing and displaying matrices along with their properties.
+ */
 class MatrixDisplay {
+  /**
+   * Creates an instance of MatrixDisplay.
+   */
   constructor(matrices) {
     this.matrices = matrices
     this.constantsEditorContent = document.getElementById(
@@ -14,6 +20,9 @@ class MatrixDisplay {
     this.displayMatrix(this.matrices[0].index)
   }
 
+  /**
+   * Creates an instance of MatrixDisplay.
+   */
   populateMatrixSelect() {
     this.matrices.forEach((matrix) => {
       const option = document.createElement('option')
@@ -23,11 +32,17 @@ class MatrixDisplay {
     })
   }
 
+  /**
+   * Event handler for matrix selection change.
+   */
   handleMatrixChange(event) {
     const selectedMatrixIndex = parseInt(event.target.value, 10)
     this.displayMatrix(selectedMatrixIndex)
   }
 
+  /**
+   * Generates HTML content for displaying a matrix's properties and elements.
+   */
   generateMatrixContent(matrix) {
     let content = `<div class="matrix">
                         <h3>Matrix Index: ${matrix.index}</h3>`
@@ -69,6 +84,9 @@ class MatrixDisplay {
     return content
   }
 
+  /**
+   * Generates HTML input fields for margin values.
+   */
   generateMarginsInputFields(margins) {
     const [x, y, z, w] = margins
     return `
@@ -88,6 +106,9 @@ class MatrixDisplay {
     ])
   }
 
+  /**
+   * Generates a dropdown for layout selection.
+   */
   generateModuleTypeDropdown(selectedModuleType) {
     return this.generateDropdown(
       selectedModuleType,
@@ -104,6 +125,9 @@ class MatrixDisplay {
     )
   }
 
+  /**
+   * Generates a dropdown for alignment selection.
+   */
   generateAlignmentDropdown(selectedAlignment) {
     return this.generateDropdown(selectedAlignment, [
       'AlignLeading',
@@ -123,13 +147,16 @@ class MatrixDisplay {
     ])
   }
 
+  /**
+   * Generates dropdowns for size policy selection.
+   */
   generateSizePolicyDropdowns(sizePolicy) {
     let dropdownsHTML = ''
 
     sizePolicy.forEach((policy) => {
       dropdownsHTML += `
-                <div class="size-policy-dropdown">
-                    ${this.generateDropdown(policy, [
+              <div class="size-policy-dropdown">
+                  ${this.generateDropdown(policy, [
         'SizeMinimum',
         'SizeMaximum',
         'SizeFixed',
@@ -138,13 +165,16 @@ class MatrixDisplay {
         'SizeMinimumExpanding',
         'SizeIgnored'
       ])}
-                </div>
-            `
+              </div>
+          `
     })
 
     return `<div class="size-policy-container">${dropdownsHTML}</div>`
   }
 
+  /**
+   * Generates a dropdown with the specified options and selected values.
+   */
   generateDropdown(selectedValues, options, style = '') {
     let dropdownHTML = `<select style="${style}">`
 
@@ -157,6 +187,9 @@ class MatrixDisplay {
     return dropdownHTML
   }
 
+  /**
+   * Displays a matrix's properties and elements.
+   */
   displayMatrix(matrixIndex) {
     const selectedMatrix = this.matrices.find(
       (matrix) => matrix.index === matrixIndex
