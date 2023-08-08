@@ -1,6 +1,9 @@
 version = 1
 
 [[analyzers]]
+name = "javascript"
+
+[[analyzers]]
 name = "python"
 
   [analyzers.meta]
@@ -11,3 +14,9 @@ name = "black"
 
 [[transformers]]
 name = "isort"
+
+[[transformers]]
+name = "prettier"
+
+[[transformers]]
+name = "standardjs"
