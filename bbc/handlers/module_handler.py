@@ -47,7 +47,6 @@ class ModuleHandler(QWidget):
 
         self._signal_handler = SignalHandler()
 
-        # QTimer.singleShot(0)  # TODO: Add second arg.
 
         self._module_visibility = {}
 
