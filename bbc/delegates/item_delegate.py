@@ -73,7 +73,7 @@ class ItemDelegate(QStyledItemDelegate):
             if value_in_column_1 == "Structure":
                 return self.createStructureEditor(parent)
 
-            elif value_in_column_1 in (
+            if value_in_column_1 in (
                 "Length",
                 "Height",
                 "Thickness",
@@ -84,20 +84,18 @@ class ItemDelegate(QStyledItemDelegate):
             ):
                 return self.createDoubleSpinBoxEditor(parent, value_in_column_1)
 
-            elif value_in_column_1 in ("Area", "Perimeter"):
+            if value_in_column_1 in ("Area", "Perimeter"):
                 return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
-            elif value_in_column_1 in ("Fill color", "Pen color"):
+            if value_in_column_1 in ("Fill color", "Pen color"):
                 return self.createColorButtonEditor(parent, cell_value, index)
 
-            elif value_in_column_1 == "Fill":
+            if value_in_column_1 == "Fill":
                 return self.createFillEditor(parent, cell_value)
 
-            elif value_in_column_1 in ("Pen style", "Fill pattern"):
+            if value_in_column_1 in ("Pen style", "Fill pattern"):
                 return self.createComboBoxEditor(parent, cell_value)
-
-            else:
-                return self.createLabelEditor(parent, value_in_column_1, cell_value)
+            return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
         return super().createEditor(parent, option, index)
 

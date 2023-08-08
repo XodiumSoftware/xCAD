@@ -61,7 +61,7 @@ class ThemeHandler(QObject):
             value = winreg.QueryValueEx(key, value_name)[0]
             if value == 0:
                 return THEME_SYSTEM_DEFAULT + "_" + THEME_DARK
-            elif value == 1:
+            if value == 1:
                 return THEME_SYSTEM_DEFAULT + "_" + THEME_LIGHT
         except Exception as e:
             print(DEBUG_NAME + "Error detecting system theme:", e)
