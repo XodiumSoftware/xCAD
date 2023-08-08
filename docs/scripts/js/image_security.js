@@ -18,6 +18,7 @@ class ImageSecurity {
    * Add event listeners to images to prevent right-click, dragging, and specific key combinations.
    */
   addEventListeners() {
+    // Prevent right-click and dragging on images
     const disableEvent = (event) => event.preventDefault();
 
     this.images.forEach((image) => {

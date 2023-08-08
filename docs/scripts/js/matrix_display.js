@@ -97,6 +97,9 @@ class MatrixDisplay {
         `
   }
 
+  /**
+   * Generates a dropdown for layout selection.
+   */
   generateLayoutDropdown(selectedLayout) {
     return this.generateDropdown(selectedLayout, [
       'VBox',
