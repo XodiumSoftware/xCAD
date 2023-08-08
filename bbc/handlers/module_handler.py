@@ -47,7 +47,6 @@ class ModuleHandler(QWidget):
 
         self._signal_handler = SignalHandler()
 
-
         self._module_visibility = {}
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
