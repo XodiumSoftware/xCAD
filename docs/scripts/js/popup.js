@@ -1,5 +1,13 @@
 class RegistrationPopupManager {
     constructor() {
+        super();
+        this.clientId = clientId;
+
+        this.githubOAuthButton = document.getElementById('githubOAuthButton');
+        this.githubOAuthButton.addEventListener('click', () => {
+            this.performGitHubOAuth();
+        });
+
         this.loginLink = document.getElementById('loginLink');
         this.registerLink = document.getElementById('registerLink');
         this.loginPopup = document.getElementById('loginPopup');
@@ -84,64 +92,12 @@ class RegistrationPopupManager {
         });
     }
 
-    updatePasswordStrength() {
-        const passwordInput = this.registerPasswordInput;
-        const password = passwordInput.value;
-
-        const minLength = 8;
-        const hasSymbol = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
-        const hasNumber = /\d/.test(password);
-        const hasUpper = /[A-Z]/.test(password);
-        const hasLower = /[a-z]/.test(password);
-
-        let strength = 0;
-
-        if (password.length >= minLength) {
-            strength++;
-        }
-
-        if (hasSymbol) {
-            strength++;
-        }
-
-        if (hasNumber) {
-            strength++;
-        }
-
-        if (hasUpper && hasLower) {
-            strength++;
-        }
-
-        const progressBar = this.registerPopup.querySelector('.password-strength-bar');
-        progressBar.style.width = `${(strength / 4) * 100}%`;
-
-        if (strength === 0) {
-            progressBar.style.backgroundColor = '#ff0000'; // Red (Weak)
-        } else if (strength === 1) {
-            progressBar.style.backgroundColor = '#ffa500'; // Orange (Medium)
-        } else if (strength === 2) {
-            progressBar.style.backgroundColor = '#ffd700'; // Gold (Strong)
-        } else if (strength === 3) {
-            progressBar.style.backgroundColor = '#00ff00'; // Green (Very Strong)
-        } else {
-            progressBar.style.backgroundColor = '#006400'; // Dark Green (Highest Strength)
-        }
-    }
-
-    togglePasswordVisibility() {
-        const passwordInput = this.registerPasswordInput;
-        const passwordVisibilityIcon = this.passwordVisibilityToggle.querySelector('i');
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            passwordVisibilityIcon.classList.remove('fa-eye-slash');
-            passwordVisibilityIcon.classList.add('fa-eye');
-        } else {
-            passwordInput.type = 'password';
-            passwordVisibilityIcon.classList.remove('fa-eye');
-            passwordVisibilityIcon.classList.add('fa-eye-slash');
-        }
+    performGitHubOAuth() {
+        const redirectUri = 'https://illyrius.me/AutoFrameCAD/auth/github/callback';
+        const oauthUrl = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${redirectUri}`;
+        window.location.href = oauthUrl;
     }
 }
 
+const clientId = 'Iv1.c014788a30bf9f06';
 const popupManager = new RegistrationPopupManager();
