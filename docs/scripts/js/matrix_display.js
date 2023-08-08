@@ -1,5 +1,5 @@
 class MatrixDisplay {
-  constructor(matrices) {
+  constructor (matrices) {
     this.matrices = matrices
     this.constantsEditorContent = document.getElementById(
       'matrix_editor_content'
@@ -14,7 +14,7 @@ class MatrixDisplay {
     this.displayMatrix(this.matrices[0].index)
   }
 
-  populateMatrixSelect() {
+  populateMatrixSelect () {
     this.matrices.forEach((matrix) => {
       const option = document.createElement('option')
       option.value = matrix.index
@@ -23,12 +23,12 @@ class MatrixDisplay {
     })
   }
 
-  handleMatrixChange(event) {
+  handleMatrixChange (event) {
     const selectedMatrixIndex = parseInt(event.target.value, 10)
     this.displayMatrix(selectedMatrixIndex)
   }
 
-  generateMatrixContent(matrix) {
+  generateMatrixContent (matrix) {
     let content = `<div class="matrix">
                         <h3>Matrix Index: ${matrix.index}</h3>`
 
@@ -42,21 +42,21 @@ class MatrixDisplay {
                                 <hr>
                                 <table>
                                     <tr><td>Layout:</td><td>${this.generateLayoutDropdown(
-            layout
-          )}</td></tr>
+                                      layout
+                                    )}</td></tr>
                                     <tr><td>Module Type (Widget):</td><td>${this.generateModuleTypeDropdown(
-            widget
-          )}</td></tr>
+                                      widget
+                                    )}</td></tr>
                                     <tr><td>Module Index:</td><td><input type="number" value="${widgetIndex}" min="0" /></td></tr>
                                     <tr><td>Margins:</td><td>${this.generateMarginsInputFields(
-            margins
-          )}</td></tr>
+                                      margins
+                                    )}</td></tr>
                                     <tr><td>Alignment:</td><td>${this.generateAlignmentDropdown(
-            alignment
-          )}</td></tr>
+                                      alignment
+                                    )}</td></tr>
                                     <tr><td>Size Policy:</td><td>${this.generateSizePolicyDropdowns(
-            sizePolicy
-          )}</td></tr>
+                                      sizePolicy
+                                    )}</td></tr>
                                 </table>
                             </div>`
         }
@@ -69,7 +69,7 @@ class MatrixDisplay {
     return content
   }
 
-  generateMarginsInputFields(margins) {
+  generateMarginsInputFields (margins) {
     const [x, y, z, w] = margins
     return `
             Left: <input type="number" value="${x}" min="0" />
@@ -79,7 +79,7 @@ class MatrixDisplay {
         `
   }
 
-  generateLayoutDropdown(selectedLayout) {
+  generateLayoutDropdown (selectedLayout) {
     return this.generateDropdown(selectedLayout, [
       'VBox',
       'HBox',
@@ -88,7 +88,7 @@ class MatrixDisplay {
     ])
   }
 
-  generateModuleTypeDropdown(selectedModuleType) {
+  generateModuleTypeDropdown (selectedModuleType) {
     return this.generateDropdown(
       selectedModuleType,
       [
@@ -104,7 +104,7 @@ class MatrixDisplay {
     )
   }
 
-  generateAlignmentDropdown(selectedAlignment) {
+  generateAlignmentDropdown (selectedAlignment) {
     return this.generateDropdown(selectedAlignment, [
       'AlignLeading',
       'AlignLeft',
@@ -123,21 +123,21 @@ class MatrixDisplay {
     ])
   }
 
-  generateSizePolicyDropdowns(sizePolicy) {
+  generateSizePolicyDropdowns (sizePolicy) {
     let dropdownsHTML = ''
 
     sizePolicy.forEach((policy) => {
       dropdownsHTML += `
                 <div class="size-policy-dropdown">
                     ${this.generateDropdown(policy, [
-        'SizeMinimum',
-        'SizeMaximum',
-        'SizeFixed',
-        'SizePreferred',
-        'SizeExpanding',
-        'SizeMinimumExpanding',
-        'SizeIgnored'
-      ])}
+                      'SizeMinimum',
+                      'SizeMaximum',
+                      'SizeFixed',
+                      'SizePreferred',
+                      'SizeExpanding',
+                      'SizeMinimumExpanding',
+                      'SizeIgnored'
+                    ])}
                 </div>
             `
     })
@@ -145,7 +145,7 @@ class MatrixDisplay {
     return `<div class="size-policy-container">${dropdownsHTML}</div>`
   }
 
-  generateDropdown(selectedValues, options, style = '') {
+  generateDropdown (selectedValues, options, style = '') {
     let dropdownHTML = `<select style="${style}">`
 
     options.forEach((option) => {
@@ -157,7 +157,7 @@ class MatrixDisplay {
     return dropdownHTML
   }
 
-  displayMatrix(matrixIndex) {
+  displayMatrix (matrixIndex) {
     const selectedMatrix = this.matrices.find(
       (matrix) => matrix.index === matrixIndex
     )
