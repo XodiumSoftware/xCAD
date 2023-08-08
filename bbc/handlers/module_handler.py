@@ -50,11 +50,11 @@ class ModuleHandler(QWidget):
         self.create_modules_from_matrix(matrix_index, matrix_margins)
 
     def create_modules_from_matrix(self, matrix_index, matrix_margins):
+        """Create modules from a matrix."""
         module_matrix_data = next(
             (data for data in MATRICES if data["index"] == matrix_index),
             None,
         )
-
         if module_matrix_data:
             module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
             layout = QGridLayout(self)
@@ -276,6 +276,7 @@ class ModuleHandler(QWidget):
     def setup_module_margins(
         module_margins: Optional[Tuple[int, int, int, int]]
     ) -> Tuple[int, int, int, int]:
+        """Set the margins of the layout."""
         if module_margins is None:
             return (0, 0, 0, 0)
         return module_margins

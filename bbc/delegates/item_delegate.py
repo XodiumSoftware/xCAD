@@ -117,6 +117,7 @@ class ItemDelegate(QStyledItemDelegate):
         color_picker.exec()
 
     def createStructureEditor(self, parent):
+        """Create a structure editor."""
         editor = QPushButton(parent)
         editor.clicked.connect(
             partial(self._signal_handler.structureButtonClicked.emit)
@@ -127,6 +128,7 @@ class ItemDelegate(QStyledItemDelegate):
 
     @staticmethod
     def createDoubleSpinBoxEditor(parent, value_in_column_1):
+        """Create a double spin box editor."""
         editor = QDoubleSpinBox(parent)
         max_double_value = sys.float_info.max
         editor.setDecimals(0)
@@ -148,6 +150,7 @@ class ItemDelegate(QStyledItemDelegate):
 
     @staticmethod
     def createLabelEditor(parent, value_in_column_1, cell_value):
+        """Create a label editor."""
         editor = QLabel(parent)
         decimals = 0
         suffix = ""
@@ -162,6 +165,7 @@ class ItemDelegate(QStyledItemDelegate):
         return editor
 
     def createColorButtonEditor(self, parent, cell_value, index):
+        """Create a color button editor."""
         editor = QPushButton(parent)
         rgb_tuple = tuple(map(int, cell_value.split(",")))
         color = QColor(*rgb_tuple)
@@ -185,6 +189,7 @@ class ItemDelegate(QStyledItemDelegate):
 
     @staticmethod
     def createFillEditor(parent, cell_value):
+        """Create a fill editor."""
         editor = QWidget(parent)
         layout = QHBoxLayout(editor)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -198,6 +203,7 @@ class ItemDelegate(QStyledItemDelegate):
 
     @staticmethod
     def createComboBoxEditor(parent, cell_value):
+        """Create a combo box editor."""
         editor = QComboBox(parent)
         editor.addItems(cell_value)
         editor.setCurrentIndex(0)
