@@ -1,6 +1,5 @@
 class RegistrationPopupManager {
   constructor() {
-    super();
     this.clientId = clientId;
 
     this.githubOAuthButton = document.getElementById("githubOAuthButton");
