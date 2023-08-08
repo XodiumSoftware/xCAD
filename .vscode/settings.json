@@ -29,8 +29,6 @@
   "git.confirmSync": false,
   // Jupyter Notebook Settings
   "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
-  // Python Analysis Settings
-  "python.analysis.addImport.exactMatchOnly": false,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
@@ -40,23 +38,16 @@
   },
   "python.analysis.extraPaths": [
     "${workspaceFolder}/bbc",
-    "${workspaceFolder}"
+    "${workspaceFolder}",
+    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages"
   ],
-  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,
-  "python.formatting.blackArgs": [
-    "--fast"
-  ],
+  "python.formatting.blackArgs": ["--fast"],
   // Todo Tree Settings
   "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
   "todo-tree.general.statusBar": "current file",
-  "todo-tree.general.tags": [
-    "ERROR",
-    "BUG",
-    "FIXME",
-    "TODO",
-    "NOTE"
-  ],
+  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
   "todo-tree.highlights.defaultHighlight": {
     "opacity": 0.5, // Make the background color semi-transparent
     "borderRadius": "0.2em", // Make the background corners slightly curved
@@ -105,4 +96,9 @@
   "workbench.colorTheme": "Monokai Dimmed",
   "files.autoSave": "onFocusChange",
   "notebook.formatOnSave.enabled": true,
+  "python.analysis.importFormat": "relative",
+  "sqliteViewer.maxFileSize": 0,
+  "chatgpt.lang": "en",
+  "chatgpt.model": "gpt-3.5-turbo-16k",
+  "chatgpt.temperature": 0.1
 }

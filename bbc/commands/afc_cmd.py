@@ -1,31 +1,5 @@
-import argparse
-import sys
-
 import pyautocad
-
-LAYER_PROPERTIES = {
-    "KBG_SLS": {
-        "Color": 1,
-        "Linetype": "Continuous",
-        "LinetypeScale": 1,
-        "Lineweight": -1,
-    }
-}
-
-OBJECT_PROPERTIES = {
-    "rectangle": {
-        "TrueColor": None,
-        "Layer": "KBG_SLS",
-        "Linetype": "ByLayer",
-        "LinetypeScale": 1,
-        "Lineweight": -1,
-        "Transparency": -1,
-        "Hyperlinks": None,
-        "RecordGraphicsModified": True,
-        "Thickness": 0,
-        "Material": "ByLayer",
-    },
-}
+from constants import LAYER_PROPERTIES, OBJECT_PROPERTIES
 
 
 class AFCCMD:
@@ -40,7 +14,8 @@ class AFCCMD:
         """
         Setup the AFC command.
         """
-        self.cad = pyautocad.Acad()
+        # FIXME: "Acad" is not a known member of module "pyautocad"
+        self.cad = pyautocad.Acad()  # type: ignore
         self.doc = self.cad.doc
         self.setup_layers()
 
@@ -76,26 +51,3 @@ class AFCCMD:
         # Save and display the drawing
         self.doc.SaveAs(output_path)
         self.cad.app.WindowState = self.cad.constants.acWindowStateMax
-
-
-def run():
-    """
-    Run the AFC command.
-    """
-    afc_cmd = AFCCMD()
-    afc_cmd.draw_rectangle((0, 0), (10, 10), "C:\\Users\\User\\Desktop\\test.dwg")
-    afc_cmd.quit()
-
-    parser = argparse.ArgumentParser(
-        description="Draw a rectangle in an AutoCAD drawing."
-    )
-    parser.add_argument("x1", type=float, help="X coordinate of the first corner point")
-    parser.add_argument("y1", type=float, help="Y coordinate of the first corner point")
-    parser.add_argument(
-        "x2", type=float, help="X coordinate of the second corner point"
-    )
-    parser.add_argument
-
-
-if __name__ == "__main__":
-    sys.exit(run())

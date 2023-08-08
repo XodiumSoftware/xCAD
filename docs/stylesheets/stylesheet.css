@@ -11,6 +11,98 @@ Theme Styles
   box-sizing: border-box;
 }
 
+.matrix-select-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#matrixSelect {
+  margin-left: 10px;
+}
+
+.matrix {
+  border: 5px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.matrix h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.matrix-row {
+  display: flex;
+  width: 100%;
+}
+
+.matrix-column {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #afafaf;
+  background-color: #ccc;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.module-title {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+table {
+  width: 100%;
+  margin-top: 5px;
+}
+
+table tr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+table tr td {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+  align-items: center;
+}
+
+table tr td:first-child {
+  flex: 0 0 120px;
+}
+
+table tr td select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0px;
+}
+
+input[type="number"] {
+  width: 50px;
+  padding: 0px;
+}
+
+.size-policy-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0px;
+}
+
 body {
   color: #373737;
   background: #212121;
@@ -77,6 +169,170 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.popup-content {
+  position: relative;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.tool-item {
+  text-align: center;
+}
+
+.tool-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+.tool-title {
+  font-size: 16px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+.popup-exit-button {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  font-size: 50px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.popup-exit-button:hover {
+  color: #f4c211;
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.popup-content button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #f4c211;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.popup-content button:hover {
+  background-color: #d1a100;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container input {
+  padding-right: 35px;
+}
+
+.password-visibility-toggle {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  cursor: pointer;
+}
+
+.password-strength-meter {
+  margin-bottom: 5px;
+  width: 100%;
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0;
+  background-color: #ccc;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.icons-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.icons-list a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+}
+
+.icons-list img {
+  width: 40px;
+  height: 40px;
+}
+
+#register_login_banner {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  z-index: 10;
+  margin-left: 10px;
+}
+
+#register_login_banner a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+#register_login_banner a:hover {
+  color: #f4c211;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;
@@ -85,7 +341,7 @@ Full-Width Styles
   z-index: 10;
   padding: 10px 50px 10px 10px;
   color: #000000;
-  background: url('../images/github-mark.png') #f4c211 no-repeat 95% 50%;
+  background: url('../images/github_mark.png') #f4c211 no-repeat 95% 50%;
   background-size: 35px;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

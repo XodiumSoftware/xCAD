@@ -21,7 +21,7 @@ class ThemeHandler(QObject):
         super().__init__()
         self._settings = settings
         self._current_theme = current_theme
-        self._theme_states = [THEME_LIGHT, THEME_DARK, THEME_SYSTEM_DEFAULT]
+        self._theme_states = [THEME_LIGHT, THEME_DARK]
 
     def init_theme_handler(self, main_ui):
         """
@@ -29,17 +29,6 @@ class ThemeHandler(QObject):
         """
         self._main_ui = main_ui
         self.load_saved_theme()
-        self.apply_theme()
-
-    def toggle_theme(self):
-        """
-        Toggle the theme.
-        """
-        self._current_theme = self._theme_states[
-            (self._theme_states.index(self._current_theme) + 1)
-            % len(self._theme_states)
-        ]
-        self.set_theme(self._current_theme)
         self.apply_theme()
 
     def set_theme(self, theme_name):
@@ -50,12 +39,6 @@ class ThemeHandler(QObject):
             self._current_theme = theme_name
             self._settings.setValue("theme", theme_name)
             self.apply_theme()
-
-    def get_current_theme(self):
-        """
-        Get the current theme.
-        """
-        return self._current_theme
 
     def load_saved_theme(self):
         """

@@ -9,9 +9,9 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- SCRIPTS -->
-  <script src="./scripts/carousel.js" defer></script>
-  <script src="./scripts/image_security.js" defer></script>
-  <script src="./scripts/image_obfuscation.js" defer></script>
+  <script src="./scripts/js/carousel.js" defer></script>
+  <script src="./scripts/js/image_security.js" defer></script>
+  <script src="./scripts/js/popup.js" defer></script>
 
   <title>AutoFrameCAD</title>
 </head>
@@ -23,7 +23,14 @@
     <header class="inner">
       <a id="forkme_banner" href="https://github.com/illyrius666/AutoFrameCAD">View on GitHub</a>
 
-      <h1 id="project_title">AutoFrameCAD<sup>&copy;</sup></h1>
+      <!-- REGISTER/LOGIN BANNER -->
+      <div id="register_login_banner">
+        <a href="#" id="loginLink">Login</a>
+      </div>
+
+      <h1 id="project_title">
+        <a href="index.html" id="project_title">AutoFrameCAD<sup>&copy;</sup></a>
+      </h1>
       <h2 id="project_tagline">BricsCAD addon/plug-in to automize frameworks</h2>
 
       <section id="downloads">
@@ -38,10 +45,10 @@
   <!-- CAROUSEL -->
   <div id="carousel_content_wrap" class="carousel" data-carousel>
     <button class="carousel-button prev" data-carousel-button="prev">
-      <img src="./images/left-arrow.png" alt="Previous" data-obfuscate>
+      <img src="./images/left_arrow.png" alt="Previous" data-obfuscate>
     </button>
     <button class="carousel-button next" data-carousel-button="next">
-      <img src="./images/right-arrow.png" alt="Next" data-obfuscate>
+      <img src="./images/right_arrow.png" alt="Next" data-obfuscate>
     </button>
     <section aria-label="Image Gallery" id="media_content" class="inner-carousel">
       <ul data-slides>
@@ -85,28 +92,57 @@
       </ul>
     </section>
 
+    <section id="tools_content" class="inner">
+      <h2 id="tools">Developer Tools</h2>
+      <div class="icons-list">
+        <div class="tool-item">
+          <a href="matrix_editor.html">
+            <img src="./images/matrix_editor.png" alt="Matrix Editor" class="tool-image">
+          </a>
+          <p class="tool-title">Matrix Editor</p>
+        </div>
+        <div class="tool-item">
+          <a>
+            <img src="./images/coming_soon.png" alt="Coming Soon!" class="tool-image">
+          </a>
+          <p class="tool-title">-</p>
+        </div>
+        <div class="tool-item">
+          <a>
+            <img src="./images/coming_soon.png" alt="Coming Soon!" class="tool-image">
+          </a>
+          <p class="tool-title">-</p>
+        </div>
+      </div>
+    </section>
+
     <section id="documentation_content" class="inner">
       <h2 id="documentation">Documentation</h2>
       <p>Access the user guide and documentation for AutoFrameCAD<sup>&copy;</sup>:</p>
       <a href="documentation.pdf">User Guide</a>
-    </section>
-
-    <section id="contact_content" class="inner">
-      <h2 id="contact">Contact</h2>
-      <p>For inquiries and support, please contact us:</p>
-      <ul>
-        <li>Email: -</li>
-        <li>Phone: -</li>
-      </ul>
     </section>
   </div>
 
   <!-- FOOTER  -->
   <div id="footer_wrap" class="outer">
     <footer class="inner">
-      <p>&copy; AutoFrameCAD 2023 Qerimi-Engineering&copy;. All rights reserved.</p>
+      <p>AutoFrameCAD&copy; 2023 Qerimi-Engineering&copy;. All rights reserved.</p>
       <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
     </footer>
+  </div>
+
+  <!-- LOGIN POPUP -->
+  <div id="loginPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2>Login</h2>
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </body>
 

@@ -5,49 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++: g++.exe build and debug active file",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${fileDirname}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "C/C++: g++.exe build active file"
-    },
-    {
       "name": "Python: main.py",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/bbc/main.py",
       "console": "integratedTerminal",
-      "justMyCode": true,
-    },
-    {
-      "name": "Python: test0.py",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/bbc/test0.py",
-      "console": "integratedTerminal",
-      "justMyCode": true,
-    },
-    {
-      "name": "Python: test1.py",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/bbc/test2.py",
-      "console": "integratedTerminal",
-      "justMyCode": true,
+      "justMyCode": true
     }
   ]
 }

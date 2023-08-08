@@ -2,14 +2,6 @@ import os
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QComboBox,
-    QDoubleSpinBox,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-)
 
 # General
 # ====================================================================================================
@@ -39,29 +31,152 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 
 # UI
 # ====================================================================================================
-UI_TITLE = "AFC"
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+
+COLOR_PICKER_TITLE = "Color Picker"
+
+UIS = [
+    {
+        "index": 0,
+        "name": "MainUI",
+        "title": "AFC",
+        "icon": UI_ICON_PATH,
+        "initial_size": (600, 400),
+        "initial_visibility": True,
+    },
+    {
+        "index": 1,
+        "name": "ConfiguratorUI",
+        "title": "Structure Configurator",
+        "icon": UI_ICON_PATH,
+        "initial_size": (800, 400),
+        "initial_visibility": False,
+    },
+]
+
 # ====================================================================================================
 
 # DataBaseHandler
 # ====================================================================================================
-DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.sqlite")
+DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
+# ====================================================================================================
+
+# ModuleHandler:
+# ====================================================================================================
+# Define the matrix data with support for nested containers
+# Each element in module_matrix_pos can contain either a list of widgets
+# or another set of "module_args" representing a nested container.
+# For nested containers, specify the nested layout as a string.
+# ====================================================================================================
+MATRICES = [
+    {
+        "index": 0,
+        "module_matrix_pos": [
+            [
+                [
+                    "VBox",
+                    "Button",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Label",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignBottom",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+        ],
+    },
+    {
+        "index": 1,
+        "module_matrix_pos": [
+            [
+                [
+                    "VBox",
+                    "TableView",
+                    1,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ],
+                [
+                    "VBox",
+                    "GraphicsView",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Button",
+                    2,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    3,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    4,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Button",
+                    5,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    1,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Label",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+        ],
+    },
+]
+
 # ====================================================================================================
 
 # TableModule:
 # ====================================================================================================
-# Editable: True/False
-# ====================================================================================================
-# Cell Types:
-# - QLabel
-# - QPushButton
-# - QLineEdit
-# - QDoubleSpinBox
-# - QComboBox
-# - QCheckBox
-# Add more cell types here as needed
-# ====================================================================================================
-
 FILL_PATTERNS = [
     Qt.BrushStyle.SolidPattern,  # Solid fill pattern
     Qt.BrushStyle.Dense1Pattern,  # Dense fill pattern 1
@@ -76,113 +191,38 @@ PEN_STYLES = [
 
 TABLES = [
     {
-        "index": 1,
+        "index": 0,
         "desc": "FRAME_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
-        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "columns": ["Parameter", "Value"],
         "rows": [
-            [
-                "Structure",
-                [False, QLabel],
-                "Select",
-                [False, QPushButton],
-            ],
-            [
-                "Length (mm)",
-                [False, QLabel],
-                6000,
-                [True, QDoubleSpinBox],
-            ],
-            [
-                "Height (mm)",
-                [False, QLabel],
-                3000,
-                [True, QDoubleSpinBox],
-            ],
-            [
-                "Area (m2)",
-                [False, QLabel],
-                None,
-                [False, QLabel],
-            ],
-            [
-                "Perimeter (m1)",
-                [False, QLabel],
-                None,
-                [False, QLabel],
-            ],
+            ["Structure", True],
+            ["Length", 6000],
+            ["Height", 3000],
+            ["Area", ((6000 * 3000) / 1000000)],
+            ["Perimeter", (((6000 + 3000) * 2) / 1000)],
         ],
     },
     {
-        "index": 2,
+        "index": 1,
         "desc": "OBJECT_ASSEMBLY_DATA",
         "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
-        "columns": ["Parameter", "Flag_0", "Value", "Flag_1"],
+        "columns": ["Parameter", "Value"],
         "rows": [
-            [
-                "Thickness",
-                [False, QLabel],
-                60,
-                [True, QLineEdit],
-            ],
-            [
-                "Pen color",
-                [False, QLabel],
-                "255, 255, 255",
-                [True, QLineEdit],
-            ],
-            [
-                "Pen thickness",
-                [False, QLabel],
-                1,
-                [True, QLineEdit],
-            ],
-            [
-                "Pen style",
-                [False, QLabel],
-                PEN_STYLES,
-                [True, QComboBox],
-            ],
-            [
-                "Fill pattern",
-                [False, QLabel],
-                FILL_PATTERNS,
-                [True, QComboBox],
-            ],
-            [
-                "Fill pattern scale",
-                [False, QLabel],
-                1,
-                [True, QLineEdit],
-            ],
-            [
-                "Fill pattern angle",
-                [False, QLabel],
-                0,
-                [True, QLineEdit],
-            ],
-            [
-                "Fill",
-                [False, QLabel],
-                True,
-                [True, QCheckBox],
-            ],
-            [
-                "Fill color",
-                [False, QLabel],
-                "255, 0, 0",
-                [True, QLineEdit],
-            ],
-            [
-                "Fill opacity",
-                [False, QLabel],
-                0.5,
-                [True, QLineEdit],
-            ],
+            ["Thickness", 60],
+            ["Pen color", "255, 255, 255"],
+            ["Pen thickness", 1],
+            ["Pen style", ",".join(str(style) for style in PEN_STYLES)],
+            ["Fill pattern", ",".join(str(pattern) for pattern in FILL_PATTERNS)],
+            ["Fill pattern scale", 1],
+            ["Fill pattern angle", 0],
+            ["Fill", True],
+            ["Fill color", "255, 0, 0"],
+            ["Fill opacity", 0.5],
         ],
     },
 ]
@@ -226,11 +266,12 @@ INPUTFIELDS = [
 SPINBOXES = [
     {
         "index": 0,
-        "minium": 0,
-        "maximum": 1.7e308,
-        "default": 0,
+        "min_value": 0,
+        "max_value": 1.7e308,
+        "default_value": 0,
         "step": 0.5,
         "stylesheet": "QSpinBox { font-size: 12px; }",
+        "suffix": "mm",
     },
 ]
 # ====================================================================================================
@@ -241,84 +282,47 @@ BUTTONS = [
     {
         "index": 0,
         "icon_path": None,
-        "button_size": [None, None],
-        "button_titles": ["AutoFrameCAD", "Click me!"],
-        "font_size": [32, 8],
-        "font_bold": [True, False],
-        "font_italic": [False, False],
-        "font_underline": [False, False],
-        "font_strikeout": [False, False],
-        "font_color": [[0, 0, 0], [0, 0, 0]],
-        "line_spacing": 6,
+        "size": None,
+        "title": "AutoFrameCAD",
+        "stylesheet": "QPushButton {font-size: 36px;font-weight: bold;font-style: normal;border: none;}",
     },
     {
         "index": 1,
-        "icon_path": os.path.join(ICONS_FOLDER_PATH + "viewer_icon_light.png"),
-        "button_size": [30, 30],
-        "button_titles": ["ViewerButton"],
-        "font_size": [12],
-        "font_bold": [False],
-        "font_italic": [False],
-        "font_underline": [False],
-        "font_strikeout": [False],
-        "font_color": [[0, 0, 0]],
-        "line_spacing": 6,
+        "icon_path": os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
+        "size": [30, 30],
+        "title": "ViewerButton",
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 2,
         "icon_path": None,
-        "button_size": [30, 30],
-        "button_titles": ["Save"],
-        "font_size": [8],
-        "font_bold": [False],
-        "font_italic": [False],
-        "font_underline": [False],
-        "font_strikeout": [False],
-        "font_color": [[0, 0, 0]],
-        "line_spacing": 6,
+        "size": [50, 30],
+        "title": "Save",
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 3,
         "icon_path": None,
-        "button_size": [30, 30],
-        "button_titles": ["Discard"],
-        "font_size": [8],
-        "font_bold": [False],
-        "font_italic": [False],
-        "font_underline": [False],
-        "font_strikeout": [False],
-        "font_color": [[0, 0, 0]],
-        "line_spacing": 6,
+        "size": [50, 30],
+        "title": "Discard",
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 4,
         "icon_path": None,
-        "button_size": [30, 30],
-        "button_titles": ["Reset"],
-        "font_size": [12],
-        "font_bold": [False],
-        "font_italic": [False],
-        "font_underline": [False],
-        "font_strikeout": [False],
-        "font_color": [[0, 0, 0]],
-        "line_spacing": 6,
+        "size": [50, 30],
+        "title": "Reset",
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
     {
         "index": 5,
-        "icon_path": os.path.join(ICONS_FOLDER_PATH + "home_icon_light.png"),
-        "button_size": [30, 30],
-        "button_titles": ["Startup page"],
-        "font_size": [12],
-        "font_bold": [False],
-        "font_italic": [False],
-        "font_underline": [False],
-        "font_strikeout": [False],
-        "font_color": [[0, 0, 0]],
-        "line_spacing": 6,
+        "icon_path": os.path.join(ICONS_FOLDER_PATH, "home_icon_light.png"),
+        "size": [30, 30],
+        "title": "Startup page",
+        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     },
 ]
 # ====================================================================================================
-
 
 # ThemeHandler
 # ====================================================================================================
@@ -358,9 +362,9 @@ ICONS_FILE_PATHS = {
 
 # GraphicsViewModule
 # ====================================================================================================
-GRAPHIC_VIEWS = [
+GRAPHICS_VIEWS = [
     {
-        "index": 1,
+        "index": 0,
         "data": [
             {
                 "draw_order": 0,
@@ -405,4 +409,31 @@ GRAPHIC_VIEWS = [
     },
 ]
 
+# ====================================================================================================
+
+# AFCCMD
+# ====================================================================================================
+LAYER_PROPERTIES = {
+    "KBG_SLS": {
+        "Color": 1,
+        "Linetype": "Continuous",
+        "LinetypeScale": 1,
+        "Lineweight": -1,
+    }
+}
+
+OBJECT_PROPERTIES = {
+    "rectangle": {
+        "TrueColor": None,
+        "Layer": "KBG_SLS",
+        "Linetype": "ByLayer",
+        "LinetypeScale": 1,
+        "Lineweight": -1,
+        "Transparency": -1,
+        "Hyperlinks": None,
+        "RecordGraphicsModified": True,
+        "Thickness": 0,
+        "Material": "ByLayer",
+    },
+}
 # ====================================================================================================

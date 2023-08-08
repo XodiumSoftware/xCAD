@@ -5,12 +5,17 @@
     <img src="https://github.com/illyrius666/illyrius666/blob/master/images/AutoFrameCAD.png" alt="AutoFrameCAD">
   </a>
 </p>
+<p align="center">
+  <a href="https://www.codefactor.io/repository/github/illyrius666/autoframecad">
+    <img src="https://www.codefactor.io/repository/github/illyrius666/autoframecad/badge" alt="CodeFactor">
+  </a>
+</p>
 
 ## Installation:
 
-1. `python -m venv env` (creates environment for packages).
-2. select the correct interpreter (`env`).
-3. `pip install -e .`.
+1.  `python -m venv env` (creates environment for packages).
+2.  select the correct interpreter (`env`).
+3.  `pip install -e .`.
 
 ## Running the software:
 

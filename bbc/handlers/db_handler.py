@@ -1,7 +1,11 @@
 import os
 import sqlite3
+from re import L
+from typing import Dict, List, Tuple, Union
 
 from constants import DATABASE_PATH, TABLES
+
+CellValue = Union[str, int, float, bool]
 
 
 class DataBaseHandler:
@@ -9,45 +13,49 @@ class DataBaseHandler:
         """
         Initialize the DataBaseHandler.
         """
-        super().__init__()
-
-    def setup_database(self):
-        """
-        Setup the database.
-        """
-        if not os.path.exists(os.path.dirname(DATABASE_PATH)):
-            os.makedirs(os.path.dirname(DATABASE_PATH))
+        self.create_directory_if_not_exists(
+            os.path.dirname(os.path.abspath(DATABASE_PATH))
+        )
+        self._conn = sqlite3.connect(DATABASE_PATH)
+        self._c = self._conn.cursor()
         self.setup_database_model()
 
-    def setup_database_model(self):
+    @staticmethod
+    def create_directory_if_not_exists(directory: str) -> None:
         """
-        Create and populate a database if it doesn't exist.
+        Create a directory if it does not exist.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        for table_data in TABLES:
-            table_name = table_data["desc"]
-            columns = table_data["columns"]
-            rows = table_data["rows"]
-            if not self.table_exists(cursor, table_name):
-                column_names = ["Id"] + columns
-                create_table_query = "CREATE TABLE {table_name} ({columns})".format(
-                    table_name=table_name, columns=", ".join(column_names)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+    def setup_database_model(self) -> None:
+        """
+        Setup the database model.
+        """
+        with self._conn:
+            for table_data in TABLES:
+                table_name_identified = self.validate_and_sanitize_identifier(
+                    table_data["desc"]
                 )
-                cursor.execute(create_table_query, (column_names,))
-                for i, row in enumerate(rows):
-                    column_count = len(columns)
-                    values_placeholder = ", ".join(["?"] * (column_count + 1))
-                    insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
-                        table_name=table_name, values=values_placeholder
-                    )
-                    values = [i] + row
-                    cursor.execute(insert_query, values)
-        conn.commit()
-        conn.close()
+                columns = table_data["columns"]
+                rows = table_data["rows"]
+
+                column_names = ["Id"] + columns
+                column_names = [
+                    self.validate_and_sanitize_identifier(column_name)
+                    for column_name in column_names
+                ]
+
+                if not self.table_exists(self._c, table_name_identified):
+                    create_table_query = f"CREATE TABLE {table_name_identified} ({', '.join(column_names)})"
+                    self._c.execute(create_table_query)
+
+                    insert_query = f"INSERT INTO {table_name_identified} VALUES ({', '.join(['?'] * len(column_names))})"  # FIXME
+                    values = [(i,) + tuple(row) for i, row in enumerate(rows)]
+                    self._c.executemany(insert_query, values)
 
     @staticmethod
-    def table_exists(cursor, table_name):
+    def table_exists(cursor: sqlite3.Cursor, table_name: str) -> bool:
         """
         Check if a table exists in the SQLite database.
         """
@@ -57,48 +65,78 @@ class DataBaseHandler:
         )
         return cursor.fetchone() is not None
 
-    def get_table_data(self, table_name):
+    def get_table_data(self, table_name: str) -> List[Tuple[CellValue, ...]]:
         """
         Get all the data from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM ?", (table_name,))
-        table_data = cursor.fetchall()
-        conn.close()
+        with self._conn:
+            table_name_identified = self.validate_and_sanitize_identifier(table_name)
+
+            select_query = f"SELECT * FROM {table_name_identified}"  # FIXME
+            self._c.execute(select_query)
+
+            table_data = self._c.fetchall()
+
         return table_data
 
-    def save_table_data(self, table_name, table_data):
+    def validate_and_sanitize_identifier(self, identifier: str) -> str:
         """
-        Save the data from a table.
+        Validate and sanitize an identifier.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM ?", (table_name,))
-        insert_query = "INSERT INTO {table_name} VALUES ({values})".format(
-            table_name=table_name, values=",".join(["?"] * len(table_data[0]))
-        )
-        cursor.executemany(insert_query, table_data)
-        conn.commit()
-        conn.close()
+        if not identifier.isidentifier():
+            raise ValueError(f"Invalid identifier: {identifier}")
+        return identifier.replace('"', '""')
 
-    def discard_table_data(self, table_name):
+    def save_table_data_changes(
+        self, table_name: str, updated_data: List[Dict[str, CellValue]]
+    ) -> None:
         """
-        Discard the data from a table.
+        Save all the data changes from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM ?", (table_name,))
-        conn.commit()
-        conn.close()
+        with self._conn:
+            table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
-    def reset_table_data(self, table_name):
+            update_query = f"UPDATE {table_name_identified} SET "
+            set_columns = []
+            values = []
+
+            for row in updated_data:
+                for column, value in row.items():
+                    set_columns.append(f"{column} = ?")
+                    values.append(value)
+                update_query += ", ".join(set_columns) + " WHERE Id = ?"
+                values.append(row["Id"])
+
+            self._c.execute(update_query, values)
+
+    def discard_table_data_changes(self, table_name: str) -> None:
         """
-        Reset the data from a table.
+        Discard all the data changes from a table.
         """
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM ?", (table_name,))
-        cursor.execute("VACUUM", ())
-        conn.commit()
-        conn.close()
+        original_data = self.get_table_data(table_name)
+        original_data_dict = [
+            {"Id": row[0], **dict(zip(TABLES[0]["columns"], row[1:]))}
+            for row in original_data
+        ]
+        self.save_table_data_changes(table_name, original_data_dict)
+
+    def reset_table_data(self, table_name: str) -> None:
+        """
+        Reset all the data from a table.
+        """
+        with self._conn:
+            table_name_identified = self.validate_and_sanitize_identifier(table_name)
+
+            for table_data in TABLES:
+                if table_data["desc"] == table_name_identified:
+                    default_data = table_data["rows"]
+                    break
+            else:
+                raise ValueError(
+                    f"Table '{table_name_identified}' not found in TABLES."
+                )
+
+            self._c.execute(f"DELETE FROM {table_name_identified}")
+            insert_query = f"INSERT INTO {table_name_identified} VALUES ({', '.join(['?'] * len(default_data[0]))})"
+            values = [(i,) + tuple(row) for i, row in enumerate(default_data)]
+            self._c.executemany(insert_query, values)
