@@ -48,7 +48,8 @@ class ThemeHandler(QObject):
         if saved_theme is not None:
             self.set_theme(saved_theme)
 
-    def detect_system_theme_handler(self):
+    @staticmethod
+    def detect_system_theme_handler():
         """
         Detect the system theme.
         """

@@ -78,7 +78,8 @@ class DataBaseHandler:
 
         return table_data
 
-    def validate_and_sanitize_identifier(self, identifier: str) -> str:
+    @staticmethod
+    def validate_and_sanitize_identifier(identifier: str) -> str:
         """
         Validate and sanitize an identifier.
         """

@@ -121,7 +121,8 @@ class ItemDelegate(QStyledItemDelegate):
         else:
             super().setModelData(editor, model, index)
 
-    def open_color_picker(self, index):
+    @staticmethod
+    def open_color_picker(index):
         """
         Open a color picker dialog.
         """
@@ -138,7 +139,8 @@ class ItemDelegate(QStyledItemDelegate):
         editor.setStyleSheet("font-style: italic;")
         return editor
 
-    def createDoubleSpinBoxEditor(self, parent, value_in_column_1):
+    @staticmethod
+    def createDoubleSpinBoxEditor(parent, value_in_column_1):
         editor = QDoubleSpinBox(parent)
         max_double_value = sys.float_info.max
         editor.setDecimals(0)
@@ -158,7 +160,8 @@ class ItemDelegate(QStyledItemDelegate):
             editor.setSuffix(" mm")
         return editor
 
-    def createLabelEditor(self, parent, value_in_column_1, cell_value):
+    @staticmethod
+    def createLabelEditor(parent, value_in_column_1, cell_value):
         editor = QLabel(parent)
         decimals = 0
         if value_in_column_1 == "Area":
@@ -193,7 +196,8 @@ class ItemDelegate(QStyledItemDelegate):
         editor.clicked.connect(partial(self.open_color_picker, index))
         return editor
 
-    def createFillEditor(self, parent, cell_value):
+    @staticmethod
+    def createFillEditor(parent, cell_value):
         editor = QWidget(parent)
         layout = QHBoxLayout(editor)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -205,7 +209,8 @@ class ItemDelegate(QStyledItemDelegate):
 
         return editor
 
-    def createComboBoxEditor(self, parent, cell_value):
+    @staticmethod
+    def createComboBoxEditor(parent, cell_value):
         editor = QComboBox(parent)
         editor.addItems(cell_value)
         editor.setCurrentIndex(0)

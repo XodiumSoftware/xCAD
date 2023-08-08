@@ -16,7 +16,8 @@ class EventsHandler:
             shortcut = QShortcut(key_sequence, ui)
             shortcut.activated.connect(self.show_quit_message_box)
 
-    def show_quit_message_box(self) -> None:
+    @staticmethod
+    def show_quit_message_box() -> None:
         """
         Show a dialog to confirm quitting.
         """
