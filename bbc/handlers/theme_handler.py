@@ -15,44 +15,34 @@ from PySide6.QtCore import QObject
 
 class ThemeHandler(QObject):
     def __init__(self, settings, current_theme):
-        """
-        Initialize the ThemeHandler.
-        """
+        """Initialize the ThemeHandler."""
         super().__init__()
         self._settings = settings
         self._current_theme = current_theme
         self._theme_states = [THEME_LIGHT, THEME_DARK]
 
     def init_theme_handler(self, main_ui):
-        """
-        Initialize the theme handler.
-        """
+        """Initialize the theme handler."""
         self._main_ui = main_ui
         self.load_saved_theme()
         self.apply_theme()
 
     def set_theme(self, theme_name):
-        """
-        Set the theme.
-        """
+        """Set the theme."""
         if theme_name in THEME_FILE_PATHS:
             self._current_theme = theme_name
             self._settings.setValue("theme", theme_name)
             self.apply_theme()
 
     def load_saved_theme(self):
-        """
-        Load the saved theme.
-        """
+        """Load the saved theme."""
         saved_theme = str(self._settings.value("theme"))
         if saved_theme is not None:
             self.set_theme(saved_theme)
 
     @staticmethod
     def detect_system_theme_handler():
-        """
-        Detect the system theme.
-        """
+        """Detect the system theme."""
         try:
             if platform.system() != "Windows":
                 return None
@@ -68,17 +58,13 @@ class ThemeHandler(QObject):
             print(DEBUG_NAME + "Error detecting system theme:", e)
 
     def apply_theme(self):
-        """
-        Apply the theme.
-        """
+        """Apply the theme."""
         stylesheet = self._loadStyleSheet(THEME_FILE_PATHS[self._current_theme])
         self._main_ui.setStyleSheet(stylesheet)
 
     @staticmethod
     def _loadStyleSheet(file_path):
-        """
-        Load the style sheet.
-        """
+        """Load the style sheet."""
         try:
             with open(file_path, "r") as file:
                 return file.read()

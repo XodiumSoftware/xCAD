@@ -7,9 +7,7 @@ from PySide6.QtWidgets import QWidget
 class UIHandler:
     @staticmethod
     def center_ui_on_screen_handler(ui: QWidget) -> None:
-        """
-        Centers the window on the primary screen.
-        """
+        """Centers the window on the primary screen."""
         screen_geometry = QGuiApplication.primaryScreen().geometry().center()
         ui_center = ui.geometry().center()
         ui_top_left = screen_geometry - ui_center
@@ -17,9 +15,7 @@ class UIHandler:
 
     @staticmethod
     def set_ui_size(ui: QWidget, size: Optional[Tuple[int, int]] = None) -> None:
-        """
-        Sets the size of the UI.
-        """
+        """Sets the size of the UI."""
         if size is None:
             ui.resize(ui.sizeHint())
         else:
@@ -28,8 +24,6 @@ class UIHandler:
 
     @staticmethod
     def toggle_ui_visibility(ui: QWidget, target_ui: QWidget) -> None:
-        """
-        Toggles the visibility of the UI.
-        """
+        """Toggles the visibility of the UI."""
         ui.setVisible(not ui.isVisible())
         target_ui.setVisible(not target_ui.isVisible())
