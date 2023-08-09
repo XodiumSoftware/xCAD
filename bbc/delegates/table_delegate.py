@@ -10,8 +10,8 @@ class TableDelegate(QTableView):
     """A custom QTableView that displays the data for the module."""
 
     def __init__(self, module_data: Optional[dict] = None, parent=None):
-        super().__init__(parent)
         """Initialize the TableDelegate."""
+        super().__init__(parent)
         self.module_data = module_data
         self.db_handler = DataBaseHandler()
         self.setup_table_delegate()
