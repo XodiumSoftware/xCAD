@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
     QGraphicsView,
     QGridLayout,
     QLabel,
-    QMessageBox,
     QPushButton,
     QSizePolicy,
     QWidget,
@@ -36,6 +35,7 @@ class DimensionDialog(QDialog):
         self._changes_made = False
         self._events_handler = EventsHandler()
         self.setup_ui(length, height)
+        self._connect_events()
 
     def setup_ui(self, length: float, height: float):
         """Setup the UI."""
@@ -68,42 +68,28 @@ class DimensionDialog(QDialog):
         self.height_edit.setDecimals(0)
         self.height_edit.setSuffix(" mm")
 
-        self.ok_button.clicked.connect(self.accept_changes)
+    def _connect_events(self):
+        self.ok_button.clicked.connect(self._accept_changes)
+        self._events_handler.quit_on_key_press_event(self, quit_application=False)
 
-    def accept_changes(self):
-        """Accept the changes."""
+    def _accept_changes(self):
         self._changes_made = True
         self.setWindowTitle("Set Dimensions *")
         self.accept()
 
     def reject(self):
-        """Reject the changes."""
         if self._changes_made:
-            self._events_handler.show_quit_message_box()
+            self._events_handler.show_quit_message_box(quit_application=False)
         else:
             super().reject()
 
-    def keyPressEvent(self, event: QKeyEvent):
-        """Handle the key press event."""
-        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-            if self.length_edit.hasFocus() or self.height_edit.hasFocus():
-                self._changes_made = True
-                event.accept()
-        elif event.key() == Qt.Key.Key_Escape:
-            if self._changes_made:
-                self.reject()
-            else:
-                super().reject()
-
     def exec_(self):
-        """Execute the dialog."""
         result = super().exec_()
         if result == QDialog.DialogCode.Accepted:
             self._changes_made = True
         return result
 
     def load_dialog_values(self, length: float, height: float):
-        """Load values into the dialog."""
         self.length_edit.setValue(length)
         self.height_edit.setValue(height)
 

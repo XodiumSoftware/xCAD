@@ -59,9 +59,7 @@ class UI(QMainWindow):
             self._frame_view_ui, frame_2d_view_ui_info["initial_size"]
         )
 
-        self._events_handler.quit_on_key_press_event(
-            self._main_ui, quit_application=True
-        )
+        self._events_handler.quit_on_key_press_event(self._main_ui)
         self._events_handler.quit_on_key_press_event(self._configurator_ui)
         self._events_handler.quit_on_key_press_event(self._frame_view_ui)
 
