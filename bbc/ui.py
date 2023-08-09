@@ -1,8 +1,8 @@
 from functools import partial
-from turtle import st
 from typing import List
 
 from constants import UIS
+from delegates.frame_2d_view import Frame2DView
 from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
@@ -23,11 +23,13 @@ class UI(QMainWindow):
         self._main_module_0 = ModuleHandler(0)
         self._main_module_1 = ModuleHandler(2)
         self._configurator_module_0 = ModuleHandler(1)
+        self._frame_view_2d_view = Frame2DView()
         self._signal_handler = SignalHandler()
         self._ui_handler = UIHandler()
 
         self._main_ui = QWidget()
         self._configurator_ui = QWidget()
+        self._frame_view_ui = QWidget()
 
         self._events_handler = EventsHandler()
 
@@ -37,12 +39,15 @@ class UI(QMainWindow):
         """Setup the UIs."""
         main_ui_info = UIS[0]
         configurator_ui_info = UIS[1]
+        frame_2d_view_ui_info = UIS[2]
 
         self._main_ui.setWindowTitle(main_ui_info["title"])
         self._configurator_ui.setWindowTitle(configurator_ui_info["title"])
+        self._frame_view_ui.setWindowTitle(frame_2d_view_ui_info["title"])
 
         self._main_ui.setWindowIcon(QIcon(main_ui_info["icon"]))
         self._configurator_ui.setWindowIcon(QIcon(configurator_ui_info["icon"]))
+        self._frame_view_ui.setWindowIcon(QIcon(frame_2d_view_ui_info["icon"]))
 
         self._ui_handler.center_ui_on_screen_handler(self)
 
@@ -50,9 +55,15 @@ class UI(QMainWindow):
         self._ui_handler.set_ui_size(
             self._configurator_ui, configurator_ui_info["initial_size"]
         )
+        self._ui_handler.set_ui_size(
+            self._frame_view_ui, frame_2d_view_ui_info["initial_size"]
+        )
 
-        self._events_handler.quit_on_key_press_event(self._main_ui)
+        self._events_handler.quit_on_key_press_event(
+            self._main_ui, quit_application=True
+        )
         self._events_handler.quit_on_key_press_event(self._configurator_ui)
+        self._events_handler.quit_on_key_press_event(self._frame_view_ui)
 
         self._main_modules_stack = QStackedWidget(self._main_ui)
         self._main_modules_stack.addWidget(self._main_module_0)
@@ -67,6 +78,9 @@ class UI(QMainWindow):
         self._configurator_ui_layout = QGridLayout(self._configurator_ui)
         self._configurator_ui_layout.addWidget(self._configurator_modules_stack)
 
+        self._frame_view_ui_layout = QGridLayout(self._frame_view_ui)
+        self._frame_view_ui_layout.addWidget(self._frame_view_2d_view)
+
         if main_ui_info["initial_visibility"]:
             self._main_ui.show()
         else:
@@ -76,6 +90,11 @@ class UI(QMainWindow):
             self._configurator_ui.show()
         else:
             self._configurator_ui.hide()
+
+        if frame_2d_view_ui_info["initial_visibility"]:
+            self._frame_view_ui.show()
+        else:
+            self._frame_view_ui.hide()
 
         self.setup_connections()
 
