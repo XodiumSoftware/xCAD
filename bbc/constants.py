@@ -171,6 +171,67 @@ MATRICES = [
             ],
         ],
     },
+    {
+        "index": 2,
+        "module_matrix_pos": [
+            [
+                [
+                    "VBox",
+                    "TableView",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeExpanding", "SizeExpanding"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Button",
+                    2,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    3,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+                [
+                    "VBox",
+                    "Button",
+                    4,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Button",
+                    5,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+            [
+                [
+                    "VBox",
+                    "Label",
+                    0,
+                    (0, 0, 0, 0),
+                    "AlignCenter",
+                    ("SizeMinimum", "SizeMinimum"),
+                ],
+            ],
+        ],
+    },
 ]
 
 # ====================================================================================================
@@ -201,8 +262,8 @@ TABLES = [
             ["Structure", True],
             ["Length", 6000],
             ["Height", 3000],
-            ["Area", ((6000 * 3000) / 1000000)],
-            ["Perimeter", (((6000 + 3000) * 2) / 1000)],
+            ["Area", 0],
+            ["Perimeter", 0],
         ],
     },
     {

@@ -1,4 +1,6 @@
 from functools import partial
+from turtle import st
+from typing import List
 
 from constants import UIS
 from handlers.db_handler import DataBaseHandler
@@ -6,9 +8,8 @@ from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
-from PySide6.QtCore import Slot
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QStackedWidget, QWidget
 
 
 class UI(QMainWindow):
@@ -19,8 +20,9 @@ class UI(QMainWindow):
         super().__init__()
 
         self._db_handler = DataBaseHandler()
-        self._main_module = ModuleHandler(0)
-        self._configurator_module = ModuleHandler(1)
+        self._main_module_0 = ModuleHandler(0)
+        self._main_module_1 = ModuleHandler(2)
+        self._configurator_module_0 = ModuleHandler(1)
         self._signal_handler = SignalHandler()
         self._ui_handler = UIHandler()
 
@@ -52,21 +54,26 @@ class UI(QMainWindow):
         self._events_handler.quit_on_key_press_event(self._main_ui)
         self._events_handler.quit_on_key_press_event(self._configurator_ui)
 
+        self._main_modules_stack = QStackedWidget(self._main_ui)
+        self._main_modules_stack.addWidget(self._main_module_0)
+        self._main_modules_stack.addWidget(self._main_module_1)
+
         self._main_ui_layout = QGridLayout(self._main_ui)
-        self._main_ui_layout.addWidget(self._main_module)
+        self._main_ui_layout.addWidget(self._main_modules_stack)
+
+        self._configurator_modules_stack = QStackedWidget(self._main_ui)
+        self._configurator_modules_stack.addWidget(self._configurator_module_0)
 
         self._configurator_ui_layout = QGridLayout(self._configurator_ui)
-        self._configurator_ui_layout.addWidget(self._configurator_module)
+        self._configurator_ui_layout.addWidget(self._configurator_modules_stack)
 
         if main_ui_info["initial_visibility"]:
             self._main_ui.show()
-            self._main_ui.activateWindow()
         else:
             self._main_ui.hide()
 
         if configurator_ui_info["initial_visibility"]:
             self._configurator_ui.show()
-            self._configurator_ui.activateWindow()
         else:
             self._configurator_ui.hide()
 
@@ -74,32 +81,48 @@ class UI(QMainWindow):
 
     def setup_connections(self) -> None:
         """Setup the connections."""
-        self._main_module.module_connection(
+        self._main_module_0.module_connection(
             "Button",
             0,
             partial(
-                self.toggle_ui_visibility,
-                ui=self._configurator_ui,
+                self.switch_modules,
+                module=self._main_modules_stack,
             ),
         )
-        self._configurator_module.module_connection(
+        self._main_module_1.module_connection(
+            "Button",
+            5,
+            partial(
+                self.switch_modules,
+                module=self._main_modules_stack,
+            ),
+        )
+        # self._main_module_0.module_connection(
+        #     "Button",
+        #     0,
+        #     partial(
+        #         self.toggle_ui_visibility,
+        #         uis=[self._configurator_ui, self._main_ui],
+        #     ),
+        # )
+        self._configurator_module_0.module_connection(
             "Button",
             5,
             partial(
                 self.toggle_ui_visibility,
-                ui=self._configurator_ui,
+                uis=[self._configurator_ui, self._main_ui],
             ),
         )
-        self._configurator_module.module_connection(
+        self._configurator_module_0.module_connection(
             "Button",
             1,
             partial(
-                self._configurator_module.toggle_module_visibility,
+                self._configurator_module_0.toggle_module_visibility,
                 "GraphicsView",
                 0,
             ),
         )
-        self._configurator_module.module_connection(
+        self._configurator_module_0.module_connection(
             "Button",
             2,
             partial(
@@ -108,8 +131,16 @@ class UI(QMainWindow):
             ),
         )
 
-    @Slot(QWidget)
+    def toggle_ui_visibility(self, uis: List[QWidget]) -> None:
+        """Toggles the visibility of UI(s)."""
+        for ui in uis:
+            ui.setVisible(not ui.isVisible())
+            if ui.isVisible():
+                self._ui_handler.center_ui_on_screen_handler(ui)
+
     @staticmethod
-    def toggle_ui_visibility(ui: QWidget) -> None:
-        """Toggles the visibility of the UI."""
-        return ui.setVisible(not ui.isVisible())
+    def switch_modules(module: QStackedWidget) -> None:
+        """Switches the modules."""
+        current_index = module.currentIndex()
+        new_index = (current_index + 1) % module.count()
+        module.setCurrentIndex(new_index)

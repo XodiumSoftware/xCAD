@@ -1,7 +1,7 @@
 from typing import Optional, Tuple
 
-from PySide6.QtGui import QGuiApplication
-from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import QPoint
+from PySide6.QtWidgets import QApplication, QWidget
 
 
 class UIHandler:
@@ -10,10 +10,9 @@ class UIHandler:
     @staticmethod
     def center_ui_on_screen_handler(ui: QWidget) -> None:
         """Centers the window on the primary screen."""
-        screen_geometry = QGuiApplication.primaryScreen().geometry().center()
-        ui_center = ui.geometry().center()
-        ui_top_left = screen_geometry - ui_center
-        ui.move(ui_top_left)
+        screen_center = QApplication.primaryScreen().geometry().center()
+        ui_size = ui.size()
+        ui.move(screen_center - QPoint(ui_size.width() // 2, ui_size.height() // 2))
 
     @staticmethod
     def set_ui_size(ui: QWidget, size: Optional[Tuple[int, int]] = None) -> None:

@@ -70,11 +70,13 @@ class ItemDelegate(QStyledItemDelegate):
         if index.column() == 2:
             value_in_column_1 = index.sibling(index.row(), 1).data()
             if value_in_column_1 == "Structure":
-                return self.createStructureEditor(parent)
+                return self.createPushButtonEditor(parent)
 
             if value_in_column_1 in (
                 "Length",
                 "Height",
+                "Area",
+                "Perimeter",
                 "Thickness",
                 "Pen thickness",
                 "Fill pattern angle",
@@ -82,9 +84,6 @@ class ItemDelegate(QStyledItemDelegate):
                 "Fill opacity",
             ):
                 return self.createDoubleSpinBoxEditor(parent, value_in_column_1)
-
-            if value_in_column_1 in ("Area", "Perimeter"):
-                return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
             if value_in_column_1 in ("Fill color", "Pen color"):
                 return self.createColorButtonEditor(parent, cell_value, index)
@@ -94,7 +93,7 @@ class ItemDelegate(QStyledItemDelegate):
 
             if value_in_column_1 in ("Pen style", "Fill pattern"):
                 return self.createComboBoxEditor(parent, cell_value)
-            return self.createLabelEditor(parent, value_in_column_1, cell_value)
+            return self.createLabelEditor(parent, cell_value)
 
         return super().createEditor(parent, option, index)
 
@@ -123,7 +122,7 @@ class ItemDelegate(QStyledItemDelegate):
         color_picker = ColorPicker(cell_value)
         color_picker.exec()
 
-    def createStructureEditor(self, parent):
+    def createPushButtonEditor(self, parent):
         """Create a structure editor."""
         editor = QPushButton(parent)
         editor.clicked.connect(
@@ -150,22 +149,21 @@ class ItemDelegate(QStyledItemDelegate):
             editor.setRange(0, 1)
             editor.setDecimals(3)
             editor.setSingleStep(0.005)
+        elif value_in_column_1 == "Area":
+            editor.setSuffix(" m2")
+        elif value_in_column_1 == "Perimeter":
+            editor.setSuffix(" m1")
         else:
             editor.setRange(0, max_double_value)
             editor.setSuffix(" mm")
         return editor
 
     @staticmethod
-    def createLabelEditor(parent, value_in_column_1, cell_value):
+    def createLabelEditor(parent, cell_value):
         """Create a label editor."""
         editor = QLabel(parent)
         decimals = 0
         suffix = ""
-
-        if value_in_column_1 == "Area":
-            suffix = " m2"
-        elif value_in_column_1 == "Perimeter":
-            suffix = " m1"
 
         text = f"{float(cell_value):.{decimals}f}{suffix}"
         editor.setText(text)
