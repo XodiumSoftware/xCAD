@@ -513,7 +513,7 @@ INIT_ITEM_PROPERTIES = [
         "Length:": 38,
         "Height:": 1000,
         "Fill:": True,
-        "Fill pattern:": "SolidPattern",
+        "Fill pattern:": "Solid",
         "Fill color:": "#000000",
         "Fill opacity:": 1,
         "Pen style:": "SolidLine",

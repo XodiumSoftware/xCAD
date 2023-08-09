@@ -1,6 +1,6 @@
 import sys
 from functools import partial
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 
 from constants import (
     COLOR_PICKER_DIALOG_TITLE,
@@ -9,12 +9,13 @@ from constants import (
     QUIT_DIALOG_TITLE,
     UI_ICON_PATH,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor, QFont, QIcon, QPalette
 from PySide6.QtWidgets import (
     QApplication,
     QCheckBox,
     QColorDialog,
+    QComboBox,
     QDialog,
     QDoubleSpinBox,
     QGridLayout,
@@ -27,6 +28,13 @@ from PySide6.QtWidgets import (
 
 class DialogHandler:
     """A class to handle dialogs."""
+
+    closeDialog: Signal = Signal()
+
+    def __init__(self, frame_view):
+        """Initialize the dialog handler."""
+        super().__init__()
+        self.frame_view = frame_view
 
     @staticmethod
     def quit_dialog(quit_application: bool) -> None:
@@ -56,8 +64,7 @@ class DialogHandler:
             else:
                 QApplication.activeWindow().close()
 
-    @staticmethod
-    def item_properties_dialog(item_index: int) -> None:
+    def item_properties_dialog(self, item_index: int) -> None:
         """A dialog for setting the item properties."""
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
@@ -74,60 +81,111 @@ class DialogHandler:
         row = 0
 
         index_label = QLabel(f"Object_{item_index}")
+        index_label.setFont(
+            QFont(index_label.font().family(), weight=QFont.Weight.Bold)
+        )
         layout.addWidget(
             index_label, row, 0, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter
         )
         row += 1
         for key, value in properties.items():
-            label = QLabel(key)
-            layout.addWidget(label, row, 0)
+            if key != "Index:":
+                label = QLabel(key)
+                layout.addWidget(label, row, 0)
 
-            max_double_value = sys.float_info.max
+                max_double_value = sys.float_info.max
 
-            if key in ["Fill color:", "Pen color:"]:
-                widget = QPushButton()
-                widget.setText(value)
-                color_picker_button = widget
-                widget.clicked.connect(
-                    partial(
-                        DialogHandler.color_picker_dialog,
-                        color_picker_button,
-                        properties,
-                        key,
+                if key == "Fill pattern:":
+                    widget = QComboBox()
+                    patterns = [
+                        "Solid",
+                        "Dense1",
+                        "Dense2",
+                        "Dense3",
+                        "Dense4",
+                        "Dense5",
+                        "Dense6",
+                        "Dense7",
+                        "NoBrush",
+                    ]
+                    widget.addItems(patterns)
+                    widget.setCurrentText(value)
+                    layout.addWidget(widget, row, 1)
+                    edited_properties[key] = widget
+                elif key == "Pen style:":
+                    combo_box = QComboBox()
+                    pen_styles = [
+                        "NoPen",
+                        "SolidLine",
+                        "DashLine",
+                        "DotLine",
+                        "DashDotLine",
+                        "DashDotDotLine",
+                    ]
+                    combo_box.addItems(pen_styles)
+                    combo_box.setCurrentText(value)
+                    layout.addWidget(combo_box, row, 1)
+                    edited_properties[key] = combo_box
+                elif key in ["Fill color:", "Pen color:"]:
+                    widget = QPushButton()
+                    widget.setText(value)
+                    color_picker_button = widget
+                    widget.clicked.connect(
+                        partial(
+                            DialogHandler.color_picker_dialog,
+                            color_picker_button,
+                            properties,
+                            key,
+                        )
                     )
-                )
 
-                widget.setFont(QFont(widget.font().family(), weight=QFont.Weight.Bold))
-                palette = widget.palette()
-                palette.setColor(QPalette.ColorRole.ButtonText, QColor(value))
-                widget.setPalette(palette)
-                layout.addWidget(widget, row, 1)
-            elif isinstance(value, bool):
-                widget = QCheckBox()
-                widget.setChecked(value)
-                layout.addWidget(widget, row, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-            elif isinstance(value, int):
-                widget = QDoubleSpinBox()
-                widget.setValue(value)
-                widget.setSingleStep(1)
-                widget.setRange(0, max_double_value)
-                widget.setDecimals(0)
-                layout.addWidget(widget, row, 1)
-                edited_properties[key] = widget
-            else:
-                widget = QLineEdit()
-                widget.setText(value)
-                widget.setClearButtonEnabled(True)
-                layout.addWidget(widget, row, 1)
-                edited_properties[key] = widget
+                    widget.setFont(
+                        QFont(widget.font().family(), weight=QFont.Weight.Bold)
+                    )
+                    palette = widget.palette()
+                    palette.setColor(QPalette.ColorRole.ButtonText, QColor(value))
+                    widget.setPalette(palette)
+                    layout.addWidget(widget, row, 1)
+                    edited_properties[key] = widget
+                elif isinstance(value, bool):
+                    widget = QCheckBox()
+                    widget.setChecked(value)
+                    layout.addWidget(
+                        widget, row, 1, alignment=Qt.AlignmentFlag.AlignCenter
+                    )
+                    edited_properties[key] = widget
+                elif isinstance(value, int):
+                    widget = QDoubleSpinBox()
+                    widget.setValue(value)
+                    widget.setSingleStep(1)
+                    widget.setRange(0, max_double_value)
+                    widget.setDecimals(0)
+                    layout.addWidget(widget, row, 1)
+                    edited_properties[key] = widget
+                else:
+                    widget = QLineEdit()
+                    widget.setText(value)
+                    widget.setClearButtonEnabled(True)
+                    layout.addWidget(widget, row, 1)
+                    edited_properties[key] = widget
 
-            row += 1
+                row += 1
 
         save_button = QPushButton("Save")
         delete_button = QPushButton("Delete")
+        delete_button.setFont(
+            QFont(delete_button.font().family(), weight=QFont.Weight.Bold)
+        )
+        palette = delete_button.palette()
+        palette.setColor(QPalette.ColorRole.ButtonText, QColor("red"))
+        delete_button.setPalette(palette)
+        delete_button.clicked.connect(self.frame_view.delete_item)
 
         layout.addWidget(save_button, row, 0)
         layout.addWidget(delete_button, row, 1)
+
+        self.closeDialog.connect(dialog.accept)
+        delete_button.clicked.connect(self.closeDialog.emit)
 
         dialog.exec_()
 

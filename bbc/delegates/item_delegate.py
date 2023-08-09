@@ -38,7 +38,7 @@ class ItemDelegate(QStyledItemDelegate):
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
-        self._dialog_handler = DialogHandler()
+        self._dialog_handler = DialogHandler(self)
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
