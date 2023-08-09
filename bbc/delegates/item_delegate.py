@@ -7,6 +7,7 @@ from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QIcon, QStandardItem
 from PySide6.QtWidgets import (
+    QAbstractSpinBox,
     QCheckBox,
     QColorDialog,
     QComboBox,
@@ -151,8 +152,10 @@ class ItemDelegate(QStyledItemDelegate):
             editor.setSingleStep(0.005)
         elif value_in_column_1 == "Area":
             editor.setSuffix(" m2")
+            editor.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         elif value_in_column_1 == "Perimeter":
             editor.setSuffix(" m1")
+            editor.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         else:
             editor.setRange(0, max_double_value)
             editor.setSuffix(" mm")

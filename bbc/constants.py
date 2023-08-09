@@ -254,7 +254,6 @@ TABLES = [
     {
         "index": 0,
         "desc": "FRAME_DATA",
-        "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Value"],
@@ -269,7 +268,6 @@ TABLES = [
     {
         "index": 1,
         "desc": "OBJECT_ASSEMBLY_DATA",
-        "stylesheet": "QCheckBox { font-size: 12px; }",
         "sorting": True,
         "alternating_row_colors": True,
         "columns": ["Parameter", "Value"],
