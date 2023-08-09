@@ -32,33 +32,31 @@ from PySide6.QtWidgets import (
 
 
 class ModuleHandler(QWidget):
+    """A class to handle the modules."""
+
     def __init__(
         self,
         matrix_index: int,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
         parent: Optional[QWidget] = None,
     ) -> None:
-        """
-        Initialize the ModuleHandler.
-        """
+        """Initialize the ModuleHandler."""
         super().__init__(parent)
 
         self._settings = QSettings()
 
         self._signal_handler = SignalHandler()
 
-        # QTimer.singleShot(0)  # TODO: Add second arg.
-
         self._module_visibility = {}
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
 
     def create_modules_from_matrix(self, matrix_index, matrix_margins):
+        """Create modules from a matrix."""
         module_matrix_data = next(
             (data for data in MATRICES if data["index"] == matrix_index),
             None,
         )
-
         if module_matrix_data:
             module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
             layout = QGridLayout(self)
@@ -124,9 +122,7 @@ class ModuleHandler(QWidget):
         module_alignment: Optional[str] = None,
         module_size_policy: Optional[Tuple[str, str]] = None,
     ) -> None:
-        """
-        Setup the module.
-        """
+        """Setup the module."""
         layout = self.setup_module_layout(module_layout_type)
         layout.setContentsMargins(*self.setup_module_margins(module_margins))
 
@@ -157,10 +153,9 @@ class ModuleHandler(QWidget):
 
         self.setLayout(layout)
 
-    def setup_module_layout(self, module_layout_type):
-        """
-        Setup the module layout.
-        """
+    @staticmethod
+    def setup_module_layout(module_layout_type):
+        """Setup the module layout."""
         module_layouts = {
             "VBox": QVBoxLayout(),
             "HBox": QHBoxLayout(),
@@ -170,12 +165,11 @@ class ModuleHandler(QWidget):
 
         return module_layouts.get(module_layout_type, QGridLayout())
 
+    @staticmethod
     def setup_module_data(
-        self, module_type: str, module_index: int
+        module_type: str, module_index: int
     ) -> Optional[Dict[str, Union[str, int, float]]]:
-        """
-        Setup the module data.
-        """
+        """Setup the module data."""
         module_list = {
             "Label": LABELS,
             "Checkbox": CHECKBOXES,
@@ -192,10 +186,9 @@ class ModuleHandler(QWidget):
 
         return module_data
 
-    def setup_module_creation(self, module_type: str, module_data: dict) -> QWidget:
-        """
-        Setup the module creation.
-        """
+    @staticmethod
+    def setup_module_creation(module_type: str, module_data: dict) -> QWidget:
+        """Setup the module creation."""
         module = QWidget()
 
         if module_type == "Label":
@@ -253,12 +246,11 @@ class ModuleHandler(QWidget):
 
         return module
 
+    @staticmethod
     def setup_module_alignment(
-        self, module_alignment: Optional[Union[str, None]]
+        module_alignment: Optional[Union[str, None]]
     ) -> Qt.AlignmentFlag:
-        """
-        Set the alignment of the layout.
-        """
+        """Set the alignment of the layout."""
         if module_alignment is not None:
             alignment_mapping = {
                 "AlignLeading": Qt.AlignmentFlag.AlignLeading,
@@ -280,24 +272,22 @@ class ModuleHandler(QWidget):
             return alignment_mapping.get(
                 module_alignment, Qt.AlignmentFlag.AlignJustify
             )
+        return Qt.AlignmentFlag.AlignJustify
 
-        else:
-            return Qt.AlignmentFlag.AlignJustify
-
+    @staticmethod
     def setup_module_margins(
-        self, module_margins: Optional[Tuple[int, int, int, int]]
+        module_margins: Optional[Tuple[int, int, int, int]]
     ) -> Tuple[int, int, int, int]:
+        """Set the margins of the layout."""
         if module_margins is None:
             return (0, 0, 0, 0)
-        else:
-            return module_margins
+        return module_margins
 
+    @staticmethod
     def setup_module_size_policy(
-        self, module_size_policy: Optional[Tuple[str, str]]
+        module_size_policy: Optional[Tuple[str, str]]
     ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
-        """
-        Set the size policy for the module.
-        """
+        """Set the size policy for the module."""
         if module_size_policy is not None:
             size_policy_mapping = {
                 "SizeMinimum": QSizePolicy.Policy.Minimum,
@@ -315,15 +305,12 @@ class ModuleHandler(QWidget):
                 module_size_policy[1], QSizePolicy.Policy.Expanding
             )
             return size_policy_x, size_policy_y
-        else:
-            return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
 
     def module_connection(
         self, module_type: str, module_index: int, target_method: Callable
     ) -> None:
-        """
-        Connect the module signal to the target method.
-        """
+        """Connect the module signal to the target method."""
         module = self.findChild(QWidget, str((module_type, module_index)))
 
         if isinstance(module, QPushButton):
@@ -334,9 +321,7 @@ class ModuleHandler(QWidget):
 
     @Slot(str, int)
     def toggle_module_visibility(self, module_type: str, module_index: int) -> None:
-        """
-        Toggle the module visibility.
-        """
+        """Toggle the module visibility."""
         module = self.findChild(QWidget, str((module_type, module_index)))
 
         if isinstance(module, QWidget):

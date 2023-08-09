@@ -1,12 +1,6 @@
 version = 1
 
 [[analyzers]]
-name = "ruby"
-
-[[analyzers]]
-name = "sql"
-
-[[analyzers]]
 name = "javascript"
 
 [[analyzers]]
@@ -26,6 +20,3 @@ name = "prettier"
 
 [[transformers]]
 name = "standardjs"
-
-[[transformers]]
-name = "rubocop"

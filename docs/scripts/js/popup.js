@@ -1,103 +1,95 @@
+/**
+ * A class that manages registration-related popups and interactions.
+ */
 class RegistrationPopupManager {
-    constructor() {
-        super();
-        this.clientId = clientId;
+  /**
+   * Creates an instance of RegistrationPopupManager.
+   */
+  constructor(clientId) {
+    this.clientId = clientId;
 
-        this.githubOAuthButton = document.getElementById('githubOAuthButton');
-        this.githubOAuthButton.addEventListener('click', () => {
-            this.performGitHubOAuth();
-        });
+    this.githubOAuthButton = document.getElementById("githubOAuthButton");
+    this.loginLink = document.getElementById("loginLink");
+    this.loginPopup = document.getElementById("loginPopup");
+    this.closeLoginPopup = document.getElementById("closeLoginPopup");
+    this.carousel = document.querySelector(".carousel");
+    this.carouselSlides = document.querySelectorAll(".slide");
 
-        this.loginLink = document.getElementById('loginLink');
-        this.registerLink = document.getElementById('registerLink');
-        this.loginPopup = document.getElementById('loginPopup');
-        this.registerPopup = document.getElementById('registerPopup');
-        this.closeLoginPopup = document.getElementById('closeLoginPopup');
-        this.closeRegisterPopup = document.getElementById('closeRegisterPopup');
-        this.carousel = document.querySelector('.carousel');
-        this.carouselSlides = document.querySelectorAll('.slide');
-        this.registerPasswordInput = document.getElementById('registerPassword');
-        this.passwordVisibilityToggle = document.getElementById('passwordVisibilityToggle');
+    this.setupEventListeners();
+  }
 
-        this.loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.pauseCarousel();
-            this.showPopup(this.loginPopup);
-        });
+  /**
+   * Sets up event listeners for various interactions.
+   */
+  setupEventListeners() {
+    this.githubOAuthButton.addEventListener("click", this.performGitHubOAuth.bind(this));
+    this.loginLink.addEventListener("click", this.showLoginPopup.bind(this));
+    this.closeLoginPopup.addEventListener("click", this.closeLoginPopupHandler.bind(this));
+  }
 
-        this.registerLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.pauseCarousel();
-            this.showPopup(this.registerPopup);
-        });
+  /**
+   * Displays a popup and adds an exit button to it.
+   */
+  showPopup(popup) {
+    popup.style.display = "flex";
+    const exitButton = document.createElement("button");
+    exitButton.className = "popup-exit-button overlay-exit-button";
+    exitButton.innerText = "X";
+    popup.appendChild(exitButton);
 
-        this.closeLoginPopup.addEventListener('click', () => {
-            this.closePopup(this.loginPopup);
-            this.resumeCarousel();
-        });
+    exitButton.addEventListener("click", () => {
+      this.closePopup(popup);
+    });
+  }
 
-        this.closeRegisterPopup.addEventListener('click', () => {
-            this.closePopup(this.registerPopup);
-            this.resumeCarousel();
-        });
-
-        this.passwordVisibilityToggle.addEventListener('click', () => {
-            this.togglePasswordVisibility();
-        });
-
-        this.registerPasswordInput.addEventListener('input', () => {
-            this.updatePasswordStrength();
-        });
-
-        this.registerPasswordInput.addEventListener('keyup', () => {
-            this.updatePasswordStrength();
-        });
-
-        this.registerPasswordInput.addEventListener('keydown', () => {
-            this.updatePasswordStrength();
-        });
+  /**
+   * Closes a popup and removes the exit button from it.
+   */
+  closePopup(popup) {
+    popup.style.display = "none";
+    const exitButton = popup.querySelector(".overlay-exit-button");
+    if (exitButton) {
+      exitButton.remove();
     }
+  }
 
-    showPopup(popup) {
-        popup.style.display = 'flex';
-        const exitButton = document.createElement('button');
-        exitButton.className = 'popup-exit-button overlay-exit-button';
-        exitButton.innerText = 'X';
-        popup.appendChild(exitButton);
+  /**
+   * Pauses the carousel animation.
+   */
+  pauseCarousel() {
+    this.carousel.removeAttribute("data-carousel");
+    this.carouselSlides.forEach((slide) => {
+      slide.style.animationPlayState = "paused";
+    });
+  }
 
-        exitButton.addEventListener('click', () => {
-            this.closePopup(popup);
-        });
-    }
+  /**
+   * Resumes the carousel animation.
+   */
+  resumeCarousel() {
+    this.carousel.setAttribute("data-carousel", "");
+    this.carouselSlides.forEach((slide) => {
+      slide.style.animationPlayState = "running";
+    });
+  }
 
-    closePopup(popup) {
-        popup.style.display = 'none';
-        const exitButton = popup.querySelector('.overlay-exit-button');
-        if (exitButton) {
-            exitButton.remove();
-        }
-    }
+  /**
+   * Initiates GitHub OAuth authentication by redirecting the user to GitHub's authorization page.
+   */
+  performGitHubOAuth() {
+    const redirectUri = "https://illyrius.me/AutoFrameCAD/auth/github/callback";
+    const oauthUrl = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${redirectUri}`;
+    window.location.href = oauthUrl;
+  }
 
-    pauseCarousel() {
-        this.carousel.removeAttribute('data-carousel');
-        this.carouselSlides.forEach((slide) => {
-            slide.style.animationPlayState = 'paused';
-        });
-    }
-
-    resumeCarousel() {
-        this.carousel.setAttribute('data-carousel', '');
-        this.carouselSlides.forEach((slide) => {
-            slide.style.animationPlayState = 'running';
-        });
-    }
-
-    performGitHubOAuth() {
-        const redirectUri = 'https://illyrius.me/AutoFrameCAD/auth/github/callback';
-        const oauthUrl = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${redirectUri}`;
-        window.location.href = oauthUrl;
-    }
+  /**
+   * Event handler for closing the login popup and resuming the carousel.
+   */
+  closeLoginPopupHandler() {
+    this.closePopup(this.loginPopup);
+    this.resumeCarousel();
+  }
 }
 
-const clientId = 'Iv1.c014788a30bf9f06';
-const popupManager = new RegistrationPopupManager();
+const clientId = "Iv1.c014788a30bf9f06";
+new RegistrationPopupManager(clientId);

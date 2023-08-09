@@ -20,10 +20,10 @@ from PySide6.QtWidgets import (
 
 
 class ColorPicker(QColorDialog):
+    """A custom QColorDialog that allows for alpha channel."""
+
     def __init__(self, color, parent=None):
-        """
-        Initialize the ColorPicker.
-        """
+        """Initialize the ColorPicker."""
         super().__init__(parent)
 
         self.setWindowTitle(COLOR_PICKER_TITLE)
@@ -34,15 +34,16 @@ class ColorPicker(QColorDialog):
         self.setCurrentColor(QColor(color))
 
     def showEvent(self, event):
+        """Show the ColorPicker."""
         super().showEvent(event)
         self.show()
 
 
 class StandardItemDelegate(QStandardItem):
+    """A custom QStandardItem that allows for sorting."""
+
     def data(self, role=Qt.ItemDataRole.DisplayRole):
-        """
-        Return the data for the given role.
-        """
+        """Return the data for the given role."""
         if role == Qt.ItemDataRole.DisplayRole:
             return ""
 
@@ -50,19 +51,17 @@ class StandardItemDelegate(QStandardItem):
 
 
 class ItemDelegate(QStyledItemDelegate):
+    """A custom QStyledItemDelegate that creates editors for the table."""
+
     def __init__(self, table_name, parent=None):
-        """
-        Initialize the ItemDelegate.
-        """
+        """Initialize the ItemDelegate."""
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
-        """
-        Create an editor widget for the given index.
-        """
+        """Create an editor widget for the given index."""
         cell_value = index.data(Qt.ItemDataRole.EditRole)
 
         if index.column() in (0, 1):
@@ -73,7 +72,7 @@ class ItemDelegate(QStyledItemDelegate):
             if value_in_column_1 == "Structure":
                 return self.createStructureEditor(parent)
 
-            elif value_in_column_1 in (
+            if value_in_column_1 in (
                 "Length",
                 "Height",
                 "Thickness",
@@ -84,27 +83,23 @@ class ItemDelegate(QStyledItemDelegate):
             ):
                 return self.createDoubleSpinBoxEditor(parent, value_in_column_1)
 
-            elif value_in_column_1 in ("Area", "Perimeter"):
+            if value_in_column_1 in ("Area", "Perimeter"):
                 return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
-            elif value_in_column_1 in ("Fill color", "Pen color"):
+            if value_in_column_1 in ("Fill color", "Pen color"):
                 return self.createColorButtonEditor(parent, cell_value, index)
 
-            elif value_in_column_1 == "Fill":
+            if value_in_column_1 == "Fill":
                 return self.createFillEditor(parent, cell_value)
 
-            elif value_in_column_1 in ("Pen style", "Fill pattern"):
+            if value_in_column_1 in ("Pen style", "Fill pattern"):
                 return self.createComboBoxEditor(parent, cell_value)
-
-            else:
-                return self.createLabelEditor(parent, value_in_column_1, cell_value)
+            return self.createLabelEditor(parent, value_in_column_1, cell_value)
 
         return super().createEditor(parent, option, index)
 
     def setEditorData(self, editor, index):
-        """
-        Set the data to be displayed and edited by the editor from the data model.
-        """
+        """Set the data to be displayed and edited by the editor from the data model."""
         if isinstance(editor, QDoubleSpinBox):
             value = index.model().data(index, role=Qt.ItemDataRole.EditRole)
             editor.setValue(float(value))
@@ -113,9 +108,7 @@ class ItemDelegate(QStyledItemDelegate):
             super().setEditorData(editor, index)
 
     def setModelData(self, editor, model, index):
-        """
-        Set the data to be displayed and edited by the editor from the data model.
-        """
+        """Set the data to be displayed and edited by the editor from the data model."""
         if isinstance(editor, QDoubleSpinBox):
             value = editor.value()
             model.setData(index, value, role=Qt.ItemDataRole.EditRole)
@@ -123,15 +116,15 @@ class ItemDelegate(QStyledItemDelegate):
         else:
             super().setModelData(editor, model, index)
 
-    def open_color_picker(self, index):
-        """
-        Open a color picker dialog.
-        """
+    @staticmethod
+    def open_color_picker(index):
+        """Open a color picker dialog."""
         cell_value = index.data(Qt.ItemDataRole.EditRole)
         color_picker = ColorPicker(cell_value)
         color_picker.exec()
 
     def createStructureEditor(self, parent):
+        """Create a structure editor."""
         editor = QPushButton(parent)
         editor.clicked.connect(
             partial(self._signal_handler.structureButtonClicked.emit)
@@ -140,7 +133,9 @@ class ItemDelegate(QStyledItemDelegate):
         editor.setStyleSheet("font-style: italic;")
         return editor
 
-    def createDoubleSpinBoxEditor(self, parent, value_in_column_1):
+    @staticmethod
+    def createDoubleSpinBoxEditor(parent, value_in_column_1):
+        """Create a double spin box editor."""
         editor = QDoubleSpinBox(parent)
         max_double_value = sys.float_info.max
         editor.setDecimals(0)
@@ -160,20 +155,24 @@ class ItemDelegate(QStyledItemDelegate):
             editor.setSuffix(" mm")
         return editor
 
-    def createLabelEditor(self, parent, value_in_column_1, cell_value):
+    @staticmethod
+    def createLabelEditor(parent, value_in_column_1, cell_value):
+        """Create a label editor."""
         editor = QLabel(parent)
         decimals = 0
+        suffix = ""
+
         if value_in_column_1 == "Area":
             suffix = " m2"
-            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            editor.setText(text)
         elif value_in_column_1 == "Perimeter":
             suffix = " m1"
-            text = "{:.{}f}{}".format(float(cell_value), decimals, suffix)
-            editor.setText(text)
+
+        text = f"{float(cell_value):.{decimals}f}{suffix}"
+        editor.setText(text)
         return editor
 
     def createColorButtonEditor(self, parent, cell_value, index):
+        """Create a color button editor."""
         editor = QPushButton(parent)
         rgb_tuple = tuple(map(int, cell_value.split(",")))
         color = QColor(*rgb_tuple)
@@ -195,7 +194,9 @@ class ItemDelegate(QStyledItemDelegate):
         editor.clicked.connect(partial(self.open_color_picker, index))
         return editor
 
-    def createFillEditor(self, parent, cell_value):
+    @staticmethod
+    def createFillEditor(parent, cell_value):
+        """Create a fill editor."""
         editor = QWidget(parent)
         layout = QHBoxLayout(editor)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -207,7 +208,9 @@ class ItemDelegate(QStyledItemDelegate):
 
         return editor
 
-    def createComboBoxEditor(self, parent, cell_value):
+    @staticmethod
+    def createComboBoxEditor(parent, cell_value):
+        """Create a combo box editor."""
         editor = QComboBox(parent)
         editor.addItems(cell_value)
         editor.setCurrentIndex(0)

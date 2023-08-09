@@ -1,6 +1,5 @@
 import os
 import sqlite3
-from re import L
 from typing import Dict, List, Tuple, Union
 
 from constants import DATABASE_PATH, TABLES
@@ -9,10 +8,10 @@ CellValue = Union[str, int, float, bool]
 
 
 class DataBaseHandler:
+    """A class to handle the database."""
+
     def __init__(self):
-        """
-        Initialize the DataBaseHandler.
-        """
+        """Initialize the DataBaseHandler."""
         self.create_directory_if_not_exists(
             os.path.dirname(os.path.abspath(DATABASE_PATH))
         )
@@ -22,16 +21,12 @@ class DataBaseHandler:
 
     @staticmethod
     def create_directory_if_not_exists(directory: str) -> None:
-        """
-        Create a directory if it does not exist.
-        """
+        """Create a directory if it does not exist."""
         if not os.path.exists(directory):
             os.makedirs(directory)
 
     def setup_database_model(self) -> None:
-        """
-        Setup the database model.
-        """
+        """Setup the database model."""
         with self._conn:
             for table_data in TABLES:
                 table_name_identified = self.validate_and_sanitize_identifier(
@@ -56,9 +51,7 @@ class DataBaseHandler:
 
     @staticmethod
     def table_exists(cursor: sqlite3.Cursor, table_name: str) -> bool:
-        """
-        Check if a table exists in the SQLite database.
-        """
+        """Check if a table exists in the SQLite database."""
         cursor.execute(
             "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
             (table_name,),
@@ -66,9 +59,7 @@ class DataBaseHandler:
         return cursor.fetchone() is not None
 
     def get_table_data(self, table_name: str) -> List[Tuple[CellValue, ...]]:
-        """
-        Get all the data from a table.
-        """
+        """Get all the data from a table."""
         with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
@@ -79,10 +70,9 @@ class DataBaseHandler:
 
         return table_data
 
-    def validate_and_sanitize_identifier(self, identifier: str) -> str:
-        """
-        Validate and sanitize an identifier.
-        """
+    @staticmethod
+    def validate_and_sanitize_identifier(identifier: str) -> str:
+        """Validate and sanitize an identifier."""
         if not identifier.isidentifier():
             raise ValueError(f"Invalid identifier: {identifier}")
         return identifier.replace('"', '""')
@@ -90,9 +80,7 @@ class DataBaseHandler:
     def save_table_data_changes(
         self, table_name: str, updated_data: List[Dict[str, CellValue]]
     ) -> None:
-        """
-        Save all the data changes from a table.
-        """
+        """Save all the data changes from a table."""
         with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
@@ -110,9 +98,7 @@ class DataBaseHandler:
             self._c.execute(update_query, values)
 
     def discard_table_data_changes(self, table_name: str) -> None:
-        """
-        Discard all the data changes from a table.
-        """
+        """Discard all the data changes from a table."""
         original_data = self.get_table_data(table_name)
         original_data_dict = [
             {"Id": row[0], **dict(zip(TABLES[0]["columns"], row[1:]))}
@@ -121,9 +107,7 @@ class DataBaseHandler:
         self.save_table_data_changes(table_name, original_data_dict)
 
     def reset_table_data(self, table_name: str) -> None:
-        """
-        Reset all the data from a table.
-        """
+        """Reset all the data from a table."""
         with self._conn:
             table_name_identified = self.validate_and_sanitize_identifier(table_name)
 
