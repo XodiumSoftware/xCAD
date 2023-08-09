@@ -1,15 +1,14 @@
 import sys
 from functools import partial
 
-from constants import COLOR_PICKER_TITLE, UI_ICON_PATH
 from handlers.db_handler import DataBaseHandler
+from handlers.dialog_handler import DialogHandler
 from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QIcon, QStandardItem
+from PySide6.QtGui import QColor, QStandardItem
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
     QCheckBox,
-    QColorDialog,
     QComboBox,
     QDoubleSpinBox,
     QHBoxLayout,
@@ -18,26 +17,6 @@ from PySide6.QtWidgets import (
     QStyledItemDelegate,
     QWidget,
 )
-
-
-class ColorPicker(QColorDialog):
-    """A custom QColorDialog that allows for alpha channel."""
-
-    def __init__(self, color, parent=None):
-        """Initialize the ColorPicker."""
-        super().__init__(parent)
-
-        self.setWindowTitle(COLOR_PICKER_TITLE)
-        self.setWindowIcon(QIcon(UI_ICON_PATH))
-
-        self.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
-        self.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
-        self.setCurrentColor(QColor(color))
-
-    def showEvent(self, event):
-        """Show the ColorPicker."""
-        super().showEvent(event)
-        self.show()
 
 
 class StandardItemDelegate(QStandardItem):
@@ -59,6 +38,7 @@ class ItemDelegate(QStyledItemDelegate):
         super().__init__(parent)
         self._db_handler = DataBaseHandler()
         self._signal_handler = SignalHandler()
+        self._dialog_handler = DialogHandler()
         self._table_name = table_name
 
     def createEditor(self, parent, option, index):
@@ -115,13 +95,6 @@ class ItemDelegate(QStyledItemDelegate):
 
         else:
             super().setModelData(editor, model, index)
-
-    @staticmethod
-    def open_color_picker(index):
-        """Open a color picker dialog."""
-        cell_value = index.data(Qt.ItemDataRole.EditRole)
-        color_picker = ColorPicker(cell_value)
-        color_picker.exec()
 
     def createPushButtonEditor(self, parent):
         """Create a structure editor."""
@@ -192,7 +165,7 @@ class ItemDelegate(QStyledItemDelegate):
             color: {text_color};
             """
         )
-        editor.clicked.connect(partial(self.open_color_picker, index))
+        editor.clicked.connect(partial(self._dialog_handler.color_picker_dialog, index))
         return editor
 
     @staticmethod

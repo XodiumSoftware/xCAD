@@ -1,97 +1,17 @@
-import sys
 from typing import Optional
 
-from handlers.events_handler import EventsHandler
-from PySide6.QtCore import QRectF, QSettings, Qt
-from PySide6.QtGui import (
-    QBrush,
-    QColor,
-    QKeyEvent,
-    QMouseEvent,
-    QPainter,
-    QPen,
-    QResizeEvent,
-)
+from handlers.dialog_handler import DialogHandler
+from PySide6.QtCore import QPointF, QRectF, QSettings, Qt
+from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPainter, QPen, QResizeEvent
 from PySide6.QtWidgets import (
     QDialog,
-    QDoubleSpinBox,
     QGraphicsItem,
     QGraphicsScene,
     QGraphicsView,
-    QGridLayout,
     QLabel,
-    QPushButton,
     QSizePolicy,
     QWidget,
 )
-
-
-class DimensionDialog(QDialog):
-    """A dialog for setting the dimensions (lxb)."""
-
-    def __init__(self, length: float, height: float, parent: Optional[QWidget] = None):
-        """Initialize the dialog."""
-        super().__init__(parent)
-        self._changes_made = False
-        self._events_handler = EventsHandler()
-        self.setup_ui(length, height)
-        self._connect_events()
-
-    def setup_ui(self, length: float, height: float):
-        """Setup the UI."""
-        self.setWindowTitle("Set Dimensions")
-
-        self.length_edit = QDoubleSpinBox()
-        self.height_edit = QDoubleSpinBox()
-        self.ok_button = QPushButton("OK")
-
-        layout = QGridLayout()
-
-        layout.addWidget(QLabel("Length:"), 0, 0)
-        layout.addWidget(self.length_edit, 0, 1)
-
-        layout.addWidget(QLabel("Height:"), 1, 0)
-        layout.addWidget(self.height_edit, 1, 1)
-
-        layout.addWidget(self.ok_button, 2, 0, 1, 2)
-        self.setLayout(layout)
-
-        max_double_value = sys.float_info.max
-
-        self.length_edit.setValue(length)
-        self.length_edit.setRange(0, max_double_value)
-        self.length_edit.setDecimals(0)
-        self.length_edit.setSuffix(" mm")
-
-        self.height_edit.setValue(height)
-        self.height_edit.setRange(0, max_double_value)
-        self.height_edit.setDecimals(0)
-        self.height_edit.setSuffix(" mm")
-
-    def _connect_events(self):
-        self.ok_button.clicked.connect(self._accept_changes)
-        self._events_handler.quit_on_key_press_event(self, quit_application=False)
-
-    def _accept_changes(self):
-        self._changes_made = True
-        self.setWindowTitle("Set Dimensions *")
-        self.accept()
-
-    def reject(self):
-        if self._changes_made:
-            self._events_handler.show_quit_message_box(quit_application=False)
-        else:
-            super().reject()
-
-    def exec_(self):
-        result = super().exec_()
-        if result == QDialog.DialogCode.Accepted:
-            self._changes_made = True
-        return result
-
-    def load_dialog_values(self, length: float, height: float):
-        self.length_edit.setValue(length)
-        self.height_edit.setValue(height)
 
 
 class Frame2DView(QGraphicsView):
@@ -104,7 +24,11 @@ class Frame2DView(QGraphicsView):
         super().__init__(parent)
         self.module_data = module_data
         self._settings = QSettings()
+        self._item_position = QPointF()
+        self._dialog_handler = DialogHandler()
+        self._last_pan_point = QPointF()
         self.load_item_values()
+        self.load_item_position()
         self.setup_frame_2d_view()
 
     def setup_frame_2d_view(self):
@@ -139,6 +63,26 @@ class Frame2DView(QGraphicsView):
         for line in lines:
             painter.drawLine(*line[0], *line[1])
 
+        self.draw_origin_symbol(painter, rect)
+
+    def draw_origin_symbol(self, painter: QPainter, rect: QRectF):
+        """Draw the origin symbol."""
+        painter.setPen(QPen(QColor(255, 0, 0), 1.0, Qt.PenStyle.SolidLine))
+
+        center_x = rect.width() / 2
+        center_y = rect.height() / 2
+
+        center_x_int = int(center_x)
+        center_y_int = int(center_y)
+
+        painter.drawLine(
+            center_x_int, int(rect.top()), center_x_int, int(rect.bottom())
+        )
+        painter.drawLine(
+            int(rect.left()), center_y_int, int(rect.right()), center_y_int
+        )
+        painter.drawEllipse(center_x_int - 3, center_y_int - 3, 6, 6)
+
     def create_items(self):
         """Draw the items."""
         self._item_length = float(self._item_length) if self._item_length else 100.0
@@ -157,6 +101,14 @@ class Frame2DView(QGraphicsView):
         brush.setStyle(Qt.BrushStyle.SolidPattern)
         self._item.setBrush(brush)
 
+        self.create_label()
+
+    def create_label(self):
+        """Create a label for the item."""
+        label = QLabel()
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        return label
+
     def mousePressEvent(self, event: QMouseEvent):
         """Handle mouse press event."""
         super().mousePressEvent(event)
@@ -164,33 +116,58 @@ class Frame2DView(QGraphicsView):
         if event.button() == Qt.MouseButton.RightButton:
             item = self.itemAt(event.pos())
             if isinstance(item, QGraphicsItem) and item == self._item:
-                self.show_dimension_dialog()
+                self.show_item_properties_dialog()
 
-    def show_dimension_dialog(self):
+        if event.button() == Qt.MouseButton.MiddleButton:
+            self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
+            self._last_pan_point = event.pos()
+
+    def show_item_properties_dialog(self):
         """Show the dimension dialog."""
         if self._item.isUnderMouse():
-            self._dialog = DimensionDialog(0, 0, self)
-            self._dialog.load_dialog_values(self._item_length, self._item_height)
-            self._dialog.ok_button.clicked.connect(self.update_rect_dimensions)
-            result = self._dialog.exec_()
-            if result == QDialog.DialogCode.Accepted:
-                self._item_length = self._dialog.length_edit.value()
-                self._item_height = self._dialog.height_edit.value()
+            desc = ""
+            length = float(self._item_length)
+            height = float(self._item_height)
+            fill_state = True
+
+            self._dialog_handler.item_properties_dialog(
+                desc, length, height, fill_state
+            )
+
+            if length != self._item_length or height != self._item_height:
+                self._item_length = length
+                self._item_height = height
                 self.update_rect_dimensions()
 
     def load_item_values(self):
+        """Load the item values."""
         self._item_length = self._settings.value("item_length", 38, type=float)
         self._item_height = self._settings.value("item_height", 1000, type=float)
 
+    def load_item_position(self):
+        """Load the item position."""
+        self._item_position = self._settings.value(
+            "item_position", QPointF(0, 0), type=QPointF
+        )
+
     def save_item_values(self):
+        """Save the item values."""
         self._settings.setValue("item_length", self._item.rect().width())
         self._settings.setValue("item_height", self._item.rect().height())
+
+    def save_item_position(self):
+        """Save the item position."""
+        self._settings.setValue("item_position", self._item.pos())
 
     def update_rect_dimensions(self):
         """Update the dimensions of the rectangle."""
         try:
-            length = float(self._dialog.length_edit.value())
-            height = float(self._dialog.height_edit.value())
+            length = float(
+                self._dialog_handler.item_properties_dialog.length_edit.value()
+            )
+            height = float(
+                self._dialog_handler.item_properties_dialog.height_edit.value()
+            )
         except ValueError:
             return
 
@@ -199,6 +176,11 @@ class Frame2DView(QGraphicsView):
         self._scene.update()
 
         self.save_item_values()
+
+    def update_item_position(self, position: QPointF):
+        """Update the position of the item."""
+        self._item.setPos(position)
+        self.save_item_position()
 
     def fit_to_items(self):
         """Fit the view to the items."""
@@ -213,3 +195,32 @@ class Frame2DView(QGraphicsView):
         """Resize the event."""
         super().resizeEvent(event)
         self.fit_to_items()
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        """Handle mouse release event."""
+        super().mouseReleaseEvent(event)
+        if self._item.isSelected():
+            self.update_item_position(self._item.pos())
+
+        if event.button() == Qt.MouseButton.MiddleButton:
+            self.setDragMode(QGraphicsView.DragMode.NoDrag)
+
+    def wheelEvent(self, event: QMouseEvent):
+        """Handle the mouse wheel event for zooming."""
+        if event.modifiers() == Qt.KeyboardModifier.ControlModifier:
+            zoom_factor = 1.15
+            if event.angleDelta().y() > 0:
+                self.scale(zoom_factor, zoom_factor)
+            else:
+                self.scale(1 / zoom_factor, 1 / zoom_factor)
+        else:
+            super().wheelEvent(event)
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        """Handle mouse move event."""
+        super().mouseMoveEvent(event)
+
+        if self.dragMode() == QGraphicsView.DragMode.ScrollHandDrag:
+            delta = self.mapToScene(event.pos()) - self.mapToScene(self._last_pan_point)
+            self.translate(delta.x(), delta.y())
+            self._last_pan_point = event.pos()
