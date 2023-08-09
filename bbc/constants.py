@@ -506,3 +506,18 @@ OBJECT_PROPERTIES = {
     },
 }
 # ====================================================================================================
+INIT_ITEM_PROPERTIES = [
+    {
+        "Index:": 0,
+        "Desc:": "Item 0",
+        "Length:": 38,
+        "Height:": 1000,
+        "Fill:": True,
+        "Fill pattern:": "SolidPattern",
+        "Fill color:": "#000000",
+        "Fill opacity:": 1,
+        "Pen style:": "SolidLine",
+        "Pen color:": "#000000",
+        "Pen thickness:": 1,
+    }
+]

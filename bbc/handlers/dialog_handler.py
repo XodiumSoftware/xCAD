@@ -1,13 +1,16 @@
 import sys
+from functools import partial
+from typing import Dict
 
 from constants import (
     COLOR_PICKER_DIALOG_TITLE,
+    INIT_ITEM_PROPERTIES,
     ITEM_PROPERTIES_DIALOG_TITLE,
     QUIT_DIALOG_TITLE,
     UI_ICON_PATH,
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QIcon
+from PySide6.QtGui import QColor, QFont, QIcon, QPalette
 from PySide6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -54,66 +57,82 @@ class DialogHandler:
                 QApplication.activeWindow().close()
 
     @staticmethod
-    def item_properties_dialog(
-        desc: str, length: float, height: float, fill_state: bool
-    ):
+    def item_properties_dialog(item_index: int) -> None:
         """A dialog for setting the item properties."""
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
         dialog.setFixedSize(dialog.sizeHint())
 
-        max_double_value = sys.float_info.max
-
-        desc_edit = QLineEdit()
-        desc_edit.setText(desc)
-        desc_edit.setPlaceholderText("Enter object name")
-        desc_edit.setMaxLength(50)
-        desc_edit.setClearButtonEnabled(True)
-
-        length_edit = QDoubleSpinBox()
-        length_edit.setValue(length)
-        length_edit.setRange(0, max_double_value)
-        length_edit.setDecimals(0)
-        length_edit.setSuffix(" mm")
-
-        height_edit = QDoubleSpinBox()
-        height_edit.setValue(height)
-        height_edit.setRange(0, max_double_value)
-        height_edit.setDecimals(0)
-        height_edit.setSuffix(" mm")
-
-        fill_edit = QCheckBox()
-        fill_edit.setChecked(fill_state)
-
-        ok_button = QPushButton("OK")
-
         layout = QGridLayout()
-
-        layout.addWidget(QLabel("Name:"), 0, 0)
-        layout.addWidget(desc_edit, 0, 1)
-
-        layout.addWidget(QLabel("Length:"), 1, 0)
-        layout.addWidget(length_edit, 1, 1)
-
-        layout.addWidget(QLabel("Height:"), 2, 0)
-        layout.addWidget(height_edit, 2, 1)
-
-        layout.addWidget(QLabel("Fill:"), 3, 0)
-        layout.addWidget(fill_edit, 3, 1, Qt.AlignmentFlag.AlignCenter)
-
-        layout.addWidget(ok_button, 4, 0, 1, 2)
-
         dialog.setLayout(layout)
 
-        if dialog.exec_() == QDialog.DialogCode.Accepted:
-            new_length = length_edit.value()
-            new_height = height_edit.value()
+        properties = INIT_ITEM_PROPERTIES[item_index]
 
-            return new_length, new_height
+        edited_properties = {}
+
+        row = 0
+
+        index_label = QLabel(f"Object_{item_index}")
+        layout.addWidget(
+            index_label, row, 0, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter
+        )
+        row += 1
+        for key, value in properties.items():
+            label = QLabel(key)
+            layout.addWidget(label, row, 0)
+
+            max_double_value = sys.float_info.max
+
+            if key in ["Fill color:", "Pen color:"]:
+                widget = QPushButton()
+                widget.setText(value)
+                color_picker_button = widget
+                widget.clicked.connect(
+                    partial(
+                        DialogHandler.color_picker_dialog,
+                        color_picker_button,
+                        properties,
+                        key,
+                    )
+                )
+
+                widget.setFont(QFont(widget.font().family(), weight=QFont.Weight.Bold))
+                palette = widget.palette()
+                palette.setColor(QPalette.ColorRole.ButtonText, QColor(value))
+                widget.setPalette(palette)
+                layout.addWidget(widget, row, 1)
+            elif isinstance(value, bool):
+                widget = QCheckBox()
+                widget.setChecked(value)
+                layout.addWidget(widget, row, 1, alignment=Qt.AlignmentFlag.AlignCenter)
+            elif isinstance(value, int):
+                widget = QDoubleSpinBox()
+                widget.setValue(value)
+                widget.setSingleStep(1)
+                widget.setRange(0, max_double_value)
+                widget.setDecimals(0)
+                layout.addWidget(widget, row, 1)
+                edited_properties[key] = widget
+            else:
+                widget = QLineEdit()
+                widget.setText(value)
+                widget.setClearButtonEnabled(True)
+                layout.addWidget(widget, row, 1)
+                edited_properties[key] = widget
+
+            row += 1
+
+        save_button = QPushButton("Save")
+        delete_button = QPushButton("Delete")
+
+        layout.addWidget(save_button, row, 0)
+        layout.addWidget(delete_button, row, 1)
+
+        dialog.exec_()
 
     @staticmethod
-    def color_picker_dialog(color: QColor):
+    def color_picker_dialog(button: QPushButton, properties: Dict, key: str):
         """A dialog for picking a color."""
         dialog = QColorDialog()
         dialog.setWindowTitle(COLOR_PICKER_DIALOG_TITLE)
@@ -122,7 +141,12 @@ class DialogHandler:
 
         dialog.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
         dialog.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
-        dialog.setCurrentColor(QColor(color))
+        dialog.setCurrentColor(QColor(properties[key]))
 
-        if dialog.exec() == QMessageBox.StandardButton.Yes:
-            QApplication.activeWindow().close()
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            selected_color = dialog.currentColor()
+            button.setText(selected_color.name())
+            properties[key] = selected_color.name()
+            palette = button.palette()
+            palette.setColor(QPalette.ColorRole.ButtonText, selected_color)
+            button.setPalette(palette)

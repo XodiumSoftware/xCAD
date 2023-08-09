@@ -123,21 +123,8 @@ class Frame2DView(QGraphicsView):
             self._last_pan_point = event.pos()
 
     def show_item_properties_dialog(self):
-        """Show the dimension dialog."""
         if self._item.isUnderMouse():
-            desc = ""
-            length = float(self._item_length)
-            height = float(self._item_height)
-            fill_state = True
-
-            self._dialog_handler.item_properties_dialog(
-                desc, length, height, fill_state
-            )
-
-            if length != self._item_length or height != self._item_height:
-                self._item_length = length
-                self._item_height = height
-                self.update_rect_dimensions()
+            self._dialog_handler.item_properties_dialog(0)
 
     def load_item_values(self):
         """Load the item values."""
@@ -161,17 +148,7 @@ class Frame2DView(QGraphicsView):
 
     def update_rect_dimensions(self):
         """Update the dimensions of the rectangle."""
-        try:
-            length = float(
-                self._dialog_handler.item_properties_dialog.length_edit.value()
-            )
-            height = float(
-                self._dialog_handler.item_properties_dialog.height_edit.value()
-            )
-        except ValueError:
-            return
-
-        self._item.setRect(0, 0, length, height)
+        self._item.setRect(0, 0, self._item_length, self._item_height)
         self.fit_to_items()
         self._scene.update()
 
