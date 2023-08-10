@@ -438,7 +438,11 @@ PEN_STYLES = [
 INIT_ITEM_PROPERTIES = [
     {
         "Index:": 0,
-        "Name:": "Item 0",
+        "General settings:": [
+            {
+                "Name:": "SLS",
+            },
+        ],
         "Dimension settings:": [
             {
                 "Length:": 38,

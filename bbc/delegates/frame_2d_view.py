@@ -1,45 +1,62 @@
+from functools import partial
 from typing import Optional
 
 from handlers.dialog_handler import DialogHandler
-from PySide6.QtCore import QPointF, QRectF, QSettings, Qt
-from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPainter, QPen, QResizeEvent
+from PySide6.QtCore import QLineF, QPointF, QRectF, QSettings, Qt
+from PySide6.QtGui import (
+    QAction,
+    QBrush,
+    QColor,
+    QContextMenuEvent,
+    QMouseEvent,
+    QPainter,
+    QPen,
+    QResizeEvent,
+    QWheelEvent,
+)
 from PySide6.QtWidgets import (
     QGraphicsItem,
     QGraphicsScene,
     QGraphicsView,
-    QLabel,
+    QMenu,
     QSizePolicy,
     QWidget,
 )
 
 
 class Frame2DViewEventHandler:
-    def __init__(self, frame_view):
+    """A class to represent a 2D frame view event handler."""
+
+    def __init__(self, frame_view: "Frame2DView"):
+        """Initialize the 2D frame view event handler."""
         self.frame_view = frame_view
         self._last_pan_point = QPointF()
 
     def handle_mousePressEvent(self, event: QMouseEvent):
+        """Handle mouse press events."""
         if event.button() == Qt.MouseButton.RightButton:
             item = self.frame_view.itemAt(event.pos())
-            if isinstance(item, QGraphicsItem) and item == self.frame_view._item:
+            if isinstance(item, QGraphicsItem):
                 self.frame_view.show_item_properties_dialog()
 
         if event.button() == Qt.MouseButton.MiddleButton:
             self.frame_view.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
             self._last_pan_point = event.pos()
 
+        if event.button() == Qt.MouseButton.LeftButton:
+            position_in_scene = self.frame_view.mapToScene(event.pos())
+            self.frame_view.create_item(position_in_scene)
+
     def handle_resizeEvent(self, event: QResizeEvent):
+        """Handle resize events."""
         self.frame_view.fit_to_items()
 
-    def handle_wheelEvent(self, event: QMouseEvent):
+    def handle_wheelEvent(self, event: QWheelEvent):
+        """Handle wheel events."""
         if event.modifiers() == Qt.KeyboardModifier.ControlModifier:
             zoom_factor = 1.15
-            if event.angleDelta().y() > 0:
-                self.frame_view.scale(zoom_factor, zoom_factor)
-            else:
-                self.frame_view.scale(1 / zoom_factor, 1 / zoom_factor)
-        else:
-            self.frame_view.wheelEvent(event)
+            zoom = zoom_factor if event.angleDelta().y() > 0 else 1 / zoom_factor
+            self.frame_view.scale(zoom, zoom)
 
 
 class Frame2DView(QGraphicsView):
@@ -54,11 +71,8 @@ class Frame2DView(QGraphicsView):
         self._settings = QSettings()
         self._item_position = QPointF()
         self._dialog_handler = DialogHandler()
-        self._last_pan_point = QPointF()
         self._event_handler = Frame2DViewEventHandler(self)
 
-        self.load_item_values()
-        self.load_item_position()
         self.setup_frame_2d_view()
 
     def setup_frame_2d_view(self):
@@ -73,86 +87,48 @@ class Frame2DView(QGraphicsView):
         self.setMinimumSize(300, 300)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        self.create_items()
-
     def drawBackground(self, painter: QPainter, rect: QRectF):
         """Draw the background."""
         super().drawBackground(painter, rect)
 
-        painter.setPen(QPen(QColor(200, 200, 200), 0.5, Qt.PenStyle.SolidLine))
+        grid_color = QColor(200, 200, 200)
+        grid_pen = QPen(grid_color, 0.5, Qt.PenStyle.SolidLine)
+
         grid_size = 50
         left = int(rect.left()) - (int(rect.left()) % grid_size)
         top = int(rect.top()) - (int(rect.top()) % grid_size)
+        right = int(rect.right())
+        bottom = int(rect.bottom())
 
-        lines = []
-        for x in range(int(left), int(rect.right()), grid_size):
-            lines.append(((x, rect.top()), (x, rect.bottom())))
-        for y in range(int(top), int(rect.bottom()), grid_size):
-            lines.append(((rect.left(), y), (rect.right(), y)))
+        vertical_lines = [
+            ((x, rect.top()), (x, rect.bottom())) for x in range(left, right, grid_size)
+        ]
+        horizontal_lines = [
+            ((rect.left(), y), (rect.right(), y)) for y in range(top, bottom, grid_size)
+        ]
 
-        for line in lines:
-            painter.drawLine(*line[0], *line[1])
+        lines = vertical_lines + horizontal_lines
 
-    def create_items(self):
-        """Draw the items."""
-        self._item_length = float(self._item_length) if self._item_length else 100.0
-        self._item_height = float(self._item_height) if self._item_height else 100.0
+        painter.setPen(grid_pen)
+        painter.drawLines([QLineF(*line[0], *line[1]) for line in lines])
 
-        self._item = self._scene.addRect(0, 0, self._item_length, self._item_height)
-        self._item.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
+    def create_item(self, position: QPointF):
+        """Create an item."""
+        item_length = 100.0
+        item_height = 100.0
+
+        item = self._scene.addRect(0, 0, item_length, item_height)
+        item.setPos(position)
+        item.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
 
         pen = QPen(QColor(255, 255, 255))
-        self._item.setPen(pen)
+        brush = QBrush(QColor(235, 211, 176), Qt.BrushStyle.SolidPattern)
 
-        brush = QBrush(QColor(235, 211, 176))
-        brush.setStyle(Qt.BrushStyle.SolidPattern)
-        self._item.setBrush(brush)
+        item.setPen(pen)
+        item.setBrush(brush)
 
-        self.create_label()
-
-    def create_label(self):
-        """Create a label for the item."""
-        label = QLabel()
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        return label
-
-    def show_item_properties_dialog(self):
-        """Show the item properties dialog."""
-        if self._item.isUnderMouse():
+        if item.isUnderMouse():
             self._dialog_handler.item_properties_dialog(0)
-
-    def load_item_values(self):
-        """Load the item values."""
-        self._item_length = self._settings.value("item_length", 38, type=float)
-        self._item_height = self._settings.value("item_height", 1000, type=float)
-
-    def load_item_position(self):
-        """Load the item position."""
-        self._item_position = self._settings.value(
-            "item_position", QPointF(0, 0), type=QPointF
-        )
-
-    def save_item_values(self):
-        """Save the item values."""
-        self._settings.setValue("item_length", self._item.rect().width())
-        self._settings.setValue("item_height", self._item.rect().height())
-
-    def save_item_position(self):
-        """Save the item position."""
-        self._settings.setValue("item_position", self._item.pos())
-
-    def update_rect_dimensions(self):
-        """Update the dimensions of the rectangle."""
-        self._item.setRect(0, 0, self._item_length, self._item_height)
-        self.fit_to_items()
-        self._scene.update()
-
-        self.save_item_values()
-
-    def update_item_position(self, position: QPointF):
-        """Update the position of the item."""
-        self._item.setPos(position)
-        self.save_item_position()
 
     def fit_to_items(self):
         """Fit the view to the items."""
@@ -163,10 +139,22 @@ class Frame2DView(QGraphicsView):
         )
         self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
 
-    def delete_item(self):
-        """Delete the item."""
-        if self._item in self._scene.items():
-            self._scene.removeItem(self._item)
+    def show_item_properties_dialog(self):
+        """Show the item properties dialog."""
+        selected_item = self._scene.selectedItems()
+        if selected_item:
+            item_index = self._scene.items().index(selected_item[0])
+            self._dialog_handler.item_properties_dialog(item_index)
+
+    def context_menu(self, event_pos: QPointF):
+        """Show the context menu."""
+        context_menu = QMenu(self)
+
+        create_item_action = QAction("Create New Item", self)
+        create_item_action.triggered.connect(partial(self.create_item, event_pos))
+        context_menu.addAction(create_item_action)
+
+        context_menu.exec_(self.mapToGlobal(event_pos.toPoint()))
 
     def mousePressEvent(self, event: QMouseEvent):
         """Handle mouse press events."""
@@ -178,6 +166,10 @@ class Frame2DView(QGraphicsView):
         super().resizeEvent(event)
         self._event_handler.handle_resizeEvent(event)
 
-    def wheelEvent(self, event: QMouseEvent):
+    def wheelEvent(self, event: QWheelEvent):
         """Handle wheel events."""
         self._event_handler.handle_wheelEvent(event)
+
+    def contextMenuEvent(self, event: QPointF) -> None:
+        """Handle context menu events."""
+        self.context_menu(event)

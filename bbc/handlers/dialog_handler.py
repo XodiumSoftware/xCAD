@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
-    QSizePolicy,
+    QScrollArea,
 )
 
 
@@ -83,23 +83,15 @@ class DialogHandler:
         )
         row += 1
 
-        desc_label = QLabel("Name:")
-        layout.addWidget(desc_label, row, 0, alignment=Qt.AlignmentFlag.AlignLeft)
-
-        desc_value = QLineEdit()
-        desc_value.setText(INIT_ITEM_PROPERTIES[item_index]["Name:"])
-        desc_value.setClearButtonEnabled(True)
-        layout.addWidget(desc_value, row, 1)
-        row += 1
-
         for category, settings_list in INIT_ITEM_PROPERTIES[item_index].items():
-            if category == "Index:" or category == "Name:":
+            if category == "Index:":
                 continue
 
             category_frame = QFrame()
             category_frame.setFrameShape(QFrame.Shape.StyledPanel)
             category_layout = QGridLayout(category_frame)
             category_frame.setLayout(category_layout)
+
             layout.addWidget(category_frame, row, 0, 1, 2)
 
             title_label = QLabel(category)
@@ -204,7 +196,7 @@ class DialogHandler:
         )
 
         dialog.setFixedSize(dialog.sizeHint())
-        dialog.exec_()
+        dialog.exec()
 
     @staticmethod
     def color_picker_dialog(button: QPushButton, properties: Dict, key: str):
