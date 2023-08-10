@@ -25,15 +25,15 @@ class PropertiesHandler:
                 {
                     "Fill:": True,
                     "Fill pattern:": "SolidPattern",
-                    "Fill color:": "#005500",
+                    "Fill color:": "#ebd3b0",
                     "Fill opacity:": 1,
                 },
             ],
             "Pen settings:": [
                 {
                     "Pen style:": "SolidLine",
-                    "Pen color:": "#aa0000",
-                    "Pen thickness:": 1,
+                    "Pen color:": "#ffffff",
+                    "Pen thickness:": 5,
                 },
             ],
         }

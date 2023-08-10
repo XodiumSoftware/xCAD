@@ -4,6 +4,7 @@ from typing import Optional
 
 from handlers.dialog_handler import DialogHandler
 from handlers.properties_handler import PropertiesHandler
+from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QLineF, QPointF, QRectF, QSettings, Qt, Signal
 from PySide6.QtGui import (
     QAction,
@@ -35,13 +36,22 @@ class CustomGraphicsScene(QGraphicsScene):
 
     def __init__(self):
         """Initialize the custom QGraphicsScene class."""
+        super().__init__()
         self._dialog_handler = DialogHandler()
+        self._properties_handler = PropertiesHandler()
+        self._signal_handler = SignalHandler()
         self._items = defaultdict(dict)
         self._current_item_id = 0
 
+        self.setup_connections()
+
+    def setup_connections(self):
+        """Setup the connections."""
+        self._signal_handler.deleteItemSignal.connect(self.delete_item)
+
     def create_item(self, position: QPointF):
         """Create an item."""
-        item_properties = PropertiesHandler.setup_init_item_properties()
+        item_properties = self._properties_handler.setup_init_item_properties()
 
         general_settings = item_properties["General settings:"]
         dimension_settings = item_properties["Dimension settings:"]
@@ -73,6 +83,7 @@ class CustomGraphicsScene(QGraphicsScene):
         rect_item.setPen(QPen(pen_color, pen_thickness, pen_style))
 
         self.addItem(rect_item)
+        self._items[self._current_item_id] = item_properties
 
         self._current_item_id += 1
 
@@ -81,13 +92,12 @@ class CustomGraphicsScene(QGraphicsScene):
 
     def delete_item(self):
         """Delete the selected item."""
+        print("delete_item method called")
         selected_items = self.selectedItems()
         if selected_items:
             for item in selected_items:
-                item_id = self.items().index(item)
-                if item_id in self._items:
-                    self._items.pop(item_id)
                 self.removeItem(item)
+        self.itemDoubleClicked.emit(-1)
 
     def mouseDoubleClickEvent(self, event):
         """Override the mouseDoubleClickEvent to show the dialog"""
@@ -121,7 +131,6 @@ class Frame2DView(QGraphicsView):
         self._settings = QSettings()
         self._item_position = QPointF()
         self._dialog_handler = DialogHandler()
-        self._properties_handler = PropertiesHandler()
         self._custom_graphics_scene = CustomGraphicsScene()
 
         self.setup_frame_2d_view()

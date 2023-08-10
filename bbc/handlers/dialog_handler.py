@@ -64,8 +64,6 @@ class DialogHandler:
 
     def item_properties_dialog(self, item_id: int) -> None:
         """A dialog for setting the item properties."""
-        signal_handler = SignalHandler()
-
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -193,7 +191,6 @@ class DialogHandler:
         layout.addWidget(save_button, row, 0)
         layout.addWidget(delete_button, row, 1)
 
-        signal_handler.closeDialog.connect(dialog.accept)
         delete_button.clicked.connect(
             partial(DialogHandler().item_delete_dialog, item_id)
         )
@@ -241,7 +238,7 @@ class DialogHandler:
         )
 
         yes_button = dialog.button(QMessageBox.StandardButton.Yes)
-        yes_button.clicked.connect(signal_handler.closeDialog.emit)
         yes_button.clicked.connect(dialog.accept)
+        yes_button.clicked.connect(signal_handler.deleteItemSignal.emit)
 
         dialog.exec()
