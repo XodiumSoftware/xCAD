@@ -1,9 +1,8 @@
 from functools import partial
 
 from handlers.dialog_handler import DialogHandler
-from PySide6.QtCore import QPointF
 from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QGraphicsItem, QGraphicsView, QWidget
+from PySide6.QtWidgets import QWidget
 
 
 class EventsHandler:

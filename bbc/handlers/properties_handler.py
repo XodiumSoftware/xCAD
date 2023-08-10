@@ -53,6 +53,27 @@ class PropertiesHandler:
         return pen_styles.get(pen_style, Qt.PenStyle.SolidLine)
 
     @staticmethod
+    def setup_pen_cap_styles(pen_cap_style):
+        """Setup the pen cap styles."""
+        pen_cap_styles = {
+            "FlatCap": Qt.PenCapStyle.FlatCap,
+            "SquareCap": Qt.PenCapStyle.SquareCap,
+            "RoundCap": Qt.PenCapStyle.RoundCap,
+        }
+        return pen_cap_styles.get(pen_cap_style, Qt.PenCapStyle.FlatCap)
+
+    @staticmethod
+    def setup_pen_join_styles(pen_join_style):
+        """Setup the pen join styles."""
+        pen_join_styles = {
+            "MiterJoin": Qt.PenJoinStyle.MiterJoin,
+            "BevelJoin": Qt.PenJoinStyle.BevelJoin,
+            "RoundJoin": Qt.PenJoinStyle.RoundJoin,
+            "SvgMiterJoin": Qt.PenJoinStyle.SvgMiterJoin,
+        }
+        return pen_join_styles.get(pen_join_style, Qt.PenJoinStyle.MiterJoin)
+
+    @staticmethod
     def setup_fill_patterns(fill_pattern):
         """Setup the fill patterns."""
         fill_patterns = {

@@ -121,7 +121,7 @@ class DialogHandler:
                             1,
                             alignment=Qt.AlignmentFlag.AlignCenter,
                         )
-                    elif isinstance(value, int) or isinstance(value, float):
+                    elif isinstance(value, (int, float)):
                         if key == "Length:":
                             widget = length_widget
                         elif key == "Height:":
