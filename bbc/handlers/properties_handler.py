@@ -1,0 +1,79 @@
+from PySide6.QtCore import Qt
+
+
+class PropertiesHandler:
+    """Handle the properties."""
+
+    @staticmethod
+    def setup_init_item_properties():
+        """Setup the initial item properties."""
+        return {
+            "General settings:": [
+                {
+                    "Name:": "SLS",
+                },
+            ],
+            "Dimension settings:": [
+                {
+                    "Length:": 38,
+                    "Height:": 1000,
+                    "Area:": None,
+                    "Perimeter:": None,
+                },
+            ],
+            "Fill settings:": [
+                {
+                    "Fill:": True,
+                    "Fill pattern:": "SolidPattern",
+                    "Fill color:": "#005500",
+                    "Fill opacity:": 1,
+                },
+            ],
+            "Pen settings:": [
+                {
+                    "Pen style:": "SolidLine",
+                    "Pen color:": "#aa0000",
+                    "Pen thickness:": 1,
+                },
+            ],
+        }
+
+    @staticmethod
+    def setup_pen_styles(pen_style):
+        """Setup the pen styles."""
+        pen_styles = {
+            "NoPen": Qt.PenStyle.NoPen,
+            "SolidLine": Qt.PenStyle.SolidLine,
+            "DashLine": Qt.PenStyle.DashLine,
+            "DotLine": Qt.PenStyle.DotLine,
+            "DashDotLine": Qt.PenStyle.DashDotLine,
+            "DashDotDotLine": Qt.PenStyle.DashDotDotLine,
+            "CustomDashLine": Qt.PenStyle.CustomDashLine,
+        }
+        return pen_styles.get(pen_style, Qt.PenStyle.SolidLine)
+
+    @staticmethod
+    def setup_fill_patterns(fill_pattern):
+        """Setup the fill patterns."""
+        fill_patterns = {
+            "NoBrush": Qt.BrushStyle.NoBrush,
+            "SolidPattern": Qt.BrushStyle.SolidPattern,
+            "Dense1Pattern": Qt.BrushStyle.Dense1Pattern,
+            "Dense2Pattern": Qt.BrushStyle.Dense2Pattern,
+            "Dense3Pattern": Qt.BrushStyle.Dense3Pattern,
+            "Dense4Pattern": Qt.BrushStyle.Dense4Pattern,
+            "Dense5Pattern": Qt.BrushStyle.Dense5Pattern,
+            "Dense6Pattern": Qt.BrushStyle.Dense6Pattern,
+            "Dense7Pattern": Qt.BrushStyle.Dense7Pattern,
+            "HorPattern": Qt.BrushStyle.HorPattern,
+            "VerPattern": Qt.BrushStyle.VerPattern,
+            "CrossPattern": Qt.BrushStyle.CrossPattern,
+            "BDiagPattern": Qt.BrushStyle.BDiagPattern,
+            "FDiagPattern": Qt.BrushStyle.FDiagPattern,
+            "DiagCrossPattern": Qt.BrushStyle.DiagCrossPattern,
+            "LinearGradientPattern": Qt.BrushStyle.LinearGradientPattern,
+            "ConicalGradientPattern": Qt.BrushStyle.ConicalGradientPattern,
+            "RadialGradientPattern": Qt.BrushStyle.RadialGradientPattern,
+            "TexturePattern": Qt.BrushStyle.TexturePattern,
+        }
+        return fill_patterns.get(fill_pattern, Qt.BrushStyle.SolidPattern)

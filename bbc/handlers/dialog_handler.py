@@ -4,7 +4,6 @@ from typing import Dict
 
 from constants import (
     COLOR_PICKER_DIALOG_TITLE,
-    INIT_ITEM_PROPERTIES,
     ITEM_PROPERTIES_DIALOG_TITLE,
     QUIT_DIALOG_TITLE,
     UI_ICON_PATH,
@@ -25,12 +24,15 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
-    QScrollArea,
 )
 
 
 class DialogHandler:
     """A class to handle dialogs."""
+
+    def __init__(self):
+        """Initialize the class."""
+        self._items = {}
 
     @staticmethod
     def quit_dialog(quit_application: bool) -> None:
@@ -60,8 +62,7 @@ class DialogHandler:
             else:
                 QApplication.activeWindow().close()
 
-    @staticmethod
-    def item_properties_dialog(item_index: int) -> None:
+    def item_properties_dialog(self, item_id: int) -> None:
         """A dialog for setting the item properties."""
         signal_handler = SignalHandler()
 
@@ -74,7 +75,7 @@ class DialogHandler:
 
         row = 0
 
-        index_label = QLabel(f"Object_{item_index}")
+        index_label = QLabel(f"Object_{item_id}")
         index_label.setFont(
             QFont(index_label.font().family(), weight=QFont.Weight.Bold)
         )
@@ -83,7 +84,9 @@ class DialogHandler:
         )
         row += 1
 
-        for category, settings_list in INIT_ITEM_PROPERTIES[item_index].items():
+        selected_item_properties = self._items.get(item_id, {})
+
+        for category, settings_list in selected_item_properties.items():
             if category == "Index:":
                 continue
 
@@ -192,7 +195,7 @@ class DialogHandler:
 
         signal_handler.closeDialog.connect(dialog.accept)
         delete_button.clicked.connect(
-            partial(DialogHandler().item_delete_dialog, item_index)
+            partial(DialogHandler().item_delete_dialog, item_id)
         )
 
         dialog.setFixedSize(dialog.sizeHint())
