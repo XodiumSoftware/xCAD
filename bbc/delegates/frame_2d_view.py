@@ -53,7 +53,7 @@ class Frame2DView(QGraphicsView):
         self.module_data = module_data
         self._settings = QSettings()
         self._item_position = QPointF()
-        self._dialog_handler = DialogHandler(self)
+        self._dialog_handler = DialogHandler()
         self._last_pan_point = QPointF()
         self._event_handler = Frame2DViewEventHandler(self)
 

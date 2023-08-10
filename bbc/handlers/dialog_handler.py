@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QDoubleSpinBox,
+    QFrame,
     QGridLayout,
     QLabel,
     QLineEdit,
@@ -29,12 +30,6 @@ from PySide6.QtWidgets import (
 
 class DialogHandler:
     """A class to handle dialogs."""
-
-    def __init__(self, frame_view):
-        """Initialize the dialog handler."""
-        super().__init__()
-        self._frame_view = frame_view
-        self._signal_handler = SignalHandler()
 
     @staticmethod
     def quit_dialog(quit_application: bool) -> None:
@@ -64,8 +59,11 @@ class DialogHandler:
             else:
                 QApplication.activeWindow().close()
 
-    def item_properties_dialog(self, item_index: int) -> None:
+    @staticmethod
+    def item_properties_dialog(item_index: int) -> None:
         """A dialog for setting the item properties."""
+        signal_handler = SignalHandler()
+
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -73,10 +71,6 @@ class DialogHandler:
 
         layout = QGridLayout()
         dialog.setLayout(layout)
-
-        properties = INIT_ITEM_PROPERTIES[item_index]
-
-        edited_properties = {}
 
         row = 0
 
@@ -89,67 +83,109 @@ class DialogHandler:
         )
         row += 1
 
-        for category, category_properties in properties.items():
-            if category == "Index:":
+        desc_label = QLabel("Name:")
+        layout.addWidget(desc_label, row, 0, alignment=Qt.AlignmentFlag.AlignLeft)
+
+        desc_value = QLineEdit()
+        desc_value.setText(INIT_ITEM_PROPERTIES[item_index]["Name:"])
+        desc_value.setClearButtonEnabled(True)
+        layout.addWidget(desc_value, row, 1)
+        row += 1
+
+        for category, settings_list in INIT_ITEM_PROPERTIES[item_index].items():
+            if category == "Index:" or category == "Name:":
                 continue
 
-            for property_dict in category_properties:
-                for category_property, value in property_dict.items():
-                    label = QLabel(category_property)
-                    layout.addWidget(label, row, 0)
+            category_frame = QFrame()
+            category_frame.setFrameShape(QFrame.Shape.StyledPanel)
+            category_layout = QGridLayout(category_frame)
+            category_frame.setLayout(category_layout)
+            layout.addWidget(category_frame, row, 0, 1, 2)
 
-                    max_double_value = sys.float_info.max
+            title_label = QLabel(category)
+            title_label.setFont(
+                QFont(title_label.font().family(), weight=QFont.Weight.Bold)
+            )
+            category_layout.addWidget(title_label, 0, 0, 1, 2)
 
-                    if category_property in ["Fill pattern:", "Pen style:"]:
+            length_widget = QDoubleSpinBox()
+            height_widget = QDoubleSpinBox()
+
+            row_in_category = 1
+            for setting in settings_list:
+                for key, value in setting.items():
+                    label = QLabel(key)
+                    category_layout.addWidget(
+                        label, row_in_category, 0, alignment=Qt.AlignmentFlag.AlignLeft
+                    )
+
+                    if isinstance(value, bool):
+                        widget = QCheckBox()
+                        widget.setChecked(value)
+                        category_layout.addWidget(
+                            widget,
+                            row_in_category,
+                            1,
+                            alignment=Qt.AlignmentFlag.AlignCenter,
+                        )
+                    elif isinstance(value, int) or isinstance(value, float):
+                        if key == "Length:":
+                            widget = length_widget
+                        elif key == "Height:":
+                            widget = height_widget
+                        else:
+                            widget = QDoubleSpinBox()
+                        widget.setValue(value)
+                        widget.setSingleStep(1)
+                        widget.setRange(0, sys.float_info.max)
+                        widget.setDecimals(0)
+                        category_layout.addWidget(widget, row_in_category, 1)
+                    elif isinstance(value, list):
                         widget = QComboBox()
                         widget.addItems(value)
-                        widget.setCurrentText(property_dict[category_property])
-                        layout.addWidget(widget, row, 1)
-                        edited_properties[category_property] = widget
-                    elif category_property in ["Fill color:", "Pen color:"]:
+                        category_layout.addWidget(widget, row_in_category, 1)
+                    elif isinstance(value, str) and value.startswith("#"):
                         widget = QPushButton()
                         widget.setText(value)
-                        color_picker_button = widget
-                        widget.clicked.connect(
-                            partial(
-                                DialogHandler.color_picker_dialog,
-                                color_picker_button,
-                                property_dict,
-                                category_property,
-                            )
-                        )
-
                         widget.setFont(
                             QFont(widget.font().family(), weight=QFont.Weight.Bold)
                         )
                         palette = widget.palette()
                         palette.setColor(QPalette.ColorRole.ButtonText, QColor(value))
                         widget.setPalette(palette)
-                        layout.addWidget(widget, row, 1)
-                        edited_properties[category_property] = widget
-                    elif isinstance(value, bool):
-                        widget = QCheckBox()
-                        widget.setChecked(value)
-                        layout.addWidget(
-                            widget, row, 1, alignment=Qt.AlignmentFlag.AlignCenter
+                        widget.clicked.connect(
+                            partial(
+                                DialogHandler().color_picker_dialog,
+                                widget,
+                                setting,
+                                key,
+                            )
                         )
-                        edited_properties[category_property] = widget
-                    elif isinstance(value, int):
-                        widget = QDoubleSpinBox()
-                        widget.setValue(value)
-                        widget.setSingleStep(1)
-                        widget.setRange(0, max_double_value)
-                        widget.setDecimals(0)
-                        layout.addWidget(widget, row, 1)
-                        edited_properties[category_property] = widget
-                    else:
+                        category_layout.addWidget(widget, row_in_category, 1)
+                    elif isinstance(value, (str, type(None))):
                         widget = QLineEdit()
-                        widget.setText(value)
-                        widget.setClearButtonEnabled(True)
-                        layout.addWidget(widget, row, 1)
-                        edited_properties[category_property] = widget
+                        if (key == "Area:" and value is None) or (
+                            key == "Perimeter:" and value is None
+                        ):
+                            widget.setReadOnly(True)
+                            length_value = length_widget.value()
+                            height_value = height_widget.value()
+                            if key == "Area:":
+                                area_value = length_value * height_value
+                                widget.setText(f"{int(area_value)} m2")
+                            elif key == "Perimeter:":
+                                perimeter_value = 2 * (length_value + height_value)
+                                widget.setText(f"{int(perimeter_value)} m1")
+                            else:
+                                widget.setText(value)
+                        else:
+                            widget.setText(value)
+                            widget.setClearButtonEnabled(True)
+                        category_layout.addWidget(widget, row_in_category, 1)
 
-                    row += 1
+                    row_in_category += 1
+
+            row += 1
 
         save_button = QPushButton("Save")
         delete_button = QPushButton("Delete")
@@ -159,13 +195,13 @@ class DialogHandler:
         palette = delete_button.palette()
         palette.setColor(QPalette.ColorRole.ButtonText, QColor("red"))
         delete_button.setPalette(palette)
-        delete_button.clicked.connect(self._frame_view.delete_item)
-
         layout.addWidget(save_button, row, 0)
         layout.addWidget(delete_button, row, 1)
 
-        self._signal_handler.closeDialog.connect(dialog.accept)
-        delete_button.clicked.connect(self._signal_handler.closeDialog.emit)
+        signal_handler.closeDialog.connect(dialog.accept)
+        delete_button.clicked.connect(
+            partial(DialogHandler().item_delete_dialog, item_index)
+        )
 
         dialog.exec_()
 
@@ -188,3 +224,28 @@ class DialogHandler:
             palette = button.palette()
             palette.setColor(QPalette.ColorRole.ButtonText, selected_color)
             button.setPalette(palette)
+
+    @staticmethod
+    def item_delete_dialog(item_index: int) -> None:
+        """A dialog for deleting an item."""
+        signal_handler = SignalHandler()
+
+        dialog = QMessageBox()
+        dialog.setWindowTitle("Delete item")
+        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
+        dialog.setIcon(QMessageBox.Icon.Warning)
+        dialog.setFixedSize(dialog.sizeHint())
+
+        dialog.setText(
+            f"<b>Are you sure you want to delete the item 'Object_{item_index}'?</b><br>Any unsaved changes will be lost!"
+        )
+
+        dialog.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        yes_button = dialog.button(QMessageBox.StandardButton.Yes)
+        yes_button.clicked.connect(signal_handler.closeDialog.emit)
+        yes_button.clicked.connect(dialog.accept)
+
+        dialog.exec()

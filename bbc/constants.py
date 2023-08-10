@@ -438,16 +438,16 @@ PEN_STYLES = [
 INIT_ITEM_PROPERTIES = [
     {
         "Index:": 0,
-        "Desc:": "Item 0",
-        "Dimension settings": [
+        "Name:": "Item 0",
+        "Dimension settings:": [
             {
                 "Length:": 38,
                 "Height:": 1000,
-                "Area": None,
-                "Perimeter": None,
+                "Area:": None,
+                "Perimeter:": None,
             },
         ],
-        "Fill settings": [
+        "Fill settings:": [
             {
                 "Fill:": True,
                 "Fill pattern:": FILL_PATTERNS,
@@ -455,7 +455,7 @@ INIT_ITEM_PROPERTIES = [
                 "Fill opacity:": 1,
             },
         ],
-        "Pen settings": [
+        "Pen settings:": [
             {
                 "Pen style:": PEN_STYLES,
                 "Pen color:": "#000000",
