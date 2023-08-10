@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
+    QSizePolicy,
 )
 
 
@@ -67,7 +68,6 @@ class DialogHandler:
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
-        dialog.setFixedSize(dialog.sizeHint())
 
         layout = QGridLayout()
         dialog.setLayout(layout)
