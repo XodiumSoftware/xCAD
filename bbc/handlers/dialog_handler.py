@@ -203,6 +203,7 @@ class DialogHandler:
             partial(DialogHandler().item_delete_dialog, item_index)
         )
 
+        dialog.setFixedSize(dialog.sizeHint())
         dialog.exec_()
 
     @staticmethod
@@ -237,7 +238,7 @@ class DialogHandler:
         dialog.setFixedSize(dialog.sizeHint())
 
         dialog.setText(
-            f"<b>Are you sure you want to delete the item 'Object_{item_index}'?</b><br>Any unsaved changes will be lost!"
+            f"<b>Are you sure you want to delete the item 'Object_{item_index}'?</b><br>It will be gone forever!"
         )
 
         dialog.setStandardButtons(

@@ -451,14 +451,14 @@ INIT_ITEM_PROPERTIES = [
             {
                 "Fill:": True,
                 "Fill pattern:": FILL_PATTERNS,
-                "Fill color:": "#000000",
+                "Fill color:": "#005500",
                 "Fill opacity:": 1,
             },
         ],
         "Pen settings:": [
             {
                 "Pen style:": PEN_STYLES,
-                "Pen color:": "#000000",
+                "Pen color:": "#aa0000",
                 "Pen thickness:": 1,
             },
         ],
