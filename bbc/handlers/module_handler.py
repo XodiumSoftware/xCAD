@@ -9,10 +9,8 @@ from constants import (
     LABELS,
     MATRICES,
     SPINBOXES,
-    TABLES,
 )
 from delegates.graphics_delegate import GraphicsDelegate
-from delegates.table_delegate import TableDelegate
 from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QSettings, Qt, Slot
 from PySide6.QtGui import QIcon
@@ -177,7 +175,6 @@ class ModuleHandler(QWidget):
             "InputField": INPUTFIELDS,
             "Button": BUTTONS,
             "GraphicsView": GRAPHICS_VIEWS,
-            "TableView": TABLES,
         }.get(module_type, [])
 
         module_data = next(
@@ -234,10 +231,6 @@ class ModuleHandler(QWidget):
 
         elif module_type == "GraphicsView":
             module = GraphicsDelegate(module_data)
-            module.setObjectName(str((module_type, module_data["index"])))
-
-        elif module_type == "TableView":
-            module = TableDelegate(module_data)
             module.setObjectName(str((module_type, module_data["index"])))
 
         elif module_type != "GraphicsView":

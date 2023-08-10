@@ -3,7 +3,8 @@ from typing import List
 
 from constants import UIS
 from delegates.frame_2d_view import Frame2DView
-from handlers.db_handler import DataBaseHandler
+
+# from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
@@ -19,7 +20,7 @@ class UI(QMainWindow):
         """Initialize the MainUI."""
         super().__init__()
 
-        self._db_handler = DataBaseHandler()
+        # self._db_handler = DataBaseHandler()
         self._main_module_0 = ModuleHandler(0)
         self._main_module_1 = ModuleHandler(2)
         self._configurator_module_0 = ModuleHandler(1)
@@ -114,14 +115,6 @@ class UI(QMainWindow):
                 module=self._main_modules_stack,
             ),
         )
-        # self._main_module_0.module_connection(
-        #     "Button",
-        #     0,
-        #     partial(
-        #         self.toggle_ui_visibility,
-        #         uis=[self._configurator_ui, self._main_ui],
-        #     ),
-        # )
         self._configurator_module_0.module_connection(
             "Button",
             5,
@@ -137,14 +130,6 @@ class UI(QMainWindow):
                 self._configurator_module_0.toggle_module_visibility,
                 "GraphicsView",
                 0,
-            ),
-        )
-        self._configurator_module_0.module_connection(
-            "Button",
-            2,
-            partial(
-                self._db_handler.save_table_data_changes,
-                "OBJECT_ASSEMBLY_DATA",
             ),
         )
 

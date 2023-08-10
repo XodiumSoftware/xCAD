@@ -110,14 +110,6 @@ MATRICES = [
             [
                 [
                     "VBox",
-                    "TableView",
-                    1,
-                    (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeExpanding", "SizeExpanding"),
-                ],
-                [
-                    "VBox",
                     "GraphicsView",
                     0,
                     (0, 0, 0, 0),
@@ -187,16 +179,6 @@ MATRICES = [
             [
                 [
                     "VBox",
-                    "TableView",
-                    0,
-                    (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeExpanding", "SizeExpanding"),
-                ],
-            ],
-            [
-                [
-                    "VBox",
                     "Button",
                     2,
                     (0, 0, 0, 0),
@@ -246,56 +228,6 @@ MATRICES = [
 
 # ====================================================================================================
 
-# TableModule:
-# ====================================================================================================
-FILL_PATTERNS = [
-    Qt.BrushStyle.SolidPattern,  # Solid fill pattern
-    Qt.BrushStyle.Dense1Pattern,  # Dense fill pattern 1
-    Qt.BrushStyle.Dense2Pattern,  # Dense fill pattern 2
-]
-
-PEN_STYLES = [
-    Qt.PenStyle.SolidLine,  # Solid line style
-    Qt.PenStyle.DashLine,  # Dashed line style
-    Qt.PenStyle.DotLine,  # Dotted line style
-]
-
-TABLES = [
-    {
-        "index": 0,
-        "desc": "FRAME_DATA",
-        "sorting": True,
-        "alternating_row_colors": True,
-        "columns": ["Parameter", "Value"],
-        "rows": [
-            ["Structure", True],
-            ["Length", 6000],
-            ["Height", 3000],
-            ["Area", 0],
-            ["Perimeter", 0],
-        ],
-    },
-    {
-        "index": 1,
-        "desc": "OBJECT_ASSEMBLY_DATA",
-        "sorting": True,
-        "alternating_row_colors": True,
-        "columns": ["Parameter", "Value"],
-        "rows": [
-            ["Thickness", 60],
-            ["Pen color", "255, 255, 255"],
-            ["Pen thickness", 1],
-            ["Pen style", ",".join(str(style) for style in PEN_STYLES)],
-            ["Fill pattern", ",".join(str(pattern) for pattern in FILL_PATTERNS)],
-            ["Fill pattern scale", 1],
-            ["Fill pattern angle", 0],
-            ["Fill", True],
-            ["Fill color", "255, 0, 0"],
-            ["Fill opacity", 0.5],
-        ],
-    },
-]
-# ====================================================================================================
 
 # LabelModule
 # ====================================================================================================
@@ -480,44 +412,56 @@ GRAPHICS_VIEWS = [
 
 # ====================================================================================================
 
-# AFCCMD
+# DialogHandler
 # ====================================================================================================
-LAYER_PROPERTIES = {
-    "KBG_SLS": {
-        "Color": 1,
-        "Linetype": "Continuous",
-        "LinetypeScale": 1,
-        "Lineweight": -1,
-    }
-}
+FILL_PATTERNS = [
+    "Solid",
+    "Dense1",
+    "Dense2",
+    "Dense3",
+    "Dense4",
+    "Dense5",
+    "Dense6",
+    "Dense7",
+    "NoBrush",
+]
 
-OBJECT_PROPERTIES = {
-    "rectangle": {
-        "TrueColor": None,
-        "Layer": "KBG_SLS",
-        "Linetype": "ByLayer",
-        "LinetypeScale": 1,
-        "Lineweight": -1,
-        "Transparency": -1,
-        "Hyperlinks": None,
-        "RecordGraphicsModified": True,
-        "Thickness": 0,
-        "Material": "ByLayer",
-    },
-}
-# ====================================================================================================
+PEN_STYLES = [
+    "NoPen",
+    "SolidLine",
+    "DashLine",
+    "DotLine",
+    "DashDotLine",
+    "DashDotDotLine",
+]
+
 INIT_ITEM_PROPERTIES = [
     {
         "Index:": 0,
         "Desc:": "Item 0",
-        "Length:": 38,
-        "Height:": 1000,
-        "Fill:": True,
-        "Fill pattern:": "Solid",
-        "Fill color:": "#000000",
-        "Fill opacity:": 1,
-        "Pen style:": "SolidLine",
-        "Pen color:": "#000000",
-        "Pen thickness:": 1,
-    }
+        "Dimension settings": [
+            {
+                "Length:": 38,
+                "Height:": 1000,
+                "Area": None,
+                "Perimeter": None,
+            },
+        ],
+        "Fill settings": [
+            {
+                "Fill:": True,
+                "Fill pattern:": FILL_PATTERNS,
+                "Fill color:": "#000000",
+                "Fill opacity:": 1,
+            },
+        ],
+        "Pen settings": [
+            {
+                "Pen style:": PEN_STYLES,
+                "Pen color:": "#000000",
+                "Pen thickness:": 1,
+            },
+        ],
+    },
 ]
+# ====================================================================================================
