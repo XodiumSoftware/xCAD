@@ -53,7 +53,6 @@ class CustomGraphicsScene(QGraphicsScene):
         """Create an item."""
         item_properties = self._properties_handler.setup_init_item_properties()
 
-        general_settings = item_properties["General settings:"]
         dimension_settings = item_properties["Dimension settings:"]
         fill_settings = item_properties["Fill settings:"]
         pen_settings = item_properties["Pen settings:"]
@@ -70,7 +69,7 @@ class CustomGraphicsScene(QGraphicsScene):
         rect_item.setBrush(
             QBrush(
                 fill_color,
-                PropertiesHandler.setup_fill_patterns(
+                self._properties_handler.setup_fill_patterns(
                     fill_settings[0]["Fill pattern:"]
                 ),
             )
@@ -79,7 +78,9 @@ class CustomGraphicsScene(QGraphicsScene):
 
         pen_color = QColor(pen_settings[0]["Pen color:"])
         pen_thickness = pen_settings[0]["Pen thickness:"]
-        pen_style = PropertiesHandler.setup_pen_styles(pen_settings[0]["Pen style:"])
+        pen_style = self._properties_handler.setup_pen_styles(
+            pen_settings[0]["Pen style:"]
+        )
         rect_item.setPen(QPen(pen_color, pen_thickness, pen_style))
 
         self.addItem(rect_item)
