@@ -1,6 +1,6 @@
 import os
 
-from enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
+from enums import *
 
 # General
 # ====================================================================================================

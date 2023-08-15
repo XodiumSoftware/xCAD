@@ -12,7 +12,6 @@ from constants import (
     ModuleType,
     SizePolicyType,
 )
-from handlers.signal_handler import SignalHandler
 from PySide6.QtCore import QSettings, Slot
 from PySide6.QtGui import QIcon
 
@@ -29,7 +28,6 @@ class ModuleHandler(ModuleType.WIDGET.value):
         """Initialize the ModuleHandler."""
         super().__init__(parent)
         self._settings = QSettings()
-        self._signal_handler = SignalHandler()
         self._module_visibility = {}
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)

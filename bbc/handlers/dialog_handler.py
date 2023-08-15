@@ -62,7 +62,7 @@ class DialogHandler:
             else:
                 QApplication.activeWindow().close()
 
-    def item_properties_dialog(self, item_id: int) -> None:
+    def object_properties_dialog(self, item_id: int) -> None:
         """A dialog for setting the item properties."""
         dialog = QDialog()
         dialog.setWindowTitle(ITEM_PROPERTIES_DIALOG_TITLE)
@@ -233,7 +233,7 @@ class DialogHandler:
     @staticmethod
     def item_delete_dialog(item_index: int) -> None:
         """A dialog for deleting an item."""
-        signal_handler = SignalHandler()
+        _signal_handler = SignalHandler()
 
         dialog = QMessageBox()
         dialog.setWindowTitle("Delete item")
@@ -250,7 +250,8 @@ class DialogHandler:
         )
 
         yes_button = dialog.button(QMessageBox.StandardButton.Yes)
-        yes_button.clicked.connect(dialog.accept)
-        yes_button.clicked.connect(signal_handler.deleteItemSignal.emit)
+        yes_button.clicked.connect(
+            partial(lambda: _signal_handler.deleteItemSignal.emit(item_index))
+        )
 
         dialog.exec()

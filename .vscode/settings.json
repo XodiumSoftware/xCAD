@@ -1,34 +1,20 @@
 {
-  // C/C++ Settings
+  "workbench.startupEditor": "none",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabSizing": "fit",
+  "workbench.sideBar.location": "left",
+  "workbench.colorTheme": "Monokai Dimmed",
+  "files.autoSave": "onFocusChange",
+  "notebook.formatOnSave.enabled": true,
+  "sqliteViewer.maxFileSize": 0,
+
   "C_Cpp.default.compilerPath": "",
   "C_Cpp.errorSquiggles": "enabled",
-  // CMake Settings
   "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
-  // Code Runner Settings
   "code-runner.clearPreviousOutput": true,
-  // Editor Settings
-  "[python]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    },
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
-  },
-  "editor.inlineSuggest.enabled": true,
-  "editor.suggest.filterGraceful": true,
-  "editor.suggestSelection": "recentlyUsed",
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.tabCompletion": "on",
-  "editor.wordBasedSuggestions": true,
-  "editor.formatOnSave": true,
-  // Explorer Settings
-  "explorer.openEditors.visible": 1,
-  // Git Settings
-  "git.enableSmartCommit": true,
-  "git.autofetch": true,
-  "git.confirmSync": false,
-  // Jupyter Notebook Settings
-  "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
+
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.useLibraryCodeForTypes": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
@@ -41,64 +27,73 @@
     "${workspaceFolder}",
     "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages"
   ],
-  "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.useLibraryCodeForTypes": true,
-  "python.formatting.blackArgs": ["--fast"],
-  // Todo Tree Settings
+  "python.analysis.importFormat": "relative",
+  "python.autoComplete.addBrackets": true,
+  "python.autoComplete.addParenthesisAfterFunction": true,
+  "python.autoComplete.addTrailingComma": true,
+  "python.autoImport.addModuleSpecifier": true,
+  "python.autoImport.addBrackets": false,
+
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+
+  "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
+
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
   "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
   "todo-tree.general.statusBar": "current file",
   "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
   "todo-tree.highlights.defaultHighlight": {
-    "opacity": 0.5, // Make the background color semi-transparent
-    "borderRadius": "0.2em", // Make the background corners slightly curved
+    "opacity": 0.5,
+    "borderRadius": "0.2em",
     "gutterIcon": "True"
   },
   "todo-tree.highlights.customHighlight": {
     "ERROR": {
       "icon": "x",
-      "iconColor": "#FF0000", // Red icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#FF0000" // Red background color
+      "iconColor": "#FF0000",
+      "foreground": "#FFFFFF",
+      "background": "#FF0000"
     },
     "BUG": {
       "icon": "bug",
-      "iconColor": "#FFA500", // Orange icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#FFA500" // Orange background color
+      "iconColor": "#FFA500",
+      "foreground": "#FFFFFF",
+      "background": "#FFA500"
     },
     "FIXME": {
       "icon": "flame",
-      "iconColor": "#0000FF", // Blue icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#0000FF" // Blue background color
+      "iconColor": "#0000FF",
+      "foreground": "#FFFFFF",
+      "background": "#0000FF"
     },
     "TODO": {
       "icon": "check",
-      "iconColor": "#008000", // Green icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#008000" // Green background color
+      "iconColor": "#008000",
+      "foreground": "#FFFFFF",
+      "background": "#008000"
     },
     "NOTE": {
       "icon": "note",
-      "iconColor": "#FFFF00", // Yellow icon color
-      "foreground": "#000000", // Black foreground color
-      "background": "#FFFF00" // Yellow background color
+      "iconColor": "#FFFF00",
+      "foreground": "#000000",
+      "background": "#FFFF00"
     }
   },
   "todo-tree.highlights.enabled": true,
   "todo-tree.highlights.highlightDelay": 0,
   "todo-tree.highlights.useColourScheme": false,
-  // Workbench Settings
-  "workbench.startupEditor": "none",
-  "workbench.editor.showTabs": true,
-  "workbench.editor.tabSizing": "fit",
-  "workbench.sideBar.location": "left",
-  "workbench.colorTheme": "Monokai Dimmed",
-  "files.autoSave": "onFocusChange",
-  "notebook.formatOnSave.enabled": true,
-  "python.analysis.importFormat": "relative",
-  "sqliteViewer.maxFileSize": 0,
+
   "chatgpt.lang": "en",
   "chatgpt.model": "gpt-3.5-turbo-16k",
-  "chatgpt.temperature": 0.1
+  "chatgpt.temperature": 0.1,
+  "python.autoComplete.extraPaths": []
 }

@@ -2,12 +2,13 @@ class PropertiesHandler:
     """Handle the properties."""
 
     @staticmethod
-    def setup_init_item_properties():
+    def setup_init_object_properties():
         """Setup the initial item properties."""
         return {
             "General settings:": [
                 {
                     "Name:": "SLS",
+                    "Draw order:": 0,
                 },
             ],
             "Dimension settings:": [
@@ -16,6 +17,8 @@ class PropertiesHandler:
                     "Height:": 1000,
                     "Area:": None,
                     "Perimeter:": None,
+                    "Rotation": 0,
+                    "Scale": 1,
                 },
             ],
             "Fill settings:": [

@@ -27,13 +27,13 @@ class GraphicsViewDelegate(QGraphicsView):
         super().__init__(parent)
         self.module_data = module_data
         self._settings = QSettings()
-        self._item_position = QPointF()
+        self._object_position = QPointF()
         self._custom_graphics_scene = GraphicsSceneDelegate()
-        self._dialog_handler = DialogHandler(self._custom_graphics_scene._items)
+        self._dialog_handler = DialogHandler(self._custom_graphics_scene._objects)
 
-        self.setup_frame_2d_view()
+        self.setup_graphics_view()
 
-    def setup_frame_2d_view(self):
+    def setup_graphics_view(self):
         """Setup the frame 2D view."""
         self.setScene(self._custom_graphics_scene)
 
@@ -45,8 +45,8 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         self._custom_graphics_scene.mousePressed = False
-        self._custom_graphics_scene.itemDoubleClicked.connect(
-            self.handle_item_double_clicked
+        self._custom_graphics_scene._signal_handler.objectDoubleClicked.connect(
+            self.handle_object_double_clicked
         )
 
     def drawBackground(self, painter: QPainter, rect: QRectF):
@@ -74,21 +74,21 @@ class GraphicsViewDelegate(QGraphicsView):
         painter.setPen(grid_pen)
         painter.drawLines([QLineF(*line[0], *line[1]) for line in lines])
 
-    def fit_to_items(self):
+    def fit_to_objects(self):
         """Fit the view to the items."""
         extra_space = 50
-        items_rect = self._custom_graphics_scene.itemsBoundingRect()
-        scene_rect = items_rect.adjusted(
+        objects = self._custom_graphics_scene.itemsBoundingRect()
+        scene_object = objects.adjusted(
             -extra_space, -extra_space, extra_space, extra_space
         )
-        self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
+        self.fitInView(scene_object, Qt.AspectRatioMode.KeepAspectRatio)
 
-    def show_item_properties_dialog(self, item_id: int):
-        """Show the item properties dialog."""
-        selected_item = self._custom_graphics_scene.selectedItems()
-        if selected_item:
-            item_id = self._custom_graphics_scene.items().index(selected_item[0])
-            self._dialog_handler.item_properties_dialog(item_id)
+    def show_object_properties_dialog(self, object_id: int):
+        """Show the object properties dialog."""
+        selected_object = self._custom_graphics_scene.selectedItems()
+        if selected_object:
+            object_id = self._custom_graphics_scene.items().index(selected_object[0])
+            self._dialog_handler.object_properties_dialog(object_id)
 
     def context_menu(self, event_pos: QPointF):
         """Show the context menu."""
@@ -114,18 +114,18 @@ class GraphicsViewDelegate(QGraphicsView):
             """
         )
 
-        create_item_action = QAction("Create New Item", self)
-        create_item_action.triggered.connect(
-            partial(self._custom_graphics_scene.create_item, event_pos)
+        create_object_action = QAction("Create New Object", self)
+        create_object_action.triggered.connect(
+            partial(self._custom_graphics_scene.create_object, event_pos)
         )
-        context_menu.addAction(create_item_action)
+        context_menu.addAction(create_object_action)
 
         context_menu.exec(self.mapToGlobal(event_pos.toPoint()))
 
     def resizeEvent(self, event: QResizeEvent):
         """Handle resize events."""
         super().resizeEvent(event)
-        self.fit_to_items()
+        self.fit_to_objects()
 
     def wheelEvent(self, event: QWheelEvent):
         """Handle wheel events."""
@@ -139,18 +139,18 @@ class GraphicsViewDelegate(QGraphicsView):
         event_pos = QPointF(event.pos())
         self.context_menu(event_pos)
 
-    def handle_item_double_clicked(self, item_id: int):
-        """Handle item double clicked event"""
-        self.show_item_properties_dialog(item_id)
+    def handle_object_double_clicked(self, object_id: int):
+        """Handle object double clicked event"""
+        self.show_object_properties_dialog(object_id)
 
     def mousePressEvent(self, event: QMouseEvent):
         """Handle mouse press events."""
         super().mousePressEvent(event)
         if event.button() == Qt.MouseButton.RightButton:
-            item = self.itemAt(event.pos())
-            if isinstance(item, QGraphicsItem):
-                item_id = item.data(Qt.ItemDataRole.UserRole)
-                self.show_item_properties_dialog(item_id)
+            object = self.itemAt(event.pos())
+            if isinstance(object, QGraphicsItem):
+                object_id = object.data(Qt.ItemDataRole.UserRole)
+                self.show_object_properties_dialog(object_id)
 
         if event.button() == Qt.MouseButton.MiddleButton:
             self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
@@ -158,9 +158,9 @@ class GraphicsViewDelegate(QGraphicsView):
 
         if event.button() == Qt.MouseButton.LeftButton:
             self._custom_graphics_scene.mousePressed = True
-            selected_item = self._custom_graphics_scene.selectedItems()
-            if selected_item:
-                self._item_position = selected_item[0].pos() - self.mapToScene(
+            selected_object = self._custom_graphics_scene.selectedItems()
+            if selected_object:
+                self._object_position = selected_object[0].pos() - self.mapToScene(
                     event.pos()
                 )
 
@@ -171,6 +171,6 @@ class GraphicsViewDelegate(QGraphicsView):
             self._custom_graphics_scene.mousePressed
             and self._custom_graphics_scene.selectedItems()
         ):
-            item = self._custom_graphics_scene.selectedItems()[0]
-            new_item_pos = self.mapToScene(event.pos()) + self._item_position
-            item.setPos(new_item_pos)
+            object = self._custom_graphics_scene.selectedItems()[0]
+            new_object_pos = self.mapToScene(event.pos()) + self._object_position
+            object.setPos(new_object_pos)

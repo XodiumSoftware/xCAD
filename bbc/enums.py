@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QDoubleSpinBox,
     QFormLayout,
+    QGraphicsItem,
     QGridLayout,
     QHBoxLayout,
     QLabel,
@@ -72,3 +73,64 @@ class OrientationType(Enum):
 
     HORIZONTAL = Qt.Orientation.Horizontal
     VERTICAL = Qt.Orientation.Vertical
+
+
+class GraphicsItemFlagTypes(Enum):
+    """An enumeration of the graphics item flag types."""
+
+    ISMOVABLE = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
+    ISSELECTABLE = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+    ISFOCUSABLE = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
+    CLIPSTOSHAPE = QGraphicsItem.GraphicsItemFlag.ItemClipsToShape
+    CLIPSCHILDRENTOSHAPE = QGraphicsItem.GraphicsItemFlag.ItemClipsChildrenToShape
+    IGNORESTRANSFORMATIONS = QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations
+    IGNORESPARENTOPACITY = QGraphicsItem.GraphicsItemFlag.ItemIgnoresParentOpacity
+    DOESNTPROPAGATEOPACITYTOCHILDREN = (
+        QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
+    )
+    STACKSBEHINDPARENT = QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
+    USESEXTENEDSTYLEOPTION = QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption
+    HASNOCONTENTS = QGraphicsItem.GraphicsItemFlag.ItemHasNoContents
+    SENDSGEOMETRYCHANGES = QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
+    ACCEPTSINPUTMETHOD = QGraphicsItem.GraphicsItemFlag.ItemAcceptsInputMethod
+    NEGATIVEZSTACKSBEHINDPARENT = (
+        QGraphicsItem.GraphicsItemFlag.ItemNegativeZStacksBehindParent
+    )
+    ISPANEL = QGraphicsItem.GraphicsItemFlag.ItemIsPanel
+    CONTAINSCHILDRENINSHAPE = QGraphicsItem.GraphicsItemFlag.ItemContainsChildrenInShape
+
+
+class BrushStyleTypes(Enum):
+    """An enumeration of the brush style types."""
+
+    NOBRUSH = Qt.BrushStyle.NoBrush
+    SOLIDPATTERN = Qt.BrushStyle.SolidPattern
+    DENSE1PATTERN = Qt.BrushStyle.Dense1Pattern
+    DENSE2PATTERN = Qt.BrushStyle.Dense2Pattern
+    DENSE3PATTERN = Qt.BrushStyle.Dense3Pattern
+    DENSE4PATTERN = Qt.BrushStyle.Dense4Pattern
+    DENSE5PATTERN = Qt.BrushStyle.Dense5Pattern
+    DENSE6PATTERN = Qt.BrushStyle.Dense6Pattern
+    DENSE7PATTERN = Qt.BrushStyle.Dense7Pattern
+    HORIZONTALPATTERN = Qt.BrushStyle.HorPattern
+    VERTICALPATTERN = Qt.BrushStyle.VerPattern
+    CROSSPATTERN = Qt.BrushStyle.CrossPattern
+    BDIAGONALPATTERN = Qt.BrushStyle.BDiagPattern
+    FDIAGONALPATTERN = Qt.BrushStyle.FDiagPattern
+    DIAGCROSSPATTERN = Qt.BrushStyle.DiagCrossPattern
+    LINEARPATTERN = Qt.BrushStyle.LinearGradientPattern
+    RADIALPATTERN = Qt.BrushStyle.RadialGradientPattern
+    CONICALPATTERN = Qt.BrushStyle.ConicalGradientPattern
+    TEXTUREPATTERN = Qt.BrushStyle.TexturePattern
+
+
+class PenStyleTypes(Enum):
+    """An enumeration of the pen style types."""
+
+    NOPEN = Qt.PenStyle.NoPen
+    SOLIDLINE = Qt.PenStyle.SolidLine
+    DASHLINE = Qt.PenStyle.DashLine
+    DOTLINE = Qt.PenStyle.DotLine
+    DASHDOTLINE = Qt.PenStyle.DashDotLine
+    DASHDOTDOTLINE = Qt.PenStyle.DashDotDotLine
+    CUSTOMDASHLINE = Qt.PenStyle.CustomDashLine
