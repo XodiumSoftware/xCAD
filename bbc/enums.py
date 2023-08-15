@@ -25,7 +25,6 @@ class ModuleType(Enum):
     DOUBLESPINBOX = QDoubleSpinBox
     INPUTFIELD = QLineEdit
     BUTTON = QPushButton
-    MATRIX = None
 
 
 class LayoutType(Enum):

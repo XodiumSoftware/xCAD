@@ -205,7 +205,7 @@ class ModuleHandler(ModuleType.WIDGET.value):
         return module_margins
 
     def module_connection(
-        self, module_type: str, module_index: int, target_method: Callable
+        self, module_type: ModuleType, module_index: int, target_method: Callable
     ) -> None:
         """Connect the module signal to the target method."""
         module = self.findChild(
@@ -219,7 +219,9 @@ class ModuleHandler(ModuleType.WIDGET.value):
             raise ValueError(f"{module_type}_{module_index}: not found")
 
     @Slot(str, int)
-    def toggle_module_visibility(self, module_type: str, module_index: int) -> None:
+    def toggle_module_visibility(
+        self, module_type: ModuleType, module_index: int
+    ) -> None:
         """Toggle the module visibility."""
         module = self.findChild(
             ModuleType.WIDGET.value, str((module_type, module_index))

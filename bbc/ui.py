@@ -1,7 +1,7 @@
 from functools import partial
 from typing import List
 
-from constants import UIS
+from constants import UIS, ModuleType
 from delegates.graphics_view_delegate import GraphicsViewDelegate
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
@@ -97,7 +97,7 @@ class UI(QMainWindow):
     def setup_connections(self) -> None:
         """Setup the connections."""
         self._main_module_0.module_connection(
-            "Button",
+            ModuleType.BUTTON,
             0,
             partial(
                 self.switch_modules,
@@ -105,7 +105,7 @@ class UI(QMainWindow):
             ),
         )
         self._main_module_1.module_connection(
-            "Button",
+            ModuleType.BUTTON,
             5,
             partial(
                 self.switch_modules,
@@ -113,7 +113,7 @@ class UI(QMainWindow):
             ),
         )
         self._configurator_module_0.module_connection(
-            "Button",
+            ModuleType.BUTTON,
             5,
             partial(
                 self.toggle_ui_visibility,
@@ -121,7 +121,7 @@ class UI(QMainWindow):
             ),
         )
         self._configurator_module_0.module_connection(
-            "Button",
+            ModuleType.BUTTON,
             1,
             partial(
                 self._configurator_module_0.toggle_module_visibility,

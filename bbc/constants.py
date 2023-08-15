@@ -1,6 +1,6 @@
 import os
 
-from handlers.enum_handler import AlignmentType, LayoutType, ModuleType, SizePolicyType
+from enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
 
 # General
 # ====================================================================================================
