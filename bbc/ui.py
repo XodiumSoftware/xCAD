@@ -2,9 +2,7 @@ from functools import partial
 from typing import List
 
 from constants import UIS
-from delegates.frame_2d_view import Frame2DView
-
-# from handlers.db_handler import DataBaseHandler
+from delegates.graphics_view_delegate import GraphicsViewDelegate
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
@@ -20,11 +18,10 @@ class UI(QMainWindow):
         """Initialize the MainUI."""
         super().__init__()
 
-        # self._db_handler = DataBaseHandler()
         self._main_module_0 = ModuleHandler(0)
         self._main_module_1 = ModuleHandler(2)
         self._configurator_module_0 = ModuleHandler(1)
-        self._frame_view_2d_view = Frame2DView()
+        self._frame_view_2d_view = GraphicsViewDelegate()
         self._signal_handler = SignalHandler()
         self._ui_handler = UIHandler()
 

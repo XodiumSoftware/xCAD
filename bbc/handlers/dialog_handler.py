@@ -30,9 +30,9 @@ from PySide6.QtWidgets import (
 class DialogHandler:
     """A class to handle dialogs."""
 
-    def __init__(self):
+    def __init__(self, items_dict):
         """Initialize the class."""
-        self._items = {}
+        self._items = items_dict
 
     @staticmethod
     def quit_dialog(quit_application: bool) -> None:
@@ -111,7 +111,6 @@ class DialogHandler:
                     category_layout.addWidget(
                         label, row_in_category, 0, alignment=Qt.AlignmentFlag.AlignLeft
                     )
-
                     if isinstance(value, bool):
                         widget = QCheckBox()
                         widget.setChecked(value)
@@ -133,9 +132,21 @@ class DialogHandler:
                         widget.setRange(0, sys.float_info.max)
                         widget.setDecimals(0)
                         category_layout.addWidget(widget, row_in_category, 1)
-                    elif isinstance(value, list):
+                    elif isinstance(value, str) and key in (
+                        "Pen style:",
+                        "Fill pattern:",
+                    ):
                         widget = QComboBox()
-                        widget.addItems(value)
+                        combo_box_values = []
+
+                        value_key = "PenStyle" if key == "Pen style:" else "BrushStyle"
+                        value_enum = getattr(Qt, value_key)
+
+                        for name, _ in value_enum.__members__.items():
+                            combo_box_values.append(name)
+
+                        widget.addItems(combo_box_values)
+                        widget.setCurrentText(value)
                         category_layout.addWidget(widget, row_in_category, 1)
                     elif isinstance(value, str) and value.startswith("#"):
                         widget = QPushButton()
@@ -148,7 +159,7 @@ class DialogHandler:
                         widget.setPalette(palette)
                         widget.clicked.connect(
                             partial(
-                                DialogHandler().color_picker_dialog,
+                                DialogHandler(self._items).color_picker_dialog,
                                 widget,
                                 setting,
                                 key,
@@ -191,8 +202,9 @@ class DialogHandler:
         layout.addWidget(save_button, row, 0)
         layout.addWidget(delete_button, row, 1)
 
+        save_button.clicked.connect(dialog.accept)
         delete_button.clicked.connect(
-            partial(DialogHandler().item_delete_dialog, item_id)
+            partial(DialogHandler(self._items).item_delete_dialog, item_id)
         )
 
         dialog.setFixedSize(dialog.sizeHint())

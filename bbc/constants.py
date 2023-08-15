@@ -1,7 +1,6 @@
 import os
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+from handlers.enum_handler import AlignmentType, LayoutType, ModuleType, SizePolicyType
 
 # General
 # ====================================================================================================
@@ -9,8 +8,6 @@ WINREG_THEME_KEY = os.path.join(
     r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 )
 MS_VALUE_NAME = "AppsUseLightTheme"
-
-DEBUG_NAME = "[DEBUG] "
 
 THEME_DARK = "dark"
 THEME_LIGHT = "light"
@@ -73,7 +70,7 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 
 # ModuleHandler:
 # ====================================================================================================
-# Define the matrix data with support for nested containers
+# Define the matrix data with support for nested containers #NOTE: Nested containers are not supported yet.
 # Each element in module_matrix_pos can contain either a list of widgets
 # or another set of "module_args" representing a nested container.
 # For nested containers, specify the nested layout as a string.
@@ -84,22 +81,22 @@ MATRICES = [
         "module_matrix_pos": [
             [
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     0,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeExpanding", "SizeExpanding"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.EXPANDING, SizePolicyType.EXPANDING),
                 ],
             ],
             [
                 [
-                    "VBox",
-                    "Label",
+                    LayoutType.VBOX,
+                    ModuleType.LABEL,
                     0,
                     (0, 0, 0, 0),
-                    "AlignBottom",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNBOTTOM,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
         ],
@@ -109,66 +106,56 @@ MATRICES = [
         "module_matrix_pos": [
             [
                 [
-                    "VBox",
-                    "GraphicsView",
-                    0,
-                    (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeExpanding", "SizeExpanding"),
-                ],
-            ],
-            [
-                [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     2,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     3,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     4,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
             [
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     5,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     1,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
             [
                 [
-                    "VBox",
-                    "Label",
+                    LayoutType.VBOX,
+                    ModuleType.LABEL,
                     0,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
         ],
@@ -178,48 +165,48 @@ MATRICES = [
         "module_matrix_pos": [
             [
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     2,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     3,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     4,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
             [
                 [
-                    "VBox",
-                    "Button",
+                    LayoutType.VBOX,
+                    ModuleType.BUTTON,
                     5,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
             [
                 [
-                    "VBox",
-                    "Label",
+                    LayoutType.VBOX,
+                    ModuleType.LABEL,
                     0,
                     (0, 0, 0, 0),
-                    "AlignCenter",
-                    ("SizeMinimum", "SizeMinimum"),
+                    AlignmentType.ALIGNCENTER,
+                    (SizePolicyType.MINIMUM, SizePolicyType.MINIMUM),
                 ],
             ],
         ],
@@ -264,7 +251,7 @@ INPUTFIELDS = [
 
 # SpinBoxModule
 # ====================================================================================================
-SPINBOXES = [
+DOUBLESPINBOXES = [
     {
         "index": 0,
         "min_value": 0,
@@ -358,56 +345,4 @@ ICONS_FILE_PATHS = {
         ),
     },
 }
-# ====================================================================================================
-
-
-# GraphicsViewModule
-# ====================================================================================================
-GRAPHICS_VIEWS = [
-    {
-        "index": 0,
-        "data": [
-            {
-                "draw_order": 0,
-                "thickness": 60,
-                "pen_color": QColor(255, 255, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.PenStyle.SolidLine,
-                "fill_pattern": Qt.BrushStyle.SolidPattern,
-                "fill_pattern_scale": 1.0,
-                "fill_pattern_angle": None,
-                "fill_color": QColor(255, 0, 0),
-                "fill": True,
-                "fill_opacity": 0.5,
-            },
-            {
-                "draw_order": 1,
-                "thickness": 170,
-                "pen_color": QColor(255, 255, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.PenStyle.DashLine,
-                "fill_pattern": Qt.BrushStyle.DiagCrossPattern,
-                "fill_pattern_scale": 10.0,
-                "fill_pattern_angle": None,
-                "fill_color": QColor(0, 255, 0),
-                "fill": True,
-                "fill_opacity": 1.0,
-            },
-            {
-                "draw_order": 2,
-                "thickness": 12,
-                "pen_color": QColor(0, 0, 255),
-                "pen_thickness": 1,
-                "pen_style": Qt.PenStyle.SolidLine,
-                "fill_pattern": Qt.BrushStyle.BDiagPattern,
-                "fill_pattern_scale": 1.0,
-                "fill_pattern_angle": 90,
-                "fill_color": QColor(0, 0, 255),
-                "fill": True,
-                "fill_opacity": 1.0,
-            },
-        ],
-    },
-]
-
 # ====================================================================================================

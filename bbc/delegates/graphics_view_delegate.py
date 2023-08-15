@@ -1,126 +1,23 @@
-from collections import defaultdict
 from functools import partial
 from typing import Optional
 
+from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from handlers.dialog_handler import DialogHandler
-from handlers.properties_handler import PropertiesHandler
-from handlers.signal_handler import SignalHandler
-from PySide6.QtCore import QLineF, QPointF, QRectF, QSettings, Qt, Signal
+from PySide6.QtCore import QLineF, QPointF, QRectF, QSettings, Qt
 from PySide6.QtGui import (
     QAction,
-    QBrush,
     QColor,
     QContextMenuEvent,
     QMouseEvent,
     QPainter,
     QPen,
     QResizeEvent,
-    QTransform,
     QWheelEvent,
 )
-from PySide6.QtWidgets import (
-    QGraphicsItem,
-    QGraphicsRectItem,
-    QGraphicsScene,
-    QGraphicsView,
-    QMenu,
-    QSizePolicy,
-    QWidget,
-)
+from PySide6.QtWidgets import QGraphicsItem, QGraphicsView, QMenu, QSizePolicy, QWidget
 
 
-class CustomGraphicsScene(QGraphicsScene):
-    """A custom QGraphicsScene class."""
-
-    itemDoubleClicked = Signal(int)
-
-    def __init__(self):
-        """Initialize the custom QGraphicsScene class."""
-        super().__init__()
-        self._dialog_handler = DialogHandler()
-        self._properties_handler = PropertiesHandler()
-        self._signal_handler = SignalHandler()
-        self._items = defaultdict(dict)
-        self._current_item_id = 0
-
-        self.setup_connections()
-
-    def setup_connections(self):
-        """Setup the connections."""
-        self._signal_handler.deleteItemSignal.connect(self.delete_item)
-
-    def create_item(self, position: QPointF):
-        """Create an item."""
-        item_properties = self._properties_handler.setup_init_item_properties()
-
-        dimension_settings = item_properties["Dimension settings:"]
-        fill_settings = item_properties["Fill settings:"]
-        pen_settings = item_properties["Pen settings:"]
-
-        item_length = dimension_settings[0]["Length:"]
-        item_height = dimension_settings[0]["Height:"]
-
-        rect_item = QGraphicsRectItem(0, 0, item_length, item_height)
-        rect_item.setPos(position)
-        rect_item.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
-
-        fill_color = QColor(fill_settings[0]["Fill color:"])
-        fill_opacity = fill_settings[0]["Fill opacity:"]
-        rect_item.setBrush(
-            QBrush(
-                fill_color,
-                self._properties_handler.setup_fill_patterns(
-                    fill_settings[0]["Fill pattern:"]
-                ),
-            )
-        )
-        rect_item.setOpacity(fill_opacity)
-
-        pen_color = QColor(pen_settings[0]["Pen color:"])
-        pen_thickness = pen_settings[0]["Pen thickness:"]
-        pen_style = self._properties_handler.setup_pen_styles(
-            pen_settings[0]["Pen style:"]
-        )
-        rect_item.setPen(QPen(pen_color, pen_thickness, pen_style))
-
-        self.addItem(rect_item)
-        self._items[self._current_item_id] = item_properties
-
-        self._current_item_id += 1
-
-        if rect_item.isUnderMouse():
-            self._dialog_handler.item_properties_dialog(0)
-
-    def delete_item(self):
-        """Delete the selected item."""
-        print("delete_item method called")
-        selected_items = self.selectedItems()
-        if selected_items:
-            for item in selected_items:
-                self.removeItem(item)
-        self.itemDoubleClicked.emit(-1)
-
-    def mouseDoubleClickEvent(self, event):
-        """Override the mouseDoubleClickEvent to show the dialog"""
-        item = self.itemAt(event.scenePos(), QTransform())
-        if item:
-            item_index = self.items().index(item)
-            self.itemDoubleClicked.emit(item_index)
-        else:
-            super().mouseDoubleClickEvent(event)
-
-    def mouseMoveEvent(self, event):
-        """Override the mouseMoveEvent to handle item movement"""
-        if self.mousePressed:
-            super().mouseMoveEvent(event)
-
-    def mouseReleaseEvent(self, event):
-        """Override the mouseReleaseEvent to handle item movement"""
-        self.mousePressed = False
-        super().mouseReleaseEvent(event)
-
-
-class Frame2DView(QGraphicsView):
+class GraphicsViewDelegate(QGraphicsView):
     """A class to represent a 2D frame view."""
 
     def __init__(
@@ -131,8 +28,8 @@ class Frame2DView(QGraphicsView):
         self.module_data = module_data
         self._settings = QSettings()
         self._item_position = QPointF()
-        self._dialog_handler = DialogHandler()
-        self._custom_graphics_scene = CustomGraphicsScene()
+        self._custom_graphics_scene = GraphicsSceneDelegate()
+        self._dialog_handler = DialogHandler(self._custom_graphics_scene._items)
 
         self.setup_frame_2d_view()
 
@@ -186,7 +83,7 @@ class Frame2DView(QGraphicsView):
         )
         self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
 
-    def show_item_properties_dialog(self):
+    def show_item_properties_dialog(self, item_id: int):
         """Show the item properties dialog."""
         selected_item = self._custom_graphics_scene.selectedItems()
         if selected_item:
@@ -242,9 +139,9 @@ class Frame2DView(QGraphicsView):
         event_pos = QPointF(event.pos())
         self.context_menu(event_pos)
 
-    def handle_item_double_clicked(self):
+    def handle_item_double_clicked(self, item_id: int):
         """Handle item double clicked event"""
-        self.show_item_properties_dialog()
+        self.show_item_properties_dialog(item_id)
 
     def mousePressEvent(self, event: QMouseEvent):
         """Handle mouse press events."""
@@ -252,7 +149,8 @@ class Frame2DView(QGraphicsView):
         if event.button() == Qt.MouseButton.RightButton:
             item = self.itemAt(event.pos())
             if isinstance(item, QGraphicsItem):
-                self.show_item_properties_dialog()
+                item_id = item.data(Qt.ItemDataRole.UserRole)
+                self.show_item_properties_dialog(item_id)
 
         if event.button() == Qt.MouseButton.MiddleButton:
             self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)

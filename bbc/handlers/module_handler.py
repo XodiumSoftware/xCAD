@@ -1,42 +1,30 @@
-from typing import Callable, Dict, Optional, Tuple, Union, cast
+from typing import Callable, Optional, Tuple
 
 from constants import (
     BUTTONS,
     CHECKBOXES,
-    DEBUG_NAME,
-    GRAPHICS_VIEWS,
+    DOUBLESPINBOXES,
     INPUTFIELDS,
     LABELS,
     MATRICES,
-    SPINBOXES,
+    AlignmentType,
+    LayoutType,
+    ModuleType,
+    SizePolicyType,
 )
-from delegates.graphics_delegate import GraphicsDelegate
 from handlers.signal_handler import SignalHandler
-from PySide6.QtCore import QSettings, Qt, Slot
+from PySide6.QtCore import QSettings, Slot
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QDoubleSpinBox,
-    QFormLayout,
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-    QWidget,
-)
 
 
-class ModuleHandler(QWidget):
+class ModuleHandler(ModuleType.WIDGET.value):
     """A class to handle the modules."""
 
     def __init__(
         self,
         matrix_index: int,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
-        parent: Optional[QWidget] = None,
+        parent: Optional[ModuleType.WIDGET.value] = None,
     ) -> None:
         """Initialize the ModuleHandler."""
         super().__init__(parent)
@@ -46,7 +34,11 @@ class ModuleHandler(QWidget):
 
         self.create_modules_from_matrix(matrix_index, matrix_margins)
 
-    def create_modules_from_matrix(self, matrix_index, matrix_margins):
+    def create_modules_from_matrix(
+        self,
+        matrix_index: int,
+        matrix_margins: Optional[Tuple[int, int, int, int]] = None,
+    ):
         """Create modules from a matrix."""
         module_matrix_data = next(
             (data for data in MATRICES if data["index"] == matrix_index),
@@ -54,7 +46,7 @@ class ModuleHandler(QWidget):
         )
         if module_matrix_data:
             module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
-            layout = QGridLayout(self)
+            layout = LayoutType.GRID.value(self)
             layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
 
             for row, row_modules in enumerate(module_matrix_pos):
@@ -68,27 +60,26 @@ class ModuleHandler(QWidget):
                         module_size_policy,
                     ) = module_args
 
-                    module_container = self.setup_module_layout(module_layout_type)
+                    module_container = LayoutType(module_layout_type).value()
                     module_container.setContentsMargins(
                         *self.setup_module_margins(module_margins)
                     )
 
                     if module_alignment is not None:
                         module_container.setAlignment(
-                            self.setup_module_alignment(module_alignment)
+                            AlignmentType(module_alignment).value
                         )
 
                     module_data = self.setup_module_data(module_type, module_index)
 
                     if module_data:
-                        module = self.setup_module_creation(module_type, module_data)
+                        module = self.setup_module_properties(module_type, module_data)
                         if module:
                             if module_size_policy is not None:
-                                (
-                                    size_policy_x,
-                                    size_policy_y,
-                                ) = self.setup_module_size_policy(module_size_policy)
-                                module.setSizePolicy(size_policy_x, size_policy_y)
+                                size_policy_x, size_policy_y = module_size_policy
+                                module.setSizePolicy(
+                                    size_policy_x.value, size_policy_y.value
+                                )
 
                             module_container.addWidget(module)
 
@@ -96,107 +87,83 @@ class ModuleHandler(QWidget):
 
                         else:
                             raise ValueError(
-                                f'{DEBUG_NAME}"{module_type}" is not a valid module type'
+                                f'"{module_type}" is not a valid module type'
                             )
                     else:
-                        raise ValueError(
-                            f"{DEBUG_NAME}{module_type}_{module_index}: not found"
-                        )
+                        raise ValueError(f"{module_type}_{module_index}: not found")
 
         else:
             raise ValueError(
-                f"{DEBUG_NAME}Module index {matrix_index} not found in MODULE_MATRICES"
+                f"Module index {matrix_index} not found in MODULE_MATRICES"
             )
 
     def setup_module(
         self,
-        module_layout_type: str,
-        module_type: str,
+        module_layout_type: LayoutType,
+        module_type: ModuleType,
         module_index: int,
         module_margins: Optional[Tuple[int, int, int, int]] = None,
-        module_alignment: Optional[str] = None,
-        module_size_policy: Optional[Tuple[str, str]] = None,
+        module_alignment: Optional[AlignmentType] = None,
+        module_size_policy: Optional[Tuple[SizePolicyType, SizePolicyType]] = None,
     ) -> None:
         """Setup the module."""
-        layout = self.setup_module_layout(module_layout_type)
+        layout = LayoutType(module_layout_type).value()
         layout.setContentsMargins(*self.setup_module_margins(module_margins))
 
         if module_alignment is not None:
-            layout.setAlignment(
-                cast(Qt.AlignmentFlag, self.setup_module_alignment(module_alignment))
-            )
+            layout.setAlignment(module_alignment.value)
         module_data = self.setup_module_data(module_type, module_index)
 
-        print(f"Setting up module: {module_type}_{module_index}")
-
         if module_data:
-            module = self.setup_module_creation(module_type, module_data)
+            module = self.setup_module_properties(module_type, module_data)
             if module:
                 if module_size_policy is not None:
-                    size_policy_x, size_policy_y = self.setup_module_size_policy(
-                        module_size_policy
-                    )
-                    module.setSizePolicy(size_policy_x, size_policy_y)
+                    size_policy_x, size_policy_y = module_size_policy
+                    module.setSizePolicy(size_policy_x.value, size_policy_y.value)
                 layout.addWidget(module)
-                print(f"Module: {module_type}_{module_index} added to layout")
             else:
-                raise ValueError(
-                    f'{DEBUG_NAME}"{module_type}" is not a valid module type'
-                )
+                raise ValueError(f'"{module_type}" is not a valid module type')
         else:
-            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
+            raise ValueError(f"{module_type}_{module_index}: not found")
 
         self.setLayout(layout)
 
     @staticmethod
-    def setup_module_layout(module_layout_type):
-        """Setup the module layout."""
-        module_layouts = {
-            "VBox": QVBoxLayout(),
-            "HBox": QHBoxLayout(),
-            "Grid": QGridLayout(),
-            "Form": QFormLayout(),
-        }
-
-        return module_layouts.get(module_layout_type, QGridLayout())
-
-    @staticmethod
-    def setup_module_data(
-        module_type: str, module_index: int
-    ) -> Optional[Dict[str, Union[str, int, float]]]:
+    def setup_module_data(module_type: ModuleType, module_index: int) -> Optional[dict]:
         """Setup the module data."""
-        module_list = {
-            "Label": LABELS,
-            "Checkbox": CHECKBOXES,
-            "SpinBox": SPINBOXES,
-            "InputField": INPUTFIELDS,
-            "Button": BUTTONS,
-            "GraphicsView": GRAPHICS_VIEWS,
-        }.get(module_type, [])
+        module_data_dict = {
+            ModuleType.LABEL: LABELS,
+            ModuleType.CHECKBOX: CHECKBOXES,
+            ModuleType.DOUBLESPINBOX: DOUBLESPINBOXES,
+            ModuleType.INPUTFIELD: INPUTFIELDS,
+            ModuleType.BUTTON: BUTTONS,
+        }
+        module_list = module_data_dict.get(module_type)
 
-        module_data = next(
-            (module for module in module_list if module["index"] == module_index), None
-        )
+        if module_list is not None and module_index < len(module_list):
+            return module_list[module_index]
 
-        return module_data
+        return None
 
     @staticmethod
-    def setup_module_creation(module_type: str, module_data: dict) -> QWidget:
-        """Setup the module creation."""
-        module = QWidget()
+    def setup_module_properties(
+        module_type: ModuleType, module_data: dict
+    ) -> ModuleType.WIDGET.value:
+        """Setup the module properties."""
+        module = ModuleType.WIDGET.value()
 
-        if module_type == "Label":
-            module = QLabel()
+        if module_type == ModuleType.LABEL:
+            module = ModuleType.LABEL.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
-        elif module_type == "Checkbox":
-            module = QCheckBox()
+        elif module_type == ModuleType.CHECKBOX:
+            module = ModuleType.CHECKBOX.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
-        elif module_type == "SpinBox":
-            module = QDoubleSpinBox()
+        elif module_type == ModuleType.DOUBLESPINBOX:
+            module = ModuleType.DOUBLESPINBOX.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
@@ -204,13 +171,13 @@ class ModuleHandler(QWidget):
             module.setSingleStep(module_data["step"])
             module.setSuffix(module_data["suffix"])
 
-        elif module_type == "InputField":
-            module = QLineEdit()
+        elif module_type == ModuleType.INPUTFIELD:
+            module = ModuleType.INPUTFIELD.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setPlaceholderText(module_data["placeholder"])
 
-        elif module_type == "Button":
-            module = QPushButton()
+        elif module_type == ModuleType.BUTTON:
+            module = ModuleType.BUTTON.value()
             module.setObjectName(str((module_type, module_data["index"])))
 
             if module_data["icon_path"]:
@@ -223,46 +190,10 @@ class ModuleHandler(QWidget):
                 module.setFixedSize(*module_data["size"])
             else:
                 module.setSizePolicy(
-                    QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum
+                    SizePolicyType.MINIMUM.value, SizePolicyType.MINIMUM.value
                 )
 
-        elif module_type == "GraphicsView":
-            module = GraphicsDelegate(module_data)
-            module.setObjectName(str((module_type, module_data["index"])))
-
-        elif module_type != "GraphicsView":
-            module.setObjectName(str((module_type, module_data["index"])))
-            module.setStyleSheet(module_data["stylesheet"])
-
         return module
-
-    @staticmethod
-    def setup_module_alignment(
-        module_alignment: Optional[Union[str, None]]
-    ) -> Qt.AlignmentFlag:
-        """Set the alignment of the layout."""
-        if module_alignment is not None:
-            alignment_mapping = {
-                "AlignLeading": Qt.AlignmentFlag.AlignLeading,
-                "AlignLeft": Qt.AlignmentFlag.AlignLeft,
-                "AlignRight": Qt.AlignmentFlag.AlignRight,
-                "AlignTrailing": Qt.AlignmentFlag.AlignTrailing,
-                "AlignHCenter": Qt.AlignmentFlag.AlignHCenter,
-                "AlignVCenter": Qt.AlignmentFlag.AlignVCenter,
-                "AlignJustify": Qt.AlignmentFlag.AlignJustify,
-                "AlignAbsolute": Qt.AlignmentFlag.AlignAbsolute,
-                "AlignHorizontalMask": Qt.AlignmentFlag.AlignHorizontal_Mask,
-                "AlignTop": Qt.AlignmentFlag.AlignTop,
-                "AlignBottom": Qt.AlignmentFlag.AlignBottom,
-                "AlignAlignCenter": Qt.AlignmentFlag.AlignCenter,
-                "AlignBaseline": Qt.AlignmentFlag.AlignBaseline,
-                "AlignVerticalMask": Qt.AlignmentFlag.AlignVertical_Mask,
-            }
-
-            return alignment_mapping.get(
-                module_alignment, Qt.AlignmentFlag.AlignJustify
-            )
-        return Qt.AlignmentFlag.AlignJustify
 
     @staticmethod
     def setup_module_margins(
@@ -273,50 +204,30 @@ class ModuleHandler(QWidget):
             return (0, 0, 0, 0)
         return module_margins
 
-    @staticmethod
-    def setup_module_size_policy(
-        module_size_policy: Optional[Tuple[str, str]]
-    ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
-        """Set the size policy for the module."""
-        if module_size_policy is not None:
-            size_policy_mapping = {
-                "SizeMinimum": QSizePolicy.Policy.Minimum,
-                "SizeMaximum": QSizePolicy.Policy.Maximum,
-                "SizeFixed": QSizePolicy.Policy.Fixed,
-                "SizePreferred": QSizePolicy.Policy.Preferred,
-                "SizeExpanding": QSizePolicy.Policy.Expanding,
-                "SizeMinimumExpanding": QSizePolicy.Policy.MinimumExpanding,
-                "SizeIgnored": QSizePolicy.Policy.Ignored,
-            }
-            size_policy_x = size_policy_mapping.get(
-                module_size_policy[0], QSizePolicy.Policy.Expanding
-            )
-            size_policy_y = size_policy_mapping.get(
-                module_size_policy[1], QSizePolicy.Policy.Expanding
-            )
-            return size_policy_x, size_policy_y
-        return QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
-
     def module_connection(
         self, module_type: str, module_index: int, target_method: Callable
     ) -> None:
         """Connect the module signal to the target method."""
-        module = self.findChild(QWidget, str((module_type, module_index)))
+        module = self.findChild(
+            ModuleType.WIDGET.value, str((module_type, module_index))
+        )
 
-        if isinstance(module, QPushButton):
+        if isinstance(module, ModuleType.BUTTON.value):
             module.clicked.connect(target_method)
 
         else:
-            raise ValueError(f"{DEBUG_NAME}{module_type}_{module_index}: not found")
+            raise ValueError(f"{module_type}_{module_index}: not found")
 
     @Slot(str, int)
     def toggle_module_visibility(self, module_type: str, module_index: int) -> None:
         """Toggle the module visibility."""
-        module = self.findChild(QWidget, str((module_type, module_index)))
+        module = self.findChild(
+            ModuleType.WIDGET.value, str((module_type, module_index))
+        )
 
-        if isinstance(module, QWidget):
+        if isinstance(module, ModuleType.WIDGET.value):
             module.setVisible(not module.isVisible())
         else:
             raise ValueError(
-                f"{DEBUG_NAME}{module_type}_{module_index}: not found or not supported for visibility toggling"
+                f"{module_type}_{module_index}: not found or not supported for visibility toggling"
             )
