@@ -1,7 +1,5 @@
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from inits import Inits
-from PySide6.QtCore import QSettings
-from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsScene
 
 
@@ -11,25 +9,12 @@ class GraphicsSceneDelegate(QGraphicsScene):
     def __init__(self, parent=None):
         """Initialize the class."""
         super().__init__(parent)
-        self._settings_handler = QSettings()
-
         self.setup_graphics_scene()
         # self.create_objects_by_matrix()
 
     def setup_graphics_scene(self):
         """Setup the graphics scene."""
-        object = QGraphicsRectItem()
-        object.setRect(0, 0, 100, 100)
-
-        pen = QPen()
-        pen.setColor(QColor(0, 0, 0))
-        object.setPen(pen)
-
-        brush = QBrush()
-        brush.setColor(QColor(255, 0, 0))
-        object.setBrush(brush)
-
-        object.setPos(0, 0)
+        object = QGraphicsRectItem(0, 0, 100, 100)
 
         self.addItem(object)
 
