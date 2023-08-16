@@ -1,89 +1,72 @@
-from math import ceil, isqrt
-from typing import List
-
 from constants import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from handlers.properties_handler import PropertiesHandler
 from handlers.signal_handler import SignalHandler
+from inits import Inits
 from PySide6.QtCore import QRectF
 from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsItemGroup, QGraphicsRectItem
+from PySide6.QtWidgets import QGraphicsRectItem
 
 
-class GraphicsObjectDelegate:
+class GraphicsObjectDelegate(QGraphicsRectItem):
     """A delegate class for QGraphicsRectItem"""
 
-    @staticmethod
-    def setup_graphics_object(
-        obj: QGraphicsRectItem,
-        pos_x: float,
-        pos_y: float,
+    def __init__(self, parent=None):
+        """Initialize the class"""
+        super().__init__(parent)
+        self.setup_graphics_object_properties()
+
+    def setup_graphics_object_properties(
+        self,
     ):
         """Setup the object"""
-        properties = PropertiesHandler.setup_init_object_properties()
-
-        general_settings = properties["General settings:"]
-        dimension_settings = properties["Dimension settings:"]
-        fill_settings = properties["Fill settings:"]
-        pen_settings = properties["Pen settings:"]
-
-        x = dimension_settings[0]["Width:"]
-        y = dimension_settings[0]["Height:"]
-        obj.setRect(QRectF(pos_x, pos_y, x, y))
-        obj.setRotation(dimension_settings[0]["Rotation:"])
-        obj.setScale(dimension_settings[0]["Scale:"])
-
-        obj.setFlag(GraphicsItemFlagTypes.ISMOVABLE.value, True)
-        obj.setFlag(GraphicsItemFlagTypes.ISSELECTABLE.value, True)
-        obj.setFlag(GraphicsItemFlagTypes.SENDSGEOMETRYCHANGES.value, True)
-
-        if fill_settings[0]["Fill:"]:
-            fill_color = QColor(fill_settings[0]["Fill color:"])
-            fill_style = getattr(BrushStyleTypes, fill_settings[0]["Fill pattern:"])
-            fill_opacity = fill_settings[0]["Fill opacity:"]
-            obj.setBrush(QBrush(fill_color, fill_style))
-            obj.setOpacity(max(0, min(fill_opacity, 100)) / 100)
-        else:
-            obj.setBrush(QBrush(BrushStyleTypes.NOBRUSH.value))
-
-        pen_color = QColor(pen_settings[0]["Pen color:"])
-        pen_thickness = pen_settings[0]["Pen thickness:"]
-        pen_style = getattr(PenStyleTypes, pen_settings[0]["Pen style:"])
-        obj.setPen(QPen(pen_color, pen_thickness, pen_style))
-
-        obj.setZValue(general_settings[0]["Draw order:"])
-
-        obj.setToolTip(general_settings[0]["Name:"])
-
+        properties = Inits.setup_init_graphics_object_properties()
         signal_handler = SignalHandler()
-        obj.mouseDoubleClickEvent = (
-            lambda event: signal_handler.objectDoubleClicked.emit(obj)
+
+        dimension_settings, fill_settings, pen_settings, general_settings = (
+            properties["Dimension settings:"],
+            properties["Fill settings:"],
+            properties["Pen settings:"],
+            properties["General settings:"],
         )
 
-    @staticmethod
-    def setup_graphics_object_group(objects: List[QGraphicsRectItem]):
-        num_objects = len(objects)
-        num_per_row = ceil(isqrt(num_objects))
+        self.setFlags(
+            GraphicsItemFlagTypes.ISMOVABLE.value
+            | GraphicsItemFlagTypes.ISSELECTABLE.value
+            | GraphicsItemFlagTypes.SENDSGEOMETRYCHANGES.value
+        )
 
-        group = QGraphicsItemGroup()
-        object_matrix = [[None] * num_per_row for _ in range(num_per_row)]
+        self.setRect(
+            QRectF(
+                0,
+                0,
+                dimension_settings["Length:"],
+                dimension_settings["Height:"],
+            )
+        )
+        self.setRotation(dimension_settings["Rotation:"])
+        self.setScale(dimension_settings["Scale:"])
 
-        obj_width = objects[0].boundingRect().width() if objects else 0
-        obj_height = objects[0].boundingRect().height() if objects else 0
+        self.setPen(
+            QPen(
+                QColor(pen_settings["Pen color:"]),
+                pen_settings["Pen thickness:"],
+                PenStyleTypes[pen_settings["Pen style:"]].value,
+            )
+        )
 
-        for index, obj in enumerate(objects):
-            row, col = divmod(index, num_per_row)
-            x, y = col * obj_width, row * obj_height
-            obj.setPos(x, y)
-            group.addToGroup(obj)
+        if fill_settings["Fill:"]:
+            self.setBrush(
+                QBrush(
+                    QColor(fill_settings["Fill color:"]),
+                    BrushStyleTypes[fill_settings["Fill pattern:"]].value,
+                )
+            )
+            self.setOpacity(max(0, min(fill_settings["Fill opacity:"], 100)) / 100)
+        else:
+            self.setBrush(QBrush(BrushStyleTypes.NOBRUSH.value))
 
-        return group, object_matrix
+        self.setZValue(general_settings["Draw order:"])
+        self.setToolTip(general_settings["Name:"])
 
-
-# sample:
-object_matrix = (
-    [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-    ],
-)
+        self.mouseDoubleClickEvent = (
+            lambda event: signal_handler.objectDoubleClicked.emit(self)
+        )
