@@ -55,7 +55,7 @@ class GraphicsViewDelegate(QGraphicsView):
             event.size().height(),
         )
         self.setSceneRect(self._scene_rect)
-        self.fitInView(self._scene_rect, Qt.AspectRatioMode.KeepAspectRatio)
+        self.fitInView(self.sceneRect(), Qt.AspectRatioMode.KeepAspectRatio)
 
     def paintEvent(self, event: QPaintEvent) -> None:
         """Paint the graphics view delegate."""
