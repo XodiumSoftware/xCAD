@@ -16,7 +16,7 @@
       "name": "Python: test.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/bbc/delegates/frame_delegate.py",
+      "program": "${workspaceFolder}/tests/test1.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }

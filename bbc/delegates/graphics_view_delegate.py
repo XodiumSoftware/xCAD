@@ -9,7 +9,7 @@ from constants import (
 )
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from inits import Inits
-from PySide6.QtCore import QPointF, QRectF
+from PySide6.QtCore import QEvent, QObject, QPointF, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QWheelEvent
 from PySide6.QtWidgets import QGraphicsView
 
@@ -39,6 +39,16 @@ class GraphicsViewDelegate(QGraphicsView):
         self.fitInView(self.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value)
 
         self.wheelEvent = self.wheel_event
+        self.installEventFilter(self)
+
+    def eventFilter(self, obj: "QObject", event: "QWheelEvent") -> bool:
+        if event.type() == QEvent.Type.MouseButtonDblClick:
+            if event.button() == Qt.MouseButton.MiddleButton:
+                self.fitInView(
+                    self.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
+                )
+                return True
+        return super().eventFilter(obj, event)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""

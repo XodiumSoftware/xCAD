@@ -70,26 +70,71 @@ class OrientationType(Enum):
 
 
 class GraphicsItemFlagTypes(Enum):
-    IsMovable = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
-    IsSelectable = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
-    IsFocusable = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
-    ClipsToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsToShape
-    ClipsChildrenToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsChildrenToShape
-    IgnoresTransformations = QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations
-    IgnoresParentOpacity = QGraphicsItem.GraphicsItemFlag.ItemIgnoresParentOpacity
-    DoesntPropagateOpacityToChildren = (
-        QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
+    ItemIsMovable = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
+    ItemIsSelectable = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+    ItemIsFocusable = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
+    ItemClipsToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsToShape
+    ItemClipsChildrenToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsChildrenToShape
+    ItemIgnoresTransformations = (
+        QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations
     )
-    StacksBehindParent = QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
-    UsesExtendedStyleOption = QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption
-    HasNoContents = QGraphicsItem.GraphicsItemFlag.ItemHasNoContents
-    SendsGeometryChanges = QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
-    AcceptsInputMethod = QGraphicsItem.GraphicsItemFlag.ItemAcceptsInputMethod
-    NegativeZStacksBehindParent = (
+    ItemIgnoresParentOpacity = QGraphicsItem.GraphicsItemFlag.ItemIgnoresParentOpacity
+    ItemStacksBehindParent = QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
+    ItemUsesExtendedStyleOption = (
+        QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption
+    )
+    ItemHasNoContents = QGraphicsItem.GraphicsItemFlag.ItemHasNoContents
+    ItemSendsGeometryChanges = QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
+    ItemAcceptsInputMethod = QGraphicsItem.GraphicsItemFlag.ItemAcceptsInputMethod
+    ItemNegativeZStacksBehindParent = (
         QGraphicsItem.GraphicsItemFlag.ItemNegativeZStacksBehindParent
     )
-    IsPanel = QGraphicsItem.GraphicsItemFlag.ItemIsPanel
-    ContainsChildrenInShape = QGraphicsItem.GraphicsItemFlag.ItemContainsChildrenInShape
+    ItemIsPanel = QGraphicsItem.GraphicsItemFlag.ItemIsPanel
+    ItemContainsChildrenInShape = (
+        QGraphicsItem.GraphicsItemFlag.ItemContainsChildrenInShape
+    )
+
+
+class GraphicsItemChangeTypes(Enum):
+    ItemEnabledChange = QGraphicsItem.GraphicsItemChange.ItemEnabledChange
+    ItemEnabledHasChanged = QGraphicsItem.GraphicsItemChange.ItemEnabledHasChanged
+    ItemPositionChange = QGraphicsItem.GraphicsItemChange.ItemPositionChange
+    ItemPositionHasChanged = QGraphicsItem.GraphicsItemChange.ItemPositionHasChanged
+    ItemTransformChange = QGraphicsItem.GraphicsItemChange.ItemTransformChange
+    ItemTransformHasChanged = QGraphicsItem.GraphicsItemChange.ItemTransformHasChanged
+    ItemRotationChange = QGraphicsItem.GraphicsItemChange.ItemRotationChange
+    ItemRotationHasChanged = QGraphicsItem.GraphicsItemChange.ItemRotationHasChanged
+    ItemScaleChange = QGraphicsItem.GraphicsItemChange.ItemScaleChange
+    ItemScaleHasChanged = QGraphicsItem.GraphicsItemChange.ItemScaleHasChanged
+    ItemTransformOriginPointChange = (
+        QGraphicsItem.GraphicsItemChange.ItemTransformOriginPointChange
+    )
+    ItemTransformOriginPointHasChanged = (
+        QGraphicsItem.GraphicsItemChange.ItemTransformOriginPointHasChanged
+    )
+    ItemSelectedChange = QGraphicsItem.GraphicsItemChange.ItemSelectedChange
+    ItemSelectedHasChanged = QGraphicsItem.GraphicsItemChange.ItemSelectedHasChanged
+    ItemVisibleChange = QGraphicsItem.GraphicsItemChange.ItemVisibleChange
+    ItemVisibleHasChanged = QGraphicsItem.GraphicsItemChange.ItemVisibleHasChanged
+    ItemParentChange = QGraphicsItem.GraphicsItemChange.ItemParentChange
+    ItemParentHasChanged = QGraphicsItem.GraphicsItemChange.ItemParentHasChanged
+    ItemChildAddedChange = QGraphicsItem.GraphicsItemChange.ItemChildAddedChange
+    ItemChildRemovedChange = QGraphicsItem.GraphicsItemChange.ItemChildRemovedChange
+    ItemSceneChange = QGraphicsItem.GraphicsItemChange.ItemSceneChange
+    ItemSceneHasChanged = QGraphicsItem.GraphicsItemChange.ItemSceneHasChanged
+    ItemCursorChange = QGraphicsItem.GraphicsItemChange.ItemCursorChange
+    ItemCursorHasChanged = QGraphicsItem.GraphicsItemChange.ItemCursorHasChanged
+    ItemToolTipChange = QGraphicsItem.GraphicsItemChange.ItemToolTipChange
+    ItemToolTipHasChanged = QGraphicsItem.GraphicsItemChange.ItemToolTipHasChanged
+    ItemFlagsChange = QGraphicsItem.GraphicsItemChange.ItemFlagsChange
+    ItemFlagsHaveChanged = QGraphicsItem.GraphicsItemChange.ItemFlagsHaveChanged
+    ItemZValueChange = QGraphicsItem.GraphicsItemChange.ItemZValueChange
+    ItemZValueHasChanged = QGraphicsItem.GraphicsItemChange.ItemZValueHasChanged
+    ItemOpacityChange = QGraphicsItem.GraphicsItemChange.ItemOpacityChange
+    ItemOpacityHasChanged = QGraphicsItem.GraphicsItemChange.ItemOpacityHasChanged
+    ItemScenePositionHasChanged = (
+        QGraphicsItem.GraphicsItemChange.ItemScenePositionHasChanged
+    )
 
 
 class BrushStyleTypes(Enum):
