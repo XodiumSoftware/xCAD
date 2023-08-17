@@ -19,12 +19,12 @@ class Inits:
             },
             "Fill settings:": {
                 "Fill:": True,
-                "Fill pattern:": "SOLIDPATTERN",
+                "Fill pattern:": "SolidPattern",
                 "Fill color:": "#ebd3b0",
                 "Fill opacity:": 1,
             },
             "Pen settings:": {
-                "Pen style:": "SOLIDLINE",
+                "Pen style:": "SolidLine",
                 "Pen color:": "#ffffff",
                 "Pen thickness:": 5,
             },
@@ -38,7 +38,7 @@ class Inits:
             [obj, obj, obj],
             [obj, obj, obj],
             [obj, obj, obj],
-        ]
+        ]  # NOTE: We can also make use of: return [[obj] * 3 for _ in range(4)]
 
     @staticmethod
     def setup_init_graphics_scene_properties():
@@ -54,7 +54,8 @@ class Inits:
             "General settings:": {
                 "Background color:": "#000000",
                 "Grid size:": 50,
-                "Grid color:": "#C8C8C8",
+                "Grid color:": "#808080",
+                "Grid style:": "SolidLine",
                 "X-axis color:": "#00FF00",
                 "Y-axis color:": "#FF0000",
             },

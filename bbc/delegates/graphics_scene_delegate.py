@@ -1,52 +1,62 @@
+from typing import Optional
+
 from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsScene
+from PySide6.QtWidgets import QGraphicsItemGroup, QGraphicsRectItem, QGraphicsScene
 
 
 class GraphicsSceneDelegate(QGraphicsScene):
-    """A custom QGraphicsScene class."""
+    """A class to represent a graphics scene delegate."""
 
-    def __init__(self, parent=None):
-        """Initialize the class."""
+    def __init__(self, parent: Optional[QGraphicsScene] = None) -> None:
+        """Initialize the graphics scene delegate."""
         super().__init__(parent)
         self.setup_graphics_scene()
 
     def setup_graphics_scene(self):
-        """Setup the graphics scene."""
-        wall_width = 3000
-        wall_height = 6000
-        beam_width = 38
-        vertical_beam_spacing = 600
+        """Setup the graphics scene delegate."""
+        num_rows = 3
+        num_cols = 4
+        spacing = 10
+        rect_width = 38
+        rect_height = 170
+        boundary_spacing = 10
 
-        sls_horizontal_beam_height = 2400
-        sls_vertical_beam_width = 1200
+        pen_color = QPen(QColor("#FFFFFF"))
+        brush_color = QBrush(QColor("#EBD3B0"))
 
-        white_pen = QPen(QColor("#FFFFFF"))
-        beam_brush_color = QColor("#ebd3b0")
+        group = QGraphicsItemGroup()
 
-        num_horizontal_beams = wall_height // sls_horizontal_beam_height
-        for i in range(num_horizontal_beams + 1):
-            rect_item = QGraphicsRectItem(
-                0, i * sls_horizontal_beam_height, wall_width, beam_width
-            )
-            rect_item.setBrush(QBrush(beam_brush_color))
-            rect_item.setPen(white_pen)
-            self.addItem(rect_item)
+        for row in range(num_rows):
+            for col in range(num_cols):
+                rect_item = QGraphicsRectItem()
+                rect_item.setRect(
+                    col * (rect_width + spacing),
+                    row * (rect_height + spacing),
+                    rect_width,
+                    rect_height,
+                )
+                rect_item.setPen(pen_color)
+                rect_item.setBrush(brush_color)
+                group.addToGroup(rect_item)
 
-        num_vertical_beams = wall_width // sls_vertical_beam_width
-        for i in range(num_vertical_beams + 1):
-            x_position = i * sls_vertical_beam_width
-            if i > 0:
-                x_position += i * (vertical_beam_spacing // beam_width) * beam_width
+        boundary_pen = QPen(QColor("#00FFFF"))
 
-            y_position = -beam_width if i > 0 else 0
-            beam_height = wall_height - 2 * beam_width if i > 0 else wall_height
+        bounding_rect = group.boundingRect().adjusted(
+            -boundary_spacing, -boundary_spacing, boundary_spacing, boundary_spacing
+        )
+        boundary_item = QGraphicsRectItem(bounding_rect)
+        boundary_item.setPen(boundary_pen)
+        group.addToGroup(boundary_item)
 
-            rect_item = QGraphicsRectItem(
-                x_position, y_position, beam_width, beam_height
-            )
-            rect_item.setBrush(QBrush(beam_brush_color))
-            rect_item.setPen(white_pen)
-            self.addItem(rect_item)
+        total_width = (
+            num_cols * rect_width + (num_cols - 1) * spacing + 2 * boundary_spacing
+        )
+        total_height = (
+            num_rows * rect_height + (num_rows - 1) * spacing + 2 * boundary_spacing
+        )
 
-        bounding_rect = self.itemsBoundingRect()
-        self.setSceneRect(bounding_rect)
+        self.addItem(group)
+        group.setPos(-boundary_spacing, -boundary_spacing)
+        self.setSceneRect(
+            -boundary_spacing, -boundary_spacing, total_width, total_height
+        )

@@ -8,7 +8,7 @@ from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QStackedWidget, QWidget
+from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
 
 
 class UI(QMainWindow):
@@ -61,14 +61,14 @@ class UI(QMainWindow):
         self._events_handler.quit_on_key_press_event(self._configurator_ui)
         self._events_handler.quit_on_key_press_event(self._frame_view_ui)
 
-        self._main_modules_stack = QStackedWidget(self._main_ui)
+        self._main_modules_stack = ModuleType.StackedWidget.value(self._main_ui)
         self._main_modules_stack.addWidget(self._main_module_0)
         self._main_modules_stack.addWidget(self._main_module_1)
 
         self._main_ui_layout = QGridLayout(self._main_ui)
         self._main_ui_layout.addWidget(self._main_modules_stack)
 
-        self._configurator_modules_stack = QStackedWidget(self._main_ui)
+        self._configurator_modules_stack = ModuleType.StackedWidget.value(self._main_ui)
         self._configurator_modules_stack.addWidget(self._configurator_module_0)
 
         self._configurator_ui_layout = QGridLayout(self._configurator_ui)
@@ -97,7 +97,7 @@ class UI(QMainWindow):
     def setup_connections(self) -> None:
         """Setup the connections."""
         self._main_module_0.module_connection(
-            ModuleType.BUTTON,
+            ModuleType.PushButton,
             0,
             partial(
                 self.switch_modules,
@@ -105,7 +105,7 @@ class UI(QMainWindow):
             ),
         )
         self._main_module_1.module_connection(
-            ModuleType.BUTTON,
+            ModuleType.PushButton,
             5,
             partial(
                 self.switch_modules,
@@ -113,7 +113,7 @@ class UI(QMainWindow):
             ),
         )
         self._configurator_module_0.module_connection(
-            ModuleType.BUTTON,
+            ModuleType.PushButton,
             5,
             partial(
                 self.toggle_ui_visibility,
@@ -121,7 +121,7 @@ class UI(QMainWindow):
             ),
         )
         self._configurator_module_0.module_connection(
-            ModuleType.BUTTON,
+            ModuleType.PushButton,
             1,
             partial(
                 self._configurator_module_0.toggle_module_visibility,
@@ -138,7 +138,7 @@ class UI(QMainWindow):
                 self._ui_handler.center_ui_on_screen_handler(ui)
 
     @staticmethod
-    def switch_modules(module: QStackedWidget) -> None:
+    def switch_modules(module: ModuleType.StackedWidget.value) -> None:
         """Switches the modules."""
         current_index = module.currentIndex()
         new_index = (current_index + 1) % module.count()

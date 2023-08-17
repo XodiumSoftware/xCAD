@@ -1,136 +1,151 @@
 from enum import Enum
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import (
     QCheckBox,
     QDoubleSpinBox,
     QFormLayout,
     QGraphicsItem,
+    QGraphicsView,
     QGridLayout,
     QHBoxLayout,
     QLabel,
     QLineEdit,
     QPushButton,
     QSizePolicy,
+    QStackedWidget,
     QVBoxLayout,
     QWidget,
 )
 
 
 class ModuleType(Enum):
-    """An enumeration of the module types."""
-
-    WIDGET = QWidget
-    LABEL = QLabel
-    CHECKBOX = QCheckBox
-    DOUBLESPINBOX = QDoubleSpinBox
-    INPUTFIELD = QLineEdit
-    BUTTON = QPushButton
+    Widget = QWidget
+    StackedWidget = QStackedWidget
+    Label = QLabel
+    CheckBox = QCheckBox
+    DoubleSpinBox = QDoubleSpinBox
+    LineEdit = QLineEdit
+    PushButton = QPushButton
 
 
 class LayoutType(Enum):
-    """An enumeration of the layout types."""
-
-    HBOX = QHBoxLayout
-    VBOX = QVBoxLayout
-    GRID = QGridLayout
-    FORM = QFormLayout
+    HBox = QHBoxLayout
+    VBox = QVBoxLayout
+    Grid = QGridLayout
+    Form = QFormLayout
 
 
 class AlignmentType(Enum):
-    """An enumeration of the alignment types."""
-
-    ALIGNLEADING = Qt.AlignmentFlag.AlignLeading
-    ALIGNLEFT = Qt.AlignmentFlag.AlignLeft
-    ALIGNRIGHT = Qt.AlignmentFlag.AlignRight
-    ALIGNTRAILING = Qt.AlignmentFlag.AlignTrailing
-    ALIGNHCENTER = Qt.AlignmentFlag.AlignHCenter
-    ALIGNVCENTER = Qt.AlignmentFlag.AlignVCenter
-    ALIGNJUSTIFY = Qt.AlignmentFlag.AlignJustify
-    ALIGNABSOLUTE = Qt.AlignmentFlag.AlignAbsolute
-    ALIGNHORIZONTALMASK = Qt.AlignmentFlag.AlignHorizontal_Mask
-    ALIGNTOP = Qt.AlignmentFlag.AlignTop
-    ALIGNBOTTOM = Qt.AlignmentFlag.AlignBottom
-    ALIGNCENTER = Qt.AlignmentFlag.AlignCenter
-    ALIGNBASELINE = Qt.AlignmentFlag.AlignBaseline
-    ALIGNVERTICALMASK = Qt.AlignmentFlag.AlignVertical_Mask
+    AlignLeading = Qt.AlignmentFlag.AlignLeading
+    AlignLeft = Qt.AlignmentFlag.AlignLeft
+    AlignRight = Qt.AlignmentFlag.AlignRight
+    AlignTrailing = Qt.AlignmentFlag.AlignTrailing
+    AlignHCenter = Qt.AlignmentFlag.AlignHCenter
+    AlignVCenter = Qt.AlignmentFlag.AlignVCenter
+    AlignJustify = Qt.AlignmentFlag.AlignJustify
+    AlignAbsolute = Qt.AlignmentFlag.AlignAbsolute
+    AlignHorizontalMask = Qt.AlignmentFlag.AlignHorizontal_Mask
+    AlignTop = Qt.AlignmentFlag.AlignTop
+    AlignBottom = Qt.AlignmentFlag.AlignBottom
+    AlignCenter = Qt.AlignmentFlag.AlignCenter
+    AlignBaseline = Qt.AlignmentFlag.AlignBaseline
+    AlignVerticalMask = Qt.AlignmentFlag.AlignVertical_Mask
 
 
 class SizePolicyType(Enum):
-    """An enumeration of the size policy types."""
-
-    MINIMUM = QSizePolicy.Policy.Minimum
-    MAXIMUM = QSizePolicy.Policy.Maximum
-    FIXED = QSizePolicy.Policy.Fixed
-    PREFERRED = QSizePolicy.Policy.Preferred
-    EXPANDING = QSizePolicy.Policy.Expanding
-    MINIMUM_EXPANDING = QSizePolicy.Policy.MinimumExpanding
-    IGNORED = QSizePolicy.Policy.Ignored
+    Minimum = QSizePolicy.Policy.Minimum
+    Maximum = QSizePolicy.Policy.Maximum
+    Fixed = QSizePolicy.Policy.Fixed
+    Preferred = QSizePolicy.Policy.Preferred
+    Expanding = QSizePolicy.Policy.Expanding
+    MinimumExpanding = QSizePolicy.Policy.MinimumExpanding
+    Ignored = QSizePolicy.Policy.Ignored
 
 
 class OrientationType(Enum):
-    """An enumeration of the orientation types."""
-
-    HORIZONTAL = Qt.Orientation.Horizontal
-    VERTICAL = Qt.Orientation.Vertical
+    Horizontal = Qt.Orientation.Horizontal
+    Vertical = Qt.Orientation.Vertical
 
 
 class GraphicsItemFlagTypes(Enum):
-    """An enumeration of the graphics item flag types."""
-
-    ISMOVABLE = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
-    ISSELECTABLE = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
-    ISFOCUSABLE = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
-    CLIPSTOSHAPE = QGraphicsItem.GraphicsItemFlag.ItemClipsToShape
-    CLIPSCHILDRENTOSHAPE = QGraphicsItem.GraphicsItemFlag.ItemClipsChildrenToShape
-    IGNORESTRANSFORMATIONS = QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations
-    IGNORESPARENTOPACITY = QGraphicsItem.GraphicsItemFlag.ItemIgnoresParentOpacity
-    DOESNTPROPAGATEOPACITYTOCHILDREN = (
+    IsMovable = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
+    IsSelectable = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+    IsFocusable = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
+    ClipsToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsToShape
+    ClipsChildrenToShape = QGraphicsItem.GraphicsItemFlag.ItemClipsChildrenToShape
+    IgnoresTransformations = QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations
+    IgnoresParentOpacity = QGraphicsItem.GraphicsItemFlag.ItemIgnoresParentOpacity
+    DoesntPropagateOpacityToChildren = (
         QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
     )
-    STACKSBEHINDPARENT = QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
-    USESEXTENEDSTYLEOPTION = QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption
-    HASNOCONTENTS = QGraphicsItem.GraphicsItemFlag.ItemHasNoContents
-    SENDSGEOMETRYCHANGES = QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
-    ACCEPTSINPUTMETHOD = QGraphicsItem.GraphicsItemFlag.ItemAcceptsInputMethod
-    NEGATIVEZSTACKSBEHINDPARENT = (
+    StacksBehindParent = QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent
+    UsesExtendedStyleOption = QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption
+    HasNoContents = QGraphicsItem.GraphicsItemFlag.ItemHasNoContents
+    SendsGeometryChanges = QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
+    AcceptsInputMethod = QGraphicsItem.GraphicsItemFlag.ItemAcceptsInputMethod
+    NegativeZStacksBehindParent = (
         QGraphicsItem.GraphicsItemFlag.ItemNegativeZStacksBehindParent
     )
-    ISPANEL = QGraphicsItem.GraphicsItemFlag.ItemIsPanel
-    CONTAINSCHILDRENINSHAPE = QGraphicsItem.GraphicsItemFlag.ItemContainsChildrenInShape
+    IsPanel = QGraphicsItem.GraphicsItemFlag.ItemIsPanel
+    ContainsChildrenInShape = QGraphicsItem.GraphicsItemFlag.ItemContainsChildrenInShape
 
 
 class BrushStyleTypes(Enum):
-    """An enumeration of the brush style types."""
-
-    NOBRUSH = Qt.BrushStyle.NoBrush
-    SOLIDPATTERN = Qt.BrushStyle.SolidPattern
-    DENSE1PATTERN = Qt.BrushStyle.Dense1Pattern
-    DENSE2PATTERN = Qt.BrushStyle.Dense2Pattern
-    DENSE3PATTERN = Qt.BrushStyle.Dense3Pattern
-    DENSE4PATTERN = Qt.BrushStyle.Dense4Pattern
-    DENSE5PATTERN = Qt.BrushStyle.Dense5Pattern
-    DENSE6PATTERN = Qt.BrushStyle.Dense6Pattern
-    DENSE7PATTERN = Qt.BrushStyle.Dense7Pattern
-    HORIZONTALPATTERN = Qt.BrushStyle.HorPattern
-    VERTICALPATTERN = Qt.BrushStyle.VerPattern
-    CROSSPATTERN = Qt.BrushStyle.CrossPattern
-    BDIAGONALPATTERN = Qt.BrushStyle.BDiagPattern
-    FDIAGONALPATTERN = Qt.BrushStyle.FDiagPattern
-    DIAGCROSSPATTERN = Qt.BrushStyle.DiagCrossPattern
-    LINEARPATTERN = Qt.BrushStyle.LinearGradientPattern
-    RADIALPATTERN = Qt.BrushStyle.RadialGradientPattern
-    CONICALPATTERN = Qt.BrushStyle.ConicalGradientPattern
-    TEXTUREPATTERN = Qt.BrushStyle.TexturePattern
+    NoBrush = Qt.BrushStyle.NoBrush
+    SolidPattern = Qt.BrushStyle.SolidPattern
+    Dense1Pattern = Qt.BrushStyle.Dense1Pattern
+    Dense2Pattern = Qt.BrushStyle.Dense2Pattern
+    Dense3Pattern = Qt.BrushStyle.Dense3Pattern
+    Dense4Pattern = Qt.BrushStyle.Dense4Pattern
+    Dense5Pattern = Qt.BrushStyle.Dense5Pattern
+    Dense6Pattern = Qt.BrushStyle.Dense6Pattern
+    Dense7Pattern = Qt.BrushStyle.Dense7Pattern
+    HorizontalPattern = Qt.BrushStyle.HorPattern
+    VerticalPattern = Qt.BrushStyle.VerPattern
+    CrossPattern = Qt.BrushStyle.CrossPattern
+    BDiagonalPattern = Qt.BrushStyle.BDiagPattern
+    FDiagonalPattern = Qt.BrushStyle.FDiagPattern
+    DiagCrossPattern = Qt.BrushStyle.DiagCrossPattern
+    LinearPattern = Qt.BrushStyle.LinearGradientPattern
+    RadialPattern = Qt.BrushStyle.RadialGradientPattern
+    ConicalPattern = Qt.BrushStyle.ConicalGradientPattern
+    TexturePattern = Qt.BrushStyle.TexturePattern
 
 
 class PenStyleTypes(Enum):
-    """An enumeration of the pen style types."""
+    NoPen = Qt.PenStyle.NoPen
+    SolidLine = Qt.PenStyle.SolidLine
+    DashLine = Qt.PenStyle.DashLine
+    DotLine = Qt.PenStyle.DotLine
+    DashDotLine = Qt.PenStyle.DashDotLine
+    DashDotDotLine = Qt.PenStyle.DashDotDotLine
+    CustomDashLine = Qt.PenStyle.CustomDashLine
 
-    NOPEN = Qt.PenStyle.NoPen
-    SOLIDLINE = Qt.PenStyle.SolidLine
-    DASHLINE = Qt.PenStyle.DashLine
-    DOTLINE = Qt.PenStyle.DotLine
-    DASHDOTLINE = Qt.PenStyle.DashDotLine
-    DASHDOTDOTLINE = Qt.PenStyle.DashDotDotLine
-    CUSTOMDASHLINE = Qt.PenStyle.CustomDashLine
+
+class RenderHintTypes(Enum):
+    Antialiasing = QPainter.RenderHint.Antialiasing
+    TextAntialiasing = QPainter.RenderHint.TextAntialiasing
+    SmoothPixmapTransform = QPainter.RenderHint.SmoothPixmapTransform
+    VerticalSubpixelPositioning = QPainter.RenderHint.VerticalSubpixelPositioning
+    LosslessImageRendering = QPainter.RenderHint.LosslessImageRendering
+    NonCosmeticBrushPatterns = QPainter.RenderHint.NonCosmeticBrushPatterns
+
+
+class ScrollBarPolicyTypes(Enum):
+    ScrollBarAsNeeded = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    ScrollBarAlwaysOff = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    ScrollBarAlwaysOn = Qt.ScrollBarPolicy.ScrollBarAlwaysOn
+
+
+class DragModeTypes(Enum):
+    NoDrag = QGraphicsView.DragMode.NoDrag
+    ScrollHandDrag = QGraphicsView.DragMode.ScrollHandDrag
+    RubberBandDrag = QGraphicsView.DragMode.RubberBandDrag
+
+
+class AspectRatioModeTypes(Enum):
+    IgnoreAspectRatio = Qt.AspectRatioMode.IgnoreAspectRatio
+    KeepAspectRatio = Qt.AspectRatioMode.KeepAspectRatio
+    KeepAspectRatioByExpanding = Qt.AspectRatioMode.KeepAspectRatioByExpanding

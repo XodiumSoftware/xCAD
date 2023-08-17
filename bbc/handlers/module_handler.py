@@ -16,14 +16,14 @@ from PySide6.QtCore import QSettings, Slot
 from PySide6.QtGui import QIcon
 
 
-class ModuleHandler(ModuleType.WIDGET.value):
+class ModuleHandler(ModuleType.Widget.value):
     """A class to handle the modules."""
 
     def __init__(
         self,
         matrix_index: int,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
-        parent: Optional[ModuleType.WIDGET.value] = None,
+        parent: Optional[ModuleType.Widget.value] = None,
     ) -> None:
         """Initialize the ModuleHandler."""
         super().__init__(parent)
@@ -44,7 +44,7 @@ class ModuleHandler(ModuleType.WIDGET.value):
         )
         if module_matrix_data:
             module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
-            layout = LayoutType.GRID.value(self)
+            layout = LayoutType.Grid.value(self)
             layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
 
             for row, row_modules in enumerate(module_matrix_pos):
@@ -130,11 +130,11 @@ class ModuleHandler(ModuleType.WIDGET.value):
     def setup_module_data(module_type: ModuleType, module_index: int) -> Optional[dict]:
         """Setup the module data."""
         module_data_dict = {
-            ModuleType.LABEL: LABELS,
-            ModuleType.CHECKBOX: CHECKBOXES,
-            ModuleType.DOUBLESPINBOX: DOUBLESPINBOXES,
-            ModuleType.INPUTFIELD: INPUTFIELDS,
-            ModuleType.BUTTON: BUTTONS,
+            ModuleType.Label: LABELS,
+            ModuleType.CheckBox: CHECKBOXES,
+            ModuleType.DoubleSpinBox: DOUBLESPINBOXES,
+            ModuleType.LineEdit: INPUTFIELDS,
+            ModuleType.PushButton: BUTTONS,
         }
         module_list = module_data_dict.get(module_type)
 
@@ -146,22 +146,22 @@ class ModuleHandler(ModuleType.WIDGET.value):
     @staticmethod
     def setup_module_properties(
         module_type: ModuleType, module_data: dict
-    ) -> ModuleType.WIDGET.value:
+    ) -> ModuleType.Widget.value:
         """Setup the module properties."""
-        module = ModuleType.WIDGET.value()
+        module = ModuleType.Widget.value()
 
-        if module_type == ModuleType.LABEL:
-            module = ModuleType.LABEL.value()
+        if module_type == ModuleType.Label:
+            module = ModuleType.Label.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
-        elif module_type == ModuleType.CHECKBOX:
-            module = ModuleType.CHECKBOX.value()
+        elif module_type == ModuleType.CheckBox:
+            module = ModuleType.CheckBox.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
-        elif module_type == ModuleType.DOUBLESPINBOX:
-            module = ModuleType.DOUBLESPINBOX.value()
+        elif module_type == ModuleType.DoubleSpinBox:
+            module = ModuleType.DoubleSpinBox.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
@@ -169,13 +169,13 @@ class ModuleHandler(ModuleType.WIDGET.value):
             module.setSingleStep(module_data["step"])
             module.setSuffix(module_data["suffix"])
 
-        elif module_type == ModuleType.INPUTFIELD:
-            module = ModuleType.INPUTFIELD.value()
+        elif module_type == ModuleType.LineEdit:
+            module = ModuleType.LineEdit.value()
             module.setObjectName(str((module_type, module_data["index"])))
             module.setPlaceholderText(module_data["placeholder"])
 
-        elif module_type == ModuleType.BUTTON:
-            module = ModuleType.BUTTON.value()
+        elif module_type == ModuleType.PushButton:
+            module = ModuleType.PushButton.value()
             module.setObjectName(str((module_type, module_data["index"])))
 
             if module_data["icon_path"]:
@@ -188,7 +188,7 @@ class ModuleHandler(ModuleType.WIDGET.value):
                 module.setFixedSize(*module_data["size"])
             else:
                 module.setSizePolicy(
-                    SizePolicyType.MINIMUM.value, SizePolicyType.MINIMUM.value
+                    SizePolicyType.Minimum.value, SizePolicyType.Minimum.value
                 )
 
         return module
@@ -207,10 +207,10 @@ class ModuleHandler(ModuleType.WIDGET.value):
     ) -> None:
         """Connect the module signal to the target method."""
         module = self.findChild(
-            ModuleType.WIDGET.value, str((module_type, module_index))
+            ModuleType.Widget.value, str((module_type, module_index))
         )
 
-        if isinstance(module, ModuleType.BUTTON.value):
+        if isinstance(module, ModuleType.PushButton.value):
             module.clicked.connect(target_method)
 
         else:
@@ -222,10 +222,10 @@ class ModuleHandler(ModuleType.WIDGET.value):
     ) -> None:
         """Toggle the module visibility."""
         module = self.findChild(
-            ModuleType.WIDGET.value, str((module_type, module_index))
+            ModuleType.Widget.value, str((module_type, module_index))
         )
 
-        if isinstance(module, ModuleType.WIDGET.value):
+        if isinstance(module, ModuleType.Widget.value):
             module.setVisible(not module.isVisible())
         else:
             raise ValueError(
