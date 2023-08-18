@@ -1,76 +1,133 @@
+from enum import Enum
+
 import matplotlib.pyplot as plt
+from matplotlib import patches
 
 
-def draw_timber_frame_wall(
-    width_mm, height_mm, stud_spacing_mm, stud_thickness_mm, stud_height_mm
-):
-    fig, ax = plt.subplots()
-    ax.set_aspect("equal")
+class TimberFrameProperties(Enum):
+    """Class to hold the props of the timber frame"""
 
-    width_m = width_mm / 1000
-    height_m = height_mm / 1000
-    stud_spacing_m = stud_spacing_mm / 1000
-    stud_thickness_m = stud_thickness_mm / 1000
-    stud_height_m = stud_height_mm / 1000
+    FrameLengthX = 4000
+    FrameLengthY = 3000
+    StudSpacingX = 600
+    StudSpacingY = 2400
+    StudWidth = 38
+    StudFillColour = "#ebd3b0"
+    StudPenColour = "#000000"
 
-    plt.plot([0, width_m, width_m, 0, 0], [0, 0, height_m, height_m, 0], color="black")
 
-    num_studs = int(width_mm // stud_spacing_mm)
-    for i in range(1, num_studs):
-        x = i * stud_spacing_m
-        plt.plot([x, x], [0, height_m], color="black")
+class TimberFrameHandler:
+    """Class to handle the timber frame"""
+
+    def __init__(self) -> None:
+        """Constructor for the class"""
+        super().__init__()
+        self.setup_timber_frame()
+
+    def setup_timber_frame(self) -> None:
+        """Setup the timber frame"""
+        _, ax = plt.subplots()
+        ax.set_aspect("equal")
+
+        plt.title("Timber Frame Wall", fontweight="bold")
+        plt.xlabel("Length (mm)", fontweight="bold")
+        plt.ylabel("Height (mm)", fontweight="bold")
+        plt.grid(True, zorder=0)
+
+        self.draw_border_studs()
+        self.draw_vertical_studs()
+        self.draw_horizontal_studs()
+
+        plt.show()
+
+    @staticmethod
+    def draw_border_studs() -> None:
+        """Draw the border studs"""
+        props = TimberFrameProperties
         plt.plot(
-            [x - stud_thickness_m / 2, x + stud_thickness_m / 2],
-            [0, 0],
-            color="black",
-            linewidth=1,
-        )
-        plt.plot(
-            [x - stud_thickness_m / 2, x + stud_thickness_m / 2],
-            [stud_height_m, stud_height_m],
-            color="black",
-            linewidth=1,
-        )
-        plt.plot(
-            [x - stud_thickness_m / 2, x - stud_thickness_m / 2],
-            [0, stud_height_m],
-            color="black",
-            linewidth=1,
-        )
-        plt.plot(
-            [x + stud_thickness_m / 2, x + stud_thickness_m / 2],
-            [0, stud_height_m],
-            color="black",
-            linewidth=1,
+            [0, props.FrameLengthX.value, props.FrameLengthX.value, 0, 0],
+            [0, 0, props.FrameLengthY.value, props.FrameLengthY.value, 0],
+            color="none",
         )
 
-        plt.fill(
-            [
-                x - stud_thickness_m / 2,
-                x + stud_thickness_m / 2,
-                x + stud_thickness_m / 2,
-                x - stud_thickness_m / 2,
-            ],
-            [0, 0, stud_height_m, stud_height_m],
-            color="#ebd3b0",
-            alpha=0.5,
-        )
+        sides = [
+            (0, 0, props.StudWidth.value, props.FrameLengthY.value),
+            (
+                props.FrameLengthX.value - props.StudWidth.value,
+                0,
+                props.StudWidth.value,
+                props.FrameLengthY.value,
+            ),
+            (0, 0, props.FrameLengthX.value, props.StudWidth.value),
+            (
+                0,
+                props.FrameLengthY.value - props.StudWidth.value,
+                props.FrameLengthX.value,
+                props.StudWidth.value,
+            ),
+        ]
 
-    plt.plot([0, width_m], [height_m / 2, height_m / 2], color="black")
+        for x, y, width, height in sides:
+            stud_rect = patches.Rectangle(
+                (x, y),
+                width,
+                height,
+                edgecolor=props.StudPenColour.value,
+                facecolor=props.StudFillColour.value,
+            )
+            plt.gca().add_patch(stud_rect)
 
-    plt.title("Timber Frame Wall")
-    plt.xlabel("Width (mm)")
-    plt.ylabel("Height (mm)")
-    plt.grid(True)
-    plt.show()
+    @staticmethod
+    def draw_vertical_studs() -> None:
+        """Draw the vertical studs"""
+        props = TimberFrameProperties
+        stud_x_positions = [
+            i * props.StudSpacingX.value
+            for i in range(
+                1,
+                int(props.FrameLengthX.value / props.StudSpacingX.value) + 1,
+            )
+        ]
+
+        stud_rectangles = [
+            patches.Rectangle(
+                (x, props.StudWidth.value),
+                props.StudWidth.value,
+                props.FrameLengthY.value - 2 * props.StudWidth.value,
+                edgecolor=props.StudPenColour.value,
+                facecolor=props.StudFillColour.value,
+            )
+            for x in stud_x_positions
+        ]
+
+        for stud_rect in stud_rectangles:
+            plt.gca().add_patch(stud_rect)
+
+    @staticmethod
+    def draw_horizontal_studs() -> None:
+        """Draw the horizontal studs"""
+        props = TimberFrameProperties
+        stud_y_positions = [
+            i * props.StudSpacingY.value
+            for i in range(
+                1,
+                int(props.FrameLengthY.value / props.StudSpacingY.value) + 1,
+            )
+        ]
+
+        stud_rectangles = [
+            patches.Rectangle(
+                (props.StudWidth.value, y),
+                props.FrameLengthX.value - 2 * props.StudWidth.value,
+                props.StudWidth.value,
+                edgecolor=props.StudPenColour.value,
+                facecolor=props.StudFillColour.value,
+            )
+            for y in stud_y_positions
+        ]
+
+        for stud_rect in stud_rectangles:
+            plt.gca().add_patch(stud_rect)
 
 
-wall_width_mm = 6000
-wall_height_mm = 3000
-stud_spacing_mm = 600
-stud_thickness_mm = 100
-stud_height_mm = 2400
-
-draw_timber_frame_wall(
-    wall_width_mm, wall_height_mm, stud_spacing_mm, stud_thickness_mm, stud_height_mm
-)
+TimberFrameHandler()
