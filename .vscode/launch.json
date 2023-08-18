@@ -13,10 +13,18 @@
       "justMyCode": true
     },
     {
-      "name": "Python: test.py",
+      "name": "Python: test1.py",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/tests/test1.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: test2.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/test2.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }

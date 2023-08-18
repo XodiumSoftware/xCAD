@@ -1,7 +1,10 @@
+import sys
 from enum import Enum
+from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 from matplotlib import patches
+from PySide6.QtWidgets import QApplication
 
 
 class TimberFrameProperties(Enum):
@@ -50,7 +53,7 @@ class TimberFrameHandler:
             color="none",
         )
 
-        sides = [
+        sides: List[Tuple[int, int, int, int]] = [
             (0, 0, props.StudWidth.value, props.FrameLengthY.value),
             (
                 props.FrameLengthX.value - props.StudWidth.value,
