@@ -1,10 +1,8 @@
-import sys
 from enum import Enum
 from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 from matplotlib import patches
-from PySide6.QtWidgets import QApplication
 
 
 class TimberFrameProperties(Enum):
@@ -29,6 +27,8 @@ class TimberFrameHandler:
 
     def setup_timber_frame(self) -> None:
         """Setup the timber frame"""
+        plt.rcParams["toolbar"] = "None"
+
         _, ax = plt.subplots()
         ax.set_aspect("equal")
 
