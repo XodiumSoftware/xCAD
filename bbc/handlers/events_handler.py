@@ -12,9 +12,8 @@ class EventsHandler:
     def quit_on_key_press_event(ui: QWidget, quit_application: bool = True) -> None:
         """Quit on Escape key or Ctrl+Q."""
         shortcuts = ["Escape", "Ctrl+Q"]
-        for shortcut in shortcuts:
-            key_sequence = QKeySequence(shortcut)
-            shortcut = QShortcut(key_sequence, ui)
+        for shortcut_str in shortcuts:
+            shortcut = QShortcut(QKeySequence(shortcut_str), ui)
             shortcut.activated.connect(
                 partial(DialogHandler.quit_dialog, quit_application)
             )

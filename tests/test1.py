@@ -131,6 +131,3 @@ class TimberFrameHandler:
 
         for stud_rect in stud_rectangles:
             plt.gca().add_patch(stud_rect)
-
-
-TimberFrameHandler()

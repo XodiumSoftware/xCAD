@@ -14,19 +14,17 @@ class Inits:
                 "Height:": 1000,
                 "Area:": None,
                 "Perimeter:": None,
-                "Rotation:": 0,
-                "Scale:": 1,
             },
             "Fill settings:": {
                 "Fill:": True,
                 "Fill pattern:": "SolidPattern",
                 "Fill color:": "#ebd3b0",
-                "Fill opacity:": 1,
+                "Fill opacity:": 100,
             },
             "Pen settings:": {
                 "Pen style:": "SolidLine",
                 "Pen color:": "#ffffff",
-                "Pen thickness:": 5,
+                "Pen thickness:": 2,
             },
         }
 

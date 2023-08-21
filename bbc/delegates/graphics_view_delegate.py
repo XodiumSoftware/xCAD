@@ -1,3 +1,4 @@
+import math
 from typing import Optional
 
 from constants import (
@@ -9,7 +10,7 @@ from constants import (
 )
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from inits import Inits
-from PySide6.QtCore import QEvent, QObject, QPointF, QRectF, Qt
+from PySide6.QtCore import QEvent, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QWheelEvent
 from PySide6.QtWidgets import QGraphicsView
 
@@ -38,24 +39,25 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setInteractive(True)
         self.fitInView(self.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value)
 
-        self.wheelEvent = self.wheel_event
         self.installEventFilter(self)
 
-    def eventFilter(self, obj: "QObject", event: "QWheelEvent") -> bool:
-        if event.type() == QEvent.Type.MouseButtonDblClick:
-            if event.button() == Qt.MouseButton.MiddleButton:
-                self.fitInView(
-                    self.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
-                )
-                return True
-        return super().eventFilter(obj, event)
+    def eventFilter(self, instance: QGraphicsView, event: QWheelEvent) -> bool:
+        event_handlers = {
+            QEvent.Type.MouseButtonDblClick: self.fit_on_double_click_event,
+            QEvent.Type.Wheel: self.zoom_on_wheel_event,
+        }
+
+        handler_method = event_handlers.get(event.type())
+        if handler_method:
+            handler_method(self, event)
+
+        return super().eventFilter(instance, event)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
         self.draw_background(painter, rect, self._general_settings)
         self.draw_grid(painter, rect, self._general_settings)
-        # self.draw_axis(painter, rect, self._general_settings)
 
     @staticmethod
     def draw_background(
@@ -92,39 +94,16 @@ class GraphicsViewDelegate(QGraphicsView):
         painter.drawPath(grid_path)
 
     @staticmethod
-    def draw_axis(painter: QPainter, rect: QRectF, general_settings: dict) -> None:
-        """Draws the axis of the graphics view delegate."""
-        axis_properties = {
-            "x": {
-                "color": general_settings["X-axis color:"],
-                "pos": rect.top() + general_settings["Grid size:"],
-                "start": -rect.width(),
-                "end": rect.width(),
-            },
-            "y": {
-                "color": general_settings["Y-axis color:"],
-                "pos": rect.left() + general_settings["Grid size:"],
-                "start": -rect.height(),
-                "end": rect.height(),
-            },
-        }
+    def zoom_on_wheel_event(instance: QGraphicsView, event: QWheelEvent) -> None:
+        """Zoom in/out on mouse wheel."""
+        delta = event.angleDelta().y()
+        factor = math.pow(1.1, math.copysign(1, delta))
+        instance.scale(factor, factor)
 
-        for axis, props in axis_properties.items():
-            painter.setPen(QPen(QColor(props["color"])))
-            if axis == "x":
-                painter.drawLine(
-                    QPointF(props["start"], props["pos"]),
-                    QPointF(props["end"], props["pos"]),
-                )
-            else:
-                painter.drawLine(
-                    QPointF(props["pos"], props["start"]),
-                    QPointF(props["pos"], props["end"]),
-                )
-
-    def wheel_event(self, event: "QWheelEvent") -> None:
-        """Zooms the graphics view delegate."""
-        if event.angleDelta().y() > 0:
-            self.scale(1.1, 1.1)
-        else:
-            self.scale(0.9, 0.9)
+    @staticmethod
+    def fit_on_double_click_event(instance: QGraphicsView, event: QWheelEvent) -> None:
+        """Fit on double click."""
+        if event.button() == Qt.MouseButton.MiddleButton:
+            instance.fitInView(
+                instance.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
+            )

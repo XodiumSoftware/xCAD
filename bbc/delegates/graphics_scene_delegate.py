@@ -1,32 +1,40 @@
-import re
-from typing import Optional
+from enum import Enum
+from typing import Dict, Optional
 
 from constants import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.signal_handler import SignalHandler
 from inits import Inits
-from numpy import rec
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsItemGroup, QGraphicsRectItem, QGraphicsScene
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsScene
+
+
+class Dim(Enum):
+    WallX = 4000
+    WallY = 2000
+    StudThickness = 38
+    StudSpacing = 600
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
-    """A delegate class for QGraphicsRectItem"""
+    """A class to represent a graphics object delegate."""
 
     def __init__(self, parent: Optional[QGraphicsRectItem] = None) -> None:
-        """Initialize the class"""
+        """Initialize the graphics object delegate."""
         super().__init__(parent)
         self.setup_graphics_object()
 
     def setup_graphics_object(self):
-        """Setup the object"""
-        properties = Inits.setup_init_graphics_object_properties()
+        """Setup the graphics object delegate."""
+        props = Inits.setup_init_graphics_object_properties()
+        wall_y = Dim.WallY.value
+        stud_thickness = Dim.StudThickness.value
         signal_handler = SignalHandler()
 
-        dimension_settings, fill_settings, pen_settings, general_settings = (
-            properties["Dimension settings:"],
-            properties["Fill settings:"],
-            properties["Pen settings:"],
-            properties["General settings:"],
+        fill_settings, pen_settings, general_settings = (
+            props["Fill settings:"],
+            props["Pen settings:"],
+            props["General settings:"],
         )
 
         self.setFlags(
@@ -35,8 +43,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
 
-        self.setRotation(dimension_settings["Rotation:"])
-        self.setScale(dimension_settings["Scale:"])
+        self.setRect(0, 0, stud_thickness, wall_y)
+        self.setBrush(QBrush(QColor("#ebd3b0"), Qt.BrushStyle.SolidPattern))
 
         self.setPen(
             QPen(
@@ -72,63 +80,25 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Initialize the graphics scene delegate."""
         super().__init__(parent)
         self.setup_graphics_scene()
+        self.load_scene()
 
     def setup_graphics_scene(self):
         """Setup the graphics scene delegate."""
-        num_rows = 3
-        num_cols = 4
-        spacing = 10
-        rect_width = 38
-        rect_height = 170
-        boundary_spacing = 10
+        self.stud_items: Dict[int, GraphicsObjectDelegate] = {}
 
-        group = QGraphicsItemGroup()
+        for x in range(0, Dim.WallX.value, Dim.StudSpacing.value):
+            stud_item = GraphicsObjectDelegate()
+            self.addItem(stud_item)
+            stud_item.setPos(x, 0)
+            self.stud_items[x] = stud_item
+            self.save_scene()
 
-        pen_color = QColor("#FFFFFF")
-        brush_color = QColor("#ebd3b0")
+    @staticmethod
+    def save_scene():
+        """Save the graphics scene."""
+        pass
 
-        for row in range(num_rows):
-            for col in range(num_cols):
-                rect_item = QGraphicsRectItem()
-                rect_item.setRect(
-                    col * (rect_width + spacing),
-                    row * (rect_height + spacing),
-                    rect_width,
-                    rect_height,
-                )
-                rect_item.setPen(QPen(pen_color))
-                rect_item.setBrush(QBrush(brush_color))
-                group.addToGroup(rect_item)
-
-        boundary_pen = QPen(QColor("#00FFFF"))
-
-        bounding_rect = group.boundingRect().adjusted(
-            -boundary_spacing, -boundary_spacing, boundary_spacing, boundary_spacing
-        )
-        boundary_item = QGraphicsRectItem(bounding_rect)
-        boundary_item.setPen(boundary_pen)
-        group.addToGroup(boundary_item)
-
-        total_width = (
-            num_cols * rect_width + (num_cols - 1) * spacing + 2 * boundary_spacing
-        )
-        total_height = (
-            num_rows * rect_height + (num_rows - 1) * spacing + 2 * boundary_spacing
-        )
-
-        self.addItem(group)
-        group.setPos(-boundary_spacing, -boundary_spacing)
-        self.setSceneRect(
-            -boundary_spacing, -boundary_spacing, total_width, total_height
-        )
-
-        frame_length = 1000
-        frame_height = 1000
-        x = None
-        obj = QGraphicsRectItem()
-
-        frame_matrix = [
-            [x, obj, x],
-            [obj, x, obj],
-            [x, obj, x],
-        ]
+    @staticmethod
+    def load_scene():
+        """Load the graphics scene."""
+        pass
