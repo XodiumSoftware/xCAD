@@ -1,30 +1,29 @@
 import os
-import sqlite3 as sql3
+import sqlite3
 from sqlite3 import Error
 
 from constants import DATABASE_PATH
 
 
-class DBHandler:
+class DataBaseHandler:
     """A class to represent a database handler."""
 
-    @staticmethod
-    def setup_db_dir():
-        """Setup the database directory."""
-        if not os.path.exists(DATABASE_PATH):
-            os.makedirs(DATABASE_PATH)
+    def __init__(self) -> None:
+        """Initialize the database handler."""
+        self.setup_db_dir(os.path.dirname(os.path.abspath(DATABASE_PATH)))
+        self._conn = sqlite3.connect(DATABASE_PATH)
+        self._c = self._conn.cursor()
 
-    def _connect(self):
-        """Connect to the database."""
-        self.setup_db_dir()
-        try:
-            self._conn = sql3.connect(DATABASE_PATH)
-        except Error as e:
-            print(e)
+    @staticmethod
+    def setup_db_dir(dir: str) -> None:
+        """Setup the database directory."""
+        if not os.path.exists(dir):
+            os.makedirs(dir)
 
     def create_table(self, table_name: str, *columns: str) -> None:
         """Create the database table."""
-        self._connect()
+        self._conn
+        print(f"_conn value before using in with statement: {self._conn}")
         columns_str = ", ".join([f"{col} TEXT" for col in columns])
         query = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
@@ -34,13 +33,13 @@ class DBHandler:
         """
         try:
             with self._conn:
-                self._conn.execute(query)
+                self._c.execute(query)
         except Error as e:
             print(e)
 
     def insert_data(self, table_name: str, *values) -> None:
         """Insert data into the database."""
-        self._connect()
+        self._conn
         placeholders = ", ".join(["?" for _ in values])
         query = f"""
         INSERT INTO {table_name}
@@ -48,7 +47,7 @@ class DBHandler:
         """
         try:
             with self._conn:
-                self._conn.execute(query, values)
+                self._c.execute(query, values)
         except Error as e:
             print(e)
 

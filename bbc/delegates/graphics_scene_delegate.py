@@ -2,6 +2,7 @@ from enum import Enum
 from typing import Dict, Optional
 
 from constants import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from handlers.db_handler import DataBaseHandler
 from handlers.signal_handler import SignalHandler
 from inits import Inits
 from PySide6.QtCore import Qt
@@ -91,12 +92,44 @@ class GraphicsSceneDelegate(QGraphicsScene):
             self.addItem(stud_item)
             stud_item.setPos(x, 0)
             self.stud_items[x] = stud_item
-            self.save_scene()
+            # self.save_scene()
 
-    @staticmethod
-    def save_scene():
-        """Save the graphics scene."""
-        pass
+    def save_scene(self):
+        db_handler = DataBaseHandler()
+        db_handler.create_table(
+            "graphics_items",
+            "x",
+            "y",
+            "width",
+            "height",
+            "pen_color",
+            "pen_thickness",
+            "pen_style",
+            "fill_color",
+            "fill_pattern",
+            "fill_opacity",
+            "z_value",
+            "tooltip",
+        )
+
+        for _, item in self.stud_items.items():
+            db_handler.insert_data(
+                "graphics_items",
+                item.x(),
+                item.y(),
+                item.rect().width(),
+                item.rect().height(),
+                item.pen().color().name(),
+                item.pen().width(),
+                item.pen().style(),
+                item.brush().color().name(),
+                item.brush().style(),
+                int(item.opacity() * 100),
+                int(item.zValue()),
+                item.toolTip(),
+            )
+
+        db_handler.close_db()
 
     @staticmethod
     def load_scene():

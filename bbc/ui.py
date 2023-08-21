@@ -3,6 +3,7 @@ from typing import List
 
 from constants import UIS, ModuleType
 from delegates.graphics_view_delegate import GraphicsViewDelegate
+from handlers.db_handler import DataBaseHandler
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
@@ -17,6 +18,8 @@ class UI(QMainWindow):
     def __init__(self) -> None:
         """Initialize the MainUI."""
         super().__init__()
+
+        self._db_handler = DataBaseHandler()
 
         self._main_module_0 = ModuleHandler(0)
         self._main_module_1 = ModuleHandler(2)
