@@ -12,8 +12,6 @@ class Inits:
             "Dimension settings:": {
                 "Length:": 38,
                 "Height:": 1000,
-                "Area:": None,
-                "Perimeter:": None,
             },
             "Fill settings:": {
                 "Fill:": True,

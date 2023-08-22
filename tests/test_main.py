@@ -9,7 +9,6 @@ def run():
     app = QApplication([])
     app.setOrganizationName(QSETTINGS_ORGANIZATION_NAME)
     app.setApplicationName(QSETTINGS_APPLICATION_NAME)
-    # _ = TimberFrameHandler()
 
     return app.exec()
 
