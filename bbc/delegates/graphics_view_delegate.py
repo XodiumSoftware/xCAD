@@ -42,6 +42,7 @@ class GraphicsViewDelegate(QGraphicsView):
         self.installEventFilter(self)
 
     def eventFilter(self, instance: QGraphicsView, event: QWheelEvent) -> bool:
+        """Event filter for the graphics view delegate."""
         event_handlers = {
             QEvent.Type.MouseButtonDblClick: self.fit_on_double_click_event,
             QEvent.Type.Wheel: self.zoom_on_wheel_event,

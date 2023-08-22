@@ -21,6 +21,8 @@ from PySide6.QtWidgets import (
 
 
 class ModuleType(Enum):
+    """A class to represent a module type."""
+
     Widget = QWidget
     StackedWidget = QStackedWidget
     Label = QLabel
@@ -31,6 +33,8 @@ class ModuleType(Enum):
 
 
 class LayoutType(Enum):
+    """A class to represent a layout type."""
+
     HBox = QHBoxLayout
     VBox = QVBoxLayout
     Grid = QGridLayout
@@ -38,6 +42,8 @@ class LayoutType(Enum):
 
 
 class AlignmentType(Enum):
+    """A class to represent an alignment type."""
+
     AlignLeading = Qt.AlignmentFlag.AlignLeading
     AlignLeft = Qt.AlignmentFlag.AlignLeft
     AlignRight = Qt.AlignmentFlag.AlignRight
@@ -55,6 +61,8 @@ class AlignmentType(Enum):
 
 
 class SizePolicyType(Enum):
+    """A class to represent a size policy type."""
+
     Minimum = QSizePolicy.Policy.Minimum
     Maximum = QSizePolicy.Policy.Maximum
     Fixed = QSizePolicy.Policy.Fixed
@@ -65,11 +73,15 @@ class SizePolicyType(Enum):
 
 
 class OrientationType(Enum):
+    """A class to represent an orientation type."""
+
     Horizontal = Qt.Orientation.Horizontal
     Vertical = Qt.Orientation.Vertical
 
 
 class GraphicsItemFlagTypes(Enum):
+    """A class to represent a graphics item flag type."""
+
     ItemIsMovable = QGraphicsItem.GraphicsItemFlag.ItemIsMovable
     ItemIsSelectable = QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
     ItemIsFocusable = QGraphicsItem.GraphicsItemFlag.ItemIsFocusable
@@ -96,6 +108,8 @@ class GraphicsItemFlagTypes(Enum):
 
 
 class GraphicsItemChangeTypes(Enum):
+    """A class to represent a graphics item change type."""
+
     ItemEnabledChange = QGraphicsItem.GraphicsItemChange.ItemEnabledChange
     ItemEnabledHasChanged = QGraphicsItem.GraphicsItemChange.ItemEnabledHasChanged
     ItemPositionChange = QGraphicsItem.GraphicsItemChange.ItemPositionChange
@@ -138,6 +152,8 @@ class GraphicsItemChangeTypes(Enum):
 
 
 class BrushStyleTypes(Enum):
+    """A class to represent a brush style type."""
+
     NoBrush = Qt.BrushStyle.NoBrush
     SolidPattern = Qt.BrushStyle.SolidPattern
     Dense1Pattern = Qt.BrushStyle.Dense1Pattern
@@ -160,6 +176,8 @@ class BrushStyleTypes(Enum):
 
 
 class PenStyleTypes(Enum):
+    """A class to represent a pen style type."""
+
     NoPen = Qt.PenStyle.NoPen
     SolidLine = Qt.PenStyle.SolidLine
     DashLine = Qt.PenStyle.DashLine
@@ -170,6 +188,8 @@ class PenStyleTypes(Enum):
 
 
 class RenderHintTypes(Enum):
+    """A class to represent a render hint type."""
+
     Antialiasing = QPainter.RenderHint.Antialiasing
     TextAntialiasing = QPainter.RenderHint.TextAntialiasing
     SmoothPixmapTransform = QPainter.RenderHint.SmoothPixmapTransform
@@ -179,18 +199,24 @@ class RenderHintTypes(Enum):
 
 
 class ScrollBarPolicyTypes(Enum):
+    """A class to represent a scroll bar policy type."""
+
     ScrollBarAsNeeded = Qt.ScrollBarPolicy.ScrollBarAsNeeded
     ScrollBarAlwaysOff = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     ScrollBarAlwaysOn = Qt.ScrollBarPolicy.ScrollBarAlwaysOn
 
 
 class DragModeTypes(Enum):
+    """A class to represent a drag mode type."""
+
     NoDrag = QGraphicsView.DragMode.NoDrag
     ScrollHandDrag = QGraphicsView.DragMode.ScrollHandDrag
     RubberBandDrag = QGraphicsView.DragMode.RubberBandDrag
 
 
 class AspectRatioModeTypes(Enum):
+    """A class to represent an aspect ratio mode type."""
+
     IgnoreAspectRatio = Qt.AspectRatioMode.IgnoreAspectRatio
     KeepAspectRatio = Qt.AspectRatioMode.KeepAspectRatio
     KeepAspectRatioByExpanding = Qt.AspectRatioMode.KeepAspectRatioByExpanding

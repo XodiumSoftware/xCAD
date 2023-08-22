@@ -15,15 +15,14 @@ class DataBaseHandler:
         self._c = self._conn.cursor()
 
     @staticmethod
-    def setup_db_dir(dir: str) -> None:
+    def setup_db_dir(_dir: str) -> None:
         """Setup the database directory."""
-        if not os.path.exists(dir):
-            os.makedirs(dir)
+        if not os.path.exists(_dir):
+            os.makedirs(_dir)
 
     def create_table(self, table_name: str, *columns: str) -> None:
         """Create the database table."""
         self._conn
-        print(f"_conn value before using in with statement: {self._conn}")
         columns_str = ", ".join([f"{col} TEXT" for col in columns])
         query = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
@@ -40,14 +39,29 @@ class DataBaseHandler:
     def insert_data(self, table_name: str, *values) -> None:
         """Insert data into the database."""
         self._conn
-        placeholders = ", ".join(["?" for _ in values])
+        str_values = [str(value) for value in values]
+        placeholders = ", ".join(["?" for _ in str_values])
         query = f"""
         INSERT INTO {table_name}
         VALUES (NULL, {placeholders})
         """
         try:
             with self._conn:
-                self._c.execute(query, values)
+                self._c.execute(query, str_values)
+        except Error as e:
+            print(e)
+
+    def retrieve_data(self, table_name: str, *columns: str) -> None:
+        """Retrieve data from the database."""
+        self._conn
+        columns_str = ", ".join([f"{col}" for col in columns])
+        query = f"""
+        SELECT {columns_str}
+        FROM {table_name}
+        """
+        try:
+            with self._conn:
+                self._c.execute(query)
         except Error as e:
             print(e)
 

@@ -92,9 +92,12 @@ class GraphicsSceneDelegate(QGraphicsScene):
             self.addItem(stud_item)
             stud_item.setPos(x, 0)
             self.stud_items[x] = stud_item
-            # self.save_scene()
+            self.save_scene()
+
+    # TODO: make the key have the item id.
 
     def save_scene(self):
+        """Save the graphics scene."""
         db_handler = DataBaseHandler()
         db_handler.create_table(
             "graphics_items",
@@ -134,4 +137,3 @@ class GraphicsSceneDelegate(QGraphicsScene):
     @staticmethod
     def load_scene():
         """Load the graphics scene."""
-        pass

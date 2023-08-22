@@ -70,7 +70,8 @@ DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
 
 # ModuleHandler:
 # ====================================================================================================
-# Define the matrix data with support for nested containers #NOTE: Nested containers are not supported yet.
+# Define the matrix data with support for nested containers
+# NOTE: Nested containers are not supported yet.
 # Each element in module_matrix_pos can contain either a list of widgets
 # or another set of "module_args" representing a nested container.
 # For nested containers, specify the nested layout as a string.
