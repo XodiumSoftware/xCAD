@@ -1,4 +1,4 @@
-import { md5 } from './md5.js'
+import { md5 } from "./md5.js";
 
 /**
  * Represents an ImageSecurity instance that obfuscates image URLs and prevents certain actions on images.
@@ -10,11 +10,11 @@ class ImageSecurity {
    * Automatically obfuscates image URLs on initialization.
    */
   constructor(imageElement) {
-    this.image = imageElement
-    this.images = document.querySelectorAll('img[data-obfuscate]')
+    this.image = imageElement;
+    this.images = document.querySelectorAll("img[data-obfuscate]");
 
-    this.addEventListeners()
-    this.obfuscateImageURLs()
+    this.addEventListeners();
+    this.obfuscateImageURLs();
   }
 
   /**
@@ -22,28 +22,28 @@ class ImageSecurity {
    */
   addEventListeners() {
     // Prevent right-click and dragging on images
-    const disableEvent = (event) => event.preventDefault()
+    const disableEvent = (event) => event.preventDefault();
 
     this.images.forEach((image) => {
-      image.addEventListener('contextmenu', disableEvent)
-      image.addEventListener('dragstart', disableEvent)
+      image.addEventListener("contextmenu", disableEvent);
+      image.addEventListener("dragstart", disableEvent);
 
-      image.addEventListener('keydown', (event) => {
-        if (event.ctrlKey && (event.key === 'c' || event.key === 'i')) {
-          event.preventDefault()
+      image.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && (event.key === "c" || event.key === "i")) {
+          event.preventDefault();
         }
-      })
-    })
+      });
+    });
   }
 
   /**
    * Generate a unique filename for an image based on its original filename.
    */
   generateUniqueFilename(originalFilename) {
-    const hash = md5(originalFilename)
-    const fileExtension = originalFilename.split('.').pop()
-    const uniqueFilename = `${hash}.${fileExtension}`
-    return uniqueFilename
+    const hash = md5(originalFilename);
+    const fileExtension = originalFilename.split(".").pop();
+    const uniqueFilename = `${hash}.${fileExtension}`;
+    return uniqueFilename;
   }
 
   /**
@@ -51,12 +51,11 @@ class ImageSecurity {
    */
   obfuscateImageURLs() {
     this.images.forEach((image) => {
-      const originalSrc = image.getAttribute('src');
+      const originalSrc = image.getAttribute("src");
       const uniqueFilename = this.generateUniqueFilename(originalSrc);
-      image.setAttribute('src', uniqueFilename);
+      image.setAttribute("src", uniqueFilename);
     });
   }
 }
-const ImageSecurity = document.addEventListener('DOMContentLoaded', () => {
-})
-const _ = new ImageSecurity(ImageSecurity)
+const ImageSecurity = document.addEventListener("DOMContentLoaded", () => {});
+const _ = new ImageSecurity(ImageSecurity);
