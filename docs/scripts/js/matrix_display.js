@@ -315,5 +315,3 @@ const matrices = [
     ]
   }
 ]
-
-const matrixDisplay = new MatrixDisplay(matrices)

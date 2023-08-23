@@ -7,7 +7,8 @@ class ImageSecurity {
    * Initializes instance properties and sets up event listeners.
    * Automatically obfuscates image URLs on initialization.
    */
-  constructor() {
+  constructor(imageElement) {
+    this.image = imageElement
     this.images = document.querySelectorAll('img[data-obfuscate]')
 
     this.addEventListeners()
@@ -55,6 +56,5 @@ class ImageSecurity {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const imageSecurity = new ImageSecurity()
+const imageElement = document.addEventListener('DOMContentLoaded', () => {
 })
