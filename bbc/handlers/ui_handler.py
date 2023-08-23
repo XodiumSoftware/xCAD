@@ -1,5 +1,6 @@
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
+from enums.q_enums import ModuleType
 from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QApplication, QWidget
 
@@ -24,7 +25,16 @@ class UIHandler:
             ui.resize(width, height)
 
     @staticmethod
-    def toggle_ui_visibility(ui: QWidget, target_ui: QWidget) -> None:
-        """Toggles the visibility of the UI."""
-        ui.setVisible(not ui.isVisible())
-        target_ui.setVisible(not target_ui.isVisible())
+    def toggle_ui_visibility(uis: List[QWidget]) -> None:
+        """Toggles the visibility of UI(s)."""
+        for ui in uis:
+            ui.setVisible(not ui.isVisible())
+            if ui.isVisible():
+                UIHandler.center_ui_on_screen_handler(ui)
+
+    @staticmethod
+    def switch_modules(module: ModuleType.StackedWidget.value) -> None:
+        """Switches the modules."""
+        current_index = module.currentIndex()
+        new_index = (current_index + 1) % module.count()
+        module.setCurrentIndex(new_index)

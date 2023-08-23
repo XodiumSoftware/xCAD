@@ -7,21 +7,18 @@ class UIs(Enum):
     """A class used to represent the UIs."""
 
     MainUI = {
-        "name": "MainUI",
         "title": "AFC",
         "icon": UI_ICON_PATH,
         "initial_size": (600, 400),
-        "initial_visibility": False,
+        "initial_visibility": True,
     }
     ConfiguratorUI = {
-        "name": "ConfiguratorUI",
         "title": "Structure Configurator",
         "icon": UI_ICON_PATH,
         "initial_size": (800, 400),
-        "initial_visibility": False,
+        "initial_visibility": True,
     }
     Frame2DView = {
-        "name": "Frame2DView",
         "title": "2D Frame Viewer",
         "icon": UI_ICON_PATH,
         "initial_size": (800, 400),

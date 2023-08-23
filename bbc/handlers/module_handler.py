@@ -1,10 +1,9 @@
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Callable, Optional, Tuple
 
-from enums.matrix_enums import Matrices
 from enums.module_enums import Buttons, Checkboxes, DoubleSpinBoxes, InputFields, Labels
 from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Slot
 from PySide6.QtGui import QIcon
 
 
@@ -21,6 +20,7 @@ class ModuleHandler(ModuleType.Widget.value):
         super().__init__(parent)
         self._settings = QSettings()
         self._module_visibility = {}
+        self._module_mapping = {}
 
         self.create_modules_from_matrix(matrix_name, matrix_margins)
 
@@ -62,6 +62,7 @@ class ModuleHandler(ModuleType.Widget.value):
                     if module_data:
                         module = self.setup_module_properties(module_type, module_data)
                         if module:
+                            self._module_mapping[module_constant.name] = module
                             if module_size_policy is not None:
                                 size_policy_x, size_policy_y = module_size_policy
                                 module.setSizePolicy(
@@ -156,24 +157,21 @@ class ModuleHandler(ModuleType.Widget.value):
             return (0, 0, 0, 0)
         return module_margins
 
-    # def module_connection(self, module_constant: Enum, target_method: Callable) -> None:
-    #     """Connect the module signal to the target method."""
-    #     module = self.findChild(ModuleType.Widget.value, str((module_constant)))
+    def module_connection(self, module_constant: Enum, target_method: Callable) -> None:
+        """Connect the module signal to the target method."""
+        module_reference = self._module_mapping.get(module_constant.name)
+        if isinstance(module_reference, ModuleType.PushButton.value):
+            module_reference.clicked.connect(target_method)
+        else:
+            raise ValueError(f"{module_constant}: not found")
 
-    #     if isinstance(module, ModuleType.PushButton.value):
-    #         module.clicked.connect(target_method)
-
-    #     else:
-    #         raise ValueError(f"{module_constant}: not found")
-
-    # @Slot(str, int)
-    # def toggle_module_visibility(self, module_constant: Enum) -> None:
-    #     """Toggle the module visibility."""
-    #     module = self.findChild(ModuleType.Widget.value, str((module_constant)))
-
-    #     if isinstance(module, ModuleType.Widget.value):
-    #         module.setVisible(not module.isVisible())
-    #     else:
-    #         raise ValueError(
-    #             f"{module_constant}: not found or not supported for visibility toggling"
-    #         )
+    @Slot(str, str)
+    def toggle_module_visibility(self, module_constant: Enum) -> None:
+        """Toggle the module visibility."""
+        module_reference = self._module_mapping.get(module_constant.name)
+        if isinstance(module_reference, ModuleType.Widget.value):
+            module_reference.setVisible(not module_reference.isVisible())
+        else:
+            raise ValueError(
+                f"{module_constant}: not found or not supported for visibility toggling"
+            )

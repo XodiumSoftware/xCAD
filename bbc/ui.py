@@ -1,7 +1,8 @@
-from typing import List
+from functools import partial
 
 from delegates.graphics_view_delegate import GraphicsViewDelegate
 from enums.matrix_enums import Matrices
+from enums.module_enums import Buttons
 from enums.q_enums import ModuleType
 from enums.ui_enums import UIs
 from handlers.events_handler import EventsHandler
@@ -93,42 +94,28 @@ class UI(QMainWindow):
         else:
             self._frame_view_ui.hide()
 
-    #     self.setup_connections()
+        self.setup_connections()
 
-    # def setup_connections(self) -> None:
-    #     """Setup the connections."""
-    #     self._main_module_0.module_connection(
-    #         Buttons.AutoFrameCAD,
-    #         partial(
-    #             self.switch_modules,
-    #             module=self._main_modules_stack,
-    #         ),
-    #     )
-    #     self._main_module_1.module_connection(
-    #         Buttons.StartupPage,
-    #         partial(
-    #             self.switch_modules,
-    #             module=self._main_modules_stack,
-    #         ),
-    #     )
-    #     self._configurator_module_0.module_connection(
-    #         Buttons.StartupPage,
-    #         partial(
-    #             self.toggle_ui_visibility,
-    #             uis=[self._configurator_ui, self._main_ui],
-    #         ),
-    #     )
-
-    def toggle_ui_visibility(self, uis: List[QWidget]) -> None:
-        """Toggles the visibility of UI(s)."""
-        for ui in uis:
-            ui.setVisible(not ui.isVisible())
-            if ui.isVisible():
-                self._ui_handler.center_ui_on_screen_handler(ui)
-
-    @staticmethod
-    def switch_modules(module: ModuleType.StackedWidget.value) -> None:
-        """Switches the modules."""
-        current_index = module.currentIndex()
-        new_index = (current_index + 1) % module.count()
-        module.setCurrentIndex(new_index)
+    def setup_connections(self) -> None:
+        """Setup the connections."""
+        self._main_module_0.module_connection(
+            Buttons.AutoFrameCAD,
+            partial(
+                self._ui_handler.switch_modules,
+                module=self._main_modules_stack,
+            ),
+        )
+        self._main_module_1.module_connection(
+            Buttons.StartupPage,
+            partial(
+                self._ui_handler.switch_modules,
+                module=self._main_modules_stack,
+            ),
+        )
+        self._configurator_module_0.module_connection(
+            Buttons.StartupPage,
+            partial(
+                self._ui_handler.toggle_ui_visibility,
+                uis=[self._configurator_ui, self._main_ui],
+            ),
+        )
