@@ -1,5 +1,6 @@
 from typing import Optional
 
+from enums.afc_enums import StudSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.db_handler import DataBaseHandler
 from handlers.signal_handler import SignalHandler
@@ -18,7 +19,6 @@ Graphics_objects_table = (
     "z_value",
     "tooltip",
 )
-from enums.afc_enums import StudSettings
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):

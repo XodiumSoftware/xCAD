@@ -98,5 +98,5 @@ class DataBaseHandler:
 
             backup_file_name = f"{backup_path}.bak{backup_number}"
             shutil.copy(DATABASE_PATH, backup_file_name)
-        except Exception as e:
-            print(f"Error creating database backup: {e}")
+        except Error as e:
+            print(e)
