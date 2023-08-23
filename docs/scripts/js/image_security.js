@@ -1,3 +1,5 @@
+import { md5 } from './md5.js'
+
 /**
  * Represents an ImageSecurity instance that obfuscates image URLs and prevents certain actions on images.
  */
@@ -38,7 +40,7 @@ class ImageSecurity {
    * Generate a unique filename for an image based on its original filename.
    */
   generateUniqueFilename(originalFilename) {
-    const hash = md5(originalFilename) // FIXME: md5 function is not available
+    const hash = md5(originalFilename)
     const fileExtension = originalFilename.split('.').pop()
     const uniqueFilename = `${hash}.${fileExtension}`
     return uniqueFilename
@@ -55,6 +57,6 @@ class ImageSecurity {
     });
   }
 }
-
-const imageElement = document.addEventListener('DOMContentLoaded', () => {
+const ImageSecurity = document.addEventListener('DOMContentLoaded', () => {
 })
+const _ = new ImageSecurity(ImageSecurity)

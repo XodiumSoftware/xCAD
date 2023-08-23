@@ -315,3 +315,4 @@ const matrices = [
     ]
   }
 ]
+const _ = new MatrixDisplay(matrices)
