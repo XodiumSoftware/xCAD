@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
-from enums import FrameSettings, StudSettings
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
+from enums.afc_enums import FrameSettings, StudSettings
 from PySide6.QtWidgets import QGraphicsScene
 
 

@@ -1,18 +1,10 @@
-from typing import Callable, Optional, Tuple
+from enum import Enum
+from typing import Optional, Tuple
 
-from constants import (
-    BUTTONS,
-    CHECKBOXES,
-    DOUBLESPINBOXES,
-    INPUTFIELDS,
-    LABELS,
-    MATRICES,
-    AlignmentType,
-    LayoutType,
-    ModuleType,
-    SizePolicyType,
-)
-from PySide6.QtCore import QSettings, Slot
+from enums.matrix_enums import MATRICES
+from enums.module_enums import Buttons, Checkboxes, DoubleSpinBoxes, InputFields, Labels
+from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
+from PySide6.QtCore import QSettings
 from PySide6.QtGui import QIcon
 
 
@@ -52,7 +44,7 @@ class ModuleHandler(ModuleType.Widget.value):
                     (
                         module_layout_type,
                         module_type,
-                        module_index,
+                        module_constant,
                         module_margins,
                         module_alignment,
                         module_size_policy,
@@ -68,7 +60,7 @@ class ModuleHandler(ModuleType.Widget.value):
                             AlignmentType(module_alignment).value
                         )
 
-                    module_data = self.setup_module_data(module_type, module_index)
+                    module_data = self.setup_module_data(module_type, module_constant)
 
                     if module_data:
                         module = self.setup_module_properties(module_type, module_data)
@@ -88,58 +80,30 @@ class ModuleHandler(ModuleType.Widget.value):
                                 f'"{module_type}" is not a valid module type'
                             )
                     else:
-                        raise ValueError(f"{module_type}_{module_index}: not found")
+                        raise ValueError(f"{module_type}_{module_constant}: not found")
 
         else:
             raise ValueError(
                 f"Module index {matrix_index} not found in MODULE_MATRICES"
             )
 
-    def setup_module(
-        self,
-        module_layout_type: LayoutType,
-        module_type: ModuleType,
-        module_index: int,
-        module_margins: Optional[Tuple[int, int, int, int]] = None,
-        module_alignment: Optional[AlignmentType] = None,
-        module_size_policy: Optional[Tuple[SizePolicyType, SizePolicyType]] = None,
-    ) -> None:
-        """Setup the module."""
-        layout = LayoutType(module_layout_type).value()
-        layout.setContentsMargins(*self.setup_module_margins(module_margins))
-
-        if module_alignment is not None:
-            layout.setAlignment(module_alignment.value)
-        module_data = self.setup_module_data(module_type, module_index)
-
-        if module_data:
-            module = self.setup_module_properties(module_type, module_data)
-            if module:
-                if module_size_policy is not None:
-                    size_policy_x, size_policy_y = module_size_policy
-                    module.setSizePolicy(size_policy_x.value, size_policy_y.value)
-                layout.addWidget(module)
-            else:
-                raise ValueError(f'"{module_type}" is not a valid module type')
-        else:
-            raise ValueError(f"{module_type}_{module_index}: not found")
-
-        self.setLayout(layout)
-
     @staticmethod
-    def setup_module_data(module_type: ModuleType, module_index: int) -> Optional[dict]:
+    def setup_module_data(
+        module_type: ModuleType, module_constant: Enum
+    ) -> Optional[dict]:
         """Setup the module data."""
         module_data_dict = {
-            ModuleType.Label: LABELS,
-            ModuleType.CheckBox: CHECKBOXES,
-            ModuleType.DoubleSpinBox: DOUBLESPINBOXES,
-            ModuleType.LineEdit: INPUTFIELDS,
-            ModuleType.PushButton: BUTTONS,
+            ModuleType.Label: Labels,
+            ModuleType.CheckBox: Checkboxes,
+            ModuleType.DoubleSpinBox: DoubleSpinBoxes,
+            ModuleType.LineEdit: InputFields,
+            ModuleType.PushButton: Buttons,
         }
         module_list = module_data_dict.get(module_type)
 
-        if module_list is not None and module_index < len(module_list):
-            return module_list[module_index]
+        if module_list is not None:
+            module_name = module_constant.name
+            return module_list[module_name].value
 
         return None
 
@@ -152,17 +116,14 @@ class ModuleHandler(ModuleType.Widget.value):
 
         if module_type == ModuleType.Label:
             module = ModuleType.Label.value()
-            module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
         elif module_type == ModuleType.CheckBox:
             module = ModuleType.CheckBox.value()
-            module.setObjectName(str((module_type, module_data["index"])))
             module.setText(module_data["title"])
 
         elif module_type == ModuleType.DoubleSpinBox:
             module = ModuleType.DoubleSpinBox.value()
-            module.setObjectName(str((module_type, module_data["index"])))
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
             module.setValue(module_data["default_value"])
@@ -171,12 +132,10 @@ class ModuleHandler(ModuleType.Widget.value):
 
         elif module_type == ModuleType.LineEdit:
             module = ModuleType.LineEdit.value()
-            module.setObjectName(str((module_type, module_data["index"])))
             module.setPlaceholderText(module_data["placeholder"])
 
         elif module_type == ModuleType.PushButton:
             module = ModuleType.PushButton.value()
-            module.setObjectName(str((module_type, module_data["index"])))
 
             if module_data["icon_path"]:
                 icon = QIcon(module_data["icon_path"])
@@ -202,32 +161,24 @@ class ModuleHandler(ModuleType.Widget.value):
             return (0, 0, 0, 0)
         return module_margins
 
-    def module_connection(
-        self, module_type: ModuleType, module_index: int, target_method: Callable
-    ) -> None:
-        """Connect the module signal to the target method."""
-        module = self.findChild(
-            ModuleType.Widget.value, str((module_type, module_index))
-        )
+    # def module_connection(self, module_constant: Enum, target_method: Callable) -> None:
+    #     """Connect the module signal to the target method."""
+    #     module = self.findChild(ModuleType.Widget.value, str((module_constant)))
 
-        if isinstance(module, ModuleType.PushButton.value):
-            module.clicked.connect(target_method)
+    #     if isinstance(module, ModuleType.PushButton.value):
+    #         module.clicked.connect(target_method)
 
-        else:
-            raise ValueError(f"{module_type}_{module_index}: not found")
+    #     else:
+    #         raise ValueError(f"{module_constant}: not found")
 
-    @Slot(str, int)
-    def toggle_module_visibility(
-        self, module_type: ModuleType, module_index: int
-    ) -> None:
-        """Toggle the module visibility."""
-        module = self.findChild(
-            ModuleType.Widget.value, str((module_type, module_index))
-        )
+    # @Slot(str, int)
+    # def toggle_module_visibility(self, module_constant: Enum) -> None:
+    #     """Toggle the module visibility."""
+    #     module = self.findChild(ModuleType.Widget.value, str((module_constant)))
 
-        if isinstance(module, ModuleType.Widget.value):
-            module.setVisible(not module.isVisible())
-        else:
-            raise ValueError(
-                f"{module_type}_{module_index}: not found or not supported for visibility toggling"
-            )
+    #     if isinstance(module, ModuleType.Widget.value):
+    #         module.setVisible(not module.isVisible())
+    #     else:
+    #         raise ValueError(
+    #             f"{module_constant}: not found or not supported for visibility toggling"
+    #         )

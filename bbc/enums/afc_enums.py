@@ -23,14 +23,6 @@ class LumberTypes(Enum):
     ]
 
 
-class FrameSettings(Enum):
-    """A class to represent frame settings."""
-
-    FrameX = 4000
-    FrameY = 2000
-    StudSpacing = 600
-
-
 class StudSettings(Enum):
     """A class to represent stud settings."""
 
@@ -45,6 +37,14 @@ class StudSettings(Enum):
     PenStyle = "SolidLine"
     PenColor = "#ffffff"
     PenThickness = 2
+
+
+class FrameSettings(Enum):
+    """A class to represent frame settings."""
+
+    FrameX = 4000
+    FrameY = 2000
+    StudSpacing = 600
 
 
 class GraphicsSceneSettings(Enum):

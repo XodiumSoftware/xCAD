@@ -1,6 +1,6 @@
 from typing import Optional
 
-from constants import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.db_handler import DataBaseHandler
 from handlers.signal_handler import SignalHandler
 from PySide6.QtGui import QBrush, QColor, QPen
@@ -18,7 +18,7 @@ Graphics_objects_table = (
     "z_value",
     "tooltip",
 )
-from enums import StudSettings
+from enums.afc_enums import StudSettings
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):

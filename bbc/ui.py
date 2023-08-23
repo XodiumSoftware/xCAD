@@ -1,8 +1,8 @@
-from functools import partial
 from typing import List
 
-from constants import UIS, ModuleType
 from delegates.graphics_view_delegate import GraphicsViewDelegate
+from enums.q_enums import ModuleType
+from enums.ui_enums import UIs
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
@@ -35,9 +35,9 @@ class UI(QMainWindow):
 
     def setup_ui(self) -> None:
         """Setup the UIs."""
-        main_ui_info = UIS[0]
-        configurator_ui_info = UIS[1]
-        frame_2d_view_ui_info = UIS[2]
+        main_ui_info = UIs.MainUI.value
+        configurator_ui_info = UIs.ConfiguratorUI.value
+        frame_2d_view_ui_info = UIs.Frame2DView.value
 
         self._main_ui.setWindowTitle(main_ui_info["title"])
         self._configurator_ui.setWindowTitle(configurator_ui_info["title"])
@@ -92,43 +92,31 @@ class UI(QMainWindow):
         else:
             self._frame_view_ui.hide()
 
-        self.setup_connections()
+    #     self.setup_connections()
 
-    def setup_connections(self) -> None:
-        """Setup the connections."""
-        self._main_module_0.module_connection(
-            ModuleType.PushButton,
-            0,
-            partial(
-                self.switch_modules,
-                module=self._main_modules_stack,
-            ),
-        )
-        self._main_module_1.module_connection(
-            ModuleType.PushButton,
-            5,
-            partial(
-                self.switch_modules,
-                module=self._main_modules_stack,
-            ),
-        )
-        self._configurator_module_0.module_connection(
-            ModuleType.PushButton,
-            5,
-            partial(
-                self.toggle_ui_visibility,
-                uis=[self._configurator_ui, self._main_ui],
-            ),
-        )
-        self._configurator_module_0.module_connection(
-            ModuleType.PushButton,
-            1,
-            partial(
-                self._configurator_module_0.toggle_module_visibility,
-                "GraphicsView",
-                0,
-            ),
-        )
+    # def setup_connections(self) -> None:
+    #     """Setup the connections."""
+    #     self._main_module_0.module_connection(
+    #         Buttons.AutoFrameCAD,
+    #         partial(
+    #             self.switch_modules,
+    #             module=self._main_modules_stack,
+    #         ),
+    #     )
+    #     self._main_module_1.module_connection(
+    #         Buttons.StartupPage,
+    #         partial(
+    #             self.switch_modules,
+    #             module=self._main_modules_stack,
+    #         ),
+    #     )
+    #     self._configurator_module_0.module_connection(
+    #         Buttons.StartupPage,
+    #         partial(
+    #             self.toggle_ui_visibility,
+    #             uis=[self._configurator_ui, self._main_ui],
+    #         ),
+    #     )
 
     def toggle_ui_visibility(self, uis: List[QWidget]) -> None:
         """Toggles the visibility of UI(s)."""

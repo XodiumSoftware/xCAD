@@ -1,15 +1,15 @@
 import math
 from typing import Optional
 
-from constants import (
+from delegates.graphics_scene_delegate import GraphicsSceneDelegate
+from enums.afc_enums import GraphicsViewSettings
+from enums.q_enums import (
     AspectRatioModeTypes,
     DragModeTypes,
     PenStyleTypes,
     RenderHintTypes,
     ScrollBarPolicyTypes,
 )
-from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from enums import GraphicsViewSettings
 from PySide6.QtCore import QEvent, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QWheelEvent
 from PySide6.QtWidgets import QGraphicsView
