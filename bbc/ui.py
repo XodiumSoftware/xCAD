@@ -1,6 +1,7 @@
 from typing import List
 
 from delegates.graphics_view_delegate import GraphicsViewDelegate
+from enums.matrix_enums import Matrices
 from enums.q_enums import ModuleType
 from enums.ui_enums import UIs
 from handlers.events_handler import EventsHandler
@@ -18,9 +19,9 @@ class UI(QMainWindow):
         """Initialize the MainUI."""
         super().__init__()
 
-        self._main_module_0 = ModuleHandler(0)
-        self._main_module_1 = ModuleHandler(2)
-        self._configurator_module_0 = ModuleHandler(1)
+        self._main_module_0 = ModuleHandler(Matrices.Matrix0)
+        self._main_module_1 = ModuleHandler(Matrices.Matrix2)
+        self._configurator_module_0 = ModuleHandler(Matrices.Matrix1)
         self._frame_view_2d_view = GraphicsViewDelegate()
         self._signal_handler = SignalHandler()
         self._ui_handler = UIHandler()

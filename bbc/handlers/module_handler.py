@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Optional, Tuple
 
-from enums.matrix_enums import MATRICES
+from enums.matrix_enums import Matrices
 from enums.module_enums import Buttons, Checkboxes, DoubleSpinBoxes, InputFields, Labels
 from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
 from PySide6.QtCore import QSettings
@@ -13,7 +13,7 @@ class ModuleHandler(ModuleType.Widget.value):
 
     def __init__(
         self,
-        matrix_index: int,
+        matrix_name: Enum,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
         parent: Optional[ModuleType.Widget.value] = None,
     ) -> None:
@@ -22,24 +22,21 @@ class ModuleHandler(ModuleType.Widget.value):
         self._settings = QSettings()
         self._module_visibility = {}
 
-        self.create_modules_from_matrix(matrix_index, matrix_margins)
+        self.create_modules_from_matrix(matrix_name, matrix_margins)
 
     def create_modules_from_matrix(
         self,
-        matrix_index: int,
+        matrix_name: Enum,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
     ):
         """Create modules from a matrix."""
-        module_matrix_data = next(
-            (data for data in MATRICES if data["index"] == matrix_index),
-            None,
-        )
-        if module_matrix_data:
-            module_matrix_pos = module_matrix_data.get("module_matrix_pos", [])
+        matrix_data = matrix_name.value
+
+        if matrix_data:
             layout = LayoutType.Grid.value(self)
             layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
 
-            for row, row_modules in enumerate(module_matrix_pos):
+            for row, row_modules in enumerate(matrix_data):
                 for column, module_args in enumerate(row_modules):
                     (
                         module_layout_type,
@@ -83,9 +80,7 @@ class ModuleHandler(ModuleType.Widget.value):
                         raise ValueError(f"{module_type}_{module_constant}: not found")
 
         else:
-            raise ValueError(
-                f"Module index {matrix_index} not found in MODULE_MATRICES"
-            )
+            raise ValueError(f"Matrix {matrix_name.value} not found in Matrices")
 
     @staticmethod
     def setup_module_data(
