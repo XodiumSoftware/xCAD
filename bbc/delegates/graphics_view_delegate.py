@@ -9,7 +9,7 @@ from constants import (
     ScrollBarPolicyTypes,
 )
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from inits import Inits
+from enums import GraphicsViewSettings
 from PySide6.QtCore import QEvent, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QWheelEvent
 from PySide6.QtWidgets import QGraphicsView
@@ -21,16 +21,11 @@ class GraphicsViewDelegate(QGraphicsView):
     def __init__(self, parent: Optional[QGraphicsView] = None) -> None:
         """Initialize the graphics view delegate."""
         super().__init__(parent)
-        self._graphics_scene_delegate = GraphicsSceneDelegate()
-        self._general_settings = Inits.setup_init_graphics_view_properties()[
-            "General settings:"
-        ]
-
         self.setup_graphics_view()
 
     def setup_graphics_view(self):
         """Setup the graphics view delegate."""
-        self.setScene(self._graphics_scene_delegate)
+        self.setScene(GraphicsSceneDelegate())
 
         self.setRenderHint(RenderHintTypes.Antialiasing.value)
         self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
@@ -57,23 +52,21 @@ class GraphicsViewDelegate(QGraphicsView):
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
-        self.draw_background(painter, rect, self._general_settings)
-        self.draw_grid(painter, rect, self._general_settings)
+        self.draw_background(painter, rect)
+        self.draw_grid(painter, rect)
 
     @staticmethod
-    def draw_background(
-        painter: QPainter, rect: QRectF, general_settings: dict
-    ) -> None:
+    def draw_background(painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
-        return painter.fillRect(rect, general_settings["Background color:"])
+        return painter.fillRect(rect, GraphicsViewSettings.BackgroundColor.value)
 
     @staticmethod
-    def draw_grid(painter: QPainter, rect: QRectF, general_settings: dict) -> None:
+    def draw_grid(painter: QPainter, rect: QRectF) -> None:
         """Draws the grid of the graphics view delegate."""
-        grid_spacing = general_settings["Grid size:"]
+        grid_spacing = GraphicsViewSettings.GridSize.value
 
-        pen = QPen(QColor(general_settings["Grid color:"]))
-        pen.setStyle(PenStyleTypes[general_settings["Grid style:"]].value)
+        pen = QPen(QColor(GraphicsViewSettings.GridColor.value))
+        pen.setStyle(PenStyleTypes[GraphicsViewSettings.GridStyle.value].value)
         painter.setPen(pen)
 
         grid_path = QPainterPath()

@@ -1,14 +1,8 @@
-from typing import Dict, Optional
+from typing import Optional
 
-from constants import (
-    DATABASE_PATH,
-    BrushStyleTypes,
-    GraphicsItemFlagTypes,
-    PenStyleTypes,
-)
+from constants import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.db_handler import DataBaseHandler
 from handlers.signal_handler import SignalHandler
-from inits import Inits
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem
 
@@ -24,6 +18,7 @@ Graphics_objects_table = (
     "z_value",
     "tooltip",
 )
+from enums import StudSettings
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
@@ -36,7 +31,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
     def setup_graphics_object(self) -> None:
         """Setup the graphics object delegate."""
-        init_props = Inits.setup_init_graphics_object_properties()
         db_handler = DataBaseHandler()
         self.setup_table(db_handler)
         db_props = db_handler.retrieve_data(*Graphics_objects_table)
@@ -51,7 +45,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         if db_props:
             self.saved_data(self, db_props)
         else:
-            self.init_data(self, init_props)
+            self.init_data(self)
 
         self.mouseDoubleClickEvent = (
             lambda event: signal_handler.objectDoubleClicked.emit(self)
@@ -74,30 +68,24 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         obj.setToolTip(props[0][9])
 
     @staticmethod
-    def init_data(obj: QGraphicsRectItem, props: Dict) -> None:
+    def init_data(obj: QGraphicsRectItem) -> None:
         """Apply initial properties to the object."""
-        fill_settings, pen_settings, general_settings = (
-            props["Fill settings:"],
-            props["Pen settings:"],
-            props["General settings:"],
-        )
-
         obj.setPen(
             QPen(
-                QColor(pen_settings["Pen color:"]),
-                pen_settings["Pen thickness:"],
-                PenStyleTypes[pen_settings["Pen style:"]].value,
+                QColor(StudSettings.PenColor.value),
+                StudSettings.PenThickness.value,
+                PenStyleTypes[StudSettings.PenStyle.value].value,
             )
         )
-        if fill_settings["Fill:"]:
+        if StudSettings.Fill.value:
             obj.setBrush(
                 QBrush(
-                    QColor(fill_settings["Fill color:"]),
-                    BrushStyleTypes[fill_settings["Fill pattern:"]].value,
+                    QColor(StudSettings.FillColor.value),
+                    BrushStyleTypes[StudSettings.FillPattern.value].value,
                 )
             )
-            obj.setOpacity(max(0, min(fill_settings["Fill opacity:"], 100)) / 100)
+            obj.setOpacity(max(0, min(StudSettings.FillOpacity.value, 100)) / 100)
         else:
             obj.setBrush(QBrush(BrushStyleTypes.NoBrush.value))
-        obj.setZValue(general_settings["Draw order:"])
-        obj.setToolTip(general_settings["Name:"])
+        obj.setZValue(StudSettings.DrawOrder.value)
+        obj.setToolTip(StudSettings.Name.value)
