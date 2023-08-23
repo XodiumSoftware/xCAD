@@ -9,7 +9,7 @@ class ImageSecurity {
    * Initializes instance properties and sets up event listeners.
    * Automatically obfuscates image URLs on initialization.
    */
-  constructor(imageElement) {
+  constructor (imageElement) {
     this.image = imageElement
     this.images = document.querySelectorAll('img[data-obfuscate]')
 
@@ -20,7 +20,7 @@ class ImageSecurity {
   /**
    * Add event listeners to images to prevent right-click, dragging, and specific key combinations.
    */
-  addEventListeners() {
+  addEventListeners () {
     // Prevent right-click and dragging on images
     const disableEvent = (event) => event.preventDefault()
 
@@ -40,7 +40,7 @@ class ImageSecurity {
    * Generate a unique filename for an image based on its original filename.
    * @static
    */
-  static generateUniqueFilename(originalFilename) {
+  static generateUniqueFilename (originalFilename) {
     const hash = md5(originalFilename)
     const fileExtension = originalFilename.split('.').pop()
     const uniqueFilename = `${hash}.${fileExtension}`
@@ -50,12 +50,12 @@ class ImageSecurity {
   /**
    * Obfuscate image URLs by replacing them with unique filenames.
    */
-  obfuscateImageURLs() {
+  obfuscateImageURLs () {
     this.images.forEach((image) => {
-      const originalSrc = image.getAttribute('src');
-      const uniqueFilename = this.generateUniqueFilename(originalSrc);
-      image.setAttribute('src', uniqueFilename);
-    });
+      const originalSrc = image.getAttribute('src')
+      const uniqueFilename = this.generateUniqueFilename(originalSrc)
+      image.setAttribute('src', uniqueFilename)
+    })
   }
 }
 const ImageElement = document.addEventListener('DOMContentLoaded')
