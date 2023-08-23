@@ -44,8 +44,9 @@ class RegistrationPopupManager {
 
   /**
    * Closes a popup and removes the exit button from it.
+   * @static
    */
-  closePopup(popup) {
+  static closePopup(popup) {
     popup.style.display = "none";
     const exitButton = popup.querySelector(".overlay-exit-button");
     if (exitButton) {
@@ -92,4 +93,4 @@ class RegistrationPopupManager {
 }
 
 const clientId = "Iv1.c014788a30bf9f06";
-new RegistrationPopupManager(clientId);
+const popupManager = new RegistrationPopupManager(clientId);

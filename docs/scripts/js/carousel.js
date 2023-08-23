@@ -91,4 +91,4 @@ class Carousel {
 }
 
 const carouselElement = document.querySelector('[data-carousel]');
-new Carousel(carouselElement);
+const carousel = new Carousel(carouselElement);
