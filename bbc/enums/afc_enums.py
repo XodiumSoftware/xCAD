@@ -43,8 +43,9 @@ class FrameSettings(Enum):
     """A class to represent frame settings."""
 
     FrameX = 4000
-    FrameY = 2000
-    StudSpacing = 600
+    FrameY = 2500
+    StudSpacingX = 600
+    StudSpacingY = 2400
 
 
 class GraphicsSceneSettings(Enum):

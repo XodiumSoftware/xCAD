@@ -29,15 +29,41 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Setup the frame work."""
         stud_objs: Dict[int, GraphicsObjectDelegate] = {}
 
-        for x in range(0, FrameSettings.FrameX.value, FrameSettings.StudSpacing.value):
-            stud_obj = GraphicsObjectDelegate()
-            scene.addItem(stud_obj)
-            stud_obj.setPos(x, 0)
-            stud_obj.setRect(0, 0, StudSettings.StudX.value, FrameSettings.FrameY.value)
-            stud_objs[x] = stud_obj
-            stud_obj.mouseDoubleClickEvent = lambda event, stud_obj=stud_obj: GraphicsSceneDelegate.object_editor_dialog(
-                event, stud_obj
-            )
+        for i in range(0, max(FrameSettings.FrameX.value, FrameSettings.FrameY.value)):
+            if (
+                i < FrameSettings.FrameX.value
+                and i % FrameSettings.StudSpacingX.value == 0
+            ):
+                stud_obj = GraphicsObjectDelegate()
+                scene.addItem(stud_obj)
+                stud_obj.setPos(i, 0)
+                stud_obj.setRect(
+                    0,
+                    StudSettings.StudX.value,
+                    StudSettings.StudX.value,
+                    FrameSettings.FrameY.value,
+                )
+                stud_objs[i] = stud_obj
+                stud_obj.mouseDoubleClickEvent = lambda event, stud_obj=stud_obj: GraphicsSceneDelegate.object_editor_dialog(
+                    event, stud_obj
+                )
+            if (
+                i < FrameSettings.FrameY.value
+                and i % FrameSettings.StudSpacingY.value == 0
+            ):
+                stud_obj = GraphicsObjectDelegate()
+                scene.addItem(stud_obj)
+                stud_obj.setPos(0, i)
+                stud_obj.setRect(
+                    0,
+                    0,
+                    FrameSettings.FrameX.value,
+                    StudSettings.StudX.value,
+                )
+                stud_objs[i] = stud_obj
+                stud_obj.mouseDoubleClickEvent = lambda event, stud_obj=stud_obj: GraphicsSceneDelegate.object_editor_dialog(
+                    event, stud_obj
+                )
 
     @staticmethod
     def object_editor_dialog(

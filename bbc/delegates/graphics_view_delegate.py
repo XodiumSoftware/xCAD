@@ -29,7 +29,7 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
         self.setVerticalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
 
-        self.fit_scene_in_view()
+        self.fit_scene_in_view(self)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
@@ -65,11 +65,14 @@ class GraphicsViewDelegate(QGraphicsView):
 
         painter.drawPath(grid_path)
 
-    def fit_scene_in_view(self) -> None:
+    @staticmethod
+    def fit_scene_in_view(instance: QGraphicsView) -> None:
         """Fits the scene in the view with margins around the scene."""
-        self.fitInView(self.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value)
+        instance.fitInView(
+            instance.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
+        )
 
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
-        self.fit_scene_in_view()
+        GraphicsViewDelegate.fit_scene_in_view(self)
         super().resizeEvent(event)
