@@ -98,8 +98,7 @@ class ModuleHandler(QWidget):
             module_data = module_enum.value
             delegate = delegate_class(module_data)
             return module_data, delegate
-        else:
-            raise ValueError(f"{module_enum.__class__}: delegate class not found")
+        raise ValueError(f"{module_enum.__class__}: delegate class not found")
 
     @staticmethod
     def setup_module_margins(
