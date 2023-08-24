@@ -1,9 +1,6 @@
-from typing import Optional
-
 from enums.afc_enums import StudSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.db_handler import DataBaseHandler
-from handlers.signal_handler import SignalHandler
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem
 
@@ -34,11 +31,9 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         db_handler = DataBaseHandler()
         self.setup_table(db_handler)
         db_props = db_handler.retrieve_data(*Graphics_objects_table)
-        signal_handler = SignalHandler()
 
         self.setFlags(
-            GraphicsItemFlagTypes.ItemIsMovable.value
-            | GraphicsItemFlagTypes.ItemIsSelectable.value
+            GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
 
@@ -46,10 +41,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             self.saved_data(self, db_props)
         else:
             self.init_data(self)
-
-        self.mouseDoubleClickEvent = (
-            lambda event: signal_handler.objectDoubleClicked.emit(self)
-        )
 
     @staticmethod
     def setup_table(db_handler: DataBaseHandler) -> None:

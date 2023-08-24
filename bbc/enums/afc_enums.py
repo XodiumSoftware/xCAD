@@ -51,14 +51,13 @@ class GraphicsSceneSettings(Enum):
     """A class to represent graphics scene settings."""
 
     BackgroundColor = "#000000"
+    AxisPenColor = "#00FF00"
 
 
 class GraphicsViewSettings(Enum):
     """A class to represent graphics view settings."""
 
     BackgroundColor = "#000000"
-    GridSize = 50
-    GridColor = "#808080"
-    GridStyle = "SolidLine"
-    XAxisColor = "#00FF00"
-    YAxisColor = "#FF0000"
+    GridSpacing = 100
+    GridPenColor = "#ffffff"
+    GridPenStyle = "SolidLine"
