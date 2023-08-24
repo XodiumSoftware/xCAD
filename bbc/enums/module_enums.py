@@ -22,7 +22,7 @@ class Checkboxes(Enum):
     }
 
 
-class InputFields(Enum):
+class LineEdits(Enum):
     """A class used to represent input fields"""
 
     Test = {
@@ -44,7 +44,7 @@ class DoubleSpinBoxes(Enum):
     }
 
 
-class Buttons(Enum):
+class PushButtons(Enum):
     """A class used to represent buttons"""
 
     AutoFrameCAD = {
@@ -83,3 +83,9 @@ class Buttons(Enum):
         "title": "Startup page",
         "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     }
+
+
+class GraphicsViews(Enum):
+    """A class used to represent graphics views"""
+
+    StructureView = {}

@@ -1,7 +1,15 @@
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, Type
+from typing import Any, Callable, List, Optional, Tuple
 
-from enums.module_enums import Buttons, Checkboxes, DoubleSpinBoxes, InputFields, Labels
+from delegates.graphics_view_delegate import GraphicsViewDelegate
+from enums.module_enums import (
+    Checkboxes,
+    DoubleSpinBoxes,
+    GraphicsViews,
+    Labels,
+    LineEdits,
+    PushButtons,
+)
 from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QIcon
@@ -38,8 +46,7 @@ class ModuleHandler(ModuleType.Widget.value):
             for row, row_modules in enumerate(matrix_data):
                 for column, (
                     module_layout_type,
-                    module_type,
-                    module_constant,
+                    module_enum,
                     module_margins,
                     module_alignment,
                     module_size_policy,
@@ -55,16 +62,14 @@ class ModuleHandler(ModuleType.Widget.value):
                             AlignmentType(module_alignment).value
                         )
 
-                    module_data: Optional[dict] = self.setup_module_data(
-                        module_type, module_constant
-                    )
+                    module_data: Optional[dict] = self.setup_module_data(module_enum)
 
                     if module_data:
                         module: ModuleType.Widget.value = self.setup_module_properties(
-                            module_type, module_data
+                            module_enum, module_data
                         )
                         if module:
-                            self._module_mapping[module_constant.name] = module
+                            self._module_mapping[module_enum.name] = module
                             if module_size_policy is not None:
                                 size_policy_x, size_policy_y = module_size_policy
                                 module.setSizePolicy(
@@ -76,41 +81,40 @@ class ModuleHandler(ModuleType.Widget.value):
                             layout.addLayout(module_container, row, column)
 
     @staticmethod
-    def setup_module_data(
-        module_type: ModuleType, module_constant: Enum
-    ) -> Optional[dict]:
+    def setup_module_data(module_enum: Enum) -> Optional[dict[str, Any]]:
         """Setup the module data."""
-        module_data_dict: dict[ModuleType, Type[Enum]] = {
-            ModuleType.Label: Labels,
-            ModuleType.CheckBox: Checkboxes,
-            ModuleType.DoubleSpinBox: DoubleSpinBoxes,
-            ModuleType.LineEdit: InputFields,
-            ModuleType.PushButton: Buttons,
+        module_class_mapping = {
+            Labels: Labels,
+            Checkboxes: Checkboxes,
+            LineEdits: LineEdits,
+            DoubleSpinBoxes: DoubleSpinBoxes,
+            PushButtons: PushButtons,
+            GraphicsViews: GraphicsViews,
         }
-        module_list = module_data_dict.get(module_type)
 
-        if module_list is not None:
-            module_name = module_constant.name
-            return module_list[module_name].value
+        module_class = module_enum.__class__
+        if module_class in module_class_mapping:
+            module_data = module_class_mapping[module_class](module_enum).value
+            return module_data if module_data is not None else None
 
         return None
 
     @staticmethod
     def setup_module_properties(
-        module_type: ModuleType, module_data: dict
+        module_enum: Enum, module_data: dict
     ) -> ModuleType.Widget.value:
         """Setup the module properties."""
         module = ModuleType.Widget.value()
 
-        if module_type == ModuleType.Label:
+        if module_enum.__class__ == Labels:
             module = ModuleType.Label.value()
             module.setText(module_data["title"])
 
-        elif module_type == ModuleType.CheckBox:
+        elif module_enum.__class__ == Checkboxes:
             module = ModuleType.CheckBox.value()
             module.setText(module_data["title"])
 
-        elif module_type == ModuleType.DoubleSpinBox:
+        elif module_enum.__class__ == DoubleSpinBoxes:
             module = ModuleType.DoubleSpinBox.value()
             module.setMinimum(module_data["min_value"])
             module.setMaximum(module_data["max_value"])
@@ -118,11 +122,11 @@ class ModuleHandler(ModuleType.Widget.value):
             module.setSingleStep(module_data["step"])
             module.setSuffix(module_data["suffix"])
 
-        elif module_type == ModuleType.LineEdit:
+        elif module_enum.__class__ == LineEdits:
             module = ModuleType.LineEdit.value()
             module.setPlaceholderText(module_data["placeholder"])
 
-        elif module_type == ModuleType.PushButton:
+        elif module_enum.__class__ == PushButtons:
             module = ModuleType.PushButton.value()
 
             if module_data["icon_path"]:
@@ -137,6 +141,10 @@ class ModuleHandler(ModuleType.Widget.value):
                 module.setSizePolicy(
                     SizePolicyType.Minimum.value, SizePolicyType.Minimum.value
                 )
+        elif module_enum.__class__ == GraphicsViews:
+            module = GraphicsViewDelegate()
+        else:
+            raise ValueError(f"{module_enum.__class__}: not found")
 
         return module
 
@@ -149,21 +157,21 @@ class ModuleHandler(ModuleType.Widget.value):
             return (0, 0, 0, 0)
         return module_margins
 
-    def module_connection(self, module_constant: Enum, target_method: Callable) -> None:
+    def module_connection(self, module_enum: Enum, target_method: Callable) -> None:
         """Connect the module signal to the target method."""
-        module_reference = self._module_mapping.get(module_constant.name)
+        module_reference = self._module_mapping.get(module_enum.name)
         if isinstance(module_reference, ModuleType.PushButton.value):
             module_reference.clicked.connect(target_method)
         else:
-            raise ValueError(f"{module_constant}: not found")
+            raise ValueError(f"{module_enum}: not found")
 
     @Slot(str, str)
-    def toggle_module_visibility(self, module_constant: Enum) -> None:
+    def toggle_module_visibility(self, module_enum: Enum) -> None:
         """Toggle the module visibility."""
-        module_reference = self._module_mapping.get(module_constant.name)
+        module_reference = self._module_mapping.get(module_enum.name)
         if isinstance(module_reference, ModuleType.Widget.value):
             module_reference.setVisible(not module_reference.isVisible())
         else:
             raise ValueError(
-                f"{module_constant}: not found or not supported for visibility toggling"
+                f"{module_enum}: not found or not supported for visibility toggling"
             )

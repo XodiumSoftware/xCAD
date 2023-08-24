@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict
 
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.afc_enums import FrameSettings, StudSettings
@@ -8,9 +8,9 @@ from PySide6.QtWidgets import QGraphicsScene
 class GraphicsSceneDelegate(QGraphicsScene):
     """A class to represent a graphics scene delegate."""
 
-    def __init__(self, parent: Optional[QGraphicsScene] = None) -> None:
+    def __init__(self) -> None:
         """Initialize the graphics scene delegate."""
-        super().__init__(parent)
+        super().__init__()
         self.setup_graphics_scene()
 
     def setup_graphics_scene(self) -> None:

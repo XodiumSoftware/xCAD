@@ -30,6 +30,7 @@ class ModuleType(Enum):
     DoubleSpinBox = QDoubleSpinBox
     LineEdit = QLineEdit
     PushButton = QPushButton
+    GraphicsView = QGraphicsView
 
 
 class LayoutType(Enum):

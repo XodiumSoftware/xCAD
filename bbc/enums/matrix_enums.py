@@ -1,7 +1,7 @@
 from enum import Enum
 
-from enums.module_enums import Buttons, Labels
-from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
+from enums.module_enums import GraphicsViews, Labels, PushButtons
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 # ModuleHandler:
@@ -15,12 +15,11 @@ from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
 class Matrices(Enum):
     """A class to store the matrices."""
 
-    Matrix0 = [
+    MainMatrix0 = [
         [
             [
                 LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.AutoFrameCAD,
+                PushButtons.AutoFrameCAD,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
@@ -29,7 +28,6 @@ class Matrices(Enum):
         [
             [
                 LayoutType.VBox,
-                ModuleType.Label,
                 Labels.Copyright,
                 (0, 0, 0, 0),
                 AlignmentType.AlignBottom,
@@ -37,28 +35,34 @@ class Matrices(Enum):
             ],
         ],
     ]
-    Matrix1 = [
+    MainMatrix1 = [
         [
             [
                 LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Save,
+                GraphicsViews.StructureView,
+                (0, 0, 0, 0),
+                AlignmentType.AlignCenter,
+                (SizePolicyType.Expanding, SizePolicyType.Expanding),
+            ],
+        ],
+        [
+            [
+                LayoutType.VBox,
+                PushButtons.Save,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
             [
                 LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Discard,
+                PushButtons.Discard,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
             [
                 LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Reset,
+                PushButtons.Reset,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
@@ -67,16 +71,7 @@ class Matrices(Enum):
         [
             [
                 LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.StartupPage,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.ViewerButton,
+                PushButtons.StartupPage,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
@@ -85,55 +80,6 @@ class Matrices(Enum):
         [
             [
                 LayoutType.VBox,
-                ModuleType.Label,
-                Labels.Copyright,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
-    ]
-    Matrix2 = [
-        [
-            [
-                LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Save,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Discard,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.Reset,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
-        [
-            [
-                LayoutType.VBox,
-                ModuleType.PushButton,
-                Buttons.StartupPage,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
-        [
-            [
-                LayoutType.VBox,
-                ModuleType.Label,
                 Labels.Copyright,
                 (0, 0, 0, 0),
                 AlignmentType.AlignCenter,

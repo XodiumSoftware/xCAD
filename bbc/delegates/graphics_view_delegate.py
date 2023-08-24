@@ -18,12 +18,12 @@ from PySide6.QtWidgets import QGraphicsView
 class GraphicsViewDelegate(QGraphicsView):
     """A class to represent a graphics view delegate."""
 
-    def __init__(self, parent: Optional[QGraphicsView] = None) -> None:
+    def __init__(self) -> None:
         """Initialize the graphics view delegate."""
-        super().__init__(parent)
+        super().__init__()
         self.setup_graphics_view()
 
-    def setup_graphics_view(self):
+    def setup_graphics_view(self) -> None:
         """Setup the graphics view delegate."""
         self.setScene(GraphicsSceneDelegate())
 

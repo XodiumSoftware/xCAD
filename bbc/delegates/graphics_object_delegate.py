@@ -24,9 +24,9 @@ Graphics_objects_table = (
 class GraphicsObjectDelegate(QGraphicsRectItem):
     """A class to represent a graphics object delegate."""
 
-    def __init__(self, parent: Optional[QGraphicsRectItem] = None) -> None:
+    def __init__(self) -> None:
         """Initialize the graphics object delegate."""
-        super().__init__(parent)
+        super().__init__()
         self.setup_graphics_object()
 
     def setup_graphics_object(self) -> None:
