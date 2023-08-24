@@ -58,7 +58,7 @@ class GraphicsViewDelegate(QGraphicsView):
     @staticmethod
     def draw_background(painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
-        return painter.fillRect(rect, GraphicsViewSettings.BackgroundColor.value)
+        return
 
     @staticmethod
     def draw_grid(painter: QPainter, rect: QRectF) -> None:

@@ -1,7 +1,12 @@
 from enum import Enum
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, List, Optional, Tuple, Type
 
+from delegates.checkbox_delegate import CheckBoxDelegate
+from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
 from delegates.graphics_view_delegate import GraphicsViewDelegate
+from delegates.label_delegate import LabelDelegate
+from delegates.lineedit_delegate import LineEditDelegate
+from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
 from enums.module_enums import (
     Checkboxes,
     DoubleSpinBoxes,
@@ -10,19 +15,19 @@ from enums.module_enums import (
     LineEdits,
     PushButtons,
 )
-from enums.q_enums import AlignmentType, LayoutType, ModuleType, SizePolicyType
+from enums.q_enums import AlignmentType, LayoutType
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QWidget
 
 
-class ModuleHandler(ModuleType.Widget.value):
+class ModuleHandler(QWidget):
     """A class to handle the modules."""
 
     def __init__(
         self,
         matrix_name: Enum,
         matrix_margins: Optional[Tuple[int, int, int, int]] = None,
-        parent: Optional[ModuleType.Widget.value] = None,
+        parent: Optional[QWidget] = None,
     ) -> None:
         """Initialize the ModuleHandler."""
         super().__init__(parent)
@@ -65,7 +70,7 @@ class ModuleHandler(ModuleType.Widget.value):
                     module_data: Optional[dict] = self.setup_module_data(module_enum)
 
                     if module_data:
-                        module: ModuleType.Widget.value = self.setup_module_properties(
+                        module: QWidget = self.setup_module_properties(
                             module_enum, module_data
                         )
                         if module:
@@ -100,53 +105,24 @@ class ModuleHandler(ModuleType.Widget.value):
         return None
 
     @staticmethod
-    def setup_module_properties(
-        module_enum: Enum, module_data: dict
-    ) -> ModuleType.Widget.value:
+    def setup_module_properties(module_enum: Type[Enum], module_data: dict) -> QWidget:
         """Setup the module properties."""
-        module = ModuleType.Widget.value()
+        delegate_mapping = {
+            Labels: LabelDelegate,
+            Checkboxes: CheckBoxDelegate,
+            DoubleSpinBoxes: DoubleSpinBoxDelegate,
+            LineEdits: LineEditDelegate,
+            PushButtons: PushButtonDelegate,
+            GraphicsViews: GraphicsViewDelegate,
+        }
 
-        if module_enum.__class__ == Labels:
-            module = ModuleType.Label.value()
-            module.setText(module_data["title"])
+        module_class = module_enum.__class__
+        delegate_class = delegate_mapping.get(module_class)
 
-        elif module_enum.__class__ == Checkboxes:
-            module = ModuleType.CheckBox.value()
-            module.setText(module_data["title"])
-
-        elif module_enum.__class__ == DoubleSpinBoxes:
-            module = ModuleType.DoubleSpinBox.value()
-            module.setMinimum(module_data["min_value"])
-            module.setMaximum(module_data["max_value"])
-            module.setValue(module_data["default_value"])
-            module.setSingleStep(module_data["step"])
-            module.setSuffix(module_data["suffix"])
-
-        elif module_enum.__class__ == LineEdits:
-            module = ModuleType.LineEdit.value()
-            module.setPlaceholderText(module_data["placeholder"])
-
-        elif module_enum.__class__ == PushButtons:
-            module = ModuleType.PushButton.value()
-
-            if module_data["icon_path"]:
-                icon = QIcon(module_data["icon_path"])
-                module.setIcon(icon)
-            else:
-                module.setText(module_data["title"])
-            module.setStyleSheet(module_data["stylesheet"])
-            if module_data["size"] is not None:
-                module.setFixedSize(*module_data["size"])
-            else:
-                module.setSizePolicy(
-                    SizePolicyType.Minimum.value, SizePolicyType.Minimum.value
-                )
-        elif module_enum.__class__ == GraphicsViews:
-            module = GraphicsViewDelegate()
+        if delegate_class is not None:
+            return delegate_class(module_data)
         else:
-            raise ValueError(f"{module_enum.__class__}: not found")
-
-        return module
+            raise ValueError(f"{module_class}: not found")
 
     @staticmethod
     def setup_module_margins(
@@ -160,7 +136,7 @@ class ModuleHandler(ModuleType.Widget.value):
     def module_connection(self, module_enum: Enum, target_method: Callable) -> None:
         """Connect the module signal to the target method."""
         module_reference = self._module_mapping.get(module_enum.name)
-        if isinstance(module_reference, ModuleType.PushButton.value):
+        if isinstance(module_reference, QPushButton):
             module_reference.clicked.connect(target_method)
         else:
             raise ValueError(f"{module_enum}: not found")
@@ -169,7 +145,7 @@ class ModuleHandler(ModuleType.Widget.value):
     def toggle_module_visibility(self, module_enum: Enum) -> None:
         """Toggle the module visibility."""
         module_reference = self._module_mapping.get(module_enum.name)
-        if isinstance(module_reference, ModuleType.Widget.value):
+        if isinstance(module_reference, QWidget):
             module_reference.setVisible(not module_reference.isVisible())
         else:
             raise ValueError(
