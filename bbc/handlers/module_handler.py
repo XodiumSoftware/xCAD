@@ -93,7 +93,7 @@ class ModuleHandler(QWidget):
             GraphicsViews: GraphicsViewDelegate,
         }
 
-        delegate_class = module_class_mapping.get(module_enum.__class__, None)
+        delegate_class = module_class_mapping.get(module_enum.__class__)
         if delegate_class:
             module_data = module_enum.value
             delegate = delegate_class(module_data)
