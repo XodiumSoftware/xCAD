@@ -13,9 +13,3 @@ class CheckBoxDelegate(QCheckBox):
         """Setup the check box delegate."""
         self.setText(module_data["title"])
         self.setStyleSheet(module_data["stylesheet"])
-        self.stateChanged.connect(self.update_check_box)
-
-    def update_check_box(self, state: bool) -> None:
-        """Update the check box delegate."""
-        self.setChecked(state)
-        self.update()

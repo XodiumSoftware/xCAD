@@ -1,5 +1,4 @@
 import math
-from typing import Optional
 
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from enums.afc_enums import GraphicsViewSettings
@@ -18,7 +17,7 @@ from PySide6.QtWidgets import QGraphicsView
 class GraphicsViewDelegate(QGraphicsView):
     """A class to represent a graphics view delegate."""
 
-    def __init__(self) -> None:
+    def __init__(self, _) -> None:
         """Initialize the graphics view delegate."""
         super().__init__()
         self.setup_graphics_view()

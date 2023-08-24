@@ -57,8 +57,6 @@ class ModuleHandler(QWidget):
                     module_size_policy,
                 ) in enumerate(row_modules):
                     module_container = LayoutType(module_layout_type).value()
-
-                    module_container = LayoutType(module_layout_type).value()
                     module_container.setContentsMargins(
                         *self.setup_module_margins(module_margins)
                     )
@@ -67,62 +65,41 @@ class ModuleHandler(QWidget):
                             AlignmentType(module_alignment).value
                         )
 
-                    module_data: Optional[dict] = self.setup_module_data(module_enum)
+                    _, delegate = self.setup_module(module_enum)
 
-                    if module_data:
-                        module: QWidget = self.setup_module_properties(
-                            module_enum, module_data
-                        )
-                        if module:
-                            self._module_mapping[module_enum.name] = module
-                            if module_size_policy is not None:
-                                size_policy_x, size_policy_y = module_size_policy
-                                module.setSizePolicy(
-                                    size_policy_x.value, size_policy_y.value
-                                )
+                    if delegate:
+                        self._module_mapping[module_enum.name] = delegate
+                        if module_size_policy is not None:
+                            size_policy_x, size_policy_y = module_size_policy
+                            delegate.setSizePolicy(
+                                size_policy_x.value, size_policy_y.value
+                            )
 
-                            module_container.addWidget(module)
+                        module_container.addWidget(delegate)
 
-                            layout.addLayout(module_container, row, column)
+                        layout.addLayout(module_container, row, column)
 
     @staticmethod
-    def setup_module_data(module_enum: Enum) -> Optional[dict[str, Any]]:
-        """Setup the module data."""
+    def setup_module(
+        module_enum: Type[Enum],
+    ) -> Tuple[Optional[dict[str, Any]], Optional[QWidget]]:
+        """Setup the module data and properties."""
         module_class_mapping = {
-            Labels: Labels,
-            Checkboxes: Checkboxes,
-            LineEdits: LineEdits,
-            DoubleSpinBoxes: DoubleSpinBoxes,
-            PushButtons: PushButtons,
-            GraphicsViews: GraphicsViews,
-        }
-
-        module_class = module_enum.__class__
-        if module_class in module_class_mapping:
-            module_data = module_class_mapping[module_class](module_enum).value
-            return module_data if module_data is not None else None
-
-        return None
-
-    @staticmethod
-    def setup_module_properties(module_enum: Type[Enum], module_data: dict) -> QWidget:
-        """Setup the module properties."""
-        delegate_mapping = {
             Labels: LabelDelegate,
             Checkboxes: CheckBoxDelegate,
-            DoubleSpinBoxes: DoubleSpinBoxDelegate,
             LineEdits: LineEditDelegate,
+            DoubleSpinBoxes: DoubleSpinBoxDelegate,
             PushButtons: PushButtonDelegate,
             GraphicsViews: GraphicsViewDelegate,
         }
 
-        module_class = module_enum.__class__
-        delegate_class = delegate_mapping.get(module_class)
-
-        if delegate_class is not None:
-            return delegate_class(module_data)
+        delegate_class = module_class_mapping.get(module_enum.__class__, None)
+        if delegate_class:
+            module_data = module_enum.value
+            delegate = delegate_class(module_data)
+            return module_data, delegate
         else:
-            raise ValueError(f"{module_class}: not found")
+            raise ValueError(f"{module_enum.__class__}: delegate class not found")
 
     @staticmethod
     def setup_module_margins(
