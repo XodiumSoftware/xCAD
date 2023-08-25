@@ -35,5 +35,6 @@ class GraphicsSceneDelegate(QGraphicsScene):
 
     @staticmethod
     def add_stud(scene: QGraphicsScene, x, y, w, h, r) -> None:
+        """Add a stud to the scene."""
         stud = GraphicsObjectDelegate(x, y, w, h, r)
         scene.addItem(stud)
