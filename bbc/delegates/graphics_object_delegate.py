@@ -80,3 +80,5 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             obj.setBrush(QBrush(BrushStyleTypes.NoBrush.value))
         obj.setZValue(StudSettings.DrawOrder.value)
         obj.setToolTip(StudSettings.Name.value)
+
+        # TODO: save after initial setup

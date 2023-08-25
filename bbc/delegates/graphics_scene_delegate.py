@@ -65,6 +65,8 @@ class GraphicsSceneDelegate(QGraphicsScene):
                     event, stud_obj
                 )
 
+            # TODO: look up how to create singular dimensions and use rotation instead.
+
     @staticmethod
     def object_editor_dialog(
         event: QGraphicsSceneMouseEvent, stud_obj: GraphicsObjectDelegate
@@ -106,6 +108,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
             stud_obj.setRect(
                 0, 0, stud_size_spinbox.value(), FrameSettings.FrameY.value
             )
+            # TODO: Or add here 2 different callbacks for the different axis.
             print("Accepted")
         elif result == QDialog.DialogCode.Rejected:
             print("Rejected")

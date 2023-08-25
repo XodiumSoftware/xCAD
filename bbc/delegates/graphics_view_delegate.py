@@ -34,11 +34,11 @@ class GraphicsViewDelegate(QGraphicsView):
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
-        self.draw_background(painter, rect)
+        self.fill_background(painter, rect)
         self.draw_grid(painter, rect)
 
     @staticmethod
-    def draw_background(painter: QPainter, rect: QRectF) -> None:
+    def fill_background(painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
         background_brush = QBrush(QColor(GraphicsViewSettings.BackgroundColor.value))
         painter.fillRect(rect, background_brush)
@@ -64,6 +64,8 @@ class GraphicsViewDelegate(QGraphicsView):
             grid_path.lineTo(right, coord)
 
         painter.drawPath(grid_path)
+
+        # TODO: Add func to update grid after editing objects.
 
     @staticmethod
     def fit_scene_in_view(instance: QGraphicsView) -> None:
