@@ -45,7 +45,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
                 )
                 stud_objs[i] = stud_obj
                 stud_obj.mouseDoubleClickEvent = lambda event, stud_obj=stud_obj: GraphicsSceneDelegate.object_editor_dialog(
-                    event, stud_obj
+                    stud_obj
                 )
             if (
                 i < FrameSettings.FrameY.value
@@ -62,15 +62,13 @@ class GraphicsSceneDelegate(QGraphicsScene):
                 )
                 stud_objs[i] = stud_obj
                 stud_obj.mouseDoubleClickEvent = lambda event, stud_obj=stud_obj: GraphicsSceneDelegate.object_editor_dialog(
-                    event, stud_obj
+                    stud_obj
                 )
 
             # TODO: look up how to create singular dimensions and use rotation instead.
 
     @staticmethod
-    def object_editor_dialog(
-        event: QGraphicsSceneMouseEvent, stud_obj: GraphicsObjectDelegate
-    ) -> None:
+    def object_editor_dialog(stud_obj: GraphicsObjectDelegate) -> None:
         """Open a dialog when a stud is pressed."""
         dialog = QDialog()
         dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)

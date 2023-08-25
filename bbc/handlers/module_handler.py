@@ -84,21 +84,19 @@ class ModuleHandler(QWidget):
         module_enum: Type[Enum],
     ) -> Tuple[Optional[dict[str, Any]], Optional[QWidget]]:
         """Setup the module data and properties."""
-        module_class_mapping = {
+        delegate_class = {
             Labels: LabelDelegate,
             Checkboxes: CheckBoxDelegate,
             LineEdits: LineEditDelegate,
             DoubleSpinBoxes: DoubleSpinBoxDelegate,
             PushButtons: PushButtonDelegate,
             GraphicsViews: GraphicsViewDelegate,
-        }
+        }.get(type(module_enum))
 
-        delegate_class = module_class_mapping.get(module_enum.__class__)
-        if delegate_class:
-            module_data = module_enum.value
-            delegate = delegate_class(module_data)
-            return module_data, delegate
-        raise ValueError(f"{module_enum.__class__}: delegate class not found")
+        return (
+            module_enum.value,  # type: ignore # TODO: find out why the typing is bugging out. could be an external factor.
+            delegate_class(module_enum.value) if delegate_class else None,
+        )
 
     @staticmethod
     def setup_module_margins(
