@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QDialog,
     QDoubleSpinBox,
     QGraphicsScene,
-    QGraphicsSceneMouseEvent,
     QGridLayout,
     QLabel,
     QPushButton,
