@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 
+# TODO: cleanup
 Graphics_objects_table = (
     "graphics_objects",
     "object_id",
@@ -138,13 +139,10 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
         result = dialog.exec()
 
-        if result == QDialog.DialogCode.Accepted:
+        if result == dialog.DialogCode.Accepted:
             obj.setRect(
                 obj.rect().x(),
                 obj.rect().y(),
                 obj_size_spinbox.value(),
                 obj.rect().height(),
             )
-            print("Accepted")
-        elif result == QDialog.DialogCode.Rejected:
-            print("Rejected")

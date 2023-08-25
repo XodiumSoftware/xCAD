@@ -1,7 +1,7 @@
 import os
 from enum import Enum
 
-from constants import ICONS_FOLDER_PATH
+from constants import ICONS_FOLDER_PATH, UI_ICON_PATH
 
 
 class Labels(Enum):
