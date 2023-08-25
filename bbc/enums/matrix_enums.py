@@ -87,3 +87,57 @@ class Matrices(Enum):
             ],
         ],
     ]
+    # SampleMatrix = [
+    #     [
+    #         [
+    #             LayoutType.VBox,
+    #             GraphicsViews.StructureView,
+    #             (0, 0, 0, 0),
+    #             AlignmentType.AlignCenter,
+    #             (SizePolicyType.Expanding, SizePolicyType.Expanding),
+    #         ],
+    #     ],
+    #     [
+    #         "nested":[
+    #             [
+    #                 LayoutType.VBox,
+    #                 PushButtons.Save,
+    #                 (0, 0, 0, 0),
+    #                 AlignmentType.AlignCenter,
+    #                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
+    #             ],
+    #             [
+    #                 LayoutType.VBox,
+    #                 PushButtons.Discard,
+    #                 (0, 0, 0, 0),
+    #                 AlignmentType.AlignCenter,
+    #                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
+    #             ],
+    #             [
+    #                 LayoutType.VBox,
+    #                 PushButtons.Reset,
+    #                 (0, 0, 0, 0),
+    #                 AlignmentType.AlignCenter,
+    #                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
+    #             ],
+    #         ],
+    #     ],
+    #     [
+    #         [
+    #             LayoutType.VBox,
+    #             PushButtons.StartupPage,
+    #             (0, 0, 0, 0),
+    #             AlignmentType.AlignCenter,
+    #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
+    #         ],
+    #     ],
+    #     [
+    #         [
+    #             LayoutType.VBox,
+    #             Labels.Copyright,
+    #             (0, 0, 0, 0),
+    #             AlignmentType.AlignCenter,
+    #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
+    #         ],
+    #     ],
+    # ]

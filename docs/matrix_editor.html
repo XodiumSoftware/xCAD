@@ -1,58 +1,29 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen"
-      href="./stylesheets/stylesheet.css"
-    />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix Editor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-    <title>AutoFrameCAD</title>
-  </head>
-
-  <body>
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-      <header class="inner">
-        <a id="forkme_banner" href="https://github.com/illyrius666/AutoFrameCAD"
-          >View on GitHub</a
-        >
-
-        <h1 id="project_title">
-          <a href="index.html" id="project_title"
-            >AutoFrameCAD<sup>&copy;</sup></a
-          >
-        </h1>
-        <h2 id="project_tagline">Matrix Editor</h2>
-      </header>
+<body>
+  <div class="matrix">
+    <div class="row">
+      <div class="item">LayoutType.VBox</div>
+      <div class="item">PushButtons.AutoFrameCAD</div>
+      <!-- ... more items ... -->
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <div class="matrix-select-container">
-        <label for="matrixSelect">Choose a Matrix:</label>
-        <select id="matrixSelect"></select>
-      </div>
-      <section id="matrix_editor_content" class="inner"></section>
+    <div class="row">
+      <div class="item">LayoutType.VBox</div>
+      <div class="item">GraphicsViews.StructureView</div>
+      <!-- ... more items ... -->
     </div>
+    <!-- ... more rows ... -->
+  </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>
-          AutoFrameCAD&copy; 2023 Qerimi-Engineering&copy;. All rights reserved.
-        </p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+  <script src="script.js"></script>
+</body>
 
-    <!-- Include the external JavaScript files -->
-    <script src="./scripts/js/image_security.js" defer></script>
-    <script src="./scripts/js/matrix_display.js" defer></script>
-  </body>
 </html>

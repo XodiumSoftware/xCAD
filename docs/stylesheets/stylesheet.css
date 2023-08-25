@@ -11,51 +11,26 @@ Theme Styles
   box-sizing: border-box;
 }
 
-.matrix-select-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-#matrixSelect {
-  margin-left: 10px;
-}
-
 .matrix {
-  border: 5px solid #ccc;
-  padding: 10px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.item {
+  width: 150px;
+  height: 50px;
+  background-color: lightblue;
+  display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.matrix h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-.matrix-row {
-  display: flex;
-  width: 100%;
-}
-
-.matrix-column {
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #afafaf;
-  background-color: #ccc;
-  box-sizing: border-box;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.module-title {
-  font-weight: bold;
-  text-align: center;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  cursor: grab;
+  position: absolute;
 }
 
 table {
@@ -417,7 +392,7 @@ input {
   position: relative;
 }
 
-.carousel > ul {
+.carousel>ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -430,7 +405,7 @@ input {
   transition: opacity 0.5s ease-in-out;
 }
 
-.slide > img {
+.slide>img {
   display: block;
   width: 100%;
   height: 100%;
