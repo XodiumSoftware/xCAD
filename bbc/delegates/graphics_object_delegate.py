@@ -1,3 +1,5 @@
+import random
+import string
 import sys
 
 from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
@@ -17,10 +19,20 @@ from PySide6.QtWidgets import (
 class GraphicsObjectDelegate(QGraphicsRectItem):
     """A class to represent a graphics object delegate."""
 
+    obj_counter = 0
+
     def __init__(self, x: int, y: int, w: int, h: int, r: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
+        self.obj_id = GraphicsObjectDelegate.generate_complex_id()
+        GraphicsObjectDelegate.obj_counter += 1
         self.setup_graphics_object(self, x, y, w, h, r)
+
+    @staticmethod
+    def generate_complex_id(l=8) -> str:
+        """Generate a complex ID."""
+        characters = string.ascii_letters + string.digits
+        return "".join(random.choice(characters) for _ in range(l))
 
     @staticmethod
     def setup_graphics_object(
