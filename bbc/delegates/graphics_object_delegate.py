@@ -3,7 +3,6 @@ import sys
 from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
 from enums.afc_enums import StudSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from handlers.db_handler import DataBaseHandler
 from PySide6.QtGui import QBrush, QColor, QIcon, QPen
 from PySide6.QtWidgets import (
     QDialog,
@@ -12,20 +11,6 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
     QPushButton,
-)
-
-# TODO: cleanup
-Graphics_objects_table = (
-    "graphics_objects",
-    "object_id",
-    "pen_color",
-    "pen_thickness",
-    "pen_style",
-    "fill_color",
-    "fill_pattern",
-    "fill_opacity",
-    "z_value",
-    "tooltip",
 )
 
 
@@ -42,19 +27,10 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         obj: QGraphicsRectItem, x: int, y: int, w: int, h: int, r: int
     ) -> None:
         """Setup the graphics object delegate."""
-        db_handler = DataBaseHandler()
-        GraphicsObjectDelegate.setup_table(db_handler)
-        db_props = db_handler.retrieve_data(*Graphics_objects_table)
-
         obj.setFlags(
             GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
-
-        if db_props:
-            GraphicsObjectDelegate.saved_data(obj, db_props)
-        else:
-            GraphicsObjectDelegate.init_data(obj)
 
         obj.setPos(x, y)
         obj.setRect(obj.rect().x(), obj.rect().y(), w, h)
@@ -63,25 +39,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             lambda event, obj=obj: GraphicsObjectDelegate.object_editor_dialog(obj)
         )
 
-    @staticmethod
-    def setup_table(db_handler: DataBaseHandler) -> None:
-        """Setup the graphics objects table."""
-        db_handler.create_table(*Graphics_objects_table)
-
-    @staticmethod
-    def saved_data(obj: QGraphicsRectItem, props) -> None:
-        """Apply saved properties to the object."""
-        obj.setPen(
-            QPen(QColor(props[0][2]), props[0][3], PenStyleTypes[props[0][4]].value)
-        )
-        obj.setBrush(QBrush(QColor(props[0][5]), BrushStyleTypes[props[0][6]].value))
-        obj.setOpacity(props[0][7] / 100)
-        obj.setZValue(props[0][8])
-        obj.setToolTip(props[0][9])
-
-    @staticmethod
-    def init_data(obj: QGraphicsRectItem) -> None:
-        """Apply initial properties to the object."""
         obj.setPen(
             QPen(
                 QColor(StudSettings.PenColor.value),
@@ -101,8 +58,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             obj.setBrush(QBrush(BrushStyleTypes.NoBrush.value))
         obj.setZValue(StudSettings.DrawOrder.value)
         obj.setToolTip(StudSettings.Name.value)
-
-        # TODO: save after initial setup
 
     @staticmethod
     def object_editor_dialog(obj: QGraphicsRectItem) -> None:
