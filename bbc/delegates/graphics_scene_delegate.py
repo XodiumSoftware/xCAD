@@ -14,6 +14,11 @@ class GraphicsSceneDelegate(QGraphicsScene):
         self.setup_framework(self)
 
     @staticmethod
+    def calculate_frame_coordinates(frame_size: int, spacing: int) -> list:
+        """Calculate frame coordinates with given size and spacing."""
+        return [i for i in range(frame_size) if i % spacing == 0]
+
+    @staticmethod
     def setup_framework(scene: QGraphicsScene) -> None:
         """Setup the framework."""
         stud_spacing_x = FrameSettings.StudSpacingX.value
@@ -21,17 +26,20 @@ class GraphicsSceneDelegate(QGraphicsScene):
         stud_size = StudSettings.StudX.value
         frame_x = FrameSettings.FrameX.value
         frame_y = FrameSettings.FrameY.value
-        max_frame = max(frame_x, frame_y)
 
-        for i in range(max_frame):
-            if i < frame_x and i % stud_spacing_x == 0:
-                GraphicsSceneDelegate.add_stud(
-                    scene, i, stud_size, stud_size, frame_y, 0
-                )
-            if i < frame_y and i % stud_spacing_y == 0:
-                GraphicsSceneDelegate.add_stud(
-                    scene, 0, i + stud_size, stud_size, frame_x, -90
-                )
+        for x_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
+            frame_x, stud_spacing_x
+        ):
+            GraphicsSceneDelegate.add_stud(
+                scene, x_coord, stud_size, stud_size, frame_y, 0
+            )
+
+        for y_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
+            frame_y, stud_spacing_y
+        ):
+            GraphicsSceneDelegate.add_stud(
+                scene, 0, y_coord + stud_size, stud_size, frame_x, -90
+            )
 
     @staticmethod
     def add_stud(scene: QGraphicsScene, x, y, w, h, r) -> None:

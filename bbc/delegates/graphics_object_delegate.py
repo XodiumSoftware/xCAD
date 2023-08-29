@@ -29,7 +29,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         self.setup_graphics_object(self, x, y, w, h, r)
 
     @staticmethod
-    def generate_complex_id(l=8) -> str:
+    def generate_complex_id(l=6) -> str:
         """Generate a complex ID."""
         characters = string.ascii_letters + string.digits
         return "".join(random.choice(characters) for _ in range(l))
