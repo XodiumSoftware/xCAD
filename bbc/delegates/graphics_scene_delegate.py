@@ -1,5 +1,6 @@
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.afc_enums import FrameSettings, StudSettings
+from handlers.events_handler import EventsHandler
 from PySide6.QtWidgets import QGraphicsScene
 
 
@@ -23,28 +24,39 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Setup the framework."""
         stud_spacing_x = FrameSettings.StudSpacingX.value
         stud_spacing_y = FrameSettings.StudSpacingY.value
-        stud_size = StudSettings.StudX.value
+        stud_size_x = StudSettings.StudX.value
         frame_x = FrameSettings.FrameX.value
         frame_y = FrameSettings.FrameY.value
+
+        _add_stud = GraphicsSceneDelegate.add_stud
 
         for x_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
             frame_x, stud_spacing_x
         ):
-            GraphicsSceneDelegate.add_stud(
-                scene, x_coord, stud_size, stud_size, frame_y, 0
+            _add_stud(
+                scene, x_coord, stud_size_x, stud_size_x, frame_y - stud_size_x, 0
             )
+        _add_stud(
+            scene,
+            frame_x - stud_size_x,
+            stud_size_x,
+            stud_size_x,
+            frame_y - stud_size_x,
+            0,
+        )
 
         for y_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
             frame_y, stud_spacing_y
         ):
-            GraphicsSceneDelegate.add_stud(
-                scene, 0, y_coord + stud_size, stud_size, frame_x, -90
-            )
+            _add_stud(scene, 0, y_coord + stud_size_x, stud_size_x, frame_x, -90)
+        _add_stud(scene, 0, frame_y + stud_size_x, stud_size_x, frame_x, -90)
 
     @staticmethod
-    def add_stud(scene: QGraphicsScene, x, y, w, h, r) -> None:
+    def add_stud(
+        scene: QGraphicsScene, x: int, y: int, w: int, h: int, rad: int
+    ) -> None:
         """Add a stud to the scene."""
-        stud = GraphicsObjectDelegate(x, y, w, h, r)
+        stud = GraphicsObjectDelegate(x, y, w, h, rad)
         scene.addItem(stud)
 
         GraphicsSceneDelegate.total_studs += 1

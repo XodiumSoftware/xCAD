@@ -5,6 +5,7 @@ import sys
 from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
 from enums.afc_enums import StudSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QBrush, QColor, QIcon, QPen
 from PySide6.QtWidgets import (
     QDialog,
@@ -21,12 +22,12 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
     obj_counter = 0
 
-    def __init__(self, x: int, y: int, w: int, h: int, r: int) -> None:
+    def __init__(self, x: int, y: int, w: int, h: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
         self.obj_id = GraphicsObjectDelegate.generate_complex_id()
         GraphicsObjectDelegate.obj_counter += 1
-        self.setup_graphics_object(self, x, y, w, h, r)
+        self.setup_graphics_object(self, x, y, w, h, rad)
 
     @staticmethod
     def generate_complex_id(l=6) -> str:
@@ -36,7 +37,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
     @staticmethod
     def setup_graphics_object(
-        obj: QGraphicsRectItem, x: int, y: int, w: int, h: int, r: int
+        obj: QGraphicsRectItem, x: int, y: int, w: int, h: int, rad: int
     ) -> None:
         """Setup the graphics object delegate."""
         obj.setFlags(
@@ -46,7 +47,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
         obj.setPos(x, y)
         obj.setRect(obj.rect().x(), obj.rect().y(), w, h)
-        obj.setRotation(r)
+        obj.setRotation(rad)
         obj.mouseDoubleClickEvent = (
             lambda event, obj=obj: GraphicsObjectDelegate.object_editor_dialog(obj)
         )

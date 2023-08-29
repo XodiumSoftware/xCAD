@@ -1,8 +1,9 @@
 from functools import partial
 
+from enums.q_enums import AspectRatioModeTypes
 from handlers.dialog_handler import DialogHandler
 from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsView, QWidget
 
 
 class EventsHandler:
@@ -17,3 +18,10 @@ class EventsHandler:
             shortcut.activated.connect(
                 partial(DialogHandler.quit_dialog, quit_application)
             )
+
+    @staticmethod
+    def fit_scene_in_view(instance: QGraphicsView) -> None:
+        """Fits the scene in the view."""
+        instance.fitInView(
+            instance.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
+        )

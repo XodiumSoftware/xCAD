@@ -2,12 +2,8 @@ import math
 
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from enums.afc_enums import GraphicsViewSettings
-from enums.q_enums import (
-    AspectRatioModeTypes,
-    PenStyleTypes,
-    RenderHintTypes,
-    ScrollBarPolicyTypes,
-)
+from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
+from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QRectF
 from PySide6.QtGui import QBrush, QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
@@ -29,7 +25,7 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
         self.setVerticalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
 
-        self.fit_scene_in_view(self)
+        EventsHandler.fit_scene_in_view(self)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
@@ -67,14 +63,7 @@ class GraphicsViewDelegate(QGraphicsView):
 
         # TODO: Add func to update grid after editing objects.
 
-    @staticmethod
-    def fit_scene_in_view(instance: QGraphicsView) -> None:
-        """Fits the scene in the view with margins around the scene."""
-        instance.fitInView(
-            instance.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
-        )
-
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
-        GraphicsViewDelegate.fit_scene_in_view(self)
+        EventsHandler.fit_scene_in_view(self)
         super().resizeEvent(event)
