@@ -3,7 +3,7 @@ from functools import partial
 from enums.q_enums import AspectRatioModeTypes
 from handlers.dialog_handler import DialogHandler
 from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsView, QWidget
+from PySide6.QtWidgets import QGraphicsView, QWidget
 
 
 class EventsHandler:

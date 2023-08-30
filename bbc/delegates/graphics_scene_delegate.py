@@ -1,6 +1,5 @@
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.afc_enums import FrameSettings, StudSettings
-from handlers.events_handler import EventsHandler
 from PySide6.QtWidgets import QGraphicsScene
 
 
