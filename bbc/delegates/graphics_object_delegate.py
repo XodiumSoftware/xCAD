@@ -16,10 +16,10 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def __init__(self, x: int, y: int, w: int, h: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
-        self.obj_id = self.generate_complex_id()
         self.obj_props = {
-            "object_id": self.obj_id,
+            "object_id": self.generate_complex_id(),
             "type": StudSettings.Type.value,
+            "draw_order": StudSettings.DrawOrder.value,
             "x": x,
             "y": y,
             "w": w,
@@ -32,7 +32,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             "fill_color": StudSettings.FillColor.value,
             "fill_pattern": StudSettings.FillPattern.value,
             "fill_opacity": max(0, min(StudSettings.FillOpacity.value, 100)) / 100,
-            "draw_order": StudSettings.DrawOrder.value,
         }
         GraphicsObjectDelegate.obj_counter += 1
 
@@ -40,7 +39,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
         self.setup_graphics_object(x, y, w, h, rad)
 
-    def generate_complex_id(self, char_len=6) -> str:
+    @staticmethod
+    def generate_complex_id(char_len=6) -> str:
         """Generate a complex ID."""
         chars = string.ascii_letters + string.digits
         return "".join(random.choice(chars) for _ in range(char_len))
@@ -63,9 +63,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         self.setRect(self.rect().x(), self.rect().y(), w, h)
         self.setRotation(rad)
         self.mouseDoubleClickEvent = (
-            lambda event: self._dialog_handler.object_editor_dialog(
-                self.obj_id, self.obj_props
-            )
+            lambda event: self._dialog_handler.object_editor_dialog(self.obj_props)
         )
 
         self.setPen(

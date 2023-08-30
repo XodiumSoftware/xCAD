@@ -60,14 +60,13 @@ class DialogHandler:
                 QApplication.activeWindow().close()
 
     @staticmethod
-    def object_editor_dialog(obj_id: str, obj_props: dict) -> None:
+    def object_editor_dialog(obj_props: dict) -> None:
         """Open a dialog when an object is pressed."""
         _dialog_handler = DialogHandler()
 
         dialog = QDialog()
         dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
-        dialog.setFixedSize(dialog.sizeHint())
 
         layout = QGridLayout(dialog)
 
@@ -83,7 +82,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QLabel(),
-                            "content": obj_id,
+                            "content": obj_props["object_id"],
                         },
                     ],
                     [
@@ -225,7 +224,7 @@ class DialogHandler:
                             _dialog_handler.color_picker_dialog,
                             button=input_widget,
                             properties=obj_props,
-                            key=prop_data[0]["content"],
+                            key=prop_data[1]["content"],
                         )
                     )
                 if isinstance(input_widget, QCheckBox):
@@ -255,6 +254,8 @@ class DialogHandler:
         if dialog.exec() == dialog.DialogCode.Accepted:
             for prop_name, input_widget in inputs.items():
                 obj_props[prop_name] = input_widget.getContent()
+
+        dialog.setFixedSize(dialog.sizeHint())
 
     @staticmethod
     def color_picker_dialog(button: QPushButton, properties: Dict, key: str):

@@ -59,6 +59,6 @@ class GraphicsSceneDelegate(QGraphicsScene):
         scene.addItem(stud)
 
         GraphicsSceneDelegate.total_studs += 1
-        # print(
-        #     f"Added stud with ID: {stud.obj_id} and properties: {stud.obj_props}. Total studs: {GraphicsSceneDelegate.total_studs}"
-        # )
+        print(
+            f"Added stud: {stud.obj_props}. Total studs: {GraphicsSceneDelegate.total_studs}"
+        )
