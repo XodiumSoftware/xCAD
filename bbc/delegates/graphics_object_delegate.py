@@ -5,7 +5,6 @@ import sys
 from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
 from enums.afc_enums import StudSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from handlers.events_handler import EventsHandler
 from PySide6.QtGui import QBrush, QColor, QIcon, QPen
 from PySide6.QtWidgets import (
     QDialog,
@@ -30,10 +29,10 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         self.setup_graphics_object(self, x, y, w, h, rad)
 
     @staticmethod
-    def generate_complex_id(len=6) -> str:
+    def generate_complex_id(char_len=6) -> str:
         """Generate a complex ID."""
         characters = string.ascii_letters + string.digits
-        return "".join(random.choice(characters) for _ in range(len))
+        return "".join(random.choice(characters) for _ in range(char_len))
 
     @staticmethod
     def setup_graphics_object(
