@@ -25,6 +25,8 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
         self.setVerticalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
 
+        self.scale(1, -1)
+
         EventsHandler.fit_scene_in_view(self)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:

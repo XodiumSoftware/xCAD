@@ -26,10 +26,10 @@ class LumberTypes(Enum):
 class StudSettings(Enum):
     """A class to represent stud settings."""
 
-    Name = "SLS"
+    Type = f"{LumberTypes.SLS.name} {LumberTypes.SLS.value[0][0]}x{LumberTypes.SLS.value[0][1]}"
     DrawOrder = 0
-    StudX = 38
-    StudY = 89
+    StudX = 38  # TODO: use lumber type instead
+    StudY = 89  # TODO: use lumber type instead
     Fill = True
     FillPattern = "SolidPattern"
     FillColor = "#ebd3b0"
