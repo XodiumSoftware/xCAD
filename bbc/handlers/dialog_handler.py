@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
     QGroupBox,
+    QInputDialog,
     QLabel,
     QMessageBox,
     QPushButton,
@@ -92,9 +93,8 @@ class DialogHandler:
                             "content": "Type:",
                         },
                         {
-                            "widget": QComboBox(),
+                            "widget": QPushButton(),
                             "content": obj_props["type"],
-                            "content_options": [enum.name for enum in LumberTypes],
                         },
                     ],
                     [
@@ -248,11 +248,14 @@ class DialogHandler:
 
                 if isinstance(input_widget, QPushButton):
                     input_widget.setText(prop_data[1]["content"])
-                    input_widget.clicked.connect(
-                        partial(
-                            _dialog_handler.color_picker_dialog, obj_props, prop_data
+                    if prop_data[0]["content"] == "Type:":
+                        input_widget.clicked.connect(
+                            partial(_dialog_handler.lumber_type_dialog, input_widget)
                         )
-                    )
+                    else:
+                        input_widget.clicked.connect(
+                            partial(_dialog_handler.color_picker_dialog, input_widget)
+                        )
                 elif isinstance(input_widget, QCheckBox):
                     input_widget.setChecked(prop_data[1]["content"])
                 elif isinstance(input_widget, QComboBox):
@@ -298,7 +301,7 @@ class DialogHandler:
                     obj_props[prop_name] = input_widget.value()
 
     @staticmethod
-    def color_picker_dialog(obj_props: dict, prop_data: dict) -> None:
+    def color_picker_dialog(input_widget: QPushButton) -> None:
         """A dialog for picking a color."""
         dialog = QColorDialog()
         dialog.setWindowTitle(COLOR_PICKER_DIALOG_TITLE)
@@ -308,10 +311,28 @@ class DialogHandler:
         dialog.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
         dialog.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
 
-        key = prop_data["content"]
-        if key in obj_props:
-            dialog.setCurrentColor(QColor(obj_props[key]))
+        selected_color = dialog.getColor(QColor(input_widget.text()))
 
-        if dialog.exec() == dialog.DialogCode.Accepted:
-            selected_color = dialog.currentColor()
-            obj_props[key] = selected_color.name()
+        if selected_color.isValid():
+            input_widget.setText(selected_color.name(QColor.NameFormat.HexArgb))
+
+    @staticmethod
+    def lumber_type_dialog(input_widget: QPushButton) -> None:
+        """A dialog for picking a lumber type."""
+        dialog = QInputDialog()
+        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
+        dialog.setFixedSize(dialog.sizeHint())
+
+        lumber_types = [type_name for type_name, _ in LumberTypes.get_all_content()]
+        current_type = input_widget.text()
+
+        selected_type, _ = dialog.getItem(
+            dialog,
+            "Select Lumber Type",
+            "Choose a lumber type:",
+            lumber_types,
+            lumber_types.index(current_type),
+            False,
+        )
+
+        input_widget.setText(selected_type)

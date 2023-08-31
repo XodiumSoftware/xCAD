@@ -19,7 +19,6 @@ class GraphicsSceneDelegate(QGraphicsScene):
     @staticmethod
     def setup_framework(scene: QGraphicsScene) -> None:
         """Setup the framework."""
-        print(LumberTypes.get_all_content())
         stud_spacing_x = FrameSettings.StudSpacingX.value
         stud_spacing_y = FrameSettings.StudSpacingY.value
         stud_size_x = ObjSettings.Dim.value[0]
