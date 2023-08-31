@@ -9,7 +9,8 @@ from constants import (
 )
 from enums.afc_enums import LumberTypes
 from enums.q_enums import BrushStyleTypes, PenStyleTypes
-from PySide6.QtGui import QColor, QIcon
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QIcon, QPalette
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
     QApplication,
@@ -244,15 +245,21 @@ class DialogHandler:
                 frame_layout.addWidget(label_widget, row, 0)
 
                 input_widget: QWidget = prop_data[1]["widget"]
+                input_widget.setFixedSize(100, 20)
                 frame_layout.addWidget(input_widget, row, 1)
 
                 if isinstance(input_widget, QPushButton):
-                    input_widget.setText(prop_data[1]["content"])
                     if prop_data[0]["content"] == "Type:":
+                        input_widget.setText(prop_data[1]["content"])
                         input_widget.clicked.connect(
                             partial(_dialog_handler.lumber_type_dialog, input_widget)
                         )
                     else:
+                        input_widget.setStyleSheet(
+                            f"background-color: {prop_data[1]['content']};"
+                            "border: 1px solid lightgray;"
+                        )
+                        input_widget.setFixedSize(16, 16)
                         input_widget.clicked.connect(
                             partial(_dialog_handler.color_picker_dialog, input_widget)
                         )
@@ -278,8 +285,12 @@ class DialogHandler:
                 inputs[prop_data[0]["content"]] = input_widget
                 row += 1
 
-                frame_layout.addWidget(label_widget, row, 0)
-                frame_layout.addWidget(input_widget, row, 1)
+                frame_layout.addWidget(
+                    label_widget, row, 0, alignment=Qt.AlignmentFlag.AlignLeft
+                )
+                frame_layout.addWidget(
+                    input_widget, row, 1, alignment=Qt.AlignmentFlag.AlignCenter
+                )
 
             group_box.setLayout(frame_layout)
             layout.addWidget(group_box)
@@ -308,13 +319,15 @@ class DialogHandler:
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
         dialog.setFixedSize(dialog.sizeHint())
 
-        dialog.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
-        dialog.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
-
-        selected_color = dialog.getColor(QColor(input_widget.text()))
+        selected_color = dialog.getColor(
+            QColor(input_widget.palette().color(QPalette.ColorRole.Window))
+        )
 
         if selected_color.isValid():
-            input_widget.setText(selected_color.name(QColor.NameFormat.HexArgb))
+            hex_color = selected_color.name(QColor.NameFormat.HexRgb)
+            input_widget.setStyleSheet(
+                f"background-color: {hex_color};" "border: 1px solid lightgray;"
+            )
 
     @staticmethod
     def lumber_type_dialog(input_widget: QPushButton) -> None:
