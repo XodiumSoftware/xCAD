@@ -1,6 +1,5 @@
 import sys
 from functools import partial
-from typing import Dict
 
 from constants import (
     COLOR_PICKER_DIALOG_TITLE,
@@ -10,8 +9,7 @@ from constants import (
 )
 from enums.afc_enums import LumberTypes
 from enums.q_enums import BrushStyleTypes, PenStyleTypes
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QFont, QIcon, QPalette
+from PySide6.QtGui import QColor, QIcon
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
     QApplication,
