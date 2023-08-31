@@ -68,8 +68,6 @@ class FrameSettings(Enum):
 class GraphicsSceneSettings(Enum):
     """A class to represent graphics scene settings."""
 
-    BackgroundColor = "#000000"
-
     AxisPenColor = "#00FF00"
 
 
@@ -77,6 +75,7 @@ class GraphicsViewSettings(Enum):
     """A class to represent graphics view settings."""
 
     BackgroundColor = "#000000"
+    BackgroundBorder = "2px solid lightgray"
 
     GridSpacing = 100
     GridPenStyle = "SolidLine"

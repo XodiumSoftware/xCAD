@@ -5,7 +5,7 @@ from enums.afc_enums import GraphicsViewSettings
 from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
 from handlers.events_handler import EventsHandler
 from PySide6.QtCore import QRectF
-from PySide6.QtGui import QBrush, QColor, QPainter, QPainterPath, QPen
+from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 
 
@@ -24,6 +24,10 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setRenderHint(RenderHintTypes.Antialiasing.value)
         self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
         self.setVerticalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
+        self.setStyleSheet(
+            f"background-color: {GraphicsViewSettings.BackgroundColor.value};"
+            f"border: {GraphicsViewSettings.BackgroundBorder.value};"
+        )
 
         self.scale(1, -1)
 
@@ -32,14 +36,7 @@ class GraphicsViewDelegate(QGraphicsView):
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
-        self.fill_background(painter, rect)
         self.draw_grid(painter, rect)
-
-    @staticmethod
-    def fill_background(painter: QPainter, rect: QRectF) -> None:
-        """Draws the background of the graphics view delegate."""
-        background_brush = QBrush(QColor(GraphicsViewSettings.BackgroundColor.value))
-        painter.fillRect(rect, background_brush)
 
     @staticmethod
     def draw_grid(painter: QPainter, rect: QRectF) -> None:

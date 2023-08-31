@@ -1,5 +1,6 @@
 from functools import partial
 
+import qdarktheme
 from enums.matrix_enums import Matrices
 from enums.module_enums import PushButtons
 from enums.q_enums import ModuleType
@@ -32,6 +33,8 @@ class UI(QMainWindow):
 
     def setup_ui(self) -> None:
         """Setup the UIs."""
+        qdarktheme.setup_theme("auto")
+
         main_ui_info = UIs.MainUI.value
 
         self._main_ui.setWindowTitle(main_ui_info["title"])

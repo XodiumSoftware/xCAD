@@ -7,7 +7,8 @@ from ui import UI
 
 def run():
     """Run the application."""
-    app = QApplication([])
+    sys.argv += ["-platform", "windows:darkmode=2"]
+    app = QApplication(sys.argv)
     app.setOrganizationName(QSETTINGS_ORGANIZATION_NAME)
     app.setApplicationName(QSETTINGS_APPLICATION_NAME)
     _ = UI()

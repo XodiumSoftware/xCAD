@@ -32,8 +32,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         }
         GraphicsObjectDelegate.obj_counter += 1
 
-        self._dialog_handler = DialogHandler()
-
         self.setup_graphics_object(x, y, w, h, rad)
 
     def setup_graphics_object(
@@ -45,6 +43,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         rad: int,
     ) -> None:
         """Setup the graphics object delegate."""
+        _dialog_handler = DialogHandler()
+
         self.setFlags(
             GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
@@ -53,8 +53,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         self.setPos(x, y)
         self.setRect(self.rect().x(), self.rect().y(), w, h)
         self.setRotation(rad)
-        self.mouseDoubleClickEvent = (
-            lambda event: self._dialog_handler.object_editor_dialog(self.obj_props)
+        self.mouseDoubleClickEvent = lambda event: _dialog_handler.object_editor_dialog(
+            self.obj_props
         )
 
         self.setPen(

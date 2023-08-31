@@ -1,6 +1,7 @@
 import os
 from enum import Enum
 
+import darkdetect
 from constants import ICONS_FOLDER_PATH
 
 
@@ -53,12 +54,6 @@ class PushButtons(Enum):
         "title": "AutoFrameCAD",
         "stylesheet": "QPushButton {font-size: 36px;font-weight: bold;font-style: normal;border: none;}",
     }
-    ViewerButton = {
-        "icon_path": os.path.join(ICONS_FOLDER_PATH, "viewer_icon_light.png"),
-        "size": [30, 30],
-        "title": "ViewerButton",
-        "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
-    }
     Save = {
         "icon_path": None,
         "size": [50, 30],
@@ -78,7 +73,10 @@ class PushButtons(Enum):
         "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
     }
     StartupPage = {
-        "icon_path": os.path.join(ICONS_FOLDER_PATH, "home_icon_light.png"),
+        "icon_path": os.path.join(
+            ICONS_FOLDER_PATH,
+            "home_icon_light.png" if darkdetect.isDark() else "home_icon_dark.png",
+        ),
         "size": [30, 30],
         "title": "Startup page",
         "stylesheet": "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
