@@ -27,48 +27,45 @@ class DataBaseHandler:
         conn.close()
 
     @staticmethod
-    def create_or_insert_data(
-        table_name: str, columns: Tuple[str, ...], *values
-    ) -> None:
+    def create_or_insert_data(table_name: str, *values: Tuple[int, int]) -> None:
         """Create the database table and insert data if provided."""
         try:
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
-                columns_str = ", ".join(columns)
+                columns_str = "column1 INTEGER, column2 INTEGER"
                 query = f"""
                 CREATE TABLE IF NOT EXISTS {table_name} (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    {', '.join(f'{col} TEXT' for col in columns)}
+                    {columns_str}
                 )
                 """
                 cursor.execute(query)
 
-                if values:
-                    str_values = [str(value) for value in values]
-                    placeholders = ", ".join(["?"] * len(str_values))
-                    insert_query = f"REPLACE INTO {table_name} ({columns_str}) VALUES ({placeholders})"
-                    cursor.execute(insert_query, str_values)
+                for row in values:
+                    insert_query = (
+                        f"INSERT INTO {table_name} (column1, column2) VALUES (?, ?)"
+                    )
+                    cursor.execute(insert_query, row)
 
                 conn.commit()
         except Error as e:
             print(e)
 
     @staticmethod
-    def retrieve_data(table_name: str, *columns: str) -> List[Tuple[str, ...]]:
+    def retrieve_data(table_name: str, column_name: str) -> List[Tuple[int, int]]:
         """Retrieve data from the database."""
         data = []
         try:
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
-                query = f"""
-                SELECT {', '.join(columns)}
-                FROM {table_name}
-                """
-                cursor.execute(query)
+                if column_name:
+                    select_query = f"SELECT {column_name} FROM {table_name}"
+                else:
+                    select_query = f"SELECT column1, column2 FROM {table_name}"
+                cursor.execute(select_query)
                 data = cursor.fetchall()
         except Error as e:
             print(e)
-
         return data
 
     @staticmethod

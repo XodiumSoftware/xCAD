@@ -1,4 +1,5 @@
 from enum import Enum
+from itertools import chain
 
 from helpers.helper import Helper
 
@@ -23,6 +24,11 @@ class LumberTypes(Enum):
         (50, 150),
         (50, 175),
     ]
+
+    @classmethod
+    def get_all_content(cls):
+        """Get all content from the lumber types."""
+        return list(chain(*(obj_type.value for obj_type in cls)))
 
 
 class ObjSettings(Enum):
