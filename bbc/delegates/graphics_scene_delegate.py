@@ -21,7 +21,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Setup the framework."""
         stud_spacing_x = FrameSettings.StudSpacingX.value
         stud_spacing_y = FrameSettings.StudSpacingY.value
-        stud_size_x = ObjSettings.DimX.value
+        stud_size_x = ObjSettings.Dim.value[0]
         frame_x = FrameSettings.FrameX.value
         frame_y = FrameSettings.FrameY.value
 
