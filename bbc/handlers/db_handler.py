@@ -27,11 +27,14 @@ class DataBaseHandler:
         conn.close()
 
     @staticmethod
-    def create_table(table_name: str, *columns: str) -> None:
-        """Create the database table."""
+    def create_or_insert_data(
+        table_name: str, columns: Tuple[str, ...], *values
+    ) -> None:
+        """Create the database table and insert data if provided."""
         try:
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
+                columns_str = ", ".join(columns)
                 query = f"""
                 CREATE TABLE IF NOT EXISTS {table_name} (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,22 +42,13 @@ class DataBaseHandler:
                 )
                 """
                 cursor.execute(query)
-                conn.commit()
-        except Error as e:
-            print(e)
 
-    @staticmethod
-    def insert_data(table_name: str, *values) -> None:
-        """Insert data into the database."""
-        try:
-            with sqlite3.connect(DATABASE_PATH) as conn:
-                cursor = conn.cursor()
-                str_values = [str(value) for value in values]
-                query = f"""
-                REPLACE INTO {table_name}
-                VALUES (NULL, {', '.join(['?'] * len(str_values))})
-                """
-                cursor.execute(query, str_values)
+                if values:
+                    str_values = [str(value) for value in values]
+                    placeholders = ", ".join(["?"] * len(str_values))
+                    insert_query = f"REPLACE INTO {table_name} ({columns_str}) VALUES ({placeholders})"
+                    cursor.execute(insert_query, str_values)
+
                 conn.commit()
         except Error as e:
             print(e)

@@ -1,7 +1,4 @@
-import random
-import string
-
-from enums.afc_enums import StudSettings
+from enums.afc_enums import ObjSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.dialog_handler import DialogHandler
 from PySide6.QtGui import QBrush, QColor, QPen
@@ -17,33 +14,27 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         """Initialize the graphics object delegate."""
         super().__init__()
         self.obj_props = {
-            "object_id": self.generate_complex_id(),
-            "type": StudSettings.Type.value,
-            "draw_order": StudSettings.DrawOrder.value,
+            "object_id": ObjSettings.Object_ID.value,
+            "type": ObjSettings.Type.value,
+            "draw_order": ObjSettings.DrawOrder.value,
             "x": x,
             "y": y,
             "w": w,
             "h": h,
             "rad": rad,
-            "pen_color": StudSettings.PenColor.value,
-            "pen_thickness": StudSettings.PenThickness.value,
-            "pen_style": StudSettings.PenStyle.value,
-            "fill_state": StudSettings.Fill.value,
-            "fill_color": StudSettings.FillColor.value,
-            "fill_pattern": StudSettings.FillPattern.value,
-            "fill_opacity": max(0, min(StudSettings.FillOpacity.value, 100)) / 100,
+            "pen_color": ObjSettings.PenColor.value,
+            "pen_thickness": ObjSettings.PenThickness.value,
+            "pen_style": ObjSettings.PenStyle.value,
+            "fill_state": ObjSettings.Fill.value,
+            "fill_color": ObjSettings.FillColor.value,
+            "fill_pattern": ObjSettings.FillPattern.value,
+            "fill_opacity": max(0, min(ObjSettings.FillOpacity.value, 100)),
         }
         GraphicsObjectDelegate.obj_counter += 1
 
         self._dialog_handler = DialogHandler()
 
         self.setup_graphics_object(x, y, w, h, rad)
-
-    @staticmethod
-    def generate_complex_id(char_len=6) -> str:
-        """Generate a complex ID."""
-        chars = string.ascii_letters + string.digits
-        return "".join(random.choice(chars) for _ in range(char_len))
 
     def setup_graphics_object(
         self,
@@ -68,21 +59,21 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
 
         self.setPen(
             QPen(
-                QColor(StudSettings.PenColor.value),
-                StudSettings.PenThickness.value,
-                PenStyleTypes[StudSettings.PenStyle.value].value,
+                QColor(ObjSettings.PenColor.value),
+                ObjSettings.PenThickness.value,
+                PenStyleTypes[ObjSettings.PenStyle.value].value,
             )
         )
-        if StudSettings.Fill.value:
+        if ObjSettings.Fill.value:
             self.setBrush(
                 QBrush(
-                    QColor(StudSettings.FillColor.value),
-                    BrushStyleTypes[StudSettings.FillPattern.value].value,
+                    QColor(ObjSettings.FillColor.value),
+                    BrushStyleTypes[ObjSettings.FillPattern.value].value,
                 )
             )
-            self.setOpacity(max(0, min(StudSettings.FillOpacity.value, 100)) / 100)
+            self.setOpacity(max(0, min(ObjSettings.FillOpacity.value, 100)) / 100)
         else:
             self.setBrush(QBrush(BrushStyleTypes.NoBrush.value))
 
-        self.setZValue(StudSettings.DrawOrder.value)
-        self.setToolTip(StudSettings.Type.value)
+        self.setZValue(ObjSettings.DrawOrder.value)
+        self.setToolTip(ObjSettings.Type.value)

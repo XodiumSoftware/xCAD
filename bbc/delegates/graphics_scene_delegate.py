@@ -1,12 +1,10 @@
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
-from enums.afc_enums import FrameSettings, StudSettings
+from enums.afc_enums import FrameSettings, ObjSettings
 from PySide6.QtWidgets import QGraphicsScene
 
 
 class GraphicsSceneDelegate(QGraphicsScene):
     """A class to represent a graphics scene delegate."""
-
-    total_studs = 0
 
     def __init__(self) -> None:
         """Initialize the graphics scene delegate."""
@@ -23,7 +21,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Setup the framework."""
         stud_spacing_x = FrameSettings.StudSpacingX.value
         stud_spacing_y = FrameSettings.StudSpacingY.value
-        stud_size_x = StudSettings.StudX.value
+        stud_size_x = ObjSettings.DimX.value
         frame_x = FrameSettings.FrameX.value
         frame_y = FrameSettings.FrameY.value
 
@@ -57,8 +55,3 @@ class GraphicsSceneDelegate(QGraphicsScene):
         """Add a stud to the scene."""
         stud = GraphicsObjectDelegate(x, y, w, h, rad)
         scene.addItem(stud)
-
-        GraphicsSceneDelegate.total_studs += 1
-        print(
-            f"Added stud: {stud.obj_props}. Total studs: {GraphicsSceneDelegate.total_studs}"
-        )

@@ -1,4 +1,7 @@
 from enum import Enum
+from re import X
+
+from helpers.helper import Helper
 
 
 class LumberTypes(Enum):
@@ -23,20 +26,26 @@ class LumberTypes(Enum):
     ]
 
 
-class StudSettings(Enum):
+class ObjSettings(Enum):
     """A class to represent stud settings."""
 
+    Object_ID = Helper.generate_complex_id()
     Type = f"{LumberTypes.SLS.name} {LumberTypes.SLS.value[0][0]}x{LumberTypes.SLS.value[0][1]}"
     DrawOrder = 0
-    StudX = 38  # TODO: use lumber type instead
-    StudY = 89  # TODO: use lumber type instead
+    PosX = 0
+    PosY = 0
+    PosZ = 0
+    DimX = 38
+    DimY = 89
+    DimZ = 0
+    Rad = 0
+    PenStyle = "SolidLine"
+    PenColor = "#ffffff"
+    PenThickness = 2
     Fill = True
     FillPattern = "SolidPattern"
     FillColor = "#ebd3b0"
     FillOpacity = 100
-    PenStyle = "SolidLine"
-    PenColor = "#ffffff"
-    PenThickness = 2
 
 
 class FrameSettings(Enum):

@@ -10,6 +10,7 @@ from constants import (
 )
 from enums.afc_enums import LumberTypes
 from enums.q_enums import BrushStyleTypes, PenStyleTypes
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont, QIcon, QPalette
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
@@ -21,9 +22,11 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QFrame,
     QGridLayout,
+    QGroupBox,
     QLabel,
     QMessageBox,
     QPushButton,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -68,7 +71,7 @@ class DialogHandler:
         dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
 
-        layout = QGridLayout(dialog)
+        layout = QVBoxLayout(dialog)
 
         props = [
             {
@@ -104,6 +107,44 @@ class DialogHandler:
                         {
                             "widget": QDoubleSpinBox(),
                             "content": obj_props["draw_order"],
+                        },
+                    ],
+                ],
+            },
+            {
+                "frame_title": "Dimension Settings:",
+                "frame_border": QFrame.Shape.Box,
+                "data": [
+                    [
+                        {
+                            "widget": QLabel(),
+                            "content": "Pos (X, Y):",
+                        },
+                        {
+                            "widget": QLabel(),
+                            "content": str(obj_props["x"]) + ", " + str(obj_props["y"]),
+                        },
+                    ],
+                    [
+                        {
+                            "widget": QLabel(),
+                            "content": "Dim (LxB):",
+                        },
+                        {
+                            "widget": QLabel(),
+                            "content": str(obj_props["h"])
+                            + " x "
+                            + str(obj_props["w"]),
+                        },
+                    ],
+                    [
+                        {
+                            "widget": QLabel(),
+                            "content": "Rotation:",
+                        },
+                        {
+                            "widget": QLabel(),
+                            "content": str(obj_props["rad"]),
                         },
                     ],
                 ],
@@ -160,7 +201,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QPushButton(),
-                            "content": QPushButton(obj_props["fill_color"]),
+                            "content": obj_props["fill_color"],
                         },
                     ],
                     [
@@ -189,76 +230,77 @@ class DialogHandler:
         ]
 
         inputs = {}
-
         save_button = QPushButton("Save")
         discard_button = QPushButton("Discard")
 
         save_button.clicked.connect(dialog.accept)
         discard_button.clicked.connect(dialog.reject)
 
-        row = 0
         for prop_group in props:
-            frame_title_widget = QLabel()
-            frame_title_widget.setText(prop_group["frame_title"])
-            frame_title_widget.setFrameShape(prop_group["frame_border"])
+            group_box = QGroupBox(prop_group["frame_title"])
+            frame_layout = QGridLayout(group_box)
 
-            bold_font = QFont()
-            bold_font.setBold(True)
-
-            frame_title_widget.setFont(bold_font)
-
-            layout.addWidget(frame_title_widget, row, 0, 1, 2)
-
-            row += 1
-
-            for prop_data in prop_group["data"]:
+            for row, prop_data in enumerate(prop_group["data"]):
                 label_widget: QLabel = prop_data[0]["widget"]
                 label_widget.setText(prop_data[0]["content"])
-                layout.addWidget(label_widget, row, 0)
+                frame_layout.addWidget(label_widget, row, 0)
 
                 input_widget: QWidget = prop_data[1]["widget"]
-                input_content = prop_data[1]["content"]
+                frame_layout.addWidget(input_widget, row, 1)
+
                 if isinstance(input_widget, QPushButton):
+                    input_widget.setText(prop_data[1]["content"])
                     input_widget.clicked.connect(
                         partial(
-                            _dialog_handler.color_picker_dialog,
-                            button=input_widget,
-                            properties=obj_props,
-                            key=prop_data[1]["content"],
+                            _dialog_handler.color_picker_dialog, obj_props, prop_data
                         )
                     )
-                if isinstance(input_widget, QCheckBox):
-                    input_widget.setChecked(input_content)
+                elif isinstance(input_widget, QCheckBox):
+                    input_widget.setChecked(prop_data[1]["content"])
                 elif isinstance(input_widget, QComboBox):
                     input_widget.addItems(prop_data[1]["content_options"])
-                    input_widget.setCurrentText(input_content)
+                    input_widget.setCurrentText(prop_data[1]["content"])
                 elif isinstance(input_widget, QDoubleSpinBox):
-                    input_widget.setRange(0, sys.float_info.max)
+                    if prop_data[0]["content"] == "Fill Opacity:":
+                        input_widget.setRange(0, 100)
+                    else:
+                        input_widget.setRange(0, sys.float_info.max)
                     input_widget.setSingleStep(1)
                     input_widget.setDecimals(0)
-                    input_widget.setValue(input_content)
+                    input_widget.setValue(prop_data[1]["content"])
                     input_widget.setButtonSymbols(
                         QAbstractSpinBox.ButtonSymbols.NoButtons
                     )
                 elif isinstance(input_widget, QLabel):
-                    input_widget.setText(input_content)
-                layout.addWidget(input_widget, row, 1)
+                    input_widget.setText(prop_data[1]["content"])
 
                 inputs[prop_data[0]["content"]] = input_widget
                 row += 1
 
-        layout.addWidget(save_button, row, 0, 1, 2)
-        row += 1
-        layout.addWidget(discard_button, row, 0, 1, 2)
+                frame_layout.addWidget(label_widget, row, 0)
+                frame_layout.addWidget(input_widget, row, 1)
 
-        if dialog.exec() == dialog.DialogCode.Accepted:
-            for prop_name, input_widget in inputs.items():
-                obj_props[prop_name] = input_widget.getContent()
+            group_box.setLayout(frame_layout)
+            layout.addWidget(group_box)
+
+        layout.addWidget(save_button)
+        layout.addWidget(discard_button)
 
         dialog.setFixedSize(dialog.sizeHint())
 
+        if dialog.exec() == dialog.DialogCode.Accepted:
+            for prop_name, input_widget in inputs.items():
+                if isinstance(input_widget, QPushButton):
+                    obj_props[prop_name] = input_widget.text()
+                elif isinstance(input_widget, QCheckBox):
+                    obj_props[prop_name] = input_widget.isChecked()
+                elif isinstance(input_widget, QComboBox):
+                    obj_props[prop_name] = input_widget.currentText()
+                elif isinstance(input_widget, QDoubleSpinBox):
+                    obj_props[prop_name] = input_widget.value()
+
     @staticmethod
-    def color_picker_dialog(button: QPushButton, properties: Dict, key: str):
+    def color_picker_dialog(obj_props: dict, prop_data: dict) -> None:
         """A dialog for picking a color."""
         dialog = QColorDialog()
         dialog.setWindowTitle(COLOR_PICKER_DIALOG_TITLE)
@@ -267,12 +309,11 @@ class DialogHandler:
 
         dialog.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, True)
         dialog.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog, True)
-        dialog.setCurrentColor(QColor(properties[key]))
 
-        if dialog.exec() == QDialog.DialogCode.Accepted:
+        key = prop_data["content"]
+        if key in obj_props:
+            dialog.setCurrentColor(QColor(obj_props[key]))
+
+        if dialog.exec() == dialog.DialogCode.Accepted:
             selected_color = dialog.currentColor()
-            button.setText(selected_color.name())
-            properties[key] = selected_color.name()
-            palette = button.palette()
-            palette.setColor(QPalette.ColorRole.ButtonText, selected_color)
-            button.setPalette(palette)
+            obj_props[key] = selected_color.name()
