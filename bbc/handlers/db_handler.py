@@ -57,13 +57,8 @@ class DataBaseHandler:
         try:
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
-                if column_name:
-                    select_query = f"SELECT ? FROM {table_name}"
-                    cursor.execute(select_query, (column_name,))
-                else:
-                    select_query = f"SELECT column1, column2 FROM {table_name}"
-                    cursor.execute(select_query)
-
+                select_query = f"SELECT {column_name} FROM {table_name}"
+                cursor.execute(select_query)
                 data = cursor.fetchall()
         except Error as e:
             print(e)
