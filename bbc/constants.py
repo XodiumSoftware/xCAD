@@ -36,7 +36,6 @@ COLOR_PICKER_DIALOG_TITLE = "Color Picker"
 # DataBaseHandler
 # ====================================================================================================
 DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "database.db")
-MAX_BACKUPS = 5
 # ====================================================================================================
 
 # ThemeHandler
