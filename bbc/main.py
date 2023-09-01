@@ -1,5 +1,6 @@
 import sys
 
+import qdarktheme
 from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from PySide6.QtWidgets import QApplication
 from ui import UI
@@ -7,8 +8,8 @@ from ui import UI
 
 def run():
     """Run the application."""
-    sys.argv += ["-platform", "windows:darkmode=2"]
-    app = QApplication(sys.argv)
+    qdarktheme.enable_hi_dpi()
+    app = QApplication([])
     app.setOrganizationName(QSETTINGS_ORGANIZATION_NAME)
     app.setApplicationName(QSETTINGS_APPLICATION_NAME)
     _ = UI()

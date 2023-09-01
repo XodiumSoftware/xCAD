@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QMessageBox,
     QPushButton,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -245,7 +246,7 @@ class DialogHandler:
                 frame_layout.addWidget(label_widget, row, 0)
 
                 input_widget: QWidget = prop_data[1]["widget"]
-                input_widget.setFixedSize(100, 20)
+                input_widget.setFixedWidth(150)
                 frame_layout.addWidget(input_widget, row, 1)
 
                 if isinstance(input_widget, QPushButton):
