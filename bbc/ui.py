@@ -22,6 +22,7 @@ class UI(QMainWindow):
 
         self._main_module_0 = ModuleHandler(Matrices.MainMatrix0)
         self._main_module_1 = ModuleHandler(Matrices.MainMatrix1)
+
         self._signal_handler = SignalHandler()
         self._ui_handler = UIHandler()
 

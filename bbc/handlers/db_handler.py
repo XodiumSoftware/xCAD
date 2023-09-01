@@ -1,8 +1,9 @@
 import os
 import shutil
 import sqlite3
+from enum import Enum
 from sqlite3 import Error
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from constants import DATABASE_PATH, MAX_BACKUPS
 
@@ -27,41 +28,76 @@ class DataBaseHandler:
         conn.close()
 
     @staticmethod
-    def create_or_insert_data(table_name: str, *values: Tuple[int, int]) -> None:
-        """Create the database table and insert data if provided."""
+    def insert_data(enum_classes: Union[Enum, List[Enum]]) -> None:
+        """Create the database table(s) and insert data from Enum(s)."""
+        _db_handler = DataBaseHandler()
+        enum_classes = (
+            enum_classes if isinstance(enum_classes, list) else [enum_classes]
+        )
+
         try:
+            _db_handler.setup_db_dir()
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
-                columns_str = "column1 INTEGER, column2 INTEGER"
-                query = f"""
-                CREATE TABLE IF NOT EXISTS {table_name} (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    {columns_str}
-                )
-                """
-                cursor.execute(query)
 
-                insert_query = (
-                    f"INSERT INTO {table_name} (column1, column2) VALUES (?, ?)"
-                )
-                cursor.executemany(insert_query, values)
+                for enum_class in enum_classes:
+                    table_name = enum_class.__name__
 
-                conn.commit()
+                    columns_str = ", ".join(
+                        f"{name} TEXT" for name, _ in enum_class.__members__.items()
+                    )
+                    query = f"""
+                    CREATE TABLE IF NOT EXISTS {table_name} (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        {columns_str}
+                    )
+                    """
+                    cursor.execute(query)
+
+                    for name, value in enum_class.__members__.items():
+                        select_query = f"SELECT COUNT(*) FROM {table_name} WHERE {name} IS NOT NULL"
+                        cursor.execute(select_query)
+                        count = cursor.fetchone()[0]
+                        if count == 0:
+                            if isinstance(value.value, list):
+                                insert_query = (
+                                    f"INSERT INTO {table_name} ({name}) VALUES (?)"
+                                )
+                                values = [(str(item),) for item in value.value]
+                                cursor.executemany(insert_query, values)
+                            else:
+                                insert_query = (
+                                    f"INSERT INTO {table_name} ({name}) VALUES (?)"
+                                )
+                                cursor.execute(insert_query, (str(value.value),))
+
+                    conn.commit()
         except Error as e:
             print(e)
 
     @staticmethod
-    def retrieve_data(table_name: str, column_name: str) -> List[Tuple[int, int]]:
-        """Retrieve data from the database."""
+    def retrieve_data(enum_classes: Union[Enum, List[Enum]]) -> List[Tuple[int, int]]:
+        """Retrieve data from the database based on Enum(s)."""
+        _db_handler = DataBaseHandler()
+        enum_classes = (
+            enum_classes if isinstance(enum_classes, list) else [enum_classes]
+        )
         data = []
+
         try:
+            _db_handler.setup_db_dir()
             with sqlite3.connect(DATABASE_PATH) as conn:
                 cursor = conn.cursor()
-                select_query = f"SELECT {column_name} FROM {table_name}"
-                cursor.execute(select_query)
-                data = cursor.fetchall()
+
+                for enum_class in enum_classes:
+                    table_name = enum_class.__name__
+                    select_query = f"SELECT * FROM {table_name}"
+                    cursor.execute(select_query)
+                    data.extend(cursor.fetchall())
+
         except Error as e:
             print(e)
+
         return data
 
     @staticmethod

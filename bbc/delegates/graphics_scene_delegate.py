@@ -1,5 +1,6 @@
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.afc_enums import FrameSettings, ObjSettings
+from handlers.db_handler import DataBaseHandler
 from PySide6.QtWidgets import QGraphicsScene
 
 
@@ -53,5 +54,25 @@ class GraphicsSceneDelegate(QGraphicsScene):
         scene: QGraphicsScene, x: int, y: int, w: int, h: int, rad: int
     ) -> None:
         """Add a stud to the scene."""
-        stud = GraphicsObjectDelegate(x, y, w, h, rad)
+        _db_handler = DataBaseHandler.retrieve_data(ObjSettings)
+
+        if _db_handler:
+            stud = GraphicsObjectDelegate(_db_handler)
+        else:
+            stud = GraphicsObjectDelegate()
+
+        stud.setPos(x, y)
+        stud.setRect(stud.rect().x(), stud.rect().y(), w, h)
+        stud.setRotation(rad)
+
         scene.addItem(stud)
+
+    @staticmethod
+    def save_objs_to_db() -> None:
+        """Save objects to the database."""
+        pass
+
+    @staticmethod
+    def load_objs_from_db() -> None:
+        """Load objects from the database."""
+        pass
