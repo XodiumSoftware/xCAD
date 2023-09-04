@@ -7,4 +7,4 @@ class AFCCMD:
 
     def afc_cmd(self) -> None:
         """Run the AFC Command"""
-        pass
+        # TODO: add function.

@@ -16,7 +16,7 @@ class MessageBoxDelegate(QMessageBox):
         self.setWindowIcon(QIcon(module_data["icon_path"]))
         self.setIcon(module_data["icon_type"])
 
-        if module_data["size"] == None:
+        if module_data["size"] is None:
             self.setFixedSize(self.sizeHint())
         else:
             self.setFixedSize(module_data["size"])

@@ -276,7 +276,7 @@ class DialogHandler:
 
         if dialog.exec() == dialog.DialogCode.Accepted:
             pass
+            # TODO: fix the return of values.
 
-        # TODO: fix the return of values.
         # TODO: move this to its own delegate.
         # TODO: implement the returned values into the object delegate for the values to be applied.

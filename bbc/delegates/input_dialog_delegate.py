@@ -14,7 +14,7 @@ class InputDialogDelegate(QInputDialog):
         """Setup the input dialog."""
         self.setWindowIcon(QIcon(module_data["icon_path"]))
 
-        if module_data["size"] == None:
+        if module_data["size"] is None:
             self.setFixedSize(self.sizeHint())
         else:
             self.setFixedSize(module_data["size"])
