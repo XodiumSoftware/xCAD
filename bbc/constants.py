@@ -28,9 +28,7 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 # ====================================================================================================
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
 
-QUIT_DIALOG_TITLE = "Exit?"
 OBJECT_EDITOR_DIALOG_TITLE = "Object Editor"
-COLOR_PICKER_DIALOG_TITLE = "Color Picker"
 # ====================================================================================================
 
 # DataBaseHandler

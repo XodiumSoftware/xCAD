@@ -3,7 +3,7 @@ from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from handlers.dialog_handler import DialogHandler
 from helpers.helper import Helper
 from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsRectItem
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
@@ -45,8 +45,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
                 )
             )
             self.setOpacity(max(0, min(ObjSettings.FillOpacity.value, 100)) / 100)
-        self.mouseDoubleClickEvent = (
-            lambda event: self._dialog_handler.object_editor_dialog(
-                self, self.object_id
-            )
-        )
+
+    def mouseDoubleClickEvent(self, event: QGraphicsSceneMouseEvent) -> None:
+        """Handle the mouse double click event."""
+        super().mouseDoubleClickEvent(event)
+        self._dialog_handler.object_editor_dialog(self, self.object_id)

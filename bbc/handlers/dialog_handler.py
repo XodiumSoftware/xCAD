@@ -1,21 +1,16 @@
 import sys
 from functools import partial
 
-from constants import (
-    COLOR_PICKER_DIALOG_TITLE,
-    OBJECT_EDITOR_DIALOG_TITLE,
-    QUIT_DIALOG_TITLE,
-    UI_ICON_PATH,
-)
-from enums.afc_enums import LumberTypes
+from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
+from delegates.color_dialog_delegate import ColorDialogDelegate
+from delegates.input_dialog_delegate import InputDialogDelegate
+from enums.module_enums import ColorDialogs, InputDialogs
 from enums.q_enums import BrushStyleTypes, PenStyleTypes
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QIcon, QPalette
+from PySide6.QtGui import QColor, QIcon
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
-    QApplication,
     QCheckBox,
-    QColorDialog,
     QComboBox,
     QDialog,
     QDoubleSpinBox,
@@ -23,9 +18,7 @@ from PySide6.QtWidgets import (
     QGraphicsRectItem,
     QGridLayout,
     QGroupBox,
-    QInputDialog,
     QLabel,
-    QMessageBox,
     QPushButton,
     QVBoxLayout,
     QWidget,
@@ -36,38 +29,8 @@ class DialogHandler:
     """A class to handle dialogs."""
 
     @staticmethod
-    def quit_dialog(quit_application: bool) -> None:
-        """Show a dialog to confirm quitting."""
-        dialog = QMessageBox()
-        dialog.setWindowTitle(QUIT_DIALOG_TITLE)
-        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
-        dialog.setIcon(QMessageBox.Icon.Warning)
-        dialog.setFixedSize(dialog.sizeHint())
-
-        if quit_application:
-            dialog.setText(
-                "<b>Are you sure you want to quit the application?</b><br>Any unsaved changes will be lost!"
-            )
-        else:
-            dialog.setText(
-                "<b>Are you sure you want to close this window?</b><br>Any unsaved changes will be lost!"
-            )
-
-        dialog.setStandardButtons(
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-
-        if dialog.exec() == QMessageBox.StandardButton.Yes:
-            if quit_application:
-                QApplication.quit()
-            else:
-                QApplication.activeWindow().close()
-
-    @staticmethod
-    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> None:
+    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> dict:
         """Open a dialog when an object is pressed."""
-        _dialog_handler = DialogHandler()
-
         dialog = QDialog()
         dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)
         dialog.setWindowIcon(QIcon(UI_ICON_PATH))
@@ -255,7 +218,11 @@ class DialogHandler:
                     if prop_data[0]["content"] == "Type:":
                         input_widget.setText(prop_data[1]["content"])
                         input_widget.clicked.connect(
-                            partial(_dialog_handler.lumber_type_dialog, input_widget)
+                            partial(
+                                InputDialogDelegate,
+                                InputDialogs.LumberDialog.value,
+                                input_widget,
+                            )
                         )
                     else:
                         input_widget.setStyleSheet(
@@ -264,7 +231,11 @@ class DialogHandler:
                         )
                         input_widget.setFixedSize(16, 16)
                         input_widget.clicked.connect(
-                            partial(_dialog_handler.color_picker_dialog, input_widget)
+                            partial(
+                                ColorDialogDelegate,
+                                ColorDialogs.ColorDialog.value,
+                                input_widget,
+                            )
                         )
                 elif isinstance(input_widget, QCheckBox):
                     input_widget.setChecked(prop_data[1]["content"])
@@ -304,43 +275,20 @@ class DialogHandler:
         dialog.setFixedSize(dialog.sizeHint())
 
         if dialog.exec() == dialog.DialogCode.Accepted:
-            pass
+            updated_values: dict = {
+                "Draw Order": inputs["Draw Order"].value(),
+                "Pen Color": inputs["Pen Color"].styleSheet(),
+                "Pen Thickness": inputs["Pen Thickness"].value(),
+                "Pen Style": inputs["Pen Style"].currentText(),
+                "Fill State": inputs["Fill State"].isChecked(),
+                "Fill Color": inputs["Fill Color"].styleSheet(),
+                "Fill Pattern": inputs["Fill Pattern"].currentText(),
+                "Fill Opacity": inputs["Fill Opacity"].value(),
+            }
+            return updated_values
+        else:
+            return {}
 
-    @staticmethod
-    def color_picker_dialog(input_widget: QPushButton) -> None:
-        """A dialog for picking a color."""
-        dialog = QColorDialog()
-        dialog.setWindowTitle(COLOR_PICKER_DIALOG_TITLE)
-        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
-        dialog.setFixedSize(dialog.sizeHint())
-
-        selected_color = dialog.getColor(
-            QColor(input_widget.palette().color(QPalette.ColorRole.Window))
-        )
-
-        if selected_color.isValid():
-            hex_color = selected_color.name(QColor.NameFormat.HexRgb)
-            input_widget.setStyleSheet(
-                f"background-color: {hex_color};" "border: 1px solid lightgray;"
-            )
-
-    @staticmethod
-    def lumber_type_dialog(input_widget: QPushButton) -> None:
-        """A dialog for picking a lumber type."""
-        dialog = QInputDialog()
-        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
-        dialog.setFixedSize(dialog.sizeHint())
-
-        lumber_types = [type_name for type_name, _ in LumberTypes.get_all_content()]
-        current_type = input_widget.text()
-
-        selected_type, _ = dialog.getItem(
-            dialog,
-            "Select Lumber Type",
-            "Choose a lumber type:",
-            lumber_types,
-            lumber_types.index(current_type),
-            False,
-        )
-
-        input_widget.setText(selected_type)
+        # TODO: fix the return of values.
+        # TODO: move this to its own delegate.
+        # TODO: implement the returned values into the object delegate for the values to be applied.

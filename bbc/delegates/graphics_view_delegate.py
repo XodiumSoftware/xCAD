@@ -37,6 +37,7 @@ class GraphicsViewDelegate(QGraphicsView):
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
         self.draw_grid(painter, rect)
+        self.update()
 
     @staticmethod
     def draw_grid(painter: QPainter, rect: QRectF) -> None:
@@ -59,8 +60,6 @@ class GraphicsViewDelegate(QGraphicsView):
             grid_path.lineTo(right, coord)
 
         painter.drawPath(grid_path)
-
-        # TODO: Add func to update grid after editing objects.
 
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
