@@ -51,7 +51,7 @@ class DataBaseHandler:
                     columns.append(column_name)
                     values_to_insert.append(str(value))
                 query = f"INSERT OR REPLACE INTO {table} ({', '.join(columns)}) VALUES ({', '.join(['?'] * len(values_to_insert))})"
-                cursor.execute(query, tuple(values_to_insert))
+                cursor.execute(query, values_to_insert)
             conn.commit()
         except Error as e:
             print(e)
@@ -69,8 +69,23 @@ class DataBaseHandler:
             columns = [desc[0] for desc in cursor.description]
 
             for row in rows:
-                data.append({column: value for column, value in zip(columns, row)})
+                row_data = {}
+                for column, value in zip(columns, row):
+                    if value is not None:
+                        if value.isdigit():
+                            row_data[column] = int(value)
+                        elif value.replace(".", "", 1).isdigit():
+                            row_data[column] = float(value)
+                        elif value.lower() == "true":
+                            row_data[column] = True
+                        elif value.lower() == "false":
+                            row_data[column] = False
+                        else:
+                            row_data[column] = value
+                    else:
+                        row_data[column] = None
 
+                data.append(row_data)
         except Error as e:
             print(e)
 

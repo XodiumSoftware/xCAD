@@ -84,3 +84,22 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
                 )
             )
             self.setOpacity(max(0, min(ObjSettings.FillOpacity.value, 100)) / 100)
+        self.update_props()
+
+    def update_props(self) -> None:
+        """Update the properties."""
+        stud_props = {
+            ObjSettings.Object_ID: self.object_id,
+            ObjSettings.Type: self.toolTip(),
+            ObjSettings.DrawOrder: self.zValue(),
+            ObjSettings.Rad: self.rotation(),
+            ObjSettings.PenStyle: self.pen().style(),
+            ObjSettings.PenColor: self.pen().color().name(),
+            ObjSettings.PenThickness: self.pen().width(),
+            ObjSettings.Fill: self.brush().isOpaque(),
+            ObjSettings.FillPattern: self.brush().style(),
+            ObjSettings.FillColor: self.brush().color().name(),
+            ObjSettings.FillOpacity: int(self.opacity() * 100),
+        }
+
+        self._db_handler.insert_data("Object_Properties", stud_props)
