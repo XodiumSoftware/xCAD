@@ -1,5 +1,6 @@
 from enums.afc_enums import ObjSettings
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from handlers.dialog_handler import DialogHandler
 from helpers.helper import Helper
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem
@@ -8,12 +9,10 @@ from PySide6.QtWidgets import QGraphicsRectItem
 class GraphicsObjectDelegate(QGraphicsRectItem):
     """A class to represent a graphics object delegate."""
 
-    object_id = 0
-
     def __init__(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
-        self._helpers = Helper
+        self._helpers, self._dialog_handler = Helper, DialogHandler
 
         self.setup_graphics_object(posx, posy, dimx, dimy, rad)
 
@@ -46,3 +45,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
                 )
             )
             self.setOpacity(max(0, min(ObjSettings.FillOpacity.value, 100)) / 100)
+        self.mouseDoubleClickEvent = (
+            lambda event: self._dialog_handler.object_editor_dialog(
+                self, self.object_id
+            )
+        )

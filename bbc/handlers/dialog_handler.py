@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QDialog,
     QDoubleSpinBox,
     QFrame,
+    QGraphicsRectItem,
     QGridLayout,
     QGroupBox,
     QInputDialog,
@@ -63,7 +64,7 @@ class DialogHandler:
                 QApplication.activeWindow().close()
 
     @staticmethod
-    def object_editor_dialog(obj_props: dict) -> None:
+    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> None:
         """Open a dialog when an object is pressed."""
         _dialog_handler = DialogHandler()
 
@@ -85,7 +86,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QLabel(),
-                            "content": obj_props["object_id"],
+                            "content": obj_id,
                         },
                     ],
                     [
@@ -95,7 +96,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QPushButton(),
-                            "content": obj_props["type"],
+                            "content": obj.toolTip(),
                         },
                     ],
                     [
@@ -105,7 +106,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QDoubleSpinBox(),
-                            "content": obj_props["draw_order"],
+                            "content": obj.zValue(),
                         },
                     ],
                 ],
@@ -121,7 +122,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QLabel(),
-                            "content": str(obj_props["x"]) + ", " + str(obj_props["y"]),
+                            "content": str(obj.pos().x()) + ", " + str(obj.pos().y()),
                         },
                     ],
                     [
@@ -131,9 +132,9 @@ class DialogHandler:
                         },
                         {
                             "widget": QLabel(),
-                            "content": str(obj_props["h"])
+                            "content": str(obj.rect().width())
                             + " x "
-                            + str(obj_props["w"]),
+                            + str(obj.rect().height()),
                         },
                     ],
                     [
@@ -143,7 +144,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QLabel(),
-                            "content": str(obj_props["rad"]),
+                            "content": str(obj.rotation()),
                         },
                     ],
                 ],
@@ -159,7 +160,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QPushButton(),
-                            "content": obj_props["pen_color"],
+                            "content": obj.pen().color().name(QColor.NameFormat.HexRgb),
                         },
                     ],
                     [
@@ -169,7 +170,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QDoubleSpinBox(),
-                            "content": obj_props["pen_thickness"],
+                            "content": obj.pen().widthF(),
                         },
                     ],
                     [
@@ -179,7 +180,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QComboBox(),
-                            "content": obj_props["pen_style"],
+                            "content": obj.pen().style().name,
                             "content_options": [enum.name for enum in PenStyleTypes],
                         },
                     ],
@@ -190,7 +191,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QCheckBox(),
-                            "content": obj_props["fill_state"],
+                            "content": obj.brush().style() != Qt.BrushStyle.NoBrush,
                         },
                     ],
                     [
@@ -200,7 +201,9 @@ class DialogHandler:
                         },
                         {
                             "widget": QPushButton(),
-                            "content": obj_props["fill_color"],
+                            "content": obj.brush()
+                            .color()
+                            .name(QColor.NameFormat.HexRgb),
                         },
                     ],
                     [
@@ -210,7 +213,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QComboBox(),
-                            "content": obj_props["fill_pattern"],
+                            "content": obj.brush().style().name,
                             "content_options": [enum.name for enum in BrushStyleTypes],
                         },
                     ],
@@ -221,7 +224,7 @@ class DialogHandler:
                         },
                         {
                             "widget": QDoubleSpinBox(),
-                            "content": obj_props["fill_opacity"],
+                            "content": obj.opacity() * 100,
                         },
                     ],
                 ],
@@ -301,15 +304,7 @@ class DialogHandler:
         dialog.setFixedSize(dialog.sizeHint())
 
         if dialog.exec() == dialog.DialogCode.Accepted:
-            for prop_name, input_widget in inputs.items():
-                if isinstance(input_widget, QPushButton):
-                    obj_props[prop_name] = input_widget.text()
-                elif isinstance(input_widget, QCheckBox):
-                    obj_props[prop_name] = input_widget.isChecked()
-                elif isinstance(input_widget, QComboBox):
-                    obj_props[prop_name] = input_widget.currentText()
-                elif isinstance(input_widget, QDoubleSpinBox):
-                    obj_props[prop_name] = input_widget.value()
+            pass
 
     @staticmethod
     def color_picker_dialog(input_widget: QPushButton) -> None:
