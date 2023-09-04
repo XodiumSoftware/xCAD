@@ -11,4 +11,5 @@ class UIs(Enum):
         "icon": UI_ICON_PATH,
         "initial_size": (600, 400),
         "initial_visibility": True,
+        "margins": (10, 10, 10, 10),
     }

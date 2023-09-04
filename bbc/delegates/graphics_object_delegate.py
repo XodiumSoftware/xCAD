@@ -24,7 +24,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
-        self.object_id = self._helpers.generate_complex_id()
+        self.object_id = self._helpers.complex_id_generator()
         self.setToolTip(ObjSettings.Type.value)
         self.setZValue(ObjSettings.DrawOrder.value)
         self.setPos(posx, posy)

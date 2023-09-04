@@ -53,8 +53,11 @@ class PushButtons(Enum):
     AutoFrameCAD = {
         "icon_path": None,
         "size": None,
-        "title": "AutoFrameCAD",
-        "stylesheet": "QPushButton {font-size: 36px;font-weight: bold;font-style: normal;border: none;}",
+        "title": ("AutoFrameCAD", "Click on title to start!"),
+        "stylesheet": (
+            "QLabel {font-size: 48px;font-weight: bold;font-style: normal;border: none;}",
+            "QLabel {font-size: 12px;font-weight: normal;font-style: normal;border: none;}",
+        ),
     }
     Save = {
         "icon_path": None,

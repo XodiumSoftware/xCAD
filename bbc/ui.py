@@ -10,7 +10,7 @@ from handlers.module_handler import ModuleHandler
 from handlers.signal_handler import SignalHandler
 from handlers.ui_handler import UIHandler
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import QMainWindow
 
 
 class UI(QMainWindow):
@@ -19,48 +19,46 @@ class UI(QMainWindow):
     def __init__(self) -> None:
         """Initialize the MainUI."""
         super().__init__()
+        qdarktheme.setup_theme("auto")
 
-        self._main_module_0 = ModuleHandler(Matrices.MainMatrix0)
-        self._main_module_1 = ModuleHandler(Matrices.MainMatrix1)
+        self._main_module_0, self._main_module_1 = (
+            ModuleHandler(Matrices.MainMatrix0),
+            ModuleHandler(Matrices.MainMatrix1),
+        )
 
-        self._signal_handler = SignalHandler()
-        self._ui_handler = UIHandler()
-
-        self._main_ui = QWidget()
-
-        self._events_handler = EventsHandler()
+        self._signal_handler, self._ui_handler, self._events_handler = (
+            SignalHandler(),
+            UIHandler(),
+            EventsHandler(),
+        )
 
         self.setup_ui()
 
     def setup_ui(self) -> None:
         """Setup the UIs."""
-        qdarktheme.setup_theme("auto")
-
         main_ui_info = UIs.MainUI.value
 
-        self._main_ui.setWindowTitle(main_ui_info["title"])
+        self.setWindowTitle(main_ui_info["title"])
 
-        self._main_ui.setWindowIcon(QIcon(main_ui_info["icon"]))
+        self.setWindowIcon(QIcon(main_ui_info["icon"]))
 
         self._ui_handler.center_ui_on_screen_handler(self)
 
-        self._ui_handler.set_ui_size(self._main_ui, main_ui_info["initial_size"])
+        self._ui_handler.set_ui_size(self, main_ui_info["initial_size"])
 
-        self._events_handler.quit_on_key_press_event(self._main_ui)
+        self._events_handler.quit_on_key_press_event(self)
 
-        self._main_modules_stack = ModuleType.StackedWidget.value(self._main_ui)
+        self._main_modules_stack = ModuleType.StackedWidget.value(self)
         self._main_modules_stack.addWidget(self._main_module_0)
         self._main_modules_stack.addWidget(self._main_module_1)
 
-        self._main_ui_layout = QGridLayout(self._main_ui)
-        self._main_ui_layout.addWidget(self._main_modules_stack)
-
-        self._configurator_modules_stack = ModuleType.StackedWidget.value(self._main_ui)
+        self.setCentralWidget(self._main_modules_stack)
+        self.setContentsMargins(*main_ui_info["margins"])
 
         if main_ui_info["initial_visibility"]:
-            self._main_ui.show()
+            self.show()
         else:
-            self._main_ui.hide()
+            self.hide()
 
         self.setup_connections()
 

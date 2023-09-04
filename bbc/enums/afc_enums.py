@@ -37,7 +37,7 @@ class LumberTypes(Enum):
 class ObjSettings(Enum):
     """A class to represent stud settings."""
 
-    Object_ID = Helper.generate_complex_id()
+    Object_ID = Helper.complex_id_generator()
     Type = f"{LumberTypes.SLS.name} {LumberTypes.SLS.value[0][0]}x{LumberTypes.SLS.value[0][1]}"
     DrawOrder = 0
 

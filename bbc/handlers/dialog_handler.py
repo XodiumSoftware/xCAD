@@ -29,7 +29,7 @@ class DialogHandler:
     """A class to handle dialogs."""
 
     @staticmethod
-    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> dict:
+    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> None:
         """Open a dialog when an object is pressed."""
         dialog = QDialog()
         dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)
@@ -275,19 +275,7 @@ class DialogHandler:
         dialog.setFixedSize(dialog.sizeHint())
 
         if dialog.exec() == dialog.DialogCode.Accepted:
-            updated_values: dict = {
-                "Draw Order": inputs["Draw Order"].value(),
-                "Pen Color": inputs["Pen Color"].styleSheet(),
-                "Pen Thickness": inputs["Pen Thickness"].value(),
-                "Pen Style": inputs["Pen Style"].currentText(),
-                "Fill State": inputs["Fill State"].isChecked(),
-                "Fill Color": inputs["Fill Color"].styleSheet(),
-                "Fill Pattern": inputs["Fill Pattern"].currentText(),
-                "Fill Opacity": inputs["Fill Opacity"].value(),
-            }
-            return updated_values
-        else:
-            return {}
+            pass
 
         # TODO: fix the return of values.
         # TODO: move this to its own delegate.
