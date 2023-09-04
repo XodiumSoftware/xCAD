@@ -1,7 +1,6 @@
 import os
 import sqlite3
 from sqlite3 import Error
-from typing import List, Tuple
 
 from constants import DATABASE_PATH
 
@@ -15,7 +14,7 @@ class DataBaseHandler:
         os.makedirs(os.path.dirname(os.path.abspath(DATABASE_PATH)), exist_ok=True)
 
     @staticmethod
-    def connection() -> Tuple[sqlite3.Connection, sqlite3.Cursor]:
+    def connection() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         """Open the database connection and return connection and cursor."""
         conn = sqlite3.connect(DATABASE_PATH)
         return conn, conn.cursor()
@@ -24,8 +23,8 @@ class DataBaseHandler:
     def insert_data(table: str, *values: dict) -> None:
         """Insert data into the database table, creating the table if it doesn't exist."""
         _db_handler = DataBaseHandler
-        _db_handler.setup_db_dir()
         try:
+            _db_handler.setup_db_dir()
             conn, cursor = DataBaseHandler.connection()
 
             cursor.execute(
@@ -58,12 +57,12 @@ class DataBaseHandler:
             print(e)
 
     @staticmethod
-    def retrieve_data(table: str) -> List[dict]:
+    def retrieve_data(table: str):
         """Retrieve data from the database for a given table."""
         _db_handler = DataBaseHandler
-        _db_handler.setup_db_dir()
         data = []
         try:
+            _db_handler.setup_db_dir()
             _, cursor = DataBaseHandler.connection()
             cursor.execute(f"SELECT * FROM {table}")
             rows = cursor.fetchall()

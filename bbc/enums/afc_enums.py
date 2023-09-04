@@ -41,8 +41,8 @@ class ObjSettings(Enum):
     Type = f"{LumberTypes.SLS.name} {LumberTypes.SLS.value[0][0]}x{LumberTypes.SLS.value[0][1]}"
     DrawOrder = 0
 
-    Pos = (0, 0, 0)
-    Dim = (LumberTypes.SLS.value[0][0], LumberTypes.SLS.value[0][1], 0)
+    Pos = (0, 0)
+    Dim = (LumberTypes.SLS.value[0][0], LumberTypes.SLS.value[0][1])
     Rad = 0
 
     PenStyle = "SolidLine"

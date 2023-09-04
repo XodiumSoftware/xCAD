@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Callable, List, Optional, Tuple, Type
+from typing import Any, Callable, Optional
 
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
@@ -26,7 +26,7 @@ class ModuleHandler(QWidget):
     def __init__(
         self,
         matrix_name: Enum,
-        matrix_margins: Optional[Tuple[int, int, int, int]] = None,
+        matrix_margins: Optional[tuple[int, int, int, int]] = None,
         parent: Optional[QWidget] = None,
     ) -> None:
         """Initialize the ModuleHandler."""
@@ -39,10 +39,10 @@ class ModuleHandler(QWidget):
     def create_modules_from_matrix(
         self,
         matrix_name: Enum,
-        matrix_margins: Optional[Tuple[int, int, int, int]] = None,
+        matrix_margins: Optional[tuple[int, int, int, int]] = None,
     ):
         """Create modules from a matrix."""
-        matrix_data: List[List[Tuple[Any, ...]]] = matrix_name.value
+        matrix_data: list[list[tuple[Any, ...]]] = matrix_name.value
 
         if matrix_data:
             layout = LayoutType.Grid.value(self)
@@ -81,8 +81,8 @@ class ModuleHandler(QWidget):
 
     @staticmethod
     def setup_module(
-        module_enum: Type[Enum],
-    ) -> Tuple[Optional[dict[str, Any]], Optional[QWidget]]:
+        module_enum: type[Enum],
+    ) -> tuple[Optional[dict[str, Any]], Optional[QWidget]]:
         """Setup the module data and properties."""
         delegate_class = {
             Labels: LabelDelegate,
@@ -100,8 +100,8 @@ class ModuleHandler(QWidget):
 
     @staticmethod
     def setup_module_margins(
-        module_margins: Optional[Tuple[int, int, int, int]]
-    ) -> Tuple[int, int, int, int]:
+        module_margins: Optional[tuple[int, int, int, int]]
+    ) -> tuple[int, int, int, int]:
         """Set the margins of the layout."""
         if module_margins is None:
             return (0, 0, 0, 0)
