@@ -37,35 +37,31 @@ class Matrices(Enum):
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
             ],
         ],
-        # [
-        #     LayoutType.HBox,
-        #     [
-        #         [
-        #             LayoutType.VBox,
-        #             PushButtons.Save,
-        #             None,
-        #             AlignmentType.AlignCenter,
-        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
-        #         ],
-        #         [
-        #             LayoutType.VBox,
-        #             PushButtons.Discard,
-        #             None,
-        #             AlignmentType.AlignCenter,
-        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
-        #         ],
-        #         [
-        #             LayoutType.VBox,
-        #             PushButtons.Reset,
-        #             None,
-        #             AlignmentType.AlignCenter,
-        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
-        #         ],
-        #     ],
-        #     None,
-        #     AlignmentType.AlignBottom,
-        #     (SizePolicyType.Minimum, SizePolicyType.Minimum),
-        # ],
+        [
+            [
+                [
+                    LayoutType.VBox,
+                    PushButtons.Save,
+                    None,
+                    AlignmentType.AlignCenter,
+                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                ],
+                [
+                    LayoutType.VBox,
+                    PushButtons.Discard,
+                    None,
+                    AlignmentType.AlignCenter,
+                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                ],
+                [
+                    LayoutType.VBox,
+                    PushButtons.Reset,
+                    None,
+                    AlignmentType.AlignCenter,
+                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                ],
+            ],
+        ],
         [
             [
                 LayoutType.VBox,

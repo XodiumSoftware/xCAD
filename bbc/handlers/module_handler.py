@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, Optional
 
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.color_dialog_delegate import ColorDialogDelegate
@@ -20,7 +20,7 @@ from enums.module_enums import (
     PushButtons,
 )
 from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QWidget
 
 
@@ -31,10 +31,9 @@ class ModuleHandler(QWidget):
         self,
         matrix_name: Enum,
         matrix_margins: Optional[tuple[int, int, int, int]] = None,
-        parent: Optional[QWidget] = None,
     ) -> None:
         """Initialize the ModuleHandler."""
-        super().__init__(parent)
+        super().__init__()
         self._module_visibility = {}
         self._module_mapping = {}
 
@@ -46,7 +45,15 @@ class ModuleHandler(QWidget):
         matrix_margins: Optional[tuple[int, int, int, int]] = None,
     ):
         """Create modules from a matrix."""
-        matrix_data: List[List[tuple[Any, ...]]] = matrix_name.value
+        if isinstance(matrix_name, Enum):
+            matrix_data: list[list[tuple[Any, ...]]] = matrix_name.value
+        else:
+            matrix_data: list[list[tuple[Any, ...]]] = matrix_name
+
+        if not isinstance(matrix_data, list) or not all(
+            isinstance(row, list) for row in matrix_data
+        ):
+            raise TypeError("Invalid matrix data")
 
         if matrix_data:
             layout = LayoutType.Grid.value(self)
@@ -54,17 +61,16 @@ class ModuleHandler(QWidget):
 
             for row, row_modules in enumerate(matrix_data):
                 for column, module_data in enumerate(row_modules):
-                    if isinstance(module_data[0], list):
-                        for sub_module_data in module_data:
+                    if isinstance(module_data, list):
+                        if module_data[1:]:
                             module_container = self.setup_module_container(
-                                *sub_module_data
+                                *module_data[2:4]
                             )
-                            if module_container:
-                                layout.addWidget(module_container, row, column)
-                    else:
-                        module_container = self.setup_module_container(*module_data)
-                        if module_container:
                             layout.addWidget(module_container, row, column)
+                    else:
+                        layout.addWidget(
+                            self.setup_module_container(*module_data), row, column
+                        )
 
     def setup_module_container(
         self,
@@ -137,7 +143,9 @@ class ModuleHandler(QWidget):
         if isinstance(module_reference, QPushButton):
             module_reference.clicked.connect(target_method)
         else:
-            raise ValueError(f"{module_enum}: not found")
+            raise ValueError(
+                f"{module_enum}: not found or not supported for module connection"
+            )
 
     @Slot(str, str)
     def toggle_module_visibility(self, module_enum: Enum) -> None:
