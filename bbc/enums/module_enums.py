@@ -1,4 +1,5 @@
 import os
+import sys
 from enum import Enum
 
 import darkdetect
@@ -39,7 +40,7 @@ class DoubleSpinBoxes(Enum):
 
     SpinBox = {
         "min_value": 0,
-        "max_value": 1.7e308,
+        "max_value": sys.float_info.max,
         "default_value": 0,
         "step": 0.5,
         "stylesheet": "QSpinBox { font-size: 12px; }",

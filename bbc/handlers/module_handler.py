@@ -20,8 +20,8 @@ from enums.module_enums import (
     PushButtons,
 )
 from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QLayout, QWidget
+from PySide6.QtCore import Qt, Slot
+from PySide6.QtWidgets import QWidget
 
 
 class ModuleHandler(QWidget):
@@ -50,7 +50,7 @@ class ModuleHandler(QWidget):
 
         if matrix_data:
             layout = LayoutType.Grid.value(self)
-            layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
+            layout.setContentsMargins(*self.setup_module_margins(self, matrix_margins))
 
             for row, row_modules in enumerate(matrix_data):
                 for column, module_data in enumerate(row_modules):
@@ -60,11 +60,11 @@ class ModuleHandler(QWidget):
                                 *sub_module_data
                             )
                             if module_container:
-                                layout.addLayout(module_container, row, column)
+                                layout.addWidget(module_container, row, column)
                     else:
                         module_container = self.setup_module_container(*module_data)
                         if module_container:
-                            layout.addLayout(module_container, row, column)
+                            layout.addWidget(module_container, row, column)
 
     def setup_module_container(
         self,
@@ -73,24 +73,25 @@ class ModuleHandler(QWidget):
         module_margins: Optional[tuple[int, int, int, int]],
         module_alignment: Optional[AlignmentType],
         module_size_policy: Optional[tuple[SizePolicyType, SizePolicyType]],
-    ) -> QLayout:
+    ) -> QWidget:
         """Setup the module container layout."""
-        module_container = module_layout_type.value(self)
-
-        if module_alignment is not None:
-            module_container.setAlignment(module_alignment.value)
-
-        module_container.setContentsMargins(*self.setup_module_margins(module_margins))
+        module_container = QWidget()
 
         _, delegate = self.setup_module(module_enum)
 
         if delegate:
             self._module_mapping[module_enum.name] = delegate
+
+            layout = module_layout_type.value(module_container)
+            layout.setContentsMargins(*self.setup_module_margins(self, module_margins))
+            if module_alignment is not None:
+                layout.setAlignment(module_alignment.value)
+
             if module_size_policy is not None:
                 size_policy_x, size_policy_y = module_size_policy
                 delegate.setSizePolicy(size_policy_x.value, size_policy_y.value)
 
-            module_container.addWidget(delegate)
+            layout.addWidget(delegate)
 
         return module_container
 
@@ -117,11 +118,17 @@ class ModuleHandler(QWidget):
 
     @staticmethod
     def setup_module_margins(
-        module_margins: Optional[tuple[int, int, int, int]]
+        parent: QWidget, module_margins: Optional[tuple[int, int, int, int]]
     ) -> tuple[int, int, int, int]:
         """Set the margins of the layout."""
         if module_margins is None:
-            return (0, 0, 0, 0)
+            parent_margins = parent.contentsMargins()
+            return (
+                parent_margins.left(),
+                parent_margins.top(),
+                parent_margins.right(),
+                parent_margins.bottom(),
+            )
         return module_margins
 
     def module_connection(self, module_enum: Enum, target_method: Callable) -> None:
