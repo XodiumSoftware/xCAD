@@ -12,7 +12,7 @@ class Matrices(Enum):
             [
                 LayoutType.VBox,
                 PushButtons.AutoFrameCAD,
-                (0, 0, 0, 0),
+                None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
             ],
@@ -21,7 +21,7 @@ class Matrices(Enum):
             [
                 LayoutType.VBox,
                 Labels.Copyright,
-                (0, 0, 0, 0),
+                None,
                 AlignmentType.AlignBottom,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
@@ -32,39 +32,45 @@ class Matrices(Enum):
             [
                 LayoutType.VBox,
                 GraphicsViews.StructureView,
-                (0, 0, 0, 0),
+                None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
             ],
         ],
-        [
-            [
-                LayoutType.VBox,
-                PushButtons.Save,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                PushButtons.Discard,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                PushButtons.Reset,
-                (0, 0, 0, 0),
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
+        # [
+        #     LayoutType.HBox,
+        #     [
+        #         [
+        #             LayoutType.VBox,
+        #             PushButtons.Save,
+        #             None,
+        #             AlignmentType.AlignCenter,
+        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
+        #         ],
+        #         [
+        #             LayoutType.VBox,
+        #             PushButtons.Discard,
+        #             None,
+        #             AlignmentType.AlignCenter,
+        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
+        #         ],
+        #         [
+        #             LayoutType.VBox,
+        #             PushButtons.Reset,
+        #             None,
+        #             AlignmentType.AlignCenter,
+        #             (SizePolicyType.Minimum, SizePolicyType.Minimum),
+        #         ],
+        #     ],
+        #     None,
+        #     AlignmentType.AlignBottom,
+        #     (SizePolicyType.Minimum, SizePolicyType.Minimum),
+        # ],
         [
             [
                 LayoutType.VBox,
                 PushButtons.StartupPage,
-                (0, 0, 0, 0),
+                None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
@@ -73,7 +79,7 @@ class Matrices(Enum):
             [
                 LayoutType.VBox,
                 Labels.Copyright,
-                (0, 0, 0, 0),
+                None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],

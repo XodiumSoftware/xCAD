@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional
 
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.color_dialog_delegate import ColorDialogDelegate
@@ -19,9 +19,9 @@ from enums.module_enums import (
     MessageBoxes,
     PushButtons,
 )
-from enums.q_enums import AlignmentType, LayoutType
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QLayout, QWidget
 
 
 class ModuleHandler(QWidget):
@@ -46,42 +46,53 @@ class ModuleHandler(QWidget):
         matrix_margins: Optional[tuple[int, int, int, int]] = None,
     ):
         """Create modules from a matrix."""
-        matrix_data: list[list[tuple[Any, ...]]] = matrix_name.value
+        matrix_data: List[List[tuple[Any, ...]]] = matrix_name.value
 
         if matrix_data:
             layout = LayoutType.Grid.value(self)
             layout.setContentsMargins(*self.setup_module_margins(matrix_margins))
 
             for row, row_modules in enumerate(matrix_data):
-                for column, (
-                    module_layout_type,
-                    module_enum,
-                    module_margins,
-                    module_alignment,
-                    module_size_policy,
-                ) in enumerate(row_modules):
-                    module_container = LayoutType(module_layout_type).value()
-                    module_container.setContentsMargins(
-                        *self.setup_module_margins(module_margins)
-                    )
-                    if module_alignment is not None:
-                        module_container.setAlignment(
-                            AlignmentType(module_alignment).value
-                        )
-
-                    _, delegate = self.setup_module(module_enum)
-
-                    if delegate:
-                        self._module_mapping[module_enum.name] = delegate
-                        if module_size_policy is not None:
-                            size_policy_x, size_policy_y = module_size_policy
-                            delegate.setSizePolicy(
-                                size_policy_x.value, size_policy_y.value
+                for column, module_data in enumerate(row_modules):
+                    if isinstance(module_data[0], list):
+                        for sub_module_data in module_data:
+                            module_container = self.setup_module_container(
+                                *sub_module_data
                             )
+                            if module_container:
+                                layout.addLayout(module_container, row, column)
+                    else:
+                        module_container = self.setup_module_container(*module_data)
+                        if module_container:
+                            layout.addLayout(module_container, row, column)
 
-                        module_container.addWidget(delegate)
+    def setup_module_container(
+        self,
+        module_layout_type: LayoutType,
+        module_enum: type[Enum],
+        module_margins: Optional[tuple[int, int, int, int]],
+        module_alignment: Optional[AlignmentType],
+        module_size_policy: Optional[tuple[SizePolicyType, SizePolicyType]],
+    ) -> QLayout:
+        """Setup the module container layout."""
+        module_container = module_layout_type.value(self)
 
-                        layout.addLayout(module_container, row, column)
+        if module_alignment is not None:
+            module_container.setAlignment(module_alignment.value)
+
+        module_container.setContentsMargins(*self.setup_module_margins(module_margins))
+
+        _, delegate = self.setup_module(module_enum)
+
+        if delegate:
+            self._module_mapping[module_enum.name] = delegate
+            if module_size_policy is not None:
+                size_policy_x, size_policy_y = module_size_policy
+                delegate.setSizePolicy(size_policy_x.value, size_policy_y.value)
+
+            module_container.addWidget(delegate)
+
+        return module_container
 
     @staticmethod
     def setup_module(
