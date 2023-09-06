@@ -3,6 +3,8 @@ import string
 from typing import Optional
 
 from enums.q_enums import AspectRatioModeTypes, ModuleType
+from ezdxf import filemanagement as fm
+from ezdxf.lldxf import const
 from PySide6.QtCore import QPoint, QSettings
 from PySide6.QtWidgets import QApplication, QGraphicsView, QWidget
 
@@ -70,3 +72,53 @@ class Helper:
         instance.fitInView(
             instance.sceneRect(), AspectRatioModeTypes.KeepAspectRatio.value
         )
+
+    @staticmethod
+    def read_dwg_file(file_path: str) -> list[dict]:
+        entity_info = []
+        try:
+            doc = fm.readfile(file_path)
+            msp = doc.modelspace()
+
+            for entity in msp.query("*"):
+                entity_type = entity.dxftype()
+                layer_name = entity.dxf.layer
+
+                properties = []
+
+                if entity_type == "LINE":
+                    properties = {
+                        "Entity Type": entity_type,
+                        "Layer": layer_name,
+                        "Start Point": entity.dxf.start,
+                        "End Point": entity.dxf.end,
+                        "Color": entity.dxf.color,
+                        "Line Type": entity.dxf.linetype,
+                        "Line Weight": entity.dxf.lineweight,
+                    }
+                elif entity_type == "TEXT" or entity_type == "MTEXT":
+                    properties = {
+                        "Entity Type": entity_type,
+                        "Layer": layer_name,
+                        "Text Content": entity.dxf.text,
+                        "Color": entity.dxf.color,
+                        "Line Type": entity.dxf.linetype,
+                        "Line Weight": entity.dxf.lineweight,
+                    }
+                elif entity_type == "CIRCLE":
+                    properties = {
+                        "Entity Type": entity_type,
+                        "Layer": layer_name,
+                        "Center": entity.dxf.center,
+                        "Radius": entity.dxf.radius,
+                        "Color": entity.dxf.color,
+                        "Line Type": entity.dxf.linetype,
+                        "Line Weight": entity.dxf.lineweight,
+                    }
+
+                entity_info.append(properties)
+
+        except const.DXFError as e:
+            print(f"Error reading DWG file: {e}")
+
+        return entity_info
