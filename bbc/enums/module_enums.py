@@ -3,9 +3,21 @@ import sys
 from enum import Enum
 
 import darkdetect
-from constants import ICONS_FOLDER_PATH
-from enums.afc_enums import LumberTypes
+from constants import ICONS_FOLDER_PATH, UI_ICON_PATH
+from enums.type_enums import LumberTypes
 from PySide6.QtWidgets import QMessageBox
+
+
+class UIs(Enum):
+    """A class used to represent the UIs."""
+
+    MainUI = {
+        "title": "AFC",
+        "icon": UI_ICON_PATH,
+        "initial_size": (600, 400),
+        "initial_visibility": True,
+        "margins": (10, 10, 10, 10),
+    }
 
 
 class Labels(Enum):

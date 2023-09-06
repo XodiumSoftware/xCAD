@@ -1,9 +1,9 @@
 import math
 
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from enums.afc_enums import GraphicsViewSettings
 from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
-from handlers.events_handler import EventsHandler
+from enums.setting_enums import GraphicsViewSettings
+from helpers.helper import Helper
 from PySide6.QtCore import QRectF
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
@@ -15,6 +15,7 @@ class GraphicsViewDelegate(QGraphicsView):
     def __init__(self, _) -> None:
         """Initialize the graphics view delegate."""
         super().__init__()
+        self._helper = Helper()
         self.setup_graphics_view()
 
     def setup_graphics_view(self) -> None:
@@ -31,7 +32,7 @@ class GraphicsViewDelegate(QGraphicsView):
 
         self.scale(1, -1)
 
-        EventsHandler.fit_scene_in_view(self)
+        self._helper.fit_scene_in_view(self)
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
@@ -63,5 +64,5 @@ class GraphicsViewDelegate(QGraphicsView):
 
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
-        EventsHandler.fit_scene_in_view(self)
+        self._helper.fit_scene_in_view(self)
         super().resizeEvent(event)

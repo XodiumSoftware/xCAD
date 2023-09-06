@@ -2,15 +2,13 @@ from functools import partial
 
 import qdarktheme
 from enums.matrix_enums import Matrices
-from enums.module_enums import PushButtons
+from enums.module_enums import PushButtons, UIs
 from enums.q_enums import ModuleType
-from enums.ui_enums import UIs
-from handlers.events_handler import EventsHandler
-from handlers.module_handler import ModuleHandler
-from handlers.signal_handler import SignalHandler
-from handlers.ui_handler import UIHandler
+from helpers.helper import Helper
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow
+from utils.events_handler import EventsHandler
+from utils.module_handler import ModuleHandler
 
 
 class UI(QMainWindow):
@@ -26,9 +24,8 @@ class UI(QMainWindow):
             ModuleHandler(Matrices.MainMatrix1),
         )
 
-        self._signal_handler, self._ui_handler, self._events_handler = (
-            SignalHandler(),
-            UIHandler(),
+        self._helper, self._events_handler = (
+            Helper(),
             EventsHandler(),
         )
 
@@ -42,9 +39,9 @@ class UI(QMainWindow):
 
         self.setWindowIcon(QIcon(main_ui_info["icon"]))
 
-        self._ui_handler.center_ui_on_screen_handler(self)
+        self._helper.center_ui_on_screen(self)
 
-        self._ui_handler.set_ui_size(self, main_ui_info["initial_size"])
+        self._helper.set_ui_size(self, main_ui_info["initial_size"])
 
         self._events_handler.quit_on_key_press_event(self)
 
@@ -67,14 +64,14 @@ class UI(QMainWindow):
         self._main_module_0.module_connection(
             PushButtons.AutoFrameCAD,
             partial(
-                self._ui_handler.switch_modules,
+                self._helper.switch_modules,
                 module=self._main_modules_stack,
             ),
         )
         self._main_module_1.module_connection(
             PushButtons.StartupPage,
             partial(
-                self._ui_handler.switch_modules,
+                self._helper.switch_modules,
                 module=self._main_modules_stack,
             ),
         )
