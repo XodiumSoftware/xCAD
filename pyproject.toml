@@ -1,4 +1,4 @@
 [build-system]
-requires = ["setuptools>=42", "openpyxl"]
+requires = ["setuptools>=42", "numpy", "pyside6"]
 build-backend = "setuptools.build_meta"
 [tool.cyright]
