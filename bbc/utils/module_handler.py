@@ -61,16 +61,9 @@ class ModuleHandler(QWidget):
 
             for row, row_modules in enumerate(matrix_data):
                 for column, module_data in enumerate(row_modules):
-                    if isinstance(module_data, list):
-                        if module_data[1:]:
-                            module_container = self.setup_module_container(
-                                *module_data[2:4]
-                            )
-                            layout.addWidget(module_container, row, column)
-                    else:
-                        layout.addWidget(
-                            self.setup_module_container(*module_data), row, column
-                        )
+                    layout.addWidget(
+                        self.setup_module_container(*module_data), row, column
+                    )
 
     def setup_module_container(
         self,
