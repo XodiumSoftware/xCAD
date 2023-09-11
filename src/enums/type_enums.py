@@ -15,11 +15,6 @@ class LumberTypes(Enum):
         get_all_content():
             Returns a list of tuples containing formatted names and dimensions of all lumber types.
 
-    Example:
-        >>> lumber_list = LumberTypes.get_all_content()
-        >>> print(lumber_list)
-        [('SLS 38x89', (38, 89)), ('SLS 38x120', (38, 120)), ...]
-
     """
 
     SLS = [
