@@ -2,7 +2,25 @@ from enum import Enum
 
 
 class LumberTypes(Enum):
-    """A class to represent lumber types."""
+    """A class to represent different types of lumber.
+
+    This class defines two categories of lumber types: SLS (Scandinavian Lumber Standard)
+    and CLS (Canadian Lumber Standard).
+
+    Attributes:
+        SLS (list): List of tuples representing dimensions of Scandinavian Lumber Standard.
+        CLS (list): List of tuples representing dimensions of Canadian Lumber Standard.
+
+    Methods:
+        get_all_content():
+            Returns a list of tuples containing formatted names and dimensions of all lumber types.
+
+    Example:
+        >>> lumber_list = LumberTypes.get_all_content()
+        >>> print(lumber_list)
+        [('SLS 38x89', (38, 89)), ('SLS 38x120', (38, 120)), ...]
+
+    """
 
     SLS = [
         (38, 89),
@@ -24,7 +42,17 @@ class LumberTypes(Enum):
 
     @classmethod
     def get_all_content(cls):
-        """Get all content from the lumber types."""
+        """Get all content from the lumber types.
+
+        Returns:
+            list: A list of tuples containing formatted names and dimensions of all lumber types.
+
+        Example:
+            >>> lumber_list = LumberTypes.get_all_content()
+            >>> print(lumber_list)
+            [('SLS 38x89', (38, 89)), ('SLS 38x120', (38, 120)), ...]
+
+        """
         return [
             (f"{name} {x}x{y}", (x, y))
             for name, values in cls.__members__.items()
