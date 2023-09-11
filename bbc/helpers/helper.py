@@ -75,6 +75,7 @@ class Helper:
 
     @staticmethod
     def read_dwg_file(file_path: str) -> list[dict]:
+        """Reads a DWG file and returns the entity information."""
         entity_info = []
         try:
             doc = fm.readfile(file_path)
@@ -96,7 +97,7 @@ class Helper:
                         "Line Type": entity.dxf.linetype,
                         "Line Weight": entity.dxf.lineweight,
                     }
-                elif entity_type == "TEXT" or entity_type == "MTEXT":
+                elif entity_type in ("TEXT", "MTEXT"):
                     properties = {
                         "Entity Type": entity_type,
                         "Layer": layer_name,
@@ -122,3 +123,5 @@ class Helper:
             print(f"Error reading DWG file: {e}")
 
         return entity_info
+
+    # TODO: add method that sends back the properties after editing.

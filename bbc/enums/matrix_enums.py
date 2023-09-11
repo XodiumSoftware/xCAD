@@ -39,27 +39,25 @@ class Matrices(Enum):
         ],
         [
             [
-                [
-                    LayoutType.VBox,
-                    PushButtons.Save,
-                    None,
-                    AlignmentType.AlignCenter,
-                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
-                ],
-                [
-                    LayoutType.VBox,
-                    PushButtons.Discard,
-                    None,
-                    AlignmentType.AlignCenter,
-                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
-                ],
-                [
-                    LayoutType.VBox,
-                    PushButtons.Reset,
-                    None,
-                    AlignmentType.AlignCenter,
-                    (SizePolicyType.Minimum, SizePolicyType.Minimum),
-                ],
+                LayoutType.VBox,
+                PushButtons.Save,
+                None,
+                AlignmentType.AlignCenter,
+                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+            ],
+            [
+                LayoutType.VBox,
+                PushButtons.Discard,
+                None,
+                AlignmentType.AlignCenter,
+                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+            ],
+            [
+                LayoutType.VBox,
+                PushButtons.Reset,
+                None,
+                AlignmentType.AlignCenter,
+                (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
         ],
         [
