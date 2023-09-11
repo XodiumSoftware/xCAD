@@ -10,7 +10,7 @@ Welcome to AutoFrameCAD's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   enums
+   type_enums
 
 Indices and tables
 ==================
