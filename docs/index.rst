@@ -12,8 +12,6 @@ Welcome to AutoFrameCAD's documentation!
 
    enums
 
-
-
 Indices and tables
 ==================
 

@@ -1,12 +1,13 @@
 import math
 
-from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
-from enums.setting_enums import GraphicsViewSettings
-from helpers.helper import Helper
 from PySide6.QtCore import QRectF
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
+
+from delegates.graphics_scene_delegate import GraphicsSceneDelegate
+from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
+from enums.settings_enums import GraphicsViewSettings
+from helpers.helper import Helper
 
 
 class GraphicsViewDelegate(QGraphicsView):
