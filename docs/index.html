@@ -1,146 +1,187 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./stylesheets/stylesheet.css"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-  <link rel="stylesheet" type="text/css" media="screen" href="./stylesheets/stylesheet.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- SCRIPTS -->
+    <script src="./scripts/js/carousel.js" defer></script>
+    <script src="./scripts/js/image_security.js" defer></script>
+    <script src="./scripts/js/popup.js" defer></script>
 
-  <!-- SCRIPTS -->
-  <script src="./scripts/js/carousel.js" defer></script>
-  <script src="./scripts/js/image_security.js" defer></script>
-  <script src="./scripts/js/popup.js" defer></script>
+    <title>AutoFrameCAD</title>
+  </head>
 
-  <title>AutoFrameCAD</title>
-</head>
+  <body>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <a id="forkme_banner" href="https://github.com/illyrius666/AutoFrameCAD"
+          >View on GitHub</a
+        >
 
-<body>
-  <!-- HEADER -->
-  <div id="header_wrap" class="outer">
-    <header class="inner">
-      <a id="forkme_banner" href="https://github.com/illyrius666/AutoFrameCAD">View on GitHub</a>
-
-      <!-- REGISTER/LOGIN BANNER -->
-      <div id="register_login_banner">
-        <a href="#" id="loginLink">Login</a>
-      </div>
-
-      <h1 id="project_title">
-        <a href="index.html" id="project_title">AutoFrameCAD<sup>&copy;</sup></a>
-      </h1>
-      <h2 id="project_tagline">
-        BricsCAD addon/plug-in to automize frameworks
-      </h2>
-
-      <section id="downloads">
-        <a class="zip_download_link" href="https://github.com/illyrius666/AutoFrameCAD/releases">Download this project
-          as a .zip file</a>
-        <a class="tar_download_link" href="https://github.com/illyrius666/AutoFrameCAD/releases">Download this project
-          as a tar.gz file</a>
-      </section>
-    </header>
-  </div>
-
-  <!-- CAROUSEL -->
-  <div id="carousel_content_wrap" class="carousel" data-carousel>
-    <button class="carousel-button prev" data-carousel-button="prev">
-      <img src="./images/left_arrow.png" alt="Previous" data-obfuscate />
-    </button>
-    <button class="carousel-button next" data-carousel-button="next">
-      <img src="./images/right_arrow.png" alt="Next" data-obfuscate />
-    </button>
-    <section aria-label="Image Gallery" id="media_content" class="inner-carousel">
-      <ul data-slides>
-        <li2 class="slide" data-active>
-          <img src="https://source.unsplash.com/78A265wPiO4" alt="AFC Image #1" data-obfuscate />
-        </li2>
-        <li2 class="slide">
-          <img src="https://source.unsplash.com/eOpewngf68w" alt="AFC Image #2" data-obfuscate />
-        </li2>
-        <li2 class="slide">
-          <img src="https://source.unsplash.com/ndN00KmbJ1c" alt="AFC Image #2" data-obfuscate />
-        </li2>
-      </ul>
-    </section>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div id="main_content_wrap" class="outer">
-    <section id="about_content" class="inner">
-      <h1 id="about">About</h1>
-      <p>
-        AutoFrameCAD<sup>&copy;</sup> is a powerful BricsCAD add-on/plug-in
-        designed to automate the process of creating frameworks. Whether
-        you're working on architectural, structural, or industrial projects,
-        AutoFrameCAD<sup>&copy;</sup> simplifies and accelerates the framework
-        design process. With its user-friendly interface and advanced
-        features, AutoFrameCAD<sup>&copy;</sup>
-        empowers engineers and designers to efficiently generate precise and
-        customizable frameworks with minimal effort.
-      </p>
-    </section>
-
-    <section id="features_content" class="inner">
-      <h2 id="features">Key Features</h2>
-      <ul>
-        <li>Automated framework creation</li>
-        <li>Customizable and precise design</li>
-        <li>User-friendly interface</li>
-        <li>Supports architectural, structural, and industrial projects</li>
-        <li>Time-saving and efficient</li>
-      </ul>
-    </section>
-
-    <section id="tools_content" class="inner">
-      <h2 id="tools">Developer Tools</h2>
-      <div class="icons-list">
-        <div class="tool-item">
-          <a href="matrix_editor.html">
-            <img src="./images/matrix_editor.png" alt="Matrix Editor" class="tool-image" />
-          </a>
-          <p class="tool-title">Matrix Editor</p>
+        <!-- REGISTER/LOGIN BANNER -->
+        <div id="register_login_banner">
+          <a href="#" id="loginLink">Login</a>
         </div>
-        <div class="tool-item">
-          <a href="./_build/index.html">
-            <img src="./images/docs.png" alt="Documentation!" class="tool-image" />
-          </a>
-          <p class="tool-title">Documentation</p>
-        </div>
-        <div class="tool-item">
-          <a>
-            <img src="./images/coming_soon.png" alt="Coming Soon!" class="tool-image" />
-          </a>
-          <p class="tool-title">-</p>
-        </div>
-      </div>
-    </section>
-  </div>
 
-  <!-- FOOTER  -->
-  <div id="footer_wrap" class="outer">
-    <footer class="inner">
-      <p>
-        AutoFrameCAD&copy; 2023 Qerimi-Engineering&copy;. All rights reserved.
-      </p>
-      <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-    </footer>
-  </div>
+        <h1 id="project_title">
+          <a href="index.html" id="project_title"
+            >AutoFrameCAD<sup>&copy;</sup></a
+          >
+        </h1>
+        <h2 id="project_tagline">
+          BricsCAD addon/plug-in to automize frameworks
+        </h2>
 
-  <!-- LOGIN POPUP -->
-  <div id="loginPopup" class="popup-overlay">
-    <div class="popup-content">
-      <h2>Login</h2>
-      <form>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
-        <button type="submit">Login</button>
-      </form>
+        <section id="downloads">
+          <a
+            class="zip_download_link"
+            href="https://github.com/illyrius666/AutoFrameCAD/releases"
+            >Download this project as a .zip file</a
+          >
+          <a
+            class="tar_download_link"
+            href="https://github.com/illyrius666/AutoFrameCAD/releases"
+            >Download this project as a tar.gz file</a
+          >
+        </section>
+      </header>
     </div>
-  </div>
-</body>
 
+    <!-- CAROUSEL -->
+    <div id="carousel_content_wrap" class="carousel" data-carousel>
+      <button class="carousel-button prev" data-carousel-button="prev">
+        <img src="./images/left_arrow.png" alt="Previous" data-obfuscate />
+      </button>
+      <button class="carousel-button next" data-carousel-button="next">
+        <img src="./images/right_arrow.png" alt="Next" data-obfuscate />
+      </button>
+      <section
+        aria-label="Image Gallery"
+        id="media_content"
+        class="inner-carousel"
+      >
+        <ul data-slides>
+          <li2 class="slide" data-active>
+            <img
+              src="https://source.unsplash.com/78A265wPiO4"
+              alt="AFC Image #1"
+              data-obfuscate
+            />
+          </li2>
+          <li2 class="slide">
+            <img
+              src="https://source.unsplash.com/eOpewngf68w"
+              alt="AFC Image #2"
+              data-obfuscate
+            />
+          </li2>
+          <li2 class="slide">
+            <img
+              src="https://source.unsplash.com/ndN00KmbJ1c"
+              alt="AFC Image #2"
+              data-obfuscate
+            />
+          </li2>
+        </ul>
+      </section>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="about_content" class="inner">
+        <h1 id="about">About</h1>
+        <p>
+          AutoFrameCAD<sup>&copy;</sup> is a powerful BricsCAD add-on/plug-in
+          designed to automate the process of creating frameworks. Whether
+          you're working on architectural, structural, or industrial projects,
+          AutoFrameCAD<sup>&copy;</sup> simplifies and accelerates the framework
+          design process. With its user-friendly interface and advanced
+          features, AutoFrameCAD<sup>&copy;</sup>
+          empowers engineers and designers to efficiently generate precise and
+          customizable frameworks with minimal effort.
+        </p>
+      </section>
+
+      <section id="features_content" class="inner">
+        <h2 id="features">Key Features</h2>
+        <ul>
+          <li>Automated framework creation</li>
+          <li>Customizable and precise design</li>
+          <li>User-friendly interface</li>
+          <li>Supports architectural, structural, and industrial projects</li>
+          <li>Time-saving and efficient</li>
+        </ul>
+      </section>
+
+      <section id="tools_content" class="inner">
+        <h2 id="tools">Developer Tools</h2>
+        <div class="icons-list">
+          <div class="tool-item">
+            <a href="matrix_editor.html">
+              <img
+                src="./images/matrix_editor.png"
+                alt="Matrix Editor"
+                class="tool-image"
+              />
+            </a>
+            <p class="tool-title">Matrix Editor</p>
+          </div>
+          <div class="tool-item">
+            <a href="./_build/index.html">
+              <img
+                src="./images/docs.png"
+                alt="Documentation!"
+                class="tool-image"
+              />
+            </a>
+            <p class="tool-title">Documentation</p>
+          </div>
+          <div class="tool-item">
+            <a>
+              <img
+                src="./images/coming_soon.png"
+                alt="Coming Soon!"
+                class="tool-image"
+              />
+            </a>
+            <p class="tool-title">-</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>
+          AutoFrameCAD&copy; 2023 Qerimi-Engineering&copy;. All rights reserved.
+        </p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    <!-- LOGIN POPUP -->
+    <div id="loginPopup" class="popup-overlay">
+      <div class="popup-content">
+        <h2>Login</h2>
+        <form>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
