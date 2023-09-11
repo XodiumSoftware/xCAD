@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QInputDialog, QPushButton
 
 
 class InputDialogDelegate(QInputDialog):
-    """A class to represent a label delegate."""
+    """A class to represent a input dialog delegate."""
 
     def __init__(self, module_data: dict, input_module: QPushButton) -> None:
         """Initialize the input dialog delegate."""

@@ -1,9 +1,13 @@
-from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from enums.settings_enums import ObjSettings
-from handlers.dialog_handler import DialogHandler
-from helpers.helper import Helper
+from functools import partial
+
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+
+from delegates.dialog_delegate import DialogDelegate
+from enums.module_enums import Dialogs
+from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from enums.settings_enums import ObjSettings
+from helpers.helper import Helper
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
@@ -12,7 +16,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def __init__(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
-        self._helpers, self._dialog_handler = Helper, DialogHandler
+        self._helpers, self._dialog_delegate = Helper, DialogDelegate
 
         self.setup_graphics_object(posx, posy, dimx, dimy, rad)
 
@@ -49,4 +53,4 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def mouseDoubleClickEvent(self, event: QGraphicsSceneMouseEvent) -> None:
         """Handle the mouse double click event."""
         super().mouseDoubleClickEvent(event)
-        self._dialog_handler.object_editor_dialog(self, self.object_id)
+        self._dialog_delegate(Dialogs.ObjectDialog.value, self, self.object_id)

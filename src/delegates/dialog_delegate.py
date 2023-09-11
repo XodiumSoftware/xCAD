@@ -1,13 +1,8 @@
 import sys
 from functools import partial
 
-from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
-from delegates.color_dialog_delegate import ColorDialogDelegate
-from delegates.input_dialog_delegate import InputDialogDelegate
-from enums.module_enums import ColorDialogs, InputDialogs
-from enums.q_enums import BrushStyleTypes, PenStyleTypes
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QIcon
+from PySide6.QtGui import QColor, QIcon, Qt
 from PySide6.QtWidgets import (
     QAbstractSpinBox,
     QCheckBox,
@@ -24,18 +19,28 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from delegates.color_dialog_delegate import ColorDialogDelegate
+from delegates.input_dialog_delegate import InputDialogDelegate
+from enums.module_enums import ColorDialogs, InputDialogs
+from enums.q_enums import BrushStyleTypes, PenStyleTypes
 
-class DialogHandler:
-    """A class to handle dialogs."""
 
-    @staticmethod
-    def object_editor_dialog(obj: QGraphicsRectItem, obj_id: str) -> None:
-        """Open a dialog when an object is pressed."""
-        dialog = QDialog()
-        dialog.setWindowTitle(OBJECT_EDITOR_DIALOG_TITLE)
-        dialog.setWindowIcon(QIcon(UI_ICON_PATH))
+class DialogDelegate(QDialog):
+    """A class to represent a self delegate."""
 
-        layout = QVBoxLayout(dialog)
+    def __init__(self, module_data: dict, obj: QGraphicsRectItem, obj_id: str) -> None:
+        """Initialize the self delegate."""
+        super().__init__()
+        self.setup_dialog(module_data, obj, obj_id)
+
+    def setup_dialog(
+        self, module_data: dict, obj: QGraphicsRectItem, obj_id: str
+    ) -> None:
+        """Setup the self."""
+        self.setWindowTitle(module_data["title"])
+        self.setWindowIcon(QIcon(module_data["icon_path"]))
+
+        layout = QVBoxLayout(self)
 
         props = [
             {
@@ -198,8 +203,8 @@ class DialogHandler:
         save_button = QPushButton("Save")
         discard_button = QPushButton("Discard")
 
-        save_button.clicked.connect(dialog.accept)
-        discard_button.clicked.connect(dialog.reject)
+        save_button.clicked.connect(self.accept)
+        discard_button.clicked.connect(self.reject)
 
         for prop_group in props:
             group_box = QGroupBox(prop_group["frame_title"])
@@ -272,9 +277,9 @@ class DialogHandler:
         layout.addWidget(save_button)
         layout.addWidget(discard_button)
 
-        dialog.setFixedSize(dialog.sizeHint())
+        self.setFixedSize(self.sizeHint())
 
-        if dialog.exec() == dialog.DialogCode.Accepted:
+        if self.exec() == self.DialogCode.Accepted:
             pass
             # TODO: fix the return of values.
 

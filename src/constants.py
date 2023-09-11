@@ -27,8 +27,6 @@ QSETTINGS_APPLICATION_NAME = "AutoFrameCAD"
 # UI
 # ====================================================================================================
 UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
-
-OBJECT_EDITOR_DIALOG_TITLE = "Object Editor"
 # ====================================================================================================
 
 # DataBaseHandler

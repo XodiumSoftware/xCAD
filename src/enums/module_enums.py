@@ -3,9 +3,10 @@ import sys
 from enum import Enum
 
 import darkdetect
+from PySide6.QtWidgets import QMessageBox
+
 from constants import ICONS_FOLDER_PATH, UI_ICON_PATH
 from enums.type_enums import LumberTypes
-from PySide6.QtWidgets import QMessageBox
 
 
 class UIs(Enum):
@@ -138,4 +139,13 @@ class InputDialogs(Enum):
         "size": None,
         "text": "Choose a lumber type:",
         "data": LumberTypes.get_all_content(),
+    }
+
+
+class Dialogs(Enum):
+    """A class used to represent dialogs"""
+
+    ObjectDialog = {
+        "title": "Object Editor",
+        "icon_path": os.path.join(ICONS_FOLDER_PATH + "ui_icon.png"),
     }

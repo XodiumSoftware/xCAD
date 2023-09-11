@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QColorDialog, QPushButton
 
 
 class ColorDialogDelegate(QColorDialog):
-    """A class to represent a label delegate."""
+    """A class to represent a color dialog delegate."""
 
     def __init__(self, module_data: dict, input_module: QPushButton) -> None:
         """Initialize the color dialog delegate."""
