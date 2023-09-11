@@ -2,11 +2,12 @@ import random
 import string
 from typing import Optional
 
-from enums.q_enums import AspectRatioModeTypes, ModuleType
 from ezdxf import filemanagement as fm
 from ezdxf.lldxf import const
-from PySide6.QtCore import QPoint, QSettings
+from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QApplication, QGraphicsView, QWidget
+
+from enums.q_enums import AspectRatioModeTypes, ModuleType
 
 
 class Helper:
@@ -17,23 +18,6 @@ class Helper:
         """Generate a complex ID."""
         chars = string.ascii_letters + string.digits
         return "".join(random.choice(chars) for _ in range(char_len))
-
-    @staticmethod
-    def settings_manager(
-        key: str, value: str, group: Optional[str] = None
-    ) -> Optional[str]:
-        """Manage the settings."""
-        settings = QSettings()
-        if group:
-            settings.beginGroup(group)
-
-        settings.setValue(key, value)
-        settings.sync()
-
-        if group:
-            settings.endGroup()
-
-        return str(settings.value(key))
 
     @staticmethod
     def center_ui_on_screen(ui: QWidget) -> None:

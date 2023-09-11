@@ -25,7 +25,7 @@
   "python.analysis.extraPaths": [
     "${workspaceFolder}/bbc",
     "${workspaceFolder}",
-    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages"
+    "C:\\Python311\\Lib\\site-packages"
   ],
   "python.analysis.importFormat": "relative",
   "python.autoComplete.addBrackets": true,
@@ -42,7 +42,7 @@
     "editor.formatOnSave": true
   },
 
-  "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
+  "jupyter.notebookFileRoot": "${workspaceFolder}/src",
 
   "git.enableSmartCommit": true,
   "git.autofetch": true,
