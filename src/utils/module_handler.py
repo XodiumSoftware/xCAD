@@ -1,6 +1,9 @@
 from enum import Enum
 from typing import Any, Callable, Optional
 
+from PySide6.QtCore import Slot
+from PySide6.QtWidgets import QWidget
+
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.color_dialog_delegate import ColorDialogDelegate
 from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
@@ -20,8 +23,6 @@ from enums.module_enums import (
     PushButtons,
 )
 from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QWidget
 
 
 class ModuleHandler(QWidget):

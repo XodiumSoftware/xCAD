@@ -3,9 +3,10 @@ import sys
 from enum import Enum
 
 import darkdetect
+from PySide6.QtWidgets import QMessageBox
+
 from constants import ICONS_FOLDER_PATH, UI_ICON_PATH
 from enums.type_enums import LumberTypes
-from PySide6.QtWidgets import QMessageBox
 
 
 class UIs(Enum):

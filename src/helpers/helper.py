@@ -2,11 +2,12 @@ import random
 import string
 from typing import Optional
 
-from enums.q_enums import AspectRatioModeTypes, ModuleType
 from ezdxf import filemanagement as fm
 from ezdxf.lldxf import const
 from PySide6.QtCore import QPoint, QSettings
 from PySide6.QtWidgets import QApplication, QGraphicsView, QWidget
+
+from enums.q_enums import AspectRatioModeTypes, ModuleType
 
 
 class Helper:

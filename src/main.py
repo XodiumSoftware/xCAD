@@ -1,8 +1,9 @@
 import sys
 
 import qdarktheme
-from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from PySide6.QtWidgets import QApplication
+
+from constants import QSETTINGS_APPLICATION_NAME, QSETTINGS_ORGANIZATION_NAME
 from ui import UI
 
 

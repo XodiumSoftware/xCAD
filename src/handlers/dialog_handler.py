@@ -1,11 +1,6 @@
 import sys
 from functools import partial
 
-from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
-from delegates.color_dialog_delegate import ColorDialogDelegate
-from delegates.input_dialog_delegate import InputDialogDelegate
-from enums.module_enums import ColorDialogs, InputDialogs
-from enums.q_enums import BrushStyleTypes, PenStyleTypes
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QIcon
 from PySide6.QtWidgets import (
@@ -23,6 +18,12 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from constants import OBJECT_EDITOR_DIALOG_TITLE, UI_ICON_PATH
+from delegates.color_dialog_delegate import ColorDialogDelegate
+from delegates.input_dialog_delegate import InputDialogDelegate
+from enums.module_enums import ColorDialogs, InputDialogs
+from enums.q_enums import BrushStyleTypes, PenStyleTypes
 
 
 class DialogHandler:
