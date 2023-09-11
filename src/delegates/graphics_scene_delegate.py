@@ -1,6 +1,7 @@
+from PySide6.QtWidgets import QGraphicsScene
+
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.settings_enums import FrameSettings, ObjSettings
-from PySide6.QtWidgets import QGraphicsScene
 
 
 class GraphicsSceneDelegate(QGraphicsScene):

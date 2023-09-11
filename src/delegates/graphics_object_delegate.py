@@ -1,9 +1,10 @@
+from PySide6.QtGui import QBrush, QColor, QPen
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from enums.settings_enums import ObjSettings
 from handlers.dialog_handler import DialogHandler
 from helpers.helper import Helper
-from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
