@@ -14,9 +14,9 @@
 
 ## Installation:
 
-1.  `python -m venv env` (creates environment for packages).
-2.  select the correct interpreter (`env`).
-3.  `pip install -e .`.
+1. `python -m venv .venv` (creates environment for packages).
+2. select the correct interpreter (`.venv`).
+3. `pip install -e .`.
 
 ## Running the software:
 
