@@ -22,49 +22,50 @@
  */
 
 const initialiseSidebar = () => {
-  
-    
-  
-
   // global elements used by the functions.
-  const bodyWrapper = document.getElementsByClassName("bodywrapper")[0]
-  const sidebar = document.getElementsByClassName("sphinxsidebar")[0]
-  const sidebarWrapper = document.getElementsByClassName('sphinxsidebarwrapper')[0]
-  const sidebarButton = document.getElementById("sidebarbutton")
+  const bodyWrapper = document.getElementsByClassName('bodywrapper')[0]
+  const sidebar = document.getElementsByClassName('sphinxsidebar')[0]
+  const sidebarWrapper = document.getElementsByClassName(
+    'sphinxsidebarwrapper'
+  )[0]
+  const sidebarButton = document.getElementById('sidebarbutton')
   const sidebarArrow = sidebarButton.querySelector('span')
 
   // for some reason, the document has no sidebar; do not run into errors
-  if (typeof sidebar === "undefined") return;
+  if (typeof sidebar === 'undefined') return
 
-  const flipArrow = element => element.innerText = (element.innerText === "»") ? "«" : "»"
+  const flipArrow = (element) =>
+    (element.innerText = element.innerText === '»' ? '«' : '»')
 
   const collapse_sidebar = () => {
-    bodyWrapper.style.marginLeft = ".8em";
-    sidebar.style.width = ".8em"
-    sidebarWrapper.style.display = "none"
+    bodyWrapper.style.marginLeft = '.8em'
+    sidebar.style.width = '.8em'
+    sidebarWrapper.style.display = 'none'
     flipArrow(sidebarArrow)
     sidebarButton.title = _('Expand sidebar')
-    window.localStorage.setItem("sidebar", "collapsed")
+    window.localStorage.setItem('sidebar', 'collapsed')
   }
 
   const expand_sidebar = () => {
-    bodyWrapper.style.marginLeft = ""
-    sidebar.style.removeProperty("width")
-    sidebarWrapper.style.display = ""
+    bodyWrapper.style.marginLeft = ''
+    sidebar.style.removeProperty('width')
+    sidebarWrapper.style.display = ''
     flipArrow(sidebarArrow)
     sidebarButton.title = _('Collapse sidebar')
-    window.localStorage.setItem("sidebar", "expanded")
+    window.localStorage.setItem('sidebar', 'expanded')
   }
 
-  sidebarButton.addEventListener("click", () => {
-    (sidebarWrapper.style.display === "none") ? expand_sidebar() : collapse_sidebar()
+  sidebarButton.addEventListener('click', () => {
+    sidebarWrapper.style.display === 'none'
+      ? expand_sidebar()
+      : collapse_sidebar()
   })
 
-  if (!window.localStorage.getItem("sidebar")) return
-  const value = window.localStorage.getItem("sidebar")
-  if (value === "collapsed") collapse_sidebar();
-  else if (value === "expanded") expand_sidebar();
+  if (!window.localStorage.getItem('sidebar')) return
+  const value = window.localStorage.getItem('sidebar')
+  if (value === 'collapsed') collapse_sidebar()
+  else if (value === 'expanded') expand_sidebar()
 }
 
-if (document.readyState !== "loading") initialiseSidebar()
-else document.addEventListener("DOMContentLoaded", initialiseSidebar)
+if (document.readyState !== 'loading') initialiseSidebar()
+else document.addEventListener('DOMContentLoaded', initialiseSidebar)
