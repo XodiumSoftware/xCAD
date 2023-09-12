@@ -1,17 +1,9 @@
 {
   "workbench.startupEditor": "none",
-  "workbench.editor.showTabs": true,
-  "workbench.editor.tabSizing": "fit",
-  "workbench.sideBar.location": "left",
-  "workbench.colorTheme": "Monokai Dimmed",
-  "files.autoSave": "onFocusChange",
-  "notebook.formatOnSave.enabled": true,
-  "sqliteViewer.maxFileSize": 0,
-
-  "C_Cpp.default.compilerPath": "",
+  "code-runner.clearPreviousOutput": true,
+  "C_Cpp.default.compilerPath": "cl.exe",
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
-  "code-runner.clearPreviousOutput": true,
 
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,
@@ -28,11 +20,7 @@
     "C:\\Python311\\Lib\\site-packages"
   ],
   "python.analysis.importFormat": "relative",
-  "python.autoComplete.addBrackets": true,
-  "python.autoComplete.addParenthesisAfterFunction": true,
-  "python.autoComplete.addTrailingComma": true,
-  "python.autoImport.addModuleSpecifier": true,
-  "python.autoImport.addBrackets": false,
+  "python.autoComplete.extraPaths": [],
 
   "[python]": {
     "editor.codeActionsOnSave": {
@@ -45,55 +33,5 @@
   "jupyter.notebookFileRoot": "${workspaceFolder}/src",
 
   "git.enableSmartCommit": true,
-  "git.autofetch": true,
-  "git.confirmSync": false,
-
-  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
-  "todo-tree.general.statusBar": "current file",
-  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
-  "todo-tree.highlights.defaultHighlight": {
-    "opacity": 0.5,
-    "borderRadius": "0.2em",
-    "gutterIcon": "True"
-  },
-  "todo-tree.highlights.customHighlight": {
-    "ERROR": {
-      "icon": "x",
-      "iconColor": "#FF0000",
-      "foreground": "#FFFFFF",
-      "background": "#FF0000"
-    },
-    "BUG": {
-      "icon": "bug",
-      "iconColor": "#FFA500",
-      "foreground": "#FFFFFF",
-      "background": "#FFA500"
-    },
-    "FIXME": {
-      "icon": "flame",
-      "iconColor": "#0000FF",
-      "foreground": "#FFFFFF",
-      "background": "#0000FF"
-    },
-    "TODO": {
-      "icon": "check",
-      "iconColor": "#008000",
-      "foreground": "#FFFFFF",
-      "background": "#008000"
-    },
-    "NOTE": {
-      "icon": "note",
-      "iconColor": "#FFFF00",
-      "foreground": "#000000",
-      "background": "#FFFF00"
-    }
-  },
-  "todo-tree.highlights.enabled": true,
-  "todo-tree.highlights.highlightDelay": 0,
-  "todo-tree.highlights.useColourScheme": false,
-
-  "chatgpt.lang": "en",
-  "chatgpt.model": "gpt-3.5-turbo-16k",
-  "chatgpt.temperature": 0.1,
-  "python.autoComplete.extraPaths": []
+  "git.autofetch": true
 }
