@@ -7,12 +7,12 @@
       "args": [
         "-fdiagnostics-color=always",
         "-g",
-        "${file}",
+        "*.cpp",
         "-o",
-        "${fileDirname}\\build\\${fileBasenameNoExtension}.exe"
+        "${workspaceFolder}\\tests\\build\\${fileBasenameNoExtension}.exe"
       ],
       "options": {
-        "cwd": "${fileDirname}"
+        "cwd": "${workspaceFolder}\\tests"
       },
       "problemMatcher": ["$gcc"],
       "group": {

@@ -1,7 +1,7 @@
-#include <iostream>
+#include "func.hpp"
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    test_func();
     return 0;
 }
