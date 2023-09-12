@@ -1,6 +1,7 @@
+from PySide6.QtWidgets import QGraphicsScene
+
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from enums.settings_enums import FrameSettings, ObjSettings
-from PySide6.QtWidgets import QGraphicsScene
 
 
 class GraphicsSceneDelegate(QGraphicsScene):
@@ -26,10 +27,9 @@ class GraphicsSceneDelegate(QGraphicsScene):
         frame_y = FrameSettings.FrameY.value
 
         _add_studs = GraphicsSceneDelegate.setup_studs
+        _calc = GraphicsSceneDelegate.calculate_frame_coordinates
 
-        for x_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
-            frame_x, stud_spacing_x
-        ):
+        for x_coord in _calc(frame_x, stud_spacing_x):
             _add_studs(
                 scene, x_coord, stud_size_x, stud_size_x, frame_y - stud_size_x, 0
             )
@@ -42,9 +42,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
             0,
         )
 
-        for y_coord in GraphicsSceneDelegate.calculate_frame_coordinates(
-            frame_y, stud_spacing_y
-        ):
+        for y_coord in _calc(frame_y, stud_spacing_y):
             _add_studs(scene, 0, y_coord + stud_size_x, stud_size_x, frame_x, -90)
         _add_studs(scene, 0, frame_y + stud_size_x, stud_size_x, frame_x, -90)
 

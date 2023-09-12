@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "run_main_py",
+      "name": "Python: main.py",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/src/main.py",

@@ -199,7 +199,9 @@ class DialogDelegate(QDialog):
             },
         ]
 
-        inputs = {}
+        self.inputs = {}
+        self.changed_values = {}
+
         save_button = QPushButton("Save")
         discard_button = QPushButton("Discard")
 
@@ -261,7 +263,7 @@ class DialogDelegate(QDialog):
                 elif isinstance(input_widget, QLabel):
                     input_widget.setText(prop_data[1]["content"])
 
-                inputs[prop_data[0]["content"]] = input_widget
+                self.inputs[prop_data[0]["content"]] = input_widget
                 row += 1
 
                 frame_layout.addWidget(
@@ -279,9 +281,25 @@ class DialogDelegate(QDialog):
 
         self.setFixedSize(self.sizeHint())
 
-        if self.exec() == self.DialogCode.Accepted:
-            pass
-            # TODO: fix the return of values.
+        self.exec()
 
-        # TODO: move this to its own delegate.
-        # TODO: implement the returned values into the object delegate for the values to be applied.
+    def accept(self) -> None:
+        """Override the accept method to return changed values."""
+        for label_content, input_widget in self.inputs.items():
+            if isinstance(input_widget, QPushButton):
+                if label_content == "Type:":
+                    self.changed_values[label_content] = input_widget.text()
+            elif isinstance(input_widget, QCheckBox):
+                self.changed_values[label_content] = input_widget.isChecked()
+            elif isinstance(input_widget, QComboBox):
+                self.changed_values[label_content] = input_widget.currentText()
+            elif isinstance(input_widget, QDoubleSpinBox):
+                self.changed_values[label_content] = input_widget.value()
+            elif isinstance(input_widget, QLabel):
+                self.changed_values[label_content] = input_widget.text()
+
+        super().accept()
+
+    def get_new_values(self) -> dict:
+        """Return the changed values."""
+        return self.changed_values
