@@ -1,5 +1,3 @@
-from functools import partial
-
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 

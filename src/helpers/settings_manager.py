@@ -23,10 +23,10 @@ class SettingsManager(QSettings):
     ) -> Any:
         """Get or set a setting in the class variable"""
         with self.group(group):
-            if value is None:
-                return str(super().value(key))
-            else:
+            if value is not None:
                 super().setValue(key, value)
+            else:
+                return str(super().value(key))
 
     def remove(self, key: str, group: Optional[str] = None) -> None:
         """Remove a setting from the class variable"""
