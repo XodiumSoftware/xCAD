@@ -8,10 +8,10 @@ DATA_FOLDER_PATH = os.path.join("src/data/")
 
 # UI
 # ====================================================================================================
-UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH + "ui_icon.png")
+UI_ICON_PATH = os.path.join(ICONS_FOLDER_PATH, "ui_icon.png")
 # ====================================================================================================
 
 # SettingsManager
 # ====================================================================================================
-DATABASE_PATH = os.path.join(DATA_FOLDER_PATH + "settings.ini")
+DATABASE_PATH = os.path.join(DATA_FOLDER_PATH, "settings.ini")
 # ====================================================================================================

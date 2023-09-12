@@ -13,7 +13,7 @@ class SettingsManager(QSettings):
     @property
     def data_path(self) -> str:
         """The path to the settings file"""
-        return os.path.join(DATABASE_PATH)
+        return os.path.abspath((DATABASE_PATH))
 
     def __init__(self) -> None:
         super().__init__()
@@ -23,7 +23,6 @@ class SettingsManager(QSettings):
             QSettings.Scope.UserScope,
             self.data_path,
         )
-        self.sync()
 
     @contextmanager
     def group(self, name: str) -> Iterator[str]:
