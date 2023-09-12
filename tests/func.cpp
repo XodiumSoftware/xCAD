@@ -1,12 +1,43 @@
-#include <iostream>
-#include <vector>
 #include "func.hpp"
+#include <iostream>
 
-void test_func()
+void ItemPrinter::custom_print(const int &i, const int &val)
 {
-    std::vector<int> items = {1, 2, 3, 4, 5};
-    for (int i = 0; i < items.size(); i++)
+    std::cout << "Custom Item " << i << ": " << val << std::endl;
+}
+
+void ItemPrinter::print_even(const std::vector<int> &items)
+{
+    std::vector<int>::const_iterator it;
+
+    for (it = items.begin(); it != items.end(); it++)
     {
-        std::cout << "Item " << i << ": " << items[i] << std::endl;
+        if (*it % 2 == 0)
+        {
+            custom_print(std::distance(items.begin(), it), *it);
+        }
+    }
+}
+
+void ItemPrinter::print_odd(const std::vector<int> &items)
+{
+    std::vector<int>::const_iterator it;
+
+    for (it = items.begin(); it != items.end(); it++)
+    {
+        if (*it % 2 != 0)
+        {
+            custom_print(std::distance(items.begin(), it), *it);
+        }
+    }
+}
+
+void ItemPrinter::print_all(const std::vector<int> &items)
+{
+    std::vector<int>::const_iterator it;
+
+    for (it = items.begin(); it != items.end(); it++)
+    {
+        custom_print(std::distance(items.begin(), it), *it);
     }
 }

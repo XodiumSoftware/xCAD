@@ -33,5 +33,9 @@
   "jupyter.notebookFileRoot": "${workspaceFolder}/src",
 
   "git.enableSmartCommit": true,
-  "git.autofetch": true
+  "git.autofetch": true,
+  "files.associations": {
+    "vector": "cpp",
+    "iostream": "cpp"
+  }
 }
