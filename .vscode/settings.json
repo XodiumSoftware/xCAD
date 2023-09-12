@@ -1,7 +1,7 @@
 {
   "workbench.startupEditor": "none",
   "code-runner.clearPreviousOutput": true,
-  "C_Cpp.default.compilerPath": "cl.exe",
+  "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
 
