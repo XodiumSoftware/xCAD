@@ -13,7 +13,6 @@ from configs.module_configs import (
     MessageBoxes,
     PushButtons,
 )
-from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
 from delegates.graphics_view_delegate import GraphicsViewDelegate
@@ -21,6 +20,7 @@ from delegates.label_delegate import LabelDelegate
 from delegates.lineedit_delegate import LineEditDelegate
 from delegates.message_box_delegate import MessageBoxDelegate
 from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 class ModuleHandler(QWidget):
