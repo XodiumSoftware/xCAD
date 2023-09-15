@@ -4,14 +4,7 @@ from typing import Any, Callable, Optional
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QWidget
 
-from delegates.checkbox_delegate import CheckBoxDelegate
-from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
-from delegates.graphics_view_delegate import GraphicsViewDelegate
-from delegates.label_delegate import LabelDelegate
-from delegates.lineedit_delegate import LineEditDelegate
-from delegates.message_box_delegate import MessageBoxDelegate
-from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
-from enums.module_enums import (
+from configs.module_configs import (
     Checkboxes,
     DoubleSpinBoxes,
     GraphicsViews,
@@ -20,7 +13,14 @@ from enums.module_enums import (
     MessageBoxes,
     PushButtons,
 )
-from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
+from configs.q_configs import AlignmentType, LayoutType, SizePolicyType
+from delegates.checkbox_delegate import CheckBoxDelegate
+from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
+from delegates.graphics_view_delegate import GraphicsViewDelegate
+from delegates.label_delegate import LabelDelegate
+from delegates.lineedit_delegate import LineEditDelegate
+from delegates.message_box_delegate import MessageBoxDelegate
+from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
 
 
 class ModuleHandler(QWidget):

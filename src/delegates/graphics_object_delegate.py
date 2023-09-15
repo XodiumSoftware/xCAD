@@ -1,12 +1,10 @@
-from typing import Any
-
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 
+from configs.module_configs import Dialogs
+from configs.q_configs import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
+from configs.settings_configs import ObjSettings
 from delegates.dialog_delegate import DialogDelegate
-from enums.module_enums import Dialogs
-from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from enums.settings_enums import ObjSettings
 from helpers.helper import Helper
 
 
@@ -29,26 +27,26 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
         self.object_id = self._helpers.complex_id_generator()
-        self.setToolTip(ObjSettings.Type.value)
-        self.setZValue(ObjSettings.DrawOrder.value)
+        self.setToolTip(ObjSettings.Type)
+        self.setZValue(ObjSettings.DrawOrder)
         self.setPos(posx, posy)
         self.setRect(self.rect().x(), self.rect().y(), dimx, dimy)
         self.setRotation(rad)
         self.setPen(
             QPen(
-                QColor(ObjSettings.PenColor.value),
-                ObjSettings.PenThickness.value,
-                PenStyleTypes[ObjSettings.PenStyle.value].value,
+                QColor(ObjSettings.PenColor),
+                ObjSettings.PenThickness,
+                PenStyleTypes[ObjSettings.PenStyle].value,
             )
         )
-        if ObjSettings.Fill.value:
+        if ObjSettings.Fill:
             self.setBrush(
                 QBrush(
-                    QColor(ObjSettings.FillColor.value),
-                    BrushStyleTypes[ObjSettings.FillPattern.value].value,
+                    QColor(ObjSettings.FillColor),
+                    BrushStyleTypes[ObjSettings.FillPattern].value,
                 )
             )
-            self.setOpacity(max(0, min(ObjSettings.FillOpacity.value, 100)) / 100)
+            self.setOpacity(max(0, min(ObjSettings.FillOpacity, 100)) / 100)
 
     def mouseDoubleClickEvent(self, event: QGraphicsSceneMouseEvent) -> None:
         """Handle the mouse double click event."""

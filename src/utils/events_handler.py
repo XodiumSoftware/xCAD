@@ -1,9 +1,10 @@
 from functools import partial
 
-from delegates.message_box_delegate import MessageBoxDelegate
-from enums.module_enums import MessageBoxes
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QWidget
+
+from configs.module_configs import MessageBoxes
+from delegates.message_box_delegate import MessageBoxDelegate
 
 
 class EventsHandler:

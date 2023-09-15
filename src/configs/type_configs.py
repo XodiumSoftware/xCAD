@@ -1,10 +1,7 @@
-from enum import Enum
-
-
-class LumberTypes(Enum):
+class LumberTypes:
     """A class to represent different types of lumber."""
 
-    SLS = [
+    SLS: list[tuple[int, int]] = [
         (38, 89),
         (38, 120),
         (38, 140),
@@ -14,7 +11,7 @@ class LumberTypes(Enum):
         (38, 285),
     ]
 
-    CLS = [
+    CLS: list[tuple[int, int]] = [
         (50, 75),
         (50, 100),
         (50, 125),
@@ -23,10 +20,11 @@ class LumberTypes(Enum):
     ]
 
     @classmethod
-    def get_all_content(cls):
+    def get_all_content(cls) -> list[tuple[str, tuple[int, int]]]:
         """Get all content from the lumber types."""
         return [
             (f"{name} {x}x{y}", (x, y))
-            for name, values in cls.__members__.items()
-            for x, y in values.value
+            for name, values in cls.__dict__.items()
+            if isinstance(values, list)
+            for x, y in values
         ]

@@ -19,10 +19,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from configs.module_configs import ColorDialogs, InputDialogs
+from configs.q_configs import BrushStyleTypes, PenStyleTypes
 from delegates.color_dialog_delegate import ColorDialogDelegate
 from delegates.input_dialog_delegate import InputDialogDelegate
-from enums.module_enums import ColorDialogs, InputDialogs
-from enums.q_enums import BrushStyleTypes, PenStyleTypes
 
 
 class DialogDelegate(QDialog):

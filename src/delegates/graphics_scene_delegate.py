@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QGraphicsScene
 
+from configs.settings_configs import FrameSettings, ObjSettings
 from delegates.graphics_object_delegate import GraphicsObjectDelegate
-from enums.settings_enums import FrameSettings, ObjSettings
 
 
 class GraphicsSceneDelegate(QGraphicsScene):
@@ -20,11 +20,11 @@ class GraphicsSceneDelegate(QGraphicsScene):
     @staticmethod
     def setup_studs_framework(scene: QGraphicsScene) -> None:
         """Setup the framework."""
-        stud_spacing_x = FrameSettings.StudSpacingX.value
-        stud_spacing_y = FrameSettings.StudSpacingY.value
-        stud_size_x = ObjSettings.DimX.value
-        frame_x = FrameSettings.FrameX.value
-        frame_y = FrameSettings.FrameY.value
+        stud_spacing_x = FrameSettings.StudSpacingX
+        stud_spacing_y = FrameSettings.StudSpacingY
+        stud_size_x = ObjSettings.DimX
+        frame_x = FrameSettings.FrameX
+        frame_y = FrameSettings.FrameY
 
         _add_studs = GraphicsSceneDelegate.setup_studs
         _calc = GraphicsSceneDelegate.calculate_frame_coordinates
