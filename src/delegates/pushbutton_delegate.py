@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 
-from configs.q_configs import SizePolicyType
+from enums.q_enums import SizePolicyType
 
 
 class PushButtonDelegate(QPushButton):

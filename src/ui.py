@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QMainWindow
 
 from configs.matrix_configs import Matrices
 from configs.module_configs import PushButtons, UIs
-from configs.q_configs import ModuleType
+from enums.q_enums import ModuleType
 from helpers.helper import Helper
 from utils.events_handler import EventsHandler
 from utils.module_handler import ModuleHandler

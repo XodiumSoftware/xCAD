@@ -2,9 +2,9 @@ from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 
 from configs.module_configs import Dialogs
-from configs.q_configs import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from configs.settings_configs import ObjSettings
 from delegates.dialog_delegate import DialogDelegate
+from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 from helpers.helper import Helper
 
 

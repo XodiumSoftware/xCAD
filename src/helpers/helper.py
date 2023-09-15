@@ -7,7 +7,7 @@ from ezdxf.lldxf import const
 from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QApplication, QGraphicsView, QWidget
 
-from configs.q_configs import AspectRatioModeTypes, ModuleType
+from enums.q_enums import AspectRatioModeTypes, ModuleType
 
 
 class Helper:

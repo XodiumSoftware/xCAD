@@ -1,7 +1,7 @@
 from enum import Enum
 
 from configs.module_configs import GraphicsViews, Labels, PushButtons
-from configs.q_configs import AlignmentType, LayoutType, SizePolicyType
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 class Matrices(Enum):

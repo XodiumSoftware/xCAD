@@ -13,7 +13,7 @@ from configs.module_configs import (
     MessageBoxes,
     PushButtons,
 )
-from configs.q_configs import AlignmentType, LayoutType, SizePolicyType
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
 from delegates.graphics_view_delegate import GraphicsViewDelegate

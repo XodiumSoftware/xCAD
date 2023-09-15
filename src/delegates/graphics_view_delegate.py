@@ -4,9 +4,9 @@ from PySide6.QtCore import QRectF
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 
-from configs.q_configs import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
 from configs.settings_configs import GraphicsViewSettings
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
+from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
 from helpers.helper import Helper
 
 
