@@ -21,8 +21,8 @@ class UI(QMainWindow):
         qdarktheme.setup_theme("auto")
 
         self._main_module_0, self._main_module_1 = (
-            ModuleHandler(Matrices.StartupPageMatrix),
-            ModuleHandler(Matrices.StructureViewMatrix),
+            ModuleHandler(Matrices.MainMatrix0),
+            ModuleHandler(Matrices.MainMatrix1),
         )
 
         self._helper, self._events_handler = (
@@ -69,10 +69,10 @@ class UI(QMainWindow):
                 module=self._main_modules_stack,
             ),
         )
-        # self._main_module_1.module_connection(
-        #     PushButtons.StartupPage,
-        #     partial(
-        #         self._helper.switch_modules,
-        #         module=self._main_modules_stack,
-        #     ),
-        # )
+        self._main_module_1.module_connection(
+            PushButtons.StartupPage,
+            partial(
+                self._helper.switch_modules,
+                module=self._main_modules_stack,
+            ),
+        )
