@@ -1,12 +1,13 @@
 from functools import partial
 
 import qdarktheme
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QMainWindow
+
 from enums.matrix_enums import Matrices
 from enums.module_enums import PushButtons, UIs
 from enums.q_enums import ModuleType
 from helpers.helper import Helper
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow
 from utils.events_handler import EventsHandler
 from utils.module_handler import ModuleHandler
 
@@ -20,8 +21,8 @@ class UI(QMainWindow):
         qdarktheme.setup_theme("auto")
 
         self._main_module_0, self._main_module_1 = (
-            ModuleHandler(Matrices.MainMatrix0),
-            ModuleHandler(Matrices.MainMatrix1),
+            ModuleHandler(Matrices.StartupPageMatrix),
+            ModuleHandler(Matrices.StructureViewMatrix),
         )
 
         self._helper, self._events_handler = (
@@ -68,10 +69,10 @@ class UI(QMainWindow):
                 module=self._main_modules_stack,
             ),
         )
-        self._main_module_1.module_connection(
-            PushButtons.StartupPage,
-            partial(
-                self._helper.switch_modules,
-                module=self._main_modules_stack,
-            ),
-        )
+        # self._main_module_1.module_connection(
+        #     PushButtons.StartupPage,
+        #     partial(
+        #         self._helper.switch_modules,
+        #         module=self._main_modules_stack,
+        #     ),
+        # )

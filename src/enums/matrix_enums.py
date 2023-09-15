@@ -7,11 +7,11 @@ from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 class Matrices(Enum):
     """A class to store the matrices."""
 
-    MainMatrix0 = [
+    StartupPageMatrix = [
         [
             [
-                LayoutType.VBox,
                 PushButtons.AutoFrameCAD,
+                LayoutType.VBox,
                 None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
@@ -19,62 +19,57 @@ class Matrices(Enum):
         ],
         [
             [
-                LayoutType.VBox,
                 Labels.Copyright,
+                LayoutType.VBox,
                 None,
                 AlignmentType.AlignBottom,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
         ],
     ]
-    MainMatrix1 = [
+    FooterMatrix = [
         [
             [
+                PushButtons.StartupPage,
                 LayoutType.VBox,
+                None,
+                AlignmentType.AlignLeft,
+                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+            ],
+            [
+                Labels.Copyright,
+                LayoutType.VBox,
+                None,
+                AlignmentType.AlignLeft,
+                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+            ],
+        ],
+    ]
+    StructureViewMatrix = [
+        [
+            [
                 GraphicsViews.StructureView,
+                LayoutType.VBox,
                 None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Expanding, SizePolicyType.Expanding),
             ],
         ],
+    ]
+    SaveDiscardMatrix = [
         [
             [
-                LayoutType.VBox,
                 PushButtons.Save,
+                LayoutType.VBox,
                 None,
                 AlignmentType.AlignCenter,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
             [
-                LayoutType.VBox,
                 PushButtons.Discard,
+                LayoutType.VBox,
                 None,
                 AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-            [
-                LayoutType.VBox,
-                PushButtons.Reset,
-                None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
-        [
-            [
-                LayoutType.VBox,
-                PushButtons.StartupPage,
-                None,
-                AlignmentType.AlignLeft,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
-            ],
-        ],
-        [
-            [
-                LayoutType.VBox,
-                Labels.Copyright,
-                None,
-                AlignmentType.AlignLeft,
                 (SizePolicyType.Minimum, SizePolicyType.Minimum),
             ],
         ],

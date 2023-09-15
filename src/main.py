@@ -30,7 +30,7 @@ def run():
     """Run the application."""
     qdarktheme.enable_hi_dpi()
     app = QApplication([])
-    test()
+    # test()
     _ = UI()
 
     return app.exec()
