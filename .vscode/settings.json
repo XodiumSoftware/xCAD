@@ -1,8 +1,9 @@
 {
   "workbench.startupEditor": "none",
   "code-runner.clearPreviousOutput": true,
+  "code-runner.runInTerminal": true,
+  "code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" },
   "C_Cpp.errorSquiggles": "enabled",
-  "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
 
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.useLibraryCodeForTypes": true,
@@ -13,11 +14,7 @@
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
-  "python.analysis.extraPaths": [
-    "${workspaceFolder}/bbc",
-    "${workspaceFolder}",
-    "C:\\Python311\\Lib\\site-packages"
-  ],
+  "python.analysis.extraPaths": ["${workspaceFolder}/.venv/Lib/site-packages"],
   "python.analysis.importFormat": "relative",
   "python.autoComplete.extraPaths": [],
 
@@ -33,8 +30,4 @@
 
   "git.enableSmartCommit": true,
   "git.autofetch": true,
-  "files.associations": {
-    "vector": "cpp",
-    "iostream": "cpp"
-  }
 }
