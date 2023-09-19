@@ -22,7 +22,7 @@ This ensures that the css files run and the docs are readable.
 
 # To automatically update all the pip packages:
 
-1. pip list --outdated --format=columns | Select-String -Pattern "(?<!^\-e)^\S+" | ForEach-Object { $_.Matches.Value } | ForEach-Object { pip install --upgrade --user $_ }
+1. pip list --outdated --format=columns | Select-String -Pattern "(?<!^\-e)^\S+" | ForEach-Object { $_.Matches.Value } | ForEach-Object { pip install --upgrade $_ }
 
 # My VSC profile:
 
