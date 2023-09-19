@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QGraphicsView
 from configs.settings_configs import GraphicsViewSettings
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
-from helpers.helper import Helper
+from helpers.helpers import Helper
 
 
 class GraphicsViewDelegate(QGraphicsView):

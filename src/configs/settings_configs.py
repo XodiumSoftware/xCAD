@@ -1,11 +1,12 @@
+from QeLib import QeHelper
+
 from configs.type_configs import LumberTypes
-from helpers.helper import Helper
 
 
 class ObjSettings:
     """A class to represent stud settings."""
 
-    Object_ID: str = Helper.complex_id_generator()
+    Object_ID: str = QeHelper.complex_id_generator()
     Type: str = f"{LumberTypes.SLS} {LumberTypes.SLS[0][0]}x{LumberTypes.SLS[0][1]}"
     DrawOrder: int = 0
 

@@ -1,11 +1,11 @@
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+from QeLib import QeHelper
 
 from configs.module_configs import Dialogs
 from configs.settings_configs import ObjSettings
 from delegates.dialog_delegate import DialogDelegate
 from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
-from helpers.helper import Helper
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
@@ -14,7 +14,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def __init__(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
-        self._helpers, self._dialog_delegate = Helper, DialogDelegate
+        self._dialog_delegate = DialogDelegate
 
         self.setup_graphics_object(posx, posy, dimx, dimy, rad)
 
@@ -26,7 +26,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
-        self.object_id = self._helpers.complex_id_generator()
+        self.object_id = QeHelper.complex_id_generator()
         self.setToolTip(ObjSettings.Type)
         self.setZValue(ObjSettings.DrawOrder)
         self.setPos(posx, posy)
