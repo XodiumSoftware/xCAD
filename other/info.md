@@ -36,7 +36,7 @@ This ensures that the css files run and the docs are readable.
 # Delete (local)branches:
 
 1. git branch -d --remote {remote_branch_name}
-or
+   or
 2. git branch -d {local_branch_name}
 
 Note: if the branch is not merged, use -D instead of -d. This will delete the branch regardless of its merge status.
