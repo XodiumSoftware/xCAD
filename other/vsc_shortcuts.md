@@ -1,5 +1,6 @@
 ctrl + , --> opens settings
 ctrl + p --> opens search bar (all commands have to start with >)
+
 > select interpreter
 > open keyboard shortcut
 
