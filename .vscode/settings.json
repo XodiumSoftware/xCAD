@@ -16,7 +16,6 @@
   },
   "python.analysis.extraPaths": ["${workspaceFolder}/.venv/Lib/site-packages"],
   "python.analysis.importFormat": "relative",
-  "python.autoComplete.extraPaths": [],
 
   "[python]": {
     "editor.codeActionsOnSave": {
