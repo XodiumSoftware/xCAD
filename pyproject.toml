@@ -1,4 +1,4 @@
 [build-system]
-requires = ["setuptools>=65", "numpy", "pyside6", "qdarktheme", "darkdetect"]
+requires = ["setuptools>=65", "numpy", "pyside6", "pyqtdarktheme"]
 build-backend = "setuptools.build_meta"
 [tool.cyright]

@@ -1,0 +1,4 @@
+ezdxf
+pyside6
+numpy
+pyqtdarktheme
