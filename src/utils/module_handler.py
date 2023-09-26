@@ -13,7 +13,6 @@ from configs.module_configs import (
     MessageBoxes,
     PushButtons,
 )
-from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 from delegates.checkbox_delegate import CheckBoxDelegate
 from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
 from delegates.graphics_view_delegate import GraphicsViewDelegate
@@ -21,6 +20,7 @@ from delegates.label_delegate import LabelDelegate
 from delegates.lineedit_delegate import LineEditDelegate
 from delegates.message_box_delegate import MessageBoxDelegate
 from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
+from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 class ModuleHandler(QWidget):
@@ -87,16 +87,16 @@ class ModuleHandler(QWidget):
 
             if module_size_policy is not None:
                 size_policy_x, size_policy_y = module_size_policy
-                delegate.setSizePolicy(size_policy_x.value, size_policy_y.value)
+                delegate.setSizePolicy(
+                    size_policy_x.value, size_policy_y.value
+                )  # TODO: setSizePolicy is unknown fix that.
 
             layout.addWidget(delegate)
 
         return module_container
 
     @staticmethod
-    def setup_module(
-        module_enum: type[Enum],
-    ) -> tuple[Optional[dict[str, Any]], Optional[QWidget]]:
+    def setup_module(module_enum: type[Enum]):  # TODO: Add propper type hinting.
         """Setup the module data and properties."""
         delegate_class = {
             Labels: LabelDelegate,
@@ -109,7 +109,7 @@ class ModuleHandler(QWidget):
         }.get(type(module_enum))
 
         return (
-            module_enum.value,  # type: ignore # TODO: find out why the typing is bugging out. could be an external factor.
+            module_enum.value,
             delegate_class(module_enum.value) if delegate_class else None,
         )
 

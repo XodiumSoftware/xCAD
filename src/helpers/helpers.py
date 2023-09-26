@@ -12,33 +12,29 @@ class Helper:
     @staticmethod
     def center_ui_on_screen(ui: QWidget) -> None:
         """Centers the window on the primary screen."""
-        screen_center = QApplication.primaryScreen().geometry().center()
-        ui_size = ui.size()
-        ui.move(screen_center - QPoint(ui_size.width() // 2, ui_size.height() // 2))
+        ui.move(
+            QApplication.primaryScreen().geometry().center()
+            - QPoint(ui.size().width() // 2, ui.size().height() // 2)
+        )
 
     @staticmethod
     def set_ui_size(ui: QWidget, size: Optional[tuple[int, int]] = None) -> None:
         """Sets the size of the UI."""
-        if size is None:
-            ui.resize(ui.sizeHint())
-        else:
-            width, height = size
-            ui.resize(width, height)
+        ui.resize(*size) if size else ui.resize(ui.sizeHint())
 
     @staticmethod
     def toggle_ui_visibility(uis: list[QWidget]) -> None:
         """Toggles the visibility of UI(s)."""
-        for ui in uis:
-            ui.setVisible(not ui.isVisible())
-            if ui.isVisible():
-                Helper.center_ui_on_screen(ui)
+        [
+            Helper.center_ui_on_screen(ui)
+            for ui in uis
+            if ui.setVisible(not ui.isVisible()) or ui.isVisible()
+        ]
 
     @staticmethod
     def switch_modules(module: ModuleType.StackedWidget.value) -> None:
         """Switches the modules."""
-        current_index = module.currentIndex()
-        new_index = (current_index + 1) % module.count()
-        module.setCurrentIndex(new_index)
+        module.setCurrentIndex((module.currentIndex() + 1) % module.count())
 
     @staticmethod
     def fit_scene_in_view(instance: QGraphicsView) -> None:
