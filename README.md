@@ -30,5 +30,3 @@ To run the command window, use the following cmd in the CAD software: `afc`
 ## Build package, Release on Github & Upload to TestPyPi:
 
 1. In the push message use the keyword `.deploy`.
-
-# TODO: UPDATE README.md
