@@ -12,7 +12,7 @@
   </a>
 </p>
 
-## Installation:
+## Virtual Environment Setup:
 
 1. `python -m venv .venv` (creates environment for packages).
 2. select the correct interpreter (`.venv`).

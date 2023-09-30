@@ -1,0 +1,56 @@
+name: Python Package Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for keyword in commit message
+        id: keyword_check
+        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -q '.deploy' && echo true || echo false)" >> $GITHUB_ENV
+
+      - name: Conditional Step
+        if: steps.keyword_check.outputs.contains_keyword == 'true'
+        run: echo "Keyword found in commit message. Running deployment steps..."
+
+      - uses: actions/checkout@master
+
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: "3.11.5"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+          pip install twine
+
+      - name: Build package
+        run: python -m build
+
+      - name: Create tag
+        run: |
+          git tag TEST
+          git push origin TEST
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: TEST
+          draft: false
+          prerelease: false
+
+      - name: Publish package to TestPyPI
+        run: twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
