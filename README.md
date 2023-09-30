@@ -17,7 +17,7 @@
 1. `python -m venv .venv` (creates environment for packages).
 2. select the correct interpreter (`.venv`).
 3. activate the environment. `./.venv/Scripts/activate` (Windows) or source `./.venv/bin/activate` (Linux).
-4. `pip install -e .`.
+4. `python -m pip install -e .`.
 
 ## Running the software:
 
@@ -25,4 +25,10 @@ To run the command window, use the following cmd in the CAD software: `afc`
 
 ## Installing QeLib:
 
-1. `pip install -i https://test.pypi.org/simple/ QeLib`
+1. `pyhton -m pip install -i https://test.pypi.org/simple/ QeLib`
+
+## Build package, Release on Github & Upload to TestPyPi:
+
+1. In the push message use the keyword `.deploy`.
+
+# TODO: UPDATE README.md
