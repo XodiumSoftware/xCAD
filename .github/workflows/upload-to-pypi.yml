@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check for keyword in commit message
         id: keyword_check
-        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -q '.deploy TEST' && echo true || echo false)" >> $GITHUB_ENV
+        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -q '.deploy' && echo true || echo false)" >> $GITHUB_ENV
 
       - name: Conditional Step
         if: steps.keyword_check.outputs.contains_keyword == 'true'
@@ -50,7 +50,7 @@ jobs:
           prerelease: false
 
       - name: Publish package to TestPyPI
-        run: twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+        run: twine upload dist/*
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
