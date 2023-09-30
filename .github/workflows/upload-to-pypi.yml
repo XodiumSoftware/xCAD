@@ -1,4 +1,4 @@
-name: Python Package Deployment TEST
+name: Python Package Deployment
 
 on:
   push:
