@@ -47,13 +47,15 @@ jobs:
             git tag $TAG
             git push origin $TAG
           else
-            TAG="modify manually"
+            TAG="NULL"
             git tag $TAG
             git push origin $TAG
             echo "No tag found in commit message. Using default tag."
           fi
-          echo "::set-output name=version::$TAG"
         shell: bash
+
+      - name: Build package
+        run: python -m build
 
       - name: Create GitHub Release
         id: create_release
@@ -61,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.version }}
+          tag_name: ${{ secrets.TAG }}
           draft: false
           prerelease: false
 
