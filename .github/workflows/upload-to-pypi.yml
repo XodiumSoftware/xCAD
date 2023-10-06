@@ -31,14 +31,6 @@ jobs:
           pip install build
           pip install twine
 
-      - name: Build package
-        run: python -m build
-
-      - name: Get Version from setup.py
-        id: get_version
-        run: |
-          echo "::set-output name=version::$(python -c 'import re; with open(\"setup.py\") as f: print(re.search(r\"'version': '(.+?)'\", f.read()).group(1))')"
-
       - name: Create & Push tag
         id: create_tag
         run: |
@@ -52,6 +44,7 @@ jobs:
             git push origin $TAG
             echo "No tag found in commit message. Using default tag."
           fi
+          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Build package
@@ -62,6 +55,7 @@ jobs:
         uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.create_tag.outputs.TAG }}
         with:
           tag_name: ${{ env.TAG }}
           draft: false

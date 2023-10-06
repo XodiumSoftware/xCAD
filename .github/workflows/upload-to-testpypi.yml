@@ -44,6 +44,7 @@ jobs:
             git push origin $TAG
             echo "No tag found in commit message. Using default tag."
           fi
+          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Build package
@@ -54,6 +55,7 @@ jobs:
         uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.create_tag.outputs.TAG }}
         with:
           tag_name: ${{ env.TAG }}
           draft: false
