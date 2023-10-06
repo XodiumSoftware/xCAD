@@ -213,11 +213,3 @@ class DragModeTypes(Enum):
     NoDrag = QGraphicsView.DragMode.NoDrag
     ScrollHandDrag = QGraphicsView.DragMode.ScrollHandDrag
     RubberBandDrag = QGraphicsView.DragMode.RubberBandDrag
-
-
-class AspectRatioModeTypes(Enum):
-    """A class to represent an aspect ratio mode type."""
-
-    IgnoreAspectRatio = Qt.AspectRatioMode.IgnoreAspectRatio
-    KeepAspectRatio = Qt.AspectRatioMode.KeepAspectRatio
-    KeepAspectRatioByExpanding = Qt.AspectRatioMode.KeepAspectRatioByExpanding
