@@ -34,10 +34,25 @@ jobs:
       - name: Build package
         run: python -m build
 
-      - name: Create tag
+      - name: Get Version from setup.py
+        id: get_version
         run: |
-          git tag TEST
-          git push origin TEST
+          echo "::set-output name=version::$(python -c 'import re; with open(\"setup.py\") as f: print(re.search(r\"'version': '(.+?)'\", f.read()).group(1))')"
+
+      - name: Create & Push tag
+        run: |
+          TAG=$(echo '${{ github.event.head_commit.message }}' | grep -oP '.tag\[\K(.*?)(?=\])')
+          if [ -n "$TAG" ]; then
+            git tag $TAG
+            git push origin $TAG
+          else
+            TAG="modify manually"
+            git tag $TAG
+            git push origin $TAG
+            echo "No tag found in commit message. Using default tag."
+          fi
+          echo "RELEASE_VERSION=$TAG" >> $GITHUB_ENV
+        shell: bash
 
       - name: Create GitHub Release
         id: create_release
@@ -45,11 +60,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: TEST
+          tag_name: ${{ env.RELEASE_VERSION }}
           draft: false
           prerelease: false
 
-      - name: Publish package to TestPyPI
+      - name: Publish package to PyPI
         run: twine upload dist/*
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}

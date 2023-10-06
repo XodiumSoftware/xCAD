@@ -27,6 +27,7 @@ To run the command window, use the following cmd in the CAD software: `afc`
 
 1. `pyhton -m pip install -i https://test.pypi.org/simple/ QeLib`
 
-## Build package, Release on Github & Upload to TestPyPi:
+## Build package, Release on Github & Upload to (Test)PyPi:
 
-1. In the push message use the keyword `.deploy_test`.
+1. FOR `TestPyPi`: In the push message use the keyword `.test .tag[x]`.
+2. FOR `PyPi`: In the push message use the keyword `.deploy .tag[x]`.

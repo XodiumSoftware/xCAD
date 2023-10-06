@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check for keyword in commit message
         id: keyword_check
-        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -q '.deploy_test' && echo true || echo false)" >> $GITHUB_ENV
+        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -q '.test' && echo true || echo false)" >> $GITHUB_ENV
 
       - name: Conditional Step
         if: steps.keyword_check.outputs.contains_keyword == 'true'
@@ -31,13 +31,23 @@ jobs:
           pip install build
           pip install twine
 
+      - name: Create & Push tag
+        run: |
+          TAG=$(echo '${{ github.event.head_commit.message }}' | grep -oP '.tag\[\K(.*?)(?=\])')
+          if [ -n "$TAG" ]; then
+            git tag $TAG
+            git push origin $TAG
+          else
+            TAG="modify manually"
+            git tag $TAG
+            git push origin $TAG
+            echo "No tag found in commit message. Using default tag."
+          fi
+          echo "RELEASE_VERSION=$TAG" >> $GITHUB_ENV
+        shell: bash
+
       - name: Build package
         run: python -m build
-
-      - name: Create tag
-        run: |
-          git tag TEST
-          git push origin TEST
 
       - name: Create GitHub Release
         id: create_release
@@ -45,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: TEST
+          tag_name: ${{ env.RELEASE_VERSION }}
           draft: false
           prerelease: false
 
