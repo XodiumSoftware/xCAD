@@ -1,4 +1,4 @@
-from QeLib import QeHelper
+from QeLib.QeHelper import QeHelper
 
 from configs.type_configs import LumberTypes
 

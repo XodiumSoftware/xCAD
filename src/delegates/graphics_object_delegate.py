@@ -1,6 +1,6 @@
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
-from QeLib import QeHelper
+from QeLib.QeHelper import QeHelper
 
 from configs.module_configs import Dialogs
 from configs.settings_configs import ObjSettings
