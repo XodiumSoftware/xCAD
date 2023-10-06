@@ -59,7 +59,7 @@
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
-  "python.analysis.extraPaths": ["./QeLib", "./tests"],
+  "python.analysis.extraPaths": ["./src", "./tests"],
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",

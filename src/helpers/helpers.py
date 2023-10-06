@@ -25,11 +25,10 @@ class Helper:
     @staticmethod
     def toggle_ui_visibility(uis: list[QWidget]) -> None:
         """Toggles the visibility of UI(s)."""
-        [
-            Helper.center_ui_on_screen(ui)
-            for ui in uis
-            if ui.setVisible(not ui.isVisible()) or ui.isVisible()
-        ]
+        for ui in uis:
+            ui.setVisible(not ui.isVisible())
+            if ui.isVisible():
+                Helper.center_ui_on_screen(ui)
 
     @staticmethod
     def switch_modules(module: ModuleType.StackedWidget.value) -> None:
