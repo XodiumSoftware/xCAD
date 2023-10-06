@@ -18,10 +18,10 @@ jobs:
         if: steps.keyword_check.outputs.contains_keyword == 'true'
         run: echo "Keyword found in commit message. Running deployment steps..."
 
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
 
       - name: Set up Python
-        uses: actions/setup-python@master
+        uses: actions/setup-python@main
         with:
           python-version: "3.11.5"
 
@@ -30,6 +30,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install build
           pip install twine
+          pip install mypy
+
+      - name: Generate .pyi stub files
+        run: |
+          PACKAGE_NAME=$(ls -d */ | grep -v 'dist\|build' | head -n 1 | cut -f1 -d'/')
+          find $PACKAGE_NAME -name "*.py" ! -name "__init__.py" -exec stubgen -o . {} \;
 
       - name: Create & Push tag
         id: create_tag
