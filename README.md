@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD/?ref=repository-badge}">
+  <a href="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD/">
     <img src="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD.svg/?label=active+issues&show_trend=true&token=gg3m5X6BzRWozQJG-KF3tijs" alt="DeepSource">
     <img src="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD.svg/?label=resolved+issues&show_trend=true&token=gg3m5X6BzRWozQJG-KF3tijs" alt="DeepSource">
   </a>
