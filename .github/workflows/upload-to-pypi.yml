@@ -30,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install build
           pip install twine
-          pip install mypy
+          pip install -e .
 
       - name: Generate .pyi stub files
         run: |
