@@ -25,7 +25,7 @@ To run the command window, use the following cmd in the CAD software: `afc`
 
 ## Installing QeLib:
 
-1. `python -m pip install -i https://test.pypi.org/simple/ QeLib`
+1. `python -m pip install -i https://test.pypi.org/simple/ StenLib`
 
 ## Build package, Release on Github & Upload to (Test)PyPi:
 
