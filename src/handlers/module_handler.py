@@ -86,9 +86,7 @@ class ModuleHandler(QWidget):
 
             if module_size_policy is not None:
                 size_policy_x, size_policy_y = module_size_policy
-                delegate.setSizePolicy(
-                    size_policy_x, size_policy_y
-                )  # TODO: setSizePolicy is unknown fix that.
+                delegate.setSizePolicy(size_policy_x, size_policy_y)
 
             layout.addWidget(delegate)
 

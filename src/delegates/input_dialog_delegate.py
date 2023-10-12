@@ -2,7 +2,6 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QInputDialog, QPushButton
 
 
-# TODO: adjust to take normal class instead of enum class.
 class InputDialogDelegate(QInputDialog):
     """A class to represent a input dialog delegate."""
 
