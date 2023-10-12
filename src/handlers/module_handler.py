@@ -1,4 +1,5 @@
 from enum import Enum
+from turtle import st
 from typing import Any, Callable, Optional
 
 from PySide6.QtCore import Qt, Slot
@@ -41,7 +42,7 @@ class ModuleHandler(QWidget):
         self,
         matrix_name: Enum,
         matrix_margins: Optional[tuple[int, int, int, int]] = None,
-    ):
+    ) -> None:
         """Create modules from a matrix."""
         if isinstance(matrix_name, Enum):
             matrix_data: list[list[tuple[Any, ...]]] = matrix_name.value
@@ -135,13 +136,7 @@ class ModuleHandler(QWidget):
                 f"{module_enum}: not found or not supported for module connection"
             )
 
-    @Slot(str, str)
-    def toggle_module_visibility(self, module_enum: Enum) -> None:
+    @staticmethod
+    def toggle_module_visibility(module_reference: QWidget) -> None:
         """Toggle the module visibility."""
-        module_reference = self._module_mapping.get(module_enum.name)
-        if isinstance(module_reference, QWidget):
-            module_reference.setVisible(not module_reference.isVisible())
-        else:
-            raise ValueError(
-                f"{module_enum}: not found or not supported for visibility toggling"
-            )
+        module_reference.setVisible(not module_reference.isVisible())

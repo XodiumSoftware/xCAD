@@ -1,4 +1,6 @@
+from enum import Enum
 from functools import partial
+from typing import Callable
 
 import qdarktheme
 from PySide6.QtGui import QIcon
@@ -59,19 +61,19 @@ class UI(QMainWindow):
 
         self.setup_connections()
 
+    def connect_button_to_action(
+        self, module: ModuleHandler, button_enum: Enum, action: Callable
+    ) -> None:
+        """Connect a button in a module to a specific action."""
+        module.module_connection(
+            button_enum, partial(action, module=self._main_modules_stack)
+        )
+
     def setup_connections(self) -> None:
         """Setup the connections."""
-        self._main_module_0.module_connection(
-            PushButtons.AutoFrameCAD,
-            partial(
-                self._helper.switch_modules,
-                module=self._main_modules_stack,
-            ),
+        self.connect_button_to_action(
+            self._main_module_0, PushButtons.AutoFrameCAD, self._helper.switch_modules
         )
-        self._main_module_1.module_connection(
-            PushButtons.StartupPage,
-            partial(
-                self._helper.switch_modules,
-                module=self._main_modules_stack,
-            ),
+        self.connect_button_to_action(
+            self._main_module_1, PushButtons.StartupPage, self._helper.switch_modules
         )
