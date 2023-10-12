@@ -8,8 +8,8 @@ from StenLib.StenHelper import StenHelper
 from configs.matrix_configs import Matrices
 from configs.module_configs import PushButtons, UIs
 from enums.q_enums import ModuleType
-from utils.events_handler import EventsHandler
-from utils.module_handler import ModuleHandler
+from handlers.events_handler import EventsHandler
+from handlers.module_handler import ModuleHandler
 
 
 class UI(QMainWindow):
