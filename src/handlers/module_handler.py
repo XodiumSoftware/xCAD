@@ -95,7 +95,7 @@ class ModuleHandler(QWidget):
         return module_container
 
     @staticmethod
-    def setup_module(module_enum: type[Enum]):  # TODO: Add propper type hinting.
+    def setup_module(module_enum: type[Enum]) -> tuple[type[Enum], Optional[QWidget]]:
         """Setup the module data and properties."""
         delegate_class = {
             Labels: LabelDelegate,
@@ -108,7 +108,7 @@ class ModuleHandler(QWidget):
         }.get(type(module_enum))
 
         return (
-            module_enum.value,
+            module_enum,
             delegate_class(module_enum.value) if delegate_class else None,
         )
 
