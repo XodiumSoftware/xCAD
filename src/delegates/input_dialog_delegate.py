@@ -8,9 +8,9 @@ class InputDialogDelegate(QInputDialog):
     def __init__(self, module_data: dict, input_module: QPushButton) -> None:
         """Initialize the input dialog delegate."""
         super().__init__()
-        self.setup_input_dialog(module_data, input_module)
+        self.properties(module_data, input_module)
 
-    def setup_input_dialog(self, module_data: dict, input_module: QPushButton) -> None:
+    def properties(self, module_data: dict, input_module: QPushButton) -> None:
         """Setup the input dialog."""
         self.setWindowIcon(QIcon(module_data["icon_path"]))
 

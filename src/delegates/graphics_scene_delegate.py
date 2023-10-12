@@ -10,7 +10,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
     def __init__(self) -> None:
         """Initialize the graphics scene delegate."""
         super().__init__()
-        self.setup_studs_framework(self)
+        self.properties(self)
 
     @staticmethod
     def calculate_frame_coordinates(frame_size: int, spacing: int) -> list:
@@ -18,7 +18,7 @@ class GraphicsSceneDelegate(QGraphicsScene):
         return [i for i in range(frame_size) if i % spacing == 0]
 
     @staticmethod
-    def setup_studs_framework(scene: QGraphicsScene) -> None:
+    def properties(scene: QGraphicsScene) -> None:
         """Setup the framework."""
         stud_spacing_x = FrameSettings.StudSpacingX
         stud_spacing_y = FrameSettings.StudSpacingY

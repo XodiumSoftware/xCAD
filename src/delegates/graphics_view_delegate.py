@@ -16,9 +16,9 @@ class GraphicsViewDelegate(QGraphicsView):
         """Initialize the graphics view delegate."""
         super().__init__()
         self._helper = StenHelper()
-        self.setup_graphics_view()
+        self.properties()
 
-    def setup_graphics_view(self) -> None:
+    def properties(self) -> None:
         """Setup the graphics view delegate."""
         self.setScene(GraphicsSceneDelegate())
 

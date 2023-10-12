@@ -16,11 +16,9 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
         super().__init__()
         self._dialog_delegate = DialogDelegate
 
-        self.setup_graphics_object(posx, posy, dimx, dimy, rad)
+        self.properties(posx, posy, dimx, dimy, rad)
 
-    def setup_graphics_object(
-        self, posx: int, posy: int, dimx: int, dimy: int, rad: int
-    ) -> None:
+    def properties(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
         """Setup the graphics object delegate."""
         self.setFlags(
             QGraphicsItem.GraphicsItemFlag.ItemIsSelectable

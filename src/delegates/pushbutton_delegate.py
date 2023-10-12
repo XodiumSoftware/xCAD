@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QLabel, QPushButton, QSizePolicy, QVBoxLayout
+from PySide6.QtWidgets import QLabel, QLayout, QPushButton, QSizePolicy
 
 
 class PushButtonDelegate(QPushButton):
@@ -9,16 +9,16 @@ class PushButtonDelegate(QPushButton):
     def __init__(self, module_data: dict) -> None:
         """Initialize the label delegate."""
         super().__init__()
-        self.setup_push_button(module_data)
+        self.properties(module_data)
 
-    def setup_push_button(self, module_data: dict) -> None:
+    def properties(self, module_data: dict) -> None:
         """Setup the label delegate."""
         if module_data["icon_path"]:
             icon = QIcon(module_data["icon_path"])
             self.setIcon(icon)
             self.setStyleSheet(module_data["stylesheet"])
         elif isinstance(module_data["title"] and module_data["stylesheet"], tuple):
-            layout = QVBoxLayout()
+            layout = QLayout()
             layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
             for title, stylesheet in zip(
                 module_data["title"], module_data["stylesheet"]

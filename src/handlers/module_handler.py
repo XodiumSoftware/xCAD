@@ -1,9 +1,16 @@
 from enum import Enum
-from turtle import st
 from typing import Any, Callable, Optional
 
-from PySide6.QtCore import Qt, Slot
-from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QGridLayout,
+    QRadioButton,
+    QSizePolicy,
+    QSlider,
+    QSpinBox,
+    QWidget,
+)
 
 from configs.module_configs import (
     Checkboxes,
@@ -126,15 +133,17 @@ class ModuleHandler(QWidget):
             )
         return module_margins
 
-    def module_connection(self, module_enum: Enum, target_method: Callable) -> None:
+    @staticmethod
+    def module_connection(module_reference: QWidget, target_method: Callable) -> None:
         """Connect the module signal to the target method."""
-        module_reference = self._module_mapping.get(module_enum.name)
-        if isinstance(module_reference, QPushButton):
+        if isinstance(module_reference, (QPushButton, QCheckBox, QRadioButton)):
             module_reference.clicked.connect(target_method)
+        elif isinstance(module_reference, QSlider):
+            module_reference.valueChanged.connect(target_method)
+        elif isinstance(module_reference, QSpinBox):
+            module_reference.valueChanged.connect(target_method)
         else:
-            raise ValueError(
-                f"{module_enum}: not found or not supported for module connection"
-            )
+            raise ValueError(f"{module_reference}: not supported for module connection")
 
     @staticmethod
     def toggle_module_visibility(module_reference: QWidget) -> None:

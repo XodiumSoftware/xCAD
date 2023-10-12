@@ -8,9 +8,9 @@ class ColorDialogDelegate(QColorDialog):
     def __init__(self, module_data: dict, input_module: QPushButton) -> None:
         """Initialize the color dialog delegate."""
         super().__init__()
-        self.setup_color_dialog(module_data, input_module)
+        self.properties(module_data, input_module)
 
-    def setup_color_dialog(self, module_data: dict, input_module: QPushButton) -> None:
+    def properties(self, module_data: dict, input_module: QPushButton) -> None:
         """Setup the color dialog delegate."""
         self.setWindowTitle(module_data["title"])
         self.setWindowIcon(QIcon(module_data["icon_path"]))

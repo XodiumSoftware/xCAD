@@ -8,9 +8,9 @@ class MessageBoxDelegate(QMessageBox):
     def __init__(self, module_data: dict) -> None:
         """Initialize the message box delegate."""
         super().__init__()
-        self.setup_message_box(module_data)
+        self.properties(module_data)
 
-    def setup_message_box(self, module_data: dict) -> None:
+    def properties(self, module_data: dict) -> None:
         """Setup the message box delegate."""
         self.setWindowTitle(module_data["title"])
         self.setWindowIcon(QIcon(module_data["icon_path"]))
