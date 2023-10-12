@@ -1,7 +1,9 @@
 from enum import Enum
 
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QSizePolicy, QVBoxLayout
+
 from configs.module_configs import GraphicsViews, Labels, PushButtons
-from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 class Matrices(Enum):
@@ -10,72 +12,72 @@ class Matrices(Enum):
     MainMatrix0 = [
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 PushButtons.AutoFrameCAD,
                 None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Expanding, SizePolicyType.Expanding),
+                Qt.AlignmentFlag.AlignCenter,
+                (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
             ],
         ],
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 Labels.Copyright,
                 None,
-                AlignmentType.AlignBottom,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignBottom,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
         ],
     ]
     MainMatrix1 = [
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 GraphicsViews.StructureView,
                 None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Expanding, SizePolicyType.Expanding),
+                Qt.AlignmentFlag.AlignCenter,
+                (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
             ],
         ],
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 PushButtons.Save,
                 None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignCenter,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 PushButtons.Discard,
                 None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignCenter,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 PushButtons.Reset,
                 None,
-                AlignmentType.AlignCenter,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignCenter,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
         ],
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 PushButtons.StartupPage,
                 None,
-                AlignmentType.AlignLeft,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignLeft,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
         ],
         [
             [
-                LayoutType.VBox,
+                QVBoxLayout,
                 Labels.Copyright,
                 None,
-                AlignmentType.AlignLeft,
-                (SizePolicyType.Minimum, SizePolicyType.Minimum),
+                Qt.AlignmentFlag.AlignLeft,
+                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
         ],
     ]

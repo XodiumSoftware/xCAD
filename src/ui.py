@@ -2,12 +2,11 @@ from functools import partial
 
 import qdarktheme
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from StenLib.StenHelper import StenHelper
 
 from configs.matrix_configs import Matrices
 from configs.module_configs import PushButtons, UIs
-from enums.q_enums import ModuleType
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 
@@ -46,7 +45,7 @@ class UI(QMainWindow):
 
         self._events_handler.quit_on_key_press_event(self)
 
-        self._main_modules_stack = ModuleType.StackedWidget.value(self)
+        self._main_modules_stack = QStackedWidget(self)
         self._main_modules_stack.addWidget(self._main_module_0)
         self._main_modules_stack.addWidget(self._main_module_1)
 

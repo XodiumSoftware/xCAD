@@ -22,7 +22,6 @@ from PySide6.QtWidgets import (
 from configs.module_configs import ColorDialogs, InputDialogs
 from delegates.color_dialog_delegate import ColorDialogDelegate
 from delegates.input_dialog_delegate import InputDialogDelegate
-from enums.q_enums import BrushStyleTypes, PenStyleTypes
 
 
 class DialogDelegate(QDialog):
@@ -149,7 +148,7 @@ class DialogDelegate(QDialog):
                         {
                             "widget": QComboBox(),
                             "content": obj.pen().style().name,
-                            "content_options": [enum.name for enum in PenStyleTypes],
+                            "content_options": Qt.PenStyle,
                         },
                     ],
                     [
@@ -182,7 +181,7 @@ class DialogDelegate(QDialog):
                         {
                             "widget": QComboBox(),
                             "content": obj.brush().style().name,
-                            "content_options": [enum.name for enum in BrushStyleTypes],
+                            "content_options": Qt.BrushStyle,
                         },
                     ],
                     [

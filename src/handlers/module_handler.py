@@ -1,8 +1,8 @@
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Qt, Slot
+from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
 
 from configs.module_configs import (
     Checkboxes,
@@ -20,7 +20,6 @@ from delegates.label_delegate import LabelDelegate
 from delegates.lineedit_delegate import LineEditDelegate
 from delegates.message_box_delegate import MessageBoxDelegate
 from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
-from enums.q_enums import AlignmentType, LayoutType, SizePolicyType
 
 
 class ModuleHandler(QWidget):
@@ -55,7 +54,7 @@ class ModuleHandler(QWidget):
             raise TypeError("Invalid matrix data")
 
         if matrix_data:
-            layout = LayoutType.Grid.value(self)
+            layout = QGridLayout(self)
             layout.setContentsMargins(*self.setup_module_margins(self, matrix_margins))
 
             for row, row_modules in enumerate(matrix_data):
@@ -66,11 +65,11 @@ class ModuleHandler(QWidget):
 
     def setup_module_container(
         self,
-        module_layout_type: LayoutType,
+        module_layout_type: type[QGridLayout],
         module_enum: type[Enum],
         module_margins: Optional[tuple[int, int, int, int]],
-        module_alignment: Optional[AlignmentType],
-        module_size_policy: Optional[tuple[SizePolicyType, SizePolicyType]],
+        module_alignment: Optional[Qt.AlignmentFlag],
+        module_size_policy: Optional[tuple[QSizePolicy.Policy, QSizePolicy.Policy]],
     ) -> QWidget:
         """Setup the module container layout."""
         module_container = QWidget()
@@ -80,15 +79,15 @@ class ModuleHandler(QWidget):
         if delegate:
             self._module_mapping[module_enum.name] = delegate
 
-            layout = module_layout_type.value(module_container)
+            layout = module_layout_type(module_container)
             layout.setContentsMargins(*self.setup_module_margins(self, module_margins))
             if module_alignment is not None:
-                layout.setAlignment(module_alignment.value)
+                layout.setAlignment(module_alignment)
 
             if module_size_policy is not None:
                 size_policy_x, size_policy_y = module_size_policy
                 delegate.setSizePolicy(
-                    size_policy_x.value, size_policy_y.value
+                    size_policy_x, size_policy_y
                 )  # TODO: setSizePolicy is unknown fix that.
 
             layout.addWidget(delegate)

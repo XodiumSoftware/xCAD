@@ -1,13 +1,12 @@
 import math
 
-from PySide6.QtCore import QRectF
+from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 from StenLib.StenHelper import StenHelper
 
 from configs.settings_configs import GraphicsViewSettings
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from enums.q_enums import PenStyleTypes, RenderHintTypes, ScrollBarPolicyTypes
 
 
 class GraphicsViewDelegate(QGraphicsView):
@@ -23,9 +22,9 @@ class GraphicsViewDelegate(QGraphicsView):
         """Setup the graphics view delegate."""
         self.setScene(GraphicsSceneDelegate())
 
-        self.setRenderHint(RenderHintTypes.Antialiasing.value)
-        self.setHorizontalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
-        self.setVerticalScrollBarPolicy(ScrollBarPolicyTypes.ScrollBarAlwaysOff.value)
+        self.setRenderHint(QPainter.RenderHint.Antialiasing)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setStyleSheet(
             f"background-color: {GraphicsViewSettings.BackgroundColor};"
             f"border: {GraphicsViewSettings.BackgroundBorder};"
@@ -47,7 +46,7 @@ class GraphicsViewDelegate(QGraphicsView):
         grid_spacing = GraphicsViewSettings.GridSpacing
 
         pen = QPen(QColor(GraphicsViewSettings.GridPenColor))
-        pen.setStyle(PenStyleTypes[GraphicsViewSettings.GridPenStyle].value)
+        pen.setStyle(Qt.PenStyle[GraphicsViewSettings.GridPenStyle])
         painter.setPen(pen)
 
         grid_path = QPainterPath()

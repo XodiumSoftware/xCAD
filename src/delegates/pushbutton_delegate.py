@@ -1,8 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
-
-from enums.q_enums import SizePolicyType
+from PySide6.QtWidgets import QLabel, QPushButton, QSizePolicy, QVBoxLayout
 
 
 class PushButtonDelegate(QPushButton):
@@ -37,6 +35,4 @@ class PushButtonDelegate(QPushButton):
         if module_data["size"] is not None:
             self.setFixedSize(*module_data["size"])
         else:
-            self.setSizePolicy(
-                SizePolicyType.Minimum.value, SizePolicyType.Minimum.value
-            )
+            self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)

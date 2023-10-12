@@ -1,11 +1,11 @@
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QBrush, QColor, QPen
-from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+from PySide6.QtWidgets import QGraphicsItem, QGraphicsRectItem, QGraphicsSceneMouseEvent
 from StenLib.StenUtils import StenUtils
 
 from configs.module_configs import Dialogs
 from configs.settings_configs import ObjSettings
 from delegates.dialog_delegate import DialogDelegate
-from enums.q_enums import BrushStyleTypes, GraphicsItemFlagTypes, PenStyleTypes
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
@@ -23,8 +23,8 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     ) -> None:
         """Setup the graphics object delegate."""
         self.setFlags(
-            GraphicsItemFlagTypes.ItemIsSelectable.value
-            | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
+            QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+            | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
         )
         self.object_id = StenUtils.alphanumeric_id_generator()
         self.setToolTip(ObjSettings.Type)
@@ -36,14 +36,14 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             QPen(
                 QColor(ObjSettings.PenColor),
                 ObjSettings.PenThickness,
-                PenStyleTypes[ObjSettings.PenStyle].value,
+                Qt.PenStyle[ObjSettings.PenStyle],
             )
         )
         if ObjSettings.Fill:
             self.setBrush(
                 QBrush(
                     QColor(ObjSettings.FillColor),
-                    BrushStyleTypes[ObjSettings.FillPattern].value,
+                    Qt.BrushStyle[ObjSettings.FillPattern],
                 )
             )
             self.setOpacity(max(0, min(ObjSettings.FillOpacity, 100)) / 100)
