@@ -3,7 +3,7 @@ from functools import partial
 import qdarktheme
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow
-from QeLib.QeHelper import QeHelper
+from StenLib.StenHelper import StenHelper
 
 from configs.matrix_configs import Matrices
 from configs.module_configs import PushButtons, UIs
@@ -26,7 +26,7 @@ class UI(QMainWindow):
         )
 
         self._helper, self._events_handler = (
-            QeHelper(),
+            StenHelper(),
             EventsHandler(),
         )
 

@@ -23,7 +23,7 @@
 
 To run the command window, use the following cmd in the CAD software: `afc`
 
-## Installing QeLib:
+## Installing StenLib:
 
 1. `python -m pip install -i https://test.pypi.org/simple/ StenLib`
 

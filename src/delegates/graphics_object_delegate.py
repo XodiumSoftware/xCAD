@@ -1,6 +1,6 @@
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
-from QeLib.QeUtils import QeUtils
+from StenLib.StenUtils import StenUtils
 
 from configs.module_configs import Dialogs
 from configs.settings_configs import ObjSettings
@@ -26,7 +26,7 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
             GraphicsItemFlagTypes.ItemIsSelectable.value
             | GraphicsItemFlagTypes.ItemSendsGeometryChanges.value
         )
-        self.object_id = QeUtils.alphanumeric_id_generator()
+        self.object_id = StenUtils.alphanumeric_id_generator()
         self.setToolTip(ObjSettings.Type)
         self.setZValue(ObjSettings.DrawOrder)
         self.setPos(posx, posy)
