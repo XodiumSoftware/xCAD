@@ -3,7 +3,7 @@ import math
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
-from StenLib.StenHelper import StenHelper
+from StenLib.StenHelper import Helper
 
 from configs.settings_configs import GraphicsViewSettings
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
@@ -15,7 +15,7 @@ class GraphicsViewDelegate(QGraphicsView):
     def __init__(self, _) -> None:
         """Initialize the graphics view delegate."""
         super().__init__()
-        self._helper = StenHelper()
+        self._helper = Helper()
         self.properties()
 
     def properties(self) -> None:

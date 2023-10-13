@@ -5,7 +5,7 @@ from typing import Callable
 import qdarktheme
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
-from StenLib.StenHelper import StenHelper
+from StenLib.StenHelper import Helper
 
 from configs.matrix_configs import Matrices
 from configs.module_configs import PushButtons, UIs
@@ -27,7 +27,7 @@ class UI(QMainWindow):
         )
 
         self._helper, self._events_handler = (
-            StenHelper(),
+            Helper(),
             EventsHandler(),
         )
 

@@ -1,16 +1,8 @@
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QGridLayout,
-    QRadioButton,
-    QSizePolicy,
-    QSlider,
-    QSpinBox,
-    QWidget,
-)
+from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
 
 from configs.module_configs import (
     Checkboxes,
@@ -21,13 +13,6 @@ from configs.module_configs import (
     MessageBoxes,
     PushButtons,
 )
-from delegates.checkbox_delegate import CheckBoxDelegate
-from delegates.doublespinbox_delegate import DoubleSpinBoxDelegate
-from delegates.graphics_view_delegate import GraphicsViewDelegate
-from delegates.label_delegate import LabelDelegate
-from delegates.lineedit_delegate import LineEditDelegate
-from delegates.message_box_delegate import MessageBoxDelegate
-from delegates.pushbutton_delegate import PushButtonDelegate, QPushButton
 
 
 class ModuleHandler(QWidget):
@@ -117,20 +102,3 @@ class ModuleHandler(QWidget):
             module_enum,
             delegate_class(module_enum.value) if delegate_class else None,
         )
-
-    @staticmethod
-    def module_connection(module_reference: QWidget, target_method: Callable) -> None:
-        """Connect the module signal to the target method."""
-        if isinstance(module_reference, (QPushButton, QCheckBox, QRadioButton)):
-            module_reference.clicked.connect(target_method)
-        elif isinstance(module_reference, QSlider):
-            module_reference.valueChanged.connect(target_method)
-        elif isinstance(module_reference, QSpinBox):
-            module_reference.valueChanged.connect(target_method)
-        else:
-            raise ValueError(f"{module_reference}: not supported for module connection")
-
-    @staticmethod
-    def toggle_module_visibility(module_reference: QWidget) -> None:
-        """Toggle the module visibility."""
-        module_reference.setVisible(not module_reference.isVisible())

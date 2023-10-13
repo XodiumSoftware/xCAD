@@ -1,4 +1,4 @@
-from StenLib.StenUtils import StenUtils
+from StenLib.StenUtils import Utils
 
 from configs.type_configs import LumberTypes
 
@@ -6,7 +6,7 @@ from configs.type_configs import LumberTypes
 class ObjSettings:
     """A class to represent stud settings."""
 
-    Object_ID: str = StenUtils.alphanumeric_id_generator()
+    Object_ID: str = Utils.alphanumeric_id_generator()
     Type: str = f"{LumberTypes.SLS} {LumberTypes.SLS[0][0]}x{LumberTypes.SLS[0][1]}"
     DrawOrder: int = 0
 
