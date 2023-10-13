@@ -119,21 +119,6 @@ class ModuleHandler(QWidget):
         )
 
     @staticmethod
-    def setup_module_margins(
-        parent: QWidget, module_margins: Optional[tuple[int, int, int, int]]
-    ) -> tuple[int, int, int, int]:
-        """Set the margins of the layout."""
-        if module_margins is None:
-            parent_margins = parent.contentsMargins()
-            return (
-                parent_margins.left(),
-                parent_margins.top(),
-                parent_margins.right(),
-                parent_margins.bottom(),
-            )
-        return module_margins
-
-    @staticmethod
     def module_connection(module_reference: QWidget, target_method: Callable) -> None:
         """Connect the module signal to the target method."""
         if isinstance(module_reference, (QPushButton, QCheckBox, QRadioButton)):
