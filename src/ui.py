@@ -1,14 +1,10 @@
-from enum import Enum
-from functools import partial
-from typing import Callable
-
 import qdarktheme
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from StenLib.StenHelper import Helper
 
 from configs.matrix_configs import Matrices
-from configs.module_configs import PushButtons, UIs
+from configs.module_configs import UIs
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
 
@@ -58,22 +54,3 @@ class UI(QMainWindow):
             self.show()
         else:
             self.hide()
-
-        self.setup_connections()
-
-    def connect_button_to_action(
-        self, module: ModuleHandler, button_enum: Enum, action: Callable
-    ) -> None:
-        """Connect a button in a module to a specific action."""
-        module.module_connection(
-            button_enum, partial(action, module=self._main_modules_stack)
-        )
-
-    def setup_connections(self) -> None:
-        """Setup the connections."""
-        self.connect_button_to_action(
-            self._main_module_0, PushButtons.AutoFrameCAD, self._helper.switch_modules
-        )
-        self.connect_button_to_action(
-            self._main_module_1, PushButtons.StartupPage, self._helper.switch_modules
-        )

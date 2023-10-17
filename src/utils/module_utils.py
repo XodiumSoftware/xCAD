@@ -1,9 +1,9 @@
 from typing import Optional, Tuple
 
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QSizePolicy, QWidget
 
 
-class ModuleUtils:
+class ModuleUtils(QWidget):
     """A class that contains core methods."""
 
     @staticmethod
@@ -29,3 +29,46 @@ class ModuleUtils:
 
         pmargins = parent.contentsMargins()
         return (pmargins.left(), pmargins.top(), pmargins.right(), pmargins.bottom())
+
+    @staticmethod
+    def size_policy(
+        parent: QWidget,
+        policy: Optional[Tuple[QSizePolicy.Policy, QSizePolicy.Policy]] = None,
+    ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
+        """
+        Initialize the size policy with a specified policy.
+
+        Args:
+            policy (Tuple[QSizePolicy.Policy, QSizePolicy.Policy]): Policy for a widget.
+                Default is parent's policy.
+
+        Returns:
+            Tuple[QSizePolicy.Policy, QSizePolicy.Policy]: A tuple of policy.
+        """
+        if (
+            policy is not None
+            and all(isinstance(i, QSizePolicy.Policy) for i in policy)
+            and len(policy) == 2
+        ):
+            return policy
+
+        ppolicy = parent.sizePolicy()
+        return (ppolicy.horizontalPolicy(), ppolicy.verticalPolicy())
+
+    @classmethod
+    def container(cls, depth: Optional[int] = None) -> QWidget:
+        """
+        Create a recursive container.
+
+        Args:
+            depth (int): The depth of the recursive container.
+
+        Returns:
+            PySide6.QtWidgets.QWidget: The container widget.
+        """
+        container = cls()
+
+        if depth is not None and depth > 0:
+            container.setLayout(cls.container(depth - 1).layout())
+
+        return container
