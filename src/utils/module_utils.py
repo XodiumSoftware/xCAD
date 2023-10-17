@@ -54,21 +54,3 @@ class ModuleUtils(QWidget):
 
         ppolicy = parent.sizePolicy()
         return (ppolicy.horizontalPolicy(), ppolicy.verticalPolicy())
-
-    @classmethod
-    def container(cls, depth: Optional[int] = None) -> QWidget:
-        """
-        Create a recursive container.
-
-        Args:
-            depth (int): The depth of the recursive container.
-
-        Returns:
-            PySide6.QtWidgets.QWidget: The container widget.
-        """
-        container = cls()
-
-        if depth is not None and depth > 0:
-            container.setLayout(cls.container(depth - 1).layout())
-
-        return container

@@ -1,8 +1,20 @@
 from enum import Enum
-from typing import Dict, Optional, Type
+from typing import Dict, Type
 
 from PySide6.QtWidgets import QWidget
 
+from configs.module_configs import (
+    Checkboxes,
+    DoubleSpinBoxes,
+    Labels,
+    LineEdits,
+    PushButtons,
+)
+from modules.check_box_module import CheckBoxModule
+from modules.double_spin_box_module import DoubleSpinBoxModule
+from modules.label_module import LabelModule
+from modules.line_edit_module import LineEditModule
+from modules.push_button_module import PushButtonModule
 from utils.module_utils import ModuleUtils
 
 
@@ -10,8 +22,7 @@ class ModuleHandler(ModuleUtils):
     """A class to handle the modules."""
 
     def __init__(self, matrix: Enum) -> None:
-        """
-        Initialize the class.
+        """Initialize the class.
 
         Attributes:
             module_mapping (Dict[str, QWidget]):
@@ -21,14 +32,12 @@ class ModuleHandler(ModuleUtils):
         """
         super().__init__()
         self.module_matrix: Dict[str, QWidget] = {}
-        self.module_mapping: Dict[str, QWidget] = {}
         self.module_visibility: Dict[str, bool] = {}
 
-        self.handle_matrix(matrix)
+        self.matrix(matrix)
 
-    def handle_matrix(self, matrix: Enum) -> None:
-        """
-        Handle the matrix.
+    def matrix(self, matrix: Enum) -> None:
+        """Handle the matrix.
 
         Args:
             matrix (Enum): A matrix.
@@ -39,13 +48,26 @@ class ModuleHandler(ModuleUtils):
                     if isinstance(module, Enum):
                         self.module_matrix[module.name] = module.value
                     else:
-                        self.module_matrix[module.__name__] = module
+                        self.module_matrix[module] = module
 
-    def create_module(self) -> None:
+    def module(self) -> None:
         """Handle the module."""
-        for module_name, module in self.module_matrix.items():
-            self.module_mapping[module_name] = self.add_module(module)
+        pass
 
-    def handle_module_data(self, module: Type[Enum]) -> Optional[QWidget]:
-        """Handle the module data."""
-        return {}.get(Type(module))
+    @staticmethod
+    def module_data(module: Type) -> Type[QWidget]:
+        """Handle the module data.
+
+        Args:
+            module (Type): A module.
+
+        Returns:
+            Type[QWidget]: A module data.
+        """
+        return {
+            Checkboxes: CheckBoxModule,
+            DoubleSpinBoxes: DoubleSpinBoxModule,
+            Labels: LabelModule,
+            LineEdits: LineEditModule,
+            PushButtons: PushButtonModule,
+        }.get(module, QWidget)
