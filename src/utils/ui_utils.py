@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import List
 
 from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QApplication, QWidget
@@ -13,17 +13,6 @@ class UiUtils(QWidget):
             QApplication.primaryScreen().geometry().center()
             - QPoint(self.size().width() // 2, self.size().height() // 2)
         )
-
-    def set_ui_size(self, size: Optional[Tuple[int, int]] = None) -> None:
-        """
-        Sets the size of a QWidget.
-
-        Args:
-            size (tuple[int, int], optional): The width and height to set the QWidget.
-                If None, it will be set to the default size hint.
-
-        """
-        self.resize(*size) if size else self.resize(self.sizeHint())
 
     def toggle_ui_visibility(self, uis: List[QWidget]) -> None:
         """

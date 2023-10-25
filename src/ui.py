@@ -31,26 +31,25 @@ class UI(QMainWindow):
 
     def setup_ui(self) -> None:
         """Setup the UIs."""
-        main_ui_info = UIs.MainUI.value
+        ui_info = UIs.MainUI.value
 
-        self.setWindowTitle(main_ui_info["title"])
-
-        self.setWindowIcon(QIcon(main_ui_info["icon"]))
+        self.setWindowTitle(ui_info["title"])
+        self.setWindowIcon(QIcon(ui_info["icon"]))
 
         self._ui_utils.center_ui_on_screen()
 
-        self._ui_utils.set_ui_size(main_ui_info["initial_size"])
+        self.resize(*ui_info["initial_size"])
+        self.setContentsMargins(*ui_info["margins"])
 
-        self._events_handler.quit_on_key_press_event()
+        self._events_handler.quit_on_key_press_event(self)
 
         self._main_modules_stack = QStackedWidget(self)
         self._main_modules_stack.addWidget(self._main_module_0)
         self._main_modules_stack.addWidget(self._main_module_1)
 
         self.setCentralWidget(self._main_modules_stack)
-        self.setContentsMargins(*main_ui_info["margins"])
 
-        if main_ui_info["initial_visibility"]:
+        if ui_info["initial_visibility"]:
             self.show()
         else:
             self.hide()

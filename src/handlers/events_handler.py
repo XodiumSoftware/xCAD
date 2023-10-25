@@ -7,13 +7,14 @@ from configs.module_configs import MessageBoxes
 from delegates.message_box_delegate import MessageBoxDelegate
 
 
-class EventsHandler(QWidget):
+class EventsHandler:
     """A class to handle events."""
 
-    def quit_on_key_press_event(self) -> None:
+    @staticmethod
+    def quit_on_key_press_event(ui: QWidget) -> None:
         """Quit on Escape key or Ctrl+Q."""
         [
-            QShortcut(QKeySequence(shortcut_str), self).activated.connect(
+            QShortcut(QKeySequence(shortcut_str), ui).activated.connect(
                 partial(MessageBoxDelegate, MessageBoxes.QuitMessage.value)
             )
             for shortcut_str in ["Escape", "Ctrl+Q"]
