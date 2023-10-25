@@ -6,12 +6,11 @@ from PySide6.QtWidgets import QApplication
 from ui import UI
 
 
-def run():
-    """Run the application."""
+def run() -> int:
+    """Runs the application."""
     qdarktheme.enable_hi_dpi()
-    app = QApplication([])
+    app = QApplication()
     _ = UI()
-
     return app.exec()
 
 

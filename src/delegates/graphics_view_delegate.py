@@ -3,7 +3,6 @@ import math
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
-from StenLib.StenHelper import Helper
 
 from configs.settings_configs import GraphicsViewSettings
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
@@ -12,10 +11,12 @@ from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 class GraphicsViewDelegate(QGraphicsView):
     """A class to represent a graphics view delegate."""
 
-    def __init__(self, _) -> None:
+    def __init__(self, _) -> None:  # NOTE: why the _ in the args?
         """Initialize the graphics view delegate."""
         super().__init__()
-        self._helper = Helper()
+        self._fit_scene_in_view = self.fitInView(
+            self.sceneRect(), Qt.AspectRatioMode.KeepAspectRatio
+        )
         self.properties()
 
     def properties(self) -> None:
@@ -32,7 +33,7 @@ class GraphicsViewDelegate(QGraphicsView):
 
         self.scale(1, -1)
 
-        self._helper.fit_scene_in_view(self)
+        self._fit_scene_in_view
 
     def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
         """Draws the background of the graphics view delegate."""
@@ -64,5 +65,5 @@ class GraphicsViewDelegate(QGraphicsView):
 
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
-        self._helper.fit_scene_in_view(self)
+        self._fit_scene_in_view
         super().resizeEvent(event)

@@ -1,12 +1,12 @@
 import qdarktheme
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
-from StenLib.StenHelper import Helper
 
 from configs.matrix_configs import Matrices
 from configs.module_configs import UIs
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import ModuleHandler
+from utils.ui_utils import UiUtils
 
 
 class UI(QMainWindow):
@@ -22,8 +22,8 @@ class UI(QMainWindow):
             ModuleHandler(Matrices.MainMatrix1),
         )
 
-        self._helper, self._events_handler = (
-            Helper(),
+        self._ui_utils, self._events_handler = (
+            UiUtils(),
             EventsHandler(),
         )
 
@@ -37,11 +37,11 @@ class UI(QMainWindow):
 
         self.setWindowIcon(QIcon(main_ui_info["icon"]))
 
-        self._helper.center_ui_on_screen(self)
+        self._ui_utils.center_ui_on_screen()
 
-        self._helper.set_ui_size(self, main_ui_info["initial_size"])
+        self._ui_utils.set_ui_size(main_ui_info["initial_size"])
 
-        self._events_handler.quit_on_key_press_event(self)
+        self._events_handler.quit_on_key_press_event()
 
         self._main_modules_stack = QStackedWidget(self)
         self._main_modules_stack.addWidget(self._main_module_0)

@@ -1,14 +1,13 @@
 from typing import Optional, Tuple
 
-from PySide6.QtWidgets import QSizePolicy, QWidget
+from PySide6.QtWidgets import QSizePolicy, QStackedWidget, QWidget
 
 
-class ModuleUtils(QWidget):
+class ModuleUtils(QStackedWidget, QWidget):
     """A class that contains core methods."""
 
-    @staticmethod
     def margins(
-        parent: QWidget, margins: Optional[Tuple[int, int, int, int]] = None
+        self, margins: Optional[Tuple[int, int, int, int]] = None
     ) -> Tuple[int, int, int, int]:
         """
         Initialize the margins with a specified margins.
@@ -27,13 +26,11 @@ class ModuleUtils(QWidget):
         ):
             return margins
 
-        pmargins = parent.contentsMargins()
+        pmargins = self.contentsMargins()
         return (pmargins.left(), pmargins.top(), pmargins.right(), pmargins.bottom())
 
-    @staticmethod
     def size_policy(
-        parent: QWidget,
-        policy: Optional[Tuple[QSizePolicy.Policy, QSizePolicy.Policy]] = None,
+        self, policy: Optional[Tuple[QSizePolicy.Policy, QSizePolicy.Policy]] = None
     ) -> Tuple[QSizePolicy.Policy, QSizePolicy.Policy]:
         """
         Initialize the size policy with a specified policy.
@@ -52,5 +49,9 @@ class ModuleUtils(QWidget):
         ):
             return policy
 
-        ppolicy = parent.sizePolicy()
+        ppolicy = self.sizePolicy()
         return (ppolicy.horizontalPolicy(), ppolicy.verticalPolicy())
+
+    def switch_modules(self) -> None:
+        """Switches the current module in a QStackedWidget."""
+        self.setCurrentIndex((self.currentIndex() + 1) % self.count())
