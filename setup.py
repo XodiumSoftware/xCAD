@@ -10,7 +10,7 @@ setup(
     project_urls={"Bug Tracker": "https://github.com/Illyrius666/AutoFrameCad/issues"},
     install_requires=["pyside6", "pyqtdarktheme"],
     packages=find_packages(),
-    python_requires=">=3.11.5",
+    python_requires=">=3.12",
     package_data={
         "*": ["*.py", "py.typed", "*.pyi"],
     },
