@@ -1,25 +1,11 @@
 from enum import Enum
-from typing import Type
+from typing import List
 
-from PySide6.QtWidgets import QGridLayout, QWidget
-
-from configs.module_configs import (
-    Checkboxes,
-    DoubleSpinBoxes,
-    Labels,
-    LineEdits,
-    PushButtons,
-)
-from modules.check_box_module import CheckBoxModule
-from modules.double_spin_box_module import DoubleSpinBoxModule
-from modules.label_module import LabelModule
-from modules.line_edit_module import LineEditModule
-from modules.push_button_module import PushButtonModule
-from utils.module_utils import ModuleUtils
+from PySide6.QtWidgets import QGridLayout, QGroupBox, QLayout, QWidget
 
 
-class ModuleHandler(ModuleUtils):
-    """A class to handle the modules."""
+class MatrixHandler(QWidget):
+    """A class to handle the matrices."""
 
     def __init__(self, matrix: Enum) -> None:
         """Initialize the class.
@@ -37,24 +23,38 @@ class ModuleHandler(ModuleUtils):
         Args:
             matrix (Enum): A matrix.
         """
-        matrix_data = matrix.value
+        matrix_data: List[List[Enum]] = matrix.value
         layout = QGridLayout()
+
         for row, row_modules in enumerate(matrix_data):
             for column, module_data in enumerate(row_modules):
-                layout.addWidget(self.module_data(module_data), row, column)
+                if isinstance(module_data, type) and issubclass(module_data, QGroupBox):
+                    layout.addWidget(self.container(self.module()), row, column)
+                else:
+                    layout.addWidget(self.module(), row, column)
+
         self.setLayout(layout)
 
     @staticmethod
-    def module_data(module: list[Type]) -> QWidget:
-        """Handle the module data.
+    def container(module: QWidget, layout: QLayout = QGridLayout()) -> QGroupBox:
+        """Handle the container.
 
         Args:
-            module (Type): A module.
+            layout (QLayout, optional): A layout. Defaults to QGridLayout().
+
+        Returns:
+            QGroupBox: A container widget.
         """
-        return {
-            Checkboxes: CheckBoxModule,
-            DoubleSpinBoxes: DoubleSpinBoxModule,
-            Labels: LabelModule,
-            LineEdits: LineEditModule,
-            PushButtons: PushButtonModule,
-        }.get(module, QWidget)()
+        container = QGroupBox()
+        container.setLayout(layout)
+        layout.addWidget(module)
+        return container
+
+    @staticmethod
+    def module() -> QWidget:
+        """Handle the module.
+
+        Returns:
+            QWidget: A module widget.
+        """
+        return QWidget()

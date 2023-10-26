@@ -11,73 +11,97 @@ class Matrices(Enum):
 
     MainMatrix0 = [
         [
-            [
-                PushButtons.AutoFrameCAD,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignCenter,
-                (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
-            ],
+            {
+                "module": PushButtons.AutoFrameCAD,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignCenter,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Expanding,
+                    QSizePolicy.Policy.Expanding,
+                ),
+            },
         ],
         [
-            [
-                Labels.Copyright,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignBottom,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
+            {
+                "module": Labels.Copyright,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignBottom,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
         ],
     ]
     MainMatrix1 = [
         [
-            [
-                GraphicsViews.StructureView,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignCenter,
-                (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
-            ],
+            {
+                "module": GraphicsViews.StructureView,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignCenter,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Expanding,
+                    QSizePolicy.Policy.Expanding,
+                ),
+            },
         ],
         [
-            [
-                PushButtons.Save,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignCenter,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
-            [
-                PushButtons.Discard,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignCenter,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
-            [
-                PushButtons.Reset,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignCenter,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
+            {
+                "module": PushButtons.Save,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignCenter,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
+            {
+                "module": PushButtons.Discard,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignCenter,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
+            {
+                "module": PushButtons.Reset,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignCenter,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
         ],
         [
-            [
-                PushButtons.StartupPage,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignLeft,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
+            {
+                "module": PushButtons.StartupPage,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignLeft,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
         ],
         [
-            [
-                Labels.Copyright,
-                QVBoxLayout,
-                None,
-                Qt.AlignmentFlag.AlignLeft,
-                (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
-            ],
+            {
+                "module": Labels.Copyright,
+                "layout": QVBoxLayout,
+                "margins": None,
+                "alignment": Qt.AlignmentFlag.AlignLeft,
+                "sizepolicy": (
+                    QSizePolicy.Policy.Minimum,
+                    QSizePolicy.Policy.Minimum,
+                ),
+            },
         ],
     ]

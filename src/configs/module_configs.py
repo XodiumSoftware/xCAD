@@ -6,19 +6,7 @@ import darkdetect
 from PySide6.QtWidgets import QMessageBox
 
 from configs.type_configs import LumberTypes
-from constants import ICONS_FOLDER_PATH, UI_ICON_PATH
-
-
-class UIs(Enum):
-    """A class used to represent the UIs."""
-
-    MainUI = {
-        "title": "AFC",
-        "icon": UI_ICON_PATH,
-        "initial_size": (600, 400),
-        "initial_visibility": True,
-        "margins": (10, 10, 10, 10),
-    }
+from constants import ICONS_FOLDER_PATH
 
 
 class Labels(Enum):
