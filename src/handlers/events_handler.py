@@ -1,7 +1,7 @@
 from functools import partial
 
 from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QStackedWidget, QWidget
 
 from configs.module_configs import MessageBoxes
 from delegates.message_box_delegate import MessageBoxDelegate
@@ -19,3 +19,8 @@ class EventsHandler:
             )
             for shortcut_str in ["Escape", "Ctrl+Q"]
         ]
+
+    @staticmethod
+    def switch_modules_on_event(module: QStackedWidget) -> None:
+        """Switches the current module in a QStackedWidget."""
+        module.setCurrentIndex((module.currentIndex() + 1) % module.count())
