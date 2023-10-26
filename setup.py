@@ -8,11 +8,11 @@ setup(
     license=open("LICENSE.md").read(),
     url="https://github.com/Illyrius666/AutoFrameCad",
     project_urls={"Bug Tracker": "https://github.com/Illyrius666/AutoFrameCad/issues"},
-    install_requires=["pyside6", "pyqtdarktheme"],
+    install_requires=["pyside6", "pyqtdarktheme", "setuptools", "types-setuptools"],
     packages=find_packages(),
     python_requires=">=3.12.0",
     package_data={
-        "*": ["*.py", "py.typed", "*.pyi"],
+        "*": ["*.py", "*.pyi"],
     },
     zip_safe=False,
 )

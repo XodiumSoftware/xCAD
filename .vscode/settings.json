@@ -79,5 +79,43 @@
       "fileMatch": ["*.json", "*.jsonc"],
       "url": "https://json.schemastore.org/package"
     }
-  ]
+  ],
+  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
+  "todo-tree.highlights.defaultHighlight": {
+    "gutterIcon": true,
+    "fontWeight": "bold",
+    "borderRadius": "0.2em"
+  },
+  "todo-tree.highlights.customHighlight": {
+    "ERROR": {
+      "icon": "alert",
+      "iconColour": "#ff0000",
+      "foreground": "#ffffff",
+      "background": "#ff0000"
+    },
+    "BUG": {
+      "icon": "bug",
+      "iconColour": "#ffa500",
+      "foreground": "#000000",
+      "background": "#ffa500"
+    },
+    "FIXME": {
+      "icon": "flame",
+      "iconColour": "#0000ff",
+      "foreground": "#ffffff",
+      "background": "#0000ff"
+    },
+    "TODO": {
+      "icon": "check",
+      "iconColour": "#008000",
+      "foreground": "#ffffff",
+      "background": "#008000"
+    },
+    "NOTE": {
+      "icon": "note",
+      "iconColour": "#ffff00",
+      "foreground": "#000000",
+      "background": "#ffff00"
+    }
+  }
 }
