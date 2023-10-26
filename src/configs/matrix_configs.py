@@ -12,8 +12,8 @@ class Matrices(Enum):
     MainMatrix0 = [
         [
             [
-                QVBoxLayout,
                 PushButtons.AutoFrameCAD,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignCenter,
                 (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
@@ -21,8 +21,8 @@ class Matrices(Enum):
         ],
         [
             [
-                QVBoxLayout,
                 Labels.Copyright,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignBottom,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
@@ -32,8 +32,8 @@ class Matrices(Enum):
     MainMatrix1 = [
         [
             [
-                QVBoxLayout,
                 GraphicsViews.StructureView,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignCenter,
                 (QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding),
@@ -41,22 +41,22 @@ class Matrices(Enum):
         ],
         [
             [
-                QVBoxLayout,
                 PushButtons.Save,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignCenter,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
             [
-                QVBoxLayout,
                 PushButtons.Discard,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignCenter,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
             ],
             [
-                QVBoxLayout,
                 PushButtons.Reset,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignCenter,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
@@ -64,8 +64,8 @@ class Matrices(Enum):
         ],
         [
             [
-                QVBoxLayout,
                 PushButtons.StartupPage,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignLeft,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),
@@ -73,8 +73,8 @@ class Matrices(Enum):
         ],
         [
             [
-                QVBoxLayout,
                 Labels.Copyright,
+                QVBoxLayout,
                 None,
                 Qt.AlignmentFlag.AlignLeft,
                 (QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum),

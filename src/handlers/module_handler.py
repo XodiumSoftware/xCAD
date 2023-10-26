@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import Dict, Type
+from typing import Type
 
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QGridLayout, QWidget
 
 from configs.module_configs import (
     Checkboxes,
@@ -24,15 +24,10 @@ class ModuleHandler(ModuleUtils):
     def __init__(self, matrix: Enum) -> None:
         """Initialize the class.
 
-        Attributes:
-            module_mapping (Dict[str, QWidget]):
-                A dictionary of module name and module.
-            module_visibility (Dict[str, bool]):
-                A dictionary of module name and visibility.
+        Args:
+            matrix (Enum): A matrix.
         """
         super().__init__()
-        self.module_matrix: Dict[str, QWidget] = {}
-        self.module_visibility: Dict[str, bool] = {}
 
         self.matrix(matrix)
 
@@ -42,27 +37,19 @@ class ModuleHandler(ModuleUtils):
         Args:
             matrix (Enum): A matrix.
         """
-        for row in matrix.value:
-            for column in row:
-                for module in column:
-                    if isinstance(module, Enum):
-                        self.module_matrix[module.name] = module.value
-                    else:
-                        self.module_matrix[module] = module
-
-    def module(self) -> None:
-        """Handle the module."""
-        pass
+        matrix_data = matrix.value
+        layout = QGridLayout()
+        for row, row_modules in enumerate(matrix_data):
+            for column, module_data in enumerate(row_modules):
+                layout.addWidget(self.module_data(module_data), row, column)
+        self.setLayout(layout)
 
     @staticmethod
-    def module_data(module: Type) -> Type[QWidget]:
+    def module_data(module: list[Type]) -> QWidget:
         """Handle the module data.
 
         Args:
             module (Type): A module.
-
-        Returns:
-            Type[QWidget]: A module data.
         """
         return {
             Checkboxes: CheckBoxModule,
@@ -70,4 +57,4 @@ class ModuleHandler(ModuleUtils):
             Labels: LabelModule,
             LineEdits: LineEditModule,
             PushButtons: PushButtonModule,
-        }.get(module, QWidget)
+        }.get(module, QWidget)()

@@ -1,8 +1,7 @@
 from enum import Enum
 
-from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QLabel, QPushButton, QSizePolicy
+from PySide6.QtWidgets import QLabel, QPushButton
 
 
 class PushButtonModule(QPushButton):
@@ -29,11 +28,10 @@ class PushButtonModule(QPushButton):
             self.setIcon(QIcon(value["icon_path"]))
         elif isinstance(value["title"] and value["stylesheet"], tuple):
             layout = self.layout()  # NOTE: watch out for this when errors emerge!
-            layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
             for title, stylesheet in zip(value["title"], value["stylesheet"]):
                 label = QLabel(title)
                 label.setStyleSheet(stylesheet)
-                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                label.setAlignment(layout.alignment())
                 layout.addWidget(label)
             self.setLayout(layout)
         else:
@@ -42,5 +40,3 @@ class PushButtonModule(QPushButton):
 
         if value["size"] is not None:
             self.setFixedSize(*value["size"])
-        else:
-            self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
