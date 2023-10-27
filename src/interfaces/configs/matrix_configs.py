@@ -1,9 +1,8 @@
 from enum import Enum
 
+from configs.module_configs import GraphicsViews, Labels, PushButtons
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QSizePolicy, QVBoxLayout
-
-from configs.module_configs import GraphicsViews, Labels, PushButtons
 
 
 class Matrices(Enum):

@@ -3,9 +3,9 @@ import sys
 from enum import Enum
 
 import darkdetect
+from configs.type_configs import LumberTypes
 from PySide6.QtWidgets import QMessageBox
 
-from configs.type_configs import LumberTypes
 from constants import ICONS_FOLDER_PATH
 
 
