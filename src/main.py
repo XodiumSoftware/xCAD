@@ -3,14 +3,14 @@ import sys
 import qdarktheme
 from PySide6.QtWidgets import QApplication
 
-from ui import UIS
+from interfaces.modules.main_ui_module import MainUIModule
 
 
 def run() -> int:
     """Runs the application."""
     qdarktheme.enable_hi_dpi()
     app = QApplication()
-    _ = UIS()
+    _ = MainUIModule()
     return app.exec()
 
 

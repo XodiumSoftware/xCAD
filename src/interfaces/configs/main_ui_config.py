@@ -1,7 +1,7 @@
 from constants import UI_ICON_PATH
 
 
-class MainUI:
+class MainUIConfig:
     """A class to represent the main UI."""
 
     TITLE = "AFC"

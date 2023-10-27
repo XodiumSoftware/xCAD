@@ -7,13 +7,13 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import MatrixHandler
-from interfaces.configs.main_ui_config import MainUI
+from interfaces.configs.main_ui_config import MainUIConfig
 from interfaces.configs.matrix_configs import Matrices
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
 
 
-class UIS(QMainWindow):
+class MainUIModule(QMainWindow):
     """A class to handle the UI."""
 
     def __init__(self) -> None:
@@ -33,18 +33,18 @@ class UIS(QMainWindow):
     def setup_ui(self) -> None:
         """Setup the UIs."""
         self.setup_window()
-        self.setStatusBar(StatusBarModule(MainUI.STATUSBAR))
-        self.addToolBar(ToolBarModule(MainUI.TOOLBAR))
+        self.setStatusBar(StatusBarModule(MainUIConfig.STATUSBAR))
+        self.addToolBar(ToolBarModule(MainUIConfig.TOOLBAR))
         self.setup_central_widget()
         self.setup_visibility()
         self._events_handler.quit_on_key_press_event(self)
 
     def setup_window(self) -> None:
         """Set up the main window properties."""
-        self.setWindowTitle(MainUI.TITLE)
-        self.setWindowIcon(QIcon(MainUI.ICON))
-        self.resize(*MainUI.INIT_SIZE)
-        self.setContentsMargins(*MainUI.MARGINS)
+        self.setWindowTitle(MainUIConfig.TITLE)
+        self.setWindowIcon(QIcon(MainUIConfig.ICON))
+        self.resize(*MainUIConfig.INIT_SIZE)
+        self.setContentsMargins(*MainUIConfig.MARGINS)
 
     def setup_central_widget(self) -> None:
         """Set up the central widget."""
@@ -55,7 +55,7 @@ class UIS(QMainWindow):
 
     def setup_visibility(self) -> None:
         """Set up initial visibility."""
-        self.show() if MainUI.INIT_VISIBILITY else self.hide()
+        self.show() if MainUIConfig.INIT_VISIBILITY else self.hide()
 
     def center_ui_on_screen(self) -> None:
         """Centers a QWidget on the screen."""
