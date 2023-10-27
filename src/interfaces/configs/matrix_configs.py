@@ -3,7 +3,7 @@ from enum import Enum
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QSizePolicy, QVBoxLayout
 
-from configs.module_configs import GraphicsViews, Labels, PushButtons
+from interfaces.configs.module_configs import GraphicsViews, Labels, PushButtons
 
 
 class Matrices(Enum):

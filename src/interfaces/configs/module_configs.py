@@ -5,8 +5,8 @@ from enum import Enum
 import darkdetect
 from PySide6.QtWidgets import QMessageBox
 
-from configs.type_configs import LumberTypes
 from constants import ICONS_FOLDER_PATH
+from interfaces.configs.type_configs import LumberTypes
 
 
 class Labels(Enum):

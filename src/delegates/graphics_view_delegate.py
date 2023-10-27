@@ -5,7 +5,7 @@ from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
-from interfaces.configs.settings_configs import GraphicsViewSettings
+from interfaces.settings.settings_configs import GraphicsViewSettings
 
 
 class GraphicsViewDelegate(QGraphicsView):

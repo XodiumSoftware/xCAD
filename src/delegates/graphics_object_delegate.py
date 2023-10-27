@@ -5,7 +5,7 @@ from StenLib.StenUtils import Utils
 
 from delegates.dialog_delegate import DialogDelegate
 from interfaces.configs.module_configs import Dialogs
-from interfaces.configs.settings_configs import ObjSettings
+from interfaces.settings.settings_configs import ObjSettings
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
