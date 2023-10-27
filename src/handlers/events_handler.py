@@ -4,7 +4,7 @@ from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QStackedWidget, QWidget
 
 from delegates.message_box_delegate import MessageBoxDelegate
-from interfaces.configs.module_configs import MessageBoxes
+from interfaces.configs.module_configs_OLD import MessageBoxes
 
 
 class EventsHandler:

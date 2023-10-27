@@ -1,6 +1,6 @@
 from StenLib.StenUtils import Utils
 
-from configs.type_configs import LumberTypes
+from interfaces.configs.type_configs_OLD import LumberTypes
 
 
 class ObjSettings:

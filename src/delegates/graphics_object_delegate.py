@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QGraphicsItem, QGraphicsRectItem, QGraphicsSceneMo
 from StenLib.StenUtils import Utils
 
 from delegates.dialog_delegate import DialogDelegate
-from interfaces.configs.module_configs import Dialogs
+from interfaces.configs.module_configs_OLD import Dialogs
 from interfaces.settings.settings_configs import ObjSettings
 
 
