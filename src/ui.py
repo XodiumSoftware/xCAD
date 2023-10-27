@@ -3,20 +3,14 @@ from typing import List
 import qdarktheme
 from PySide6.QtCore import QPoint
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QStackedWidget,
-    QToolBar,
-    QWidget,
-)
+from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 
-from configs.interfaces.main_ui_config import MainUI
-from configs.matrix_configs import Matrices
 from handlers.events_handler import EventsHandler
 from handlers.module_handler import MatrixHandler
-from modules.status_bar_module import StatusBarModule
-from modules.tool_bar_module import ToolBarModule
+from interfaces.configs.main_ui_config import MainUI
+from interfaces.configs.matrix_configs import Matrices
+from interfaces.modules.status_bar_module import StatusBarModule
+from interfaces.modules.tool_bar_module import ToolBarModule
 
 
 class UIS(QMainWindow):

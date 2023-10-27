@@ -3,8 +3,8 @@ from functools import partial
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QStackedWidget, QWidget
 
-from configs.module_configs import MessageBoxes
 from delegates.message_box_delegate import MessageBoxDelegate
+from interfaces.configs.module_configs import MessageBoxes
 
 
 class EventsHandler:

@@ -19,9 +19,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from configs.module_configs import ColorDialogs, InputDialogs
 from delegates.color_dialog_delegate import ColorDialogDelegate
 from delegates.input_dialog_delegate import InputDialogDelegate
+from interfaces.configs.module_configs import ColorDialogs, InputDialogs
 
 
 class DialogDelegate(QDialog):

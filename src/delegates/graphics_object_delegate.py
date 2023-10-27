@@ -3,9 +3,9 @@ from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsItem, QGraphicsRectItem, QGraphicsSceneMouseEvent
 from StenLib.StenUtils import Utils
 
-from configs.module_configs import Dialogs
-from configs.settings_configs import ObjSettings
 from delegates.dialog_delegate import DialogDelegate
+from interfaces.configs.module_configs import Dialogs
+from interfaces.configs.settings_configs import ObjSettings
 
 
 class GraphicsObjectDelegate(QGraphicsRectItem):
