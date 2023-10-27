@@ -3,8 +3,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from handlers.events_handler import EventsHandler
-from handlers.module_handler import MatrixHandler
-from interfaces.configs.matrix_configs import MainUIMatrixConfig
+from handlers.matrix_handler import MainUIMatrixConfig, MatrixHandler
 from interfaces.configs.ui_configs import MainUIConfig
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
@@ -18,7 +17,7 @@ class MainUIModule(QMainWindow):
         super().__init__()
         qdarktheme.setup_theme("auto")
 
-        self._main_module_0 = MatrixHandler(MainUIMatrixConfig)
+        self._main_module_0 = MatrixHandler(MainUIMatrixConfig.Matrix)
 
         self._events_handler = EventsHandler()
 
