@@ -21,7 +21,8 @@ from PySide6.QtWidgets import (
 
 from delegates.color_dialog_delegate import ColorDialogDelegate
 from delegates.input_dialog_delegate import InputDialogDelegate
-from interfaces.configs.module_configs_OLD import ColorDialogs, InputDialogs
+from interfaces.configs.color_dialog_configs import DefaultColorDialog
+from interfaces.configs.input_dialog_configs import LumberDialog
 
 
 class DialogDelegate(QDialog):
@@ -226,7 +227,7 @@ class DialogDelegate(QDialog):
                         input_widget.clicked.connect(
                             partial(
                                 InputDialogDelegate,
-                                InputDialogs.LumberDialog.value,
+                                LumberDialog(),
                                 input_widget,
                             )
                         )
@@ -239,7 +240,7 @@ class DialogDelegate(QDialog):
                         input_widget.clicked.connect(
                             partial(
                                 ColorDialogDelegate,
-                                ColorDialogs.ColorDialog.value,
+                                DefaultColorDialog(),
                                 input_widget,
                             )
                         )

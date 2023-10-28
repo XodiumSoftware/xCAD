@@ -1,5 +1,7 @@
 from PySide6.QtGui import QAction, QIcon
 
+# TODO: this file
+
 
 class ToolBarModule(QAction):
     """A class used to represent a action module."""

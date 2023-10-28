@@ -1,26 +1,28 @@
-from enum import Enum
-
 from PySide6.QtWidgets import QLineEdit
+
+from interfaces.configs.line_edit_configs import LineEditTypeHints
 
 
 class LineEditModule(QLineEdit):
     """A class to represent a label module."""
 
-    def __init__(self, configs: Enum) -> None:
+    def __init__(self, configs: LineEditTypeHints) -> None:
         """Initialize the class.
 
         Args:
-            configs (Enum): A configuration.
+            configs (LineEditTypeHints): A configuration.
         """
         super().__init__()
         self.setup_props(configs)
 
-    def setup_props(self, configs: Enum) -> None:
+    def setup_props(self, configs: LineEditTypeHints) -> None:
         """Setup the properties.
 
         Args:
-            configs (Enum): A configuration.
+            configs (LineEditTypeHints): A configuration.
         """
-        value = configs.value
-        self.setStyleSheet(value["stylesheet"])
-        self.setPlaceholderText(value["placeholder"])
+        self.setPlaceholderText(configs.Placeholder)
+        self.setStyleSheet(configs.Stylesheet)
+        self.setLayout(configs.Layout)
+        self.setAlignment(configs.Alignment)
+        self.setSizePolicy(*configs.SizePolicy)

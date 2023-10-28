@@ -3,6 +3,8 @@ from typing import List, Optional
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QToolBar
 
+# TODO: this file
+
 
 class ToolBarModule(QToolBar):
     """A class used to represent a toolbar module."""

@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
 
@@ -12,11 +10,11 @@ class LabelTypeHints:
     Layout: QLayout
     Margin: int
     Alignment: Qt.AlignmentFlag
-    SizePolicy: Tuple[QSizePolicy.Policy, QSizePolicy.Policy]
+    SizePolicy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
 
 
 class CopyrightLabelConfig(LabelTypeHints):
-    """A class used to represent a label configuration."""
+    """A class used to represent a label config."""
 
     Title = "© 2023 Qerimi Engineering. All rights reserved."
     Stylesheet = "QLabel { font-size: 12px; font-style: italic; }"

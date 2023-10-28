@@ -1,18 +1,22 @@
-from enum import Enum
-
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QSizePolicy, QVBoxLayout
 
 
-class ToggleStartupPageCheckBoxConfig(Enum):
-    """A class used to represent a checkbox widget"""
+class CheckBoxTypeHints:
+    """A class used to represent checkbox type hints."""
+
+    Title: str
+    Stylesheet: str
+    Layout: QVBoxLayout
+    SizePolicy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
+
+
+class ToggleStartupPageCheckBoxConfig(CheckBoxTypeHints):
+    """A class used to represent a checkbox config."""
 
     Title = "Toggle startup page"
-    Layout = QVBoxLayout
-    Margins = None
-    Alignment = Qt.AlignmentFlag.AlignBottom
+    Stylesheet = "QCheckBox { font-size: 12px; }"
+    Layout = QVBoxLayout()
     SizePolicy = (
         QSizePolicy.Policy.Minimum,
         QSizePolicy.Policy.Minimum,
     )
-    Stylesheet = "QCheckBox { font-size: 12px; }"

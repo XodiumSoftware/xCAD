@@ -8,6 +8,8 @@ from interfaces.configs.ui_configs import MainUIConfig
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
 
+# TODO: this file
+
 
 class MainUIModule(QMainWindow):
     """A class to handle the UI."""

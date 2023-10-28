@@ -1,21 +1,34 @@
 import os
-from enum import Enum
+from typing import LiteralString, Optional
 
 import darkdetect
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QSizePolicy, QVBoxLayout
+from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
 
 from constants import ICONS_FOLDER_PATH
 
 
-class AutoFrameCADPushButtonConfig(Enum):
+class PushButtonTypeHints:
+    """A class used to represent pushbutton type hints."""
+
+    Title: str | tuple[str, str]
+    Icon_path: Optional[tuple[LiteralString]]
+    Size: Optional[list]
+    Layout: QLayout
+    Margin: int
+    Alignment: Qt.AlignmentFlag
+    SizePolicy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
+    Stylesheet: str | tuple[str, str]
+
+
+class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
     """A class used to represent a pushbutton widget"""
 
     Title = ("AutoFrameCAD", "Click on title to start!")
     Icon_path = None
     Size = None
-    Layout = QVBoxLayout
-    Margins = None
+    Layout = QVBoxLayout()
+    Margin = 0
     Alignment = Qt.AlignmentFlag.AlignBottom
     SizePolicy = (
         QSizePolicy.Policy.Minimum,
@@ -27,14 +40,14 @@ class AutoFrameCADPushButtonConfig(Enum):
     )
 
 
-class SavePushButtonConfig(Enum):
+class SavePushButtonConfig(PushButtonTypeHints):
     """A class used to represent a pushbutton widget"""
 
     Title = "Save"
     Icon_path = None
     Size = [50, 30]
-    Layout = QVBoxLayout
-    Margins = None
+    Layout = QVBoxLayout()
+    Margin = 0
     Alignment = Qt.AlignmentFlag.AlignBottom
     SizePolicy = (
         QSizePolicy.Policy.Minimum,
@@ -43,14 +56,14 @@ class SavePushButtonConfig(Enum):
     Stylesheet = "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}"
 
 
-class DiscardPushButtonConfig(Enum):
+class DiscardPushButtonConfig(PushButtonTypeHints):
     """A class used to represent a pushbutton widget"""
 
     Title = "Discard"
     Icon_path = None
     Size = [50, 30]
-    Layout = QVBoxLayout
-    Margins = None
+    Layout = QVBoxLayout()
+    Margin = 0
     Alignment = Qt.AlignmentFlag.AlignBottom
     SizePolicy = (
         QSizePolicy.Policy.Minimum,
@@ -59,14 +72,14 @@ class DiscardPushButtonConfig(Enum):
     Stylesheet = "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}"
 
 
-class ResetPushButtonConfig(Enum):
+class ResetPushButtonConfig(PushButtonTypeHints):
     """A class used to represent a pushbutton widget"""
 
     Title = "Reset"
     Icon_path = None
     Size = [50, 30]
-    Layout = QVBoxLayout
-    Margins = None
+    Layout = QVBoxLayout()
+    Margin = 0
     Alignment = Qt.AlignmentFlag.AlignBottom
     SizePolicy = (
         QSizePolicy.Policy.Minimum,
@@ -75,7 +88,7 @@ class ResetPushButtonConfig(Enum):
     Stylesheet = "QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}"
 
 
-class StartupPagePushButtonConfig(Enum):
+class StartupPagePushButtonConfig(PushButtonTypeHints):
     """A class used to represent a pushbutton widget"""
 
     Title = "Startup page"
@@ -86,8 +99,8 @@ class StartupPagePushButtonConfig(Enum):
         ),
     )
     Size = [30, 30]
-    Layout = QVBoxLayout
-    Margins = None
+    Layout = QVBoxLayout()
+    Margin = 0
     Alignment = Qt.AlignmentFlag.AlignBottom
     SizePolicy = (
         QSizePolicy.Policy.Minimum,

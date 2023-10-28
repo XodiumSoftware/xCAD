@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QStatusBar
 
+# TODO: this file
+
 
 class StatusBarModule(QStatusBar):
     """A class used to represent a statusbar module."""

@@ -1,30 +1,32 @@
-from enum import Enum
-
 from PySide6.QtWidgets import QDoubleSpinBox
+
+from interfaces.configs.double_spin_box_configs import DoubleSpinBoxTypeHints
 
 
 class DoubleSpinBoxModule(QDoubleSpinBox):
     """A class to represent a label module."""
 
-    def __init__(self, configs: Enum) -> None:
+    def __init__(self, configs: DoubleSpinBoxTypeHints) -> None:
         """Initialize the class.
 
         Args:
-            configs (Enum): A configuration.
+            configs (DoubleSpinBoxTypeHints): A configuration.
         """
         super().__init__()
         self.setup_props(configs)
 
-    def setup_props(self, configs: Enum) -> None:
+    def setup_props(self, configs: DoubleSpinBoxTypeHints) -> None:
         """Setup the properties.
 
         Args:
-            configs (Enum): A configuration.
+            configs (DoubleSpinBoxTypeHints): A configuration.
         """
-        value = configs.value
-        self.setStyleSheet(value["stylesheet"])
-        self.setMinimum(value["min_value"])
-        self.setMaximum(value["max_value"])
-        self.setValue(value["default_value"])
-        self.setSingleStep(value["step"])
-        self.setSuffix(value["suffix"])
+        self.setStyleSheet(configs.Stylesheet)
+        self.setMinimum(configs.Min_value)
+        self.setMaximum(configs.Max_value)
+        self.setValue(configs.Default_value)
+        self.setSingleStep(configs.Step)
+        self.setSuffix(configs.Suffix)
+        self.setLayout(configs.Layout)
+        self.setAlignment(configs.Alignment)
+        self.setSizePolicy(*configs.SizePolicy)
