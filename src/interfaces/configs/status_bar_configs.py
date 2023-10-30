@@ -13,7 +13,7 @@ class StatusBarTypeHints:
 class MainUIStatusBarConfig(StatusBarTypeHints):
     """A class used to represent a status bar config."""
 
-    Status_tip = ""
+    Status_tip = "TODO: implement this."
     Stylesheet = "color: #fff;"
     Layout = QVBoxLayout()
     SizePolicy = (
