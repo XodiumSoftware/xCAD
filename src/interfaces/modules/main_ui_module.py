@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from handlers.events_handler import EventsHandler
 from interfaces.configs.label_configs import CopyrightLabelConfig
 from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
+from interfaces.configs.tool_bar_configs import MainUIToolBarConfig
 from interfaces.configs.ui_configs import MainUIConfig
 from interfaces.modules.label_module import LabelModule
 from interfaces.modules.status_bar_module import StatusBarModule
@@ -31,7 +32,7 @@ class MainUIModule(QMainWindow):
         """Setup the UIs."""
         self.setup_window()
         self.setStatusBar(StatusBarModule(MainUIStatusBarConfig()))
-        self.addToolBar(ToolBarModule(MainUIConfig.TOOLBAR))
+        self.addToolBar(ToolBarModule(MainUIToolBarConfig()))
         self.setup_central_widget()
         self.setup_visibility()
         self._events_handler.quit_on_key_press_event(self)

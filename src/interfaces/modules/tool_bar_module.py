@@ -1,34 +1,39 @@
-from typing import List, Optional
+from typing import Optional
 
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QToolBar
 
-# TODO: this file
+from interfaces.configs.tool_bar_configs import ToolBarTypeHints
 
 
 class ToolBarModule(QToolBar):
     """A class used to represent a toolbar module."""
 
-    def __init__(self, data: str, action: Optional[List[QAction]] = None) -> None:
+    def __init__(
+        self, configs: ToolBarTypeHints, action: Optional[list[QAction]] = None
+    ) -> None:
         """Initialize the class.
 
         Args:
-            data (str): A configuration.
-            action (List[str]): List of actions.
+            configs (ToolBarTypeHints): A configuration.
+            action (list[QAction]): list of actions.
         """
         super().__init__()
-        self.setup_props(data, action)
+        self.setup_props(configs, action)
 
     def setup_props(
-        self, data: str, action: Optional[List[QAction]] = None
-    ) -> None:  # TODO
+        self, configs: ToolBarTypeHints, action: Optional[list[QAction]] = None
+    ) -> None:
         """Setup the properties.
 
         Args:
-            data (str): A configuration.
-            action (List[str]): List of actions.
+            configs (ToolBarTypeHints): A configuration.
+            action (list[QAction]): list of actions.
         """
-        self.setWindowTitle(data)
+        self.setWindowTitle(configs.Title)
+        self.setStyleSheet(configs.Stylesheet)
+        self.setLayout(configs.Layout)
+        self.setSizePolicy(*configs.SizePolicy)
 
         if action:
             for actions in action:

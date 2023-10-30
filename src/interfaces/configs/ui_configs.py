@@ -23,4 +23,3 @@ class MainUIConfig(MainUITypeHints):
     INIT_SIZE = (600, 400)
     INIT_VISIBILITY = True
     MARGINS = (10, 10, 10, 10)
-    TOOLBAR = "TODO: implement this."  # TODO: add functionality to this.
