@@ -2,6 +2,7 @@ from PySide6.QtGui import QColor, QIcon, QPalette
 from PySide6.QtWidgets import QColorDialog, QPushButton
 
 
+# TODO
 class ColorDialogDelegate(QColorDialog):
     """A class to represent a color dialog delegate."""
 

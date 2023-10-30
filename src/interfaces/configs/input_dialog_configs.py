@@ -18,7 +18,7 @@ class InputDialogTypeHints:
     Data: list
 
 
-class LumberDialog(InputDialogTypeHints):
+class LumberTypeConfig(InputDialogTypeHints):
     """A class used to represent a input dialog config."""
 
     Title = "Select Lumber Type"

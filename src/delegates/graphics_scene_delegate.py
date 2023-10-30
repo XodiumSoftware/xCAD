@@ -4,6 +4,7 @@ from delegates.graphics_object_delegate import GraphicsObjectDelegate
 from interfaces.settings.settings_configs import FrameSettings, ObjSettings
 
 
+# TODO
 class GraphicsSceneDelegate(QGraphicsScene):
     """A class to represent a graphics scene delegate."""
 

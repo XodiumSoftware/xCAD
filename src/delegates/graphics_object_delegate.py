@@ -8,6 +8,7 @@ from interfaces.configs.dialog_configs import ObjectDialog
 from interfaces.settings.settings_configs import ObjSettings
 
 
+# TODO
 class GraphicsObjectDelegate(QGraphicsRectItem):
     """A class to represent a graphics object delegate."""
 

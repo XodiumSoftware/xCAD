@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QGraphicsView
 from delegates.graphics_scene_delegate import GraphicsSceneDelegate
 from interfaces.settings.settings_configs import GraphicsViewSettings
 
+# TODO
+
 
 class GraphicsViewDelegate(QGraphicsView):
     """A class to represent a graphics view delegate."""

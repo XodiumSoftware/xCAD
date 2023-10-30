@@ -20,9 +20,11 @@ from PySide6.QtWidgets import (
 )
 
 from delegates.color_dialog_delegate import ColorDialogDelegate
-from delegates.input_dialog_delegate import InputDialogDelegate
 from interfaces.configs.color_dialog_configs import DefaultColorDialog
-from interfaces.configs.input_dialog_configs import LumberDialog
+from interfaces.configs.input_dialog_configs import LumberTypeConfig
+from interfaces.modules.input_dialog_module import InputDialogModule
+
+# TODO
 
 
 class DialogDelegate(QDialog):
@@ -225,12 +227,9 @@ class DialogDelegate(QDialog):
                     if prop_data[0]["content"] == "Type:":
                         input_widget.setText(prop_data[1]["content"])
                         input_widget.clicked.connect(
-                            partial(
-                                InputDialogDelegate,
-                                LumberDialog(),
-                                input_widget,
-                            )
+                            lambda: InputDialogModule(LumberTypeConfig(), input_widget)
                         )
+
                     else:
                         input_widget.setStyleSheet(
                             f"background-color: {prop_data[1]['content']};"
