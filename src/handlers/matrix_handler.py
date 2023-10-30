@@ -1,6 +1,6 @@
 from typing import List, Type
 
-from PySide6.QtWidgets import QGridLayout, QWidget
+from PySide6.QtWidgets import QGridLayout, QStackedWidget, QWidget
 
 from interfaces.configs.label_configs import CopyrightLabelConfig
 from interfaces.modules.label_module import LabelModule
@@ -45,3 +45,8 @@ class MatrixHandler(QWidget):
                 for item in col:
                     layout.addWidget(item, row_idx, col_idx)
         self.setLayout(layout)
+
+    @staticmethod
+    def switch_modules_on_event(module: QStackedWidget) -> None:
+        """Switches the current module in a QStackedWidget."""
+        module.setCurrentIndex((module.currentIndex() + 1) % module.count())

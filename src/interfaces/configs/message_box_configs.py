@@ -14,6 +14,7 @@ class MessageBoxTypeHints:
     Icon_type: QMessageBox.Icon
     Size: Optional[list]
     Text: str
+    Standard_buttons: QMessageBox.StandardButton
 
 
 class QuitMessageBox(MessageBoxTypeHints):
@@ -24,3 +25,4 @@ class QuitMessageBox(MessageBoxTypeHints):
     Icon_type = QMessageBox.Icon.Warning
     Size = None
     Text = "<b>Are you sure you want to quit the application?</b><br>Any unsaved changes will be lost!"
+    Standard_buttons = QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No

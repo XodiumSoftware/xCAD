@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QStatusBar
 
-# TODO: this file
 from interfaces.configs.status_bar_configs import StatusBarTypeHints
 
 

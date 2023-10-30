@@ -1,25 +1,32 @@
-from constants import UI_ICON_PATH
-
 # TODO: this file
 
+from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
 
-class MainUITypeHints:
+from constants import UI_ICON_PATH
+
+
+class UITypeHints:
     """A class used to represent main UI type hints."""
 
-    TITLE: str
-    ICON: str
-    INIT_SIZE: tuple[int, int]
-    INIT_VISIBILITY: bool
-    MARGINS: tuple[int, int, int, int]
-    TOOLBAR: str
-    STATUSBAR: str
+    Title: str
+    Layout: QLayout
+    Icon_path: str
+    Init_size: tuple[int, int]
+    Init_visibility: bool
+    Content_margins: tuple[int, int, int, int]
+    SizePolicy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
 
 
-class MainUIConfig(MainUITypeHints):
+class MainUIConfig(UITypeHints):
     """A class to represent the main UI."""
 
-    TITLE = "AFC"
-    ICON = UI_ICON_PATH
-    INIT_SIZE = (600, 400)
-    INIT_VISIBILITY = True
-    MARGINS = (10, 10, 10, 10)
+    Title = "AFC"
+    Layout = QVBoxLayout()
+    Icon_path = UI_ICON_PATH
+    Init_size = (600, 400)
+    Init_visibility = True
+    Content_margins = (10, 10, 10, 10)
+    SizePolicy = (
+        QSizePolicy.Policy.Minimum,
+        QSizePolicy.Policy.Minimum,
+    )
