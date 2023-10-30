@@ -1,5 +1,3 @@
-# TODO: this file
-
 from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
 
 from constants import UI_ICON_PATH

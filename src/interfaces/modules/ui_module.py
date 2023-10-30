@@ -1,6 +1,4 @@
 import qdarktheme
-
-# TODO: this file
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
