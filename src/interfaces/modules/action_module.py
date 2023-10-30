@@ -1,25 +1,25 @@
-from PySide6.QtGui import QAction, QIcon
+from PySide6.QtGui import QAction
 
-# TODO: this file
+from interfaces.configs.action_configs import ActionTypeHints
 
 
-class ToolBarModule(QAction):
+class ActionModule(QAction):
     """A class used to represent a action module."""
 
-    def __init__(self, data: str) -> None:
+    def __init__(self, configs: ActionTypeHints) -> None:
         """Initialize the class.
 
         Args:
-            data (str): A configuration.
+            configs (ActionTypeHints): A configuration.
         """
         super().__init__()
-        self.setup_props(data)
+        self.setup_props(configs)
 
-    def setup_props(self, data: str) -> None:
+    def setup_props(self, configs: ActionTypeHints) -> None:
         """Setup the properties.
 
         Args:
-            data (str): A configuration.
+            configs (ActionTypeHints): A configuration.
         """
-        self.setIcon(QIcon("icon.png"))
-        self.setToolTip("Tooltip text")
+        self.setIcon(configs.Icon)
+        self.setToolTip(configs.Tooltip)
