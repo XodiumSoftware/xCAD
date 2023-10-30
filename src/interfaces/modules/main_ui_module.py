@@ -1,9 +1,11 @@
 import qdarktheme
+from label_module import LabelModule
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from handlers.events_handler import EventsHandler
-from handlers.matrix_handler import MainUIMatrixConfig, MatrixHandler
+from interfaces.configs.label_configs import CopyrightLabelConfig
+from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
 from interfaces.configs.ui_configs import MainUIConfig
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
@@ -19,7 +21,7 @@ class MainUIModule(QMainWindow):
         super().__init__()
         qdarktheme.setup_theme("auto")
 
-        self._main_module_0 = MatrixHandler(MainUIMatrixConfig.Matrix)
+        self._main_module_0 = LabelModule(CopyrightLabelConfig())
 
         self._events_handler = EventsHandler()
 
@@ -28,7 +30,7 @@ class MainUIModule(QMainWindow):
     def setup_ui(self) -> None:
         """Setup the UIs."""
         self.setup_window()
-        self.setStatusBar(StatusBarModule(MainUIConfig.STATUSBAR))
+        self.setStatusBar(StatusBarModule(MainUIStatusBarConfig()))
         self.addToolBar(ToolBarModule(MainUIConfig.TOOLBAR))
         self.setup_central_widget()
         self.setup_visibility()
