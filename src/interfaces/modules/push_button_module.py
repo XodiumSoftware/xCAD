@@ -1,44 +1,40 @@
-from enum import Enum
-
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLabel, QPushButton
 
-# TODO: this file
+from interfaces.configs.push_button_configs import PushButtonTypeHints
 
 
 class PushButtonModule(QPushButton):
     """A class used to represent a push button module."""
 
-    def __init__(self, configs: Enum) -> None:
+    def __init__(self, configs: PushButtonTypeHints) -> None:
         """Initialize the class.
 
         Args:
-            configs (Enum): A configuration.
+            configs (PushButtonTypeHints): A configuration.
         """
         super().__init__()
         self.setup_props(configs)
 
-    def setup_props(self, configs: Enum) -> None:
+    def setup_props(self, configs: PushButtonTypeHints) -> None:
         """Setup the properties.
 
         Args:
-            configs (Enum): A configuration.
+            configs (PushButtonTypeHints): A configuration.
         """
-        value = configs.value
-        self.setStyleSheet(value["stylesheet"])
-        if value["icon_path"]:
-            self.setIcon(QIcon(value["icon_path"]))
-        elif isinstance(value["title"] and value["stylesheet"], tuple):
+        if configs.Icon_path:
+            self.setIcon(configs.Icon_path)
+
+        if isinstance(configs.Title, str) and isinstance(configs.Stylesheet, str):
+            self.setText(configs.Title)
+            self.setStyleSheet(configs.Stylesheet)
+        else:
             layout = self.layout()  # NOTE: watch out for this when errors emerge!
-            for title, stylesheet in zip(value["title"], value["stylesheet"]):
+            for title, stylesheet in zip(configs.Title, configs.Stylesheet):
                 label = QLabel(title)
                 label.setStyleSheet(stylesheet)
                 label.setAlignment(layout.alignment())
                 layout.addWidget(label)
             self.setLayout(layout)
-        else:
-            self.setText(value["title"])
-            self.setStyleSheet(value["stylesheet"])
 
-        if value["size"] is not None:
-            self.setFixedSize(*value["size"])
+        if configs.Size is not None:
+            self.setFixedSize(*configs.Size)
