@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QIcon
 
 from interfaces.configs.action_configs import ActionTypeHints
 
@@ -21,5 +21,5 @@ class ActionModule(QAction):
         Args:
             configs (ActionTypeHints): A configuration.
         """
-        self.setIcon(configs.Icon)
+        self.setIcon(QIcon(configs.Icon))
         self.setToolTip(configs.Tooltip)

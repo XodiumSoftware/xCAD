@@ -2,11 +2,13 @@ import qdarktheme
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
+from interfaces.configs.action_configs import DefaultActionConfig
 from interfaces.configs.label_configs import CopyrightLabelConfig
 from interfaces.configs.message_box_configs import QuitMessageBox
 from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
 from interfaces.configs.tool_bar_configs import MainUIToolBarConfig
 from interfaces.configs.ui_configs import UITypeHints
+from interfaces.modules.action_module import ActionModule
 from interfaces.modules.label_module import LabelModule
 from interfaces.modules.message_box_module import MessageBoxDelegate
 from interfaces.modules.status_bar_module import StatusBarModule
@@ -41,7 +43,14 @@ class MainUIModule(QMainWindow):
         self.setContentsMargins(*configs.Content_margins)
         self.setSizePolicy(*configs.SizePolicy)
         self.setStatusBar(StatusBarModule(MainUIStatusBarConfig()))
-        self.addToolBar(ToolBarModule(MainUIToolBarConfig()))
+        self.addToolBar(
+            ToolBarModule(
+                MainUIToolBarConfig(),
+                ActionModule(
+                    DefaultActionConfig(),
+                ),
+            )
+        )
         self.setup_central_widget()
         self.quit_on_key_press_event()
 
