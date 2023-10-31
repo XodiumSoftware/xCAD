@@ -1,46 +1,29 @@
-from typing import List, Type
+from PySide6.QtWidgets import QStackedWidget, QWidget
 
-from PySide6.QtWidgets import QGridLayout, QStackedWidget, QWidget
-
-from interfaces.configs.label_configs import CopyrightLabelConfig
-from interfaces.modules.label_module import LabelModule
-
-# TODO
-
-
-class MainUIMatrixConfig:
-    """A class used to represent the main UI matrix config"""
-
-    Matrix = [
-        [
-            [
-                LabelModule(CopyrightLabelConfig()),
-            ],
-        ],
-    ]
+from interfaces.configs.matrix_configs import MatrixTypeHints
 
 
 class MatrixModule(QWidget):
     """A class to handle the matrices."""
 
-    def __init__(self, matrix: List[List[List[Type]]]) -> None:
+    def __init__(self, configs: MatrixTypeHints) -> None:
         """Initialize the class.
 
         Args:
-            matrix (type): A matrix.
+            configs (MatrixTypeHints): A configuration.
         """
         super().__init__()
 
-        self.matrix(matrix)
+        self.matrix(configs)
 
-    def matrix(self, matrix: List[List[List[Type]]]) -> None:
+    def matrix(self, configs: MatrixTypeHints) -> None:
         """Handle the matrix.
 
         Args:
-            matrix (type): A matrix.
+            configs (MatrixTypeHints): A configuration.
         """
-        layout = QGridLayout()
-        for row_idx, row in enumerate(matrix):
+        layout = configs.Layout
+        for row_idx, row in enumerate(configs.Matrix):
             for col_idx, col in enumerate(row):
                 for item in col:
                     layout.addWidget(item, row_idx, col_idx)

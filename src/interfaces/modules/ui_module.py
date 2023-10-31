@@ -3,13 +3,13 @@ from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from interfaces.configs.action_configs import DefaultActionConfig
-from interfaces.configs.label_configs import CopyrightLabelConfig
+from interfaces.configs.matrix_configs import MainUIMatrixConfig
 from interfaces.configs.message_box_configs import QuitMessageBox
 from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
 from interfaces.configs.tool_bar_configs import MainUIToolBarConfig
 from interfaces.configs.ui_configs import UITypeHints
 from interfaces.modules.action_module import ActionModule
-from interfaces.modules.label_module import LabelModule
+from interfaces.modules.matrix_module import MatrixModule
 from interfaces.modules.message_box_module import MessageBoxDelegate
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
@@ -57,7 +57,9 @@ class MainUIModule(QMainWindow):
     def setup_central_widget(self) -> None:
         """Set up the central widget."""
         self._main_modules_stack = QStackedWidget(self)
-        self._main_modules_stack.addWidget(LabelModule(CopyrightLabelConfig()))
+        self._main_modules_stack.addWidget(
+            MatrixModule(MainUIMatrixConfig())
+        )  # ERROR: QWidget: Must construct a QApplication before a QWidget
         self.setCentralWidget(self._main_modules_stack)
 
     def setup_visibility(self, configs: UITypeHints) -> None:
