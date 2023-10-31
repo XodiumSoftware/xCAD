@@ -17,9 +17,9 @@ class ColorDialogModule(QColorDialog):
             input_module (QPushButton): The input module.
         """
         super().__init__()
-        self.properties(configs, input_module)
+        self.setup_props(configs, input_module)
 
-    def properties(
+    def setup_props(
         self, configs: ColorDialogTypeHints, input_module: QPushButton
     ) -> None:
         """Setup the color dialog module.

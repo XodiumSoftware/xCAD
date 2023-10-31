@@ -1,3 +1,18 @@
+from dataclasses import dataclass
+
+
+@dataclass(
+    init=True,
+    repr=True,
+    eq=True,
+    order=True,
+    unsafe_hash=False,
+    frozen=True,
+    match_args=True,
+    kw_only=False,
+    slots=True,
+    weakref_slot=False,
+)
 class LumberTypes:
     """A class to represent different types of lumber."""
 

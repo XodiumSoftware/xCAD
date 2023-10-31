@@ -14,9 +14,9 @@ class MessageBoxDelegate(QMessageBox):
             configs (MessageBoxTypeHints): A configuration.
         """
         super().__init__()
-        self.properties(configs)
+        self.setup_props(configs)
 
-    def properties(self, configs: MessageBoxTypeHints) -> None:
+    def setup_props(self, configs: MessageBoxTypeHints) -> None:
         """Setup the message box module.
 
         Args:

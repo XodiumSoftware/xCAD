@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 from interfaces.configs.color_dialog_configs import DefaultColorDialog
+from interfaces.configs.dialog_configs import DialogTypeHints
 from interfaces.configs.input_dialog_configs import LumberTypeConfig
 from interfaces.modules.color_dialog_module import ColorDialogModule
 from interfaces.modules.input_dialog_module import InputDialogModule
@@ -27,20 +28,34 @@ from interfaces.modules.input_dialog_module import InputDialogModule
 # TODO
 
 
-class DialogDelegate(QDialog):
-    """A class to represent a self delegate."""
+class DialogModule(QDialog):
+    """A class to represent a dialog module."""
 
-    def __init__(self, module_data: dict, obj: QGraphicsRectItem, obj_id: str) -> None:
-        """Initialize the self delegate."""
-        super().__init__()
-        self.setup_dialog(module_data, obj, obj_id)
-
-    def setup_dialog(
-        self, module_data: dict, obj: QGraphicsRectItem, obj_id: str
+    def __init__(
+        self, configs: DialogTypeHints, obj: QGraphicsRectItem, obj_id: str
     ) -> None:
-        """Setup the self."""
-        self.setWindowTitle(module_data["title"])
-        self.setWindowIcon(QIcon(module_data["icon_path"]))
+        """Initialize the dialog module.
+
+        Args:
+            configs (DialogTypeHints): The dialog configs.
+            obj (QGraphicsRectItem): The object.
+            obj_id (str): The object id.
+        """
+        super().__init__()
+        self.setup_props(configs, obj, obj_id)
+
+    def setup_props(
+        self, configs: DialogTypeHints, obj: QGraphicsRectItem, obj_id: str
+    ) -> None:
+        """Setup the dialog module.
+
+        Args:
+            configs (DialogTypeHints): The dialog configs.
+            obj (QGraphicsRectItem): The object.
+            obj_id (str): The object id.
+        """
+        self.setWindowTitle(configs.Title)
+        self.setWindowIcon(QIcon(configs.Icon_path))
 
         layout = QVBoxLayout(self)
 

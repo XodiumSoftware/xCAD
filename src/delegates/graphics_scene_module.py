@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QGraphicsScene
 
-from delegates.graphics_object_delegate import GraphicsObjectDelegate
+from interfaces.configs.graphics_object_configs import GraphicsObjectConfig
+from interfaces.modules.graphics_object_module import GraphicsObjectModule
 from interfaces.settings.settings_configs import FrameSettings, ObjSettings
 
 
@@ -52,6 +53,6 @@ class GraphicsSceneDelegate(QGraphicsScene):
         scene: QGraphicsScene, posx: int, posy: int, dimx: int, dimy: int, rad: int
     ) -> None:
         """Add a stud to the scene."""
-        stud = GraphicsObjectDelegate(posx, posy, dimx, dimy, rad)
+        stud = GraphicsObjectModule(GraphicsObjectConfig(), posx, posy, dimx, dimy, rad)
 
         scene.addItem(stud)

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QGridLayout, QStackedWidget, QWidget
 from interfaces.configs.label_configs import CopyrightLabelConfig
 from interfaces.modules.label_module import LabelModule
 
-# TODO: this file
+# TODO
 
 
 class MainUIMatrixConfig:
@@ -20,7 +20,7 @@ class MainUIMatrixConfig:
     ]
 
 
-class MatrixHandler(QWidget):
+class MatrixModule(QWidget):
     """A class to handle the matrices."""
 
     def __init__(self, matrix: List[List[List[Type]]]) -> None:

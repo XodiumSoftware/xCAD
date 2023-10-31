@@ -43,7 +43,7 @@ class MainUIModule(QMainWindow):
         self.setStatusBar(StatusBarModule(MainUIStatusBarConfig()))
         self.addToolBar(ToolBarModule(MainUIToolBarConfig()))
         self.setup_central_widget()
-        self._events = self.quit_on_key_press_event()
+        self.quit_on_key_press_event()
 
     def setup_central_widget(self) -> None:
         """Set up the central widget."""
