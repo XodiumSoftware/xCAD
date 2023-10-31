@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 from interfaces.configs.message_box_configs import MessageBoxTypeHints
 
 
-class MessageBoxDelegate(QMessageBox):
+class MessageBoxModule(QMessageBox):
     """A class to represent a message box module."""
 
     def __init__(self, configs: MessageBoxTypeHints) -> None:

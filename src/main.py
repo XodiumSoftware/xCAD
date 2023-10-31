@@ -10,7 +10,7 @@ from interfaces.modules.ui_module import MainUIModule
 def run() -> int:
     """Runs the application."""
     qdarktheme.enable_hi_dpi()
-    app = QApplication()
+    app = QApplication([])
     _ = MainUIModule(MainUIConfig())
     return app.exec()
 

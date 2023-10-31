@@ -16,11 +16,14 @@ class MatrixTypeHints:
 class MainUIMatrixConfig(MatrixTypeHints):
     """A class used to represent a matrix config."""
 
-    Layout = QGridLayout()
-    Matrix = (
-        [
+    @property
+    def Layout(self) -> QGridLayout:
+        return QGridLayout()
+
+    @property
+    def Matrix(self) -> tuple[list[list[Type]]]:
+        return (
             [
-                LabelModule(CopyrightLabelConfig()),
+                [LabelModule(CopyrightLabelConfig())],
             ],
-        ],
-    )
+        )

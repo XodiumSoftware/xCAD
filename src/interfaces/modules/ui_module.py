@@ -2,17 +2,9 @@ import qdarktheme
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
-from interfaces.configs.action_configs import DefaultActionConfig
-from interfaces.configs.matrix_configs import MainUIMatrixConfig
 from interfaces.configs.message_box_configs import QuitMessageBox
-from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
-from interfaces.configs.tool_bar_configs import MainUIToolBarConfig
 from interfaces.configs.ui_configs import UITypeHints
-from interfaces.modules.action_module import ActionModule
-from interfaces.modules.matrix_module import MatrixModule
-from interfaces.modules.message_box_module import MessageBoxDelegate
-from interfaces.modules.status_bar_module import StatusBarModule
-from interfaces.modules.tool_bar_module import ToolBarModule
+from interfaces.modules.message_box_module import MessageBoxModule
 
 
 class MainUIModule(QMainWindow):
@@ -37,35 +29,27 @@ class MainUIModule(QMainWindow):
         """
         self.setWindowTitle(configs.Title)
         self.setLayout(configs.Layout)
-        self.setWindowIcon(QIcon(configs.Icon_path))
-        self.resize(*configs.Init_size)
-        self.setup_visibility(configs)
-        self.setContentsMargins(*configs.Content_margins)
+        self.setWindowIcon(QIcon(configs.IconPath))
+        self.resize(*configs.InitSize)
+        self.show() if configs.InitVisibility else self.hide()
+        self.setContentsMargins(*configs.ContentMargins)
         self.setSizePolicy(*configs.SizePolicy)
-        self.setStatusBar(StatusBarModule(MainUIStatusBarConfig()))
-        self.addToolBar(
-            ToolBarModule(
-                MainUIToolBarConfig(),
-                ActionModule(
-                    DefaultActionConfig(),
-                ),
-            )
-        )
-        self.setup_central_widget()
+        self.setStatusBar(configs.StatusBar)
+        self.addToolBar(configs.ToolBar)
+        self.setup_central_widget(configs)
         self.quit_on_key_press_event()
 
-    def setup_central_widget(self) -> None:
+    def setup_central_widget(self, configs: UITypeHints) -> None:
         """Set up the central widget."""
-        self._main_modules_stack = QStackedWidget(self)
-        self._main_modules_stack.addWidget(
-            MatrixModule(MainUIMatrixConfig())
-        )  # ERROR: QWidget: Must construct a QApplication before a QWidget
-        self.setCentralWidget(self._main_modules_stack)
+        self._module_stack = QStackedWidget(self)
+        if isinstance(configs.ModuleStack, tuple):
+            for module in configs.ModuleStack:
+                self._module_stack.addWidget(module)
+        else:
+            self._module_stack.addWidget(configs.ModuleStack)
+        self.setCentralWidget(self._module_stack)
 
-    def setup_visibility(self, configs: UITypeHints) -> None:
-        """Set up initial visibility."""
-
-        self.show() if configs.Init_visibility else self.hide()
+    # TODO: Make events modular.
 
     def quit_on_key_press_event(self) -> list[str]:
         """Quit on Escape key or Ctrl+Q."""
@@ -73,6 +57,6 @@ class MainUIModule(QMainWindow):
 
         for shortcut_str in shortcuts:
             shortcut = QShortcut(QKeySequence(shortcut_str), self)
-            shortcut.activated.connect(lambda: MessageBoxDelegate(QuitMessageBox()))
+            shortcut.activated.connect(lambda: MessageBoxModule(QuitMessageBox()))
 
         return shortcuts

@@ -60,7 +60,7 @@
     "reportWildcardImportFromLibrary": "none"
   },
   "python.analysis.extraPaths": ["./src", "./tests"],
-  "python.analysis.importFormat": "relative",
+  "python.analysis.importFormat": "absolute",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
   "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "*_test.py"],
