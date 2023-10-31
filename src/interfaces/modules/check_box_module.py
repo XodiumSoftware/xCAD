@@ -21,7 +21,7 @@ class CheckBoxModule(QCheckBox):
         Args:
             configs (CheckBoxTypeHints): A configuration.
         """
-        self.setText(configs.Title)
-        self.setStyleSheet(configs.Stylesheet)
-        self.setLayout(configs.Layout)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setText(configs.title)
+        self.setStyleSheet(configs.stylesheet)
+        self.setLayout(configs.layout)
+        self.setSizePolicy(*configs.size_policy)

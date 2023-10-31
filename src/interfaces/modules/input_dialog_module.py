@@ -28,20 +28,20 @@ class InputDialogModule(QInputDialog):
             configs (InputDialogTypeHints): The input dialog configs.
             input_module (QPushButton): The input module.
         """
-        self.setWindowIcon(QIcon(configs.Icon_path))
+        self.setWindowIcon(configs.icon_path)
 
-        if configs.Size is None:
+        if configs.size is None:
             self.setFixedSize(self.sizeHint())
         else:
-            self.setFixedSize(*configs.Size)
+            self.setFixedSize(*configs.size)
 
-        data = [type_name for type_name, _ in configs.Data]
+        data = [type_name for type_name, _ in configs.data]
         current_type = input_module.text()
 
         selected_type, _ = self.getItem(
             self,
-            configs.Title,
-            configs.Text,
+            configs.title,
+            configs.text,
             data,
             data.index(current_type),
             False,

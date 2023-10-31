@@ -34,10 +34,10 @@ class ToolBarModule(QToolBar):
             configs (ToolBarTypeHints): A configuration.
             action (Optional[Union[QAction, list[QAction]]]): list of actions.
         """
-        self.setWindowTitle(configs.Title)
-        self.setStyleSheet(configs.Stylesheet)
-        self.setLayout(configs.Layout)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setWindowTitle(configs.title)
+        self.setStyleSheet(configs.stylesheet)
+        self.setLayout(configs.layout)
+        self.setSizePolicy(*configs.size_policy)
 
         if action:
             if isinstance(action, QAction):

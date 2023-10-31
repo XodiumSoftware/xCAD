@@ -22,8 +22,8 @@ class MatrixModule(QWidget):
         Args:
             configs (MatrixTypeHints): A configuration.
         """
-        layout = configs.Layout
-        for row_idx, row in enumerate(configs.Matrix):
+        layout = configs.layout
+        for row_idx, row in enumerate(configs.matrix):
             for col_idx, col in enumerate(row):
                 for item in col:
                     layout.addWidget(item, row_idx, col_idx)

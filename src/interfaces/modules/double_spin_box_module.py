@@ -21,12 +21,12 @@ class DoubleSpinBoxModule(QDoubleSpinBox):
         Args:
             configs (DoubleSpinBoxTypeHints): A configuration.
         """
-        self.setStyleSheet(configs.Stylesheet)
-        self.setMinimum(configs.Min_value)
-        self.setMaximum(configs.Max_value)
-        self.setValue(configs.Default_value)
-        self.setSingleStep(configs.Step)
-        self.setSuffix(configs.Suffix)
-        self.setLayout(configs.Layout)
-        self.setAlignment(configs.Alignment)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setStyleSheet(configs.stylesheet)
+        self.setMinimum(configs.min_value)
+        self.setMaximum(configs.max_value)
+        self.setValue(configs.default_value)
+        self.setSingleStep(configs.step)
+        self.setSuffix(configs.suffix)
+        self.setLayout(configs.layout)
+        self.setAlignment(configs.alignment)
+        self.setSizePolicy(*configs.size_policy)

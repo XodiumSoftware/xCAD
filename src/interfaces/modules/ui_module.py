@@ -27,26 +27,26 @@ class MainUIModule(QMainWindow):
         Args:
             configs (UITypeHints): A configuration.
         """
-        self.setWindowTitle(configs.Title)
-        self.setLayout(configs.Layout)
-        self.setWindowIcon(QIcon(configs.IconPath))
-        self.resize(*configs.InitSize)
-        self.show() if configs.InitVisibility else self.hide()
-        self.setContentsMargins(*configs.ContentMargins)
-        self.setSizePolicy(*configs.SizePolicy)
-        self.setStatusBar(configs.StatusBar)
-        self.addToolBar(configs.ToolBar)
+        self.setWindowTitle(configs.title)
+        self.setLayout(configs.layout)
+        self.setWindowIcon(configs.icon_path)
+        self.resize(*configs.init_size)
+        self.show() if configs.init_visibility else self.hide()
+        self.setContentsMargins(*configs.content_margins)
+        self.setSizePolicy(*configs.size_policy)
+        self.setStatusBar(configs.status_bar)
+        self.addToolBar(configs.tool_bar)
         self.setup_central_widget(configs)
         self.quit_on_key_press_event()
 
     def setup_central_widget(self, configs: UITypeHints) -> None:
         """Set up the central widget."""
         self._module_stack = QStackedWidget(self)
-        if isinstance(configs.ModuleStack, tuple):
-            for module in configs.ModuleStack:
+        if isinstance(configs.module_stack, tuple):
+            for module in configs.module_stack:
                 self._module_stack.addWidget(module)
         else:
-            self._module_stack.addWidget(configs.ModuleStack)
+            self._module_stack.addWidget(configs.module_stack)
         self.setCentralWidget(self._module_stack)
 
     # TODO: Make events modular.

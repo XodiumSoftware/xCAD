@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from interfaces.configs.color_dialog_configs import DefaultColorDialog
+from interfaces.configs.color_dialog_configs import DefaultColorDialogConfig
 from interfaces.configs.dialog_configs import DialogTypeHints
 from interfaces.configs.input_dialog_configs import LumberTypeConfig
 from interfaces.modules.color_dialog_module import ColorDialogModule
@@ -54,8 +54,8 @@ class DialogModule(QDialog):
             obj (QGraphicsRectItem): The object.
             obj_id (str): The object id.
         """
-        self.setWindowTitle(configs.Title)
-        self.setWindowIcon(QIcon(configs.Icon_path))
+        self.setWindowTitle(configs.title)
+        self.setWindowIcon(configs.icon_path)
 
         layout = QVBoxLayout(self)
 
@@ -258,7 +258,7 @@ class DialogModule(QDialog):
                         input_widget.clicked.connect(
                             partial(
                                 ColorDialogModule,
-                                DefaultColorDialog(),
+                                DefaultColorDialogConfig(),
                                 input_widget,
                             )
                         )

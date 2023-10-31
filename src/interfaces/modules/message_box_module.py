@@ -22,16 +22,16 @@ class MessageBoxModule(QMessageBox):
         Args:
             configs (MessageBoxTypeHints): A configuration.
         """
-        self.setWindowTitle(configs.Title)
-        self.setWindowIcon(QIcon(configs.Icon_path))
-        self.setIcon(configs.Icon_type)
+        self.setWindowTitle(configs.title)
+        self.setWindowIcon(configs.icon_path)
+        self.setIcon(configs.icon_type)
 
-        if configs.Size is None:
+        if configs.size is None:
             self.setFixedSize(self.sizeHint())
         else:
-            self.setFixedSize(*configs.Size)
+            self.setFixedSize(*configs.size)
 
-        self.setText(configs.Text)
-        self.setStandardButtons(configs.Standard_buttons)
+        self.setText(configs.text)
+        self.setStandardButtons(configs.standard_buttons)
         if self.exec() == QMessageBox.StandardButton.Yes:
             QApplication.quit()

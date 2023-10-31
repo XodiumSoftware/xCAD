@@ -51,23 +51,24 @@ class GraphicsObjectModule(QGraphicsRectItem):
             dimy (int): The y dimension.
             rad (int): The rotation angle.
         """
-        self._object_id = configs.Object_id
-        self.setFlags(*configs.Flags)
-        self.setToolTip(configs.Tooltip)
-        self.setZValue(configs.ZValue)
+        self.setFlags(*configs.flags)
+        self.setToolTip(configs.tooltip)
+        self.setZValue(configs.zvalue)
         self.setPos(posx, posy)
         self.setRect(self.rect().x(), self.rect().y(), dimx, dimy)
         self.setRotation(rad)
-        self.setPen(configs.Pen)
-        if configs.Fill:
-            self.setBrush(configs.Brush)
-            self.setOpacity(configs.Opacity)
-        self.mouse_double_click_event()
+        self.setPen(configs.pen)
+        if configs.fill:
+            self.setBrush(configs.brush)
+            self.setOpacity(configs.opacity)
+        self.mouse_double_click_event(configs)
 
     # TODO: make this modular.
 
-    def mouse_double_click_event(self) -> None:  # NOTE: this might give an error.
+    def mouse_double_click_event(
+        self, configs: GraphicsObjectTypeHints
+    ) -> None:  # NOTE: this might give an error.
         """Handle the mouse double click event and open dialog."""
         self.doubleClickEvent = partial(
-            DialogModule, ObjectDialogConfig(), self, self._object_id
+            DialogModule, ObjectDialogConfig(), self, configs.object_id
         )

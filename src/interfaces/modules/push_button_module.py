@@ -21,20 +21,20 @@ class PushButtonModule(QPushButton):
         Args:
             configs (PushButtonTypeHints): A configuration.
         """
-        if configs.Icon_path:
-            self.setIcon(configs.Icon_path)
+        if configs.icon_path:
+            self.setIcon(configs.icon_path)
 
-        if isinstance(configs.Title, str) and isinstance(configs.Stylesheet, str):
-            self.setText(configs.Title)
-            self.setStyleSheet(configs.Stylesheet)
+        if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
+            self.setText(configs.title)
+            self.setStyleSheet(configs.stylesheet)
         else:
             layout = self.layout()  # NOTE: watch out for this when errors emerge!
-            for title, stylesheet in zip(configs.Title, configs.Stylesheet):
+            for title, stylesheet in zip(configs.title, configs.stylesheet):
                 label = QLabel(title)
                 label.setStyleSheet(stylesheet)
                 label.setAlignment(layout.alignment())
                 layout.addWidget(label)
             self.setLayout(layout)
 
-        if configs.Size is not None:
-            self.setFixedSize(*configs.Size)
+        if configs.size is not None:
+            self.setFixedSize(*configs.size)

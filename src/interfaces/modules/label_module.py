@@ -21,9 +21,9 @@ class LabelModule(QLabel):
         Args:
             configs (LabelTypeHints): A configuration.
         """
-        self.setText(configs.Title)
-        self.setStyleSheet(configs.Stylesheet)
-        self.setLayout(configs.Layout)
-        self.setMargin(configs.Margin)
-        self.setAlignment(configs.Alignment)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setText(configs.title)
+        self.setStyleSheet(configs.stylesheet)
+        self.setLayout(configs.layout)
+        self.setMargin(configs.margin)
+        self.setAlignment(configs.alignment)
+        self.setSizePolicy(*configs.size_policy)

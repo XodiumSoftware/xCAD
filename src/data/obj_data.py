@@ -5,18 +5,7 @@ from StenLib.StenUtils import Utils
 from data.types_data import LumberTypes
 
 
-@dataclass(
-    init=True,
-    repr=True,
-    eq=True,
-    order=True,
-    unsafe_hash=False,
-    frozen=True,
-    match_args=True,
-    kw_only=False,
-    slots=True,
-    weakref_slot=False,
-)
+@dataclass
 class ObjInitData:
     """A class to represent different types of lumber."""
 

@@ -21,8 +21,8 @@ class LineEditModule(QLineEdit):
         Args:
             configs (LineEditTypeHints): A configuration.
         """
-        self.setPlaceholderText(configs.Placeholder)
-        self.setStyleSheet(configs.Stylesheet)
-        self.setLayout(configs.Layout)
-        self.setAlignment(configs.Alignment)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setPlaceholderText(configs.placeholder)
+        self.setStyleSheet(configs.stylesheet)
+        self.setLayout(configs.layout)
+        self.setAlignment(configs.alignment)
+        self.setSizePolicy(*configs.size_policy)

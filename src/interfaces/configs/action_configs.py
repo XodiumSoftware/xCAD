@@ -1,15 +1,23 @@
+from dataclasses import dataclass
+
+from PySide6.QtGui import QIcon
+
 from interfaces.configs.ui_configs import UI_ICON_PATH
 
 
+@dataclass
 class ActionTypeHints:
     """A class used to represent label type hints."""
 
-    Icon: str
-    Tooltip: str
+    icon: QIcon
+    tooltip: str
 
 
 class DefaultActionConfig(ActionTypeHints):
     """A class used to represent a label config."""
 
-    Icon = UI_ICON_PATH
-    Tooltip = "Tooltip text"
+    def __init__(self):
+        super().__init__(
+            icon=QIcon(UI_ICON_PATH),
+            tooltip="Tooltip text",
+        )

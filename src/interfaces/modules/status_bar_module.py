@@ -21,7 +21,7 @@ class StatusBarModule(QStatusBar):
         Args:
             configs (StatusBarTypeHints): A configuration.
         """
-        self.setStatusTip(configs.Status_tip)
-        self.setStyleSheet(configs.Stylesheet)
-        self.setLayout(configs.Layout)
-        self.setSizePolicy(*configs.SizePolicy)
+        self.setStatusTip(configs.status_tip)
+        self.setStyleSheet(configs.stylesheet)
+        self.setLayout(configs.layout)
+        self.setSizePolicy(*configs.size_policy)

@@ -28,13 +28,13 @@ class ColorDialogModule(QColorDialog):
             configs (ColorDialogTypeHints): The color dialog configs.
             input_module (QPushButton): The input module.
         """
-        self.setWindowTitle(configs.Title)
-        self.setWindowIcon(QIcon(configs.Icon_path))
+        self.setWindowTitle(configs.title)
+        self.setWindowIcon(configs.icon_path)
 
-        if configs.Size is None:
+        if configs.size is None:
             self.setFixedSize(self.sizeHint())
         else:
-            self.setFixedSize(*configs.Size)
+            self.setFixedSize(*configs.size)
 
         selected_color = self.getColor(
             QColor(input_module.palette().color(QPalette.ColorRole.Window))
