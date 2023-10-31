@@ -1,10 +1,9 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsItem
-from StenLib.StenUtils import Utils
 
+from data.obj_data import ObjInitData
 from interfaces.configs.graphics_object_configs import GraphicsObjectTypeHints
-from interfaces.settings.settings_configs import ObjSettings
 
 
 class GraphicsObjectTypeHints:
@@ -23,21 +22,21 @@ class GraphicsObjectTypeHints:
 class GraphicsObjectConfig(GraphicsObjectTypeHints):
     """A class used to represent a graphics object config."""
 
-    Object_id = Utils.alphanumeric_id_generator()
+    Object_id = ObjInitData.Object_ID
     Flags = (
         QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
         | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
     )
-    Tooltip = ObjSettings.Type
-    ZValue = ObjSettings.DrawOrder
+    Tooltip = ObjInitData.Type
+    ZValue = ObjInitData.DrawOrder
     Pen = QPen(
-        QColor(ObjSettings.PenColor),
-        ObjSettings.PenThickness,
-        Qt.PenStyle[ObjSettings.PenStyle],
+        QColor(ObjInitData.PenColor),
+        ObjInitData.PenThickness,
+        Qt.PenStyle[ObjInitData.PenStyle],
     )
-    Fill = ObjSettings.Fill
+    Fill = ObjInitData.Fill
     Brush = QBrush(
-        QColor(ObjSettings.FillColor),
-        Qt.BrushStyle(ObjSettings.FillPattern),
+        QColor(ObjInitData.FillColor),
+        Qt.BrushStyle(ObjInitData.FillPattern),
     )
-    Opacity = max(0, min(ObjSettings.FillOpacity, 100)) / 100
+    Opacity = max(0, min(ObjInitData.FillOpacity, 100)) / 100
