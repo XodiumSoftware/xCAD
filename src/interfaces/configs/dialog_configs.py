@@ -10,7 +10,7 @@ class DialogTypeHints:
     Icon_path: str
 
 
-class ObjectDialog(DialogTypeHints):
+class ObjectDialogConfig(DialogTypeHints):
     """A class used to represent a dialog config."""
 
     Title = "Object Editor"

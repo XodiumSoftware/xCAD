@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QGraphicsItem, QGraphicsRectItem, QGraphicsSceneMo
 from StenLib.StenUtils import Utils
 
 from delegates.dialog_delegate import DialogDelegate
-from interfaces.configs.dialog_configs import ObjectDialog
+from interfaces.configs.dialog_configs import ObjectDialogConfig
 from interfaces.settings.settings_configs import ObjSettings
 
 
@@ -15,8 +15,6 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def __init__(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
         """Initialize the graphics object delegate."""
         super().__init__()
-        self._dialog_delegate = DialogDelegate
-
         self.properties(posx, posy, dimx, dimy, rad)
 
     def properties(self, posx: int, posy: int, dimx: int, dimy: int, rad: int) -> None:
@@ -50,4 +48,4 @@ class GraphicsObjectDelegate(QGraphicsRectItem):
     def mouseDoubleClickEvent(self, event: QGraphicsSceneMouseEvent) -> None:
         """Handle the mouse double click event."""
         super().mouseDoubleClickEvent(event)
-        self._dialog_delegate(ObjectDialog(), self, self.object_id)
+        DialogDelegate(ObjectDialogConfig(), self, self.object_id)
