@@ -17,7 +17,28 @@ class MatrixTypeHints:
     matrix: tuple[list[list[Type]], ...]
 
 
-class MainUIMatrixConfig(MatrixTypeHints):
+class MainUIStartUpMatrixConfig(MatrixTypeHints):
+    """A class used to represent a matrix config."""
+
+    def __init__(self):
+        super().__init__(
+            layout=QGridLayout(),
+            matrix=(
+                [
+                    [
+                        PushButtonModule(AutoFrameCADPushButtonConfig()),
+                    ],
+                ],
+                [
+                    [
+                        LabelModule(CopyrightLabelConfig()),
+                    ],
+                ],
+            ),
+        )
+
+
+class MainUIMenuConfig(MatrixTypeHints):
     """A class used to represent a matrix config."""
 
     def __init__(self):

@@ -1,12 +1,14 @@
 from dataclasses import dataclass
-from typing import Union
 
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout, QWidget
 
 from constants import UI_ICON_PATH
 from interfaces.configs.action_configs import DefaultActionConfig
-from interfaces.configs.matrix_configs import MainUIMatrixConfig
+from interfaces.configs.matrix_configs import (
+    MainUIMenuConfig,
+    MainUIStartUpMatrixConfig,
+)
 from interfaces.configs.status_bar_configs import MainUIStatusBarConfig
 from interfaces.configs.tool_bar_configs import MainUIToolBarConfig
 from interfaces.modules.action_module import ActionModule
@@ -28,7 +30,7 @@ class UITypeHints:
     size_policy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
     status_bar: StatusBarModule
     tool_bar: ToolBarModule
-    module_stack: Union[QWidget, tuple[QWidget]]
+    module_stack: tuple[QWidget, ...]
 
 
 class MainUIConfig(UITypeHints):
@@ -53,5 +55,8 @@ class MainUIConfig(UITypeHints):
                     DefaultActionConfig(),
                 ),
             ),
-            module_stack=MatrixModule(MainUIMatrixConfig()),
+            module_stack=(
+                MatrixModule(MainUIStartUpMatrixConfig()),
+                MatrixModule(MainUIMenuConfig()),
+            ),
         )
