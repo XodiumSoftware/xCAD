@@ -13,7 +13,7 @@ class GraphicsObjectTypeHints:
     """A class used to represent graphics object type hints."""
 
     object_id: str
-    flags = QGraphicsItem.GraphicsItemFlag | QGraphicsItem.GraphicsItemFlag
+    flags: QGraphicsItem.GraphicsItemFlag | QGraphicsItem.GraphicsItemFlag
     tooltip: str
     zvalue: int
     pen: QPen
