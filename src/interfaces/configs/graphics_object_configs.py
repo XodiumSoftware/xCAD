@@ -5,7 +5,6 @@ from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import QGraphicsItem
 
 from data.obj_data import ObjInitData
-from interfaces.configs.graphics_object_configs import GraphicsObjectTypeHints
 
 
 @dataclass
