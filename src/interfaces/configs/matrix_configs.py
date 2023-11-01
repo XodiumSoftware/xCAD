@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import NamedTuple
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
@@ -10,7 +9,8 @@ from interfaces.modules.label_module import LabelModule
 from interfaces.modules.push_button_module import PushButtonModule
 
 
-class ModuleConfig(NamedTuple):
+@dataclass
+class ModuleConfig:
     """A class used to represent a module config."""
 
     module: QWidget
