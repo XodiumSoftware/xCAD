@@ -1,9 +1,9 @@
 from PySide6.QtWidgets import QGraphicsScene
 
+from data.frame_obj_data import FrameObjInitData
 from data.obj_data import ObjInitData
 from interfaces.configs.graphics_object_configs import GraphicsObjectConfig
 from interfaces.modules.graphics_object_module import GraphicsObjectModule
-from interfaces.settings.settings_configs import FrameSettings
 
 
 # TODO
@@ -23,11 +23,11 @@ class GraphicsSceneDelegate(QGraphicsScene):
     @staticmethod
     def properties(scene: QGraphicsScene) -> None:
         """Setup the framework."""
-        stud_spacing_x = FrameSettings.StudSpacingX
-        stud_spacing_y = FrameSettings.StudSpacingY
+        stud_spacing_x = FrameObjInitData.StudSpacingX
+        stud_spacing_y = FrameObjInitData.StudSpacingY
         stud_size_x = ObjInitData.DimX
-        frame_x = FrameSettings.FrameX
-        frame_y = FrameSettings.FrameY
+        frame_x = FrameObjInitData.FrameX
+        frame_y = FrameObjInitData.FrameY
 
         _add_studs = GraphicsSceneDelegate.setup_studs
         _calc = GraphicsSceneDelegate.calculate_frame_coordinates

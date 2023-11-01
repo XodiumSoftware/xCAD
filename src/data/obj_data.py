@@ -28,7 +28,7 @@ class ObjInitData:
     FillColor: str = "#ebd3b0"
     FillOpacity: int = 100
 
-    # TODO: add this to StenLib. remove it everywhere else.
+    # TODO: add this to StenLib. remove it everywhere else. check if @dataclass has this func already.
     @classmethod
     def get_all_content(cls) -> list[tuple[str, tuple[int, int]]]:
         """Get all content from the lumber types."""
