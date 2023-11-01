@@ -4,7 +4,9 @@ from typing import Type
 from PySide6.QtWidgets import QGridLayout
 
 from interfaces.configs.label_configs import CopyrightLabelConfig
+from interfaces.configs.push_button_configs import AutoFrameCADPushButtonConfig
 from interfaces.modules.label_module import LabelModule
+from interfaces.modules.push_button_module import PushButtonModule
 
 
 @dataclass
@@ -12,7 +14,7 @@ class MatrixTypeHints:
     """A class used to represent matrix type hints."""
 
     layout: QGridLayout
-    matrix: tuple[list[list[Type]]]
+    matrix: tuple[list[list[Type]], ...]
 
 
 class MainUIMatrixConfig(MatrixTypeHints):
@@ -23,7 +25,14 @@ class MainUIMatrixConfig(MatrixTypeHints):
             layout=QGridLayout(),
             matrix=(
                 [
-                    [LabelModule(CopyrightLabelConfig())],
+                    [
+                        PushButtonModule(AutoFrameCADPushButtonConfig()),
+                    ],
+                ],
+                [
+                    [
+                        LabelModule(CopyrightLabelConfig()),
+                    ],
                 ],
             ),
         )

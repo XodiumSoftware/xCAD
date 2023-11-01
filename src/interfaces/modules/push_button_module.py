@@ -1,8 +1,9 @@
-from PySide6.QtWidgets import QLabel, QPushButton
+from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 
 from interfaces.configs.push_button_configs import PushButtonTypeHints
 
 
+# TODO
 class PushButtonModule(QPushButton):
     """A class used to represent a push button module."""
 
@@ -21,6 +22,8 @@ class PushButtonModule(QPushButton):
         Args:
             configs (PushButtonTypeHints): A configuration.
         """
+        self.setSizePolicy(*configs.size_policy)
+
         if configs.icon_path:
             self.setIcon(configs.icon_path)
 
@@ -28,13 +31,15 @@ class PushButtonModule(QPushButton):
             self.setText(configs.title)
             self.setStyleSheet(configs.stylesheet)
         else:
-            layout = self.layout()  # NOTE: watch out for this when errors emerge!
+            layout = QVBoxLayout()
             for title, stylesheet in zip(configs.title, configs.stylesheet):
                 label = QLabel(title)
                 label.setStyleSheet(stylesheet)
-                label.setAlignment(layout.alignment())
+                label.setAlignment(configs.alignment)
                 layout.addWidget(label)
             self.setLayout(layout)
 
         if configs.size is not None:
             self.setFixedSize(*configs.size)
+        else:
+            self.setFixedSize(self.sizeHint())
