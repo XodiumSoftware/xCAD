@@ -1,5 +1,5 @@
 import qdarktheme
-from PySide6.QtGui import QIcon, QKeySequence, QShortcut
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from interfaces.configs.message_box_configs import QuitMessageBox
