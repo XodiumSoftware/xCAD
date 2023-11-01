@@ -19,8 +19,6 @@ class PushButtonTypeHints:
     stylesheet: str | tuple[str, ...]
     size: Optional[list]
     layout: QLayout
-    margin: int
-    alignment: Qt.AlignmentFlag
     size_policy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
 
 
@@ -40,8 +38,6 @@ class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
             ),
             size=None,
             layout=QVBoxLayout(),
-            margin=0,
-            alignment=Qt.AlignmentFlag.AlignBottom,
             size_policy=(
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
@@ -59,8 +55,6 @@ class SavePushButtonConfig(PushButtonTypeHints):
             stylesheet="QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
             size=[50, 30],
             layout=QVBoxLayout(),
-            margin=0,
-            alignment=Qt.AlignmentFlag.AlignBottom,
             size_policy=(
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
@@ -78,8 +72,6 @@ class DiscardPushButtonConfig(PushButtonTypeHints):
             stylesheet="QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
             size=[50, 30],
             layout=QVBoxLayout(),
-            margin=0,
-            alignment=Qt.AlignmentFlag.AlignBottom,
             size_policy=(
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
@@ -97,8 +89,6 @@ class ResetPushButtonConfig(PushButtonTypeHints):
             stylesheet="QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
             size=[50, 30],
             layout=QVBoxLayout(),
-            margin=0,
-            alignment=Qt.AlignmentFlag.AlignBottom,
             size_policy=(
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
@@ -123,8 +113,6 @@ class StartupPagePushButtonConfig(PushButtonTypeHints):
             stylesheet="QPushButton {font-size: 12px;font-weight: normal;font-style: normal;}",
             size=[30, 30],
             layout=QVBoxLayout(),
-            margin=0,
-            alignment=Qt.AlignmentFlag.AlignBottom,
             size_policy=(
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,

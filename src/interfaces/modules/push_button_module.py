@@ -30,12 +30,13 @@ class PushButtonModule(QPushButton):
         if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
             self.setText(configs.title)
             self.setStyleSheet(configs.stylesheet)
+
         else:
             layout = QVBoxLayout()
             for title, stylesheet in zip(configs.title, configs.stylesheet):
-                label = QLabel(title)
+                label = QLabel()
+                label.setText(title)
                 label.setStyleSheet(stylesheet)
-                label.setAlignment(configs.alignment)
                 layout.addWidget(label)
             self.setLayout(layout)
 

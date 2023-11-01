@@ -22,11 +22,20 @@ class MatrixModule(QWidget):
         Args:
             configs (MatrixTypeHints): A configuration.
         """
+        self.setSizePolicy(*configs.size_policy)
         layout = configs.layout
         for row_idx, row in enumerate(configs.matrix):
             for col_idx, col in enumerate(row):
                 for item in col:
-                    layout.addWidget(item, row_idx, col_idx)
+                    layout.addWidget(
+                        item.module,
+                        row_idx,
+                        col_idx,
+                        item.row_span,
+                        item.col_span,
+                        item.alignment,
+                    )
+
         self.setLayout(layout)
 
     @staticmethod
