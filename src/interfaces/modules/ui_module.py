@@ -37,6 +37,11 @@ class MainUIModule(QMainWindow):
         self.setup_central_widget(configs)
         quit_on_key_press_event(self)
 
+    def setup_actions(self):
+        """Setup the actions."""
+        pass
+
+    # TODO: make this its own module
     def setup_central_widget(self, configs: UITypeHints) -> None:
         """Set up the central widget."""
         self._module_stack = QStackedWidget(self)
