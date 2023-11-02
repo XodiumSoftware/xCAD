@@ -1,12 +1,12 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Type
 
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMessageBox
 
 from constants import ICONS_FOLDER_PATH
-from data.types_data import LumberTypes
+from data.types_data import LumberTypesData
 
 
 @dataclass
@@ -18,7 +18,7 @@ class InputDialogTypeHints:
     icon_type: QMessageBox.Icon
     size: Optional[list]
     text: str
-    data: list
+    data: Type
 
 
 class LumberTypeConfig(InputDialogTypeHints):
@@ -31,5 +31,5 @@ class LumberTypeConfig(InputDialogTypeHints):
             icon_type=QMessageBox.Icon.Information,
             size=None,
             text="Choose a lumber type:",
-            data=LumberTypes.get_all_content(),
+            data=LumberTypesData(),
         )

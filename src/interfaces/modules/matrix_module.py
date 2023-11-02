@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QStackedWidget, QWidget
+from PySide6.QtWidgets import QWidget
 
 from interfaces.configs.matrix_configs import MatrixTypeHints
 
@@ -37,8 +37,3 @@ class MatrixModule(QWidget):
                     )
 
         self.setLayout(layout)
-
-    @staticmethod
-    def switch_modules_on_event(module: QStackedWidget) -> None:
-        """Switches the current module in a QStackedWidget."""
-        module.setCurrentIndex((module.currentIndex() + 1) % module.count())
