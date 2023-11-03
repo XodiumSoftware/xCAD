@@ -12,22 +12,13 @@
   </a>
 </p>
 
-// TODO: adjust accordingly
+## Setup the environment:
 
-## Virtual Environment Setup:
-
-1. `python -m venv .venv` (creates environment for packages).
-2. select the correct interpreter (`.venv`).
-3. activate the environment. `./.venv/Scripts/activate` (Windows) or source `./.venv/bin/activate` (Linux).
-4. `python -m pip install -e .`.
+1. `.\setup.bat` (Windows) or `./setup.sh` (Linux)
 
 ## Running the software:
 
 To run the command window, use the following cmd in the CAD software: `afc`
-
-## Installing StenLib:
-
-1. `python -m pip install -i https://test.pypi.org/simple/ StenLib`
 
 ## Build package, Release on Github & Upload to (Test)PyPi:
 
