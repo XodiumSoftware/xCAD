@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 from setuptools import find_packages, setup
@@ -8,6 +7,7 @@ pip_packages: list[str] = [
     "pyqtdarktheme",
     "setuptools",
     "types-setuptools",
+    "mypy",
     "StenLib",
 ]
 
@@ -59,15 +59,34 @@ class VENVSetup:
     def setup_venv(self) -> None:
         """Setup virtual environment and install pip packages"""
         subprocess.check_call(["python", "-m", "venv", ".venv"])
-        if os.name is "nt":
-            subprocess.check_call(
-                [".venv\\Scripts\\python", "-m", "pip", "install" "--upgrade"]
-                + pip_packages
-            )
-        else:
-            subprocess.check_call(
-                [".venv/bin/python", "-m", "pip", "install" "--upgrade"] + pip_packages
-            )
+        for package in pip_packages:
+            if package == "StenLib":
+                subprocess.check_call(
+                    [
+                        ".venv\\Scripts\\python",
+                        "-m",
+                        "pip",
+                        "install",
+                        "--index-url",
+                        "https://test.pypi.org/simple/",
+                        "--upgrade",
+                        package,
+                    ]
+                )
+            else:
+                subprocess.check_call(
+                    [
+                        ".venv\\Scripts\\python",
+                        "-m",
+                        "pip",
+                        "install",
+                        "--upgrade",
+                        package,
+                    ]
+                )
+        subprocess.check_call(
+            [".venv\\Scripts\\python", "-m", "pip", "install", "--upgrade", "pip"]
+        )
 
 
 if __name__ == "__main__":

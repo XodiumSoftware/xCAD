@@ -119,6 +119,5 @@
     }
   },
   "C_Cpp.default.compilerPath": "",
-  "mypy.targets": [],
   "mypy.runUsingActiveInterpreter": true
 }

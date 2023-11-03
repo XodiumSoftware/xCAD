@@ -15,6 +15,7 @@
 ## Setup the environment:
 
 1. `.\setup.bat` (Windows) or `./setup.sh` (Linux)
+2. SET interpreter to `.venv\Scripts\python.exe` (Windows) or `.venv/bin/python` (Linux)
 
 ## Running the software:
 
