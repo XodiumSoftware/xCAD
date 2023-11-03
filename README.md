@@ -7,8 +7,8 @@
 </p>
 <p align="center">
   <a href="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD/">
-    <img src="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD.svg/?label=active+issues&show_trend=true&token=gg3m5X6BzRWozQJG-KF3tijs" alt="DeepSource">
-    <img src="https://app.deepsource.com/gh/illyrius666/AutoFrameCAD.svg/?label=resolved+issues&show_trend=true&token=gg3m5X6BzRWozQJG-KF3tijs" alt="DeepSource">
+    <img src="https://app.deepsource.com/gh/Structura-Engineering/AutoFrameCAD.svg/?label=active+issues&show_trend=true&token=6a6PKnYxd3B1-AhQ2dLn8MoS" alt="DeepSource">
+    <img src="https://app.deepsource.com/gh/Structura-Engineering/AutoFrameCAD.svg/?label=resolved+issues&show_trend=true&token=6a6PKnYxd3B1-AhQ2dLn8MoS" alt="DeepSource">
   </a>
 </p>
 
