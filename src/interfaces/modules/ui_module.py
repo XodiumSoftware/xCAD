@@ -35,11 +35,11 @@ class MainUIModule(QMainWindow):
         self.setStatusBar(configs.status_bar)
         self.addToolBar(configs.tool_bar)
         self.setup_central_widget(configs)
-        quit_on_key_press_event(self)
+        self.setup_actions()
 
     def setup_actions(self):
         """Setup the actions."""
-        pass
+        quit_on_key_press_event(self)
 
     # TODO: make this its own module
     def setup_central_widget(self, configs: UITypeHints) -> None:

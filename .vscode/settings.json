@@ -117,5 +117,8 @@
       "foreground": "#000000",
       "background": "#ffff00"
     }
-  }
+  },
+  "C_Cpp.default.compilerPath": "",
+  "mypy.targets": [],
+  "mypy.runUsingActiveInterpreter": true
 }

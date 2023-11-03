@@ -12,6 +12,8 @@
   </a>
 </p>
 
+// TODO: adjust accordingly
+
 ## Virtual Environment Setup:
 
 1. `python -m venv .venv` (creates environment for packages).
