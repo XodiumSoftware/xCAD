@@ -1,15 +1,6 @@
-import subprocess
-
 from setuptools import find_packages, setup
 
-pip_packages: list[str] = [
-    "pyside6",
-    "pyqtdarktheme",
-    "setuptools",
-    "types-setuptools",
-    "mypy",
-    "StenLib",
-]
+from src.constants import PIP_PACKAGES
 
 
 class PackageSetup:
@@ -39,53 +30,13 @@ class PackageSetup:
             project_urls={
                 "Bug Tracker": "https://github.com/Illyrius666/AutoFrameCad/issues"
             },
-            install_requires=pip_packages,
+            install_requires=PIP_PACKAGES,
             packages=find_packages(),
             python_requires=">=3.12.0",
             package_data={
                 "*": ["*.py", "*.pyi"],
             },
             zip_safe=False,
-        )
-
-
-class VENVSetup:
-    """Setup virtual environment and install pip packages"""
-
-    def __init__(self) -> None:
-        """Setup virtual environment and install pip packages"""
-        self.setup_venv()
-
-    def setup_venv(self) -> None:
-        """Setup virtual environment and install pip packages"""
-        subprocess.check_call(["python", "-m", "venv", ".venv"])
-        for package in pip_packages:
-            if package == "StenLib":
-                subprocess.check_call(
-                    [
-                        ".venv\\Scripts\\python",
-                        "-m",
-                        "pip",
-                        "install",
-                        "--index-url",
-                        "https://test.pypi.org/simple/",
-                        "--upgrade",
-                        package,
-                    ]
-                )
-            else:
-                subprocess.check_call(
-                    [
-                        ".venv\\Scripts\\python",
-                        "-m",
-                        "pip",
-                        "install",
-                        "--upgrade",
-                        package,
-                    ]
-                )
-        subprocess.check_call(
-            [".venv\\Scripts\\python", "-m", "pip", "install", "--upgrade", "pip"]
         )
 
 
