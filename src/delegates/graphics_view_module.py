@@ -5,7 +5,7 @@ from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 
 from delegates.graphics_scene_module import GraphicsSceneDelegate
-from interfaces.settings.settings_configs import GraphicsViewSettings
+from interfaces.configs.graphics_view_configs import GraphicsViewConfig
 
 # TODO
 
@@ -29,8 +29,8 @@ class GraphicsViewDelegate(QGraphicsView):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setStyleSheet(
-            f"background-color: {GraphicsViewSettings.BackgroundColor};"
-            f"border: {GraphicsViewSettings.BackgroundBorder};"
+            f"background-color: {GraphicsViewConfig.background_color};"
+            f"border: {GraphicsViewConfig.background_border};"
         )
 
         self.scale(1, -1)
@@ -46,10 +46,10 @@ class GraphicsViewDelegate(QGraphicsView):
     @staticmethod
     def draw_grid(painter: QPainter, rect: QRectF) -> None:
         """Draws the grid of the graphics view delegate."""
-        grid_spacing = GraphicsViewSettings.GridSpacing
+        grid_spacing = GraphicsViewConfig.grid_spacing
 
-        pen = QPen(QColor(GraphicsViewSettings.GridPenColor))
-        pen.setStyle(Qt.PenStyle[GraphicsViewSettings.GridPenStyle])
+        pen = QPen(QColor(GraphicsViewConfig.grid_pen_color))
+        pen.setStyle(Qt.PenStyle[GraphicsViewConfig.grid_pen_style])
         painter.setPen(pen)
 
         grid_path = QPainterPath()

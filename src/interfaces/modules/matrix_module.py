@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QStackedWidget, QWidget
+from PySide6.QtWidgets import QWidget
 
 from interfaces.configs.matrix_configs import MatrixTypeHints
 
@@ -22,14 +22,18 @@ class MatrixModule(QWidget):
         Args:
             configs (MatrixTypeHints): A configuration.
         """
+        self.setSizePolicy(*configs.size_policy)
         layout = configs.layout
         for row_idx, row in enumerate(configs.matrix):
             for col_idx, col in enumerate(row):
                 for item in col:
-                    layout.addWidget(item, row_idx, col_idx)
-        self.setLayout(layout)
+                    layout.addWidget(
+                        item.module,
+                        row_idx,
+                        col_idx,
+                        item.row_span,
+                        item.col_span,
+                        item.alignment,
+                    )
 
-    @staticmethod
-    def switch_modules_on_event(module: QStackedWidget) -> None:
-        """Switches the current module in a QStackedWidget."""
-        module.setCurrentIndex((module.currentIndex() + 1) % module.count())
+        self.setLayout(layout)

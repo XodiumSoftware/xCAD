@@ -1,4 +1,3 @@
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QInputDialog, QPushButton
 
 from interfaces.configs.input_dialog_configs import InputDialogTypeHints

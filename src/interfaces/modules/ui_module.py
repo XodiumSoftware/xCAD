@@ -1,10 +1,8 @@
 import qdarktheme
-from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
-from interfaces.configs.message_box_configs import QuitMessageBox
 from interfaces.configs.ui_configs import UITypeHints
-from interfaces.modules.message_box_module import MessageBoxModule
+from interfaces.events.events import quit_on_key_press_event
 
 
 class MainUIModule(QMainWindow):
@@ -37,8 +35,13 @@ class MainUIModule(QMainWindow):
         self.setStatusBar(configs.status_bar)
         self.addToolBar(configs.tool_bar)
         self.setup_central_widget(configs)
-        self.quit_on_key_press_event()
+        self.setup_actions()
 
+    def setup_actions(self):
+        """Setup the actions."""
+        quit_on_key_press_event(self)
+
+    # TODO: make this its own module
     def setup_central_widget(self, configs: UITypeHints) -> None:
         """Set up the central widget."""
         self._module_stack = QStackedWidget(self)
@@ -48,15 +51,3 @@ class MainUIModule(QMainWindow):
         else:
             self._module_stack.addWidget(configs.module_stack)
         self.setCentralWidget(self._module_stack)
-
-    # TODO: Make events modular.
-
-    def quit_on_key_press_event(self) -> list[str]:
-        """Quit on Escape key or Ctrl+Q."""
-        shortcuts = ["Escape", "Ctrl+Q"]
-
-        for shortcut_str in shortcuts:
-            shortcut = QShortcut(QKeySequence(shortcut_str), self)
-            shortcut.activated.connect(lambda: MessageBoxModule(QuitMessageBox()))
-
-        return shortcuts
