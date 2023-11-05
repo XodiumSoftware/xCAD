@@ -61,14 +61,8 @@ class GraphicsObjectModule(QGraphicsRectItem):
         if configs.fill:
             self.setBrush(configs.brush)
             self.setOpacity(configs.opacity)
-        self.mouse_double_click_event(configs)
 
-    # TODO: make this modular.
-
-    def mouse_double_click_event(
-        self, configs: GraphicsObjectTypeHints
-    ) -> None:  # NOTE: this might give an error.
-        """Handle the mouse double click event and open dialog."""
+        # TODO: make it modular
         self.doubleClickEvent = partial(
             DialogModule, ObjectDialogConfig(), self, configs.object_id
         )
