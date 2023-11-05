@@ -29,25 +29,17 @@ class MainUIModule(QMainWindow):
         self.setLayout(configs.layout)
         self.setWindowIcon(configs.icon_path)
         self.resize(*configs.init_size)
-        self.show() if configs.init_visibility else self.hide()
+        if configs.init_visibility:
+            self.show()
+        else:
+            self.hide()
         self.setContentsMargins(*configs.content_margins)
         self.setSizePolicy(*configs.size_policy)
         self.setStatusBar(configs.status_bar)
         self.addToolBar(configs.tool_bar)
-        self.setup_central_widget(configs)
+        self.setCentralWidget(configs.stack_module)
         self.setup_actions()
 
     def setup_actions(self):
         """Setup the actions."""
         Events.quit_on_key_press_event(self)
-
-    # TODO: make this its own module
-    def setup_central_widget(self, configs: UITypeHints) -> None:
-        """Set up the central widget."""
-        self._module_stack = QStackedWidget(self)
-        if isinstance(configs.module_stack, tuple):
-            for module in configs.module_stack:
-                self._module_stack.addWidget(module)
-        else:
-            self._module_stack.addWidget(configs.module_stack)
-        self.setCentralWidget(self._module_stack)
