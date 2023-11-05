@@ -1,5 +1,5 @@
 import qdarktheme
-from PySide6.QtWidgets import QMainWindow, QStackedWidget
+from PySide6.QtWidgets import QMainWindow
 
 from interfaces.configs.ui_configs import UITypeHints
 from interfaces.events.events import Events
