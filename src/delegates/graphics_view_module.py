@@ -36,8 +36,6 @@ class GraphicsViewDelegate(QGraphicsView):
 
         self.scale(1, -1)
 
-        self._fit_scene_in_view
-
     def drawBackground(self, painter: QPainter, rect: Union[QRectF, QRect]) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
@@ -68,5 +66,4 @@ class GraphicsViewDelegate(QGraphicsView):
 
     def resizeEvent(self, event):
         """Custom slot to handle window resize events."""
-        self._fit_scene_in_view
         super().resizeEvent(event)
