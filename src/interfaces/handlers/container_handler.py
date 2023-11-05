@@ -11,4 +11,5 @@ class ContainerHandler:
             layout (QLayout): A layout.
             modules (list[QWidget], optional): A list of modules to add to the layout. Defaults to [].
         """
-        [layout.addWidget(module) for module in modules]
+        for module in modules:
+            layout.addWidget(module)

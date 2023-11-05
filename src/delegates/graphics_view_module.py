@@ -1,6 +1,7 @@
 import math
+from typing import Union
 
-from PySide6.QtCore import QRectF, Qt
+from PySide6.QtCore import QRect, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsView
 
@@ -37,14 +38,14 @@ class GraphicsViewDelegate(QGraphicsView):
 
         self._fit_scene_in_view
 
-    def drawBackground(self, painter: QPainter, rect: QRectF) -> None:
+    def drawBackground(self, painter: QPainter, rect: Union[QRectF, QRect]) -> None:
         """Draws the background of the graphics view delegate."""
         super().drawBackground(painter, rect)
         self.draw_grid(painter, rect)
         self.update()
 
     @staticmethod
-    def draw_grid(painter: QPainter, rect: QRectF) -> None:
+    def draw_grid(painter: QPainter, rect: Union[QRectF, QRect]) -> None:
         """Draws the grid of the graphics view delegate."""
         grid_spacing = GraphicsViewConfig.grid_spacing
 

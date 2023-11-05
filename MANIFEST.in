@@ -1,0 +1,4 @@
+recursive-include . *.py
+recursive-include . *.pyi
+include requirements.txt
+include *.md

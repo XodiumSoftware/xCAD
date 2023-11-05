@@ -2,7 +2,7 @@ import qdarktheme
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from interfaces.configs.ui_configs import UITypeHints
-from interfaces.events.events import quit_on_key_press_event
+from interfaces.events.events import Events
 
 
 class MainUIModule(QMainWindow):
@@ -39,7 +39,7 @@ class MainUIModule(QMainWindow):
 
     def setup_actions(self):
         """Setup the actions."""
-        quit_on_key_press_event(self)
+        Events.quit_on_key_press_event(self)
 
     # TODO: make this its own module
     def setup_central_widget(self, configs: UITypeHints) -> None:
