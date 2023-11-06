@@ -3,4 +3,4 @@
 
 #include <iostream>
 
-#endif // MAIN_HPP
+#endif

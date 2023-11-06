@@ -1,9 +1,5 @@
-from functools import partial
-
 from PySide6.QtWidgets import QGraphicsRectItem
 
-from delegates.dialog_module import DialogModule
-from interfaces.configs.dialog_configs import ObjectDialogConfig
 from interfaces.configs.graphics_object_configs import GraphicsObjectTypeHints
 
 
@@ -61,8 +57,3 @@ class GraphicsObjectModule(QGraphicsRectItem):
         if configs.fill:
             self.setBrush(configs.brush)
             self.setOpacity(configs.opacity)
-
-        # TODO: make it modular
-        self.doubleClickEvent = partial(
-            DialogModule, ObjectDialogConfig(), self, configs.object_id
-        )
