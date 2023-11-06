@@ -13,14 +13,14 @@
       "name": "C/C++: g++.exe build and debug active file",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}\\tests\\build\\${fileBasenameNoExtension}.exe",
+      "program": "${workspaceRoot}\\tests\\build\\${fileBasenameNoExtension}.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}\\tests",
+      "cwd": "${workspaceRoot}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
-      "miDebuggerPath": "C:\\ProgramData\\chocolatey\\bin\\gdb.exe",
+      "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
