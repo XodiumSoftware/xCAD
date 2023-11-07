@@ -22,8 +22,6 @@ class PushButtonTypeHints:
     size: Optional[list]
     layout: QLayout
     size_policy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
-    signal: Optional[Signal | tuple[Signal, ...]]
-    signals: Optional[Signal | tuple[Signal, ...]]
 
 
 class AutoFrameCADPushButtonConfig(PushButtonTypeHints):

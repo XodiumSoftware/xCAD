@@ -13,3 +13,11 @@ def print_message():
 
 
 SignalHandler.clicked_signal = print_message
+
+        if configs.test:
+            if isinstance(configs.signal, tuple):
+                for signal in configs.signal:
+                    self.clicked.connect(signal)
+                return
+
+            self.clicked.connect(configs.signal)

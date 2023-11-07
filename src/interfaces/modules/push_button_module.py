@@ -31,14 +31,6 @@ class PushButtonModule(QPushButton):
         if configs.size:
             self.setFixedSize(*configs.size)
 
-        if configs.signal:
-            if isinstance(configs.signal, tuple):
-                for signal in configs.signal:
-                    self.clicked.connect(signal)
-                return
-
-            self.clicked.connect(configs.signal)
-
         if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
             self.setText(configs.title)
             self.setStyleSheet(configs.stylesheet)
