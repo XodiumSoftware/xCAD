@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 from interfaces.configs.push_button_configs import PushButtonTypeHints
 
 
-# TODO: implement signals and slots for connections.
 class PushButtonModule(QPushButton):
     """A class used to represent a push button module."""
 
@@ -30,6 +29,14 @@ class PushButtonModule(QPushButton):
 
         if configs.size:
             self.setFixedSize(*configs.size)
+
+        if configs.signals:
+            if isinstance(configs.signals, tuple):
+                for signal in configs.signals:
+                    self.clicked.connect(signal)
+
+            else:
+                self.clicked.connect(configs.signals)
 
         if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
             self.setText(configs.title)

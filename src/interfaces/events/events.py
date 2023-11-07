@@ -1,5 +1,5 @@
 from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QStackedWidget, QWidget
+from PySide6.QtWidgets import QWidget
 
 from interfaces.configs.message_box_configs import QuitMessageBox
 from interfaces.modules.message_box_module import MessageBoxModule
@@ -20,8 +20,3 @@ class Events:
             shortcut.activated.connect(lambda: MessageBoxModule(QuitMessageBox()))
 
         return shortcuts
-
-    @staticmethod
-    def switch_modules_on_action(module: QStackedWidget) -> None:
-        """Switches the current module in a QStackedWidget."""
-        module.setCurrentIndex((module.currentIndex() + 1) % module.count())

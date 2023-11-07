@@ -1,10 +1,6 @@
-from PySide6.QtCore import Signal, Slot
+from typing import Callable
 
-
-class SignalHandler:
-    """A class used to represent a signal handler."""
-
-    clicked_signal: Signal = Signal()
+from PySide6.QtCore import Slot
 
 
 @Slot()
@@ -12,12 +8,22 @@ def print_message():
     print("Button clicked!")
 
 
-SignalHandler.clicked_signal = print_message
+@Slot()
+def print_message2():
+    print("Button clicked2!")
 
-        if configs.test:
-            if isinstance(configs.signal, tuple):
-                for signal in configs.signal:
-                    self.clicked.connect(signal)
-                return
 
-            self.clicked.connect(configs.signal)
+@Slot()
+def print_message3():
+    print("Button clicked3!")
+
+
+# TODO: figure out if we can assign multiple obj to one signal.
+
+
+class SignalHandler:
+    """A class used to represent a signal handler."""
+
+    clicked_signal: Callable = print_message
+    clicked_signal2: Callable = print_message2
+    clicked_signal3: Callable = print_message3

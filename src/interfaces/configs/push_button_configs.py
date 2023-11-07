@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
+from typing import Callable, Optional
 
 import darkdetect
 from PySide6.QtCore import Qt, Signal
@@ -22,6 +22,7 @@ class PushButtonTypeHints:
     size: Optional[list]
     layout: QLayout
     size_policy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
+    signals: Optional[Callable | tuple[Callable, ...]]
 
 
 class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
@@ -45,8 +46,7 @@ class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signal=SignalHandler.clicked_signal,
-            signals=SignalHandler.clicked_signal,
+            signals=(SignalHandler.clicked_signal, SignalHandler.clicked_signal2),
         )
 
 
@@ -65,7 +65,6 @@ class SavePushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signal=None,
             signals=None,
         )
 
@@ -85,7 +84,6 @@ class DiscardPushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signal=None,
             signals=None,
         )
 
@@ -105,7 +103,6 @@ class ResetPushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signal=None,
             signals=None,
         )
 
@@ -132,6 +129,5 @@ class StartupPagePushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signal=None,
             signals=None,
         )

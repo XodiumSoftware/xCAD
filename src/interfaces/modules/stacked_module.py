@@ -1,3 +1,4 @@
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QStackedWidget
 
 from interfaces.configs.stacked_configs import StackedTypeHints
@@ -26,3 +27,10 @@ class StackedModule(QStackedWidget):
                 self.addWidget(module)
         else:
             self.addWidget(configs.module_stack)
+
+    # TODO
+
+    @Slot()
+    def next(self):
+        """Go to the next module."""
+        self.setCurrentIndex((self.currentIndex() + 1) % self.count())
