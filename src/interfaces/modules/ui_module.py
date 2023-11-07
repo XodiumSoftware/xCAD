@@ -40,6 +40,7 @@ class MainUIModule(QMainWindow):
         self.setCentralWidget(configs.stack_module)
         self.setup_actions()
 
+    # TODO: Make it modular.
     def setup_actions(self):
         """Setup the actions."""
         Events.quit_on_key_press_event(self)

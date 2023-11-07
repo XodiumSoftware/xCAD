@@ -1,9 +1,10 @@
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 
 from interfaces.configs.push_button_configs import PushButtonTypeHints
 
 
-# TODO
+# TODO: implement signals and slots for connections.
 class PushButtonModule(QPushButton):
     """A class used to represent a push button module."""
 
@@ -27,20 +28,34 @@ class PushButtonModule(QPushButton):
         if configs.icon_path:
             self.setIcon(configs.icon_path)
 
+        if configs.size:
+            self.setFixedSize(*configs.size)
+
+        if configs.signal:
+            if isinstance(configs.signal, tuple):
+                for signal in configs.signal:
+                    self.clicked.connect(signal)
+                return
+
+            self.clicked.connect(configs.signal)
+
         if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
             self.setText(configs.title)
             self.setStyleSheet(configs.stylesheet)
-
-        else:
-            layout = QVBoxLayout()
-            for title, stylesheet in zip(configs.title, configs.stylesheet):
-                label = QLabel()
-                label.setText(title)
-                label.setStyleSheet(stylesheet)
-                layout.addWidget(label)
-            self.setLayout(layout)
-
-        if configs.size is not None:
-            self.setFixedSize(*configs.size)
-        else:
             self.setFixedSize(self.sizeHint())
+            return
+
+        layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        for title, stylesheet, text_alignment in zip(
+            configs.title, configs.stylesheet, configs.text_alignment
+        ):
+            label = QLabel()
+            label.setText(title)
+            label.setStyleSheet(stylesheet)
+            label.setAlignment(text_alignment)
+            layout.addWidget(label)
+
+        self.setLayout(layout)
+        self.setFixedSize(layout.sizeHint())
