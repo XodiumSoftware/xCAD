@@ -32,7 +32,7 @@ class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
         super().__init__(
             title=(
                 "AutoFrameCAD",
-                "Click on title to start!",
+                "Click on the title to start!",
             ),
             icon_path=None,
             stylesheet=(
@@ -46,7 +46,11 @@ class AutoFrameCADPushButtonConfig(PushButtonTypeHints):
                 QSizePolicy.Policy.Minimum,
                 QSizePolicy.Policy.Minimum,
             ),
-            signals=(SignalHandler.clicked_signal, SignalHandler.clicked_signal2),
+            signals=(
+                SignalHandler.clicked_signal,
+                SignalHandler.clicked_signal2,
+                SignalHandler.clicked_signal3,
+            ),
         )
 
 

@@ -31,6 +31,6 @@ class StackedModule(QStackedWidget):
     # TODO
 
     @Slot()
-    def next(self):
+    def switch_module(self):
         """Go to the next module."""
         self.setCurrentIndex((self.currentIndex() + 1) % self.count())
