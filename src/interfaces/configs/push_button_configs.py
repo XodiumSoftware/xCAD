@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 import darkdetect
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
 
