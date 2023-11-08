@@ -6,4 +6,9 @@ Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Activating vi
 & '.venv\Scripts\activate'
 
 Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Installing pip packages..."
-pip install -r requirements.txt
+try {
+    pip install -r requirements.txt --quiet
+    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Pip packages installed successfully!"
+} catch {
+    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "An error occurred while installing pip packages." -ForegroundColor Red;
+}
