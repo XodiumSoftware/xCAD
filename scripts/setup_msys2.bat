@@ -1,18 +1,13 @@
 @echo off
 
-rem Check if MSYS2 is already installed
-if exist C:\msys64 (
+if not exist C:\msys64 (
+    echo Installing MSYS2...
+    curl -O "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-latest.exe"
+    msys2-x86_64-latest.exe /S
+    echo MSYS2 installation complete!
+) else (
     echo MSYS2 is already installed.
-    pause
-    goto gcc_install
 )
-
-echo Installing MSYS2...
-curl -O "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-latest.exe"
-msys2-x86_64-latest.exe /S
-echo MSYS2 installation complete!
-
-:gcc_install
 
 echo Checking if mingw-w64-ucrt-x86_64-gcc is installed...
 call C:\msys64\msys2_shell.cmd -mingw64 -no-start -defterm -here -c "pacman -Q mingw-w64-ucrt-x86_64-gcc"
@@ -23,5 +18,3 @@ if errorlevel 1 (
 ) else (
     echo mingw-w64-ucrt-x86_64-gcc is already installed.
 )
-
-:end
