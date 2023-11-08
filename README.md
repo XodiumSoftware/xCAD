@@ -14,12 +14,17 @@
 
 ## Setup the environment:
 
-1. `.\setup.bat` (Windows) or `./setup.sh` (Linux)
-2. SET interpreter to `.venv\Scripts\python.exe` (Windows) or `.venv/bin/python` (Linux)
+1. Run the setup script:
+   - Windows: `.\setup.ps1`
+   - Linux: `./setup.sh`
+2. Set the interpreter to the Python executable in the virtual environment:
+   - Windows: `.venv\Scripts\python.exe`
+   - Linux: `.venv/bin/python`
 
-3. TO UPDATE: deactivate venv and revert interpreter back to local python installation, then follow steps 1 & 2 again.
+## To update the environment:
 
-## Running the software:
+1. Deactivate the virtual environment and revert the interpreter back to your local Python installation.
+2. Follow the setup instructions again.
 
 To run the command window, use the following cmd in the CAD software: `afc`
 
