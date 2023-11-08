@@ -21,10 +21,7 @@
    - Windows: `.venv\Scripts\python.exe`
    - Linux: `.venv/bin/python`
 
-## To update the environment:
-
-1. Deactivate the virtual environment and revert the interpreter back to your local Python installation.
-2. Follow the setup instructions again.
+## Running the program in CAD software:
 
 To run the command window, use the following cmd in the CAD software: `afc`
 
