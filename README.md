@@ -12,7 +12,7 @@
   </a>
 </p>
 
-## Setup the environment:
+## Setup the project:
 
 1. Run the setup script:
    - Windows: `.\setup.ps1`
