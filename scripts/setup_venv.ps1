@@ -13,3 +13,6 @@ try {
 } catch {
     Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "An error occurred while setting up the Virtual Environment." -ForegroundColor Red;
 }
+
+Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Activating virtual environment..."
+& '.venv\Scripts\activate'
