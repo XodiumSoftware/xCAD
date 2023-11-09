@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 
 from interfaces.configs.push_button_configs import PushButtonTypeHints
+from interfaces.handlers.signal_handler import SignalHandler
 
 
 class PushButtonModule(QPushButton):
@@ -15,6 +16,9 @@ class PushButtonModule(QPushButton):
         """
         super().__init__()
         self.setup_props(configs)
+        self.signal = SignalHandler()
+        self.clicked.connect(self.signal.activateStackedModule.emit)
+        print(f"PushButtonModule signal: {self.signal}")
 
     def setup_props(self, configs: PushButtonTypeHints) -> None:
         """Setup the properties.
@@ -29,14 +33,6 @@ class PushButtonModule(QPushButton):
 
         if configs.size:
             self.setFixedSize(*configs.size)
-
-        if configs.signals:
-            if isinstance(configs.signals, tuple):
-                for signal in configs.signals:
-                    self.clicked.connect(signal)
-
-            else:
-                self.clicked.connect(configs.signals)
 
         if isinstance(configs.title, str) and isinstance(configs.stylesheet, str):
             self.setText(configs.title)

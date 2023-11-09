@@ -27,6 +27,7 @@ jobs:
           pip install build
           pip install twine
           pip install mypy
+          pip install pytest pytest-cov
 
       - name: Generate .pyi stub files
         run: |
@@ -51,6 +52,10 @@ jobs:
 
       - name: Build package
         run: python -m build
+
+      - name: Test with pytest
+        run: |
+          pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html
 
       - name: Create GitHub Release
         id: create_release
