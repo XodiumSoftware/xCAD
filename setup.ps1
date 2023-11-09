@@ -5,7 +5,7 @@ trap {
     exit
 }
 
-$scripts = @('setup_msys2.ps1','setup_python.ps1', 'setup_venv.ps1', 'setup_pip_packages.ps1', 'setup_pytests.ps1')
+$scripts = @('setup_msvc.ps1','setup_python.ps1', 'setup_venv.ps1', 'setup_pip_packages.ps1', 'setup_pytests.ps1')
 
 foreach ($script in $scripts) {
     Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Running $script..." -ForegroundColor Cyan
