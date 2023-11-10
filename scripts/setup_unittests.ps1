@@ -1,7 +1,7 @@
 try {
-    Write-PrefixedMessage "Generating unit test files..."
-    python .\scripts\unittest_generator.py
-    Write-PrefixedMessage "Unittest generation complete!"
+    Write-PrefixMsg "Generating unit test files..."
+    python .\scripts\generators\unittest_generator.py
+    Write-PrefixMsg "Unittest generation complete!"
 }
 catch {
     Write-Error $_

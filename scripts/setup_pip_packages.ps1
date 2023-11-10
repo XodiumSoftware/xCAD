@@ -1,16 +1,16 @@
-Write-PrefixedMessage "Updating pip..."
+Write-PrefixMsg "Updating pip..."
 try {
     python -m pip install --upgrade pip --quiet
-    Write-PrefixedMessage "Pip updated successfully!"
+    Write-PrefixMsg "Pip updated successfully!"
 }
 catch {
     Write-Error $_
 }
 
-Write-PrefixedMessage "Installing pip packages..."
+Write-PrefixMsg "Installing pip packages..."
 try {
     pip install -r requirements.txt --quiet
-    Write-PrefixedMessage "Pip packages installed successfully!"
+    Write-PrefixMsg "Pip packages installed successfully!"
 }
 catch {
     Write-Error $_
