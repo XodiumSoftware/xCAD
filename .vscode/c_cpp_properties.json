@@ -10,7 +10,7 @@
       "name": "Win32",
       "includePath": "${workspaceFolder}/** C:/Program Files/Bricsys/BRXSDK/BRX24.1.05.0/inc",
       "defines": "_DEBUG UNICODE _UNICODE",
-      "compilerPath": ""
+      "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe"
     }
   ],
   "version": 4
