@@ -12,5 +12,5 @@ try {
     }
 }
 catch {
-    Write-PrefixedMessage "An error occurred while installing Python." -color Red
+    Write-Error $_
 }

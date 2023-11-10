@@ -57,5 +57,5 @@ try {
     Write-PrefixedMessage "Visual Studio Installer executable cleaned up successfully!"
 }
 catch {
-    Write-PrefixedMessage "An error occurred while downloading and running Visual Studio Installer: $($_.Exception.Message)" -color Red
+    Write-Error $_
 }

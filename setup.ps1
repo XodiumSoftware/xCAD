@@ -4,7 +4,13 @@ function Write-PrefixedMessage {
         [ConsoleColor]$color = [ConsoleColor]::White
     )
 
-    Write-Host -NoNewline "(Setup): " -ForegroundColor Red; Write-Host $message -ForegroundColor $color
+    Write-Host -NoNewline "(Setup): " -ForegroundColor Magenta; Write-Host $message -ForegroundColor $color
+}
+
+function Write-Error {
+    param($Err)
+    $ErrorMessage = $Err.Exception.Message
+    Write-PrefixedMessage "An error occurred: $ErrorMessage" -color Red
 }
 
 trap {

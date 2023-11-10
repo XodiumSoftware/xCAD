@@ -18,5 +18,5 @@ try {
     }
 }
 catch {
-    Write-PrefixedMessage "An error occurred while creating test files." -color Red
+    Write-Error $_
 }

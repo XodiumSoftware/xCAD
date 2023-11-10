@@ -9,7 +9,7 @@ try {
     }
 }
 catch {
-    Write-PrefixedMessage "An error occurred while setting up the Virtual Environment." -color Red
+    Write-Error $_
 }
 
 Write-PrefixedMessage "Activating virtual environment..."

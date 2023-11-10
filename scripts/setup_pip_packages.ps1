@@ -4,7 +4,7 @@ try {
     Write-PrefixedMessage "Pip updated successfully!"
 }
 catch {
-    Write-PrefixedMessage "An error occurred while updating pip." -color Red
+    Write-Error $_
 }
 
 Write-PrefixedMessage "Installing pip packages..."
@@ -13,5 +13,5 @@ try {
     Write-PrefixedMessage "Pip packages installed successfully!"
 }
 catch {
-    Write-PrefixedMessage "An error occurred while installing pip packages." -color Red
+    Write-Error $_
 }
