@@ -10,13 +10,8 @@ try {
             $testDir = New-Item -Path $testDirPath -ItemType Directory -Force
             $testFile = New-Item -Path "$testDir\$baseName`_test.py" -ItemType File -Force
             $importPath = if ($relativeDir) { "src.$relativeDir.$baseName" } else { "src.$baseName" }
-            $testCode = @"
-import pytest
-from $importPath import *
-
-def test_sample():
-    assert True
-"@            
+            $testCode = Get-Content -Path .\scripts\templates\pytest_template.py -Raw   
+            $testCode = $testCode -replace "import pytest", "import pytest`nfrom $importPath import *"
             Add-Content -Path $testFile.FullName -Value $testCode
             Write-PrefixedMessage "Test file $relativeDir\$baseName`_test.py created successfully."
         }
