@@ -1,13 +1,16 @@
 {
+  "json.schemas": [
+    {
+      "fileMatch": "/.vscode/c_cpp_properties.json",
+      "url": "https://json.schemastore.org/c_cpp_properties"
+    }
+  ],
   "configurations": [
     {
       "name": "Win32",
-      "includePath": [
-        "${workspaceFolder}/**",
-        "C:/Program Files/Bricsys/BRXSDK/BRX24.1.05.0/inc"
-      ],
-      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
-      "compilerPath": "C:/msys64/ucrt64/bin/gcc.exe"
+      "includePath": "${workspaceFolder}/** C:/Program Files/Bricsys/BRXSDK/BRX24.1.05.0/inc",
+      "defines": "_DEBUG UNICODE _UNICODE",
+      "compilerPath": ""
     }
   ],
   "version": 4

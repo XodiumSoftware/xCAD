@@ -1,17 +1,24 @@
-$prefix = "(Setup):"
+function Write-PrefixedMessage {
+    param (
+        [string]$message,
+        [ConsoleColor]$color = [ConsoleColor]::White
+    )
+
+    Write-Host -NoNewline "(Setup): " -ForegroundColor Red; Write-Host $message -ForegroundColor $color
+}
 
 trap {
-    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "An error occurred during setup." -ForegroundColor Red
+    Write-PrefixedMessage "An error occurred during setup." -color Red
     exit
 }
 
-$scripts = @('setup_msvc.ps1','setup_python.ps1', 'setup_venv.ps1', 'setup_pip_packages.ps1', 'setup_pytests.ps1')
+$scripts = @("setup_msvc.ps1", 'setup_python.ps1', "setup_venv.ps1", "setup_pip_packages.ps1", "setup_pytests.ps1")
 
 foreach ($script in $scripts) {
-    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Running $script..." -ForegroundColor Cyan
-    & ".\scripts\$script" -prefix $prefix
+    Write-PrefixedMessage "Running $script..." -color Cyan
+    & ".\scripts\$script"
 }
 
-Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Setup complete!" -ForegroundColor Green
+Write-PrefixedMessage "Setup complete!" -color Green
 Pause
 Clear-Host

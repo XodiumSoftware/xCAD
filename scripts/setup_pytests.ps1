@@ -1,7 +1,3 @@
-param (
-    [string]$prefix
-)
-
 try {
     $pyFiles = Get-ChildItem -Path .\src\ -Filter *.py -Recurse
     foreach ($file in $pyFiles) {
@@ -22,9 +18,10 @@ def test_sample():
     assert True
 "@            
             Add-Content -Path $testFile.FullName -Value $testCode
-            Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Test file $relativeDir\$baseName`_test.py created successfully."
+            Write-PrefixedMessage "Test file $relativeDir\$baseName`_test.py created successfully."
         }
     }
-} catch {
-    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "An error occurred while creating test files." -ForegroundColor Red;
+}
+catch {
+    Write-PrefixedMessage "An error occurred while creating test files." -color Red
 }

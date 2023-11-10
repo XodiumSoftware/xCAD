@@ -12,7 +12,7 @@
   </a>
 </p>
 
-## Setup the project:
+## Setup the project (NEED UAC RIGHTS):
 
 1. Run the setup script:
    - Windows: `.\setup.ps1`

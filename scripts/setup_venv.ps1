@@ -1,18 +1,16 @@
-param (
-    [string]$prefix
-)
-
 try {
     if (!(Test-Path -Path ".\.venv")) {
-        Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Installing Virtual Environment..."
+        Write-PrefixedMessage "Installing Virtual Environment..."
         python -m venv .venv
-        Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Virtual Environment installation complete!"
-    } else {
-        Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Virtual Environment is already set up."
+        Write-PrefixedMessage "Virtual Environment installation complete!"
     }
-} catch {
-    Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "An error occurred while setting up the Virtual Environment." -ForegroundColor Red;
+    else {
+        Write-PrefixedMessage "Virtual Environment is already set up."
+    }
+}
+catch {
+    Write-PrefixedMessage "An error occurred while setting up the Virtual Environment." -color Red
 }
 
-Write-Host -NoNewline "$prefix " -ForegroundColor Red; Write-Host "Activating virtual environment..."
+Write-PrefixedMessage "Activating virtual environment..."
 & '.venv\Scripts\activate'
