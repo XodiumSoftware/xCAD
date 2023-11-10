@@ -18,7 +18,13 @@ trap {
     exit
 }
 
-$scripts = @("setup_msvc.ps1", 'setup_python.ps1', "setup_venv.ps1", "setup_pip_packages.ps1", "setup_pytests.ps1")
+$scripts = @(
+    # "setup_msvc.ps1",
+    # "setup_python.ps1",
+    # "setup_venv.ps1",
+    # "setup_pip_packages.ps1",
+    "setup_unittests.ps1"
+)
 
 foreach ($script in $scripts) {
     Write-PrefixedMessage "Running $script..." -color Cyan
