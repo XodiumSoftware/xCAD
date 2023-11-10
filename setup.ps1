@@ -1,10 +1,19 @@
 function Write-PrefixMsg {
     param (
-        [string]$message,
+        [Parameter(Mandatory = $true, Position = 0)]
+        $messages,
         [ConsoleColor]$color = [ConsoleColor]::White
     )
 
-    Write-Host -NoNewline "(Setup): " -ForegroundColor Magenta; Write-Host $message -ForegroundColor $color
+    if ($messages.GetType().Name -ne 'Object[]') {
+        $messages = @(@{message = $messages; color = $color })
+    }
+
+    Write-Host -NoNewline "(Setup): " -ForegroundColor Magenta
+    foreach ($msg in $messages) {
+        Write-Host -NoNewline $msg.message -ForegroundColor $msg.color
+    }
+    Write-Host ""
 }
 
 function Write-Error {
@@ -27,49 +36,59 @@ function Get-UserConfirmation {
     return $userInput
 }
 
-
-trap {
-    Write-PrefixMsg "An error occurred during setup." -color Red
-    exit
-}
-
-$scripts = @(
-    "setup_msvc.ps1",
-    "setup_python.ps1",
-    "setup_venv.ps1",
-    "setup_pip_packages.ps1",
-    "setup_unittests.ps1",
-    "run_unittests.ps1"
-)
-
-do {
-    Write-PrefixMsg "Please select a script to run:" -color Cyan
-    Write-PrefixMsg "[A]: Run All Scripts" -color Green
-    for ($i = 0; $i -lt $scripts.Length; $i++) {
-        $scriptNameWithoutExtension = [System.IO.Path]::GetFileNameWithoutExtension($scripts[$i])
-        Write-PrefixMsg "[$($i+1)]: $scriptNameWithoutExtension"
+try {    
+    $scripts = [ordered]@{
+        "setup_msvc.ps1"         = @();
+        "setup_python.ps1"       = @("setup_msvc.ps1");
+        "setup_venv.ps1"         = @("setup_python.ps1");
+        "setup_pip_packages.ps1" = @("setup_venv.ps1");
+        "setup_unittests.ps1"    = @("setup_pip_packages.ps1");
+        "run_unittests.ps1"      = @("setup_unittests.ps1")
     }
-    Write-PrefixMsg "[0]: Exit" -color Red
-    $inputOptions = "A,1-" + $scripts.Length + ",0"
-    Write-PrefixMsg "Enter your choice [$inputOptions]:" -color Gray
-    $choice = Read-Host
-    while ($choice -ne 'A' -and $choice -ne '0' -and -not ($choice -gt 0 -and $choice -le $scripts.Length)) {
-        Write-PrefixMsg "Invalid input. Please enter 'A' (All), a number from '1-$($scripts.Length)' (Script no.), or '0' (Exit)." -color Yellow
+
+    do {
+        Write-PrefixMsg "Please select a script to run:" -color Cyan
+        Write-PrefixMsg "[A]: Run All Scripts" -color Green
+        $i = 0
+        foreach ($script in $scripts.Keys) {
+            $i++
+            $scriptNameWithoutExtension = [System.IO.Path]::GetFileNameWithoutExtension($script)
+            $dependencies = $scripts[$script] -join ', '
+            if ($dependencies) {
+                Write-PrefixMsg @(
+                    @{message = "[${i}]: ${scriptNameWithoutExtension}"; color = "White" },
+                    @{message = " (Dependencies: ${dependencies})"; color = "Gray" }
+                )
+            }
+            else {
+                Write-PrefixMsg "[${i}]: ${scriptNameWithoutExtension}" -color White
+            }
+        }        
+        Write-PrefixMsg "[0]: Exit" -color Red
+        $inputOptions = "A,1-" + $scripts.Count + ",0"
+        Write-PrefixMsg "Enter your choice [$inputOptions]:" -color Gray
         $choice = Read-Host
-    }
-    if ($choice -eq 'A') {
-        foreach ($script in $scripts) {
+        while ($choice -ne 'A' -and $choice -ne '0' -and -not ($choice -gt 0 -and $choice -le $scripts.Count)) {
+            Write-PrefixMsg "Invalid input. Please enter 'A' (All), a number from '1-$($scripts.Count)' (Script no.), or '0' (Exit)." -color Yellow
+            $choice = Read-Host
+        }
+        if ($choice -eq 'A') {
+            foreach ($script in $scripts.Keys) {
+                Write-PrefixMsg "Running $script..." -color Cyan
+                & ".\scripts\$script"
+            }
+        }
+        elseif ($choice -gt 0 -and $choice -le $scripts.Count) {
+            $script = $scripts.Keys[$choice - 1]
             Write-PrefixMsg "Running $script..." -color Cyan
             & ".\scripts\$script"
         }
-    }
-    elseif ($choice -gt 0 -and $choice -le $scripts.Length) {
-        $script = $scripts[$choice - 1]
-        Write-PrefixMsg "Running $script..." -color Cyan
-        & ".\scripts\$script"
-    }
-} while ($choice -ne 0)
+    } while ($choice -ne 0)
 
-Write-PrefixMsg "Setup complete!" -color Green
-Pause
-Clear-Host
+    Write-PrefixMsg "Setup complete!" -color Green
+    Pause
+    Clear-Host
+}
+catch {
+    Write-Error $_
+}
