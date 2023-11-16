@@ -17,9 +17,6 @@
 1. Run the setup script:
    - Windows: `.\setup.ps1`
    - Linux: `./setup.sh`
-2. Set the interpreter to the Python executable in the virtual environment:
-   - Windows: `.venv\Scripts\python.exe`
-   - Linux: `.venv/bin/python`
 
 ## Running the program in CAD software:
 
