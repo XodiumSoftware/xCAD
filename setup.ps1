@@ -39,7 +39,7 @@ function Get-UserConfirmation {
 try {    
     $scripts = [ordered]@{
         "setup_msvc.ps1"         = @();
-        "setup_python.ps1"       = @("setup_msvc.ps1");
+        "setup_python.ps1"       = @();
         "setup_venv.ps1"         = @("setup_python.ps1");
         "setup_pip_packages.ps1" = @("setup_venv.ps1");
         "setup_unittests.ps1"    = @("setup_pip_packages.ps1");
