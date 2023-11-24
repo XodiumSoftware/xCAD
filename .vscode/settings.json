@@ -6,46 +6,18 @@
   },
   "code-runner.runInTerminal": true,
   "C_Cpp.errorSquiggles": "enabled",
-  "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
-    "editor.formatOnSave": true
-  },
-  "[github-actions-workflow]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
-    "editor.formatOnSave": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+  "C_Cpp.intelliSenseEngineFallback": "enabled",
+  "C_Cpp.intelliSenseEngine": "default",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
   },
   "[powershell]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     },
     "editor.defaultFormatter": "ms-vscode.powershell",
-    "editor.formatOnSave": true
-  },
-  "[python]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    },
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
     "editor.formatOnSave": true
   },
   "deepsource.installationUrl": "https://app.deepsource.com",
@@ -125,6 +97,5 @@
       "background": "#ffff00"
     }
   },
-  "mypy.runUsingActiveInterpreter": true,
-  "C_Cpp.intelliSenseEngine": "default"
+  "mypy.runUsingActiveInterpreter": true
 }
