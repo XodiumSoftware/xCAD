@@ -20,6 +20,9 @@
     "editor.defaultFormatter": "ms-vscode.powershell",
     "editor.formatOnSave": true
   },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
   "deepsource.installationUrl": "https://app.deepsource.com",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
