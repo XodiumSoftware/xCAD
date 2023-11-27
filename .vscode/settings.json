@@ -23,6 +23,9 @@
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
   "deepsource.installationUrl": "https://app.deepsource.com",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,

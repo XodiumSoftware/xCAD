@@ -31,5 +31,5 @@ class LumberTypeConfig(InputDialogTypeHints):
             icon_type=QMessageBox.Icon.Information,
             size=None,
             text="Choose a lumber type:",
-            data=LumberTypesData(),
+            data=LumberTypesData(),  # TODO: Fix this error.
         )

@@ -34,7 +34,7 @@ class InputDialogModule(QInputDialog):
         else:
             self.setFixedSize(*configs.size)
 
-        data = [type_name for type_name, _ in configs.data]
+        data = [type_name for type_name, _ in configs.data]  # TODO: Fix this error.
         current_type = input_module.text()
 
         selected_type, _ = self.getItem(
