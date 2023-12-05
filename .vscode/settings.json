@@ -1,32 +1,23 @@
 {
-  "cmake.configureOnOpen": true,
   "code-runner.clearPreviousOutput": true,
   "code-runner.executorMap": {
     "python": "$pythonPath -u $fullFileName"
   },
   "code-runner.runInTerminal": true,
-  "C_Cpp.errorSquiggles": "enabled",
-  "C_Cpp.intelliSenseEngineFallback": "enabled",
-  "C_Cpp.intelliSenseEngine": "default",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-  },
-  "[powershell]": {
+  "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
-    "editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
   },
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
+  "material-icon-theme.files.color": "#ef5350",
+  "material-icon-theme.folders.color": "#ef5350",
+  "material-icon-theme.folders.associations": {
+    // TODO: fix icon path
+    "StenLib": "extensions/icons/folder-sten",
   },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
-  "deepsource.installationUrl": "https://app.deepsource.com",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "github.copilot.enable": {
@@ -35,20 +26,27 @@
     "plaintext": true,
     "scminput": false
   },
+  "extensions.ignoreRecommendations": true,
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.diagnosticMode": "workspace",
+  "python.languageServer": "Pylance",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
-  "python.analysis.extraPaths": ["./src", "./tests"],
-  "python.analysis.importFormat": "absolute",
+  "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "*_test.py"],
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./tests",
+    "-p",
+    "*_test.py"
+  ],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
   "terminal.integrated.enableMultiLinePasteWarning": false,
@@ -61,11 +59,20 @@
   "workbench.startupEditor": "none",
   "json.schemas": [
     {
-      "fileMatch": ["*.json", "*.jsonc"],
+      "fileMatch": [
+        "*.json",
+        "*.jsonc"
+      ],
       "url": "https://json.schemastore.org/package"
     }
   ],
-  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
+  "todo-tree.general.tags": [
+    "ERROR",
+    "BUG",
+    "FIXME",
+    "TODO",
+    "NOTE"
+  ],
   "todo-tree.highlights.defaultHighlight": {
     "gutterIcon": true,
     "fontWeight": "bold",
@@ -103,5 +110,4 @@
       "background": "#ffff00"
     }
   },
-  "mypy.runUsingActiveInterpreter": true
 }

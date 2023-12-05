@@ -1,0 +1,36 @@
+// TODO: ESLint is being installed as an vscode extension, but it shouldn't be installed at all.
+{
+	"name": "autoframecad",
+	"dockerFile": "../dockerfile",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/pipx-package:1": {
+			"includeDeps": true,
+			"package": "black",
+			"version": "latest",
+			"injections": "pylint",
+			"interpreter": "python3"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"charliermarsh.ruff",
+				"formulahendry.code-runner",
+				"usernamehw.errorlens",
+				"visualstudioexptteam.vscodeintellicode",
+				"visualstudioexptteam.intellicode-api-usage-examples",
+				"pkief.material-icon-theme",
+				"gruntfuggly.todo-tree",
+				"github.copilot",
+				"github.vscode-github-actions",
+				"redhat.vscode-yaml",
+				"ms-azuretools.vscode-docker",
+				"jock.svg",
+				"ms-vscode.cpptools",
+				"ms-vscode.cmake-tools"
+			]
+		}
+	}
+}
