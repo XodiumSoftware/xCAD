@@ -15,7 +15,7 @@ class ToolBarModule(QToolBar):
 
         Args:
             configs (ToolBarTypeHints): A configuration.
-            action (Optional[Union[QAction, list[QAction]]]): list of actions.
+            action (QAction | list[QAction] | None, optional): A QAction or a list of QAction. Defaults to None.
         """
         super().__init__()
         self.setup_props(configs, action)
@@ -29,7 +29,7 @@ class ToolBarModule(QToolBar):
 
         Args:
             configs (ToolBarTypeHints): A configuration.
-            action (Optional[Union[QAction, list[QAction]]]): list of actions.
+            action (QAction | list[QAction] | None, optional): A QAction or a list of QAction. Defaults to None.
         """
         self.setWindowTitle(configs.title)
         self.setStyleSheet(configs.stylesheet)
