@@ -1,8 +1,7 @@
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QStackedWidget
-
 from interfaces.configs.stacked_configs import StackedTypeHints
 from interfaces.handlers.signal_handler import SignalHandler
+from PySide6.QtCore import Slot
+from PySide6.QtWidgets import QStackedWidget
 
 
 class StackedModule(QStackedWidget):

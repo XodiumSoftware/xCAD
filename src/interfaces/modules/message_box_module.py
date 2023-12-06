@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QApplication, QMessageBox
-
 from interfaces.configs.message_box_configs import MessageBoxTypeHints
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 
 class MessageBoxModule(QMessageBox):

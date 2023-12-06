@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QCheckBox
-
 from interfaces.configs.check_box_configs import CheckBoxTypeHints
+from PySide6.QtWidgets import QCheckBox
 
 
 class CheckBoxModule(QCheckBox):

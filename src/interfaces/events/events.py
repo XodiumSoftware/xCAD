@@ -1,8 +1,7 @@
-from PySide6.QtGui import QKeySequence, QShortcut
-from PySide6.QtWidgets import QWidget
-
 from interfaces.configs.message_box_configs import QuitMessageBox
 from interfaces.modules.message_box_module import MessageBoxModule
+from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtWidgets import QWidget
 
 # TODO
 

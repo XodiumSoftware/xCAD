@@ -1,8 +1,5 @@
 from dataclasses import dataclass
 
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QLayout, QSizePolicy, QStackedWidget, QVBoxLayout
-
 from constants import UI_ICON_PATH
 from interfaces.configs.action_configs import DefaultActionConfig
 from interfaces.configs.stacked_configs import MainUIStackModule
@@ -12,6 +9,8 @@ from interfaces.modules.action_module import ActionModule
 from interfaces.modules.stacked_module import StackedModule
 from interfaces.modules.status_bar_module import StatusBarModule
 from interfaces.modules.tool_bar_module import ToolBarModule
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QLayout, QSizePolicy, QStackedWidget, QVBoxLayout
 
 
 @dataclass

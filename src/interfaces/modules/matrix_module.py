@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QWidget
-
 from interfaces.configs.matrix_configs import MatrixTypeHints
+from PySide6.QtWidgets import QWidget
 
 
 class MatrixModule(QWidget):

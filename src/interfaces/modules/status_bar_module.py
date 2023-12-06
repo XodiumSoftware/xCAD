@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QStatusBar
-
 from interfaces.configs.status_bar_configs import StatusBarTypeHints
+from PySide6.QtWidgets import QStatusBar
 
 
 class StatusBarModule(QStatusBar):

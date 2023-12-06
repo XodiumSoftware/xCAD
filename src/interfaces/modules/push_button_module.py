@@ -1,8 +1,7 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
-
 from interfaces.configs.push_button_configs import PushButtonTypeHints
 from interfaces.handlers.signal_handler import SignalHandler
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
 
 
 class PushButtonModule(QPushButton):

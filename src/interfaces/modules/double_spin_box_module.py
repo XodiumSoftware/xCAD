@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QDoubleSpinBox
-
 from interfaces.configs.double_spin_box_configs import DoubleSpinBoxTypeHints
+from PySide6.QtWidgets import QDoubleSpinBox
 
 
 class DoubleSpinBoxModule(QDoubleSpinBox):

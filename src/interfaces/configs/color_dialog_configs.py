@@ -1,10 +1,8 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
-
-from PySide6.QtGui import QIcon
 
 from constants import ICONS_FOLDER_PATH
+from PySide6.QtGui import QIcon
 
 
 @dataclass
@@ -13,7 +11,7 @@ class ColorDialogTypeHints:
 
     title: str
     icon_path: QIcon
-    size: Optional[tuple[int, int]]
+    size: tuple[int, int] | None
 
 
 class DefaultColorDialogConfig(ColorDialogTypeHints):

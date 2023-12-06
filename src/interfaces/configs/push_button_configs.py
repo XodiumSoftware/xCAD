@@ -1,13 +1,11 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
 
 import darkdetect
+from constants import ICONS_FOLDER_PATH
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLayout, QSizePolicy, QVBoxLayout
-
-from constants import ICONS_FOLDER_PATH
 
 
 @dataclass
@@ -15,10 +13,10 @@ class PushButtonTypeHints:
     """A class used to represent pushbutton type hints."""
 
     title: str | tuple[str, ...]
-    icon_path: Optional[QIcon]
+    icon_path: QIcon | None
     stylesheet: str | tuple[str, ...]
     text_alignment: Qt.AlignmentFlag | tuple[Qt.AlignmentFlag, ...]
-    size: Optional[list]
+    size: list | None
     layout: QLayout
     size_policy: tuple[QSizePolicy.Policy, QSizePolicy.Policy]
 

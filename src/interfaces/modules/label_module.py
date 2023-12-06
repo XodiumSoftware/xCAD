@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QLabel
-
 from interfaces.configs.label_configs import LabelTypeHints
+from PySide6.QtWidgets import QLabel
 
 
 class LabelModule(QLabel):

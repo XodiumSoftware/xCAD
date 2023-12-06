@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
-from PySide6.QtGui import QIcon
-
 from interfaces.configs.ui_configs import UI_ICON_PATH
+from PySide6.QtGui import QIcon
 
 
 @dataclass

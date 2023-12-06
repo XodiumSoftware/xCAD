@@ -1,6 +1,5 @@
-from PySide6.QtGui import QAction
-
 from interfaces.configs.action_configs import ActionTypeHints
+from PySide6.QtGui import QAction
 
 
 class ActionModule(QAction):

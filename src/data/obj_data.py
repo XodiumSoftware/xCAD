@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
-from StenLib.StenUtils import Utils
-
 from data.types_data import LumberTypesData
+from StenLib.StenUtils import Utils
 
 
 @dataclass

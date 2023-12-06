@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QLineEdit
-
 from interfaces.configs.line_edit_configs import LineEditTypeHints
+from PySide6.QtWidgets import QLineEdit
 
 
 class LineEditModule(QLineEdit):

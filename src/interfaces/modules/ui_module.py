@@ -1,8 +1,7 @@
 import qdarktheme
-from PySide6.QtWidgets import QMainWindow
-
 from interfaces.configs.ui_configs import UITypeHints
 from interfaces.events.events import Events
+from PySide6.QtWidgets import QMainWindow
 
 
 class MainUIModule(QMainWindow):

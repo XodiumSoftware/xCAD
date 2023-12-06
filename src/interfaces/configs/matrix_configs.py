@@ -1,12 +1,11 @@
 from dataclasses import dataclass
 
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
-
 from interfaces.configs.label_configs import CopyrightLabelConfig
 from interfaces.configs.push_button_configs import AutoFrameCADPushButtonConfig
 from interfaces.modules.label_module import LabelModule
 from interfaces.modules.push_button_module import PushButtonModule
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QGridLayout, QSizePolicy, QWidget
 
 
 @dataclass

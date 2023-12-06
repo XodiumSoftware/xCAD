@@ -1,9 +1,6 @@
-from typing import Optional, Union
-
+from interfaces.configs.tool_bar_configs import ToolBarTypeHints
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QToolBar
-
-from interfaces.configs.tool_bar_configs import ToolBarTypeHints
 
 
 class ToolBarModule(QToolBar):
@@ -12,7 +9,7 @@ class ToolBarModule(QToolBar):
     def __init__(
         self,
         configs: ToolBarTypeHints,
-        action: Optional[Union[QAction, list[QAction]]] = None,
+        action: QAction | list[QAction] | None = None,
     ) -> None:
         """Initialize the class.
 
@@ -26,7 +23,7 @@ class ToolBarModule(QToolBar):
     def setup_props(
         self,
         configs: ToolBarTypeHints,
-        action: Optional[Union[QAction, list[QAction]]] = None,
+        action: QAction | list[QAction] | None = None,
     ) -> None:
         """Setup the properties.
 

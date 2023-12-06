@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QInputDialog, QPushButton
-
 from interfaces.configs.input_dialog_configs import InputDialogTypeHints
+from PySide6.QtWidgets import QInputDialog, QPushButton
 
 
 class InputDialogModule(QInputDialog):

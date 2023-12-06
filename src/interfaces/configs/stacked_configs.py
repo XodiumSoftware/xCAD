@@ -1,12 +1,11 @@
 from dataclasses import dataclass
 
-from PySide6.QtWidgets import QWidget
-
 from interfaces.configs.matrix_configs import (
     MainUIMenuConfig,
     MainUIStartUpMatrixConfig,
 )
 from interfaces.modules.matrix_module import MatrixModule
+from PySide6.QtWidgets import QWidget
 
 
 @dataclass

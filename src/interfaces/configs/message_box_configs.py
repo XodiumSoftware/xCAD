@@ -1,11 +1,9 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
-
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMessageBox
 
 from constants import ICONS_FOLDER_PATH
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QMessageBox
 
 
 @dataclass
@@ -15,7 +13,7 @@ class MessageBoxTypeHints:
     title: str
     icon_path: QIcon
     icon_type: QMessageBox.Icon
-    size: Optional[list]
+    size: list | None
     text: str
     standard_buttons: QMessageBox.StandardButton
 

@@ -1,7 +1,6 @@
+from interfaces.configs.color_dialog_configs import ColorDialogTypeHints
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QColorDialog, QPushButton
-
-from interfaces.configs.color_dialog_configs import ColorDialogTypeHints
 
 
 class ColorDialogModule(QColorDialog):
