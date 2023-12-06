@@ -12,11 +12,12 @@
   </a>
 </p>
 
-## Setup the project (NEED UAC RIGHTS):
+## Setup the project:
 
-1. Run the setup script:
-   - Windows: `.\setup.ps1`
-   - Linux: `./setup.sh`
+1. Install `Docker Desktop`.
+2. Click on the `blue remote button` on the bottom left of vsc.
+3. Click on `Clone Repository in Container Volume...`.
+4. Follow the steps one by one, Wait a bit, Done.
 
 ## Running the program in CAD software:
 
