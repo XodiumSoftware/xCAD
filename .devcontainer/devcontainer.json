@@ -1,4 +1,3 @@
-// TODO: ESLint is being installed as an vscode extension, but it shouldn't be installed at all.
 {
 	"name": "autoframecad",
 	"dockerFile": "../dockerfile",
