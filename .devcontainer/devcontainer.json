@@ -15,11 +15,7 @@
 	},
 	"customizations": {
 		"settings": {
-			"python.defaultInterpreterPath": "/usr/local/bin/python",
-			"terminal.integrated.shellArgs.linux": [
-				"-c",
-				"source .venv/bin/activate && exec /bin/bash"
-			]
+			"python.defaultInterpreterPath": "/usr/local/bin/python"
 		},
 		"vscode": {
 			"extensions": [
@@ -41,6 +37,6 @@
 			]
 		}
 	},
-	"postCreateCommand": "python -m venv .venv && /bin/bash -c \"source .venv/bin/activate && pip install -r requirements.txt && pip install --upgrade pip\"",
+	"postCreateCommand": "pip install -r requirements.txt && pip install --upgrade pip",
 	"remoteUser": "vscode@STEN"
 }
