@@ -1,5 +1,3 @@
-pyside6
 setuptools
 types-setuptools
 StenLib
-git+https://github.com/illyrius666/PyQtDarkTheme
