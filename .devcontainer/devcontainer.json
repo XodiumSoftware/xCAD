@@ -1,16 +1,22 @@
 {
-	"name": "autoframecad",
-	"dockerFile": "../dockerfile",
+	"image": "python:3.12-bullseye",
 	"features": {
-		"ghcr.io/devcontainers-contrib/features/pipx-package:1": {
-			"includeDeps": true,
-			"package": "black",
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": "true",
+			"username": "vscode@STEN",
+			"userUid": "1000",
+			"userGid": "1000",
+			"upgradePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/git:1": {
 			"version": "latest",
-			"injections": "pylint",
-			"interpreter": "python3"
+			"ppa": "false"
 		}
 	},
 	"customizations": {
+		"settings": {
+			"python.defaultInterpreterPath": "/usr/local/bin/python"
+		},
 		"vscode": {
 			"extensions": [
 				"ms-python.python",
@@ -26,10 +32,11 @@
 				"github.vscode-github-actions",
 				"redhat.vscode-yaml",
 				"ms-azuretools.vscode-docker",
-				"jock.svg",
 				"ms-vscode.cpptools",
 				"ms-vscode.cmake-tools"
 			]
 		}
-	}
+	},
+	"postCreateCommand": "pip3 install --user -r requirements.txt && pip3 install --upgrade pip",
+	"remoteUser": "vscode@STEN"
 }
