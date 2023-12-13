@@ -1,104 +1,113 @@
 {
-  // C/C++ Settings
-  "C_Cpp.default.compilerPath": "",
-  "C_Cpp.errorSquiggles": "enabled",
-  // CMake Settings
-  "cmake.sourceDirectory": "C:/VSC/AutoFrameCAD/CMakeLists.txt",
-  // Code Runner Settings
   "code-runner.clearPreviousOutput": true,
-  // Editor Settings
+  "code-runner.executorMap": {
+    "python": "$pythonPath -u $fullFileName"
+  },
+  "code-runner.runInTerminal": true,
+  "editor.formatOnSave": true,
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
   },
-  "editor.inlineSuggest.enabled": true,
-  "editor.suggest.filterGraceful": true,
-  "editor.suggestSelection": "recentlyUsed",
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.tabCompletion": "on",
-  "editor.wordBasedSuggestions": true,
-  "editor.formatOnSave": true,
-  // Explorer Settings
-  "explorer.openEditors.visible": 1,
-  // Git Settings
-  "git.enableSmartCommit": true,
+  "material-icon-theme.files.color": "#ef5350",
+  "material-icon-theme.folders.color": "#ef5350",
+  "material-icon-theme.folders.associations": {
+    // TODO: fix icon path
+    "StenLib": "extensions/icons/folder-sten",
+  },
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "github.copilot.enable": {
+    "*": true,
+    "markdown": true,
+    "plaintext": true,
+    "scminput": false
+  },
+  "extensions.ignoreRecommendations": true,
   "git.autofetch": true,
-  "git.confirmSync": false,
-  // Jupyter Notebook Settings
-  "jupyter.notebookFileRoot": "${workspaceFolder}/bcc",
+  "git.enableSmartCommit": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.diagnosticMode": "workspace",
+  "python.languageServer": "Pylance",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
-  "python.analysis.extraPaths": [
-    "${workspaceFolder}/bbc",
-    "${workspaceFolder}",
-    "C:\\Users\\admin\\AppData\\Roaming\\Python\\Python311\\site-packages"
-  ],
+  "python.analysis.importFormat": "relative",
+  "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.useLibraryCodeForTypes": true,
-  "python.formatting.blackArgs": ["--fast"],
-  // Todo Tree Settings
-  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
-  "todo-tree.general.statusBar": "current file",
-  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./tests",
+    "-p",
+    "*_test.py"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true,
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "workbench.colorTheme": "Monokai Dimmed",
+  "workbench.editorAssociations": {
+    "*.db": "default",
+    "*.pyd": "default"
+  },
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none",
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "*.json",
+        "*.jsonc"
+      ],
+      "url": "https://json.schemastore.org/package"
+    }
+  ],
+  "todo-tree.general.tags": [
+    "ERROR",
+    "BUG",
+    "FIXME",
+    "TODO",
+    "NOTE"
+  ],
   "todo-tree.highlights.defaultHighlight": {
-    "opacity": 0.5, // Make the background color semi-transparent
-    "borderRadius": "0.2em", // Make the background corners slightly curved
-    "gutterIcon": "True"
+    "gutterIcon": true,
+    "fontWeight": "bold",
+    "borderRadius": "0.2em"
   },
   "todo-tree.highlights.customHighlight": {
     "ERROR": {
-      "icon": "x",
-      "iconColor": "#FF0000", // Red icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#FF0000" // Red background color
+      "icon": "alert",
+      "iconColour": "#ff0000",
+      "foreground": "#ffffff",
+      "background": "#ff0000"
     },
     "BUG": {
       "icon": "bug",
-      "iconColor": "#FFA500", // Orange icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#FFA500" // Orange background color
+      "iconColour": "#ffa500",
+      "foreground": "#000000",
+      "background": "#ffa500"
     },
     "FIXME": {
       "icon": "flame",
-      "iconColor": "#0000FF", // Blue icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#0000FF" // Blue background color
+      "iconColour": "#0000ff",
+      "foreground": "#ffffff",
+      "background": "#0000ff"
     },
     "TODO": {
       "icon": "check",
-      "iconColor": "#008000", // Green icon color
-      "foreground": "#FFFFFF", // White foreground color
-      "background": "#008000" // Green background color
+      "iconColour": "#008000",
+      "foreground": "#ffffff",
+      "background": "#008000"
     },
     "NOTE": {
       "icon": "note",
-      "iconColor": "#FFFF00", // Yellow icon color
-      "foreground": "#000000", // Black foreground color
-      "background": "#FFFF00" // Yellow background color
+      "iconColour": "#ffff00",
+      "foreground": "#000000",
+      "background": "#ffff00"
     }
   },
-  "todo-tree.highlights.enabled": true,
-  "todo-tree.highlights.highlightDelay": 0,
-  "todo-tree.highlights.useColourScheme": false,
-  // Workbench Settings
-  "workbench.startupEditor": "none",
-  "workbench.editor.showTabs": true,
-  "workbench.editor.tabSizing": "fit",
-  "workbench.sideBar.location": "left",
-  "workbench.colorTheme": "Monokai Dimmed",
-  "files.autoSave": "onFocusChange",
-  "notebook.formatOnSave.enabled": true,
-  "python.analysis.importFormat": "relative",
-  "sqliteViewer.maxFileSize": 0,
-  "chatgpt.lang": "en",
-  "chatgpt.model": "gpt-3.5-turbo-16k",
-  "chatgpt.temperature": 0.1
 }

@@ -2,19 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Install Script on Startup",
-      "type": "shell",
-      "command": "python",
+      "type": "cppbuild",
+      "label": "C/C++: g++.exe build active file",
+      "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
       "args": [
-        "${workspaceFolder}/install_script.py"
+        "-fdiagnostics-color=always",
+        "-g",
+        "${file}",
+        "-o",
+        "${workspaceRoot}\\tests\\build\\${fileBasenameNoExtension}.exe"
       ],
-      "presentation": {
-        "reveal": "silent"
+      "options": {
+        "cwd": "C:\\msys64\\ucrt64\\bin"
       },
-      "runOptions": {
-        "runOn": "default"
-      },
-      "problemMatcher": []
-    },
+      "problemMatcher": ["$gcc"],
+      "group": "build",
+      "detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
+    }
   ]
 }
