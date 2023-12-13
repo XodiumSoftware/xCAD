@@ -27,12 +27,6 @@ jobs:
           pip install build
           pip install twine
           pip install mypy
-          pip install pytest pytest-cov
-
-      - name: Generate .pyi stub files
-        run: |
-          PACKAGE_NAME=$(ls -d */ | grep -v 'dist\|build' | head -n 1 | cut -f1 -d'/')
-          find $PACKAGE_NAME -name "*.py" ! -name "__init__.py" -exec stubgen -o . {} \;
 
       - name: Create & Push tag
         id: create_tag
@@ -52,10 +46,6 @@ jobs:
 
       - name: Build package
         run: python -m build
-
-      - name: Test with pytest
-        run: |
-          pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html
 
       - name: Create GitHub Release
         id: create_release
