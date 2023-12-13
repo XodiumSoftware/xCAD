@@ -1,6 +1,6 @@
 import tkinter as tk
+
 from interfaces.configs.ui_configs import UITypeHints
-# from interfaces.events.events import Events
 
 
 class MainUIModule(tk.Tk):
