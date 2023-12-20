@@ -24,4 +24,5 @@ class MainUIModule(tk.Tk):
 
     def setup_actions(self):
         """Setup the actions."""
-        # TODO: Implement the equivalent of Events.quit_on_key_press_event for tkinter.
+        # TODO: Implement the equivalent of,
+        # Events.quit_on_key_press_event for tkinter.

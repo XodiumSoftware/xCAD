@@ -1,74 +1,98 @@
 {
+  // Code Runner Settings
   "code-runner.clearPreviousOutput": true,
   "code-runner.executorMap": {
     "python": "$pythonPath -u $fullFileName"
   },
   "code-runner.runInTerminal": true,
+  // Editor Settings
   "editor.formatOnSave": true,
+  // C/C++-specific Editor Settings
+  "[c++]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // HTML-specific Editor Settings
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // JSON-specific Editor Settings
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Markdown-specific Editor Settings
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // JSONC-specific Editor Settings
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Python-specific Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
     },
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
   },
-  "material-icon-theme.files.color": "#ef5350",
-  "material-icon-theme.folders.color": "#ef5350",
+  // TOML-specific Editor Settings
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  // XML-specific Editor Settings
+  "[xml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // General Settings
+  "extensions.ignoreRecommendations": true,
+  // Explorer Settings
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
-  "github.copilot.enable": {
-    "*": true,
-    "markdown": true,
-    "plaintext": true,
-    "scminput": false
-  },
-  "extensions.ignoreRecommendations": true,
+  // Git Settings
   "git.autofetch": true,
   "git.enableSmartCommit": true,
+  "github.copilot.enable": {
+    "*": true
+  },
+  // JSON Schema Settings
+  "json.schemas": [
+    {
+      "fileMatch": ["*.json", "*.jsonc"],
+      "url": "https://json.schemastore.org/package"
+    }
+  ],
+  // Material Icon Theme Settings
+  "material-icon-theme.files.color": "#ef5350",
+  "material-icon-theme.folders.color": "#ef5350",
+  "material-icon-theme.folders.associations": {
+    "AutoFrameCAD": "src"
+  },
+  // Python Analysis Settings
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.diagnosticMode": "workspace",
-  "python.languageServer": "Pylance",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./tests",
-    "-p",
-    "*_test.py"
+  // Python Language Server Settings
+  "python.languageServer": "Pylance",
+  // Python Testing Settings
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "--rootdir=.",
+    "--verbose",
+    "AutoFrameCAD/tests"
   ],
-  "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true,
+  // Terminal Settings
   "terminal.integrated.enableMultiLinePasteWarning": false,
-  "workbench.colorTheme": "Monokai Dimmed",
-  "workbench.editorAssociations": {
-    "*.db": "default",
-    "*.pyd": "default"
-  },
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "none",
-  "json.schemas": [
-    {
-      "fileMatch": [
-        "*.json",
-        "*.jsonc"
-      ],
-      "url": "https://json.schemastore.org/package"
-    }
-  ],
-  "todo-tree.general.tags": [
-    "ERROR",
-    "BUG",
-    "FIXME",
-    "TODO",
-    "NOTE"
-  ],
+  // Todo Tree Settings
+  "todo-tree.general.tags": ["ERROR", "BUG", "FIXME", "TODO", "NOTE"],
   "todo-tree.highlights.defaultHighlight": {
     "gutterIcon": true,
     "fontWeight": "bold",
@@ -106,4 +130,8 @@
       "background": "#ffff00"
     }
   },
+  // Workbench Settings
+  "workbench.colorTheme": "Monokai Dimmed",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none"
 }

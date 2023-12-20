@@ -18,7 +18,7 @@ class MainUIConfig(UITypeHints):
 
     def __init__(self):
         super().__init__(
-            title="AFC",
+            title='AFC',
             init_size=(600, 400),
             init_visibility=True,
             content_margins=(10, 10, 10, 10),

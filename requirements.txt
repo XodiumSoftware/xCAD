@@ -1,3 +1,4 @@
+pytest
 setuptools
 types-setuptools
 StenLib

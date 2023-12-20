@@ -1,12 +1,13 @@
 #include "afc.hpp"
 
 extern "C" AcRx::AppRetCode
-acrxEntryPoint(AcRx::AppMsgCode msg, void* pkt)
+acrxEntryPoint(AcRx::AppMsgCode msg, void *pkt)
 {
-    switch (msg) {
+    switch (msg)
+    {
     case AcRx::kInitAppMsg:
         acrxDynamicLinker->registerAppMDIAware(pkt);
-        acrxDynamicLinker->unlockApplication(pkt); 
+        acrxDynamicLinker->unlockApplication(pkt);
         acrxRegisterAppMDIAware(pkt);
         break;
     case AcRx::kUnloadAppMsg:

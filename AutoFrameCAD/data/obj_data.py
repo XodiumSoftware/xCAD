@@ -10,7 +10,8 @@ class ObjInitData:
 
     Object_ID: str = Utils.alphanumeric_id_generator()
     Type: str = (
-        f"{LumberTypesData.SLS} {LumberTypesData.SLS[0][0]}x{LumberTypesData.SLS[0][1]}"
+        f'{LumberTypesData.SLS} '
+        f'{LumberTypesData.SLS[0][0]}x{LumberTypesData.SLS[0][1]}'
     )
     DrawOrder: int = 0
 
@@ -20,11 +21,11 @@ class ObjInitData:
     DimY: int = LumberTypesData.SLS[0][1]
     Rad: int = 0
 
-    PenStyle: str = "SolidLine"
-    PenColor: str = "#ffffff"
+    PenStyle: str = 'SolidLine'
+    PenColor: str = '#ffffff'
     PenThickness: int = 2
 
     Fill: bool = True
-    FillPattern: str = "SolidPattern"
-    FillColor: str = "#ebd3b0"
+    FillPattern: str = 'SolidPattern'
+    FillColor: str = '#ebd3b0'
     FillOpacity: int = 100
