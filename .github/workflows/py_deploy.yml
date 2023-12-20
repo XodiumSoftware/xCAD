@@ -1,9 +1,10 @@
 name: Sten's Python CI/CD
 run-name: "Sten's Python CI/CD"
 
+# TODO: replace dev-tkinter with dev with main at some point.
 on:
   push:
-    branches: [main]
+    branches: [dev-tkinter]
 
 jobs:
   keyword_check:
