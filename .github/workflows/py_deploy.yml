@@ -79,15 +79,15 @@ jobs:
           pip install pytest
           pip install pytest-md
 
-      - id: test_run_and_report
-        uses: pavelzw/pytest-action@main
-        with:
-          verbose: true
-          emoji: false
-          job-summary: true
-          custom-arguments: "-q"
-          click-to-expand: true
-          report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
+      # - id: test_run_and_report
+      #   uses: pavelzw/pytest-action@main
+      #   with:
+      #     verbose: true
+      #     emoji: false
+      #     job-summary: true
+      #     custom-arguments: "-q"
+      #     click-to-expand: true
+      #     report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
 
       - id: pytest_badge
         if: always()

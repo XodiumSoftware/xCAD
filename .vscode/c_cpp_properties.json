@@ -1,18 +1,14 @@
 {
   "json.schemas": [
     {
-      "fileMatch": [
-        "/.vscode/c_cpp_properties.json"
-      ],
+      "fileMatch": ["/.vscode/c_cpp_properties.json"],
       "url": "https://raw.githubusercontent.com/Microsoft/vscode-cpptools/master/Extension/schema/c_cpp_properties.schema.json"
     }
   ],
   "configurations": [
     {
       "name": "Linux",
-      "includePath": [
-        "${workspaceFolder}/**"
-      ],
+      "includePath": ["${workspaceFolder}/**", ""],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "c17",
