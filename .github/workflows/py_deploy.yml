@@ -159,54 +159,6 @@ jobs:
           logoColor: white
           style: flat-square
 
-  publish:
-    name: Publish
-    needs: [testing, code_quality]
-    runs-on: ${{ matrix.os }}
-    permissions:
-      id-token: write
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        version: [3.12]
-    steps:
-      - id: checkout
-        uses: actions/checkout@main
-
-      - id: setup_python
-        uses: actions/setup-python@main
-        with:
-          python-version: ${{ matrix.version }}
-          cache: "pip"
-
-      - id: install_dependencies
-        name: Install Dependencies
-        run: |
-          pip install --upgrade pip
-          pip install build
-          pip install twine
-
-      - id: build_package
-        name: Build Package
-        run: python -m build
-
-      - id: publish_to_pypi
-        uses: pypa/gh-action-pypi-publish@v1.8.11
-
-      - id: pypi_badge
-        if: always()
-        uses: schneegans/dynamic-badges-action@master
-        with:
-          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: pypi_badge.json
-          label: PyPI
-          message: ${{ job.status }}
-          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-          namedLogo: pypi
-          logoColor: white
-          style: flat-square
-
   documentation:
     name: Documentation
     needs: [testing, code_quality]
