@@ -1,12 +1,20 @@
-pip install --upgrade pip
-pip install -r requirements.txt
+function download_and_extract() {
+    local source_url=$1
+    local file_name=$(basename $source_url)
+    local folder_name=$(basename $(dirname $source_url))
+    local temp_dir="/tmp/$folder_name/$file_name"
+    local dest_dir="/usr/local/lib/$folder_name"
 
-source_dir="https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
-temp_dir="/tmp/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
-dest_dir="/usr/local/lib/BRXSDK"
+    trap 'rm -f $temp_dir' EXIT
 
-mkdir -p $(dirname $temp_dir)
-curl $source_dir -o $temp_dir
+    if [ ! -d $(dirname $temp_dir) ]; then
+        sudo mkdir -p $(dirname $temp_dir)
+    fi
 
-sudo unzip -q -o $temp_dir -d $dest_dir
-rm $temp_dir
+    sudo wget -P $(dirname $temp_dir) $source_url &&
+        sudo unzip -q -o $temp_dir -d $dest_dir
+}
+
+pip install --upgrade pip && pip install -r requirements.txt
+
+download_and_extract "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"

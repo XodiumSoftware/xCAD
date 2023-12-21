@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='AutoFrameCad',
-    version='0.0.1',
+    version='0.0.2',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     license=open('LICENSE.md').read(),
