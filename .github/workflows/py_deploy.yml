@@ -163,6 +163,8 @@ jobs:
     name: Publish
     needs: [testing, code_quality]
     runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -189,20 +191,7 @@ jobs:
         run: python -m build
 
       - id: publish_to_pypi
-        name: Publish Package to PyPI
-        if: contains(github.event.head_commit.message, '.deploy')
-        run: twine upload dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-
-      - id: publish_to_testpypi
-        name: Publish Package to TestPyPI
-        if: contains(github.event.head_commit.message, '.deploy .test')
-        run: twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.TESTPYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TESTPYPI_PASSWORD }}
+        uses: pypa/gh-action-pypi-publish@v1.8.11
 
       - id: pypi_badge
         if: always()
@@ -245,7 +234,7 @@ jobs:
       - id: build_docs
         name: Build Sphinx Documentation
         run: make html
-        working-directory: StenLib/docs
+        working-directory: AutoFrameCAD/docs
 
       - id: deploy_docs
         uses: SamKirkland/FTP-Deploy-Action@master
