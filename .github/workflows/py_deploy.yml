@@ -153,7 +153,7 @@ jobs:
 
   release:
     name: Release
-    needs: [pytest, code_quality]
+    needs: [pytest, ctest, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -209,7 +209,7 @@ jobs:
 
   documentation:
     name: Documentation
-    needs: [pytest, code_quality]
+    needs: [pytest, ctest, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

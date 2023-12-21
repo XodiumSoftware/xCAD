@@ -12,7 +12,7 @@
 
 [![Release][release-shield]][release-url]
 [![Pytest][pytest-shield]][pytest-url]
-[![PyPI][pypi-shield]][pypi-url]
+[![Ctest][ctest-shield]][ctest-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![Code Quality][codequality-shield]][codequality-url]
 
@@ -159,8 +159,8 @@ Distributed under the AGPL-3.0 License. See `LICENSE.md` for more information.
 [release-url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
 [pytest-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/pytest_badge.json
 [pytest-url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
-[pypi-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/pypi_badge.json
-[pypi-url]: https://pypi.org/project/AutoFrameCAD/
+[ctest-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/ctest_badge.json
+[ctest-url]: https://pypi.org/project/AutoFrameCAD/
 [documentation-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/docs_badge.json
 [documentation-url]: https://docs.structura-engineering.com
 [codequality-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/code_quality_badge.json
