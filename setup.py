@@ -1,8 +1,8 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='AutoFrameCad',
-    version='0.0.3',
+    name='AutoFrameCAD',
+    version='0.0.1',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     license=open('LICENSE.md').read(),

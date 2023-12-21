@@ -5,6 +5,8 @@
     "python": "$pythonPath -u $fullFileName"
   },
   "code-runner.runInTerminal": true,
+  // CMake Tools Settings
+  "cmake.options.statusBarVisibility": "compact",
   // Editor Settings
   "editor.formatOnSave": true,
   // C/C++-specific Editor Settings
