@@ -1,10 +1,9 @@
-import qdarktheme
+import tkinter as tk
+
 from interfaces.configs.ui_configs import UITypeHints
-from interfaces.events.events import Events
-from PySide6.QtWidgets import QMainWindow
 
 
-class MainUIModule(QMainWindow):
+class MainUIModule(tk.Tk):
     """A class used to represent a ui module."""
 
     def __init__(self, configs: UITypeHints) -> None:
@@ -14,8 +13,6 @@ class MainUIModule(QMainWindow):
             configs (UITypeHints): A configuration.
         """
         super().__init__()
-        qdarktheme.setup_theme("auto")
-
         self.setup_props(configs)
 
     def setup_props(self, configs: UITypeHints) -> None:
@@ -24,22 +21,12 @@ class MainUIModule(QMainWindow):
         Args:
             configs (UITypeHints): A configuration.
         """
-        self.setWindowTitle(configs.title)
-        self.setLayout(configs.layout)
-        self.setWindowIcon(configs.icon_path)
-        self.resize(*configs.init_size)
+        self.title(configs.title)
+        self.geometry(f'{configs.init_size[0]}x{configs.init_size[1]}')
         if configs.init_visibility:
-            self.show()
+            self.deiconify()
         else:
-            self.hide()
-        self.setContentsMargins(*configs.content_margins)
-        self.setSizePolicy(*configs.size_policy)
-        self.setStatusBar(configs.status_bar)
-        self.addToolBar(configs.tool_bar)
-        self.setCentralWidget(configs.stack_module)
-        self.setup_actions()
-
-    # TODO: Make it modular.
-    def setup_actions(self):
-        """Setup the actions."""
-        Events.quit_on_key_press_event(self)
+            self.withdraw()
+        self.minsize(400, 300)
+        self.resizable(configs.resizable, configs.resizable)
+        self.iconphoto(configs.icon_default, tk.PhotoImage(file=configs.icon))

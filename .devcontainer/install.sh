@@ -17,4 +17,4 @@ function download_and_extract() {
 
 pip install --upgrade pip && pip install -r requirements.txt
 
-# download_and_extract "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
+download_and_extract "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
