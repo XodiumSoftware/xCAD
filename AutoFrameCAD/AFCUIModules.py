@@ -1,17 +1,17 @@
-from tkinter import Tk, ttk
+from tkinter import Entry, Tk, ttk
 
-from AFCDataclasses import EventsDataclass, UIDataclass
+from AFCDataclasses import EventsDataclass, MainUIDataclass
 from AFCEvents import Events
 
 
 class MainUIModule(Tk, ttk.Style):
     """A class used to represent a ui module."""
 
-    def __init__(self, configs: UIDataclass) -> None:
+    def __init__(self, configs: MainUIDataclass) -> None:
         """Initialize the class.
 
         Args:
-            configs (UIDataclass): A configuration.
+            configs (MainUIDataclass): A configuration.
         """
         super().__init__()
         self.configure(background=configs.background_color)
@@ -24,5 +24,9 @@ class MainUIModule(Tk, ttk.Style):
         self.resizable(configs.resizable, configs.resizable)
         self.theme_use(configs.theme)
         self.title(configs.title)
+        # TODO: make this its own module.
+        Entry(self).pack()
 
-        Events.exit_on_key_press(self, EventsDataclass)
+        # BUG: Its centering on dual monitors not the primary one.
+        # Events.center_window(self)
+        Events.exit_on_key_press(self, EventsDataclass())

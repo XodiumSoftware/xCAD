@@ -51,7 +51,7 @@
     "-e",
     "XAUTHORITY=/tmp/.Xauthority",
     "-v",
-    "C:/Users/admin/.Xauthority:/tmp/.Xauthority"
+    "C:/Users/Fitim/.Xauthority:/tmp/.Xauthority"
   ]
 }
 // TODO: Currently the Xserver uses the host's .Xauthority file. This is not ideal.

@@ -1,12 +1,12 @@
 import sys
 
-from AFCDataclasses import UIDataclass
+from AFCDataclasses import MainUIDataclass
 from AFCUIModules import MainUIModule
 
 
 def run() -> None:
     """Runs the application."""
-    app = MainUIModule(UIDataclass())
+    app = MainUIModule(MainUIDataclass())
     return app.mainloop()
 
 
