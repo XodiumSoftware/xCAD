@@ -1,3 +1,6 @@
+PySide6
+pyqtdarktheme
+darkdetect
 pytest
 setuptools
 types-setuptools

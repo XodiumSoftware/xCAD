@@ -1,6 +1,8 @@
 #ifndef AFC_HPP
 #define AFC_HPP
 
-#include "StdAfx.h"
+#include "brx_platform_windows.h"
+#include "rxmfcapi.h"
+#include "acutads.h"
 
 #endif
