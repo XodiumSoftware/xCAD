@@ -7,13 +7,15 @@ from constants import UI_ICON_PATH
 class UITypeHints:
     """A class used to represent main UI type hints."""
 
-    title: str
-    init_size: tuple[int, int]
-    init_visibility: bool
+    background_color: str
     content_margins: tuple[int, int, int, int]
-    resizable: bool
     icon: str
     icon_default: bool
+    init_size: tuple[int, int]
+    init_visibility: bool
+    resizable: bool
+    theme: str
+    title: str
 
 
 class MainUIConfig(UITypeHints):
@@ -21,11 +23,13 @@ class MainUIConfig(UITypeHints):
 
     def __init__(self):
         super().__init__(
-            title='AFC',
-            init_size=(600, 400),
-            init_visibility=True,
+            background_color='black',
             content_margins=(10, 10, 10, 10),
-            resizable=True,
             icon=UI_ICON_PATH,
             icon_default=True,
+            init_size=(600, 400),
+            init_visibility=True,
+            resizable=True,
+            theme='alt',
+            title='AFC',
         )
