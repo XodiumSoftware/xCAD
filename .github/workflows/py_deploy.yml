@@ -1,72 +1,262 @@
-name: Python Package Deployment
+name: Sten's Python CI/CD
+run-name: "Sten's Python CI/CD"
 
+# TODO: replace dev-tkinter with dev with main at some point.
 on:
   push:
-    branches:
-      - main
+    branches: [dev-tkinter]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  keyword_check:
+    name: Keyword Check
+    runs-on: ${{ matrix.os }}
+    if: contains(github.event.head_commit.message, '.deploy')
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
     steps:
-      - name: Check for keyword in commit message
-        id: keyword_check
-        run: echo "contains_keyword=$(echo '${{ github.event.head_commit.message }}' | grep -qP '.(deploy|test)\b' && echo true || echo false)" >> $GITHUB_ENV
+      - id: keyword_check
+        run: echo "Keyword Check Passed"
 
-      - uses: actions/checkout@main
+  code_quality:
+    name: Code Quality Check
+    needs: [keyword_check]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
 
-      - name: Set up Python
+      - id: setup_python
         uses: actions/setup-python@main
         with:
-          python-version: "3.12.0"
+          python-version: ${{ matrix.version }}
+          cache: "pip"
 
-      - name: Install dependencies
+      - id: run_ruff
+        uses: chartboost/ruff-action@main
+        with:
+          args: -q
+
+      - id: code_quality_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: code_quality_badge.json
+          label: Code Quality
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: codacy
+          logoColor: white
+          style: flat-square
+
+  pytest:
+    name: PyTests
+    needs: [keyword_check]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
+
+      - id: setup_python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - id: install_dependencies
+        name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
+          pip install pytest
+          pip install pytest-md
+
+      # - id: test_run_and_report
+      #   uses: pavelzw/pytest-action@main
+      #   with:
+      #     verbose: true
+      #     emoji: false
+      #     job-summary: true
+      #     custom-arguments: "-q"
+      #     click-to-expand: true
+      #     report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
+
+      - id: pytest_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: pytest_badge.json
+          label: Pytest
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: pytest
+          logoColor: white
+          style: flat-square
+
+  ctest:
+    name: CTests
+    needs: [keyword_check]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
+
+      # - id: setup_python
+      #   uses: actions/setup-python@main
+      #   with:
+      #     python-version: ${{ matrix.version }}
+      #     cache: "pip"
+
+      # - id: install_dependencies
+      #   name: Install Dependencies
+      #   run: |
+      #     pip install pytest
+      #     pip install pytest-md
+
+      # - id: test_run_and_report
+      #   uses: pavelzw/pytest-action@main
+      #   with:
+      #     verbose: true
+      #     emoji: false
+      #     job-summary: true
+      #     custom-arguments: "-q"
+      #     click-to-expand: true
+      #     report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
+
+      - id: ctest_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: ctest_badge.json
+          label: CTest
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: cmake
+          logoColor: white
+          style: flat-square
+
+  release:
+    name: Release
+    needs: [pytest, ctest, code_quality]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
+
+      - id: setup_python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - id: install_dependencies
+        name: Install Dependencies
+        run: |
           pip install build
-          pip install twine
+          pip install setuptools
 
-      - name: Create & Push tag
-        id: create_tag
-        run: |
-          TAG=$(echo '${{ github.event.head_commit.message }}' | grep -oP '.tag\[\K(.*?)(?=\])')
-          if [ -n "$TAG" ]; then
-            git tag $TAG
-            git push origin $TAG
-          else
-            TAG="NULL"
-            git tag $TAG
-            git push origin $TAG
-            echo "No tag found in commit message. Using default tag."
-          fi
-          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Build package
+      - id: build_package
+        name: Build Package
         run: python -m build
 
-      - name: Create GitHub Release
-        id: create_release
+      - id: create_tag
+        name: Create & Push Tag
+        run: echo TAG=$(python setup.py --version) >> $GITHUB_OUTPUT
+        shell: bash
+
+      - id: create_release
         uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.create_tag.outputs.TAG }}
         with:
-          tag_name: ${{ env.TAG }}
+          tag_name: ${{ steps.create_tag.outputs.TAG }}
           draft: false
           prerelease: false
 
-      - name: Publish package to PyPI
-        if: contains(github.event.head_commit.message, '.deploy')
-        run: twine upload dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      - id: release_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: release_badge.json
+          label: Release
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: hackthebox
+          logoColor: white
+          style: flat-square
 
-      - name: Publish package to TestPyPI
-        if: contains(github.event.head_commit.message, '.test')
-        run: twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.TESTPYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TESTPYPI_PASSWORD }}
+  documentation:
+    name: Documentation
+    needs: [pytest, ctest, code_quality]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
+
+      - id: setup_python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - id: install_dependencies
+        name: Install Dependencies
+        run: |
+          pip install sphinx
+          pip install sphinx_rtd_theme
+
+      - id: build_docs
+        name: Build Sphinx Documentation
+        run: make html
+        working-directory: AutoFrameCAD/docs
+
+      - id: deploy_docs
+        uses: SamKirkland/FTP-Deploy-Action@master
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ${{ secrets.FTP_PROTOCOL }}
+          local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+
+      - id: docs_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: docs_badge.json
+          label: Docs
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: googledocs
+          logoColor: white
+          style: flat-square

@@ -1,47 +1,57 @@
 {
-	"image": "python:3.12-bullseye",
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installZsh": "true",
-			"username": "vscode@STEN",
-			"userUid": "1000",
-			"userGid": "1000",
-			"upgradePackages": "true"
-		},
-		"ghcr.io/devcontainers/features/git:1": {
-			"version": "latest",
-			"ppa": "false"
-		}
-	},
-	// "runArgs": [
-	// 	"--net=host",
-	// 	"-e DISPLAY",
-	// 	"-v /tmp/.X11-unix:/tmp/.X11-unix"
-	// ],
-	"customizations": {
-		"settings": {
-			"python.defaultInterpreterPath": "/usr/local/bin/python"
-		},
-		"vscode": {
-			"extensions": [
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"charliermarsh.ruff",
-				"formulahendry.code-runner",
-				"usernamehw.errorlens",
-				"visualstudioexptteam.vscodeintellicode",
-				"visualstudioexptteam.intellicode-api-usage-examples",
-				"pkief.material-icon-theme",
-				"gruntfuggly.todo-tree",
-				"github.copilot",
-				"github.vscode-github-actions",
-				"redhat.vscode-yaml",
-				"ms-azuretools.vscode-docker",
-				"ms-vscode.cpptools",
-				"ms-vscode.cmake-tools"
-			]
-		}
-	},
-	"postCreateCommand": "pip install -r requirements.txt && pip install --upgrade pip",
-	"remoteUser": "vscode@STEN"
+  "image": "python:3.12-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": "true",
+      "username": "vscode@STEN",
+      "userUid": "1000",
+      "userGid": "1000",
+      "upgradePackages": "true"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": "false"
+    }
+  },
+  "customizations": {
+    "settings": {
+      "python.defaultInterpreterPath": "/usr/local/bin/python"
+    },
+    "vscode": {
+      "extensions": [
+        "charliermarsh.ruff",
+        "esbenp.prettier-vscode",
+        "formulahendry.code-runner",
+        "foxundermoon.shell-format",
+        "github.copilot",
+        "github.vscode-github-actions",
+        "gruntfuggly.todo-tree",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode.live-server",
+        "pkief.material-icon-theme",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "usernamehw.errorlens",
+        "visualstudioexptteam.vscodeintellicode"
+      ]
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/install.sh",
+  "remoteUser": "vscode@STEN",
+  "runArgs": [
+    "--net",
+    "host",
+    "-e",
+    "DISPLAY=host.docker.internal:0",
+    "-e",
+    "XAUTHORITY=/tmp/.Xauthority",
+    "-v",
+    "C:/Users/admin/.Xauthority:/tmp/.Xauthority"
+  ]
 }
+// TODO: Currently the Xserver uses the host's .Xauthority file. This is not ideal.
+// if the path is not the same it will throw an error. we should find a workaround for this, to make it dynamic.
