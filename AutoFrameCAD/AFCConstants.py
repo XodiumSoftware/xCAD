@@ -2,10 +2,10 @@ import os
 
 # General
 # =============================================================================
-ICONS_FOLDER_PATH: str = os.path.join('AutoFrameCAD/icons/')
+ICONS_FOLDER_PATH: str = os.path.join('AutoFrameCAD/svg/')
 # =============================================================================
 
 # UI
 # =============================================================================
-UI_ICON_PATH: str = os.path.join(ICONS_FOLDER_PATH, 'ui.ico')
+UI_ICON_PATH: str = os.path.join(ICONS_FOLDER_PATH, 'ui.svg')
 # =============================================================================

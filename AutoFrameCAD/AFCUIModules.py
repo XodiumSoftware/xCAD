@@ -1,10 +1,9 @@
-import tkinter as tk
-from tkinter import ttk
+from tkinter import Tk, ttk
 
 from AFCDataclasses import UIDataclass
 
 
-class MainUIModule(tk.Tk, ttk.Style):
+class MainUIModule(Tk, ttk.Style):
     """A class used to represent a ui module."""
 
     def __init__(self, configs: UIDataclass) -> None:
@@ -17,7 +16,9 @@ class MainUIModule(tk.Tk, ttk.Style):
         self.configure(background=configs.background_color)
         self.deiconify() if configs.init_visibility else self.withdraw()
         self.geometry(f'{configs.init_size[0]}x{configs.init_size[1]}')
-        self.iconphoto(configs.icon_default, tk.PhotoImage(file=configs.icon))
+        # NOTE: Adjust when tk 8.7 is released,
+        # since it will have native svg support.
+        # self.iconphoto(configs.icon_default, configs.icon)
         self.minsize(configs.init_size[0], configs.init_size[1])
         self.resizable(configs.resizable, configs.resizable)
         self.theme_use(configs.theme)
