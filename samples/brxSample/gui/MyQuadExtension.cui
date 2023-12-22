@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<CustSection xml:lang="en-US">
+  <MenuGroup Name="MyQuadExtension">
+    <MenuRoot>
+      <QuadRoot>
+        <QuadTabs>
+          <QuadTab ID="qt_MyQuad" Name="MyQuad" NameRef="MyQuad">
+            <QuadButton ID="id_1" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_2" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_3" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_4" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_5" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+          </QuadTab>
+        </QuadTabs>
+      </QuadRoot>
+    </MenuRoot>
+  </MenuGroup>
+</CustSection>
