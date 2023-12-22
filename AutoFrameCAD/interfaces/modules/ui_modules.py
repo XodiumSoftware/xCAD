@@ -1,27 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
 
-from interfaces.configs.ui_configs import UITypeHints
+from interfaces.configs.ui_configs import UIConfig
 
 
 class MainUIModule(tk.Tk, ttk.Style):
     """A class used to represent a ui module."""
 
-    def __init__(self, configs: UITypeHints) -> None:
+    def __init__(self, configs: UIConfig) -> None:
         """Initialize the class.
 
         Args:
-            configs (UITypeHints): A configuration.
+            configs (UIConfig): A configuration.
         """
         super().__init__()
-        self.properties(configs)
-
-    def properties(self, configs: UITypeHints) -> None:
-        """Setup the properties.
-
-        Args:
-            configs (UITypeHints): A configuration.
-        """
         self.configure(background=configs.background_color)
         self.deiconify() if configs.init_visibility else self.withdraw()
         self.geometry(f'{configs.init_size[0]}x{configs.init_size[1]}')
