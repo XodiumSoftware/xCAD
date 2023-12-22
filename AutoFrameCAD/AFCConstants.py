@@ -2,7 +2,7 @@ import os
 
 # General
 # =============================================================================
-ICONS_FOLDER_PATH: str = os.path.join('AutoFrameCAD/interfaces/icons/')
+ICONS_FOLDER_PATH: str = os.path.join('AutoFrameCAD/icons/')
 # =============================================================================
 
 # UI

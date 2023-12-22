@@ -1,17 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
 
-from interfaces.configs.ui_configs import UIConfig
+from AFCDataclasses import UIDataclass
 
 
 class MainUIModule(tk.Tk, ttk.Style):
     """A class used to represent a ui module."""
 
-    def __init__(self, configs: UIConfig) -> None:
+    def __init__(self, configs: UIDataclass) -> None:
         """Initialize the class.
 
         Args:
-            configs (UIConfig): A configuration.
+            configs (UIDataclass): A configuration.
         """
         super().__init__()
         self.configure(background=configs.background_color)
