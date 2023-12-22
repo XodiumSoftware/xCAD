@@ -43,3 +43,12 @@ class UIDataclass:
     resizable: bool = True
     theme: str = 'alt'
     title: str = 'AutoFrameCAD'
+
+
+@dataclass
+class EventsDataclass:
+    """A class used to represent an event handler."""
+
+    KEYS: List[str] = field(
+        default_factory=lambda: ['<Escape>', '<Control-q>']
+    )

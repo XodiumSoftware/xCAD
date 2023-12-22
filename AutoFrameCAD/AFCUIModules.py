@@ -1,6 +1,7 @@
 from tkinter import Tk, ttk
 
-from AFCDataclasses import UIDataclass
+from AFCDataclasses import EventsDataclass, UIDataclass
+from AFCEvents import Events
 
 
 class MainUIModule(Tk, ttk.Style):
@@ -23,3 +24,5 @@ class MainUIModule(Tk, ttk.Style):
         self.resizable(configs.resizable, configs.resizable)
         self.theme_use(configs.theme)
         self.title(configs.title)
+
+        Events.exit_on_key_press(self, EventsDataclass)
