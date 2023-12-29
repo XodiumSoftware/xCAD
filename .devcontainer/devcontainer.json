@@ -26,6 +26,7 @@
         "github.copilot",
         "github.vscode-github-actions",
         "gruntfuggly.todo-tree",
+        "jock.svg",
         "ms-azuretools.vscode-docker",
         "ms-vscode.cpptools",
         "ms-vscode.cmake-tools",
@@ -39,6 +40,7 @@
         "visualstudioexptteam.vscodeintellicode"
       ]
     }
+
 //  },
 //  "postCreateCommand": "bash .devcontainer/install.sh",
 //  "remoteUser": "vscode@STEN",
@@ -53,5 +55,6 @@
 //    "C:/Users/admin/.Xauthority:/tmp/.Xauthority"
 //  ]
 //}
+
 // TODO: Currently the Xserver uses the host's .Xauthority file. This is not ideal.
 // if the path is not the same it will throw an error. we should find a workaround for this, to make it dynamic.
