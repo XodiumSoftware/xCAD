@@ -51,6 +51,8 @@
     "-e",
     "XAUTHORITY=/tmp/.Xauthority",
     "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix",
+    "-v",
     "/home/illyrius/.Xauthority:/home/illyrius/.Xauthority"
   ]
 }
