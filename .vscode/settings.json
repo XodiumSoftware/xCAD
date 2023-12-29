@@ -81,6 +81,8 @@
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
+  // Python Environment Settings
+  "python.createEnvironment.trigger": "off",  
   // Python Language Server Settings
   "python.languageServer": "Pylance",
   // Python Testing Settings
