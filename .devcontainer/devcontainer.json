@@ -40,9 +40,9 @@
         "visualstudioexptteam.vscodeintellicode"
       ]
     }
-
-//  },
-//  "postCreateCommand": "bash .devcontainer/install.sh",
+  },
+  "postCreateCommand": "bash .devcontainer/install.sh"
+}
 //  "remoteUser": "vscode@STEN",
 //  "runArgs": [
 //    "--net",
