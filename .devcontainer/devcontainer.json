@@ -1,5 +1,6 @@
 {
   "image": "python:3.12-bullseye",
+  "remoteUser": "vscode@STEN",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": "true",
@@ -13,6 +14,14 @@
       "ppa": "false"
     }
   },
+  "containerEnv": {
+    "DISPLAY": "host.docker.internal:0",
+    "XAUTHORITY": "/tmp/.Xauthority"
+  },
+  // "mounts": [
+  //   "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+  //   "source=/home/illyrius/.Xauthority,target=/home/illyrius/.Xauthority,type=bind"
+  // ],
   "customizations": {
     "settings": {
       "python.defaultInterpreterPath": "/usr/local/bin/python"
@@ -41,18 +50,13 @@
       ]
     }
   },
-  "remoteUser": "vscode@STEN",
   "postCreateCommand": "bash .devcontainer/install.sh",
   "runArgs": [
     "--net",
     "host",
-    "-e",
-    "DISPLAY=host.docker.internal:0",
-    "-e",
-    "XAUTHORITY=/tmp/.Xauthority",
     "-v",
-    "/tmp/.X11-unix:/tmp/.X11-unix",
+    "/tmp/.X11-unix,target=/tmp/.X11-unix",
     "-v",
-    "/home/illyrius/.Xauthority:/home/illyrius/.Xauthority"
+    "/home/illyrius/.Xauthority,target=/home/illyrius/.Xauthority"
   ]
 }
