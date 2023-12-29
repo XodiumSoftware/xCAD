@@ -41,9 +41,9 @@
       ]
     }
   },
+  "remoteUser": "vscode@STEN",
   "postCreateCommand": "bash .devcontainer/install.sh"
 }
-//  "remoteUser": "vscode@STEN",
 //  "runArgs": [
 //    "--net",
 //    "host",
