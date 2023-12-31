@@ -5,7 +5,8 @@
     "python": "$pythonPath -u $fullFileName"
   },
   "code-runner.runInTerminal": true,
-  // CMake Tools Settings
+  // CMake Settings
+  "cmake.cmakePath": "cmake",
   "cmake.options.statusBarVisibility": "compact",
   // Editor Settings
   "editor.formatOnSave": true,
@@ -82,7 +83,7 @@
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "basic",
   // Python Environment Settings
-  "python.createEnvironment.trigger": "off",  
+  "python.createEnvironment.trigger": "off",
   // Python Language Server Settings
   "python.languageServer": "Pylance",
   // Python Testing Settings
