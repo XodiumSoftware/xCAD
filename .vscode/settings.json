@@ -6,7 +6,6 @@
   },
   "code-runner.runInTerminal": true,
   // CMake Settings
-  "cmake.cmakePath": "cmake",
   "cmake.options.statusBarVisibility": "compact",
   // Editor Settings
   "editor.formatOnSave": true,
