@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "C++: Create Build Folder",
+      "type": "shell",
+      "command": "mkdir -p ${workspaceFolder}/AutoFrameCAD/build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "C++: Compile",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-g",
+        "${workspaceFolder}/AutoFrameCAD/AFC.cpp",
+        "-o",
+        "${workspaceFolder}/AutoFrameCAD/build/a.out"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": "$gcc",
+      "dependsOn": ["C++: Create Build Folder"]
+    }
+  ]
+}
