@@ -10,14 +10,12 @@ from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 class MainUIModule(tkTk):
     """A class used to represent a ui module."""
 
-    def __init__(
-        self, ui: AFCUIDataclass, event_data: AFCEventsDataclass
-    ) -> None:
+    def __init__(self, ui: AFCUIDataclass, event: AFCEventsDataclass) -> None:
         """Initialize the class.
 
         Args:
             ui (AFCUIDataclass): A configuration.
-            events (AFCEventsDataclass): An event handler.
+            event (AFCEventsDataclass): An event handler.
         """
         super().__init__()
         self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
@@ -28,9 +26,13 @@ class MainUIModule(tkTk):
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
-        AFCEvents.exit_on_key_press(self, event_data.KEYS)
-        SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 
-        # NOTE: This is a test button.
-        button = tkttk.Button(self, text='Click me!')
-        button.pack()
+        tkttk.Button(
+            self,
+            text='Click me!',
+            command=lambda: SVTtk_SetTheme.toggle_theme(),
+        ).pack()  # NOTE: This is a test button.
+
+        AFCEvents.exit_on_key_press(self, event.KEYS)
+
+        SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
