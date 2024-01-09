@@ -42,5 +42,5 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/install.sh",
-  // "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"]
+  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"]
 }
