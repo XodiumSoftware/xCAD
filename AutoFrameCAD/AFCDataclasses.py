@@ -1,7 +1,5 @@
 from dataclasses import dataclass, field
 
-from AFCConstants import UI_ICON_PATH
-
 
 @dataclass
 class EventsDataclass:
@@ -20,16 +18,48 @@ class MainMatrixDataclass:
 
 
 @dataclass
-class MainUIDataclass:
+class UIDataclass:
     """A class used to represent a ui configuration."""
 
-    ICON: str = UI_ICON_PATH
-    ICON_DEFAULT: bool = True
-    INIT_SIZE: tuple[int, int] = (600, 400)
-    INIT_VISIBILITY: bool = True
-    RESIZABLE: bool = True
-    THEME: str = 'dark'
-    TITLE: str = 'AutoFrameCAD'
+    # TODO: If alternative is possible, get rid of nested class.
+    @dataclass
+    class TYPING:
+        """A class used to represent typing."""
+
+        ICON: bool
+        ICON_PATH: str
+        GEOM_X: int
+        GEOM_Y: int
+        VISIBILITY: bool
+        RESIZABLE: bool
+        THEME: str
+        TITLE: str
+
+    PRIMARY: TYPING = field(
+        default_factory=lambda: UIDataclass.TYPING(
+            ICON=True,
+            ICON_PATH='UI_ICON_PATH',
+            GEOM_X=600,
+            GEOM_Y=400,
+            VISIBILITY=True,
+            RESIZABLE=True,
+            THEME='dark',
+            TITLE='AutoFrameCAD',
+        )
+    )
+
+    SECONDARY: TYPING = field(
+        default_factory=lambda: UIDataclass.TYPING(
+            ICON=False,
+            ICON_PATH='UI_ICON_PATH',
+            GEOM_X=400,
+            GEOM_Y=300,
+            VISIBILITY=False,
+            RESIZABLE=False,
+            THEME='light',
+            TITLE='TEST',
+        )
+    )
 
 
 @dataclass

@@ -1,12 +1,16 @@
 import sys
 
-from AFCDataclasses import MainUIDataclass
-from AFCUIModules import MainUIModule
+from AFCDataclasses import EventsDataclass as AFCEventsDataclass
+from AFCDataclasses import UIDataclass as AFCUIDataclass
+from AFCUIModules import MainUIModule as AFCMainUIModule
 
 
 def run() -> None:
     """Runs the application."""
-    return MainUIModule(MainUIDataclass()).mainloop()
+    return AFCMainUIModule(
+        AFCUIDataclass(),
+        AFCEventsDataclass(),
+    ).mainloop()
 
 
 if __name__ == '__main__':
