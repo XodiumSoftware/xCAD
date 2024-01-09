@@ -2,3 +2,4 @@ pytest
 setuptools
 types-setuptools
 StenLib
+sv-ttk

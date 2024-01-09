@@ -6,8 +6,7 @@ from AFCUIModules import MainUIModule
 
 def run() -> None:
     """Runs the application."""
-    app = MainUIModule(MainUIDataclass())
-    return app.mainloop()
+    return MainUIModule(MainUIDataclass()).mainloop()
 
 
 if __name__ == '__main__':

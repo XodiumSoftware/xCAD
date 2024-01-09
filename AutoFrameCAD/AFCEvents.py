@@ -1,23 +1,18 @@
-from tkinter import Tk
+from tkinter import Tk as tkTk
 
-from AFCDataclasses import EventsDataclass
+from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 
 
 class Events:
     """A class used to represent an event handler."""
 
     @staticmethod
-    def center_window(root: Tk) -> None:
-        """Center the window on the screen."""
-        root.geometry(
-            '+{}+{}'.format(
-                root.winfo_screenwidth() // 2 - root.winfo_reqwidth() // 2,
-                root.winfo_screenheight() // 2 - root.winfo_reqheight() // 2,
-            )
-        )
+    def exit_on_key_press(root: tkTk, configs: AFCEventsDataclass) -> None:
+        """Bind the keys for exiting the application.
 
-    @staticmethod
-    def exit_on_key_press(root: Tk, configs: EventsDataclass) -> None:
-        """Bind the keys for exiting the application."""
+        Args:
+            root (tkTk): The root window.
+            configs (AFCEventsDataclass): A configuration.
+        """
         for key in configs.KEYS:
             root.bind(key, lambda event: event.widget.quit())
