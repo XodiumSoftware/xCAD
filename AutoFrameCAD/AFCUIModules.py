@@ -1,23 +1,38 @@
 from tkinter import Tk as tkTk
-from tkinter import ttk as tkttk
 
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
+from AFCDataclasses import MatricesDataclass as AFCMatricesDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
 from AFCEvents import Events as AFCEvents
+from AFCHandlers import MatrixHandler as AFCMatrixHandler
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
-class MainUIModule(tkTk):
+class PrimaryUIModule(tkTk):
     """A class used to represent a ui module."""
 
-    def __init__(self, ui: AFCUIDataclass, event: AFCEventsDataclass) -> None:
-        """Initialize the class.
+    def __init__(self) -> None:
+        """Initialize the class."""
+        super().__init__()
+        ui = AFCUIDataclass()
+        event = AFCEventsDataclass()
+        matrix = AFCMatricesDataclass()
+
+        self.setup(ui, event, matrix)
+
+    def setup(
+        self,
+        ui: AFCUIDataclass,
+        event: AFCEventsDataclass,
+        matrix: AFCMatricesDataclass,
+    ):
+        """Setup the ui.
 
         Args:
-            ui (AFCUIDataclass): A configuration.
-            event (AFCEventsDataclass): An event handler.
+            ui (AFCUIDataclass): The ui to use.
+            event (AFCEventsDataclass): The event to use.
+            matrix (AFCMatricesDataclass): The matrix to use.
         """
-        super().__init__()
         self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
         # NOTE: Adjust when tk 8.7 is released,
@@ -27,12 +42,7 @@ class MainUIModule(tkTk):
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
 
-        tkttk.Button(
-            self,
-            text='Click me!',
-            command=lambda: SVTtk_SetTheme.toggle_theme(),
-        ).pack()  # NOTE: This is a test button.
-
         AFCEvents.exit_on_key_press(self, event.KEYS)
+        AFCMatrixHandler(matrix.PRIMARY)
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)

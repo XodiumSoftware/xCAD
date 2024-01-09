@@ -1,4 +1,8 @@
 from dataclasses import dataclass, field
+from tkinter import ttk as tkttk
+
+import numpy as np
+from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
 @dataclass
@@ -11,10 +15,35 @@ class EventsDataclass:
 
 
 @dataclass
-class MainMatrixDataclass:
+class MatricesDataclass:
     """A class used to represent a matrix configuration."""
 
-    MATRIX: list[dict] = field(default_factory=lambda: [{}])
+    PRIMARY: np.ndarray = field(
+        default_factory=lambda: np.array(
+            [
+                [
+                    tkttk.Button(
+                        text='TEST0',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
+                    tkttk.Button(
+                        text='TEST1',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
+                ],
+                [
+                    tkttk.Button(
+                        text='TEST2',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
+                    tkttk.Button(
+                        text='TEST3',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
+                ],
+            ]
+        )
+    )
 
 
 @dataclass
@@ -39,8 +68,8 @@ class UIDataclass:
         default_factory=lambda: UIDataclass.TYPING(
             ICON=True,
             ICON_PATH='UI_ICON_PATH',
-            GEOM_X=600,
-            GEOM_Y=400,
+            GEOM_X=1200,
+            GEOM_Y=800,
             VISIBILITY=True,
             RESIZABLE=True,
             THEME='dark',

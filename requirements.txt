@@ -3,3 +3,4 @@ setuptools
 types-setuptools
 StenLib
 sv-ttk
+numpy
