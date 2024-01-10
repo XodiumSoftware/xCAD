@@ -10,9 +10,10 @@ class MatrixHandler:
         """Initialize the class.
 
         Args:
-            widget (tkttk.Widget): The widget to use.
             matrix (np.ndarray): The matrix to use.
         """
         for (i, j), value in np.ndenumerate(matrix):
             value: tkttk.Widget
+            if value is None:
+                value = tkttk.Label()
             value.grid(row=i, column=j)

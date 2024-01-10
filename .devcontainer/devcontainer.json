@@ -42,5 +42,5 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/devc_post_install.sh",
-  "runArgs": ["--env-file", ".devcontainer/.WinOS.env"]
+  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"]
 }

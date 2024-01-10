@@ -14,9 +14,11 @@ class PrimaryUIModule(tkTk):
     def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
-        ui = AFCUIDataclass()
-        event = AFCEventsDataclass()
-        matrix = AFCMatricesDataclass()
+        ui, event, matrix = (
+            AFCUIDataclass(),
+            AFCEventsDataclass(),
+            AFCMatricesDataclass(),
+        )
 
         self.setup(ui, event, matrix)
 

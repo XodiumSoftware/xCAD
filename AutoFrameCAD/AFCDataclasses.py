@@ -26,20 +26,30 @@ class MatricesDataclass:
                         text='TEST0',
                         command=lambda: SVTtk_SetTheme.toggle_theme(),
                     ),
-                    tkttk.Button(
+                    tkttk.Checkbutton(
                         text='TEST1',
                         command=lambda: SVTtk_SetTheme.toggle_theme(),
                     ),
+                    tkttk.Entry(),
+                    tkttk.Radiobutton(),
+                    tkttk.Frame(),
+                    tkttk.PanedWindow(),
+                    tkttk.Scrollbar(),
+                    tkttk.Separator(),
+                    None,
                 ],
                 [
-                    tkttk.Button(
-                        text='TEST2',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    tkttk.Menubutton(
+                        text='Select Timber Type',
                     ),
-                    tkttk.Button(
-                        text='TEST3',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
-                    ),
+                    tkttk.Spinbox(),
+                    tkttk.Combobox(),
+                    tkttk.Label(),
+                    tkttk.LabelFrame(),
+                    tkttk.Notebook(),
+                    tkttk.Progressbar(),
+                    tkttk.Sizegrip(),
+                    tkttk.Treeview(),
                 ],
             ]
         )
