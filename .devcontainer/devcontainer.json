@@ -41,11 +41,6 @@
       ]
     }
   },
-  "postCreateCommand": "bash .devcontainer/install.sh",
-  "runArgs": [
-    "--net=host",
-    "-v=C:/Users/admin/.Xauthority:/tmp/.Xauthority",
-    "-e=DISPLAY=host.docker.internal:0",
-    "-e=XAUTHORITY=/tmp/.Xauthority"
-  ]
+  "postCreateCommand": "bash .devcontainer/devc_post_install.sh",
+  "runArgs": ["--env-file", ".devcontainer/.WinOS.env"]
 }
