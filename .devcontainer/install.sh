@@ -15,8 +15,10 @@ function download_and_extract() {
         sudo unzip -q -o $temp_dir -d $dest_dir
 }
 
-pip install --upgrade pip && pip install -r requirements.txt
+function devcontainer_post_install() {
+    pip install --upgrade pip && pip install -r requirements.txt
+    sudo apt-get update && sudo apt-get install -y gdb
+    download_and_extract "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
+}
 
-sudo apt-get update && sudo apt-get install -y gdb
-
-download_and_extract "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
+devcontainer_post_install

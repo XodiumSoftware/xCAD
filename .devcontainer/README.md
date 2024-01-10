@@ -15,7 +15,7 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 
 1. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
    `"--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"` (replace the path if necessary).
-2. Give Docker access to the display by executing `xhost +` in the Linux terminal.
+2. Give Docker access to the display by executing `sudo xhost +local:docker` in the Linux terminal.
 3. Rebuild the container.
 
 ## MacOS
