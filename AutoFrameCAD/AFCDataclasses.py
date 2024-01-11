@@ -115,6 +115,7 @@ class TimberTypeDataclass:
             (50, 175),
         ]
     )
+
     SLS: list[tuple[int, int]] = field(
         default_factory=lambda: [
             (38, 89),

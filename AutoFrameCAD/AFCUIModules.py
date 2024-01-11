@@ -40,7 +40,7 @@ class PrimaryUIModule(tkTk):
         """
         self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
-        # NOTE: Adjust when tk 8.7 is released,
+        # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
         self.iconphoto(ui.PRIMARY.ICON, self.svg2png(ui.PRIMARY.ICON_PATH))
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
