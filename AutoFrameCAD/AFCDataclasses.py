@@ -23,34 +23,22 @@ class MatricesDataclass:
         default_factory=lambda: np.array(
             [
                 [
-                    tkttk.Button(
-                        text='TEST0',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    tkttk.Menubutton(
+                        text='Select Timber Type',
                     ),
                     tkttk.Checkbutton(
                         text='TEST1',
                         command=lambda: SVTtk_SetTheme.toggle_theme(),
                     ),
-                    tkttk.Entry(),
-                    tkttk.Radiobutton(),
-                    tkttk.Frame(),
-                    tkttk.PanedWindow(),
-                    tkttk.Scrollbar(),
-                    tkttk.Separator(),
-                    None,
                 ],
                 [
                     tkttk.Menubutton(
                         text='Select Timber Type',
                     ),
-                    tkttk.Spinbox(),
-                    tkttk.Combobox(),
-                    tkttk.Label(),
-                    tkttk.LabelFrame(),
-                    tkttk.Notebook(),
-                    tkttk.Progressbar(),
-                    tkttk.Sizegrip(),
-                    tkttk.Treeview(),
+                    tkttk.Button(
+                        text='TEST0',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
                 ],
             ]
         )

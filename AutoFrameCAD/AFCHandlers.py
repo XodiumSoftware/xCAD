@@ -12,8 +12,7 @@ class MatrixHandler:
         Args:
             matrix (np.ndarray): The matrix to use.
         """
-        for (i, j), value in np.ndenumerate(matrix):
-            value: tkttk.Widget
-            if value is None:
-                value = tkttk.Label()
-            value.grid(row=i, column=j)
+        for (i, j), widget in np.ndenumerate(matrix):
+            (widget if widget is not None else tkttk.Frame()).grid(
+                row=i, column=j, sticky='nsew'
+            )
