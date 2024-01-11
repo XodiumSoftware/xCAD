@@ -3,10 +3,11 @@ from tkinter import Tk as tkTk
 
 import cairosvg
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
-from AFCDataclasses import MatricesDataclass as AFCMatricesDataclass
+from AFCDataclasses import GridDataclass as AFCGridDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
 from AFCEvents import Events as AFCEvents
-from AFCHandlers import LayoutHandler as AFCLayoutHandler
+from AFCHandlers import ContainerHandler as AFCContainerHandler
+from AFCHandlers import GridHandler as AFCGridHandler
 from PIL import Image, ImageTk
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
@@ -17,26 +18,26 @@ class PrimaryUIModule(tkTk):
     def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
-        ui, event, matrix = (
+        ui, event, grid = (
             AFCUIDataclass(),
             AFCEventsDataclass(),
-            AFCMatricesDataclass(),
+            AFCGridDataclass(),
         )
 
-        self.setup(ui, event, matrix)
+        self.setup(ui, event, grid)
 
     def setup(
         self,
         ui: AFCUIDataclass,
         event: AFCEventsDataclass,
-        matrix: AFCMatricesDataclass,
+        grid: AFCGridDataclass,
     ):
         """Setup the ui.
 
         Args:
             ui (AFCUIDataclass): The ui to use.
             event (AFCEventsDataclass): The event to use.
-            matrix (AFCMatricesDataclass): The matrix to use.
+            grid (AFCGridDataclass): The grid to use.
         """
         self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
@@ -48,7 +49,7 @@ class PrimaryUIModule(tkTk):
         self.title(ui.PRIMARY.TITLE)
 
         AFCEvents.exit_on_key_press(self, event.KEYS)
-        AFCLayoutHandler(matrix.PRIMARY)
+        AFCContainerHandler(AFCGridHandler(grid.PRIMARY))
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 
