@@ -42,5 +42,10 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/devc_post_install.sh",
-  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"]
+  "runArgs": [
+    "--net=host",
+    "-v=C:/Users/admin/.Xauthority:/tmp/.Xauthority",
+    "-e=DISPLAY=host.docker.internal:0",
+    "-e=XAUTHORITY=/tmp/.Xauthority"
+  ]
 }
