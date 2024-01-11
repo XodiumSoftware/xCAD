@@ -6,8 +6,6 @@ from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import GridDataclass as AFCGridDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
 from AFCEvents import Events as AFCEvents
-from AFCHandlers import ContainerHandler as AFCContainerHandler
-from AFCHandlers import GridHandler as AFCGridHandler
 from PIL import Image, ImageTk
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
@@ -48,8 +46,7 @@ class PrimaryUIModule(tkTk):
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
 
-        AFCEvents.exit_on_key_press(self, event.KEYS)
-        AFCContainerHandler(AFCGridHandler(grid.PRIMARY))
+        AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 

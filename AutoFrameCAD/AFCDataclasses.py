@@ -7,7 +7,7 @@ from AFCConstants import UI_ICON_PATH
 class EventsDataclass:
     """A class used to represent an event handler."""
 
-    KEYS: list[str] = field(
+    EXIT_KEYS: list[str] = field(
         default_factory=lambda: ['<Escape>', '<Control-q>']
     )
 
