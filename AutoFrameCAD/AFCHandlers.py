@@ -1,18 +1,26 @@
 from tkinter import ttk as tkttk
 
-import numpy as np
 
+class LayoutHandler:
+    """A class used to represent a layout."""
 
-class MatrixHandler:
-    """A class used to represent a matrix."""
-
-    def __init__(self, matrix: np.ndarray) -> None:
+    def __init__(self, layout: list) -> None:
         """Initialize the class.
 
         Args:
-            matrix (np.ndarray): The matrix to use.
+            layout (list): The layout to use.
         """
-        for (i, j), widget in np.ndenumerate(matrix):
-            (widget if widget is not None else tkttk.Frame()).grid(
-                row=i, column=j, sticky='nsew'
-            )
+        self.layout(layout, sticky='nsew')
+
+    def layout(self, layout: list, sticky: str, pos: int = 0) -> None:
+        """Layout the widgets.
+
+        Args:
+            layout (list): The layout to use.
+            pos (int, optional): The position to start from. Defaults to 0.
+        """
+        for i, item in enumerate(layout):
+            if isinstance(item, list):
+                self.layout(item, sticky, pos + 1)
+            elif isinstance(item, tkttk.Widget):
+                item.grid(row=pos, column=i, sticky=sticky)

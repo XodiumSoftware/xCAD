@@ -6,7 +6,7 @@ from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import MatricesDataclass as AFCMatricesDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
 from AFCEvents import Events as AFCEvents
-from AFCHandlers import MatrixHandler as AFCMatrixHandler
+from AFCHandlers import LayoutHandler as AFCLayoutHandler
 from PIL import Image, ImageTk
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
@@ -48,7 +48,7 @@ class PrimaryUIModule(tkTk):
         self.title(ui.PRIMARY.TITLE)
 
         AFCEvents.exit_on_key_press(self, event.KEYS)
-        AFCMatrixHandler(matrix.PRIMARY)
+        AFCLayoutHandler(matrix.PRIMARY)
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 

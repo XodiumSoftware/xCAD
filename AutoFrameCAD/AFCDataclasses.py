@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from tkinter import ttk as tkttk
 
-import numpy as np
 from AFCConstants import UI_ICON_PATH
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
@@ -19,29 +18,25 @@ class EventsDataclass:
 class MatricesDataclass:
     """A class used to represent a matrix configuration."""
 
-    PRIMARY: np.ndarray = field(
-        default_factory=lambda: np.array(
+    PRIMARY: list = field(
+        default_factory=lambda: [
+            tkttk.Label(
+                text='Structura Engineering',
+            ),
             [
-                [
-                    tkttk.Menubutton(
-                        text='Select Timber Type',
-                    ),
-                    tkttk.Checkbutton(
-                        text='TEST1',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
-                    ),
-                ],
-                [
-                    tkttk.Menubutton(
-                        text='Select Timber Type',
-                    ),
-                    tkttk.Button(
-                        text='TEST0',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
-                    ),
-                ],
-            ]
-        )
+                tkttk.Checkbutton(
+                    text='TEST0',
+                    command=lambda: SVTtk_SetTheme.toggle_theme(),
+                ),
+                tkttk.Menubutton(
+                    text='Select Timber Type',
+                ),
+                tkttk.Checkbutton(
+                    text='TEST1',
+                    command=lambda: SVTtk_SetTheme.toggle_theme(),
+                ),
+            ],
+        ],
     )
 
 
@@ -74,44 +69,4 @@ class UIDataclass:
             THEME='dark',
             TITLE='AutoFrameCAD',
         )
-    )
-
-    SECONDARY: TYPING = field(
-        default_factory=lambda: UIDataclass.TYPING(
-            ICON=False,
-            ICON_PATH=UI_ICON_PATH,
-            GEOM_X=400,
-            GEOM_Y=300,
-            VISIBILITY=False,
-            RESIZABLE=False,
-            THEME='light',
-            TITLE='TEST',
-        )
-    )
-
-
-@dataclass
-class TimberTypeDataclass:
-    """A class used to represent a timber type."""
-
-    CLS: list[tuple[int, int]] = field(
-        default_factory=lambda: [
-            (50, 75),
-            (50, 100),
-            (50, 125),
-            (50, 150),
-            (50, 175),
-        ]
-    )
-
-    SLS: list[tuple[int, int]] = field(
-        default_factory=lambda: [
-            (38, 89),
-            (38, 120),
-            (38, 140),
-            (38, 170),
-            (38, 184),
-            (38, 235),
-            (38, 285),
-        ]
     )
