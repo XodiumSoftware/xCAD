@@ -42,9 +42,7 @@ class PrimaryUIModule(tkTk):
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
         # NOTE: Adjust when tk 8.7 is released,
         # since it will have native svg support.
-        self.iconphoto(
-            ui.PRIMARY.ICON, self.svg_to_photoimage(ui.PRIMARY.ICON_PATH)
-        )
+        self.iconphoto(ui.PRIMARY.ICON, self.svg2png(ui.PRIMARY.ICON_PATH))
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
@@ -55,8 +53,12 @@ class PrimaryUIModule(tkTk):
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 
     @staticmethod
-    def svg_to_photoimage(file_path_name):
-        png_image = cairosvg.svg2png(url=file_path_name)
-        image = Image.open(BytesIO(png_image))  # type: ignore
-        tk_image = ImageTk.PhotoImage(image)
-        return tk_image
+    def svg2png(path: str):
+        """Convert a svg to a photoimage.
+
+        Args:
+            path (str): The file path name to use.
+        """
+        return ImageTk.PhotoImage(
+            Image.open(BytesIO(cairosvg.svg2png(url=path)))  # type: ignore
+        )
