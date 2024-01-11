@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from tkinter import ttk as tkttk
 
 import numpy as np
+from AFCConstants import UI_ICON_PATH
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
@@ -77,7 +78,7 @@ class UIDataclass:
     PRIMARY: TYPING = field(
         default_factory=lambda: UIDataclass.TYPING(
             ICON=True,
-            ICON_PATH='UI_ICON_PATH',
+            ICON_PATH=UI_ICON_PATH,
             GEOM_X=1200,
             GEOM_Y=800,
             VISIBILITY=True,
@@ -90,7 +91,7 @@ class UIDataclass:
     SECONDARY: TYPING = field(
         default_factory=lambda: UIDataclass.TYPING(
             ICON=False,
-            ICON_PATH='UI_ICON_PATH',
+            ICON_PATH=UI_ICON_PATH,
             GEOM_X=400,
             GEOM_Y=300,
             VISIBILITY=False,

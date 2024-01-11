@@ -4,3 +4,4 @@ types-setuptools
 StenLib
 sv-ttk
 numpy
+cairosvg

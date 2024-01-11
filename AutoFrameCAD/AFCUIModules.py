@@ -1,10 +1,13 @@
+from io import BytesIO
 from tkinter import Tk as tkTk
 
+import cairosvg
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import MatricesDataclass as AFCMatricesDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
 from AFCEvents import Events as AFCEvents
 from AFCHandlers import MatrixHandler as AFCMatrixHandler
+from PIL import Image, ImageTk
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
@@ -39,7 +42,9 @@ class PrimaryUIModule(tkTk):
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
         # NOTE: Adjust when tk 8.7 is released,
         # since it will have native svg support.
-        # self.iconphoto(ui.icon_default, ui.icon)
+        self.iconphoto(
+            ui.PRIMARY.ICON, self.svg_to_photoimage(ui.PRIMARY.ICON_PATH)
+        )
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
@@ -48,3 +53,10 @@ class PrimaryUIModule(tkTk):
         AFCMatrixHandler(matrix.PRIMARY)
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
+
+    @staticmethod
+    def svg_to_photoimage(file_path_name):
+        png_image = cairosvg.svg2png(url=file_path_name)
+        image = Image.open(BytesIO(png_image))  # type: ignore
+        tk_image = ImageTk.PhotoImage(image)
+        return tk_image
