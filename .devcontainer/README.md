@@ -7,15 +7,15 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 1. Install VcXsrv Windows X Server from `https://sourceforge.net/projects/vcxsrv/`.
 2. Run VcXsrv.
 3. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
-   `"--net=host", "-v=C:/Users/admin/.Xauthority:/tmp/.Xauthority",` (replace the path if necessary)
-   `"-e=DISPLAY=host.docker.internal:0", "-e=XAUTHORITY=/tmp/.Xauthority"`.
+   `"--net=host", "-v=${localEnv:USERPROFILE}/.Xauthority:/tmp/.Xauthority", "-e=DISPLAY=host.docker.internal:0", "-e=XAUTHORITY=/tmp/.Xauthority"`
+   (replace the path if necessary).
 4. Rebuild the container.
 
 ## Linux
 
 1. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
    `"--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"` (replace the path if necessary).
-2. Give Docker access to the display by executing `sudo xhost +local:docker` in the Linux terminal.
+2. Give Docker access to the display by uncommenting `"initializeCommand"`.
 3. Rebuild the container.
 
 ## MacOS

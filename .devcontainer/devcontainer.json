@@ -1,6 +1,9 @@
 {
   "image": "python:3.12-bullseye",
   "remoteUser": "vscode@STEN",
+  "hostRequirements": {
+    "gpu": true
+  },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": "true",
@@ -41,6 +44,13 @@
       ]
     }
   },
-  "postCreateCommand": "bash .devcontainer/devc_post_install.sh",
-  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"]
+  "onCreateCommand": "bash .devcontainer/devc_post_install.sh",
+  "runArgs": [
+    "--net=host",
+    "-v=${localEnv:USERPROFILE}/.Xauthority:/tmp/.Xauthority",
+    "-e=DISPLAY=host.docker.internal:0",
+    "-e=XAUTHORITY=/tmp/.Xauthority"
+  ],
+  "shutdownAction": "stopContainer"
+  // "initializeCommand": "sudo xhost +local:docker",
 }
