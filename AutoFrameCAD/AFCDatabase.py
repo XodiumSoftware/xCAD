@@ -24,76 +24,60 @@ class Database:
         except sqlite3.Error as e:
             raise e
 
-    def add_table(self, table: str) -> None:
-        """Creates a table with the given name if it does not exist.
-
-        Args:
-            table (str): The name of the table.
-        """
-        try:
-            with self.__conn:
-                self.__conn.execute(
-                    f"""CREATE TABLE IF NOT EXISTS {table}
-                        (id INTEGER PRIMARY KEY,
-                            type TEXT,
-                            dimx int,
-                            dimy int)"""
-                )
-        except sqlite3.Error as e:
-            raise e
-
-    def add_data(
-        self, table: str, id: int, type: str, dimx: int, dimy: int
-    ) -> None:
+    def add_data(self, table: str, data: list[dict[str, Any]]) -> None:
         """Inserts data into the table.
 
         Args:
             table (str): The name of the table.
-            id (int): The id of the type (uses abs()).
-            type (str): The type of the object.
-            dimx (int): The x dimension of the type (uses abs()).
-            dimy (int): The y dimension of the type (uses abs()).
+            data (list[dict[str, Any]]): A list of dictionaries,
+                where each dictionary represents a row of data.
         """
         try:
             with self.__conn:
-                self.__conn.execute(
-                    f"""INSERT OR REPLACE INTO {table}
-                        (id, type, dimx, dimy)
-                        VALUES (?, ?, ?, ?)""",
-                    (abs(id), type, abs(dimx), abs(dimy)),
-                )
+                for row in data:
+                    id = row.pop('id')
+                    columns = ', '.join(row.keys())
+                    placeholders = ', '.join('?' for _ in row)
+                    self.__conn.execute(
+                        f"""CREATE TABLE IF NOT EXISTS {table}
+                            (id INTEGER PRIMARY KEY,
+                            {', '.join([f'{col} TEXT'
+                                        for col in row.keys()])})"""
+                    )
+                    self.__conn.execute(
+                        f"""INSERT OR REPLACE INTO {table}
+                            (id, {columns})
+                            VALUES (?, {placeholders})""",
+                        (abs(id), *row.values()),
+                    )
         except sqlite3.Error as e:
             raise e
 
-    def del_data(self, table: str, id: int | None = None) -> None:
+    def del_data(
+        self, table: str, id: int | None = None, column: str | None = None
+    ) -> None:
         """Deletes data from the table.
 
         Args:
             table (str): The name of the table.
             id (int): The id of the type.
+            column (str): The name of the column.
         """
         try:
             with self.__conn:
-                if id is None:
+                if id is None and column is None:
                     self.__conn.execute(f"""DELETE FROM {table}""")
+                elif column is not None:
+                    self.__conn.execute(
+                        f"""UPDATE {table}
+                            SET {column} = NULL"""
+                    )
                 else:
                     self.__conn.execute(
                         f"""DELETE FROM {table}
                             WHERE id = ?""",
                         (id,),
                     )
-        except sqlite3.Error as e:
-            raise e
-
-    def del_table(self, table: str) -> None:
-        """Deletes a table with the given name if it exists.
-
-        Args:
-            table (str): The name of the table.
-        """
-        try:
-            with self.__conn:
-                self.__conn.execute(f"""DROP TABLE IF EXISTS {table}""")
         except sqlite3.Error as e:
             raise e
 
@@ -125,20 +109,39 @@ class Database:
         except sqlite3.Error as e:
             raise e
 
-    def __delete__(self) -> None:
-        """`!!!OPERATE WITH CAUTION!!!`:
-        Deletes the database."""
+    def __delete__(self, table: str | None = None) -> None:
+        """`!!!OPERATE WITH CAUTION!!!`: If no arguments are given,
+        deletes the database!
+
+        Args:
+            table (str, optional): The name of the table. Defaults to None.
+        """
         try:
-            os.remove(self.__path)
+            if table is None:
+                os.remove(self.__path)
+            else:
+                try:
+                    with self.__conn:
+                        self.__conn.execute(
+                            f"""DROP TABLE IF EXISTS {table}"""
+                        )
+                except sqlite3.Error as e:
+                    raise e
+
         except FileNotFoundError as e:
             raise e
 
 
 db = Database(TIMBER_TYPES_DB_PATH)
-# db.add_table(table='TimberTypes')
-db.add_data(table='TimberTypes', id=0, type='SLS', dimx=38, dimy=89)
-db.add_data(table='TimberTypes', id=1, type='SLS', dimx=38, dimy=89)
-# db.del_data(table='TimberTypes')
-# db.del_table(table='TimberTypes')
-print(db.get_data(table='TimberTypes'))
+db.add_data(
+    table='TimberTypes',
+    data=[
+        {'id': 0, 'type': 'SLS', 'dimx': '38', 'dimy': '89'},
+        {'id': 1, 'type': 'SLS', 'dimx': '38', 'dimy': '140'},
+        {'id': 2, 'type': 'SLS', 'dimx': '38', 'dimy': '170'},
+    ],
+)
+# db.del_data(table='TimberTypes', column='dimy')
+# db.__delete__(table='TimberTypes')
 # db.__delete__()
+print(db.get_data(table='TimberTypes'))
