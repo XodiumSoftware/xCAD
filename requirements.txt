@@ -1,7 +1,6 @@
+cairosvg
+numpy
 pytest
 setuptools
 stenlib
 sv-ttk
-numpy
-cairosvg
-pyside6
