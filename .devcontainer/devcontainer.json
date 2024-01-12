@@ -45,7 +45,7 @@
   },
   // NOTE: for X11 forwarding permissions on Linux
   // "initializeCommand": "sudo xhost +local:docker",
-  "onCreateCommand": "bash .devcontainer/devc_post_install.sh",
+  "onCreateCommand": "bash .devcontainer/install.sh",
   // NOTE: for X11 forwarding on Linux
   // "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
   // NOTE: for X11 forwarding on Windows
