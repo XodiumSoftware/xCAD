@@ -11,8 +11,8 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 
 ## Linux
 
-1. In the `devcontainer.json` use the `"runArgs"` for your specific os.
-2. Give Docker access to the display by uncommenting `"initializeCommand"`.
+1. Give Docker access to the display by uncommenting `"initializeCommand"`.
+2. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 3. Rebuild the container.
 
 ## MacOS

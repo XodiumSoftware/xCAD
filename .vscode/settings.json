@@ -44,6 +44,10 @@
   "[xml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // YAML-specific Editor Settings
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   // General Settings
   "extensions.ignoreRecommendations": true,
   // Explorer Settings
