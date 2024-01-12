@@ -6,15 +6,12 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 
 1. Install VcXsrv Windows X Server from `https://sourceforge.net/projects/vcxsrv/`.
 2. Run VcXsrv.
-3. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
-   `"--net=host", "-v=${localEnv:USERPROFILE}/.Xauthority:/tmp/.Xauthority", "-e=DISPLAY=host.docker.internal:0", "-e=XAUTHORITY=/tmp/.Xauthority"`
-   (replace the path if necessary).
+3. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 4. Rebuild the container.
 
 ## Linux
 
-1. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
-   `"--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"` (replace the path if necessary).
+1. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 2. Give Docker access to the display by uncommenting `"initializeCommand"`.
 3. Rebuild the container.
 
@@ -24,8 +21,5 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 2. Open XQuartz and then select `Preferences`.
 3. Go to the `Security` tab and ensure `Allow connections from network clients` is checked.
 4. Restart your machine to ensure the changes take effect.
-5. In the `devcontainer.json`, replace the args in the list of `"runArgs": [...]` with the following:
-   `"--net=host", "-e=DISPLAY=host.docker.internal:0", "-v=/tmp/.X11-unix:/tmp/.X11-unix"`
+5. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 6. Rebuild the container.
-
-Please note that the `-v` argument may need to be adjusted based on your specific setup. This is a general guide and may not work for all configurations. Always ensure to follow best security practices when modifying Docker configurations.
