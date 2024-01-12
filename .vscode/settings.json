@@ -33,8 +33,7 @@
       "source.organizeImports": "explicit",
       "source.fixAll": "explicit"
     },
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   // TOML-specific Editor Settings
   "[toml]": {
@@ -82,7 +81,7 @@
   },
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "strict",
   // Python Environment Settings
   "python.createEnvironment.trigger": "off",
   // Python Language Server Settings

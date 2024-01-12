@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 from tkinter import ttk as tkttk
+from typing import Any
 
 import numpy as np
 from AFCConstants import UI_ICON_PATH
+from numpy.typing import NDArray
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
@@ -19,7 +21,7 @@ class EventsDataclass:
 class MatrixDataclass:
     """A class used to represent a matrix configuration."""
 
-    PRIMARY: np.ndarray = field(
+    PRIMARY: NDArray[Any] = field(
         default_factory=lambda: np.array(
             [
                 [
@@ -33,7 +35,8 @@ class MatrixDataclass:
                         command=lambda: SVTtk_SetTheme.toggle_theme(),
                     ),
                 ],
-            ]
+            ],
+            dtype=object,
         )
     )
 

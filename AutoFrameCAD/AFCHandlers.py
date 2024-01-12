@@ -1,14 +1,16 @@
 from tkinter import NSEW
 from tkinter import Tk as tkTk
 from tkinter import ttk as tkttk
+from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 class MatrixHandler:
     """A class used to represent a matrix."""
 
-    def __init__(self, master: tkTk, matrix: np.ndarray) -> None:
+    def __init__(self, master: tkTk, matrix: NDArray[Any]) -> None:
         """Initialize the class.
 
         Args:

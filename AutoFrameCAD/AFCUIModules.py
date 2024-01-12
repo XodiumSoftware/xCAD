@@ -1,7 +1,7 @@
 from io import BytesIO
 from tkinter import Tk as tkTk
 
-import cairosvg
+import cairosvg  # type: ignore
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
