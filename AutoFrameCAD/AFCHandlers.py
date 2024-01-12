@@ -1,27 +1,23 @@
+from tkinter import NSEW
+from tkinter import Tk as tkTk
 from tkinter import ttk as tkttk
+
+import numpy as np
 
 
 class MatrixHandler:
     """A class used to represent a matrix."""
 
-    def __init__(self, matrix: list) -> None:
+    def __init__(self, master: tkTk, matrix: np.ndarray) -> None:
         """Initialize the class.
 
         Args:
-            matrix (list): The matrix to use.
+            matrix (np.ndarray): The matrix to use.
         """
-        self.matrix(matrix, sticky='nsew')
-
-    def matrix(self, matrix: list, sticky: str, pos: int = 0) -> None:
-        """Matrix the widgets.
-
-        Args:
-            matrix (list): The matrix to use.
-            sticky (str): The sticky to use.
-            pos (int, optional): The position to start from. Defaults to 0.
-        """
-        for i, item in enumerate(matrix):
-            if isinstance(item, list):
-                self.matrix(item, sticky, pos + 1)
-            elif isinstance(item, tkttk.Widget):
-                item.grid(row=pos, column=i, sticky=sticky)
+        for (i, j), value in np.ndenumerate(matrix):
+            if isinstance(value, tkttk.Widget):
+                value.grid(row=i, column=j, sticky=NSEW)
+                master.rowconfigure(i, weight=1)
+                master.columnconfigure(j, weight=1)
+            else:
+                value = tkttk.Frame()

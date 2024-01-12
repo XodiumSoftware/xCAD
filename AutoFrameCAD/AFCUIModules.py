@@ -48,7 +48,7 @@ class PrimaryUIModule(tkTk):
         self.title(ui.PRIMARY.TITLE)
 
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
-        AFCMatrixHandler(matrix.PRIMARY)
+        AFCMatrixHandler(self, matrix.PRIMARY)
 
         SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
 
