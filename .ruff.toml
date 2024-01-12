@@ -35,7 +35,6 @@ target-version = "py312"
 select = ["E", "F", "W"]
 
 fixable = ["ALL"]
-unfixable = []
 
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 

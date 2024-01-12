@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
+from tkinter import ttk as tkttk
 
 from AFCConstants import UI_ICON_PATH
+from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 
 @dataclass
@@ -13,15 +15,28 @@ class EventsDataclass:
 
 
 @dataclass
-class GridDataclass:
+class MatrixDataclass:
     """A class used to represent a matrix configuration."""
 
     PRIMARY: list = field(
         default_factory=lambda: [
-            [1, 1, 1],
-            [2, 2, 2],
-            [1, 1, 1],
-        ]
+            tkttk.Label(
+                text='Structura Engineering',
+            ),
+            [
+                tkttk.Checkbutton(
+                    text='TEST0',
+                    command=lambda: SVTtk_SetTheme.toggle_theme(),
+                ),
+                tkttk.Menubutton(
+                    text='Select Timber Type',
+                ),
+                tkttk.Checkbutton(
+                    text='TEST1',
+                    command=lambda: SVTtk_SetTheme.toggle_theme(),
+                ),
+            ],
+        ],
     )
 
 
