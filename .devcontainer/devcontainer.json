@@ -42,17 +42,15 @@
       ]
     }
   },
-  // NOTE: for X11 forwarding permissions on Linux
-  // "initializeCommand": "sudo xhost +local:docker",
   "onCreateCommand": "bash .devcontainer/install.sh",
   // NOTE: for X11 forwarding on Linux
-  // "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
+  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
   // NOTE: for X11 forwarding on Windows
-  "runArgs": [
-    "--net=host",
-    "-e=DISPLAY=host.docker.internal:0",
-    "-v=/tmp/.Xauthority:/tmp/.Xauthority"
-  ],
+  // "runArgs": [
+  //   "--net=host",
+  //   "-e=DISPLAY=host.docker.internal:0",
+  //   "-v=/tmp/.Xauthority:/tmp/.Xauthority"
+  // ],
   // NOTE: for X11 forwarding on MacOS
   // "runArgs": [
   //   "--net=host",

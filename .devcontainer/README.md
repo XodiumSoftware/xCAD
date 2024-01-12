@@ -11,7 +11,7 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 
 ## Linux
 
-1. Give Docker access to the display by uncommenting `"initializeCommand"`.
+1. Give Docker access to the display by exec the following in the host console: `sudo xhost +local:docker`.
 2. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 3. Rebuild the container.
 
