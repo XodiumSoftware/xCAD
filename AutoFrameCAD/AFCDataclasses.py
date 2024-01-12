@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from enum import Enum
 from tkinter import ttk as tkttk
 
 import numpy as np
@@ -66,5 +67,54 @@ class UIDataclass:
             RESIZABLE=True,
             THEME='dark',
             TITLE='AutoFrameCAD',
+        )
+    )
+
+
+class FrameTypeDataclass(Enum):
+    """A class used to represent a frame type configuration."""
+
+    DEFAULT
+    STAB
+    CONS
+
+
+@dataclass
+class StudDataclass:
+    """A class used to represent a stud configuration."""
+
+    SLS: list[tuple[int, int]] = field(
+        default_factory=lambda: [
+            (0, 0),
+        ],
+    )
+
+    CLS: list[tuple[int, int]] = field(
+        default_factory=lambda: [
+            (0, 0),
+        ],
+    )
+
+
+@dataclass
+class FrameDataclass:
+    """A class used to represent a frame configuration."""
+
+    # TODO: If alternative is possible, get rid of nested class.
+    @dataclass
+    class TYPING:
+        """A class used to represent typing."""
+
+        FRAME_TYPE: str
+        FRAME_X: int
+        FRAME_Y: int
+        STUD_TYPE: StudDataclass
+
+    PRIMARY: TYPING = field(
+        default_factory=lambda: FrameDataclass.TYPING(
+            FRAME_TYPE='',
+            FRAME_X=0,
+            FRAME_Y=0,
+            STUD_TYPE=StudDataclass.SLS,
         )
     )
