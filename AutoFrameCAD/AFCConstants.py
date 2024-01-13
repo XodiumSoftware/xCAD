@@ -12,7 +12,7 @@ DATABASE_EXTENSION = '.sqlite'
 # Database
 # =============================================================================
 TIMBER_TYPES_DB_PATH = os.path.join(
-    DATABASE_FOLDER_PATH, 'TimberTypes' + DATABASE_EXTENSION
+    DATABASE_FOLDER_PATH, 'AFCDatabase' + DATABASE_EXTENSION
 )
 # =============================================================================
 
