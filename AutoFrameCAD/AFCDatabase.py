@@ -2,12 +2,14 @@ import os
 import sqlite3
 from typing import Any
 
+from AFCConstants import TIMBER_TYPES_DB_PATH
 from StenLib.StenDecorators import ErrorHandler as StenErrorHandler
 
 
 class Database:
     """A class used to represent a database."""
 
+    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def __init__(self, path: str) -> None:
         """Initializes the database object.
 
@@ -15,12 +17,7 @@ class Database:
             path (str): The path to the database.
         """
         self.__path: str = path
-        self.__conn: sqlite3.Connection = self.__create__()
-
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
-    def __create__(self) -> sqlite3.Connection:
-        """Creates the database."""
-        return sqlite3.connect(self.__path)
+        self.__conn: sqlite3.Connection = sqlite3.connect(self.__path)
 
     @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def add_data(self, table: str, data: list[dict[str, Any]]) -> None:
@@ -28,26 +25,23 @@ class Database:
 
         Args:
             table (str): The name of the table.
-            data (list[dict[str, Any]]): A list of dictionaries,
-                where each dictionary represents a row of data.
+            data (list[dict[str, Any]]): The data to be inserted.
         """
         with self.__conn:
-            for row in data:
-                id = row.pop('id')
-                columns = ', '.join(row.keys())
-                placeholders = ', '.join('?' for _ in row)
-                self.__conn.execute(
-                    f"""CREATE TABLE IF NOT EXISTS {table}
-                        (id INTEGER PRIMARY KEY,
-                        {', '.join([f'{col} TEXT'
-                                    for col in row.keys()])})"""
-                )
-                self.__conn.execute(
-                    f"""INSERT OR REPLACE INTO {table}
-                        (id, {columns})
-                        VALUES (?, {placeholders})""",
-                    (abs(id), *row.values()),
-                )
+            cols = ', '.join(col for col in data[0].keys() if col != 'id')
+            placeholders = ', '.join('?' for _ in data[0] if _ != 'id')
+            self.__conn.execute(
+                f"""CREATE TABLE IF NOT EXISTS {table}
+                    (id INTEGER PRIMARY KEY,
+                    {', '.join([f'{col} TEXT'
+                                for col in data[0].keys() if col != 'id'])})"""
+            )
+            self.__conn.executemany(
+                f"""INSERT OR REPLACE INTO {table}
+                    (id, {cols})
+                    VALUES (?, {placeholders})""",
+                (tuple(row.values()) for row in data),
+            )
 
     @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def del_data(
@@ -80,7 +74,7 @@ class Database:
     @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def get_data(
         self, table: str, id: int | None = None
-    ) -> list[dict[Any, Any]]:
+    ) -> list[dict[str, Any]]:
         """Gets data from the table.
 
         Args:
@@ -116,3 +110,14 @@ class Database:
                 self.__conn.execute(f'DROP TABLE IF EXISTS {table}')
         else:
             os.remove(self.__path)
+
+
+db = Database(TIMBER_TYPES_DB_PATH)
+table = 'test_table'
+data = [
+    {'id': 0, 'name': 'Test', 'value': '123'},
+    {'id': 1, 'name': 'Test2', 'value': '456'},
+    {'id': 2, 'name': 'Test3', 'value': '789'},
+]
+db.add_data(table, data)
+print(db.get_data(table))
