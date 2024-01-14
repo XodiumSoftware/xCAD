@@ -1,8 +1,7 @@
-import os
+import json
 import sqlite3
-from typing import Any
 
-from AFCConstants import TIMBER_TYPES_DB_PATH
+from AFCConstants import DATABASE_PATH, LUMBERTYPES_JSON_PATH
 from StenLib.StenDecorators import ErrorHandler as StenErrorHandler
 
 
@@ -16,108 +15,111 @@ class Database:
         Args:
             path (str): The path to the database.
         """
-        self._path: str = path
-        self._conn: sqlite3.Connection = sqlite3.connect(self._path)
+        self._conn: sqlite3.Connection = sqlite3.connect(path)
+        self._curs: sqlite3.Cursor = self._conn.cursor()
 
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
-    def add_data(self, table: str, data: list[dict[str, Any]]) -> None:
+    @StenErrorHandler(sqlite3.Error)
+    def _exec_sql(self, sql: str, id: int | None = None) -> None:
+        """Executes a sql.
+
+        Args:
+            sql (str): The sql to be executed.
+            id (int): The id of the type. Defaults to None.
+        """
+        with self._conn:
+            if id is None:
+                self._curs.execute(sql)
+            else:
+                self._curs.execute(sql + ' WHERE id=?', (id,))
+
+    def _get_sql_type(self, value: int | float | str | bytes | None) -> str:
+        """Gets the sql type of a value.
+
+        Args:
+            value (int | float | str | bytes): The value to be checked.
+        """
+        if value is None:
+            return 'NULL'
+        return {
+            int: 'INTEGER',
+            float: 'REAL',
+            str: 'TEXT',
+            bytes: 'BLOB',
+        }.get(type(value), 'NULL')
+
+    def _open_json(
+        self, path: str
+    ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
+        """Opens a json file.
+
+        Args:
+            path (str): The path to the json file.
+        """
+        with open(path, 'r') as _file:
+            return json.load(_file)
+
+    @StenErrorHandler(sqlite3.Error)
+    def add_data(self, path: str) -> None:
         """Inserts data into the table.
 
         Args:
-            table (str): The name of the table.
-            data (list[dict[str, Any]]): The data to be inserted.
+            path (str): The path to the json file.
         """
-        with self._conn:
-            cols = ', '.join(col for col in data[0].keys() if col != 'id')
-            placeholders = ', '.join('?' for _ in data[0] if _ != 'id')
-            self._conn.execute(
-                f"""CREATE TABLE IF NOT EXISTS {table}
-                    (id INTEGER PRIMARY KEY,
-                    {', '.join([f'{col} TEXT'
-                                for col in data[0].keys() if col != 'id'])})"""
-            )
-            self._conn.executemany(
-                f"""INSERT OR REPLACE INTO {table}
-                    (id, {cols})
-                    VALUES (?, {placeholders})""",
-                (tuple(row.values()) for row in data),
-            )
+        for _table, _rows in self._open_json(path).items():
+            with self._conn:
+                _cols_with_types = ', '.join(
+                    [
+                        f'{k} {self._get_sql_type(v)}'
+                        for k, v in _rows[0].items()
+                        if k != 'id'
+                    ]
+                )
+                _create_table_sql = f"""CREATE TABLE IF NOT EXISTS {_table}
+                                        (id INTEGER PRIMARY KEY,
+                                        {_cols_with_types})"""
+                self._curs.execute(_create_table_sql)
 
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
-    def del_data(
-        self, table: str, id: int | None = None, column: str | None = None
-    ) -> None:
+                for _row in _rows:
+                    _cols = ', '.join(_row.keys())
+                    _placeholders = ', '.join('?' * len(_row))
+                    _insert_sql = f"""INSERT OR REPLACE INTO {_table} ({_cols})
+                                    VALUES ({_placeholders})"""
+                    self._curs.execute(_insert_sql, tuple(_row.values()))
+
+    @StenErrorHandler(sqlite3.Error)
+    def del_data(self, table: str, id: int | None = None) -> None:
         """Deletes data from the table.
 
         Args:
             table (str): The name of the table.
             id (int): The id of the type.
-            column (str): The name of the column.
         """
-        if id is not None and column is not None:
-            raise ValueError('id and column cannot be used together')
-        with self._conn:
-            if id is not None:
-                self._conn.execute(
-                    f"""DELETE FROM {table}
-                            WHERE id = ?""",
-                    (id,),
-                )
-            elif column is not None:
-                self._conn.execute(
-                    f"""UPDATE {table}
-                            SET {column} = NULL"""
-                )
-            else:
-                self._conn.execute(f"""DELETE FROM {table}""")
+        self._exec_sql(f'DELETE FROM {table}', id)
 
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
+    @StenErrorHandler(sqlite3.Error)
     def get_data(
         self, table: str, id: int | None = None
-    ) -> list[dict[str, Any]]:
+    ) -> list[tuple[str, None | int | float | str | bytes]]:
         """Gets data from the table.
 
         Args:
             table (str): The name of the table.
-            id (int, optional): The id of the type (uses abs()).
-                Defaults to -1.
+            id (int): The id of the type. Defaults to None.
+                If None, returns all rows.
         """
-        self._conn.row_factory = sqlite3.Row
-        with self._conn:
-            if id is not None:
-                row = self._conn.execute(
-                    f"""SELECT * FROM {table}
-                        WHERE id = ?""",
-                    (abs(id),),
-                ).fetchone()
-                rows = [row] if row else []
-            else:
-                rows = self._conn.execute(
-                    f"""SELECT * FROM {table}"""
-                ).fetchall()
-        return [dict(row) for row in rows]
+        self._exec_sql(f'SELECT * FROM {table}', id)
+        return self._curs.fetchall()
 
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
-    def __delete__(self, table: str | None = None) -> None:
-        """`!!!OPERATE WITH CAUTION!!!`: If no arguments are given,
-        deletes the database!
-
-        Args:
-            table (str, optional): The name of the table. Defaults to None.
-        """
-        if table:
-            with self._conn:
-                self._conn.execute(f'DROP TABLE IF EXISTS {table}')
-        else:
-            os.remove(self._path)
+    @StenErrorHandler(sqlite3.Error)
+    def __del__(self) -> None:
+        """Closes the database connection."""
+        self._conn.close()
 
 
-db = Database(TIMBER_TYPES_DB_PATH)
 table = 'test_table'
-data = [
-    {'id': 0, 'name': 'Test', 'value': '123'},
-    {'id': 1, 'name': 'Test2', 'value': '456'},
-    {'id': 2, 'name': 'Test3', 'value': '789'},
-]
-db.add_data(table, data)
+db = Database(DATABASE_PATH)
+db.add_data(LUMBERTYPES_JSON_PATH)
 print(db.get_data(table))
+print(db.get_data(table, id=0))
+print(db.get_data(table, id=1))
+print(db.get_data(table, id=2))
