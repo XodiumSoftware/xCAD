@@ -16,8 +16,8 @@ class Database:
         Args:
             path (str): The path to the database.
         """
-        self.__path: str = path
-        self.__conn: sqlite3.Connection = sqlite3.connect(self.__path)
+        self._path: str = path
+        self._conn: sqlite3.Connection = sqlite3.connect(self._path)
 
     @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def add_data(self, table: str, data: list[dict[str, Any]]) -> None:
@@ -27,16 +27,16 @@ class Database:
             table (str): The name of the table.
             data (list[dict[str, Any]]): The data to be inserted.
         """
-        with self.__conn:
+        with self._conn:
             cols = ', '.join(col for col in data[0].keys() if col != 'id')
             placeholders = ', '.join('?' for _ in data[0] if _ != 'id')
-            self.__conn.execute(
+            self._conn.execute(
                 f"""CREATE TABLE IF NOT EXISTS {table}
                     (id INTEGER PRIMARY KEY,
                     {', '.join([f'{col} TEXT'
                                 for col in data[0].keys() if col != 'id'])})"""
             )
-            self.__conn.executemany(
+            self._conn.executemany(
                 f"""INSERT OR REPLACE INTO {table}
                     (id, {cols})
                     VALUES (?, {placeholders})""",
@@ -56,20 +56,20 @@ class Database:
         """
         if id is not None and column is not None:
             raise ValueError('id and column cannot be used together')
-        with self.__conn:
+        with self._conn:
             if id is not None:
-                self.__conn.execute(
+                self._conn.execute(
                     f"""DELETE FROM {table}
                             WHERE id = ?""",
                     (id,),
                 )
             elif column is not None:
-                self.__conn.execute(
+                self._conn.execute(
                     f"""UPDATE {table}
                             SET {column} = NULL"""
                 )
             else:
-                self.__conn.execute(f"""DELETE FROM {table}""")
+                self._conn.execute(f"""DELETE FROM {table}""")
 
     @StenErrorHandler(sqlite3.Error, FileNotFoundError)
     def get_data(
@@ -82,17 +82,17 @@ class Database:
             id (int, optional): The id of the type (uses abs()).
                 Defaults to -1.
         """
-        self.__conn.row_factory = sqlite3.Row
-        with self.__conn:
+        self._conn.row_factory = sqlite3.Row
+        with self._conn:
             if id is not None:
-                row = self.__conn.execute(
+                row = self._conn.execute(
                     f"""SELECT * FROM {table}
                         WHERE id = ?""",
                     (abs(id),),
                 ).fetchone()
                 rows = [row] if row else []
             else:
-                rows = self.__conn.execute(
+                rows = self._conn.execute(
                     f"""SELECT * FROM {table}"""
                 ).fetchall()
         return [dict(row) for row in rows]
@@ -106,10 +106,10 @@ class Database:
             table (str, optional): The name of the table. Defaults to None.
         """
         if table:
-            with self.__conn:
-                self.__conn.execute(f'DROP TABLE IF EXISTS {table}')
+            with self._conn:
+                self._conn.execute(f'DROP TABLE IF EXISTS {table}')
         else:
-            os.remove(self.__path)
+            os.remove(self._path)
 
 
 db = Database(TIMBER_TYPES_DB_PATH)
