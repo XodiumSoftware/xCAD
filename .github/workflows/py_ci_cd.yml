@@ -218,33 +218,10 @@ jobs:
       - id: checkout
         uses: actions/checkout@main
 
-      - id: setup_python
-        uses: actions/setup-python@main
-        with:
-          python-version: ${{ matrix.version }}
-          cache: "pip"
-
-      - id: install_dependencies
-        name: Install Dependencies
-        run: |
-          pip install sphinx
-          pip install sphinx_rtd_theme
-
-      - id: build_docs
-        name: Build Sphinx Documentation
-        run: make html
-        working-directory: AutoFrameCAD/docs
-
       - id: deploy_docs
-        uses: SamKirkland/FTP-Deploy-Action@master
+        uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ${{ secrets.FTP_PROTOCOL }}
-          local-dir: ${{ secrets.FTP_LOCAL_DIR }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          path: AutoFrameCAD/docs
 
       - id: docs_badge
         if: always()
