@@ -1,32 +1,65 @@
-from tkinter import Entry, Tk, ttk
+from io import BytesIO
+from tkinter import Tk as tkTk
 
-from AFCDataclasses import EventsDataclass, MainUIDataclass
-from AFCEvents import Events
+import cairosvg  # type: ignore
+from PIL import Image, ImageTk
+from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
+
+from AutoFrameCAD.AFCDataclasses import EventsDataclass as AFCEventsDataclass
+from AutoFrameCAD.AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
+from AutoFrameCAD.AFCDataclasses import UIDataclass as AFCUIDataclass
+from AutoFrameCAD.AFCEvents import Events as AFCEvents
+from AutoFrameCAD.AFCHandlers import MatrixHandler as AFCMatrixHandler
 
 
-class MainUIModule(Tk, ttk.Style):
+class PrimaryUIModule(tkTk):
     """A class used to represent a ui module."""
 
-    def __init__(self, configs: MainUIDataclass) -> None:
-        """Initialize the class.
+    def __init__(self) -> None:
+        """Initialize the class."""
+        super().__init__()
+        ui, event, matrix = (
+            AFCUIDataclass(),
+            AFCEventsDataclass(),
+            AFCMatrixDataclass(),
+        )
+
+        self.setup(ui, event, matrix)
+
+    def setup(
+        self,
+        ui: AFCUIDataclass,
+        event: AFCEventsDataclass,
+        matrix: AFCMatrixDataclass,
+    ):
+        """Setup the ui.
 
         Args:
-            configs (MainUIDataclass): A configuration.
+            ui (AFCUIDataclass): The ui to use.
+            event (AFCEventsDataclass): The event to use.
+            matrix (AFCMatrixDataclass): The matrix to use.
         """
-        super().__init__()
-        self.configure(background=configs.background_color)
-        self.deiconify() if configs.init_visibility else self.withdraw()
-        self.geometry(f'{configs.init_size[0]}x{configs.init_size[1]}')
-        # NOTE: Adjust when tk 8.7 is released,
+        self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
+        self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
+        # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
-        # self.iconphoto(configs.icon_default, configs.icon)
-        self.minsize(configs.init_size[0], configs.init_size[1])
-        self.resizable(configs.resizable, configs.resizable)
-        self.theme_use(configs.theme)
-        self.title(configs.title)
-        # TODO: make this its own module.
-        Entry(self).pack()
+        self.iconphoto(ui.PRIMARY.ICON, self.svg2png(ui.PRIMARY.ICON_PATH))
+        self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
+        self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
+        self.title(ui.PRIMARY.TITLE)
 
-        # BUG: Its centering on dual monitors not the primary one.
-        # Events.center_window(self)
-        Events.exit_on_key_press(self, EventsDataclass())
+        AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
+        AFCMatrixHandler(self, matrix.PRIMARY)
+
+        SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
+
+    @staticmethod
+    def svg2png(path: str):
+        """Convert a svg to a photoimage.
+
+        Args:
+            path (str): The file path name to use.
+        """
+        return ImageTk.PhotoImage(
+            Image.open(BytesIO(cairosvg.svg2png(url=path)))  # type: ignore
+        )

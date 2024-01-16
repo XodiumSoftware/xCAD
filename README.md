@@ -20,7 +20,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/Structura-Engineering/AutoFrameCAD">
+  <a href="https://github.com/Structura-Engineering/AutoFrameCAD/wiki">
     <img src="https://github.com/illyrius666/illyrius666/blob/master/images/AutoFrameCAD.png" alt="Logo">
   </a>
 
@@ -162,6 +162,6 @@ Distributed under the AGPL-3.0 License. See `LICENSE.md` for more information.
 [ctest-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/ctest_badge.json
 [ctest-url]: https://pypi.org/project/AutoFrameCAD/
 [documentation-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/docs_badge.json
-[documentation-url]: https://docs.structura-engineering.com
+[documentation-url]: https://github.com/Structura-Engineering/AutoFrameCAD/wiki
 [codequality-shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/code_quality_badge.json
 [codequality-url]: -

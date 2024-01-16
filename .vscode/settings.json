@@ -5,46 +5,20 @@
     "python": "$pythonPath -u $fullFileName"
   },
   "code-runner.runInTerminal": true,
-  // CMake Tools Settings
-  "cmake.options.statusBarVisibility": "compact",
   // Editor Settings
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  // C/C++-specific Editor Settings
-  "[c++]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // HTML-specific Editor Settings
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // JSON-specific Editor Settings
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // Markdown-specific Editor Settings
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // JSONC-specific Editor Settings
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   // Python-specific Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
       "source.fixAll": "explicit"
     },
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   // TOML-specific Editor Settings
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
-  // XML-specific Editor Settings
-  "[xml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // General Settings
   "extensions.ignoreRecommendations": true,
@@ -66,9 +40,14 @@
   ],
   // Material Icon Theme Settings
   "material-icon-theme.files.color": "#ef5350",
+  "material-icon-theme.files.associations": {
+    "py.typed": "python"
+  },
   "material-icon-theme.folders.color": "#ef5350",
   "material-icon-theme.folders.associations": {
-    "AutoFrameCAD": "src"
+    "AutoFrameCAD": "src",
+    "ISSUE_TEMPLATE": "template",
+    "workflows": "pipe"
   },
   // Python Analysis Settings
   "python.analysis.autoImportCompletions": true,
@@ -80,9 +59,9 @@
   },
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "strict",
   // Python Environment Settings
-  "python.createEnvironment.trigger": "off",  
+  "python.createEnvironment.trigger": "off",
   // Python Language Server Settings
   "python.languageServer": "Pylance",
   // Python Testing Settings

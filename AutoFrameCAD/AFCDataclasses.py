@@ -1,60 +1,123 @@
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from tkinter import ttk as tkttk
+from typing import Any
 
-from AFCConstants import UI_ICON_PATH
+import numpy as np
+from numpy.typing import NDArray
+from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
+
+from AutoFrameCAD.AFCConstants import UI_ICON_PATH
 
 
 @dataclass
 class EventsDataclass:
     """A class used to represent an event handler."""
 
-    KEYS: List[str] = field(
+    EXIT_KEYS: list[str] = field(
         default_factory=lambda: ['<Escape>', '<Control-q>']
     )
 
 
 @dataclass
-class MainMatrixDataclass:
+class MatrixDataclass:
     """A class used to represent a matrix configuration."""
 
-    matrix: list[dict] = field(default_factory=lambda: [{}])
+    PRIMARY: NDArray[Any] = field(
+        default_factory=lambda: np.array(
+            [
+                [
+                    tkttk.Label(text='Structura Engineering'),
+                    None,
+                ],
+                [
+                    tkttk.Button(text='TEST1'),
+                    tkttk.Button(
+                        text='TEST0',
+                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                    ),
+                ],
+            ],
+            dtype=object,
+        )
+    )
 
 
 @dataclass
-class MainUIDataclass:
+class UIDataclass:
     """A class used to represent a ui configuration."""
 
-    background_color: str = 'black'
-    icon: str = UI_ICON_PATH
-    icon_default: bool = True
-    init_size: Tuple[int, int] = (600, 400)
-    init_visibility: bool = True
-    resizable: bool = True
-    theme: str = 'alt'
-    title: str = 'AutoFrameCAD'
+    # TODO: If alternative is possible, get rid of nested class.
+    @dataclass
+    class TYPING:
+        """A class used to represent typing."""
+
+        ICON: bool
+        ICON_PATH: str
+        GEOM_X: int
+        GEOM_Y: int
+        VISIBILITY: bool
+        RESIZABLE: bool
+        THEME: str
+        TITLE: str
+
+    PRIMARY: TYPING = field(
+        default_factory=lambda: UIDataclass.TYPING(
+            ICON=True,
+            ICON_PATH=UI_ICON_PATH,
+            GEOM_X=1200,
+            GEOM_Y=800,
+            VISIBILITY=True,
+            RESIZABLE=True,
+            THEME='dark',
+            TITLE='AutoFrameCAD',
+        )
+    )
+
+
+# class FrameTypeDataclass(Enum):
+#     """A class used to represent a frame type configuration."""
+
+#     DEFAULT
+#     STAB
+#     CONS
 
 
 @dataclass
-class TimberTypeDataclass:
-    """A class used to represent a timber type."""
+class StudDataclass:
+    """A class used to represent a stud configuration."""
 
-    SLS: List[Tuple[int, int]] = field(
+    SLS: list[tuple[int, int]] = field(
         default_factory=lambda: [
-            (38, 89),
-            (38, 120),
-            (38, 140),
-            (38, 170),
-            (38, 184),
-            (38, 235),
-            (38, 285),
-        ]
+            (0, 0),
+        ],
     )
-    CLS: List[Tuple[int, int]] = field(
+
+    CLS: list[tuple[int, int]] = field(
         default_factory=lambda: [
-            (50, 75),
-            (50, 100),
-            (50, 125),
-            (50, 150),
-            (50, 175),
-        ]
+            (0, 0),
+        ],
     )
+
+
+# @dataclass
+# class FrameDataclass:
+#     """A class used to represent a frame configuration."""
+
+#     # TODO: If alternative is possible, get rid of nested class.
+#     @dataclass
+#     class TYPING:
+#         """A class used to represent typing."""
+
+#         FRAME_TYPE: str
+#         FRAME_X: int
+#         FRAME_Y: int
+#         STUD_TYPE: StudDataclass
+
+#     PRIMARY: TYPING = field(
+#         default_factory=lambda: FrameDataclass.TYPING(
+#             FRAME_TYPE='',
+#             FRAME_X=0,
+#             FRAME_Y=0,
+#             STUD_TYPE=StudDataclass.SLS,
+#         )
+#     )

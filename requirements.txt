@@ -1,4 +1,6 @@
+cairosvg
+numpy
 pytest
 setuptools
-types-setuptools
-StenLib
+stenlib
+sv-ttk

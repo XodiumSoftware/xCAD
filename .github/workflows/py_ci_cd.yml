@@ -1,7 +1,6 @@
 name: Sten's Python CI/CD
 run-name: "Sten's Python CI/CD"
 
-# TODO: replace dev-tkinter with dev with main at some point.
 on:
   push:
     branches: [dev]
@@ -228,24 +227,23 @@ jobs:
       - id: install_dependencies
         name: Install Dependencies
         run: |
-          pip install sphinx
-          pip install sphinx_rtd_theme
+          pip install pdoc3
+          pip install cairosvg
+          pip install numpy
+          pip install pytest
+          pip install setuptools
+          pip install stenlib
+          pip install sv-ttk
 
-      - id: build_docs
-        name: Build Sphinx Documentation
-        run: make html
-        working-directory: AutoFrameCAD/docs
+      - id: generate_docs
+        name: Generate Docs
+        run: |
+          pdoc3 -f -o AutoFrameCAD/docs AutoFrameCAD
 
       - id: deploy_docs
-        uses: SamKirkland/FTP-Deploy-Action@master
+        uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ${{ secrets.FTP_PROTOCOL }}
-          local-dir: ${{ secrets.FTP_LOCAL_DIR }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          path: AutoFrameCAD/docs
 
       - id: docs_badge
         if: always()

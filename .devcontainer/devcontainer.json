@@ -1,5 +1,9 @@
 {
   "image": "python:3.12-bullseye",
+  "remoteUser": "vscode@STEN",
+  "hostRequirements": {
+    "gpu": true
+  },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": "true",
@@ -22,39 +26,37 @@
         "charliermarsh.ruff",
         "esbenp.prettier-vscode",
         "formulahendry.code-runner",
-        "foxundermoon.shell-format",
         "github.copilot",
         "github.vscode-github-actions",
         "gruntfuggly.todo-tree",
         "jock.svg",
         "ms-azuretools.vscode-docker",
         "ms-vscode.cpptools",
-        "ms-vscode.cmake-tools",
         "ms-python.python",
         "ms-python.vscode-pylance",
         "ms-vscode.live-server",
         "pkief.material-icon-theme",
-        "redhat.vscode-yaml",
+        "qwtel.sqlite-viewer",
         "tamasfe.even-better-toml",
         "usernamehw.errorlens",
         "visualstudioexptteam.vscodeintellicode"
       ]
     }
-
-//  },
-//  "postCreateCommand": "bash .devcontainer/install.sh",
-//  "remoteUser": "vscode@STEN",
-//  "runArgs": [
-//    "--net",
-//    "host",
-//    "-e",
-//    "DISPLAY=host.docker.internal:0",
-//    "-e",
-//    "XAUTHORITY=/tmp/.Xauthority",
-//    "-v",
-//    "C:/Users/admin/.Xauthority:/tmp/.Xauthority"
-//  ]
-//}
-
-// TODO: Currently the Xserver uses the host's .Xauthority file. This is not ideal.
-// if the path is not the same it will throw an error. we should find a workaround for this, to make it dynamic.
+  },
+  "onCreateCommand": "bash .devcontainer/install.sh",
+  // NOTE: for X11 forwarding on Linux
+  "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
+  // NOTE: for X11 forwarding on Windows
+  // "runArgs": [
+  //   "--net=host",
+  //   "-e=DISPLAY=host.docker.internal:0",
+  //   "-v=/tmp/.Xauthority:/tmp/.Xauthority"
+  // ],
+  // NOTE: for X11 forwarding on MacOS
+  // "runArgs": [
+  //   "--net=host",
+  //   "-e=DISPLAY=host.docker.internal:0",
+  //   "-v=/tmp/.X11-unix:/tmp/.X11-unix"
+  // ],
+  "shutdownAction": "stopContainer"
+}
