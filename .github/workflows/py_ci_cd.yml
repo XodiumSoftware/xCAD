@@ -233,7 +233,7 @@ jobs:
           pip install pytest
           pip install setuptools
           pip install stenlib
-          pip install ttk
+          pip install sv-ttk
 
       - id: generate_docs
         name: Generate Docs
