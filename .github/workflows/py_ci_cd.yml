@@ -227,9 +227,7 @@ jobs:
       - id: install_dependencies
         name: Install Dependencies
         run: |
-          pip install pdoc3
-          pip install pytest
-          pip install numpy
+          pip install -r requirements.txt
 
       - id: generate_docs
         name: Generate Docs
