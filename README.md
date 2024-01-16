@@ -29,7 +29,7 @@
   <p align="center">
     CAD addon/plug-in to automize frameworks.
     <br />
-    <a href="https://docs.structura-engineering.com"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Structura-Engineering/AutoFrameCAD/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD">Samples</a>
