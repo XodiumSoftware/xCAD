@@ -229,6 +229,7 @@ jobs:
         run: |
           pip install pdoc3
           pip install pytest
+          pip install numpy
 
       - id: generate_docs
         name: Generate Docs
