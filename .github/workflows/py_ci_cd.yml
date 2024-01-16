@@ -218,6 +218,23 @@ jobs:
       - id: checkout
         uses: actions/checkout@main
 
+      - id: setup_python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - id: install_dependencies
+        name: Install Dependencies
+        run: |
+          pip install pdoc3
+          pip install pytest
+
+      - id: generate_docs
+        name: Generate Docs
+        run: |
+          pdoc3 -f -o AutoFrameCAD/docs AutoFrameCAD
+
       - id: deploy_docs
         uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
         with:
