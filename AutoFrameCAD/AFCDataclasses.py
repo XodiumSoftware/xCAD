@@ -3,9 +3,10 @@ from tkinter import ttk as tkttk
 from typing import Any
 
 import numpy as np
-from AFCConstants import UI_ICON_PATH
 from numpy.typing import NDArray
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
+
+from AutoFrameCAD.AFCConstants import UI_ICON_PATH
 
 
 @dataclass
