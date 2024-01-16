@@ -227,7 +227,13 @@ jobs:
       - id: install_dependencies
         name: Install Dependencies
         run: |
-          pip install -r requirements.txt
+          pip install pdoc3
+          pip install cairosvg
+          pip install numpy
+          pip install pytest
+          pip install setuptools
+          pip install stenlib
+          pip install ttk
 
       - id: generate_docs
         name: Generate Docs
