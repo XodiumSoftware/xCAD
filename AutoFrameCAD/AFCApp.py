@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk as tkTk
 
-from AFCUIModules import PrimaryUIModule as AFCPrimaryUIModule
+from AutoFrameCAD.AFCUIModules import PrimaryUIModule as AFCPrimaryUIModule
 
 
 class App:

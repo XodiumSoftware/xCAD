@@ -2,13 +2,14 @@ from io import BytesIO
 from tkinter import Tk as tkTk
 
 import cairosvg  # type: ignore
-from AFCDataclasses import EventsDataclass as AFCEventsDataclass
-from AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
-from AFCDataclasses import UIDataclass as AFCUIDataclass
-from AFCEvents import Events as AFCEvents
-from AFCHandlers import MatrixHandler as AFCMatrixHandler
 from PIL import Image, ImageTk
 from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
+
+from AutoFrameCAD.AFCDataclasses import EventsDataclass as AFCEventsDataclass
+from AutoFrameCAD.AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
+from AutoFrameCAD.AFCDataclasses import UIDataclass as AFCUIDataclass
+from AutoFrameCAD.AFCEvents import Events as AFCEvents
+from AutoFrameCAD.AFCHandlers import MatrixHandler as AFCMatrixHandler
 
 
 class PrimaryUIModule(tkTk):

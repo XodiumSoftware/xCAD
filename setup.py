@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='AutoFrameCAD',
-    version='0.0.76',
+    version='0.0.77',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     license=open('LICENSE.md').read(),

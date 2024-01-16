@@ -1,8 +1,9 @@
 import json
 import sqlite3
 
-from AFCConstants import DATABASE_PATH, LUMBERTYPES_JSON_PATH
 from StenLib.StenDecorators import ErrorHandler as StenErrorHandler
+
+from AutoFrameCAD.AFCConstants import DATABASE_PATH, LUMBERTYPES_JSON_PATH
 
 
 class Database:
