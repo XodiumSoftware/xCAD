@@ -18,7 +18,7 @@ function installFromCloud() {
 function onCreateCommand() {
     pip install --upgrade pip && pip install -r requirements.txt
     sudo apt-get update && sudo apt-get install -y gdb
-    installFromCloud "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
+    # installFromCloud "https://cloud.structura-engineering.com/storage/BRXSDK/BRXSDK_Bcad_V24_2_01.zip"
 }
 
 onCreateCommand

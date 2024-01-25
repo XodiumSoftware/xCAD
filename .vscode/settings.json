@@ -117,5 +117,8 @@
   "workbench.colorTheme": "Monokai Dimmed",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
-  "svg.preview.background": "dark-transparent"
+  "svg.preview.background": "dark-transparent",
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  }
 }
