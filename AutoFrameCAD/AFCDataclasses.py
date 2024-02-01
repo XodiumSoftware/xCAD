@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from pathlib import Path
 from tkinter import ttk as tkttk
 from typing import Any
 
@@ -52,7 +53,7 @@ class UIDataclass:
         """A class used to represent typing."""
 
         ICON: bool
-        ICON_PATH: str
+        ICON_PATH: Path
         GEOM_X: int
         GEOM_Y: int
         VISIBILITY: bool
