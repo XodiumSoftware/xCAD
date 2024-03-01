@@ -3,8 +3,8 @@ from pathlib import Path
 from tkinter import Tk as tkTk
 
 import cairosvg  # type: ignore
+import sv_ttk
 from PIL import Image, ImageTk
-from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 from AutoFrameCAD.AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AutoFrameCAD.AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
@@ -52,7 +52,7 @@ class PrimaryUIModule(tkTk):
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
         AFCMatrixHandler(self, matrix.PRIMARY)
 
-        SVTtk_SetTheme.set_theme(ui.PRIMARY.THEME)
+        sv_ttk.set_theme(ui.PRIMARY.THEME)
 
     @staticmethod
     def svg2png(path: Path):

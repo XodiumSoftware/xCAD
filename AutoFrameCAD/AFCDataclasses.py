@@ -4,8 +4,8 @@ from tkinter import ttk as tkttk
 from typing import Any
 
 import numpy as np
+import sv_ttk
 from numpy.typing import NDArray
-from sv_ttk import SunValleyTtkTheme as SVTtk_SetTheme
 
 from AutoFrameCAD.AFCConstants import UI_ICON_PATH
 
@@ -34,7 +34,7 @@ class MatrixDataclass:
                     tkttk.Button(text='TEST1'),
                     tkttk.Button(
                         text='TEST0',
-                        command=lambda: SVTtk_SetTheme.toggle_theme(),
+                        command=lambda: sv_ttk.toggle_theme(),
                     ),
                 ],
             ],
