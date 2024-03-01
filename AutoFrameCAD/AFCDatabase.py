@@ -1,23 +1,14 @@
 import json
-import re
 import sqlite3
 
-from AFCDecorators import ErrorHandler as StenErrorHandler
-
-
-def sanitize_str(value: str) -> str:
-    """Sanitizes a string.
-
-    Args:
-        value (str): The string to be sanitized.
-    """
-    return (re.sub(r'\W+', '_', value)).lower()
+from AFCDecorators import ErrorHandler as AFCErrorHandler
+from AFCUtils import Utils as AFCUtils
 
 
 class Database:
     """A class used to represent a database."""
 
-    @StenErrorHandler(sqlite3.Error, FileNotFoundError)
+    @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
     def __init__(self, path: str) -> None:
         """Initializes the database object.
 
@@ -27,7 +18,7 @@ class Database:
         self._conn: sqlite3.Connection = sqlite3.connect(path)
         self._curs: sqlite3.Cursor = self._conn.cursor()
 
-    @StenErrorHandler(sqlite3.Error)
+    @AFCErrorHandler(sqlite3.Error)
     def _exec_sql(self, sql: str, id: int | None = None) -> None:
         """Executes a sql.
 
@@ -67,7 +58,7 @@ class Database:
         with open(path, 'r') as _file:
             return json.load(_file)
 
-    @StenErrorHandler(sqlite3.Error)
+    @AFCErrorHandler(sqlite3.Error)
     def add_data(self, path: str) -> None:
         """Inserts data into the table.
 
@@ -75,7 +66,7 @@ class Database:
             path (str): The path to the json file.
         """
         for _table, _rows in self._open_json(path).items():
-            _table = sanitize_str(_table)
+            _table = AFCUtils.sanitize_str(_table)
             with self._conn:
                 _cols_with_types = ', '.join(
                     [
@@ -96,7 +87,7 @@ class Database:
                                     VALUES ({_placeholders})"""
                     self._curs.execute(_insert_sql, tuple(_row.values()))
 
-    @StenErrorHandler(sqlite3.Error)
+    @AFCErrorHandler(sqlite3.Error)
     def del_data(self, table: str, id: int | None = None) -> None:
         """Deletes data from the table.
 
@@ -106,7 +97,7 @@ class Database:
         """
         self._exec_sql(f'DELETE FROM {table}', id)
 
-    @StenErrorHandler(sqlite3.Error)
+    @AFCErrorHandler(sqlite3.Error)
     def get_data(
         self, table: str, id: int | None = None
     ) -> list[tuple[str, None | int | float | str | bytes]]:
@@ -120,7 +111,7 @@ class Database:
         self._exec_sql(f'SELECT * FROM {table}', id)
         return self._curs.fetchall()
 
-    @StenErrorHandler(sqlite3.Error)
+    @AFCErrorHandler(sqlite3.Error)
     def __del__(self) -> None:
         """Closes the database connection."""
         self._conn.close()
