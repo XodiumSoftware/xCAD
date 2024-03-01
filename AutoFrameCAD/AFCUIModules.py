@@ -4,13 +4,12 @@ from tkinter import Tk as tkTk
 
 import cairosvg  # type: ignore
 import sv_ttk
+from AFCDataclasses import EventsDataclass as AFCEventsDataclass
+from AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
+from AFCDataclasses import UIDataclass as AFCUIDataclass
+from AFCEvents import Events as AFCEvents
+from AFCHandlers import MatrixHandler as AFCMatrixHandler
 from PIL import Image, ImageTk
-
-from AutoFrameCAD.AFCDataclasses import EventsDataclass as AFCEventsDataclass
-from AutoFrameCAD.AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
-from AutoFrameCAD.AFCDataclasses import UIDataclass as AFCUIDataclass
-from AutoFrameCAD.AFCEvents import Events as AFCEvents
-from AutoFrameCAD.AFCHandlers import MatrixHandler as AFCMatrixHandler
 
 
 class PrimaryUIModule(tkTk):
@@ -62,5 +61,5 @@ class PrimaryUIModule(tkTk):
             path (Path): The file path name to use.
         """
         return ImageTk.PhotoImage(
-            Image.open(BytesIO(cairosvg.svg2png(url=path)))  # type: ignore
+            Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
         )

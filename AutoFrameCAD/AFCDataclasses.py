@@ -5,9 +5,8 @@ from typing import Any
 
 import numpy as np
 import sv_ttk
+from AFCConstants import UI_ICON_PATH
 from numpy.typing import NDArray
-
-from AutoFrameCAD.AFCConstants import UI_ICON_PATH
 
 
 @dataclass
