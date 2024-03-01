@@ -4,6 +4,8 @@ from tkinter import Tk as tkTk
 
 import cairosvg  # type: ignore
 import sv_ttk
+from AFCConstants import DATABASE_PATH, LUMBERTYPES_JSON_PATH
+from AFCDatabase import Database
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
@@ -47,6 +49,14 @@ class PrimaryUIModule(tkTk):
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
+
+        # table = 'test_table'
+        db = Database(DATABASE_PATH)
+        db.add_data(LUMBERTYPES_JSON_PATH)
+        # print(db.get_data(table))
+        # print(db.get_data(table, id=0))
+        # print(db.get_data(table, id=1))
+        # print(db.get_data(table, id=2))
 
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
         AFCMatrixHandler(self, matrix.PRIMARY)

@@ -1,8 +1,17 @@
 import json
+import re
 import sqlite3
 
-from AFCConstants import DATABASE_PATH, LUMBERTYPES_JSON_PATH
-from StenLib.StenDecorators import ErrorHandler as StenErrorHandler
+from AFCDecorators import ErrorHandler as StenErrorHandler
+
+
+def sanitize_str(value: str) -> str:
+    """Sanitizes a string.
+
+    Args:
+        value (str): The string to be sanitized.
+    """
+    return (re.sub(r'\W+', '_', value)).lower()
 
 
 class Database:
@@ -66,6 +75,7 @@ class Database:
             path (str): The path to the json file.
         """
         for _table, _rows in self._open_json(path).items():
+            _table = sanitize_str(_table)
             with self._conn:
                 _cols_with_types = ', '.join(
                     [
@@ -114,12 +124,3 @@ class Database:
     def __del__(self) -> None:
         """Closes the database connection."""
         self._conn.close()
-
-
-table = 'test_table'
-db = Database(DATABASE_PATH)
-db.add_data(LUMBERTYPES_JSON_PATH)
-print(db.get_data(table))
-print(db.get_data(table, id=0))
-print(db.get_data(table, id=1))
-print(db.get_data(table, id=2))
