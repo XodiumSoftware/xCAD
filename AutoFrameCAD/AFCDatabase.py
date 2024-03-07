@@ -32,6 +32,7 @@ class Database:
             else:
                 self._curs.execute(sql + ' WHERE id=?', (id,))
 
+    @AFCErrorHandler(sqlite3.Error)
     def _get_sql_type(self, value: int | float | str | bytes | None) -> str:
         """Gets the sql type of a value.
 
@@ -47,6 +48,7 @@ class Database:
             bytes: 'BLOB',
         }.get(type(value), 'NULL')
 
+    @AFCErrorHandler(FileNotFoundError, json.JSONDecodeError)
     def _open_json(
         self, path: str
     ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
