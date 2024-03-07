@@ -43,26 +43,21 @@ class PrimaryUIModule(tkTk):
         """
         self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
-        # NOTE: Adjust when tk 8.7/9.0 is released,
-        # since it will have native svg support.
         self.iconphoto(ui.PRIMARY.ICON, self.svg2png((ui.PRIMARY.ICON_PATH)))
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
 
-        # table = 'test_table'
         db = Database(DATABASE_PATH)
         db.add_data(LUMBERTYPES_JSON_PATH)
-        # print(db.get_data(table))
-        # print(db.get_data(table, id=0))
-        # print(db.get_data(table, id=1))
-        # print(db.get_data(table, id=2))
 
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
         AFCMatrixHandler(self, matrix.PRIMARY)
 
         sv_ttk.set_theme(ui.PRIMARY.THEME)
 
+    # NOTE: Adjust when tk 8.7/9.0 is released,
+    # since it will have native svg support.
     @staticmethod
     def svg2png(path: Path):
         """Convert a svg to a photoimage.

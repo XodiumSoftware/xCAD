@@ -13,7 +13,8 @@ class App:
         Args:
             modules (list[tkTk]): The modules to use.
         """
-        [module.mainloop() for module in modules]
+        for module in modules:
+            module.mainloop()
         sys.exit()
 
 
