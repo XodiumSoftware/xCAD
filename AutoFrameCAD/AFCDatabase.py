@@ -20,21 +20,15 @@ class Database:
         self._curs: sqlite3.Cursor = self._conn.cursor()
 
     @AFCErrorHandler(sqlite3.Error)
-    def _exec_sql(self, sql: str, id: int | None = None) -> None:
-        """Executes a sql.
-
-        Args:
-            sql (str): The sql to be executed.
-            id (int): The id of the type. Defaults to None.
-        """
+    def _exec_sql(
+        self, sql: str, params: tuple[str | int | float | bytes, ...] = ()
+    ) -> None:
         with self._conn:
-            if id is None:
-                self._curs.execute(sql)
-            else:
-                self._curs.execute(sql + ' WHERE id=?', (id,))
+            self._curs.execute(sql, params)
 
     @AFCErrorHandler(sqlite3.Error)
-    def _get_sql_type(self, value: int | float | str | bytes | None) -> str:
+    @staticmethod
+    def _get_sql_type(value: int | float | str | bytes | None) -> str:
         """Gets the sql type of a value.
 
         Args:
@@ -50,8 +44,9 @@ class Database:
         }.get(type(value), 'NULL')
 
     @AFCErrorHandler(FileNotFoundError, json.JSONDecodeError)
+    @staticmethod
     def _open_json(
-        self, path: Path
+        path: Path,
     ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
         """Opens a json file.
 
@@ -98,7 +93,9 @@ class Database:
             table (str): The name of the table.
             id (int): The id of the type.
         """
-        self._exec_sql(f'DELETE FROM {table}', id)
+        sql = f'DELETE FROM {table}'
+        params = (id,) if id is not None else ()
+        self._exec_sql(sql, params)
 
     @AFCErrorHandler(sqlite3.Error)
     def get_data(
@@ -111,7 +108,9 @@ class Database:
             id (int): The id of the type. Defaults to None.
                 If None, returns all rows.
         """
-        self._exec_sql(f'SELECT * FROM {table}', id)
+        sql = f'SELECT * FROM {table}'
+        params = (id,) if id is not None else ()
+        self._exec_sql(sql, params)
         return self._curs.fetchall()
 
     @AFCErrorHandler(sqlite3.Error)
