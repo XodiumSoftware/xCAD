@@ -3,19 +3,21 @@ from pathlib import Path
 # General
 # =============================================================================
 BASE_DIR = Path(__file__).resolve().parent
-ICONS_FOLDER_PATH = BASE_DIR / 'icons'
-ICONS_EXTENSION = '.svg'
-DATABASE_FOLDER_PATH = BASE_DIR / 'db'
-DATABASE_EXTENSION = '.sqlite'
 # =============================================================================
 
 # Database
 # =============================================================================
-DATABASE_PATH = DATABASE_FOLDER_PATH / f'AFCDatabase{DATABASE_EXTENSION}'
-LUMBERTYPES_JSON_PATH = DATABASE_FOLDER_PATH / 'LumberTypes.json'
+DATABASE_FOLDER_PATH = BASE_DIR / 'data' / 'db'
+DATABASE_PATH = DATABASE_FOLDER_PATH / 'AFCDatabase.sqlite'
 # =============================================================================
 
-# UI
+# Json
 # =============================================================================
-UI_ICON_PATH = ICONS_FOLDER_PATH / f'ui{ICONS_EXTENSION}'
+JSON_FOLDER_PATH = BASE_DIR / 'data' / 'json'
+# =============================================================================
+
+# Icons
+# =============================================================================
+ICONS_FOLDER_PATH = BASE_DIR / 'icons'
+UI_ICON_PATH = ICONS_FOLDER_PATH / 'ui.svg'
 # =============================================================================

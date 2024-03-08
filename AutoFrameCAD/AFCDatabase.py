@@ -1,7 +1,9 @@
 import json
+import os
 import sqlite3
 from pathlib import Path
 
+from AFCConstants import JSON_FOLDER_PATH
 from AFCDecorators import ErrorHandler as AFCErrorHandler
 from AFCUtils import Utils as AFCUtils
 
@@ -49,26 +51,33 @@ class Database:
         }.get(type(value), 'NULL')
 
     @AFCErrorHandler(FileNotFoundError, json.JSONDecodeError)
-    def _open_json(
+    def _load_json(
         self,
-        path: Path,
+        filename: str,
     ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
         """Opens a json file.
 
         Args:
-            path (Path): The path to the json file.
+            filename (str): The name of the json file.
         """
+        path = Path(JSON_FOLDER_PATH, filename)
+
+        if not os.path.commonpath([JSON_FOLDER_PATH]) == os.path.commonpath(
+            [JSON_FOLDER_PATH, path]
+        ):
+            raise ValueError('Invalid filename')
+
         with open(path, 'r') as _file:
             return json.load(_file)
 
     @AFCErrorHandler(sqlite3.Error)
-    def add_data(self, path: Path) -> None:
+    def add_data(self, filename: str) -> None:
         """Inserts data into the table.
 
         Args:
-            path (Path): The path to the json file.
+            filename (str): The name of the json file.
         """
-        for _table, _rows in self._open_json(path).items():
+        for _table, _rows in self._load_json(filename).items():
             _table = AFCUtils.sanitize_str(_table)
             with self._conn:
                 _cols_with_types = ', '.join(
