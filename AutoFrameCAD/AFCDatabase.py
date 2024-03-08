@@ -1,5 +1,6 @@
 import json
 import sqlite3
+from pathlib import Path
 
 from AFCDecorators import ErrorHandler as AFCErrorHandler
 from AFCUtils import Utils as AFCUtils
@@ -9,11 +10,11 @@ class Database:
     """A class used to represent a database."""
 
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: Path) -> None:
         """Initializes the database object.
 
         Args:
-            path (str): The path to the database.
+            path (Path): The path to the database.
         """
         self._conn: sqlite3.Connection = sqlite3.connect(path)
         self._curs: sqlite3.Cursor = self._conn.cursor()
@@ -50,22 +51,22 @@ class Database:
 
     @AFCErrorHandler(FileNotFoundError, json.JSONDecodeError)
     def _open_json(
-        self, path: str
+        self, path: Path
     ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
         """Opens a json file.
 
         Args:
-            path (str): The path to the json file.
+            path (Path): The path to the json file.
         """
         with open(path, 'r') as _file:
             return json.load(_file)
 
     @AFCErrorHandler(sqlite3.Error)
-    def add_data(self, path: str) -> None:
+    def add_data(self, path: Path) -> None:
         """Inserts data into the table.
 
         Args:
-            path (str): The path to the json file.
+            path (Path): The path to the json file.
         """
         for _table, _rows in self._open_json(path).items():
             _table = AFCUtils.sanitize_str(_table)

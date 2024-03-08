@@ -1,4 +1,5 @@
 cairosvg
+cython
 numpy
 pytest
 setuptools

@@ -31,10 +31,7 @@ class MatrixDataclass:
                 ],
                 [
                     tkttk.Button(text='TEST1'),
-                    tkttk.Button(
-                        text='TEST0',
-                        command=lambda: sv_ttk.toggle_theme(),
-                    ),
+                    tkttk.Button(text='TEST0', command=sv_ttk.toggle_theme),
                 ],
             ],
             dtype=object,

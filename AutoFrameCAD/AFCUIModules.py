@@ -41,7 +41,10 @@ class PrimaryUIModule(tkTk):
             event (AFCEventsDataclass): The event to use.
             matrix (AFCMatrixDataclass): The matrix to use.
         """
-        self.deiconify() if ui.PRIMARY.VISIBILITY else self.withdraw()
+        if ui.PRIMARY.VISIBILITY:
+            self.deiconify()
+        else:
+            self.withdraw()
         self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
         self.iconphoto(ui.PRIMARY.ICON, self.svg2png((ui.PRIMARY.ICON_PATH)))
         self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
