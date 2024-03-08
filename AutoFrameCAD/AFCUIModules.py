@@ -51,10 +51,7 @@ class PrimaryUIModule(tkTk):
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
 
-        db = AFCDatabase(DATABASE_PATH)
-        # TODO: Make it so that it will load all of them.
-        db.add_data('LumberTypes.json')
-
+        AFCDatabase(DATABASE_PATH)
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
         AFCMatrixHandler(self, matrix.PRIMARY)
 
