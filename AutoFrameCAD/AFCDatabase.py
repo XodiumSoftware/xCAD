@@ -23,12 +23,17 @@ class Database:
     def _exec_sql(
         self, sql: str, params: tuple[str | int | float | bytes, ...] = ()
     ) -> None:
+        """Executes an sql statement.
+
+        Args:
+            sql (str): The sql statement.
+            params (tuple[str | int | float | bytes, ...]): The parameters.
+        """
         with self._conn:
             self._curs.execute(sql, params)
 
     @AFCErrorHandler(sqlite3.Error)
-    @staticmethod
-    def _get_sql_type(value: int | float | str | bytes | None) -> str:
+    def _get_sql_type(self, value: int | float | str | bytes | None) -> str:
         """Gets the sql type of a value.
 
         Args:
@@ -44,8 +49,8 @@ class Database:
         }.get(type(value), 'NULL')
 
     @AFCErrorHandler(FileNotFoundError, json.JSONDecodeError)
-    @staticmethod
     def _open_json(
+        self,
         path: Path,
     ) -> dict[str, list[dict[str, None | int | float | str | bytes]]]:
         """Opens a json file.
