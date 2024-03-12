@@ -1,6 +1,6 @@
 cairosvg
+cython
 numpy
 pytest
 setuptools
-stenlib
 sv-ttk

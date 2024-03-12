@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Python: Launch",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/AutoFrameCAD/AFCApp.py",
       "console": "integratedTerminal",

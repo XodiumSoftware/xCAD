@@ -63,9 +63,9 @@
 
 ## About The Project
 
-AutoFrameCAD is not just a Python library; it's your companion in crafting efficient and maintainable code. Built to simplify the coding journey, AutoFrameCAD offers a rich array of pre-made methods, empowering developers to focus on creating remarkable projects that tackle real-world challenges.
+AutoFrameCAD is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, AutoFrameCAD offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
 
-Whether you're a seasoned coder or just embarking on your programming adventure, AutoFrameCAD strives to be your ultimate coding ally. Say goodbye to repetitive tasks and embrace best coding practices, letting AutoFrameCAD pave the way for a seamless development experience.
+Whether you're a seasoned coder or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
 
 Why AutoFrameCAD?
 
@@ -73,7 +73,7 @@ Why AutoFrameCAD?
 
 - **Banish Repetition:** Don't waste time reinventing the wheel. AutoFrameCAD encourages you to break free from repetitive tasks, ensuring you spend more time on what truly matters.
 
-- **DRY Principles for Life:** Implement the Don't Repeat Yourself (DRY) mantra not only in your code but in your entire development process. AutoFrameCAD is your guide to a more efficient and enjoyable coding life. 😊
+- **DRY Principles for Life:** Implement the Don't Repeat Yourself (DRY) mantra not only in your drawing but in your entire development process. AutoFrameCAD is your guide to a more efficient and enjoyable drawing life. 😊
 
 As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make AutoFrameCAD even better together.
 

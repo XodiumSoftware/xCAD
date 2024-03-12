@@ -1,24 +1,21 @@
+# TODO: Make it in such a way that it gets the newest version from the folder (BRXSDK).
 function installFromCloud() {
-    local source_url=$1
-    local file_name=$(basename $source_url)
-    local folder_name=$(basename $(dirname $source_url))
-    local temp_dir="/tmp/$folder_name/$file_name"
-    local dest_dir="/usr/local/lib/$folder_name"
-
-    trap 'rm -f $temp_dir' EXIT
-
-    if [ ! -d $(dirname $temp_dir) ]; then
-        sudo mkdir -p $(dirname $temp_dir)
-    fi
-
-    sudo wget -P $(dirname $temp_dir) $source_url &&
-        sudo unzip -q -o $temp_dir -d $dest_dir
+    url=$1
+    filename=$(basename $url)
+    foldername=${filename%.*}
+    sudo wget $url
+    sudo mkdir -p /usr/local/lib/$foldername
+    sudo unzip -d /usr/local/lib/$foldername $filename
+    sudo rm $filename
+    echo 'export PATH=$PATH:/usr/local/lib/' >> ~/.bashrc
+    source ~/.bashrc
 }
 
 function onCreateCommand() {
     pip install --upgrade pip && pip install -r requirements.txt
     sudo apt-get update && sudo apt-get install -y gdb
-    installFromCloud "https://cloud.structura-engineering.com/cloud-storage/BRXSDK/BRXSDK_Bcad_V24_1_05.zip"
+    # TODO: Use Onedrive or some sort of api to get it straight from BricsCAD.
+    # installFromCloud "https://cloud.structura-engineering.com/storage/BRXSDK/BRXSDK_Bcad_V24_2_01.zip"
 }
 
 onCreateCommand
