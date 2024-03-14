@@ -5,7 +5,8 @@ from typing import Any
 
 import numpy as np
 import sv_ttk
-from AFCConstants import UI_ICON_PATH
+from AFCConstants import DATABASE_PATH, UI_ICON_PATH
+from AFCDatabase import Database as AFCDatabase
 from numpy.typing import NDArray
 
 
@@ -30,7 +31,10 @@ class MatrixDataclass:
                     None,
                 ],
                 [
-                    tkttk.Button(text='TEST1'),
+                    tkttk.Button(
+                        text='TEST1',
+                        command=AFCDatabase(DATABASE_PATH).add_data,
+                    ),
                     tkttk.Button(text='TEST0', command=sv_ttk.toggle_theme),
                 ],
             ],

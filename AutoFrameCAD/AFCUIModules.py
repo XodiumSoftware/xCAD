@@ -4,8 +4,6 @@ from tkinter import Tk as tkTk
 
 import cairosvg  # type: ignore
 import sv_ttk
-from AFCConstants import DATABASE_PATH
-from AFCDatabase import Database as AFCDatabase
 from AFCDataclasses import EventsDataclass as AFCEventsDataclass
 from AFCDataclasses import MatrixDataclass as AFCMatrixDataclass
 from AFCDataclasses import UIDataclass as AFCUIDataclass
@@ -51,7 +49,6 @@ class PrimaryUIModule(tkTk):
         self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
         self.title(ui.PRIMARY.TITLE)
 
-        AFCDatabase(DATABASE_PATH)
         AFCEvents.exit_on_key_press(self, event.EXIT_KEYS)
         AFCMatrixHandler(self, matrix.PRIMARY)
 

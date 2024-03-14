@@ -1,5 +1,6 @@
 import json
 import re
+from pathlib import Path
 from tkinter import filedialog
 
 from AFCDecorators import ErrorHandler as AFCErrorHandler
@@ -36,11 +37,14 @@ class Utils:
 
     @staticmethod
     @AFCErrorHandler(FileNotFoundError, IOError)
-    def load_json():
+    def import_json():
         """Loads a json file."""
-        with open(
-            filedialog.askopenfilename(filetypes=[('JSON files', '*.json')]),
-            'r',
-        ) as f:
-            data = json.load(f)
-        return data
+        filename = filedialog.askopenfilename(
+            initialdir=Path.home(),
+            filetypes=[('JSON files', '*.json')],
+        )
+        if filename:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+            return data
+        return None
