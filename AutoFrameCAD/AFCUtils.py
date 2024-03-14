@@ -43,8 +43,4 @@ class Utils:
             initialdir=Path.home(),
             filetypes=[('JSON files', '*.json')],
         )
-        if filename:
-            with open(filename, 'r') as f:
-                data = json.load(f)
-            return data
-        return None
+        return json.load(open(filename, 'r')) if filename else None
