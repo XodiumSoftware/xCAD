@@ -65,7 +65,7 @@
 
 AutoFrameCAD is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, AutoFrameCAD offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
 
-Whether you're a seasoned coder or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
+Whether you're a seasoned drawer or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
 
 Why AutoFrameCAD?
 
