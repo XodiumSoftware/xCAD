@@ -14,12 +14,26 @@ class MatrixHandler:
         """Initialize the class.
 
         Args:
+            master (tkTk): The master to use.
             matrix (np.ndarray): The matrix to use.
         """
         for (i, j), value in np.ndenumerate(matrix):
-            if isinstance(value, tkttk.Widget):
-                value.grid(row=i, column=j, sticky=NSEW)
-                master.rowconfigure(i, weight=1)
-                master.columnconfigure(j, weight=1)
-            else:
-                value = tkttk.Frame()
+            if not isinstance(value, tkttk.Widget):
+                value = tkttk.Frame(master)
+            value.grid(row=i, column=j, sticky=NSEW)
+            master.rowconfigure(i, weight=1)
+            master.columnconfigure(j, weight=1)
+
+
+class EventHandler:
+    """A class used to represent an event handler."""
+
+    def __init__(self, master: tkTk, events: list[str]) -> None:
+        """Initialize the class.
+
+        Args:
+            master (tkTk): The master to use.
+            events (list[str]): The events to use.
+        """
+        for key in events:
+            master.bind(key, lambda event: event.widget.quit())

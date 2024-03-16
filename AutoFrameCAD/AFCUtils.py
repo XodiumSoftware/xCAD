@@ -1,9 +1,12 @@
 import json
 import re
+from io import BytesIO
 from pathlib import Path
 from tkinter import filedialog
 
+import cairosvg  # type: ignore
 from AFCDecorators import ErrorHandler as AFCErrorHandler
+from PIL import Image, ImageTk
 
 
 class Utils:
@@ -48,3 +51,17 @@ class Utils:
                 return json.load(file)
         else:
             return None
+
+    # NOTE: Adjust when tk 8.7/9.0 is released,
+    # since it will have native svg support.
+    @staticmethod
+    @AFCErrorHandler(TypeError)
+    def svg2png(path: Path):
+        """Convert a svg to a photoimage.
+
+        Args:
+            path (Path): The file path name to use.
+        """
+        return ImageTk.PhotoImage(
+            Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
+        )
