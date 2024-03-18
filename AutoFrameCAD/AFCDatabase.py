@@ -22,7 +22,7 @@ class Database:
         self._curs: sqlite3.Cursor = self._conn.cursor()
 
     @AFCErrorHandler(sqlite3.Error)
-    def _exec_sql(
+    def exec_sql(
         self, sql: str, params: tuple[str | int | float | bytes, ...] = ()
     ) -> None:
         """Executes an sql statement.
@@ -72,7 +72,7 @@ class Database:
         """
         sql = f'DELETE FROM {table}'
         params = (id,) if id is not None else ()
-        self._exec_sql(sql, params)
+        self.exec_sql(sql, params)
 
     @AFCErrorHandler(sqlite3.Error)
     def get_data(
@@ -87,7 +87,7 @@ class Database:
         """
         sql = f'SELECT * FROM {table}'
         params = (id,) if id is not None else ()
-        self._exec_sql(sql, params)
+        self.exec_sql(sql, params)
         return self._curs.fetchall()
 
     @AFCErrorHandler(sqlite3.Error)
