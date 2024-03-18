@@ -41,25 +41,23 @@ class UIDataclass:
             GEOM_X=1200,
             GEOM_Y=800,
             EVENTS=['<Escape>', '<Control-q>'],
-            MATRIX=field(
-                default_factory=lambda: np.array(
+            MATRIX=np.array(
+                [
                     [
-                        [
-                            tkttk.Label(text='Structura Engineering'),
-                            None,
-                        ],
-                        [
-                            tkttk.Button(
-                                text='TEST1',
-                                command=AFCDatabase(DATABASE_PATH).add_data,
-                            ),
-                            tkttk.Button(
-                                text='TEST0', command=sv_ttk.toggle_theme
-                            ),
-                        ],
+                        tkttk.Label(text='Structura Engineering'),
+                        None,
                     ],
-                    dtype=object,
-                )
+                    [
+                        tkttk.Button(
+                            text='TEST1',
+                            command=AFCDatabase(DATABASE_PATH).add_data,
+                        ),
+                        tkttk.Button(
+                            text='TEST0', command=sv_ttk.toggle_theme
+                        ),
+                    ],
+                ],
+                dtype=object,
             ),
-        )
+        ),
     )

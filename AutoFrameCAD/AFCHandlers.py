@@ -17,6 +17,7 @@ class MatrixHandler:
             master (tkTk): The master to use.
             matrix (np.ndarray): The matrix to use.
         """
+        print(matrix)
         for (i, j), value in np.ndenumerate(matrix):
             if not isinstance(value, tkttk.Widget):
                 value = tkttk.Frame(master)
