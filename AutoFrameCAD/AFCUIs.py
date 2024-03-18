@@ -1,31 +1,26 @@
-from tkinter import Tk as tkTk
-
-import sv_ttk
 from AFCDataclasses import UIDataclass as AFCUIDataclass
-from AFCHandlers import EventHandler as AFCEventHandler
-from AFCHandlers import MatrixHandler as AFCMatrixHandler
+from AFCHandlers import UIHandler as AFCUIHandler
 from AFCUtils import Utils as AFCUtils
 
 
-class PrimaryUI(tkTk):
+class PrimaryUI(AFCUIHandler):
     """A class used to represent a ui module."""
 
     def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
-        ui = AFCUIDataclass()
+        data = AFCUIDataclass()
 
-        self.title(ui.PRIMARY.TITLE)
-        sv_ttk.set_theme(ui.PRIMARY.THEME)
-        if ui.PRIMARY.VISIBILITY:
-            self.deiconify()
-        else:
-            self.withdraw()
-        self.resizable(ui.PRIMARY.RESIZABLE, ui.PRIMARY.RESIZABLE)
+        self.title(data.PRIMARY.TITLE)
+        self.theme(data.PRIMARY.THEME)
+        self.visible(data.PRIMARY.VISIBILITY)
+        self.resizable(data.PRIMARY.RESIZABLE, data.PRIMARY.RESIZABLE)
+        # NOTE: Adjust when tk 8.7/9.0 is released,
+        # since it will have native svg support.
         self.iconphoto(
-            ui.PRIMARY.ICON, AFCUtils.svg2png((ui.PRIMARY.ICON_PATH))
+            data.PRIMARY.ICON, AFCUtils.svg2png((data.PRIMARY.ICON_PATH))
         )
-        self.geometry(f'{ui.PRIMARY.GEOM_X}x{ui.PRIMARY.GEOM_Y}')
-        self.minsize(ui.PRIMARY.GEOM_X, ui.PRIMARY.GEOM_Y)
-        AFCEventHandler(self, ui.PRIMARY.EVENTS)
-        AFCMatrixHandler(self, ui.PRIMARY.MATRIX)
+        self.geometry(f'{data.PRIMARY.GEOM_X}x{data.PRIMARY.GEOM_Y}')
+        self.minsize(data.PRIMARY.GEOM_X, data.PRIMARY.GEOM_Y)
+        self.events(data.PRIMARY.EVENTS)
+        self.matrix(data.PRIMARY.MATRIX)
