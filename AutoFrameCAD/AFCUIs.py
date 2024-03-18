@@ -9,6 +9,7 @@ class PrimaryUI(AFCUIHandler):
     def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
+        # TODO: move data to __init__ args.
         data = AFCUIDataclass()
 
         self.title(data.PRIMARY.TITLE)
@@ -22,5 +23,6 @@ class PrimaryUI(AFCUIHandler):
         )
         self.geometry(f'{data.PRIMARY.GEOM_X}x{data.PRIMARY.GEOM_Y}')
         self.minsize(data.PRIMARY.GEOM_X, data.PRIMARY.GEOM_Y)
+        # TODO: properly implement events.
         self.events(data.PRIMARY.EVENTS)
         self.matrix(data.PRIMARY.MATRIX)

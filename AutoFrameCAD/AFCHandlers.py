@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 
 
 class UIHandler(tkTk):
-    """A class used to represent a ui module."""
+    """A class used to represent a extension of the TKinter ui module."""
 
     def _theme(self, theme: str) -> None:
         """Set the theme of the UI.
