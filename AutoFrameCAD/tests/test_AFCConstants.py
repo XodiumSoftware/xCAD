@@ -1,21 +1,26 @@
 import unittest
 from pathlib import Path
 
-from AFCConstants import DATABASE_PATH, UI_ICON_PATH
+import AFCConstants
 
 
 class TestAFCConstants(unittest.TestCase):
-    def test_database_path(self):
-        expected_path = Path(
-            '/workspaces/AutoFrameCAD/AutoFrameCAD/db/AFCDatabase.sqlite'
-        )
-        self.assertEqual(DATABASE_PATH, expected_path)
+    def setUp(self):
+        self.test_cases = {
+            'database_path': Path(
+                '/workspaces/AutoFrameCAD/AutoFrameCAD/db/AFCDatabase.sqlite'
+            ),
+            'ui_icon_path': Path(
+                '/workspaces/AutoFrameCAD/AutoFrameCAD/icons/ui.svg'
+            ),
+        }
 
-    def test_ui_icon_path(self):
-        expected_path = Path(
-            '/workspaces/AutoFrameCAD/AutoFrameCAD/icons/ui.svg'
-        )
-        self.assertEqual(UI_ICON_PATH, expected_path)
+    def test_paths(self):
+        for attr, expected_path in self.test_cases.items():
+            with self.subTest(attr=attr):
+                self.assertEqual(
+                    getattr(AFCConstants, attr.upper()), expected_path
+                )
 
 
 if __name__ == '__main__':

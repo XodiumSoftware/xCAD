@@ -4,31 +4,29 @@ from AFCDecorators import ErrorHandler
 
 
 class TestErrorHandler(unittest.TestCase):
+    @ErrorHandler(ValueError)
+    def divide_by_zero(self):
+        return 1 / 0
+
+    @ErrorHandler(ValueError, TypeError)
+    def convert_string_to_int(self):
+        return int('not_an_integer')
+
+    @ErrorHandler(ValueError, TypeError)
+    def divide_by_zero_again(self):
+        return 1 / 0
+
     def test_error_handler(self):
-        # Define a function that raises an exception
-        @ErrorHandler(ValueError)
-        def divide_by_zero():
-            return 1 / 0
-
-        # Assert that the exception is raised
         with self.assertRaises(ValueError):
-            divide_by_zero()
+            self.divide_by_zero()
 
-    def test_error_handler_multiple_exceptions(self):
-        # Define a function that raises multiple exceptions
-        @ErrorHandler(ValueError, TypeError)
-        def divide_by_zero_or_convert_string_to_int():
-            try:
-                return int('not_an_integer')
-            except ValueError:
-                return 1 / 0
-
-        # Assert that the exceptions are raised
+    def test_error_handler_value_error(self):
         with self.assertRaises(ValueError):
-            divide_by_zero_or_convert_string_to_int()
+            self.convert_string_to_int()
 
+    def test_error_handler_type_error(self):
         with self.assertRaises(TypeError):
-            divide_by_zero_or_convert_string_to_int()
+            self.divide_by_zero_again()
 
 
 if __name__ == '__main__':

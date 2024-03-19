@@ -8,61 +8,44 @@ from PIL import Image, ImageTk
 
 
 class TestUtils(unittest.TestCase):
+    def setUp(self):
+        self.utils = Utils()
+
     def test_sanitize_str(self):
-        # Arrange
-        value = 'Hello, World!'
-
-        # Act
-        result = Utils.sanitize_str(value)
-
-        # Assert
-        self.assertEqual(result, 'hello_world')
+        self.assertEqual(
+            self.utils.sanitize_str('Hello, World!'), 'hello_world'
+        )
 
     def test_get_sql_type(self):
-        # Arrange
-        values = [10, 3.14, 'text', b'data', None]
-        expected_types = ['INTEGER', 'REAL', 'TEXT', 'BLOB', 'NULL']
+        test_cases = [
+            (10, 'INTEGER'),
+            (3.14, 'REAL'),
+            ('text', 'TEXT'),
+            (b'data', 'BLOB'),
+            (None, 'NULL'),
+        ]
 
-        # Act & Assert
-        for value, expected_type in zip(values, expected_types):
-            result = Utils.get_sql_type(value)
-            self.assertEqual(result, expected_type)
+        for value, expected in test_cases:
+            with self.subTest(value=value):
+                self.assertEqual(self.utils.get_sql_type(value), expected)
 
     def test_import_json_with_file(self):
-        # Arrange
         filedialog.askopenfilename = MagicMock(
             return_value='/path/to/file.json'
         )
-        expected_data = {'key': 'value'}
-
-        # Act
-        result = Utils.import_json()
-
-        # Assert
-        self.assertEqual(result, expected_data)
+        self.assertEqual(self.utils.import_json(), {'key': 'value'})
 
     def test_import_json_without_file(self):
-        # Arrange
         filedialog.askopenfilename = MagicMock(return_value='')
-
-        # Act
-        result = Utils.import_json()
-
-        # Assert
-        self.assertIsNone(result)
+        self.assertIsNone(self.utils.import_json())
 
     def test_svg2png(self):
-        # Arrange
         path = '/path/to/image.svg'
         ImageTk.PhotoImage = MagicMock()
         Image.open = MagicMock()
         cairosvg.svg2png = MagicMock(return_value=b'image_data')
 
-        # Act
-        result = Utils.svg2png(path)
-
-        # Assert
-        self.assertIsNotNone(result)
+        self.assertIsNotNone(self.utils.svg2png(path))
         ImageTk.PhotoImage.assert_called_once_with(Image.open())
         cairosvg.svg2png.assert_called_once_with(url=str(path))
 
