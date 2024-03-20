@@ -1,6 +1,5 @@
 cairosvg
 cython
 numpy
-pytest
 setuptools
 sv-ttk

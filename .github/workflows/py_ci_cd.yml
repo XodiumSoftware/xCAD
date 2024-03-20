@@ -54,8 +54,8 @@ jobs:
           logoColor: white
           style: flat-square
 
-  pytest:
-    name: PyTests
+  python_tests:
+    name: Python Tests
     needs: [keyword_check]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -102,8 +102,8 @@ jobs:
           logoColor: white
           style: flat-square
 
-  ctest:
-    name: CTests
+  cpp_tests:
+    name: C++ Tests
     needs: [keyword_check]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -152,7 +152,7 @@ jobs:
 
   release:
     name: Release
-    needs: [pytest, ctest, code_quality]
+    needs: [python_tests, cpp_tests, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -230,9 +230,7 @@ jobs:
           pip install pdoc3
           pip install cairosvg
           pip install numpy
-          pip install pytest
           pip install setuptools
-          pip install stenlib
           pip install sv-ttk
 
       - id: generate_docs
