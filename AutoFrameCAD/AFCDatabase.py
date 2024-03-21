@@ -37,7 +37,9 @@ class Database:
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
     def add_data(self) -> None:
         """Inserts data into the table."""
-        data = AFCUtils.import_json()
+        data: dict[str, list[dict[str, int | float | str | bytes | None]]] = (
+            AFCUtils.import_json()
+        )
         if data:
             for _table, _rows in data.items():
                 _table = AFCUtils.sanitize_str(_table)
