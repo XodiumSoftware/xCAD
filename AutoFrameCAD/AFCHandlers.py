@@ -1,7 +1,7 @@
 from tkinter import NSEW
 from tkinter import Tk as tkTk
 from tkinter import ttk as tkttk
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 import sv_ttk
@@ -34,14 +34,14 @@ class UIHandler(tkTk):
 
     visible = _visible
 
-    def _events(self, events: list[str]) -> None:
+    def _events(self, events: dict[str, Callable[[Any], None]]) -> None:
         """Set the events of the UI.
 
         Args:
-            events (list[str]): The events to use.
+            events (dict[str, Callable[[Any], None]]): The events to use.
         """
-        for key in events:
-            self.bind(key, lambda event: event.widget.quit())
+        for key, value in events.items():
+            self.bind(key, value)
 
     events = _events
 

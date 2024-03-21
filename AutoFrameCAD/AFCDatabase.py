@@ -1,6 +1,7 @@
 import sqlite3
 from pathlib import Path
 
+from AFCConstants import DATABASE_PATH
 from AFCDecorators import ErrorHandler as AFCErrorHandler
 from AFCUtils import Utils as AFCUtils
 
@@ -9,11 +10,11 @@ class Database:
     """A class used to represent a database."""
 
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path = DATABASE_PATH) -> None:
         """Initializes the database object.
 
         Args:
-            path (Path): The path to the database.
+            path (Path): The path to the database file.
         """
         path.parent.mkdir(parents=True, exist_ok=True)
         path.touch(exist_ok=True)

@@ -40,7 +40,9 @@ class Utils:
 
     @staticmethod
     @AFCErrorHandler(FileNotFoundError, IOError)
-    def import_json():
+    def import_json() -> (
+        dict[str, list[dict[str, int | float | str | bytes | None]]] | None
+    ):
         """Loads a json file."""
         filename = filedialog.askopenfilename(
             initialdir=Path.home(),
@@ -56,7 +58,7 @@ class Utils:
     # since it will have native svg support.
     @staticmethod
     @AFCErrorHandler(TypeError)
-    def svg2png(path: Path):
+    def svg2png(path: Path) -> ImageTk.PhotoImage:
         """Convert a svg to a photoimage.
 
         Args:

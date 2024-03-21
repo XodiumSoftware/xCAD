@@ -1,4 +1,9 @@
-from AFCDataclasses import UIDataclass as AFCUIDataclass
+from tkinter import ttk as tkttk
+
+import numpy as np
+import sv_ttk
+from AFCConstants import UI_ICON_PATH
+from AFCDatabase import Database as AFCDatabase
 from AFCHandlers import UIHandler as AFCUIHandler
 from AFCUtils import Utils as AFCUtils
 
@@ -9,21 +14,36 @@ class PrimaryUI(AFCUIHandler):
     def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
-        # TODO: move data to __init__ args.
-        data = AFCUIDataclass()
-
-        self.title(data.PRIMARY.TITLE)
-        self.theme(data.PRIMARY.THEME)
-        self.visible(data.PRIMARY.VISIBILITY)
-        self.resizable(data.PRIMARY.RESIZABLE, data.PRIMARY.RESIZABLE)
+        self.title('AutoFrameCAD')
+        self.theme('dark')
+        self.visible(True)
+        self.resizable(True, True)
         # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
-        self.iconphoto(
-            data.PRIMARY.ICON, AFCUtils.svg2png((data.PRIMARY.ICON_PATH))
+        self.iconphoto(True, AFCUtils.svg2png(UI_ICON_PATH))
+        self.geometry(f'{1200}x{800}')
+        self.minsize(1200, 800)
+        self.events({'<Control-w>': lambda _: self.quit()})
+        self.config(padx=10, pady=10)
+        self.matrix(
+            np.array(
+                [
+                    [
+                        tkttk.Label(
+                            text='Structura Engineering', anchor='center'
+                        ),
+                        None,
+                    ],
+                    [
+                        tkttk.Button(
+                            text='TEST1',
+                            command=AFCDatabase().add_data,
+                        ),
+                        tkttk.Button(
+                            text='TEST0', command=sv_ttk.toggle_theme
+                        ),
+                    ],
+                ],
+                dtype=object,
+            ),
         )
-        self.geometry(f'{data.PRIMARY.GEOM_X}x{data.PRIMARY.GEOM_Y}')
-        self.minsize(data.PRIMARY.GEOM_X, data.PRIMARY.GEOM_Y)
-        # TODO: properly implement events.
-        self.events(data.PRIMARY.EVENTS)
-        self.matrix(data.PRIMARY.MATRIX)
-        self.config(padx=data.PRIMARY.PAD_X, pady=data.PRIMARY.PAD_Y)

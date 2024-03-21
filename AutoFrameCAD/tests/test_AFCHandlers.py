@@ -1,7 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import unittest
-from unittest.mock import ANY, patch
+from typing import Any, Callable
+from unittest.mock import call, patch
 
 import numpy as np
 from AFCHandlers import UIHandler
@@ -46,10 +47,12 @@ class TestUIHandler(unittest.TestCase):
         self.mocks['deiconify'].assert_not_called()
 
     def test_events_binds_events(self):
-        events = ['<Button-1>', '<Button-2>']
+        events: dict[str, Callable[[Any], None]] = {
+            '<Control-w>': lambda _: self.ui_handler.quit(),
+        }
         self.ui_handler.events(events)
-        for event in events:
-            self.mocks['bind'].assert_any_call(event, ANY)
+        calls = [call(event, events[event]) for event in events]
+        self.mocks['bind'].assert_has_calls(calls, any_order=False)
 
     def test_matrix_creates_widgets(self):
         matrix = np.array([[1, 2], [3, 4]])
