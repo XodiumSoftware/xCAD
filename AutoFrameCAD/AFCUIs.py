@@ -26,3 +26,4 @@ class PrimaryUI(AFCUIHandler):
         # TODO: properly implement events.
         self.events(data.PRIMARY.EVENTS)
         self.matrix(data.PRIMARY.MATRIX)
+        self.config(padx=data.PRIMARY.PAD_X, pady=data.PRIMARY.PAD_Y)

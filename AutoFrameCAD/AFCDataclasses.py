@@ -27,6 +27,8 @@ class UIDataclass:
         ICON_PATH: Path
         GEOM_X: int
         GEOM_Y: int
+        PAD_X: int
+        PAD_Y: int
         EVENTS: list[str]
         MATRIX: NDArray[Any]
 
@@ -40,11 +42,15 @@ class UIDataclass:
             ICON_PATH=UI_ICON_PATH,
             GEOM_X=1200,
             GEOM_Y=800,
-            EVENTS=['<Escape>', '<Control-q>'],
+            PAD_X=10,
+            PAD_Y=10,
+            EVENTS=['<Control-w>'],
             MATRIX=np.array(
                 [
                     [
-                        tkttk.Label(text='Structura Engineering'),
+                        tkttk.Label(
+                            text='Structura Engineering', anchor='center'
+                        ),
                         None,
                     ],
                     [
