@@ -1,6 +1,5 @@
 from tkinter import ttk as tkttk
 
-import numpy as np
 import sv_ttk
 from AFCConstants import UI_ICON_PATH
 from AFCDatabase import Database as AFCDatabase
@@ -26,24 +25,19 @@ class PrimaryUI(AFCUIHandler):
         self.events({'<Control-w>': lambda _: self.quit()})
         self.config(padx=10, pady=10)
         self.matrix(
-            np.array(
+            [
                 [
-                    [
-                        tkttk.Label(
-                            text='Structura Engineering', anchor='center'
-                        ),
-                        None,
-                    ],
-                    [
-                        tkttk.Button(
-                            text='TEST1',
-                            command=AFCDatabase().add_data,
-                        ),
-                        tkttk.Button(
-                            text='TEST0', command=sv_ttk.toggle_theme
-                        ),
-                    ],
+                    tkttk.Label(text='Structura Engineering', anchor='center'),
+                    None,
                 ],
-                dtype=object,
-            ),
+                [
+                    tkttk.Button(
+                        text='Add Data',
+                        command=AFCDatabase().add_data,
+                    ),
+                    tkttk.Button(
+                        text='Switch Theme', command=sv_ttk.toggle_theme
+                    ),
+                ],
+            ],
         )
