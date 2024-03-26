@@ -51,6 +51,8 @@ class UIHandler(tkTk):
         Args:
             matrix (np.ndarray): The matrix to use.
         """
+        if matrix.ndim != 2:
+            raise ValueError('Matrix must be a 2D numpy array.')
         for (i, j), value in np.ndenumerate(matrix):
             if not isinstance(value, tkttk.Widget):
                 value = tkttk.Frame(self)
