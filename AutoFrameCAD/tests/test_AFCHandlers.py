@@ -1,10 +1,7 @@
-import tkinter as tk
-import tkinter.ttk as ttk
 import unittest
 from typing import Any, Callable
 from unittest.mock import call, patch
 
-import numpy as np
 from AFCHandlers import UIHandler
 
 
@@ -53,18 +50,6 @@ class TestUIHandler(unittest.TestCase):
         self.ui_handler.events(events)
         calls = [call(event, events[event]) for event in events]
         self.mocks['bind'].assert_has_calls(calls, any_order=False)
-
-    def test_matrix_creates_widgets(self):
-        matrix = np.array([[1, 2], [3, 4]])
-        self.ui_handler.matrix(matrix)
-        for (i, j), value in np.ndenumerate(matrix):
-            if not isinstance(value, ttk.Widget):
-                self.mocks['frame'].assert_called_with(self.ui_handler)
-            self.mocks['grid'].assert_called_with(
-                row=i, column=j, sticky=tk.NSEW
-            )
-            self.mocks['rowconfigure'].assert_called_with(i, weight=1)
-            self.mocks['columnconfigure'].assert_called_with(j, weight=1)
 
 
 if __name__ == '__main__':

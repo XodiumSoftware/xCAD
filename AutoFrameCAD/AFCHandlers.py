@@ -1,6 +1,6 @@
 from tkinter import Tk as tkTk
 from tkinter import ttk as tkttk
-from typing import Any, Callable
+from typing import Any, Callable, Sequence
 
 import sv_ttk
 
@@ -31,37 +31,37 @@ class UIHandler(tkTk):
 
     visible = _visible
 
-    def _events(self, events: dict[str, Callable[[tkTk], None]]) -> None:
+    def _events(self, events: dict[str, Callable[[Any], None]]) -> None:
         """Set the events of the UI.
 
         Args:
-            events (dict[str, Callable[[tkTk], None]]): The events to use.
+            events (dict[str, Callable[[Any], None]]): The events to use.
         """
         for key, value in events.items():
-            self.bind(key, value)  # type: ignore
+            self.bind(key, value)
 
     events = _events
 
     def _matrix(
         self,
-        matrix: list[list[tkttk.Widget | None]],
-        **options: Any,
+        matrix: Sequence[Sequence[tkttk.Widget | None]],
+        row_options: dict[str, Any] = {},
+        col_options: dict[str, Any] = {},
+        grid_options: dict[str, Any] = {},
     ) -> None:
         """Set the matrix of the UI.
 
         Args:
-            matrix (list[list[tkttk.Widget | None]]): The matrix to use.
-            **options (Any): The options to use are;
-                *.rowconfigure();
-                *.columnconfigure();
-                *.grid();
-                    For more information about each option,
-                        visit the tkinter wikipedia online.
+            matrix (Sequence[Sequence[tkttk.Widget | None]]):
+                The matrix to use.
+            row_options (dict[str, Any]): The row options to use.
+            col_options (dict[str, Any]): The column options to use.
+            grid_options (dict[str, Any]): The grid options to use.
         """
         for i, row in enumerate(matrix):
-            self.rowconfigure(i, weight=1, **options)
+            self.rowconfigure(i, weight=1, **row_options)
             for j, value in enumerate(row):
-                self.columnconfigure(j, weight=1, **options)
+                self.columnconfigure(j, weight=1, **col_options)
                 if value is not None:
                     colspan = 1
                     while j + colspan < len(row) and row[j + colspan] is None:
@@ -79,7 +79,7 @@ class UIHandler(tkTk):
                         column=j,
                         columnspan=colspan,
                         rowspan=rowspan,
-                        **options,
+                        **grid_options,
                     )
 
     matrix = _matrix

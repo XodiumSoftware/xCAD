@@ -40,5 +40,5 @@ class PrimaryUI(AFCUIHandler):
                     ),
                 ],
             ],
-            sticky='nsew',
+            grid_options={'sticky': 'nsew'},
         )
