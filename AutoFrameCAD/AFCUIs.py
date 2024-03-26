@@ -25,7 +25,7 @@ class PrimaryUI(AFCUIHandler):
         self.events({'<Control-w>': lambda _: self.quit()})
         self.config(padx=10, pady=10)
         self.matrix(
-            [
+            matrix=[
                 [
                     tkttk.Label(text='Structura Engineering', anchor='center'),
                     None,
@@ -40,4 +40,5 @@ class PrimaryUI(AFCUIHandler):
                     ),
                 ],
             ],
+            sticky='nsew',
         )
