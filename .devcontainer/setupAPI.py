@@ -88,6 +88,7 @@ class SetupAPI:
             fetcher (dict[str, str] | list[dict[str, str]]):
                 The fetcher.
         """
+        # NOTE: add 'latest' to the path to get the latest release
         if isinstance(fetcher, dict):
             if fetcher.get('download_url'):
                 self.logger.info(fetcher['download_url'])
@@ -97,8 +98,6 @@ class SetupAPI:
             for file in fetcher:
                 if file.get('download_url'):
                     self.logger.info(file['download_url'])
-                    temp_path = self._downloader(file['download_url'])
-                    self._installer(temp_path)
 
     def _downloader(self, url: str) -> str:
         """Download the API.

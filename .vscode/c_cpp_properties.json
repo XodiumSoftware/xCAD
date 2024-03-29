@@ -8,7 +8,7 @@
   "configurations": [
     {
       "name": "Linux",
-      "includePath": ["${workspaceFolder}/**", "/usr/local/lib/**"],
+      "includePath": ["${workspaceFolder}/**", "~/lib/**"],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "c17",
