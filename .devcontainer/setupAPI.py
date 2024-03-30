@@ -11,30 +11,53 @@ import requests
 class SetupAPI:
     """A class to setup the API for the Bricsys-API repository."""
 
-    def __init__(
-        self,
-        org_name: str,
-        repo_name: str,
-        access_token: str,
-        api_path: str,
-    ) -> None:
-        """Initialize the class.
+    ORG_NAME: str = 'Structura-Engineering'
+    REPO_NAME: str = 'Bricsys-API'
 
-        Args:
-            org_name (str): The name of the organization.
-            repo_name (str): The name of the repository.
-            access_token (str): The access token.
-            api_path (str): The path to the API.
-                Use [BRX/TX] to get a list of all the files in the folder.
-        """
+    def __init__(self) -> None:
+        """Initialize the class."""
         self.logger = self._logger()
+
         self._processor(
             self._fetcher(
-                f'https://api.github.com/repos/{org_name}/{repo_name}/contents',
-                self._session(access_token),
-                api_path,
+                f'https://api.github.com/repos/{self.ORG_NAME}/{self.REPO_NAME}/contents',
+                self._session(getpass('Please enter your access token: ')),
+                f"""
+                {self._validator(input('Specify API type: '), ['BRX', 'TX'])}/
+                {self._validator(input('Specify API version: '), [''])}.zip
+                """,
             ),
         )
+
+    def _sanitizer(self, arg: str) -> str:
+        """Sanitize the input.
+
+        Args:
+            arg (str): The argument to sanitize.
+        """
+        arg = arg.strip()
+        if not arg.isalnum():
+            self.logger.error(
+                f"""Invalid Input: {arg}\n
+                Input contains non-alphanumeric characters"""
+            )
+            arg = input('Please enter a valid input: ')
+        return arg
+
+    def _validator(self, arg: str, valid_arg: list[str]) -> str:
+        """Validate the input.
+
+        Args:
+            arg (str): The argument to validate.
+            valid_arg (list[str]): The valid arguments.
+        """
+        arg = self._sanitizer(arg)
+        while arg not in valid_arg:
+            self.logger.error(
+                f'Invalid Input: {arg}\nValid Input: {valid_arg}'
+            )
+            arg = input('Please enter a valid input: ')
+        return arg
 
     @staticmethod
     def _logger() -> logging.Logger:
@@ -89,16 +112,11 @@ class SetupAPI:
             fetcher (dict[str, str] | list[dict[str, str]]):
                 The fetcher.
         """
-        # NOTE: add 'latest' to the path to get the latest release
         if isinstance(fetcher, dict):
             if fetcher.get('download_url'):
                 self.logger.info(fetcher['download_url'])
                 temp_path = self._downloader(fetcher['download_url'])
                 self._installer(temp_path)
-        else:
-            for file in fetcher:
-                if file.get('download_url'):
-                    self.logger.info(file['download_url'])
 
     def _downloader(self, url: str) -> str:
         """Download the API.
@@ -146,9 +164,4 @@ class SetupAPI:
         self.logger.info(f'Removed the zip file: {temp_path}')
 
 
-SetupAPI(
-    org_name='Structura-Engineering',
-    repo_name='Bricsys-API',
-    access_token=getpass('Please enter your access token: '),
-    api_path='BRX/BRXSDK_Bcad_V24_2_03-1.zip',
-)
+SetupAPI()
