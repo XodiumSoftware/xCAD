@@ -43,7 +43,9 @@
   },
   "onCreateCommand": {
     "pipCommand": "pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt",
-    "aptCommand": "sudo apt-get update && sudo apt-get install -y gdb",
+    "aptCommand": "sudo apt-get update && sudo apt-get install -y gdb"
+  },
+  "postCreateCommand": {
     "apiCommand": "python .devcontainer/setupAPI.py"
   },
   // NOTE: for X11 forwarding on Linux

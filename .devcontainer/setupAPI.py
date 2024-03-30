@@ -2,6 +2,7 @@ import logging
 import os
 import tempfile
 import zipfile
+from getpass import getpass
 from urllib.parse import urlparse
 
 import requests
@@ -148,6 +149,6 @@ class SetupAPI:
 SetupAPI(
     org_name='Structura-Engineering',
     repo_name='Bricsys-API',
-    access_token='',
+    access_token=getpass('Please enter your access token: '),
     api_path='BRX/BRXSDK_Bcad_V24_2_03-1.zip',
 )
