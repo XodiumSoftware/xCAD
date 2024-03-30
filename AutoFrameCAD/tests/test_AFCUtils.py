@@ -12,9 +12,7 @@ class TestUtils(unittest.TestCase):
         self.utils = Utils()
 
     def test_sanitize_str(self):
-        self.assertEqual(
-            self.utils.sanitize_str('Hello, World!'), 'hello_world'
-        )
+        self.assertEqual(self.utils.sanitizer('Hello, World!'), 'hello_world')
 
     def test_get_sql_type(self):
         test_cases = [
@@ -33,11 +31,11 @@ class TestUtils(unittest.TestCase):
         filedialog.askopenfilename = MagicMock(
             return_value='/path/to/file.json'
         )
-        self.assertEqual(self.utils.import_json(), {'key': 'value'})
+        self.assertEqual(self.utils.json_importer(), {'key': 'value'})
 
     def test_import_json_without_file(self):
         filedialog.askopenfilename = MagicMock(return_value='')
-        self.assertIsNone(self.utils.import_json())
+        self.assertIsNone(self.utils.json_importer())
 
     def test_svg2png(self):
         path = '/path/to/image.svg'

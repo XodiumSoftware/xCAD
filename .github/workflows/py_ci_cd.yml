@@ -208,7 +208,7 @@ jobs:
 
   documentation:
     name: Documentation
-    needs: [pytest, ctest, code_quality]
+    needs: [python_tests, cpp_tests, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

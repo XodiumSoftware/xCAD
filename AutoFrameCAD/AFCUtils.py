@@ -14,7 +14,7 @@ class Utils:
 
     @staticmethod
     @AFCErrorHandler(TypeError)
-    def sanitize_str(value: str) -> str:
+    def _sanitizer(value: str) -> str:
         """Sanitizes a string.
 
         Args:
@@ -22,9 +22,11 @@ class Utils:
         """
         return (re.sub(r'\W+', '_', value)).lower()
 
+    sanitizer = _sanitizer
+
     @staticmethod
     @AFCErrorHandler(TypeError)
-    def get_sql_type(value: int | float | str | bytes | None) -> str:
+    def _get_sql_type(value: int | float | str | bytes | None) -> str:
         """Gets the sql type of a value.
 
         Args:
@@ -38,9 +40,11 @@ class Utils:
             type(None): 'NULL',
         }.get(type(value), 'NULL')
 
+    get_sql_type = _get_sql_type
+
     @staticmethod
     @AFCErrorHandler(FileNotFoundError, IOError)
-    def import_json() -> (
+    def _json_importer() -> (
         dict[str, list[dict[str, int | float | str | bytes | None]]] | None
     ):
         """Loads a json file."""
@@ -54,11 +58,13 @@ class Utils:
         else:
             return None
 
+    json_importer = _json_importer
+
     # NOTE: Adjust when tk 8.7/9.0 is released,
     # since it will have native svg support.
     @staticmethod
     @AFCErrorHandler(TypeError)
-    def svg2png(path: Path) -> ImageTk.PhotoImage:
+    def _svg2png(path: Path) -> ImageTk.PhotoImage:
         """Convert a svg to a photoimage.
 
         Args:
@@ -67,3 +73,5 @@ class Utils:
         return ImageTk.PhotoImage(
             Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
         )
+
+    svg2png = _svg2png

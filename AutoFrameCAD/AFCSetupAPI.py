@@ -6,6 +6,7 @@ from getpass import getpass
 from urllib.parse import urlparse
 
 import requests
+from AFCUtils import Utils
 
 
 class SetupAPI:
@@ -16,33 +17,22 @@ class SetupAPI:
 
     def __init__(self) -> None:
         """Initialize the class."""
-        self.logger = self._logger()
+        url = f'https://api.github.com/repos/{self.ORG_NAME}/{self.REPO_NAME}/contents'
+        session = self._session(getpass('Please enter your access token: '))
+        api_type = self._validator(input('Specify API type: '), ['BRX', 'TX'])
+        api_version = self._validator(input('Specify API version: '), [''])
 
         self._processor(
-            self._fetcher(
-                f'https://api.github.com/repos/{self.ORG_NAME}/{self.REPO_NAME}/contents',
-                self._session(getpass('Please enter your access token: ')),
-                f"""
-                {self._validator(input('Specify API type: '), ['BRX', 'TX'])}/
-                {self._validator(input('Specify API version: '), [''])}.zip
-                """,
-            ),
+            self._fetcher(url, session, api_type, api_version),
         )
 
-    def _sanitizer(self, arg: str) -> str:
-        """Sanitize the input.
+    @staticmethod
+    def _logger() -> logging.Logger:
+        """Setup the logger."""
+        logging.basicConfig(level=logging.INFO)
+        return logging.getLogger(__name__)
 
-        Args:
-            arg (str): The argument to sanitize.
-        """
-        arg = arg.strip()
-        if not arg.isalnum():
-            self.logger.error(
-                f"""Invalid Input: {arg}\n
-                Input contains non-alphanumeric characters"""
-            )
-            arg = input('Please enter a valid input: ')
-        return arg
+    logger = _logger
 
     def _validator(self, arg: str, valid_arg: list[str]) -> str:
         """Validate the input.
@@ -51,19 +41,13 @@ class SetupAPI:
             arg (str): The argument to validate.
             valid_arg (list[str]): The valid arguments.
         """
-        arg = self._sanitizer(arg)
+        arg = Utils.sanitizer(arg)
         while arg not in valid_arg:
-            self.logger.error(
+            self.logger().error(
                 f'Invalid Input: {arg}\nValid Input: {valid_arg}'
             )
             arg = input('Please enter a valid input: ')
         return arg
-
-    @staticmethod
-    def _logger() -> logging.Logger:
-        """Setup the logger."""
-        logging.basicConfig(level=logging.INFO)
-        return logging.getLogger(__name__)
 
     @staticmethod
     def _session(access_token: str) -> requests.Session:
@@ -85,20 +69,22 @@ class SetupAPI:
         self,
         base_url: str,
         session: requests.Session,
-        path: str = '',
+        api_type: str,
+        api_version: str,
     ) -> dict[str, str] | list[dict[str, str]]:
         """Fetch the contents of the repository.
 
         Args:
             base_url (str): The base URL.
             session (requests.Session): The session.
-            path (str, optional): The path to the contents. Defaults to ''.
+            api_type (str): The API type.
+            api_version (str): The API version.
         """
         try:
-            response = session.get(f'{base_url}/{path}')
+            response = session.get(f'{base_url}/{api_type}/{api_version}.zip')
             response.raise_for_status()
         except requests.RequestException as e:
-            self.logger.error(f'Request failed: {e}')
+            self.logger().error(f'Request failed: {e}')
             raise
         return response.json()
 
@@ -114,7 +100,7 @@ class SetupAPI:
         """
         if isinstance(fetcher, dict):
             if fetcher.get('download_url'):
-                self.logger.info(fetcher['download_url'])
+                self.logger().info(fetcher['download_url'])
                 temp_path = self._downloader(fetcher['download_url'])
                 self._installer(temp_path)
 
@@ -135,7 +121,7 @@ class SetupAPI:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
 
-        self.logger.info(f'Downloaded to: {temp_path}')
+        self.logger().info(f'Downloaded to: {temp_path}')
         return temp_path
 
     def _installer(
@@ -157,11 +143,11 @@ class SetupAPI:
         with zipfile.ZipFile(temp_path, 'r') as zip_ref:
             zip_ref.extractall(new_dir_path)
 
-        self.logger.info(f'Unzipped files to: {new_dir_path}')
+        self.logger().info(f'Unzipped files to: {new_dir_path}')
 
         os.remove(temp_path)
 
-        self.logger.info(f'Removed the zip file: {temp_path}')
+        self.logger().info(f'Removed the zip file: {temp_path}')
 
 
 SetupAPI()
