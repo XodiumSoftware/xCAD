@@ -31,11 +31,11 @@ class TestUtils(unittest.TestCase):
         filedialog.askopenfilename = MagicMock(
             return_value='/path/to/file.json'
         )
-        self.assertEqual(self.utils.json_importer(), {'key': 'value'})
+        self.assertEqual(self.utils.import_json(), {'key': 'value'})
 
     def test_import_json_without_file(self):
         filedialog.askopenfilename = MagicMock(return_value='')
-        self.assertIsNone(self.utils.json_importer())
+        self.assertIsNone(self.utils.import_json())
 
     def test_svg2png(self):
         path = '/path/to/image.svg'

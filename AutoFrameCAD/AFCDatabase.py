@@ -39,7 +39,7 @@ class Database:
     def add_data(self) -> None:
         """Inserts data into the table."""
         data: dict[str, list[dict[str, int | float | str | bytes | None]]] = (
-            AFCUtils.json_importer()
+            AFCUtils.import_json()
         )
         if data:
             for _table, _rows in data.items():

@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 from io import BytesIO
 from pathlib import Path
@@ -44,21 +45,27 @@ class Utils:
 
     @staticmethod
     @AFCErrorHandler(FileNotFoundError, IOError)
-    def _json_importer() -> (
-        dict[str, list[dict[str, int | float | str | bytes | None]]] | None
-    ):
-        """Loads a json file."""
+    def _import_json(
+        initialdir: Path = Path.home(),
+    ) -> dict[str, list[dict[str, int | float | str | bytes | None]]] | None:
+        """Loads a JSON file.
+
+        Args:
+            initialdir (Path): The initial directory to use.
+        """
         filename = filedialog.askopenfilename(
-            initialdir=Path.home(),
-            filetypes=[('JSON files', '*.json')],
+            initialdir=initialdir, filetypes=[('JSON files', '*.json')]
         )
-        if filename:
-            with open(filename, 'r') as file:
-                return json.load(file)
-        else:
+
+        if not filename:
             return None
 
-    json_importer = _json_importer
+        with open(filename, 'r') as file:
+            data = json.load(file)
+
+        return data if data else None
+
+    import_json = _import_json
 
     # NOTE: Adjust when tk 8.7/9.0 is released,
     # since it will have native svg support.
@@ -75,3 +82,15 @@ class Utils:
         )
 
     svg2png = _svg2png
+
+    @staticmethod
+    @AFCErrorHandler(TypeError)
+    def _logger(level: int = logging.INFO) -> logging.Logger:
+        """Get the logger.
+
+        Args:
+            level (int): The logging level."""
+        logging.basicConfig(level=level)
+        return logging.getLogger(__name__)
+
+    logger = _logger
