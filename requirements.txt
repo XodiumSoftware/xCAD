@@ -1,7 +1,4 @@
-cachetools
 cairosvg
 cython
-numpy
-requests
 setuptools
 sv-ttk

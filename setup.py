@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
     python_requires='==3.12.2',
-    package_data={'*': ['*.py']},
+    package_data={'*': ['*.py', 'py.typed']},
     data_files=[('', ['LICENSE.md', 'README.md', 'requirements.txt'])],
     # ext_modules=cythonize(['*.pyx']),  # type: ignore
     zip_safe=False,
