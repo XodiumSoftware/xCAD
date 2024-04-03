@@ -8,7 +8,7 @@
   "configurations": [
     {
       "name": "Linux",
-      "includePath": ["${workspaceFolder}/**", "/usr/local/lib/BRXSDK/**"],
+      "includePath": ["${workspaceFolder}/**"],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "c17",

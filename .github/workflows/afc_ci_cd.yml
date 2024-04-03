@@ -1,5 +1,5 @@
-name: Sten's Python CI/CD
-run-name: "Sten's Python CI/CD"
+name: Sten's AutoFrameCAD CI/CD
+run-name: "Sten's AutoFrameCAD CI/CD"
 
 on:
   push:
@@ -54,8 +54,8 @@ jobs:
           logoColor: white
           style: flat-square
 
-  pytest:
-    name: PyTests
+  python_tests:
+    name: Python Tests
     needs: [keyword_check]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -72,23 +72,12 @@ jobs:
           python-version: ${{ matrix.version }}
           cache: "pip"
 
-      - id: install_dependencies
-        name: Install Dependencies
+      - id: test_run_and_report
+        name: Run Tests and Report
         run: |
-          pip install pytest
-          pip install pytest-md
+          python -m unittest discover
 
-      # - id: test_run_and_report
-      #   uses: pavelzw/pytest-action@main
-      #   with:
-      #     verbose: true
-      #     emoji: false
-      #     job-summary: true
-      #     custom-arguments: "-q"
-      #     click-to-expand: true
-      #     report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
-
-      - id: pytest_badge
+      - id: python_tests_badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
@@ -102,8 +91,8 @@ jobs:
           logoColor: white
           style: flat-square
 
-  ctest:
-    name: CTests
+  cpp_tests:
+    name: C++ Tests
     needs: [keyword_check]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -113,28 +102,6 @@ jobs:
     steps:
       - id: checkout
         uses: actions/checkout@main
-
-      # - id: setup_python
-      #   uses: actions/setup-python@main
-      #   with:
-      #     python-version: ${{ matrix.version }}
-      #     cache: "pip"
-
-      # - id: install_dependencies
-      #   name: Install Dependencies
-      #   run: |
-      #     pip install pytest
-      #     pip install pytest-md
-
-      # - id: test_run_and_report
-      #   uses: pavelzw/pytest-action@main
-      #   with:
-      #     verbose: true
-      #     emoji: false
-      #     job-summary: true
-      #     custom-arguments: "-q"
-      #     click-to-expand: true
-      #     report-title: "Pytest Report for OS: ${{ matrix.os }} and Python: ${{ matrix.version }}"
 
       - id: ctest_badge
         if: always()
@@ -152,7 +119,7 @@ jobs:
 
   release:
     name: Release
-    needs: [pytest, ctest, code_quality]
+    needs: [python_tests, cpp_tests, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -208,7 +175,7 @@ jobs:
 
   documentation:
     name: Documentation
-    needs: [pytest, ctest, code_quality]
+    needs: [python_tests, cpp_tests, code_quality]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -229,10 +196,7 @@ jobs:
         run: |
           pip install pdoc3
           pip install cairosvg
-          pip install numpy
-          pip install pytest
           pip install setuptools
-          pip install stenlib
           pip install sv-ttk
 
       - id: generate_docs

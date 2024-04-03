@@ -1,6 +1,7 @@
 import sqlite3
 from pathlib import Path
 
+from AFCConstants import DATABASE_PATH
 from AFCDecorators import ErrorHandler as AFCErrorHandler
 from AFCUtils import Utils as AFCUtils
 
@@ -9,17 +10,20 @@ class Database:
     """A class used to represent a database."""
 
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path = DATABASE_PATH) -> None:
         """Initializes the database object.
 
         Args:
-            path (Path): The path to the database.
+            path (Path): The path to the database file.
         """
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.touch(exist_ok=True)
+
         self._conn: sqlite3.Connection = sqlite3.connect(path)
         self._curs: sqlite3.Cursor = self._conn.cursor()
 
     @AFCErrorHandler(sqlite3.Error)
-    def _exec_sql(
+    def exec_sql(
         self, sql: str, params: tuple[str | int | float | bytes, ...] = ()
     ) -> None:
         """Executes an sql statement.
@@ -34,10 +38,12 @@ class Database:
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
     def add_data(self) -> None:
         """Inserts data into the table."""
-        data = AFCUtils.load_json()
+        data: dict[str, list[dict[str, int | float | str | bytes | None]]] = (
+            AFCUtils.import_json()
+        )
         if data:
             for _table, _rows in data.items():
-                _table = AFCUtils.sanitize_str(_table)
+                _table = AFCUtils.sanitizer(_table)
                 with self._conn:
                     _cols_with_types = ', '.join(
                         [
@@ -69,7 +75,7 @@ class Database:
         """
         sql = f'DELETE FROM {table}'
         params = (id,) if id is not None else ()
-        self._exec_sql(sql, params)
+        self.exec_sql(sql, params)
 
     @AFCErrorHandler(sqlite3.Error)
     def get_data(
@@ -84,7 +90,7 @@ class Database:
         """
         sql = f'SELECT * FROM {table}'
         params = (id,) if id is not None else ()
-        self._exec_sql(sql, params)
+        self.exec_sql(sql, params)
         return self._curs.fetchall()
 
     @AFCErrorHandler(sqlite3.Error)

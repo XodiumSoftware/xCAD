@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk as tkTk
 
-from AFCUIModules import PrimaryUIModule as AFCPrimaryUIModule
+from AFCUIs import PrimaryUI as AFCPrimaryUI
 
 
 class App:
@@ -19,4 +19,4 @@ class App:
 
 
 if __name__ == '__main__':
-    App([AFCPrimaryUIModule()])
+    App([AFCPrimaryUI()])

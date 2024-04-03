@@ -5,7 +5,7 @@ This guide provides instructions on how to configure Docker to run GUI applicati
 ## Windows
 
 1. Install VcXsrv Windows X Server from `https://sourceforge.net/projects/vcxsrv/`.
-2. Run VcXsrv.
+2. Run VcXsrv with `allow connections from network clients` checked.
 3. In the `devcontainer.json` use the `"runArgs"` for your specific os.
 4. Rebuild the container.
 

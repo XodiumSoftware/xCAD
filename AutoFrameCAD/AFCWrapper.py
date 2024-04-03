@@ -5,7 +5,7 @@ from typing import Callable
 class Wrapper:
     """A wrapper class for interacting with a C++ library."""
 
-    # TODO: Replace the path to your C++ library.
+    # TODO: Replace the path to the C++ library.
     cpp_lib = ctypes.CDLL('path/to/your/cpp/library.so')
     cpp_lib.cpp_add.argtypes = [ctypes.c_int, ctypes.c_int]
     cpp_lib.cpp_add.restype = ctypes.c_int
@@ -46,12 +46,3 @@ class Wrapper:
         """
         self.cpp_lib.cpp_set_callback.argtypes = [self.callback_func]
         self.cpp_lib.cpp_set_callback(callback)
-
-
-wrapper = Wrapper()
-wrapper.cpp_function()
-result = wrapper.cpp_add(2, 3)
-print('Result:', result)
-string = wrapper.cpp_get_string()
-print('String:', string)
-wrapper.cpp_print_string('Hello from Python!')
