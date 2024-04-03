@@ -45,11 +45,11 @@ class Database:
             for _table, _rows in data.items():
                 _table = AFCUtils.sanitizer(_table)
                 with self._conn:
-                    _cols_with_types = ', '.join(
+                    _cols_with_types = ", ".join(
                         [
-                            f'{k} {AFCUtils.get_sql_type(v)}'
+                            f"{k} {AFCUtils.get_sql_type(v)}"
                             for k, v in _rows[0].items()
-                            if k != 'id'
+                            if k != "id"
                         ]
                     )
                     _create_table_sql = f"""CREATE TABLE IF NOT EXISTS {_table}
@@ -58,8 +58,8 @@ class Database:
                     self._curs.execute(_create_table_sql)
 
                     for _row in _rows:
-                        _cols = ', '.join(_row.keys())
-                        _placeholders = ', '.join('?' * len(_row))
+                        _cols = ", ".join(_row.keys())
+                        _placeholders = ", ".join("?" * len(_row))
                         _insert_sql = f"""INSERT OR REPLACE INTO {_table}
                                         ({_cols})
                                         VALUES ({_placeholders})"""
@@ -73,7 +73,7 @@ class Database:
             table (str): The name of the table.
             id (int): The id of the type.
         """
-        sql = f'DELETE FROM {table}'
+        sql = f"DELETE FROM {table}"
         params = (id,) if id is not None else ()
         self.exec_sql(sql, params)
 
@@ -88,7 +88,7 @@ class Database:
             id (int): The id of the type. Defaults to None.
                 If None, returns all rows.
         """
-        sql = f'SELECT * FROM {table}'
+        sql = f"SELECT * FROM {table}"
         params = (id,) if id is not None else ()
         self.exec_sql(sql, params)
         return self._curs.fetchall()

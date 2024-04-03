@@ -1,6 +1,6 @@
 # Security Policy
 
-Here you have a overview about our security policy.
+Here is an overview of our security policy.
 
 ## Supported Versions
 
@@ -11,8 +11,4 @@ Here you have a overview about our security policy.
 | 1.0.x   | :white_check_mark: | 01-01-2026       |
 | < 1.0   | :white_check_mark: | 01-01-2025       |
 
-## Reporting a Vulnerability
-
-To report a vulnerability you can visit the ~/issues section of the github repo and use `BUG REPORT TEMPLATE`.
-
-You can expect an update once a month generally and for vulnerabilities you can expect them asap.
+You can generally expect an update once a month, and for vulnerabilities, you can expect them as soon as possible.

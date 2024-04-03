@@ -12,15 +12,15 @@ class TestUtils(unittest.TestCase):
         self.utils = Utils()
 
     def test_sanitize_str(self):
-        self.assertEqual(self.utils.sanitizer('Hello, World!'), 'hello_world')
+        self.assertEqual(self.utils.sanitizer("Hello, World!"), "hello_world")
 
     def test_get_sql_type(self):
         test_cases = [
-            (10, 'INTEGER'),
-            (3.14, 'REAL'),
-            ('text', 'TEXT'),
-            (b'data', 'BLOB'),
-            (None, 'NULL'),
+            (10, "INTEGER"),
+            (3.14, "REAL"),
+            ("text", "TEXT"),
+            (b"data", "BLOB"),
+            (None, "NULL"),
         ]
 
         for value, expected in test_cases:
@@ -29,24 +29,24 @@ class TestUtils(unittest.TestCase):
 
     def test_import_json_with_file(self):
         filedialog.askopenfilename = MagicMock(
-            return_value='/path/to/file.json'
+            return_value="/path/to/file.json"
         )
-        self.assertEqual(self.utils.import_json(), {'key': 'value'})
+        self.assertEqual(self.utils.import_json(), {"key": "value"})
 
     def test_import_json_without_file(self):
-        filedialog.askopenfilename = MagicMock(return_value='')
+        filedialog.askopenfilename = MagicMock(return_value="")
         self.assertIsNone(self.utils.import_json())
 
     def test_svg2png(self):
-        path = '/path/to/image.svg'
+        path = "/path/to/image.svg"
         ImageTk.PhotoImage = MagicMock()
         Image.open = MagicMock()
-        cairosvg.svg2png = MagicMock(return_value=b'image_data')
+        cairosvg.svg2png = MagicMock(return_value=b"image_data")
 
         self.assertIsNotNone(self.utils.svg2png(path))
         ImageTk.PhotoImage.assert_called_once_with(Image.open())
         cairosvg.svg2png.assert_called_once_with(url=str(path))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

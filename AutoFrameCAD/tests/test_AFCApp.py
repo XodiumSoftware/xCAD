@@ -23,5 +23,5 @@ class TestApp(unittest.TestCase):
             App(self.modules)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -5,7 +5,7 @@ from typing import Any, Callable, Type
 class ErrorHandler:
     """A class used to handle errors."""
 
-    def __init__(self, *exceptions: Type[Exception], msg: str = '') -> None:
+    def __init__(self, *exceptions: Type[Exception], msg: str = "") -> None:
         """Initializes the error handler.
 
         Args:
@@ -39,5 +39,5 @@ class ErrorHandler:
         try:
             return func(*args, **kwargs)
         except self.exceptions as e:
-            logging.error(f'{self.msg} {str(e)}')
+            logging.error(f"{self.msg} {str(e)}")
             raise e

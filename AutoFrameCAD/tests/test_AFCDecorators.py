@@ -10,7 +10,7 @@ class TestErrorHandler(unittest.TestCase):
 
     @ErrorHandler(ValueError, TypeError)
     def convert_string_to_int(self):
-        return int('not_an_integer')
+        return int("not_an_integer")
 
     @ErrorHandler(ValueError, TypeError)
     def divide_by_zero_again(self):
@@ -29,5 +29,5 @@ class TestErrorHandler(unittest.TestCase):
             self.divide_by_zero_again()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
