@@ -21,7 +21,7 @@ class Utils:
         Args:
             value (str): The string to be sanitized.
         """
-        return (re.sub(r'\W+', '_', value)).lower()
+        return (re.sub(r"\W+", "_", value)).lower()
 
     sanitizer = _sanitizer
 
@@ -34,12 +34,12 @@ class Utils:
             value (int | float | str | bytes | None): The value to be checked.
         """
         return {
-            int: 'INTEGER',
-            float: 'REAL',
-            str: 'TEXT',
-            bytes: 'BLOB',
-            type(None): 'NULL',
-        }.get(type(value), 'NULL')
+            int: "INTEGER",
+            float: "REAL",
+            str: "TEXT",
+            bytes: "BLOB",
+            type(None): "NULL",
+        }.get(type(value), "NULL")
 
     get_sql_type = _get_sql_type
 
@@ -53,17 +53,13 @@ class Utils:
         Args:
             initialdir (Path): The initial directory to use.
         """
-        filename = filedialog.askopenfilename(
-            initialdir=initialdir, filetypes=[('JSON files', '*.json')]
-        )
-
-        if not filename:
-            return None
-
-        with open(filename, 'r') as file:
-            data = json.load(file)
-
-        return data if data else None
+        with open(
+            filedialog.askopenfilename(
+                initialdir=initialdir, filetypes=[("JSON files", "*.json")]
+            ),
+            "r",
+        ) as file:
+            return json.load(file) or None
 
     import_json = _import_json
 

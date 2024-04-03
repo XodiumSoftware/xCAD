@@ -1,3 +1,3 @@
 __pdoc__ = {
-    'AutoFrameCAD.tests': False,
+    "AutoFrameCAD.tests": False,
 }

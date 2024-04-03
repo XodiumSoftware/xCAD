@@ -85,10 +85,10 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 This section lists the key technologies and libraries that were used in the development of this project.
 
-- [![Docker][docker-shield]][docker-url]
-- [![Python][python-shield]][python-url]
-- [![C++][cpp-shield]][cpp-url]
-- [![BRX API][brx_api-shield]][brx_api-url]
+[![Docker][docker-shield]][docker-url]
+[![Python][python-shield]][python-url]
+[![C++][cpp-shield]][cpp-url]
+[![BRX API][brx_api-shield]][brx_api-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,7 +146,7 @@ Distributed under the AGPL-3.0 License. See `LICENSE.md` for more information.
 [license-shield]: https://img.shields.io/github/license/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=green
 [license-url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/master/LICENSE.md
 [roadmap-shield]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
-[roadmap-url]: https://github.com/orgs/Structura-Engineering/projects/3
+[roadmap-url]: https://zube.io/structura-engineering/stenzube/w/taskboard/kanban
 [docker-shield]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [docker-url]: https://docker.com/
 [python-shield]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
