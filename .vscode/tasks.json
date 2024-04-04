@@ -20,7 +20,7 @@
       "command": "g++",
       "args": [
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/AFC.cpp",
+        "${workspaceFolder}/AutoFrameCAD/StdAfx.cpp",
         "-o",
         "${workspaceFolder}/AutoFrameCAD/build/a.out"
       ],

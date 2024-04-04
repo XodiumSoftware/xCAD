@@ -81,5 +81,9 @@
   "svg.preview.background": "dark-transparent",
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "files.associations": {
+    "ostream": "cpp",
+    "functional": "cpp"
   }
 }
