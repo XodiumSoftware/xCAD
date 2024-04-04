@@ -84,6 +84,7 @@
   },
   "files.associations": {
     "ostream": "cpp",
-    "functional": "cpp"
+    "functional": "cpp",
+    "cwchar": "cpp"
   }
 }
