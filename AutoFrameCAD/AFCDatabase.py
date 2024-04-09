@@ -15,6 +15,7 @@ class Database:
 
         Args:
             path (Path): The path to the database file.
+                defaults to DATABASE_PATH.
         """
         path.parent.mkdir(parents=True, exist_ok=True)
         path.touch(exist_ok=True)
@@ -38,11 +39,11 @@ class Database:
     @AFCErrorHandler(sqlite3.Error, FileNotFoundError)
     def add_data(self) -> None:
         """Inserts data into the table."""
-        data: dict[str, list[dict[str, int | float | str | bytes | None]]] = (
+        _data: dict[str, list[dict[str, int | float | str | bytes | None]]] = (
             AFCUtils.import_json()
         )
-        if data:
-            for _table, _rows in data.items():
+        if _data:
+            for _table, _rows in _data.items():
                 _table = AFCUtils.sanitizer(_table)
                 with self._conn:
                     _cols_with_types = ", ".join(
