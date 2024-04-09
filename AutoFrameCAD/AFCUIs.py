@@ -19,7 +19,7 @@ class PrimaryUI(AFCUIHandler):
         self.resizable(True, True)
         # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
-        self.iconphoto(True, AFCUtils.svg2png(UI_ICON_PATH))
+        self.iconphoto(True, AFCUtils.svg2png(str(UI_ICON_PATH)))
         self.geometry(f"{1200}x{800}")
         self.minsize(1200, 800)
         self.events({"<Control-w>": lambda _: self.quit()})

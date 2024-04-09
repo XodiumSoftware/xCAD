@@ -6,7 +6,6 @@ from pathlib import Path
 from tkinter import filedialog
 
 import cairosvg  # type: ignore
-from AFCDecorators import ErrorHandler as AFCErrorHandler
 from PIL import Image, ImageTk
 
 
@@ -14,7 +13,6 @@ class Utils:
     """A class that contains utility functions."""
 
     @staticmethod
-    @AFCErrorHandler(TypeError)
     def _sanitizer(value: str) -> str:
         """Sanitizes a string.
 
@@ -26,7 +24,6 @@ class Utils:
     sanitizer = _sanitizer
 
     @staticmethod
-    @AFCErrorHandler(TypeError)
     def _get_sql_type(value: int | float | str | bytes | None) -> str:
         """Gets the sql type of a value.
 
@@ -44,7 +41,6 @@ class Utils:
     get_sql_type = _get_sql_type
 
     @staticmethod
-    @AFCErrorHandler(FileNotFoundError, IOError)
     def _import_json(
         initialdir: Path = Path.home(),
     ) -> dict[str, list[dict[str, int | float | str | bytes | None]]] | None:
@@ -66,21 +62,19 @@ class Utils:
     # NOTE: Adjust when tk 8.7/9.0 is released,
     # since it will have native svg support.
     @staticmethod
-    @AFCErrorHandler(TypeError)
-    def _svg2png(path: Path) -> ImageTk.PhotoImage:
+    def _svg2png(path: str) -> ImageTk.PhotoImage:
         """Convert a svg to a photoimage.
 
         Args:
-            path (Path): The file path name to use.
+            path (str): The file path name to use.
         """
         return ImageTk.PhotoImage(
-            Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
+            Image.open(BytesIO(cairosvg.svg2png(url=path)))  # type: ignore
         )
 
     svg2png = _svg2png
 
     @staticmethod
-    @AFCErrorHandler(TypeError)
     def _logger(level: int = logging.INFO) -> logging.Logger:
         """Get the logger.
 
