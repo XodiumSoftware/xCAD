@@ -3,7 +3,7 @@ run-name: "Sten's AutoFrameCAD CI/CD"
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
 
 jobs:
   keyword_check:
