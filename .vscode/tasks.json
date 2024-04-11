@@ -15,14 +15,16 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "C++: Compile",
+      "label": "C++: Compile to Shared Library",
       "type": "shell",
       "command": "g++",
       "args": [
+        "-shared",
+        "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/StdAfx.cpp",
+        "${workspaceFolder}/AutoFrameCAD/example.cpp",
         "-o",
-        "${workspaceFolder}/AutoFrameCAD/build/a.out"
+        "${workspaceFolder}/AutoFrameCAD/build/example.so"
       ],
       "group": {
         "kind": "build",

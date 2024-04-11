@@ -5,6 +5,7 @@ from AFCConstants import UI_ICON_PATH
 from AFCDatabase import Database as AFCDatabase
 from AFCHandlers import UIHandler as AFCUIHandler
 from AFCUtils import Utils as AFCUtils
+from AFCWrapper import Wrapper as AFCWrapper
 
 
 class PrimaryUI(AFCUIHandler):
@@ -42,3 +43,4 @@ class PrimaryUI(AFCUIHandler):
             ],
             grid_options={"sticky": "nsew"},
         )
+        print(f"The result is {AFCWrapper().my_function(10)}")
