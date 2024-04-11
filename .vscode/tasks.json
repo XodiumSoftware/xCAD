@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "C++: Create Build Folder",
+      "label": "C: Create Build Folder",
       "type": "shell",
       "command": "mkdir -p ${workspaceFolder}/AutoFrameCAD/build",
       "group": {
@@ -15,14 +15,14 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "C++: Compile to Shared Library",
+      "label": "C: Compile to Shared Library",
       "type": "shell",
       "command": "g++",
       "args": [
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/AFCExample.cpp",
+        "${workspaceFolder}/AutoFrameCAD/AFCExample.c",
         "-o",
         "${workspaceFolder}/AutoFrameCAD/build/AFCExample.so"
       ],
@@ -34,7 +34,7 @@
         "reveal": "always"
       },
       "problemMatcher": "$gcc",
-      "dependsOn": ["C++: Create Build Folder"]
+      "dependsOn": ["C: Create Build Folder"]
     }
   ]
 }

@@ -8,7 +8,7 @@
       "program": "${workspaceFolder}/AutoFrameCAD/AFCApp.py",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "preLaunchTask": "C++: Compile to Shared Library"
+      "preLaunchTask": "C: Compile to Shared Library"
     }
   ]
 }

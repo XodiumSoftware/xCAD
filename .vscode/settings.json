@@ -86,5 +86,8 @@
     "ostream": "cpp",
     "functional": "cpp",
     "cwchar": "cpp"
+  },
+  "[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
   }
 }
