@@ -22,9 +22,9 @@
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/example.cpp",
+        "${workspaceFolder}/AutoFrameCAD/AFCExample.cpp",
         "-o",
-        "${workspaceFolder}/AutoFrameCAD/build/example.so"
+        "${workspaceFolder}/AutoFrameCAD/build/AFCExample.so"
       ],
       "group": {
         "kind": "build",

@@ -43,4 +43,4 @@ class PrimaryUI(AFCUIHandler):
             ],
             grid_options={"sticky": "nsew"},
         )
-        print(f"The result is {AFCWrapper().my_function(10)}")
+        print(f"The result is {AFCWrapper().factorial(10)}")
