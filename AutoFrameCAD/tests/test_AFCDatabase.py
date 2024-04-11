@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from AFCDatabase import Database
+from ..AFCDatabase import Database
 
 
 class TestDatabase(unittest.TestCase):

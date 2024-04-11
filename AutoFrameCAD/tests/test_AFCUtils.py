@@ -3,8 +3,9 @@ from tkinter import filedialog
 from unittest.mock import MagicMock
 
 import cairosvg  # type: ignore
-from AFCUtils import Utils
 from PIL import Image, ImageTk
+
+from ..AFCUtils import Utils
 
 
 class TestUtils(unittest.TestCase):

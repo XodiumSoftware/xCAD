@@ -2,8 +2,8 @@ import logging
 import sqlite3
 from pathlib import Path
 
-from AFCConstants import DATABASE_PATH
-from AFCUtils import Utils as AFCUtils
+from .AFCConstants import DATABASE_PATH
+from .AFCUtils import Utils as AFCUtils
 
 
 class Database:

@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk as tkTk
 
-from AFCUIs import PrimaryUI as AFCPrimaryUI
+from .AFCUIs import PrimaryUI as AFCPrimaryUI
 
 
 class App:

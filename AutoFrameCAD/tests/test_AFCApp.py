@@ -2,7 +2,7 @@ import unittest
 from tkinter import Tk
 from unittest.mock import create_autospec
 
-from AFCApp import App
+from ..AFCApp import App
 
 
 class TestApp(unittest.TestCase):

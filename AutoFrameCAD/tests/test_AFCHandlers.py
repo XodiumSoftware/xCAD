@@ -2,7 +2,7 @@ import unittest
 from typing import Any, Callable
 from unittest.mock import call, patch
 
-from AFCHandlers import UIHandler
+from ..AFCHandlers import UIHandler
 
 
 class TestUIHandler(unittest.TestCase):
