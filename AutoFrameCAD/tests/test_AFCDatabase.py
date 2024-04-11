@@ -1,13 +1,14 @@
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 
-from ..AFCDatabase import Database
+from AFCConstants import BASE_DIR
+from AFCDatabase import Database
 
 
 class TestDatabase(unittest.TestCase):
     def setUp(self):
-        self.db_path = Path("/path/to/database.db")
+        self.db_path = BASE_DIR / "tests" / "test.db"
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.db = Database(self.db_path)
         self.test_data = {
             "table1": [

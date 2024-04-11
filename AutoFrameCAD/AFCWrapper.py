@@ -1,6 +1,6 @@
 import ctypes
 
-from .AFCConstants import LIB_FOLDER_PATH
+from AFCConstants import LIB_FOLDER_PATH
 
 
 class Wrapper:

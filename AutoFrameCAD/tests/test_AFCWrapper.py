@@ -1,7 +1,7 @@
 import ctypes
 import unittest
 
-from ..AFCWrapper import Wrapper
+from AFCWrapper import Wrapper
 
 
 class TestWrapper(unittest.TestCase):

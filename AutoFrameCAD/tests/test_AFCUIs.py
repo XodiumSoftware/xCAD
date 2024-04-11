@@ -1,6 +1,6 @@
 import unittest
 
-from ..AFCUIs import PrimaryUI
+from AFCUIs import PrimaryUI
 
 
 class TestPrimaryUI(unittest.TestCase):

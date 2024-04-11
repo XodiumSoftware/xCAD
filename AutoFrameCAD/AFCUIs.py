@@ -1,11 +1,10 @@
 from tkinter import ttk as tkttk
 
 import sv_ttk
-
-from .AFCConstants import UI_ICON_PATH
-from .AFCDatabase import Database as AFCDatabase
-from .AFCHandlers import UIHandler as AFCUIHandler
-from .AFCUtils import Utils as AFCUtils
+from AFCConstants import UI_ICON_PATH
+from AFCDatabase import Database as AFCDatabase
+from AFCHandlers import UIHandler as AFCUIHandler
+from AFCUtils import Utils as AFCUtils
 
 
 class PrimaryUI(AFCUIHandler):
