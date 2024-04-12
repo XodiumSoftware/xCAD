@@ -74,11 +74,6 @@
     "-p",
     "test_*.py"
   ],
-  "python.testing.pytestArgs": [
-    "--rootdir=.",
-    "--verbose",
-    "AutoFrameCAD/tests"
-  ],
   // Terminal Settings
   "terminal.integrated.enableMultiLinePasteWarning": "never",
   // Workbench Settings
@@ -86,14 +81,6 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "svg.preview.background": "dark-transparent",
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
-  "files.associations": {
-    "ostream": "cpp",
-    "functional": "cpp",
-    "cwchar": "cpp"
-  },
   "[c]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   }
