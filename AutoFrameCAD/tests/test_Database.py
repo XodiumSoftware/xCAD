@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch
 
-from AFCConstants import BASE_DIR
-from AFCDatabase import Database
+from AutoFrameCAD.Constants import BASE_DIR
+from AutoFrameCAD.Database import Database
 
 
 class TestDatabase(unittest.TestCase):

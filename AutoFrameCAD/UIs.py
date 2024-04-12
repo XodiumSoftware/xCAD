@@ -1,14 +1,15 @@
 from tkinter import ttk as tkttk
 
 import sv_ttk
-from AFCConstants import UI_ICON_PATH
-from AFCDatabase import Database as AFCDatabase
-from AFCHandlers import UIHandler as AFCUIHandler
-from AFCUtils import Utils as AFCUtils
-from AFCWrapper import Wrapper as AFCWrapper
+
+from AutoFrameCAD.Constants import UI_ICON_PATH
+from AutoFrameCAD.Database import Database
+from AutoFrameCAD.Handlers import UIHandler
+from AutoFrameCAD.Utils import Utils
+from AutoFrameCAD.Wrapper import Wrapper
 
 
-class PrimaryUI(AFCUIHandler):
+class PrimaryUI(UIHandler):
     """A class used to represent a ui module."""
 
     def __init__(self) -> None:
@@ -20,7 +21,7 @@ class PrimaryUI(AFCUIHandler):
         self.resizable(True, True)
         # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
-        self.iconphoto(True, AFCUtils.svg2png(str(UI_ICON_PATH)))  # type: ignore
+        self.iconphoto(True, Utils.svg2png(str(UI_ICON_PATH)))  # type: ignore
         self.geometry(f"{1200}x{800}")
         self.minsize(1200, 800)
         self.events({"<Control-w>": lambda _: self.quit()})
@@ -34,7 +35,7 @@ class PrimaryUI(AFCUIHandler):
                 [
                     tkttk.Button(
                         text="Add Data",
-                        command=AFCDatabase().add_data,
+                        command=Database().add_data,
                     ),
                     tkttk.Button(
                         text="Switch Theme", command=sv_ttk.toggle_theme
@@ -44,4 +45,4 @@ class PrimaryUI(AFCUIHandler):
             grid_options={"sticky": "nsew"},
         )
         # TESTING: Wrapper class
-        AFCWrapper()
+        Wrapper()

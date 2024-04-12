@@ -1,6 +1,6 @@
 import unittest
 
-from AFCUIs import PrimaryUI
+from AutoFrameCAD.UIs import PrimaryUI
 
 
 class TestPrimaryUI(unittest.TestCase):

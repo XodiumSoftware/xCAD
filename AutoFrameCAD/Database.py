@@ -2,8 +2,8 @@ import logging
 import sqlite3
 from pathlib import Path
 
-from AFCConstants import DATABASE_PATH
-from AFCUtils import Utils as AFCUtils
+from AutoFrameCAD.Constants import DATABASE_PATH
+from AutoFrameCAD.Utils import Utils
 
 
 class Database:
@@ -42,15 +42,15 @@ class Database:
 
     def add_data(self) -> None:
         """Inserts data into the table."""
-        data = AFCUtils.import_json()
+        data = Utils.import_json()
         try:
             if data:
                 for table, rows in data.items():
-                    table = AFCUtils.sanitizer(table)
+                    table = Utils.sanitizer(table)
                     with self._conn:
                         cols_with_types = ", ".join(
                             [
-                                f"{k} {AFCUtils.get_sql_type(v)}"
+                                f"{k} {Utils.get_sql_type(v)}"
                                 for k, v in rows[0].items()
                                 if k != "id"
                             ]

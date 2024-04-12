@@ -22,9 +22,9 @@
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/AFCUtils.c",
+        "${workspaceFolder}/AutoFrameCAD/Utils.c",
         "-o",
-        "${workspaceFolder}/AutoFrameCAD/build/AFCUtils.so"
+        "${workspaceFolder}/AutoFrameCAD/build/Utils.so"
       ],
       "group": {
         "kind": "build",

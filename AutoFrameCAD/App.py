@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk as tkTk
 
-from AFCUIs import PrimaryUI as AFCPrimaryUI
+from AutoFrameCAD.UIs import PrimaryUI
 
 
 class App:
@@ -19,4 +19,4 @@ class App:
 
 
 if __name__ == "__main__":
-    App([AFCPrimaryUI()])
+    App([PrimaryUI()])

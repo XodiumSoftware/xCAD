@@ -1,7 +1,7 @@
 import ctypes
 from typing import Any
 
-from AFCConstants import LIB_FOLDER_PATH
+from AutoFrameCAD.Constants import LIB_FOLDER_PATH
 
 
 class Wrapper:
