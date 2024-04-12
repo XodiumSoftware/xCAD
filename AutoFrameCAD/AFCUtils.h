@@ -12,8 +12,6 @@ extern "C"
     int isPrime(int n);
     int maxArray(int arr[], int size);
     int minArray(int arr[], int size);
-    void reverseString(char str[]);
-    void swap(int *a, int *b);
 
 #ifdef __cplusplus
 }
