@@ -31,8 +31,6 @@ class Wrapper:
 
         self.functions = {f: self.set_func(f, *funcs[f]) for f in funcs}
 
-        self.test(True)
-
     def _set_func(
         self, func_name: str, argtypes: list[Any], restype: Any
     ) -> Any:
@@ -49,11 +47,12 @@ class Wrapper:
 
     set_func = _set_func
 
-    def test(self, use: bool):
+    def test(self, use: bool = True) -> None:
         """Tests the C functions.
 
         Args:
             use (bool): If True, the functions will be tested.
+                defaults to True.
         """
         if not use:
             return

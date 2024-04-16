@@ -44,4 +44,4 @@ class PrimaryUI(UIHandler):
             grid_options={"sticky": "nsew"},
         )
         # TESTING: Wrapper class
-        Wrapper()
+        Wrapper().test()

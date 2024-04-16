@@ -25,7 +25,7 @@ class Database:
         except (sqlite3.Error, FileNotFoundError) as e:
             logging.error(f"Error: {e}")
 
-    def exec_sql(
+    def _exec_sql(
         self, sql: str, params: tuple[str | int | float | bytes, ...] = ()
     ) -> None:
         """Executes an sql statement.
@@ -40,7 +40,9 @@ class Database:
         except sqlite3.Error as e:
             logging.error(f"Error: {e}")
 
-    def add_data(self) -> None:
+    exec_sql = _exec_sql
+
+    def _add_data(self) -> None:
         """Inserts data into the table."""
         data = Utils.import_json()
         try:
@@ -71,7 +73,9 @@ class Database:
         except (sqlite3.Error, FileNotFoundError) as e:
             logging.error(f"Error: {e}")
 
-    def del_data(self, table: str, id: int | None = None) -> None:
+    add_data = _add_data
+
+    def _del_data(self, table: str, id: int | None = None) -> None:
         """Deletes data from the table.
 
         Args:
@@ -85,7 +89,9 @@ class Database:
         except sqlite3.Error as e:
             logging.error(f"Error: {e}")
 
-    def get_data(
+    del_data = _del_data
+
+    def _get_data(
         self, table: str, id: int | None = None
     ) -> list[tuple[str, int | float | str | bytes | None]]:
         """Gets data from the table.
@@ -99,6 +105,8 @@ class Database:
         params = (id,) if id is not None else ()
         self.exec_sql(sql, params)
         return self._curs.fetchall()
+
+    get_data = _get_data
 
     def __del__(self) -> None:
         """Closes the database connection."""
