@@ -1,6 +1,4 @@
-#include "AFCUtils.h"
-#include <stdio.h>
-#include <ctype.h>
+#include "Utils.h"
 #include <string.h>
 
 int factorial(int n)

@@ -1,12 +1,11 @@
 from tkinter import ttk as tkttk
 
 import sv_ttk
-
-from AutoFrameCAD.Constants import UI_ICON_PATH
-from AutoFrameCAD.Database import Database
-from AutoFrameCAD.Handlers import UIHandler
-from AutoFrameCAD.Utils import Utils
-from AutoFrameCAD.Wrapper import Wrapper
+from Constants import UI_ICON_PATH
+from Database import Database
+from Handlers import UIHandler
+from Utils import Utils
+from Wrapper import Wrapper
 
 
 class PrimaryUI(UIHandler):

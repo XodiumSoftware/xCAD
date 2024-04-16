@@ -2,8 +2,8 @@ import logging
 import sqlite3
 from pathlib import Path
 
-from AutoFrameCAD.Constants import DATABASE_PATH
-from AutoFrameCAD.Utils import Utils
+from Constants import DATABASE_PATH
+from Utils import Utils
 
 
 class Database:

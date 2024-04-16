@@ -1,5 +1,5 @@
-#ifndef AFCUTILS_H
-#define AFCUTILS_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #ifdef __cplusplus
 extern "C"
