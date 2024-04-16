@@ -1,7 +1,0 @@
-{
-  "lumber_types": [
-    { "id": 0, "type": "sls", "dimx": 38, "dimy": 89 },
-    { "id": 1, "type": "sls", "dimx": 38, "dimy": 120 },
-    { "id": 2, "type": "sls", "dimx": 38, "dimy": 170 }
-  ]
-}

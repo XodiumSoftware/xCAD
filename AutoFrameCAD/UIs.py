@@ -2,7 +2,6 @@ from tkinter import ttk as tkttk
 
 import sv_ttk
 from Constants import UI_ICON_PATH
-from Database import Database
 from Handlers import UIHandler
 from Utils import Utils
 from Wrapper import Wrapper
@@ -32,10 +31,7 @@ class PrimaryUI(UIHandler):
                     None,
                 ],
                 [
-                    tkttk.Button(
-                        text="Add Data",
-                        command=Database().add_data,
-                    ),
+                    None,
                     tkttk.Button(
                         text="Switch Theme", command=sv_ttk.toggle_theme
                     ),
