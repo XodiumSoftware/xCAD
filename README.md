@@ -17,8 +17,6 @@
   <p align="center">
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/wiki"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://github.com/Structura-Engineering/AutoFrameCAD">Samples</a>
-    ·
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Report Bug</a>
     ·
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Request Feature</a>
