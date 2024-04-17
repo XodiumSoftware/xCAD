@@ -45,19 +45,5 @@
     "pipCommand": "pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt",
     "aptCommand": "sudo apt-get update && sudo apt-get install -y gdb"
   },
-  // NOTE: for X11 forwarding on Linux
-  // "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
-  // NOTE: for X11 forwarding on Windows
-  //"runArgs": [
-  //  "--net=host",
-  //  "-e=DISPLAY=host.docker.internal:0",
-  //  "-v=/tmp/.Xauthority:/tmp/.Xauthority"
-  //],
-  // NOTE: for X11 forwarding on MacOS
-  // "runArgs": [
-  //   "--net=host",
-  //   "-e=DISPLAY=host.docker.internal:0",
-  //   "-v=/tmp/.X11-unix:/tmp/.X11-unix"
-  // ],
   "shutdownAction": "stopContainer"
 }
