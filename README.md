@@ -14,7 +14,7 @@
 <h4 align="center">CAD addon/plug-in to automize frameworks.</h4>
 
 <div align="center">
-  <p align="center">
+  <p>
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Report Bug</a>
