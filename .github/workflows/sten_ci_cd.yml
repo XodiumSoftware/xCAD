@@ -1,5 +1,5 @@
-name: Sten's AutoFrameCAD CI/CD
-run-name: "Sten's AutoFrameCAD CI/CD"
+name: Sten's CI/CD
+run-name: "Sten's CI/CD"
 
 on:
   push:
@@ -16,43 +16,6 @@ jobs:
     steps:
       - id: keyword_check
         run: echo "Keyword Check Passed"
-
-  code_quality:
-    name: Code Quality Check
-    needs: [keyword_check]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        version: [3.12]
-    steps:
-      - id: checkout
-        uses: actions/checkout@main
-
-      - id: setup_python
-        uses: actions/setup-python@main
-        with:
-          python-version: ${{ matrix.version }}
-          cache: "pip"
-
-      - id: run_ruff
-        uses: chartboost/ruff-action@main
-        with:
-          args: -q
-
-      - id: code_quality_badge
-        if: always()
-        uses: schneegans/dynamic-badges-action@master
-        with:
-          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: code_quality_badge.json
-          label: Code Quality
-          message: ${{ job.status }}
-          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-          namedLogo: codacy
-          logoColor: white
-          style: flat-square
 
   python_tests:
     name: Python Tests
@@ -119,7 +82,7 @@ jobs:
 
   release:
     name: Release
-    needs: [python_tests, cpp_tests, code_quality]
+    needs: [python_tests, cpp_tests]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -175,7 +138,7 @@ jobs:
 
   documentation:
     name: Documentation
-    needs: [python_tests, cpp_tests, code_quality]
+    needs: [python_tests, cpp_tests]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

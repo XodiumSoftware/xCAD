@@ -128,7 +128,7 @@ Follow these straightforward steps to get AutoFrameCAD up and running on your lo
 [issues_shield]: https://img.shields.io/github/issues/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=yellow
 [issues_url]: https://github.com/Structura-Engineering/AutoFrameCAD/issues
 [roadmap_shield]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
-[roadmap_url]: https://zube.io/structura-engineering/stenzube/w/taskboard/kanban
+[roadmap_url]: https://github.com/orgs/Structura-Engineering/projects/4
 [docker_shield]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [docker_url]: https://docker.com/
 [python_shield]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
