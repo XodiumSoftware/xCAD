@@ -2,7 +2,9 @@
 
 <h1 align="center">
   <br>
-    <img src="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/.github/images/favicon.ico" alt="AutoFrameCAD Logo" width="200">
+    <a href="https://structura-engineering.com/">
+      <img src="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/.github/images/favicon.ico" alt="AutoFrameCAD Logo" width="200">
+    </a>
   <br><br>
   AutoFrameCAD
   <br>
