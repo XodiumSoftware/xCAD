@@ -83,5 +83,8 @@
   "svg.preview.background": "dark-transparent",
   "[c]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
   }
 }

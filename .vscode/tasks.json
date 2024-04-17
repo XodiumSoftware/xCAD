@@ -22,7 +22,7 @@
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/Utils.c",
+        "${workspaceFolder}/AutoFrameCAD/Utils.cpp",
         "-o",
         "${workspaceFolder}/AutoFrameCAD/build/Utils.so"
       ],
