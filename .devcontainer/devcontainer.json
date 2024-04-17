@@ -45,7 +45,6 @@
     "pipCommand": "pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt",
     "aptCommand": "sudo apt-get update && sudo apt-get install -y gdb"
   },
-  "runArgs": ["--engine=podman"],
   // NOTE: for X11 forwarding on Linux
   // "runArgs": ["--net=host", "-v=/tmp/.X11-unix:/tmp/.X11-unix"],
   // NOTE: for X11 forwarding on Windows
