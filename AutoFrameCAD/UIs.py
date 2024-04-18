@@ -3,7 +3,7 @@ from tkinter import ttk as tkttk
 import sv_ttk
 from Constants import UI_ICON_FILE
 from Handlers import UIHandler
-from Utils import Utils
+from utils import Utils
 from Wrapper import Wrapper
 
 

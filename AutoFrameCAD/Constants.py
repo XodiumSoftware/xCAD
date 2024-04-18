@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from Utils import Utils
+from utils import Utils
 
 # General
 # =============================================================================
