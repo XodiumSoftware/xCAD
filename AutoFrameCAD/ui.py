@@ -2,12 +2,11 @@ from tkinter import ttk as tkttk
 
 import sv_ttk
 from constants import UI_ICON_FILE
-from handler import UIHandler
+from core import CoreUI
 from StenLib import Utils
-from wrapper import Wrapper
 
 
-class PrimaryUI(UIHandler):
+class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
     def __init__(self) -> None:
@@ -39,5 +38,3 @@ class PrimaryUI(UIHandler):
             ],
             grid_options={"sticky": "nsew"},
         )
-        # TESTING: Wrapper class
-        Wrapper().test()

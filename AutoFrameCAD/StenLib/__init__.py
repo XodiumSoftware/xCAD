@@ -7,4 +7,4 @@ from StenLib.wrapper import Wrapper
 class Utils:
     """A class that contains utility functions."""
 
-    convert, forge, log, wrapper = Converter, Forger, Logger, Wrapper
+    convert, forge, log, wrap = Converter, Forger, Logger, Wrapper

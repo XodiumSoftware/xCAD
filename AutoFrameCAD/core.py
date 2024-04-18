@@ -5,7 +5,7 @@ from typing import Any, Callable, Sequence
 import sv_ttk
 
 
-class UIHandler(tkTk):
+class CoreUI(tkTk):
     """A class used to represent a extension of the TKinter ui module."""
 
     def _theme(self, theme: str) -> None:
