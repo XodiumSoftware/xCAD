@@ -1,22 +1,23 @@
 from pathlib import Path
 
-from utils import Utils
+from StenLib import Utils
 
 # General
 # =============================================================================
 BASE_DIR = Path(__file__).resolve().parent
-UTILS = Utils()
+UTILS = Utils
 # =============================================================================
 
 # Icons
 # =============================================================================
 ICON_DIR = UTILS.forge.dir(BASE_DIR / "icons")
-UI_ICON_FILE = UTILS.forge.file(ICON_DIR / "ui.svg")
+UI_ICON_FILE = ICON_DIR / "ui.svg"
 # =============================================================================
 
 # .so Lib files
 # =============================================================================
 LIB_DIR = UTILS.forge.dir(BASE_DIR / "build")
+UTILS_LIB_FILE = LIB_DIR / "utils.so"
 # =============================================================================
 
 # Database

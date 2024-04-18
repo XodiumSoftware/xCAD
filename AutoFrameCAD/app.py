@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk as tkTk
 
-from UIs import PrimaryUI
+from ui import PrimaryUI
 
 
 class App:

@@ -1,7 +1,7 @@
 import ctypes
 import unittest
 
-from Wrapper import Wrapper
+from AutoFrameCAD.wrapper import Wrapper
 
 
 class TestWrapper(unittest.TestCase):

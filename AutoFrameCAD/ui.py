@@ -1,10 +1,10 @@
 from tkinter import ttk as tkttk
 
 import sv_ttk
-from Constants import UI_ICON_FILE
-from Handlers import UIHandler
-from utils import Utils
-from Wrapper import Wrapper
+from constants import UI_ICON_FILE
+from handler import UIHandler
+from StenLib import Utils
+from wrapper import Wrapper
 
 
 class PrimaryUI(UIHandler):
