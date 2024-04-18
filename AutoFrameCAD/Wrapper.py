@@ -1,7 +1,7 @@
 import ctypes
 from typing import Any
 
-from Constants import LIB_FOLDER_PATH
+from Constants import LIB_DIR
 
 
 class Wrapper:
@@ -9,7 +9,7 @@ class Wrapper:
 
     def __init__(self):
         """Initializes the C library."""
-        self.lib = ctypes.CDLL(f"{LIB_FOLDER_PATH}/Utils.so")
+        self.lib = ctypes.CDLL(f"{LIB_DIR}/Utils.so")
 
         funcs = {
             "factorial": ([ctypes.c_int], ctypes.c_int),
