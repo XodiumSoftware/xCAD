@@ -17,7 +17,7 @@ UI_ICON_FILE = ICON_DIR / "ui.svg"
 # .so Lib files
 # =============================================================================
 LIB_DIR = UTILS.forge.dir(BASE_DIR / "build")
-UTILS_LIB_FILE = LIB_DIR / "utils.so"
+UTILS_LIB_FILE = LIB_DIR / "test.so"
 # =============================================================================
 
 # Database
