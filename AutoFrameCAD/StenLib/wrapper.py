@@ -13,7 +13,7 @@ class Wrapper:
     def __getattr__(self, func: str) -> Any:
         """Gets the function from the library."""
         try:
-            if isinstance(getattr(self.lib, func), ctypes._FuncPtr):  # type: ignore
+            if isinstance(getattr(self.lib, func), ctypes._CFuncPtr):  # type: ignore
                 return getattr(self.lib, func)
         except Exception:
             raise AttributeError(f"No function named {func} in the library")
@@ -23,5 +23,5 @@ class Wrapper:
         return [
             x
             for x in self.lib.__dict__.keys()
-            if isinstance(getattr(self.lib, x), ctypes._FuncPtr)  # type: ignore
+            if isinstance(getattr(self.lib, x), ctypes._CFuncPtr)  # type: ignore
         ]
