@@ -19,6 +19,7 @@ jobs:
 
   test:
     name: Test
+    needs: [keyword_check]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -58,7 +59,7 @@ jobs:
 
   release:
     name: Release
-    needs: [test]
+    needs: [keyword_check, test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -112,7 +113,7 @@ jobs:
 
   wiki:
     name: Wiki
-    needs: [test]
+    needs: [keyword_check, test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
