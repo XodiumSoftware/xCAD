@@ -1,5 +1,5 @@
 build
 cairosvg
-cython
+pdoc3
 setuptools
 sv-ttk
