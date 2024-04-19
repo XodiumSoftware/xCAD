@@ -137,7 +137,7 @@ Follow these straightforward steps to get AutoFrameCAD up and running on your lo
 [brx_api_url]: https://www.bricsys.com/en-eu/developers
 [release_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
 [release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
-[wiki_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/docs_badge.json
+[wiki_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
 [wiki_url]: https://github.com/Structura-Engineering/AutoFrameCAD/wiki
 [test_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/test_badge.json
 [test_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
