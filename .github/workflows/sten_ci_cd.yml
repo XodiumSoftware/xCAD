@@ -3,23 +3,12 @@ run-name: "Sten's CI/CD"
 
 on:
   push:
-    branches: []
+    branches: [main]
 
 jobs:
-  keyword_check:
-    name: Keyword Check
-    runs-on: ${{ matrix.os }}
-    if: contains(github.event.head_commit.message, '.deploy')
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-      - id: keyword_check
-        run: echo "Keyword Check Passed"
-
   test:
     name: Test
-    needs: [keyword_check]
+    if: contains(github.event.head_commit.message, '.deploy')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -27,9 +16,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -39,11 +30,20 @@ jobs:
         name: Install Dependencies
         run: pip install -e .
 
+      - id: create_build_dir
+        name: Create Build Directory
+        run: mkdir -p AutoFrameCAD/build
+
+      - id: compile_to_shared_library
+        name: Compile to Shared Library
+        run: g++ -shared -fPIC -g AutoFrameCAD/test.cpp -o AutoFrameCAD/build/test.so
+
       - id: run_tests
         name: Run Tests
         run: python -m unittest discover
 
       - id: test_badge
+        name: Test Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
@@ -59,7 +59,7 @@ jobs:
 
   release:
     name: Release
-    needs: [keyword_check, test]
+    needs: [test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -67,9 +67,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -89,6 +91,7 @@ jobs:
         shell: bash
 
       - id: create_release
+        name: Create Release
         uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,6 +101,7 @@ jobs:
           prerelease: false
 
       - id: release_badge
+        name: Release Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
@@ -113,7 +117,7 @@ jobs:
 
   wiki:
     name: Wiki
-    needs: [keyword_check, test]
+    needs: [test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -121,9 +125,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -135,14 +141,20 @@ jobs:
 
       - id: generate_wiki
         name: Generate Wiki
-        run: pdoc3 -f -o wiki AutoFrameCAD StenLib
+        run: pdoc3 --html -o wiki AutoFrameCAD StenLib
 
-      - id: deploy_wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
+      - id: upload_wiki
+        name: Upload Wiki
+        uses: SamKirkland/FTP-Deploy-Action@master
         with:
-          path: wiki
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: wiki/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
       - id: wiki_badge
+        name: Wiki Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:

@@ -38,7 +38,8 @@
         "pkief.material-icon-theme",
         "tamasfe.even-better-toml",
         "usernamehw.errorlens",
-        "visualstudioexptteam.vscodeintellicode"
+        "visualstudioexptteam.vscodeintellicode",
+        "vsls-contrib.gistfs"
       ]
     }
   },
