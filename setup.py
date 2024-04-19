@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="AutoFrameCAD",
-    version="0.0.78",
+    version="0.0.79w",
     url="https://github.com/Structura-Engineering/AutoFrameCad",
     license=open("LICENSE.md").read(),
     long_description=open("README.md").read(),

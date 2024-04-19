@@ -1,4 +1,14 @@
 {
+  // AutoFrameCAD Settings
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+  },
+  "terminal.integrated.env.osx": {
+    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+  },
+  "terminal.integrated.env.windows": {
+    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+  },
   // Code Runner Settings
   "code-runner.clearPreviousOutput": true,
   "code-runner.executorMap": {
@@ -46,6 +56,7 @@
   "material-icon-theme.folders.color": "#ef5350",
   "material-icon-theme.folders.associations": {
     "AutoFrameCAD": "src",
+    "StenLib": "src",
     "ISSUE_TEMPLATE": "template",
     "workflows": "pipe"
   },
@@ -57,7 +68,7 @@
   "python.analysis.diagnosticSeverityOverrides": {
     "reportWildcardImportFromLibrary": "none"
   },
-  "python.analysis.importFormat": "absolute",
+  "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "strict",
   // Python Environment Settings
@@ -81,6 +92,7 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "svg.preview.background": "dark-transparent",
+  // C/C++ Settings
   "[c]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
