@@ -17,8 +17,48 @@ jobs:
       - id: keyword_check
         run: echo "Keyword Check Passed"
 
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        uses: actions/checkout@main
+
+      - id: setup_python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - id: install_dependencies
+        name: Install Dependencies
+        run: pip install -e .
+
+      - id: run_tests
+        name: Run Tests
+        run: python -m unittest discover
+
+      - id: test_badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: test_badge.json
+          label: Unittest
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: pytest
+          logoColor: white
+          style: flat-square
+
   release:
     name: Release
+    needs: [test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -70,8 +110,9 @@ jobs:
           logoColor: white
           style: flat-square
 
-  documentation:
-    name: Documentation
+  wiki:
+    name: Wiki
+    needs: [test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -91,23 +132,23 @@ jobs:
         name: Install Dependencies
         run: pip install -e .
 
-      - id: generate_docs
-        name: Generate Docs
-        run: pdoc3 -f -o docs AutoFrameCAD StenLib
+      - id: generate_wiki
+        name: Generate Wiki
+        run: pdoc3 -f -o wiki AutoFrameCAD StenLib
 
-      - id: deploy_docs
+      - id: deploy_wiki
         uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
         with:
-          path: docs
+          path: wiki
 
-      - id: docs_badge
+      - id: wiki_badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
           auth: ${{ secrets.GIST_ACCESS_TOKEN }}
           gistID: ${{ secrets.GIST_ID }}
-          filename: docs_badge.json
-          label: Docs
+          filename: wiki_badge.json
+          label: Wiki
           message: ${{ job.status }}
           color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
           namedLogo: googledocs

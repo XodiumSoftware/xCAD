@@ -15,7 +15,7 @@
 
 <div align="center">
   <p>
-    <a href="https://github.com/Structura-Engineering/AutoFrameCAD/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.structura-engineering.com/"><strong>Explore the wiki »</strong></a>
     <br />
     <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Report Bug</a>
     ·
