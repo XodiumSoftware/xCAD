@@ -150,7 +150,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: wiki
+          local-dir: wiki/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
       - id: wiki_badge
