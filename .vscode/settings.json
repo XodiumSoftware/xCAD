@@ -78,13 +78,7 @@
   // Python Testing Settings
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./AutoFrameCAD",
-    "-p",
-    "test_*.py"
-  ],
+  "python.testing.unittestArgs": ["-v", "-s", "./", "-p", "test_*.py"],
   // Terminal Settings
   "terminal.integrated.enableMultiLinePasteWarning": "never",
   // Workbench Settings
