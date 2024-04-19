@@ -33,10 +33,7 @@
 <div align="center">
 
 [![Release][release_shield]][release_url]
-[![Pytest][pytest_shield]][pytest_url]
-[![Ctest][ctest_shield]][ctest_url]
 [![Documentation][documentation_shield]][documentation_url]
-[![Code Quality][codequality_shield]][codequality_url]
 
 </div>
 
@@ -139,12 +136,6 @@ Follow these straightforward steps to get AutoFrameCAD up and running on your lo
 [brx_api_url]: https://www.bricsys.com/en-eu/developers
 [release_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
 [release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
-[pytest_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/pytest_badge.json
-[pytest_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
-[ctest_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/ctest_badge.json
-[ctest_url]: https://pypi.org/project/AutoFrameCAD/
 [documentation_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/docs_badge.json
 [documentation_url]: https://github.com/Structura-Engineering/AutoFrameCAD/wiki
-[codequality_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/code_quality_badge.json
-[codequality_url]: -
 [dev_containers_url]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
