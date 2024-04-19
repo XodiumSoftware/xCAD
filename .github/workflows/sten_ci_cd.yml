@@ -36,8 +36,7 @@ jobs:
 
       - id: install_dependencies
         name: Install Dependencies
-        run: |
-          pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+        run: pip install -e .
 
       - id: build_package
         name: Build Package
@@ -90,18 +89,16 @@ jobs:
 
       - id: install_dependencies
         name: Install Dependencies
-        run: |
-          pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+        run: pip install -e .
 
       - id: generate_docs
         name: Generate Docs
-        run: |
-          pdoc3 -f -o AutoFrameCAD/docs AutoFrameCAD
+        run: pdoc3 -f -o docs AutoFrameCAD StenLib
 
       - id: deploy_docs
         uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
         with:
-          path: AutoFrameCAD/docs
+          path: docs
 
       - id: docs_badge
         if: always()

@@ -1,5 +1,5 @@
 build
 cairosvg
-pdoc
+pdoc3
 setuptools
 sv-ttk
