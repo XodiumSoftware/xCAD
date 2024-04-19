@@ -3,7 +3,7 @@ run-name: "Sten's CI/CD"
 
 on:
   push:
-    branches: [main]
+    branches: []
 
 jobs:
   keyword_check:
