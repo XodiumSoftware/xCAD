@@ -24,6 +24,7 @@
     "vscode": {
       "extensions": [
         "charliermarsh.ruff",
+        "eamodio.gitlens",
         "esbenp.prettier-vscode",
         "formulahendry.code-runner",
         "github.copilot",
