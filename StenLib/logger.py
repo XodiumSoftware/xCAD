@@ -5,16 +5,28 @@ class Logger:
     """A class that contains logger functions."""
 
     @staticmethod
-    def _logger(name: str) -> logging.Logger:
-        """Set up a logger."""
-        logger = logging.getLogger(name)
-        logger.setLevel(logging.INFO)
+    def _logger(
+        name: str,
+        level: int = logging.INFO,
+        format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        dateformat: str = "%Y-%m-%d %H:%M:%S",
+    ) -> logging.Logger:
+        """Set up a logger.
+
+        Args:
+            name (str): The name of the logger.
+            level (int): The logging level.
+            format (str): The format of the log message.
+            dateformat (str): The format of the date.
+
+        Returns:
+            logging.Logger: The logger.
+        """
+        logger = logging.getLogger(name=name)
+        logger.setLevel(level=level)
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
+        handler.setFormatter(logging.Formatter(fmt=format, datefmt=dateformat))
+        logger.addHandler(hdlr=handler)
         return logger
 
     logger = _logger

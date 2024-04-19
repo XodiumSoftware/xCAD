@@ -12,7 +12,14 @@ class Converter:
     # since it will have native svg support.
     @staticmethod
     def _svg2png(path: Path) -> ImageTk.PhotoImage:
-        """Convert a svg to a photoimage."""
+        """Convert a svg to a photoimage.
+
+        Args:
+            path (Path): The path to the svg.
+
+        Returns:
+            ImageTk.PhotoImage: The photoimage.
+        """
         return ImageTk.PhotoImage(
             Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
         )
