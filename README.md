@@ -138,7 +138,7 @@ Follow these straightforward steps to get AutoFrameCAD up and running on your lo
 [release_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
 [release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
 [wiki_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
-[wiki_url]: https://github.com/Structura-Engineering/AutoFrameCAD/wiki
+[wiki_url]: https://docs.structura-engineering.com/
 [test_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/test_badge.json
 [test_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
 [dev_containers_url]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers

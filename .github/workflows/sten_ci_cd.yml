@@ -16,9 +16,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -41,6 +43,7 @@ jobs:
         run: python -m unittest discover
 
       - id: test_badge
+        name: Test Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
@@ -64,9 +67,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -86,6 +91,7 @@ jobs:
         shell: bash
 
       - id: create_release
+        name: Create Release
         uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -95,6 +101,7 @@ jobs:
           prerelease: false
 
       - id: release_badge
+        name: Release Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
@@ -118,9 +125,11 @@ jobs:
         version: [3.12]
     steps:
       - id: checkout
+        name: Checkout
         uses: actions/checkout@main
 
       - id: setup_python
+        name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.version }}
@@ -132,14 +141,17 @@ jobs:
 
       - id: generate_wiki
         name: Generate Wiki
-        run: pdoc3 -f -o wiki AutoFrameCAD StenLib
+        run: pdoc3 --html -o wiki AutoFrameCAD StenLib
 
-      - id: deploy_wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0
+      - id: upload_wiki
+        name: Upload Wiki to Website
+        uses: actions/upload-artifact@main
         with:
-          path: wiki
+          name: wiki
+          path: wiki.structura-engineering.com
 
       - id: wiki_badge
+        name: Wiki Badge
         if: always()
         uses: schneegans/dynamic-badges-action@master
         with:
