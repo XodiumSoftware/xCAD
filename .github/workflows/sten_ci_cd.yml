@@ -144,11 +144,14 @@ jobs:
         run: pdoc3 --html -o wiki AutoFrameCAD StenLib
 
       - id: upload_wiki
-        name: Upload Wiki to Website
-        uses: actions/upload-artifact@main
+        name: Upload Wiki
+        uses: SamKirkland/FTP-Deploy-Action@master
         with:
-          name: wiki
-          path: wiki.structura-engineering.com
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: wiki
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
       - id: wiki_badge
         name: Wiki Badge
