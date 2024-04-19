@@ -1,6 +1,7 @@
 from tkinter import ttk as tkttk
 
 import sv_ttk
+
 from AutoFrameCAD.constants import UI_ICON_FILE
 from AutoFrameCAD.core import CoreUI
 from StenLib import Utils
