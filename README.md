@@ -52,10 +52,7 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 <div align="center"><h3>Built With</h3>
 
-[![Docker][docker_shield_url]][docker_url]
-[![Python][python_shield_url]][python_url]
-[![C++][cpp_shield_url]][cpp_url]
-[![BRX API][brx_api_shield_url]][brx_api_url]</div>
+[![Built With][built_with_shield_url]][built_with_url] [![BRX API][brx_api_shield_url]][brx_api_url]</div>
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
@@ -81,21 +78,17 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 [brx_api_shield_url]: https://img.shields.io/badge/BRX%20API-3776AB?style=for-the-badge&logo=librariesdotio&logoColor=white&color=red
 [brx_api_url]: https://www.bricsys.com/en-eu/developers
+[built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp
+[built_with_url]: https://skillicons.dev
 [changelog_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md
 [code_of_conduct_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=coc-ov-file
 [contributing_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CONTRIBUTING.md
 [contributors_shield_url]: https://img.shields.io/github/contributors/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=blue
 [contributors_url]: https://github.com/Structura-Engineering/AutoFrameCAD/graphs/contributors
-[cpp_shield_url]: https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white
-[cpp_url]: https://isocpp.org
 [dev_containers_url]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
-[docker_shield_url]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
-[docker_url]: https://docker.com/
 [issues_shield_url]: https://img.shields.io/github/issues/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=yellow
 [issues_url]: https://github.com/Structura-Engineering/AutoFrameCAD/issues
 [license_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=AGPL-3.0-1-ov-file
-[python_shield_url]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-[python_url]: https://python.org/
 [release_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
 [release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
 [roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
