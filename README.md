@@ -1,19 +1,17 @@
 <a name="readme-top"></a>
 
-<h1 align="center">
-  <br>
+<div align="center">
+<h1>
+  <br />
     <a href="https://structura-engineering.com/">
       <img src="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/.github/images/favicon.ico" alt="AutoFrameCAD Logo" width="200">
     </a>
-  <br><br>
+  <br /><br />
   AutoFrameCAD
-  <br>
-  <br>
+  <br />
+  <br />
 </h1>
-
-<h4 align="center">CAD addon/plug-in to automize frameworks.</h4>
-
-<div align="center">
+<h4>CAD addon/plug-in to automize frameworks.</h4>
 
 [**Explore the wiki »**][wiki_url]<br />
 [Report Bug][issues_url] ·
@@ -29,16 +27,15 @@
   <summary>Table of Contents</summary>
 
 - [About The Project](#--about-the-project)
-  - Built With
-- Getting Started
+- [Getting Started](#--getting-started)
 - [Code of Conduct][code_of_conduct_url]
 - [Contributing][contributing_url]
 - [License][license_url]
 - [Security][security_url]
-- [Changelog][changelog_url]</details>
+- [Changelog][changelog_url]</details><br />
 
-<h2><details>
-  <summary>About The Project</summary></h2>
+<details>
+  <summary style="font-size: 1.5em; font-weight: bold;">About The Project</summary>
 
 AutoFrameCAD is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, AutoFrameCAD offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
 
@@ -56,11 +53,7 @@ As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates an
 
 Feel free to dive into the documentation to kickstart your journey with AutoFrameCAD.
 
-<h3>Built With</h3>
-
-This section lists the key technologies and libraries that were used in the development of this project.
-
-  <div align="center">
+<div align="center"><h3>Built With</h3>
 
 [![Docker][docker_shield_url]][docker_url]
 [![Python][python_shield_url]][python_url]
@@ -69,8 +62,8 @@ This section lists the key technologies and libraries that were used in the deve
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
-<h2><details>
-  <summary>Getting Started</summary></h2>
+<details>
+  <summary style="font-size: 1.5em; font-weight: bold;">Getting Started</summary>
 
 Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local environment in a few simple steps:
 
