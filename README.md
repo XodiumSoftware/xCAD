@@ -46,16 +46,22 @@
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
     </li>
-    <li><a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=coc-ov-file">Code of Conduct</a></li>
-    <li><a href="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CONTRIBUTING.md">Contributing</a></li>
-    <li><a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=AGPL-3.0-1-ov-file">License</a></li>
-    <li><a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=security-ov-file">Security</a></li>
-    <li><a href="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md">Changelog</a></li>
+    <li>
+      <a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=coc-ov-file">Code of Conduct</a>
+    </li>
+    <li>
+      <a href="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CONTRIBUTING.md">Contributing</a>
+    </li>
+    <li>
+      <a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=AGPL-3.0-1-ov-file">License</a>
+    </li>
+    <li>
+      <a href="https://github.com/Structura-Engineering/AutoFrameCAD?tab=security-ov-file">Security</a>
+    </li>
+    <li>
+      <a href="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md">Changelog</a>
+    </li>
   </ol>
 </details>
 
@@ -77,8 +83,6 @@ As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates an
 
 Feel free to dive into the documentation to kickstart your journey with AutoFrameCAD.
 
-<p align="right"><a href="#readme-top">▲</a></p>
-
 ### Built With
 
 This section lists the key technologies and libraries that were used in the development of this project.
@@ -98,25 +102,17 @@ This section lists the key technologies and libraries that were used in the deve
 
 Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local environment in a few simple steps:
 
-### Prerequisites
+1. **Install Prerequisites:**
 
-Ensure you have the following tools installed:
+   - [`VSCODE Extension: Dev Containers`][dev_containers_url]
 
-- [`VSCODE Extension: Dev Containers`][dev_containers_url]
-
-<p align="right"><a href="#readme-top">▲</a></p>
-
-### Installation
-
-Follow these straightforward steps to get AutoFrameCAD up and running on your local machine:
-
-1. **Clone the Repository:**
+2. **Clone the Repository:**
    ```sh
    git clone https://github.com/Structura-Engineering/AutoFrameCAD.git
    ```
-2. **Navigate to the Project Directory**
+3. **Navigate to the Project Directory**
 
-3. **Set up the Development Container:**
+4. **Set up the Development Container:**
    - If prompted, click on the `Reopen in Container` button at the bottom right.
    - The editor will automatically set up the development container for you.
 
