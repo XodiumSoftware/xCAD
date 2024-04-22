@@ -15,7 +15,8 @@
 
 <div align="center">
 
-[**Explore the wiki »**][wiki_url]<br />
+[**Explore the wiki »**][wiki_url]
+
 [Report Bug][issues_url] ·
 [Request Feature][issues_url]
 
