@@ -28,16 +28,13 @@
 [![Contributors][contributors_shield]][contributors_url]
 [![Issues][issues_shield]][issues_url]
 [![Roadmap][roadmap_shield]][roadmap_url]
-
-</div>
-<div align="center">
-
+<br />
 [![Release][release_shield]][release_url]
 [![Wiki][wiki_shield]][wiki_url]
 [![Unittest][test_shield]][test_url]
 
 </div>
-
+<br />
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -86,10 +83,14 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 This section lists the key technologies and libraries that were used in the development of this project.
 
+<div align="center">
+
 [![Docker][docker_shield]][docker_url]
 [![Python][python_shield]][python_url]
 [![C++][cpp_shield]][cpp_url]
 [![BRX API][brx_api_shield]][brx_api_url]
+
+</div>
 
 <p align="right"><a href="#readme-top">▲</a></p>
 
