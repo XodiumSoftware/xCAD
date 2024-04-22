@@ -3,7 +3,7 @@ run-name: "Sten's CI/CD"
 
 on:
   push:
-    branches: [main]
+    branches: []
 
 jobs:
   test:
@@ -141,6 +141,10 @@ jobs:
 
       - id: generate_wiki
         name: Generate Wiki
+        run: mkdocs new
+
+      - id: build_wiki
+        name: Build Wiki
         run: mkdocs build
 
       - id: upload_wiki
