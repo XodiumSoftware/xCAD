@@ -141,7 +141,7 @@ jobs:
 
       - id: generate_wiki
         name: Generate Wiki
-        run: pdoc3 --html -o wiki AutoFrameCAD StenLib
+        run: mkdocs build
 
       - id: upload_wiki
         name: Upload Wiki
@@ -150,7 +150,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: wiki/
+          local-dir: site/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
       - id: wiki_badge

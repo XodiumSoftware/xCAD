@@ -38,3 +38,6 @@ venv.bak/
 # Libraries
 BRX/
 TX/
+
+# Wiki
+site/
