@@ -11,19 +11,13 @@
   <br />
 </h1>
 
-<h4 align="center">CAD addon/plug-in to automize frameworks.</h4>
+<h4 align="center">CAD addon/plug-in to automize frameworks.</h4><br />
 
 <div align="center">
 
-[**Explore the wiki »**][wiki_url]
-
-[Report Bug][issues_url] ·
-[Request Feature][issues_url]
-
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
-[![Roadmap][roadmap_shield_url]][roadmap_url]
-
+[![Roadmap][roadmap_shield_url]][roadmap_url]<br />
 [![Release][release_shield_url]][release_url]
 [![Wiki][wiki_shield_url]][wiki_url]
 [![Unittest][test_shield_url]][test_url]</div>
