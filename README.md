@@ -22,7 +22,7 @@
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
 [![Roadmap][roadmap_shield_url]][roadmap_url]
-<br />
+
 [![Release][release_shield_url]][release_url]
 [![Wiki][wiki_shield_url]][wiki_url]
 [![Unittest][test_shield_url]][test_url]</div>
