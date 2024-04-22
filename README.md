@@ -17,10 +17,12 @@
 
 [**Explore the wiki »**][wiki_url]<br />
 [Report Bug][issues_url] ·
-[Request Feature][issues_url]<br />
+[Request Feature][issues_url]
+
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
-[![Roadmap][roadmap_shield_url]][roadmap_url]<br />
+[![Roadmap][roadmap_shield_url]][roadmap_url]
+<br />
 [![Release][release_shield_url]][release_url]
 [![Wiki][wiki_shield_url]][wiki_url]
 [![Unittest][test_shield_url]][test_url]</div>
