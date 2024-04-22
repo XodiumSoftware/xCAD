@@ -14,24 +14,17 @@
 <h4 align="center">CAD addon/plug-in to automize frameworks.</h4>
 
 <div align="center">
-  <p>
-    <a href="https://wiki.structura-engineering.com/"><strong>Explore the wiki »</strong></a>
-    <br />
-    <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Structura-Engineering/AutoFrameCAD/issues">Request Feature</a>
-  </p>
-</div>
 
-<div align="center">
+[**Explore the wiki »**](https://wiki.structura-engineering.com/)<br />
+[Report Bug](https://github.com/Structura-Engineering/AutoFrameCAD/issues) ·
+[Request Feature](https://github.com/Structura-Engineering/AutoFrameCAD/issues)
 
-[![Contributors][contributors_shield]][contributors_url]
-[![Issues][issues_shield]][issues_url]
-[![Roadmap][roadmap_shield]][roadmap_url]
-<br />
-[![Release][release_shield]][release_url]
-[![Wiki][wiki_shield]][wiki_url]
-[![Unittest][test_shield]][test_url]
+[![Contributors][contributors_shield_url]][contributors_url]
+[![Issues][issues_shield_url]][issues_url]
+[![Roadmap][roadmap_shield_url]][roadmap_url]<br />
+[![Release][release_shield_url]][release_url]
+[![Wiki][wiki_shield_url]][wiki_url]
+[![Unittest][test_shield_url]][test_url]
 
 </div>
 <br />
@@ -89,10 +82,10 @@ This section lists the key technologies and libraries that were used in the deve
 
 <div align="center">
 
-[![Docker][docker_shield]][docker_url]
-[![Python][python_shield]][python_url]
-[![C++][cpp_shield]][cpp_url]
-[![BRX API][brx_api_shield]][brx_api_url]
+[![Docker][docker_shield_url]][docker_url]
+[![Python][python_shield_url]][python_url]
+[![C++][cpp_shield_url]][cpp_url]
+[![BRX API][brx_api_shield_url]][brx_api_url]
 
 </div>
 
@@ -118,24 +111,24 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 <p align="right"><a href="#readme-top">▲</a></p>
 
-[contributors_shield]: https://img.shields.io/github/contributors/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=blue
+[contributors_shield_url]: https://img.shields.io/github/contributors/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=blue
 [contributors_url]: https://github.com/Structura-Engineering/AutoFrameCAD/graphs/contributors
-[issues_shield]: https://img.shields.io/github/issues/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=yellow
+[issues_shield_url]: https://img.shields.io/github/issues/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=yellow
 [issues_url]: https://github.com/Structura-Engineering/AutoFrameCAD/issues
-[roadmap_shield]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
+[roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
 [roadmap_url]: https://github.com/orgs/Structura-Engineering/projects/4
-[docker_shield]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[docker_shield_url]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [docker_url]: https://docker.com/
-[python_shield]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[python_shield_url]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [python_url]: https://python.org/
-[cpp_shield]: https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white
+[cpp_shield_url]: https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white
 [cpp_url]: https://isocpp.org
-[brx_api_shield]: https://img.shields.io/badge/BRX%20API-3776AB?style=for-the-badge&logo=librariesdotio&logoColor=white&color=red
+[brx_api_shield_url]: https://img.shields.io/badge/BRX%20API-3776AB?style=for-the-badge&logo=librariesdotio&logoColor=white&color=red
 [brx_api_url]: https://www.bricsys.com/en-eu/developers
-[release_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
+[release_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
 [release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
-[wiki_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
+[wiki_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
 [wiki_url]: https://wiki.structura-engineering.com/
-[test_shield]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/test_badge.json
+[test_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/test_badge.json
 [test_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
 [dev_containers_url]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
