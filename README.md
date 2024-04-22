@@ -38,13 +38,14 @@ AutoFrameCAD is not just a program, it's your companion in creating CAD objects 
 
 Whether you're a seasoned drawer or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
 
-Why AutoFrameCAD?
+**Why AutoFrameCAD?`**
 
-- **Maximize Your Creativity:** Your time is valuable. AutoFrameCAD frees you from mundane tasks, enabling you to channel your creativity into building extraordinary solutions.
-
-- **Banish Repetition:** Don't waste time reinventing the wheel. AutoFrameCAD encourages you to break free from repetitive tasks, ensuring you spend more time on what truly matters.
-
-- **DRY Principles for Life:** Implement the Don't Repeat Yourself (DRY) mantra not only in your drawing but in your entire development process. AutoFrameCAD is your guide to a more efficient and enjoyable drawing life. 😊
+- :gear: **Automated Framework Creation:** Streamline your design process with automatic tools, allowing you to focus on the bigger picture.
+- :straight_ruler: **Customizable and Precise design:** Tailor your designs to your exact specifications, ensuring precision in every project.
+- :computer: **User-friendly Interface:** Navigate with ease through our intuitive interface, designed for both seasoned and novice drawers.
+- :triangular_ruler: **Supports Architectural, Structural, and Industrial projects:** Whether it’s architectural, structural, or industrial, AutoFrameCAD has got you covered.
+- :hourglass_flowing_sand: **Time-saving and Efficient:** Say goodbye to repetitive tasks and hello to efficiency, saving you valuable time.
+- :white_check_mark: **Currently supports:** AutoCAD, BricsCAD
 
 As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make AutoFrameCAD even better together.
 
