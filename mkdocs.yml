@@ -1,9 +1,0 @@
-site_name: STENWIKI
-repo_url: https://github.com/Structura-Engineering/AutoFrameCAD
-site_author: Structura Engineering
-site_description: Structura Engineering Wiki
-copyright: © 2023 structura-engineering.com
-nav:
-  - Home: index.md
-  - About: "https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/README.md"
-theme: readthedocs
