@@ -31,16 +31,15 @@
 <details>
   <summary>Table of Contents</summary>
 
-- [About The Project](#--about-the-project)
-- [Getting Started](#--getting-started)
+- [About The Project](#about-the-project)
+- [Getting Started](#getting-started)
 - [Code of Conduct][code_of_conduct_url]
 - [Contributing][contributing_url]
 - [License][license_url]
 - [Security][security_url]
 - [Changelog][changelog_url]</details><br />
 
-<details>
-  <summary style="font-size: 1.5em; font-weight: bold;">About The Project</summary>
+## About The Project
 
 AutoFrameCAD is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, AutoFrameCAD offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
 
@@ -67,8 +66,7 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
-<details>
-  <summary style="font-size: 1.5em; font-weight: bold;">Getting Started</summary>
+## Getting Started
 
 Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local environment in a few simple steps:
 
