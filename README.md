@@ -82,7 +82,7 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
-[built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp
+[built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp,c
 [built_with_url]: https://skillicons.dev
 [changelog_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md
 [code_of_conduct_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=coc-ov-file
