@@ -28,8 +28,7 @@
 [![Wiki][wiki_shield_url]][wiki_url]
 [![Unittest][test_shield_url]][test_url]</div>
 
-<details>
-  <summary>Table of Contents</summary>
+## Table of Contents
 
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
@@ -37,7 +36,7 @@
 - [Contributing][contributing_url]
 - [License][license_url]
 - [Security][security_url]
-- [Changelog][changelog_url]</details><br />
+- [Changelog][changelog_url]
 
 ## About The Project
 
