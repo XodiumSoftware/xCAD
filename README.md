@@ -1,7 +1,6 @@
 <a name="readme-top"></a>
 
-<div align="center">
-<h1>
+<h1 align="center">
   <br />
     <a href="https://structura-engineering.com/">
       <img src="https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/.github/images/favicon.ico" alt="AutoFrameCAD Logo" width="200">
@@ -11,7 +10,10 @@
   <br />
   <br />
 </h1>
-<h4>CAD addon/plug-in to automize frameworks.</h4>
+
+<h4 align="center">CAD addon/plug-in to automize frameworks.</h4>
+
+<div align="center">
 
 [**Explore the wiki »**][wiki_url]<br />
 [Report Bug][issues_url] ·
