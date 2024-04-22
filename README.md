@@ -28,7 +28,7 @@
 <details>
   <summary>Table of Contents</summary>
 
-- About The Project
+- [About The Project](#--about-the-project)
   - Built With
 - Getting Started
 - [Code of Conduct][code_of_conduct_url]
