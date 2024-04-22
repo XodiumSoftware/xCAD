@@ -139,10 +139,6 @@ jobs:
         name: Install Dependencies
         run: pip install -e .
 
-      - id: generate_wiki
-        name: Generate Wiki
-        run: mkdocs new
-
       - id: build_wiki
         name: Build Wiki
         run: mkdocs build
