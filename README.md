@@ -38,7 +38,7 @@ AutoFrameCAD is not just a program, it's your companion in creating CAD objects 
 
 Whether you're a seasoned drawer or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
 
-**Why AutoFrameCAD?`**
+**Why AutoFrameCAD?**
 
 > :gear: **Automated Framework Creation:** Streamline your design process with automatic tools, allowing you to focus on the bigger picture.
 
@@ -50,7 +50,7 @@ Whether you're a seasoned drawer or just embarking on your drawing adventure, Au
 
 > :hourglass_flowing_sand: **Time-saving and Efficient:** Say goodbye to repetitive tasks and hello to efficiency, saving you valuable time.
 
-> :white_check_mark: **Currently supports:** AutoCAD, BricsCAD
+> :white_check_mark: **Currently supports:** `AutoCAD` · `BricsCAD`
 
 As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make AutoFrameCAD even better together.
 
@@ -58,7 +58,7 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 <div align="center"><h3>Built With</h3>
 
-[![Built With][built_with_shield_url]][built_with_url] [![BRX API][brx_api_shield_url]][brx_api_url]</div>
+[![Built With][built_with_shield_url]][built_with_url]</div>
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
@@ -82,8 +82,6 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
-[brx_api_shield_url]: https://img.shields.io/badge/BRX%20API-3776AB?style=for-the-badge&logo=librariesdotio&logoColor=white&color=red
-[brx_api_url]: https://www.bricsys.com/en-eu/developers
 [built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp
 [built_with_url]: https://skillicons.dev
 [changelog_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md
