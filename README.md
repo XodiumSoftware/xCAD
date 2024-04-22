@@ -40,12 +40,17 @@ Whether you're a seasoned drawer or just embarking on your drawing adventure, Au
 
 **Why AutoFrameCAD?`**
 
-- :gear: **Automated Framework Creation:** Streamline your design process with automatic tools, allowing you to focus on the bigger picture.
-- :straight_ruler: **Customizable and Precise design:** Tailor your designs to your exact specifications, ensuring precision in every project.
-- :computer: **User-friendly Interface:** Navigate with ease through our intuitive interface, designed for both seasoned and novice drawers.
-- :triangular_ruler: **Supports Architectural, Structural, and Industrial projects:** Whether it’s architectural, structural, or industrial, AutoFrameCAD has got you covered.
-- :hourglass_flowing_sand: **Time-saving and Efficient:** Say goodbye to repetitive tasks and hello to efficiency, saving you valuable time.
-- :white_check_mark: **Currently supports:** AutoCAD, BricsCAD
+> :gear: **Automated Framework Creation:** Streamline your design process with automatic tools, allowing you to focus on the bigger picture.
+
+> :straight_ruler: **Customizable and Precise design:** Tailor your designs to your exact specifications, ensuring precision in every project.
+
+> :computer: **User-friendly Interface:** Navigate with ease through our intuitive interface, designed for both seasoned and novice drawers.
+
+> :triangular_ruler: **Supports Architectural, Structural, and Industrial projects:** Whether it’s architectural, structural, or industrial, AutoFrameCAD has got you covered.
+
+> :hourglass_flowing_sand: **Time-saving and Efficient:** Say goodbye to repetitive tasks and hello to efficiency, saving you valuable time.
+
+> :white_check_mark: **Currently supports:** AutoCAD, BricsCAD
 
 As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make AutoFrameCAD even better together.
 
