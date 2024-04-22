@@ -12,7 +12,6 @@
         />
       </a>
       <h1><br />AutoFrameCAD</h1>
-      <br />
       <h4>CAD addon/plug-in to automize frameworks.</h4>
       <div>
         <p>
