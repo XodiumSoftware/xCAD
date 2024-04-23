@@ -28,7 +28,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
-    "repository_url": "https://github.com/Structura-Engineering",
+    "repository_url": "https://github.com/Structura-Engineering/AutoFrameCAD",
     "use_repository_button": True,
 }
 html_title = "STEN Wiki"
