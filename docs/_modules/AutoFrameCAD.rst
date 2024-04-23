@@ -1,5 +1,10 @@
 AutoFrameCAD
 ============
 
-.. automodule:: AutoFrameCAD
-   :members:
+.. autosummary::
+   :toctree: _autosummary
+
+   AutoFrameCAD.app
+   AutoFrameCAD.constants
+   AutoFrameCAD.core
+   AutoFrameCAD.ui

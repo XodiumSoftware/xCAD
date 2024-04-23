@@ -45,8 +45,8 @@ html_theme_options = {
     "use_repository_button": True,
 }
 html_title = "STEN Wiki"
-html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico"  # Does not work
-html_favicon = "https://github.com/Structura-Engineering/.github/blob/main/icons/sten_short_logo.svg"  # Does not work
+html_logo = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.ico"
+html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/sten_short_logo.svg"
 
 # -- Options for autodoc -----------------------------------------------------
 
