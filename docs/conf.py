@@ -6,8 +6,8 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "STEN Wiki"
-copyright = "2024, Structura Engineering"
+project = "STEN"
+copyright = "2023, Structura Engineering"
 author = "Structura Engineering"
 release = "1.0"
 
@@ -27,6 +27,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_book_theme"
+html_theme_options = {
+    "repository_url": "https://github.com/Structura-Engineering",
+    "use_repository_button": True,
+}
+html_title = "STEN Wiki"
+html_logo = "_static/icons/favicon.ico"
 html_static_path = ["_static"]
 
 # -- Options for autodoc -----------------------------------------------------

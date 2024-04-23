@@ -1,9 +1,9 @@
-.. STEN Wiki documentation master file, created by
+.. STEN's Wiki master file, created by
    sphinx-quickstart on Mon Apr 22 14:16:44 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to STEN Wiki's documentation!
+Welcome to STEN's Wiki!
 =====================================
 
 .. toctree::
