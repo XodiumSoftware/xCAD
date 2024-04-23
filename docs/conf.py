@@ -48,6 +48,7 @@ html_logo = "https://raw.githubusercontent.com/Structura-Engineering/.github/mai
 html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/sten_short_logo.svg"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
+html_suffix = ""
 
 # -- Options for autodoc -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html

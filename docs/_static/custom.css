@@ -1,9 +1,3 @@
-img {
-  width: 100px;
-  height: 100px;
-}
-
-img.logo {
-  width: 100px;
-  height: 100px;
+div.logo {
+  background-size: 100px 100px;
 }
