@@ -1,10 +1,22 @@
 AutoFrameCAD
 ============
 
-.. autosummary::
-   :toctree: _autosummary
+.. automodule:: AutoFrameCAD.app
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-   AutoFrameCAD.app
-   AutoFrameCAD.constants
-   AutoFrameCAD.core
-   AutoFrameCAD.ui
+.. automodule:: AutoFrameCAD.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: AutoFrameCAD.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: AutoFrameCAD.ui
+   :members:
+   :undoc-members:
+   :show-inheritance:

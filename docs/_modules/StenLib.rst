@@ -1,10 +1,22 @@
 StenLib
 =======
 
-.. autosummary::
-   :toctree: _autosummary
+.. automodule:: StenLib.converter
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-   StenLib.converter
-   StenLib.forger
-   StenLib.logger
-   StenLib.wrapper
+.. automodule:: StenLib.forger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: StenLib.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: StenLib.wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:
