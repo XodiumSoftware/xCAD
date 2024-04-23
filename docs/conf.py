@@ -23,6 +23,7 @@ release = "1.0"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx_reredirects",
 ]
 
 templates_path = ["_templates"]
@@ -48,7 +49,7 @@ html_title = "STEN Wiki"
 html_logo = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.ico"
 html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/sten_short_logo.svg"
 html_static_path = ["_static"]
-html_css_files = ["custom.css"]  # resizing the icon didnt work.
+html_css_files = ["custom.css"]
 
 # -- Options for autodoc -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
@@ -70,3 +71,9 @@ napoleon_use_rtype = True
 napoleon_preprocess_types = False
 napoleon_type_aliases = None
 napoleon_attr_annotations = True
+
+# -- Options for sphinx_reredirects ------------------------------------------
+# https://documatt.com/sphinx-reredirects/usage.html
+redirects = {
+    "index": "/",
+}
