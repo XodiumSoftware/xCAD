@@ -48,7 +48,6 @@ html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_js_files = ["executeAction.js"]
-html_link_suffix = ""
 
 # -- Options for autodoc -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
