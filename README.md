@@ -3,7 +3,7 @@
 <h1 align="center">
   <br />
     <a href="https://structura-engineering.com/">
-      <img src="https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico" alt="AutoFrameCAD Logo" width="200">
+      <img src="https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.webp" alt="AutoFrameCAD Logo" width="200">
     </a>
   <br /><br />
   AutoFrameCAD
