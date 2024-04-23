@@ -3,4 +3,5 @@ cairosvg
 setuptools
 sphinx
 sphinx-book-theme
+sphinx_reredirects
 sv-ttk

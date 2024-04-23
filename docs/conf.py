@@ -23,9 +23,8 @@ release = "1.0"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx_reredirects",
 ]
-
-templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
@@ -70,3 +69,11 @@ napoleon_use_rtype = True
 napoleon_preprocess_types = False
 napoleon_type_aliases = None
 napoleon_attr_annotations = True
+
+# -- Options for sphinx_reredirects -------------------------------------------
+# https://documatt.com/sphinx-reredirects/usage.html
+redirects = {
+    "index": "/",
+    "_modules/*": "/",
+    "*.html": "",
+}
