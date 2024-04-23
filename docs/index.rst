@@ -6,8 +6,7 @@
 Welcome to STEN's Wiki!
 =======================
 
-STEN's Wiki is a comprehensive resource that provides detailed information about STEN's various projects. It serves as a central hub for developers and users to understand, utilize, and contribute to STEN's projects. The wiki includes documentation for modules like AutoFrameCAD, a CAD addon/plug-in to automate frameworks, and StenLib, a code library for reusing in STEN's projects.
-
+STEN's Wiki is a comprehensive resource that provides detailed information about STEN's various projects. It serves as a central hub for developers and users to understand, utilize, and contribute to STEN's projects. The wiki includes documentation for modules like AutoFrameCAD, a CAD addon/plug-in to automate frameworks, and StenLib, a library for reusing code in STEN's projects.
 
 Projects
 ========

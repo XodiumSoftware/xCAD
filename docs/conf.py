@@ -36,7 +36,6 @@ html_theme = "sphinx_book_theme"
 html_theme_options = {
     "logo": {
         "text": "STEN Wiki",
-        "link": "https://structura-engineering.com/",
     },
     "repository_url": "https://github.com/Structura-Engineering/AutoFrameCAD",
     "repository_branch": "main",
