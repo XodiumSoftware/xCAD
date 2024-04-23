@@ -45,9 +45,6 @@ html_theme_options = {
 html_title = "STEN Wiki"
 html_logo = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.webp"
 html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/sten_short_logo.svg"
-html_static_path = ["_static"]
-html_css_files = ["custom.css"]
-html_js_files = ["custom.js"]
 
 # -- Options for autodoc -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
