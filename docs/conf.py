@@ -74,6 +74,5 @@ napoleon_attr_annotations = True
 # https://documatt.com/sphinx-reredirects/usage.html
 redirects = {
     "index": "/",
-    "_modules/*": "/",
-    "*.html": "",
+    # "_modules/*": "/",
 }
