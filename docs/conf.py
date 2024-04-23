@@ -40,7 +40,6 @@ html_theme_options = {
     "repository_url": "https://github.com/Structura-Engineering/AutoFrameCAD",
     "repository_branch": "main",
     "use_download_button": True,
-    "use_edit_page_button": True,
     "use_fullscreen_button": True,
     "use_issues_button": True,
     "use_repository_button": True,
@@ -48,7 +47,6 @@ html_theme_options = {
 html_title = "STEN Wiki"
 html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico" # Does not work
 html_favicon = "https://github.com/Structura-Engineering/.github/blob/main/icons/sten_short_logo.svg" # Does not work
-html_static_path = ["_static"]
 
 # -- Options for autodoc -----------------------------------------------------
 

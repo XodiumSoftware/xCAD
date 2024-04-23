@@ -7,11 +7,11 @@ Welcome to STEN's Wiki!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Projects:
 
-   _modules/AutoFrameCAD
-   _modules/StenLib
+   * _modules/AutoFrameCAD
+   * _modules/StenLib
 
 Indices and tables
 ==================
