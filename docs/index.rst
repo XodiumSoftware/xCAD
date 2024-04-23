@@ -10,8 +10,8 @@ Welcome to STEN's Wiki!
    :maxdepth: 1
    :caption: Projects:
 
-   * _modules/AutoFrameCAD
-   * _modules/StenLib
+   _modules/AutoFrameCAD
+   _modules/StenLib
 
 Indices and tables
 ==================
