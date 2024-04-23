@@ -2,4 +2,5 @@ build
 cairosvg
 setuptools
 sphinx
+sphinx-book-theme
 sv-ttk
