@@ -1,4 +1,9 @@
-div.logo img {
+img {
+  width: 100px;
+  height: 100px;
+}
+
+img.logo {
   width: 100px;
   height: 100px;
 }
