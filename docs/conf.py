@@ -22,6 +22,7 @@ release = "1.0"
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     # "sphinx.ext.napoleon",
 ]
 
@@ -47,6 +48,8 @@ html_theme_options = {
 html_title = "STEN Wiki"
 html_logo = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.ico"
 html_favicon = "https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/sten_short_logo.svg"
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 
 # -- Options for autodoc -----------------------------------------------------
 

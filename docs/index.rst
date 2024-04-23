@@ -15,9 +15,7 @@ Projects
    :maxdepth: 1
 
    _modules/AutoFrameCAD
-      * AutoFrameCAD: CAD addon/plug-in to automize frameworks.
    _modules/StenLib
-      * StenLib: Library for STEN's projects to reuse code.
 
 Indices and Tables
 ==================
