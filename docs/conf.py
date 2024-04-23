@@ -1,3 +1,8 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../'))
+
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -41,11 +46,13 @@ html_theme_options = {
     "use_repository_button": True,
 }
 html_title = "STEN Wiki"
-html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico"
-html_favicon = "https://github.com/Structura-Engineering/.github/blob/main/icons/sten_short_logo.svg"
+html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico" # Does not work
+html_favicon = "https://github.com/Structura-Engineering/.github/blob/main/icons/sten_short_logo.svg" # Does not work
 html_static_path = ["_static"]
 
 # -- Options for autodoc -----------------------------------------------------
+
+
 
 # -- Options for napoleon ----------------------------------------------------
 napoleon_google_docstring = True

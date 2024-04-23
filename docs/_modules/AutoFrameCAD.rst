@@ -1,0 +1,5 @@
+AutoFrameCAD
+============
+
+.. automodule:: AutoFrameCAD
+   :members:
