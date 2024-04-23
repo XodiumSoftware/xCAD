@@ -42,6 +42,7 @@ html_theme_options = {
 }
 html_title = "STEN Wiki"
 html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico"
+html_favicon = "https://github.com/Structura-Engineering/.github/blob/main/icons/sten_short_logo.svg"
 html_static_path = ["_static"]
 
 # -- Options for autodoc -----------------------------------------------------
