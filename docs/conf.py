@@ -28,11 +28,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
+    "logo": {
+        "text": "STEN Wiki",
+        "link": "https://structura-engineering.com/",
+    },
     "repository_url": "https://github.com/Structura-Engineering/AutoFrameCAD",
+    "repository_branch": "main",
+    "use_download_button": True,
+    "use_edit_page_button": True,
+    "use_fullscreen_button": True,
+    "use_issues_button": True,
     "use_repository_button": True,
 }
 html_title = "STEN Wiki"
-html_logo = "_static/icons/favicon.ico"
+html_logo = "https://github.com/Structura-Engineering/.github/blob/main/icons/favicon.ico"
 html_static_path = ["_static"]
 
 # -- Options for autodoc -----------------------------------------------------
