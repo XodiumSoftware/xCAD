@@ -23,5 +23,5 @@ UTILS_LIB_FILE = LIB_DIR / "test.so"
 # Database
 # =============================================================================
 DATABASE_DIR = UTILS.forge.dir(BASE_DIR / "database")
-DATABASE_FILE = UTILS.forge.file(DATABASE_DIR / "autoframecad.db")
+DATABASE_FILE = UTILS.forge.file(DATABASE_DIR / "autoframecad.sqlite")
 # =============================================================================
