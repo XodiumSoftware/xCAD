@@ -3,121 +3,121 @@ run-name: "Sten's CI/CD"
 
 on:
   push:
-    branches: []
+    branches: [main]
 
 jobs:
-  # test:
-  #   name: Test
-  #   if: contains(github.event.head_commit.message, '.deploy')
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #       version: [3.12]
-  #   steps:
-  #     - id: checkout
-  #       name: Checkout
-  #       uses: actions/checkout@main
+  test:
+    name: Test
+    if: contains(github.event.head_commit.message, '.deploy')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@main
 
-  #     - id: setup_python
-  #       name: Setup Python
-  #       uses: actions/setup-python@main
-  #       with:
-  #         python-version: ${{ matrix.version }}
-  #         cache: "pip"
+      - id: setup_python
+        name: Setup Python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
 
-  #     - id: install_dependencies
-  #       name: Install Dependencies
-  #       run: pip install -e .
+      - id: install_dependencies
+        name: Install Dependencies
+        run: pip install -e .
 
-  #     - id: create_build_dir
-  #       name: Create Build Directory
-  #       run: mkdir -p AutoFrameCAD/build
+      - id: create_build_dir
+        name: Create Build Directory
+        run: mkdir -p AutoFrameCAD/build
 
-  #     - id: compile_to_shared_library
-  #       name: Compile to Shared Library
-  #       run: g++ -shared -fPIC -g AutoFrameCAD/test.cpp -o AutoFrameCAD/build/test.so
+      - id: compile_to_shared_library
+        name: Compile to Shared Library
+        run: g++ -shared -fPIC -g AutoFrameCAD/test.cpp -o AutoFrameCAD/build/test.so
 
-  #     - id: run_tests
-  #       name: Run Tests
-  #       run: python -m unittest discover
+      - id: run_tests
+        name: Run Tests
+        run: python -m unittest discover
 
-  #     - id: test_badge
-  #       name: Test Badge
-  #       if: always()
-  #       uses: schneegans/dynamic-badges-action@master
-  #       with:
-  #         auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-  #         gistID: ${{ secrets.GIST_ID }}
-  #         filename: test_badge.json
-  #         label: Unittest
-  #         message: ${{ job.status }}
-  #         color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-  #         namedLogo: pytest
-  #         logoColor: white
-  #         style: flat-square
+      - id: test_badge
+        name: Test Badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: test_badge.json
+          label: Unittest
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: pytest
+          logoColor: white
+          style: flat-square
 
-  # release:
-  #   name: Release
-  #   needs: [test]
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #       version: [3.12]
-  #   steps:
-  #     - id: checkout
-  #       name: Checkout
-  #       uses: actions/checkout@main
+  release:
+    name: Release
+    needs: [test]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [3.12]
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@main
 
-  #     - id: setup_python
-  #       name: Setup Python
-  #       uses: actions/setup-python@main
-  #       with:
-  #         python-version: ${{ matrix.version }}
-  #         cache: "pip"
+      - id: setup_python
+        name: Setup Python
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
 
-  #     - id: install_dependencies
-  #       name: Install Dependencies
-  #       run: pip install -e .
+      - id: install_dependencies
+        name: Install Dependencies
+        run: pip install -e .
 
-  #     - id: build_package
-  #       name: Build Package
-  #       run: python -m build
+      - id: build_package
+        name: Build Package
+        run: python -m build
 
-  #     - id: create_tag
-  #       name: Create & Push Tag
-  #       run: echo TAG=$(python setup.py --version) >> $GITHUB_OUTPUT
-  #       shell: bash
+      - id: create_tag
+        name: Create & Push Tag
+        run: echo TAG=$(python setup.py --version) >> $GITHUB_OUTPUT
+        shell: bash
 
-  #     - id: create_release
-  #       name: Create Release
-  #       uses: softprops/action-gh-release@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         tag_name: ${{ steps.create_tag.outputs.TAG }}
-  #         draft: false
-  #         prerelease: false
+      - id: create_release
+        name: Create Release
+        uses: softprops/action-gh-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.create_tag.outputs.TAG }}
+          draft: false
+          prerelease: false
 
-  #     - id: release_badge
-  #       name: Release Badge
-  #       if: always()
-  #       uses: schneegans/dynamic-badges-action@master
-  #       with:
-  #         auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-  #         gistID: ${{ secrets.GIST_ID }}
-  #         filename: release_badge.json
-  #         label: Release
-  #         message: ${{ job.status }}
-  #         color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-  #         namedLogo: hackthebox
-  #         logoColor: white
-  #         style: flat-square
+      - id: release_badge
+        name: Release Badge
+        if: always()
+        uses: schneegans/dynamic-badges-action@master
+        with:
+          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: release_badge.json
+          label: Release
+          message: ${{ job.status }}
+          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
+          namedLogo: hackthebox
+          logoColor: white
+          style: flat-square
 
   wiki:
     name: Wiki
-    needs: []
+    needs: [test]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
