@@ -79,9 +79,8 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 4. **Set up the Development Container:**
    - If prompted, click on the `Reopen in Container` button at the bottom right.
    - The editor will automatically set up the development container for you.
-  
 
-https://github.com/Structura-Engineering/AutoFrameCAD/assets/28700752/2caaca1c-a0bd-45a8-ae82-8e8c4ec24d9d
+[How To Containers][how_to_containers_url]
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
@@ -105,3 +104,4 @@ https://github.com/Structura-Engineering/AutoFrameCAD/assets/28700752/2caaca1c-a
 [test_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
 [wiki_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
 [wiki_url]: https://wiki.structura-engineering.com/
+[how_to_containers_url]: https://github.com/Structura-Engineering/AutoFrameCAD/assets/28700752/2caaca1c-a0bd-45a8-ae82-8e8c4ec24d9d
