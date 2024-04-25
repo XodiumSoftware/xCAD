@@ -12,7 +12,7 @@ BASE_DIR: Path = Path(__file__).resolve().parent
 # Icons
 # =============================================================================
 ICON_DIR: Path = Utils.forge.dir(BASE_DIR / "icons")
-UI_ICON_FILE: Path = ICON_DIR / "ui.svg"
+UI_ICON_FILE: Path = ICON_DIR / "ui.png"
 # =============================================================================
 
 # .so Lib files
