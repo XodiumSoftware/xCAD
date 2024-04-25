@@ -19,9 +19,17 @@ class Converter:
 
         Returns:
             ImageTk.PhotoImage: The photoimage.
+
+        Raises:
+            OSError: If the svg could not be converted.
         """
-        return ImageTk.PhotoImage(
-            Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
-        )
+        try:
+            return ImageTk.PhotoImage(
+                Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
+            )
+        except Exception as e:
+            raise OSError(
+                f"Failed to convert svg to png: {path}. Error: {str(e)}"
+            )
 
     svg2png = _svg2png
