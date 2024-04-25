@@ -1,7 +1,7 @@
 import ctypes
 import unittest
 
-from AutoFrameCAD.constants import UTILS_LIB_FILE
+from AutoFrameCAD.__config__ import UTILS_LIB_FILE
 from StenLib import Utils
 
 
