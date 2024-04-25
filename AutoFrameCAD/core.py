@@ -8,7 +8,8 @@ import sv_ttk
 class CoreUI(tkTk):
     """A class used to represent a extension of the TKinter ui module."""
 
-    def _theme(self, theme: str) -> None:
+    @staticmethod
+    def _theme(theme: str) -> None:
         """Set the theme of the UI.
 
         Args:
