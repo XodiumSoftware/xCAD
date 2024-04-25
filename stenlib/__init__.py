@@ -1,6 +1,8 @@
-from StenLib.converter import Converter
-from StenLib.forger import Forger
-from StenLib.wrapper import Wrapper
+"""This module contains utility functions."""
+
+from stenlib.converter import Converter
+from stenlib.forger import Forger
+from stenlib.wrapper import Wrapper
 
 
 class Utils:

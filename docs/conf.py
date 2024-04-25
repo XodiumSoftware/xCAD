@@ -1,9 +1,11 @@
-import os
+"""This module is responsible for configuring the Sphinx docs builder."""
+
 import sys
+from pathlib import Path
 
 from docs.gen import Sphinx
 
-sys.path.insert(0, os.path.abspath("../"))
+sys.path.insert(0, str(Path("../").resolve()))
 
 
 # Configuration file for the Sphinx documentation builder.
@@ -14,7 +16,7 @@ sys.path.insert(0, os.path.abspath("../"))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "STEN"
-copyright = "2023, Structura Engineering"
+copyright = "2023, Structura Engineering"  # noqa: A001
 author = "Structura Engineering"
 release = "1.0"
 
@@ -73,4 +75,6 @@ napoleon_attr_annotations = True
 
 # -- Generate modules ---------------------------------------------------------
 
-Sphinx().gen_modules(["AutoFrameCAD", "StenLib"], "_modules")
+modules = ["AutoFrameCAD", "StenLib"]
+output_dir = Path("_modules")
+Sphinx().gen_modules(modules, output_dir)

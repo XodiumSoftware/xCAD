@@ -1,3 +1,5 @@
+"""This module contains the Forger class."""
+
 from pathlib import Path
 
 
@@ -8,6 +10,7 @@ class Forger:
     def _forge_dir(
         path: Path,
         mode: int = 511,
+        *,
         parents: bool = True,
         exist_ok: bool = True,
     ) -> Path:
@@ -26,18 +29,20 @@ class Forger:
             OSError: If the directory could not be created.
         """
         try:
-            path.mkdir(mode, parents, exist_ok)
-        except Exception as e:
-            raise OSError(
-                f"Failed to forge directory: {path}. Error: {str(e)}"
-            )
+            path.mkdir(mode=mode, parents=parents, exist_ok=exist_ok)
+        except OSError as e:
+            error_msg = f"Failed to forge directory: {path}. Error: {e!s}"
+            raise OSError(error_msg) from e
         return path
 
     dir = _forge_dir
 
     @staticmethod
     def _forge_file(
-        path: Path, mode: int = 438, exist_ok: bool = True
+        path: Path,
+        mode: int = 438,
+        *,
+        exist_ok: bool = True,
     ) -> Path:
         """Forge a file if it does not exist.
 
@@ -53,9 +58,10 @@ class Forger:
             OSError: If the file could not be created.
         """
         try:
-            path.touch(mode, exist_ok)
-        except Exception as e:
-            raise OSError(f"Failed to forge file: {path}. Error: {str(e)}")
+            path.touch(mode=mode, exist_ok=exist_ok)
+        except OSError as e:
+            error_msg = f"Failed to forge file: {path}. Error: {e!s}"
+            raise OSError(error_msg) from e
         return path
 
     file = _forge_file

@@ -1,13 +1,15 @@
+"""This module serves as the entry point for the AutoFrameCAD application."""
+
 import sys
 from tkinter import Tk as tkTk
 
-from AutoFrameCAD.ui import PrimaryUI
+from autoframecad.ui import PrimaryUI
 
 
 class App:
     """A class used to represent the application."""
 
-    def __init__(self, modules: list[tkTk]) -> None:
+    def __init__(self: "App", modules: list[tkTk]) -> None:
         """Initializes and runs the application.
 
         Args:

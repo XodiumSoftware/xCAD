@@ -1,25 +1,28 @@
+"""This module contains the UI code for AutoFrameCAD."""
+
 from tkinter import ttk as tkttk
 
-import sv_ttk
-
-from AutoFrameCAD.__config__ import UI_ICON_FILE
-from AutoFrameCAD.core import CoreUI
-from StenLib import Utils
+from autoframecad.__config__ import UI_ICON_FILE
+from autoframecad.core import CoreUI
+from stenlib import Utils
 
 
 class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
-    def __init__(self) -> None:
+    def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
         self.title("AutoFrameCAD")
         self.theme("dark")
-        self.visible(True)
-        self.resizable(True, True)
+        self.visible(state=True)
+        self.resizable(width=True, height=True)
         # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
-        self.iconphoto(True, Utils.convert.svg2png(UI_ICON_FILE))  # type: ignore
+        self.iconphoto(
+            default=True,  # type: ignore[default-arg-before-posarg]
+            image=Utils.convert.svg2png(UI_ICON_FILE),
+        )
         self.geometry(f"{1200}x{800}")
         self.minsize(1200, 800)
         self.events({"<Control-w>": lambda _: self.quit()})
@@ -33,7 +36,8 @@ class PrimaryUI(CoreUI):
                 [
                     None,
                     tkttk.Button(
-                        text="Switch Theme", command=sv_ttk.toggle_theme
+                        text="Switch Theme",
+                        command=self.toggle_theme,
                     ),
                 ],
             ],

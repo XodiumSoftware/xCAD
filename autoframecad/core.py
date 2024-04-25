@@ -1,6 +1,9 @@
+"""This module contains the core functionality of AutoFrameCAD."""
+
+from collections.abc import Callable, Sequence
 from tkinter import Tk as tkTk
 from tkinter import ttk as tkttk
-from typing import Any, Callable, Sequence
+from typing import Any
 
 import sv_ttk
 
@@ -19,11 +22,18 @@ class CoreUI(tkTk):
 
     theme = _theme
 
-    def _visible(self, state: bool) -> None:
+    @staticmethod
+    def _toggle_theme() -> None:
+        """Toggle the theme of the UI."""
+        sv_ttk.toggle_theme()
+
+    toggle_theme = _toggle_theme
+
+    def _visible(self: "CoreUI", state: bool | int) -> None:
         """Set the visibility of the UI.
 
         Args:
-            state (bool): The state to use.
+            state (Union[bool, int]): The state to use.
         """
         if state:
             self.deiconify()
@@ -32,7 +42,10 @@ class CoreUI(tkTk):
 
     visible = _visible
 
-    def _events(self, events: dict[str, Callable[[Any], None]]) -> None:
+    def _events(
+        self: "CoreUI",
+        events: dict[str, Callable[[Any], None]],
+    ) -> None:
         """Set the events of the UI.
 
         Args:
@@ -44,21 +57,30 @@ class CoreUI(tkTk):
     events = _events
 
     def _matrix(
-        self,
+        self: "CoreUI",
         matrix: Sequence[Sequence[tkttk.Widget | None]],
-        row_options: dict[str, Any] = {},
-        col_options: dict[str, Any] = {},
-        grid_options: dict[str, Any] = {},
+        row_options: dict[str, Any] | None = None,
+        col_options: dict[str, Any] | None = None,
+        grid_options: dict[str, Any] | None = None,
     ) -> None:
         """Set the matrix of the UI.
 
         Args:
             matrix (Sequence[Sequence[tkttk.Widget | None]]):
                 The matrix to use.
-            row_options (dict[str, Any]): The row options to use.
-            col_options (dict[str, Any]): The column options to use.
-            grid_options (dict[str, Any]): The grid options to use.
+            row_options (dict[str, Any], optional): The row options to use.
+                Defaults to None.
+            col_options (dict[str, Any], optional): The column options to use.
+                Defaults to None.
+            grid_options (dict[str, Any], optional): The grid options to use.
+                Defaults to None.
         """
+        if grid_options is None:
+            grid_options = {}
+        if col_options is None:
+            col_options = {}
+        if row_options is None:
+            row_options = {}
         for i, row in enumerate(matrix):
             self.rowconfigure(i, weight=1, **row_options)
             for j, value in enumerate(row):

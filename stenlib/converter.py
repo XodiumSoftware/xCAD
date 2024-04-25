@@ -1,7 +1,9 @@
+"""This module contains the Converter class."""
+
 from io import BytesIO
 from pathlib import Path
 
-import cairosvg  # type: ignore
+import cairosvg  # type: ignore[import]
 from PIL import Image, ImageTk
 
 
@@ -25,11 +27,10 @@ class Converter:
         """
         try:
             return ImageTk.PhotoImage(
-                Image.open(BytesIO(cairosvg.svg2png(url=str(path))))  # type: ignore
+                Image.open(BytesIO(cairosvg.svg2png(url=str(path)))),  # type: ignore[call-arg]
             )
-        except Exception as e:
-            raise OSError(
-                f"Failed to convert svg to png: {path}. Error: {str(e)}"
-            )
+        except Exception as e:  # noqa: BLE001
+            error_msg = f"Failed to convert svg to png: {path}. Error: {e!s}"
+            raise OSError(error_msg) from e
 
     svg2png = _svg2png
