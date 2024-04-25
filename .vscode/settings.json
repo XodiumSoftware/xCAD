@@ -55,10 +55,11 @@
   },
   "material-icon-theme.folders.color": "#ef5350",
   "material-icon-theme.folders.associations": {
+    "ISSUE_TEMPLATE": "template",
+    "workflows": "pipe",
     "autoframecad": "src",
     "stenlib": "src",
-    "ISSUE_TEMPLATE": "template",
-    "workflows": "pipe"
+    "stenwiki": "src"
   },
   // Python Analysis Settings
   "python.analysis.autoImportCompletions": true,

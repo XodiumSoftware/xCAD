@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 
-from docs.gen import Sphinx
+from stenwiki.gen import Sphinx
 
 sys.path.insert(0, str(Path("../").resolve()))
 
