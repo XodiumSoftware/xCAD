@@ -18,8 +18,8 @@ class PrimaryUI(CoreUI):
         # NOTE: Adjust when tk 8.7/9.0 is released,
         # since it will have native svg support.
         self.iconphoto(
-            default=True,  # type: ignore[default-arg-before-posarg]
-            image=Utils.convert.svg2png(UI_ICON_FILE),
+            True,  # type: ignore[default-arg-before-posarg]
+            Utils.convert.svg2png(UI_ICON_FILE),  # type: ignore[arg-type]
         )
         self.geometry(f"{1200}x{800}")
         self.minsize(1200, 800)
