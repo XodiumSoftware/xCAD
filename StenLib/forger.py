@@ -21,10 +21,17 @@ class Forger:
 
         Returns:
             Path: The path to the directory.
+
+        Raises:
+            OSError: If the directory could not be created.
         """
-        return (
-            path.mkdir(mode=mode, parents=parents, exist_ok=exist_ok) or path
-        )
+        try:
+            path.mkdir(mode, parents, exist_ok)
+        except Exception as e:
+            raise OSError(
+                f"Failed to forge directory: {path}. Error: {str(e)}"
+            )
+        return path
 
     dir = _forge_dir
 
@@ -41,7 +48,14 @@ class Forger:
 
         Returns:
             Path: The path to the file.
+
+        Raises:
+            OSError: If the file could not be created.
         """
-        return path.touch(mode=mode, exist_ok=exist_ok) or path
+        try:
+            path.touch(mode, exist_ok)
+        except Exception as e:
+            raise OSError(f"Failed to forge file: {path}. Error: {str(e)}")
+        return path
 
     file = _forge_file

@@ -1,7 +1,7 @@
 import os
 import sys
 
-from StenLib import Utils
+from docs.gen import Sphinx
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -73,4 +73,4 @@ napoleon_attr_annotations = True
 
 # -- Generate modules ---------------------------------------------------------
 
-Utils().generate.sphinx_modules(["AutoFrameCAD", "StenLib"], "_modules")
+Sphinx().gen_modules(["AutoFrameCAD", "StenLib"], "_modules")
