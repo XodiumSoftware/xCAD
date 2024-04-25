@@ -38,9 +38,6 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 fixable = ["ALL"]
 select = ["ALL"]
 
-[lint.pycodestyle]
-max-doc-length = 79
-
 [lint.pydocstyle]
 convention = "google"
 
