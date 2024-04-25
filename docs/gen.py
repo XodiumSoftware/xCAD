@@ -12,11 +12,8 @@ class Sphinx:
         """Generate rst files for the Sphinx modules.
 
         Args:
-            module_names (list[str]): The names of the modules.
-            output_dir (str): The output directory.
-
-        Returns:
-            None
+            module_names: The names of the modules.
+            output_dir: The output directory.
 
         Raises:
             OSError: If the rst files could not be generated.

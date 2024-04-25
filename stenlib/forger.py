@@ -17,10 +17,10 @@ class Forger:
         """Forge a directory if it does not exist.
 
         Args:
-            path (Path): The path to the directory.
-            mode (int): The mode of the directory.
-            parents (bool): Whether to create parent directories.
-            exist_ok (bool): Whether to raise an error if the directory exists.
+            path: The path to the directory.
+            mode: The mode of the directory.
+            parents: Whether to create parent directories.
+            exist_ok: Whether to raise an error if the directory exists.
 
         Returns:
             Path: The path to the directory.
@@ -47,9 +47,9 @@ class Forger:
         """Forge a file if it does not exist.
 
         Args:
-            path (Path): The path to the file.
-            mode (int): The mode of the file.
-            exist_ok (bool): Whether to raise an error if the file exists.
+            path: The path to the file.
+            mode: The mode of the file.
+            exist_ok: Whether to raise an error if the file exists.
 
         Returns:
             Path: The path to the file.

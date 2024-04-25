@@ -1,7 +1,5 @@
 """This module contains the UI code for AutoFrameCAD."""
 
-from tkinter import ttk as tkttk
-
 from autoframecad.__config__ import UI_ICON_FILE
 from autoframecad.core import CoreUI
 from stenlib import Utils
@@ -27,19 +25,19 @@ class PrimaryUI(CoreUI):
         self.minsize(1200, 800)
         self.events({"<Control-w>": lambda _: self.quit()})
         self.config(padx=10, pady=10)
-        self.matrix(
-            matrix=[
-                [
-                    tkttk.Label(text="Structura Engineering", anchor="center"),
-                    None,
-                ],
-                [
-                    None,
-                    tkttk.Button(
-                        text="Switch Theme",
-                        command=self.toggle_theme,
-                    ),
-                ],
-            ],
-            grid_options={"sticky": "nsew"},
-        )
+        # self.matrix(
+        #     matrix=[
+        #         [
+        #             tkttk.Label(text="Structura Engineering", anchor="center"),
+        #             None,
+        #         ],
+        #         [
+        #             None,
+        #             tkttk.Button(
+        #                 text="Switch Theme",
+        #                 command=self.toggle_theme,
+        #             ),
+        #         ],
+        #     ],
+        #     grid_options={"sticky": "nsew"},
+        # )

@@ -17,7 +17,7 @@ class Converter:
         """Convert a svg to a photoimage.
 
         Args:
-            path (Path): The path to the svg.
+            path: The path to the svg.
 
         Returns:
             ImageTk.PhotoImage: The photoimage.

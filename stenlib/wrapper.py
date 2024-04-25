@@ -13,10 +13,7 @@ class Wrapper:
         """Initializes the .so library.
 
         Args:
-            path (Path): The path to the .so library.
-
-        Returns:
-            None
+            path: The path to the .so library.
 
         Raises:
             OSError: If the .so library could not be initialized.
@@ -33,7 +30,7 @@ class Wrapper:
         """Gets the function from the library.
 
         Args:
-            func (str): The name of the function.
+            func: The name of the function.
 
         Returns:
             Callable[..., Any]: The function.

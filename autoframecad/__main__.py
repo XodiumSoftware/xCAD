@@ -13,7 +13,7 @@ class App:
         """Initializes and runs the application.
 
         Args:
-            modules (list[tkTk]): The modules to use.
+            modules: The modules to use.
         """
         for module in modules:
             module.mainloop()
