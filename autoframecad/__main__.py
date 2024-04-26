@@ -1,4 +1,4 @@
-"""This module serves as the entry point for the AutoFrameCAD application."""
+"""This module serves as the entry point for the application."""
 
 import sys
 from tkinter import Tk as tkTk
