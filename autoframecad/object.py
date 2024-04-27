@@ -25,7 +25,7 @@ class BIMObject:
         """Return the object as a string.
 
         Returns:
-            str: The object as a string.
+            The object as a string.
         """
         formatted_dimensions = ", ".join(
             f"{axis}: {value}"

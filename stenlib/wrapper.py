@@ -33,7 +33,7 @@ class Wrapper:
             func: The name of the function.
 
         Returns:
-            Callable[..., Any]: The function.
+            The function.
 
         Raises:
             AttributeError: If the function could not be found.

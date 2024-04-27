@@ -1,22 +1,38 @@
 """This module contains the UI functionality."""
 
 from tkinter import Canvas, PhotoImage
-from tkinter.ttk import Button, Entry, Frame, Label
+from tkinter.ttk import Button, Frame, Label
+from typing import ClassVar
 
-from autoframecad.__config__ import (
-    UI_ICON_FILE,
-)
+from autoframecad.__config__ import UI_ICON_FILE
 from autoframecad.core import CoreUI
+from autoframecad.database import Database, PreferencesTable
 
 
 class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
+    db = Database()
+    table = PreferencesTable
+
+    init_theme: ClassVar = db.add_data(
+        table,
+        [{"key": "usr_theme", "value": "dark"}],
+    )
+    init_lang: ClassVar = db.add_data(
+        table,
+        [{"key": "usr_lang", "value": "en_INT"}],
+    )
+
     def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
         self.title("AutoFrameCAD")
-        self.theme(is_dark=True)
+        self.theme(
+            self.db,
+            self.table,
+            self.db.get_data(self.table, "usr_theme"),
+        )
         self.visible(state=True)
         self.resizable(width=True, height=True)
         self.iconphoto(True, PhotoImage(file=UI_ICON_FILE))  # noqa: FBT003
@@ -58,53 +74,11 @@ class PrimaryUI(CoreUI):
         )
         self.left_body_frame.pack(side="left", fill="both", expand=False)
 
-        self.label_object_name = Label(
+        self.label_left = Label(
             self.left_body_frame,
-            text="Object Name:",
-            anchor="w",
+            text="Properties",
         )
-        self.label_object_name.pack(fill="both", expand=False)
-
-        self.entry_object_name = Entry(self.left_body_frame)
-        self.entry_object_name.pack(fill="both", expand=False)
-
-        self.label_object_material = Label(
-            self.left_body_frame,
-            text="Object Material:",
-            anchor="w",
-        )
-        self.label_object_material.pack(fill="both", expand=False)
-
-        self.entry_object_material = Entry(self.left_body_frame)
-        self.entry_object_material.pack(fill="both", expand=False)
-
-        self.label_object_dimensions = Label(
-            self.left_body_frame,
-            text="Object Dimensions (X, Y, Z):",
-            anchor="w",
-        )
-        self.label_object_dimensions.pack(fill="both", expand=False)
-
-        self.entry_object_dimension_x = Entry(self.left_body_frame, width=10)
-        self.entry_object_dimension_x.pack(
-            side="left",
-            fill="both",
-            expand=False,
-        )
-
-        self.entry_object_dimension_y = Entry(self.left_body_frame, width=10)
-        self.entry_object_dimension_y.pack(
-            side="left",
-            fill="both",
-            expand=False,
-        )
-
-        self.entry_object_dimension_z = Entry(self.left_body_frame, width=10)
-        self.entry_object_dimension_z.pack(
-            side="left",
-            fill="both",
-            expand=False,
-        )
+        self.label_left.pack(fill="both", expand=True)
 
     def _right_body_frame(self: "PrimaryUI") -> None:
         """Create the right body frame and add a label."""
@@ -120,13 +94,11 @@ class PrimaryUI(CoreUI):
             background="black",
         )
         self.canvas.pack(fill="both", expand=True)
+        self.canvas.update_idletasks()
 
+        # Move grid creation into its own method.
         grid_spacing = 20
         grid_color = "gray"
-
-        self.zoom_factor = 1.0
-
-        self.canvas.update_idletasks()
 
         canvas_width = self.canvas.winfo_width()
         canvas_height = self.canvas.winfo_height()

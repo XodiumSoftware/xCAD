@@ -93,5 +93,8 @@
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "workbench.editorAssociations": {
+    "*.db": "sqlite-viewer.view"
   }
 }

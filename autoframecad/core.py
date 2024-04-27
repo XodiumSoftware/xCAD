@@ -6,22 +6,23 @@ from typing import Any
 
 import sv_ttk
 
+from autoframecad.database import Database, PreferencesTable
+
 
 class CoreUI(tkTk):
     """A class used to represent a extension of the TKinter ui module."""
 
     @staticmethod
-    def _theme(*, is_dark: bool) -> bool:
+    def _theme(db: Database, table: PreferencesTable, theme: str) -> None:
         """Set the theme of the UI.
 
         Args:
-            is_dark: The state to use.
-
-        Returns:
-            bool: The state of the theme.
+            db: The database to use.
+            table: The table to use.
+            theme: The theme to use.
         """
-        sv_ttk.set_theme("dark" if is_dark else "light")
-        return is_dark
+        sv_ttk.set_theme(theme)
+        db.add_data(table, [{"key": "usr_theme", "value": f"{theme}"}])
 
     theme = _theme
 
@@ -58,18 +59,3 @@ class CoreUI(tkTk):
             self.bind(key, value)
 
     events = _events
-
-    # @staticmethod
-    # def _matrix(
-    #     widgets: list[tuple[Widget, int, int, dict[str, Any]]],
-    # ) -> None:
-    #     """Add widgets in a grid layout.
-
-    #     Args:
-    #         widgets: The widgets to use, where each tuple contains the widget,
-    #             row, column, and kwargs.
-    #     """
-    #     for widget, row, column, kwargs in widgets:
-    #         widget.grid(row=row, column=column, **kwargs)
-
-    # matrix = _matrix

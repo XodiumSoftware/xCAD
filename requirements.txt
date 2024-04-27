@@ -1,6 +1,7 @@
 build
 cairosvg
 setuptools
+sqlalchemy
 sphinx
 sphinx-book-theme
 sv-ttk

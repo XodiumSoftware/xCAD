@@ -23,7 +23,7 @@ class Forger:
             exist_ok: Whether to raise an error if the directory exists.
 
         Returns:
-            Path: The path to the directory.
+            The path to the directory.
 
         Raises:
             OSError: If the directory could not be created.
@@ -52,7 +52,7 @@ class Forger:
             exist_ok: Whether to raise an error if the file exists.
 
         Returns:
-            Path: The path to the file.
+            The path to the file.
 
         Raises:
             OSError: If the file could not be created.
