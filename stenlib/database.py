@@ -1,9 +1,8 @@
 """This module contains the database functionality."""
 
-from typing import Any
+from contextlib import contextmanager
 
 import sqlalchemy as sql
-import sqlalchemy.ext.declarative as sqle
 import sqlalchemy.orm as sqlo
 
 from autoframecad.__config__ import DATABASE_FILE
@@ -20,10 +19,27 @@ class Database:
         self.base.metadata.create_all(self.engine)
         self.session = sqlo.sessionmaker(bind=self.engine)
 
-    def add_data(
+    @contextmanager
+    def _db_session(self: "Database"):
+        """Context manager for a database session.
+
+        Returns:
+            The database session.
+        """
+        session = self.session()
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+    def _add_data(
         self: "Database",
-        table: sqle.DeclarativeMeta,
-        data: list[dict[str, Any]],
+        table: sqlo.DeclarativeMeta,
+        data: list[dict[str, None | int | float | str | bytes]],
     ) -> None:
         """Add data to the database.
 
@@ -31,15 +47,34 @@ class Database:
             table: The table to add the data to.
             data: The data to be added.
         """
-        with self.session() as session:
+        with self._db_session() as session:
             for item in data:
                 record = table(key=item["key"], value=item["value"])
                 session.merge(record)
-            session.commit()
 
-    def get_data(
+    add_data = _add_data
+
+    def _delete_data(
         self: "Database",
-        table: sqle.DeclarativeMeta,
+        table: sqlo.DeclarativeMeta,
+        key: str,
+    ) -> None:
+        """Delete data from the database.
+
+        Args:
+            table: The table to delete the data from.
+            key: The key of the data to be deleted.
+        """
+        with self._db_session() as session:
+            record = session.query(table).filter_by(key=key).first()
+            if record is not None:
+                session.delete(record)
+
+    delete_data = _delete_data
+
+    def _get_data(
+        self: "Database",
+        table: sqlo.DeclarativeMeta,
         key: str,
     ) -> str:
         """Get data from the database.
@@ -51,14 +86,8 @@ class Database:
         Returns:
             The data from the database.
         """
-        with self.session() as session:
+        with self._db_session() as session:
             record = session.query(table).filter_by(key=key).first()
             return record.value  # type: ignore[return-value]
 
-
-class PreferencesTable(Database.base):
-    """A class used to represent a table module."""
-
-    __tablename__ = "preferences"
-    key = sql.Column(sql.String, primary_key=True)
-    value = sql.Column(sql.String)
+    get_data = _get_data

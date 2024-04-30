@@ -6,23 +6,18 @@ from typing import Any
 
 import sv_ttk
 
-from autoframecad.database import Database, PreferencesTable
-
 
 class CoreUI(tkTk):
     """A class used to represent a extension of the TKinter ui module."""
 
     @staticmethod
-    def _theme(db: Database, table: PreferencesTable, theme: str) -> None:
+    def _theme(theme: str) -> None:
         """Set the theme of the UI.
 
         Args:
-            db: The database to use.
-            table: The table to use.
             theme: The theme to use.
         """
         sv_ttk.set_theme(theme)
-        db.add_data(table, [{"key": "usr_theme", "value": f"{theme}"}])
 
     theme = _theme
 

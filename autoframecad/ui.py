@@ -2,37 +2,22 @@
 
 from tkinter import Canvas, PhotoImage
 from tkinter.ttk import Button, Frame, Label
-from typing import ClassVar
 
 from autoframecad.__config__ import UI_ICON_FILE
 from autoframecad.core import CoreUI
-from autoframecad.database import Database, PreferencesTable
+from autoframecad.settings import Preferences
 
 
 class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
-    db = Database()
-    table = PreferencesTable
-
-    init_theme: ClassVar = db.add_data(
-        table,
-        [{"key": "usr_theme", "value": "dark"}],
-    )
-    init_lang: ClassVar = db.add_data(
-        table,
-        [{"key": "usr_lang", "value": "en_INT"}],
-    )
+    setting = Preferences()
 
     def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
         self.title("AutoFrameCAD")
-        self.theme(
-            self.db,
-            self.table,
-            self.db.get_data(self.table, "usr_theme"),
-        )
+        self.theme(self.setting.db.get_data(self.setting.table, "usr_theme"))
         self.visible(state=True)
         self.resizable(width=True, height=True)
         self.iconphoto(True, PhotoImage(file=UI_ICON_FILE))  # noqa: FBT003
