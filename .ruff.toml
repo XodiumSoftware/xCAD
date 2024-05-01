@@ -28,26 +28,23 @@ exclude = [
     "/usr/*",
 ]
 
-line-length = 79
+include = ["**/*.py"]
 
+line-length = 79
 target-version = "py312"
 
 [lint]
-select = ["E", "F", "W"]
-
-fixable = ["ALL"]
-
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+fixable = ["ALL"]
+select = ["ALL"]
+
+[lint.pydocstyle]
+convention = "google"
 
 [format]
-quote-style = "double"
-
-indent-style = "space"
-
-skip-magic-trailing-comma = false
-
-line-ending = "auto"
-
 docstring-code-format = true
-
 docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false

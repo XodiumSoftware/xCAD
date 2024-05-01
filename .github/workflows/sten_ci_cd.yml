@@ -141,7 +141,7 @@ jobs:
 
       - id: build_wiki
         name: Build Wiki
-        run: cd docs && make html
+        run: cd stenwiki && make html
 
       - id: upload_wiki
         name: Upload Wiki
@@ -150,7 +150,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: docs/_build/html/
+          local-dir: stenwiki/_build/html/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
       - id: wiki_badge

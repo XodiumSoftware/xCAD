@@ -1,17 +1,21 @@
+"""This module contains the setup configuration for AutoFrameCAD."""
+
+from pathlib import Path
+
 from setuptools import find_packages, setup
 
 setup(
     name="AutoFrameCAD",
     version="0.0.81",
     url="https://github.com/Structura-Engineering/AutoFrameCAD",
-    license=open("LICENSE.md").read(),
+    license=Path("LICENSE.md").read_text(),
     description="CAD addon/plug-in to automize frameworks.",
-    long_description=open("README.md").read(),
+    long_description=Path("README.md").read_text(),
     long_description_content_type="text/markdown",
     author="Structura Engineering",
     author_email="info@structura-engineering.com",
     packages=find_packages(),
-    install_requires=open("requirements.txt").read().splitlines(),
+    install_requires=Path("requirements.txt").read_text().splitlines(),
     python_requires=">=3.12",
     package_data={"*": ["*.py", "py.typed"]},
     data_files=[
@@ -25,7 +29,7 @@ setup(
                 "README.md",
                 "requirements.txt",
             ],
-        )
+        ),
     ],
     zip_safe=False,
     project_urls={

@@ -4,7 +4,7 @@
     {
       "label": "C: Create Build Folder",
       "type": "shell",
-      "command": "mkdir -p ${workspaceFolder}/AutoFrameCAD/build",
+      "command": "mkdir -p ${workspaceFolder}/autoframecad/build",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -22,9 +22,9 @@
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/AutoFrameCAD/test.cpp",
+        "${workspaceFolder}/autoframecad/test.cpp",
         "-o",
-        "${workspaceFolder}/AutoFrameCAD/build/test.so"
+        "${workspaceFolder}/autoframecad/build/test.so"
       ],
       "group": {
         "kind": "build",

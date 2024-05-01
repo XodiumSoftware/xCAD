@@ -5,7 +5,7 @@
       "name": "AutoFrameCAD: Launch",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/AutoFrameCAD",
+      "program": "${workspaceFolder}/autoframecad",
       "console": "integratedTerminal",
       "justMyCode": true,
       "preLaunchTask": "C: Compile to Shared Library"
