@@ -54,10 +54,33 @@ class Database:
         """
         with self._db_session() as session:
             for key, value in data.items():
-                record = table(key=key, value=value)
-                session.merge(record)
+                record = session.query(table).filter_by(key=key).first()
+                if record is None:
+                    new_record = table(key=key, value=value)
+                    session.add(new_record)
 
     add_data = _add_data
+
+    def _set_data(
+        self: "Database",
+        table: sqlo.DeclarativeMeta,
+        data: dict[str, None | int | float | str | bytes],
+    ) -> None:
+        """Update data in the database.
+
+        Args:
+            table: The table to update the data in.
+            data: The data to be updated.
+        """
+        with self._db_session() as session:
+            for key, value in data.items():
+                record = session.query(table).filter_by(key=key).first()
+                if record is not None:
+                    record.value = value
+                else:
+                    self._add_data(table, {key: value})
+
+    set_data = _set_data
 
     def _delete_data(
         self: "Database",

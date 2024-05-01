@@ -16,6 +16,9 @@ from stenlib import Utils
 class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
+    _GRID_SPACING = 20
+    _GRID_COLOR = "gray"
+
     def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
@@ -23,6 +26,10 @@ class PrimaryUI(CoreUI):
         self.table = PreferencesTable
         self.db.add_data(self.table, PREFERENCES_DATA)
 
+        self._setup()
+
+    def _setup(self: "PrimaryUI") -> None:
+        """Setup the class."""
         self.title("AutoFrameCAD")
         self.theme(self.db.get_data(self.table, "usr_theme"))
         self.visible(state=True)
@@ -89,18 +96,30 @@ class PrimaryUI(CoreUI):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.update_idletasks()
 
-        # Move grid creation into its own method.
-        grid_spacing = 20
-        grid_color = "gray"
+        self._canvas_grid()
 
+    def _canvas_grid(self: "PrimaryUI") -> None:
+        """Create a grid on the canvas."""
         canvas_width = self.canvas.winfo_width()
         canvas_height = self.canvas.winfo_height()
 
-        for x in range(0, canvas_height, grid_spacing):
-            self.canvas.create_line(x, 0, x, canvas_width, fill=grid_color)
+        for x in range(0, canvas_height, self._GRID_SPACING):
+            self.canvas.create_line(
+                x,
+                0,
+                x,
+                canvas_width,
+                fill=self._GRID_COLOR,
+            )
 
-        for y in range(0, canvas_width, grid_spacing):
-            self.canvas.create_line(0, y, canvas_height, y, fill=grid_color)
+        for y in range(0, canvas_width, self._GRID_SPACING):
+            self.canvas.create_line(
+                0,
+                y,
+                canvas_height,
+                y,
+                fill=self._GRID_COLOR,
+            )
 
     def _footer_frame(self: "PrimaryUI") -> None:
         """Create the footer frame and add a label."""
