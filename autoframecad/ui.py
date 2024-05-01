@@ -3,21 +3,28 @@
 from tkinter import Canvas, PhotoImage
 from tkinter.ttk import Button, Frame, Label
 
-from autoframecad.__config__ import UI_ICON_FILE
+from autoframecad.__config__ import (
+    DATABASE_FILE,
+    PREFERENCES_DATA,
+    UI_ICON_FILE,
+)
 from autoframecad.core import CoreUI
-from autoframecad.settings import Preferences
+from autoframecad.db_tables import PreferencesTable
+from stenlib import Utils
 
 
 class PrimaryUI(CoreUI):
     """A class used to represent a ui module."""
 
-    setting = Preferences()
-
     def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
+        self.db = Utils.database(DATABASE_FILE)
+        self.table = PreferencesTable
+        self.db.add_data(self.table, PREFERENCES_DATA)
+
         self.title("AutoFrameCAD")
-        self.theme(self.setting.db.get_data(self.setting.table, "usr_theme"))
+        self.theme(self.db.get_data(self.table, "usr_theme"))
         self.visible(state=True)
         self.resizable(width=True, height=True)
         self.iconphoto(True, PhotoImage(file=UI_ICON_FILE))  # noqa: FBT003
@@ -25,6 +32,7 @@ class PrimaryUI(CoreUI):
         self.minsize(1200, 800)
         self.events({"<Control-w>": lambda _: self.quit()})
         self.config(padx=10, pady=10)
+
         self._header_frame()
         self._body_frame()
         self._footer_frame()
