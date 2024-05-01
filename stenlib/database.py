@@ -1,11 +1,12 @@
 """This module contains the database functionality."""
 
+from collections.abc import Iterator
 from contextlib import contextmanager
+from pathlib import Path
 
 import sqlalchemy as sql
 import sqlalchemy.orm as sqlo
-
-from autoframecad.__config__ import DATABASE_FILE
+from sqlalchemy.orm import Session
 
 
 class Database:
@@ -13,14 +14,18 @@ class Database:
 
     base = sqlo.declarative_base()
 
-    def __init__(self: "Database") -> None:
-        """Initialize the class."""
-        self.engine = sql.create_engine(str(f"sqlite:///{DATABASE_FILE}"))
+    def __init__(self: "Database", path: Path) -> None:
+        """Initialize the class.
+
+        Args:
+            path: The path to the database file.
+        """
+        self.engine = sql.create_engine(str(f"sqlite:///{path}"))
         self.base.metadata.create_all(self.engine)
         self.session = sqlo.sessionmaker(bind=self.engine)
 
     @contextmanager
-    def _db_session(self: "Database"):
+    def _db_session(self: "Database") -> Iterator[Session]:
         """Context manager for a database session.
 
         Returns:
@@ -39,7 +44,7 @@ class Database:
     def _add_data(
         self: "Database",
         table: sqlo.DeclarativeMeta,
-        data: list[dict[str, None | int | float | str | bytes]],
+        data: dict[str, None | int | float | str | bytes],
     ) -> None:
         """Add data to the database.
 
@@ -48,8 +53,8 @@ class Database:
             data: The data to be added.
         """
         with self._db_session() as session:
-            for item in data:
-                record = table(key=item["key"], value=item["value"])
+            for key, value in data.items():
+                record = table(key=key, value=value)
                 session.merge(record)
 
     add_data = _add_data
@@ -88,6 +93,6 @@ class Database:
         """
         with self._db_session() as session:
             record = session.query(table).filter_by(key=key).first()
-            return record.value  # type: ignore[return-value]
+            return record.value if record is not None else "NULL"
 
     get_data = _get_data
