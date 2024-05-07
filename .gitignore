@@ -42,3 +42,6 @@ TX/
 # Wiki
 _build/
 _modules/
+
+# IFC
+*.ifc

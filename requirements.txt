@@ -1,5 +1,6 @@
 build
 cairosvg
+ifcopenshell
 setuptools
 sqlalchemy
 sphinx
