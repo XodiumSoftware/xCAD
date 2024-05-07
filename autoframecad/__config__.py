@@ -33,5 +33,4 @@ DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "autoframecad.db")
 # =============================================================================
 PREFERENCES_DATA: dict[str, None | int | float | str | bytes] = {
     "usr_theme": "dark",
-    "usr_lang": "en_INT",
 }

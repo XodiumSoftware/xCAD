@@ -1,7 +1,7 @@
 """This module contains the UI functionality."""
 
 from tkinter import PhotoImage
-from tkinter.ttk import Button, Label
+from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
 from autoframecad.__config__ import (
     DATABASE_FILE,
@@ -46,29 +46,65 @@ class PrimaryUI(CoreUI):
 
     def _header(self: "PrimaryUI") -> None:
         """Create the header."""
+        header = Frame(self, padding=5)
+        header.grid(row=0, column=0, columnspan=2, sticky="nsew")
+        header.grid_rowconfigure(0, weight=1)
+        header.grid_columnconfigure(0, weight=1)
+
         Label(
-            self,
+            header,
             text="BIM Object Configurator",
             font=("", 12, "bold"),
             anchor="center",
-        ).grid(row=0, column=0, padx=5, pady=5, columnspan=2)
+        ).grid(row=0, column=0, columnspan=2, sticky="ew")
 
     def _body(self: "PrimaryUI") -> None:
         """Create the body."""
-        Label(
-            self,
-            text="Properties",
-        ).grid(row=1, column=0, padx=5, pady=5, sticky="n")
+        body = PanedWindow(self, orient="horizontal")
+        body.grid(row=1, column=0, columnspan=2, sticky="nsew")
+        body.grid_rowconfigure(0, weight=1)
+        body.grid_columnconfigure(0, weight=1)
+        body.grid_columnconfigure(1, weight=1)
+
+        body_props = Frame(body, padding=5)
+        body_props.grid_rowconfigure(0, weight=1)
+        body_props.grid_columnconfigure(0, weight=1)
+
+        properties = {
+            "Object": "Wall",
+            "Position": "0, 0, 0",
+            "Dimensions": "10 x 10 x 10",
+        }
+        tree = Treeview(
+            body_props,
+            columns=("Property", "Value"),
+            show="headings",
+        )
+        tree.heading("Property", text="Property")
+        tree.heading("Value", text="Value")
+        for key, value in properties.items():
+            tree.insert("", "end", values=(key, value))
+        tree.grid(row=0, column=0, columnspan=2, sticky="nsew")
+
+        body_viewer = Frame(body)
+
+        body.add(body_props)  # type: ignore[assignment]
+        body.add(body_viewer)  # type: ignore[assignment]
 
     def _footer(self: "PrimaryUI") -> None:
         """Create the footer."""
+        footer = Frame(self, padding=5)
+        footer.grid(row=2, column=0, columnspan=2, sticky="nsew")
+        footer.grid_rowconfigure(0, weight=1)
+        footer.grid_columnconfigure(0, weight=1)
+
         Label(
-            self,
+            footer,
             text="©2023 Structura Engineering",
-        ).grid(row=2, column=0, padx=5, pady=5)
+        ).grid(row=0, column=0, sticky="w")
 
         Button(
-            self,
+            footer,
             text="Toggle Theme",
             command=self.toggle_theme,
-        ).grid(row=2, column=1, padx=5, pady=5, sticky="e")
+        ).grid(row=0, column=1, sticky="e")
