@@ -94,7 +94,8 @@ class PrimaryUI(CoreUI):
 
         ifc_file = ifcopenshell.open("test.ifc")  # type: ignore[no-untyped-call]
 
-        for product in ifc_file.by_type("IfcProduct"):
+        # TODO: in the type parameter, add the IFC class we want to extract.
+        for product in ifc_file.by_type(type="IFCWALL", include_subtypes=True):
             parent_id = body_props_tree.insert(
                 "",
                 "end",
