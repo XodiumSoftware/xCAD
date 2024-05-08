@@ -42,7 +42,7 @@ class BIMObject:
         """Read the IFC file from disk."""
         ifc_file = ifcopenshell.open(filename)  # type: ignore[no-untyped-call]
         for entity in ifc_file:
-            print(entity)
+            print(entity)  # noqa: T201
         return ifc_file
 
 

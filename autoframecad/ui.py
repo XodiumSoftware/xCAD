@@ -3,6 +3,7 @@
 from tkinter import PhotoImage
 from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
+import ifcopenshell  # type: ignore[attr-defined]
 import sv_ttk
 from PIL import Image, ImageTk
 
@@ -83,11 +84,6 @@ class PrimaryUI(CoreUI):
         body_props.grid_rowconfigure(0, weight=1)
         body_props.grid_columnconfigure(0, weight=1)
 
-        properties = {
-            "Object": "Wall",
-            "Position": "0, 0, 0",
-            "Dimensions": "10 x 10 x 10",
-        }
         body_props_tree = Treeview(
             body_props,
             columns=("Property", "Value"),
@@ -96,8 +92,29 @@ class PrimaryUI(CoreUI):
         body_props_tree.heading("Property", text="Property")
         body_props_tree.heading("Value", text="Value")
 
-        for key, value in properties.items():
-            body_props_tree.insert("", "end", values=(key, value))
+        ifc_file = ifcopenshell.open("test.ifc")  # type: ignore[no-untyped-call]
+
+        for product in ifc_file.by_type("IfcProduct"):
+            parent_id = body_props_tree.insert(
+                "",
+                "end",
+                values=(product.is_a(), product.GlobalId),
+            )
+            for prop_set in product.IsDefinedBy:  # type: ignore[attr-defined]
+                if prop_set.is_a("IfcRelDefinesByProperties"):
+                    for (
+                        prop
+                    ) in prop_set.RelatingPropertyDefinition.HasProperties:
+                        body_props_tree.insert(
+                            parent_id,
+                            "end",
+                            values=(
+                                prop.Name,
+                                prop.NominalValue.wrappedValue
+                                if prop.NominalValue
+                                else "",
+                            ),
+                        )
 
         body_props_tree.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
