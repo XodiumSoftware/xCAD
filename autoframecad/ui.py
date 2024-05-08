@@ -119,9 +119,14 @@ class PrimaryUI(CoreUI):
         )
         footer_copyright.grid(row=0, column=0, sticky="w")
 
+        if sv_ttk.get_theme() == "dark":
+            theme_icon = self.dark_mode_icon
+        else:
+            theme_icon = self.light_mode_icon
+
         self.footer_theme_button = Button(
             footer,
-            image=self.dark_mode_icon,  # type: ignore[arg-type]
+            image=theme_icon,  # type: ignore[arg-type]
             command=self._toggle_theme,
         )
         self.footer_theme_button.grid(row=0, column=1, sticky="e")

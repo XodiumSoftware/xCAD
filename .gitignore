@@ -45,3 +45,7 @@ _modules/
 
 # IFC
 *.ifc
+
+# Database
+*.sqlite3
+*.db
