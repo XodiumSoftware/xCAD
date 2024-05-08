@@ -21,13 +21,6 @@ class CoreUI(tkTk):
 
     theme = _theme
 
-    @staticmethod
-    def _toggle_theme() -> None:
-        """Toggle the theme of the UI."""
-        sv_ttk.toggle_theme()
-
-    toggle_theme = _toggle_theme
-
     def _visible(self: "CoreUI", state: bool | int) -> None:
         """Set the visibility of the UI.
 

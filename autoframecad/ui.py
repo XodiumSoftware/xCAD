@@ -3,8 +3,13 @@
 from tkinter import PhotoImage
 from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
+import sv_ttk
+from PIL import Image, ImageTk
+
 from autoframecad.__config__ import (
+    DARK_MODE_ICON_FILE,
     DATABASE_FILE,
+    LIGHT_MODE_ICON_FILE,
     PREFERENCES_DATA,
     UI_ICON_FILE,
 )
@@ -23,6 +28,13 @@ class PrimaryUI(CoreUI):
         self.table = PreferencesTable
         self.db.add_data(self.table, PREFERENCES_DATA)
 
+        self.dark_mode_icon = ImageTk.PhotoImage(
+            Image.open(DARK_MODE_ICON_FILE).resize((20, 20), Image.LANCZOS),  # type: ignore[assignment]
+        )
+        self.light_mode_icon = ImageTk.PhotoImage(
+            Image.open(LIGHT_MODE_ICON_FILE).resize((20, 20), Image.LANCZOS),  # type: ignore[assignment]
+        )
+
         self._setup()
 
     def _setup(self: "PrimaryUI") -> None:
@@ -34,7 +46,7 @@ class PrimaryUI(CoreUI):
         self.iconphoto(True, PhotoImage(file=UI_ICON_FILE))  # noqa: FBT003
         self.geometry(f"{1200}x{800}")
         self.minsize(1200, 800)
-        self.events({"<Control-w>": lambda _: self.quit()})
+        self.events({"<Control-q>": lambda _: self.quit()})
         self.config(padx=5, pady=5)
 
         self.grid_rowconfigure(1, weight=1)
@@ -51,12 +63,13 @@ class PrimaryUI(CoreUI):
         header.grid_rowconfigure(0, weight=1)
         header.grid_columnconfigure(0, weight=1)
 
-        Label(
+        header_title = Label(
             header,
             text="BIM Object Configurator",
             font=("", 12, "bold"),
             anchor="center",
-        ).grid(row=0, column=0, columnspan=2, sticky="ew")
+        )
+        header_title.grid(row=0, column=0, columnspan=2, sticky="ew")
 
     def _body(self: "PrimaryUI") -> None:
         """Create the body."""
@@ -75,16 +88,18 @@ class PrimaryUI(CoreUI):
             "Position": "0, 0, 0",
             "Dimensions": "10 x 10 x 10",
         }
-        tree = Treeview(
+        body_props_tree = Treeview(
             body_props,
             columns=("Property", "Value"),
             show="headings",
         )
-        tree.heading("Property", text="Property")
-        tree.heading("Value", text="Value")
+        body_props_tree.heading("Property", text="Property")
+        body_props_tree.heading("Value", text="Value")
+
         for key, value in properties.items():
-            tree.insert("", "end", values=(key, value))
-        tree.grid(row=0, column=0, columnspan=2, sticky="nsew")
+            body_props_tree.insert("", "end", values=(key, value))
+
+        body_props_tree.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
         body_viewer = Frame(body)
 
@@ -98,13 +113,28 @@ class PrimaryUI(CoreUI):
         footer.grid_rowconfigure(0, weight=1)
         footer.grid_columnconfigure(0, weight=1)
 
-        Label(
+        footer_copyright = Label(
             footer,
             text="©2023 Structura Engineering",
-        ).grid(row=0, column=0, sticky="w")
+        )
+        footer_copyright.grid(row=0, column=0, sticky="w")
 
-        Button(
+        self.footer_theme_button = Button(
             footer,
-            text="Toggle Theme",
-            command=self.toggle_theme,
-        ).grid(row=0, column=1, sticky="e")
+            image=self.dark_mode_icon,  # type: ignore[arg-type]
+            command=self._toggle_theme,
+        )
+        self.footer_theme_button.grid(row=0, column=1, sticky="e")
+
+    def _toggle_theme(self: "PrimaryUI") -> None:
+        """Toggle the theme of the UI."""
+        sv_ttk.toggle_theme()
+        self.db.set_data(self.table, {"usr_theme": sv_ttk.get_theme()})
+        self._update_theme_button()
+
+    def _update_theme_button(self: "PrimaryUI") -> None:
+        """Update the theme button."""
+        if sv_ttk.get_theme() == "dark":
+            self.footer_theme_button.config(image=self.dark_mode_icon)  # type: ignore[arg-type]
+        else:
+            self.footer_theme_button.config(image=self.light_mode_icon)  # type: ignore[arg-type]

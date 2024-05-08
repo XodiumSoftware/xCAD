@@ -26,9 +26,10 @@ exclude = [
     "site-packages",
     "venv",
     "/usr/*",
+    "/.vscode-server/*",
 ]
 
-include = ["**/*.py"]
+include = ["/*.py"]
 
 line-length = 79
 target-version = "py312"
