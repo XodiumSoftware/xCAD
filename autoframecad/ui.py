@@ -124,10 +124,6 @@ class PrimaryUI(CoreUI):
         """Toggle the theme of the UI."""
         sv_ttk.toggle_theme()
         self.db.set_data(self.table, {"usr_theme": sv_ttk.get_theme()})
-        self._update_theme_button()
-
-    def _update_theme_button(self: "PrimaryUI") -> None:
-        """Update the theme button."""
         if sv_ttk.get_theme() == "dark":
             self.footer_theme_button.config(image=self.dark_mode_icon)  # type: ignore[arg-type]
         else:
