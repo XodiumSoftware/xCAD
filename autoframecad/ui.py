@@ -3,19 +3,10 @@
 from tkinter import PhotoImage
 from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
-import sv_ttk
-from PIL import Image, ImageTk
-
 from autoframecad.__config__ import (
-    DARK_MODE_ICON_FILE,
-    DATABASE_FILE,
-    LIGHT_MODE_ICON_FILE,
-    PREFERENCES_DATA,
     UI_ICON_FILE,
 )
 from autoframecad.core import CoreUI
-from autoframecad.db_tables import PreferencesTable
-from stenlib import Utils
 
 
 class PrimaryUI(CoreUI):
@@ -24,17 +15,6 @@ class PrimaryUI(CoreUI):
     def __init__(self: "PrimaryUI") -> None:
         """Initialize the class."""
         super().__init__()
-        self.db = Utils.database(DATABASE_FILE)
-        self.table = PreferencesTable
-        self.db.add_data(self.table, PREFERENCES_DATA)
-
-        self.dark_mode_icon = ImageTk.PhotoImage(
-            Image.open(DARK_MODE_ICON_FILE).resize((20, 20), Image.LANCZOS),  # type: ignore[assignment]
-        )
-        self.light_mode_icon = ImageTk.PhotoImage(
-            Image.open(LIGHT_MODE_ICON_FILE).resize((20, 20), Image.LANCZOS),  # type: ignore[assignment]
-        )
-
         self._setup()
 
     def _setup(self: "PrimaryUI") -> None:
@@ -114,17 +94,8 @@ class PrimaryUI(CoreUI):
         self.footer_theme_button = Button(
             footer,
             image=self.dark_mode_icon
-            if sv_ttk.get_theme() == "dark"
+            if self.get_theme() == "dark"
             else self.light_mode_icon,  # type: ignore[arg-type]
-            command=self._toggle_theme,
+            command=lambda: self.toggle_theme(self.footer_theme_button),
         )
         self.footer_theme_button.grid(row=0, column=1, sticky="e")
-
-    def _toggle_theme(self: "PrimaryUI") -> None:
-        """Toggle the theme of the UI."""
-        sv_ttk.toggle_theme()
-        self.db.set_data(self.table, {"usr_theme": sv_ttk.get_theme()})
-        if sv_ttk.get_theme() == "dark":
-            self.footer_theme_button.config(image=self.dark_mode_icon)  # type: ignore[arg-type]
-        else:
-            self.footer_theme_button.config(image=self.light_mode_icon)  # type: ignore[arg-type]
