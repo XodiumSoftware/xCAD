@@ -21,10 +21,10 @@ acrxEntryPoint(AcRx::AppMsgCode msg, void *appId)
         // application.
         //
         acrxRegisterAppMDIAware(appId);
-        acutPrintf("\nAutoFrameCAD Loaded");
+        acutPrintf(ACRX_T("\nAutoFrameCAD Loaded"));
         break;
     case AcRx::kUnloadAppMsg:
-        acutPrintf("\nAutoFrameCAD Unloaded");
+        acutPrintf(ACRX_T("\nAutoFrameCAD Unloaded"));
         break;
     }
     return AcRx::kRetOK;
