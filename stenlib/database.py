@@ -41,6 +41,8 @@ class Database:
         finally:
             session.close()
 
+    db_session = _db_session
+
     def _add_data(
         self: "Database",
         table: sqlo.DeclarativeMeta,

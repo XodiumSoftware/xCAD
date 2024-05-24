@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="AutoFrameCAD",
-    version="0.0.81",
+    version="1.0.0",
     url="https://github.com/Structura-Engineering/AutoFrameCAD",
     license=Path("LICENSE.md").read_text(),
     description="CAD addon/plug-in to automize frameworks.",
