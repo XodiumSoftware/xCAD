@@ -1,8 +1,15 @@
 # API Configuration for (GUI) Applications
 
-This guide provides instructions on how to configure Bricsys API to be recognized by the application.
+This guide provides instructions on how to configure Autodesk/Bricsys APIs to be recognized by the application.
 
-**!KEEP IN MIND YOU WILL HAVE TO REPEAT THESE STEPS EVERYTIME YOU REBUILD THE CONTAINER!**
+## Autodesk ARX API
+
+1. Navigate to: `https://aps.autodesk.com/developer/overview/autocad-objectarx-sdk-downloads`.
+2. Download the ARX API.
+3. Run the executable and extract it somwhere easy to find.
+4. Create a folder named `ARX` in `${workspaceFolder}/AutoFrameCAD/libs`.
+5. Copy-paste the API in the new named folder.
+6. Done. Enjoy!
 
 ## Bricsys BRX API
 

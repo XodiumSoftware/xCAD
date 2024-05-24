@@ -1,3 +1,4 @@
+LIBRARY "AutoFrameCAD.arx"
 EXPORTS
     acrxEntryPoint PRIVATE
     acrxGetApiVersion PRIVATE

@@ -3,9 +3,7 @@
 from tkinter import PhotoImage
 from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
-from autoframecad.__config__ import (
-    UI_ICON_FILE,
-)
+from autoframecad.__config__ import UI_ICON_FILE
 from autoframecad.core import CoreUI
 
 

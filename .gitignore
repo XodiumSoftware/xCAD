@@ -35,10 +35,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Libraries
-BRX/
-TX/
-
 # Wiki
 _build/
 _modules/
