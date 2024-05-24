@@ -1,0 +1,806 @@
+This file contains instructions to port an existing ARX application to BricsCAD,
+by means of the Bricsys BRX SDK.
+
+Please also have a look at "KnownDifferences.txt", it contains a few cases where
+BRX behaviour slightly differs from ARX behaviour.
+
+For detailed description of known problems and differences, please see :
+    KnownDifferences.txt
+
+For Mac builds, please see :
+    MacBuild.txt
+
+For Linux builds, please see :
+    LinuxBuild.txt
+
+
+=======================================
+BRX SDK for BricsCAD V24 - Requirements
+=======================================
+
+Build environment for applications is VS 2019 (Platform Toolset v142);
+BricsCAD and all libraries are compiled with VS 2019 and Windows SDK 10.0.19041.0.
+
+IMPROVED:
+- We've modernized many BRX API function signatures to improve comaptibility with the
+  corresponding recently added ARX API signatures.
+- The new Visual Studio project and item templates make it easier to start a new
+  plugin project.
+
+EXTENDED:
+- The Civil APIs have been extended with many new classes, including new civil
+  points and associated point and label styles
+  (see header files under inc/BrxSpecific)
+
+
+=======================================
+BRX SDK for BricsCAD V23 - Requirements
+=======================================
+
+Build environment for applications is VS 2019 (Platform Toolset v142);
+BricsCAD and all libraries are compiled with VS 2019 and Windows SDK 10.0.19041.0.
+
+IMPROVED:
+BricsCAD uses multi-threading by default (see MTFLAGS system variable). This means
+member functions of custom objects can potentially be called simultaneously from
+multiple threads. For maximum compatibility with legacy platforms like ARX, custom
+object classes must opt-in to support multi-threaded display graphics rendering
+(i.e. worldDraw/viewportDraw). Custom object classes can advertise support for
+multi-threaded display graphics generation by returning a combination of flags
+from the new AcRx::MTSupport enumeration by overriding this virtual function
+of AcGiDrawable:
+Adesk::UInt32 AcGiDrawable::subRegenSupportFlags() const
+
+We have extended the BRX internal handling of the regenSupportFlags() mechanism in
+to reduce the possibility of unexpected multi-threading in custom object classes.
+Similarly, the AcGiDrawableOverrule class now supports overruling multi-threading
+support in the overruled objects.
+
+CHANGED :
+the BRX Blockify API (inc/BrxSpecific/bim/Blockify.h) changed signature for all functions,
+using Acad::ErrorStatus as return value, to prevent ambiguous behaviour;
+now the returned Acad::ErrorStatus exactly reports success and failure with dedicated status values.
+
+EXTENDED :
+- the Mechanical APIs have been extended for more 3DConstraints, Components, and BOM functionality
+- the TinSurface and Civil APIs have been extended for more functionality
+(see header files under inc/BrxSpecific)
+
+
+=======================================
+BRX SDK for BricsCAD V22 - Requirements
+=======================================
+
+Build environment for applications is VS 2019 (Platform Toolset v142);
+BricsCAD and all libraries are compiled with VS 2019 and Windows SDK 10.0.19041.0.
+
+CHANGED :
+AcDbLayoutManager::findLayoutNamed() now returns an AcDbObjectId.
+
+CHANGED + EXTENDED :
+the BRX-specific AcSectionReactor has been extended :
+
+- onBeginSectioning(const AcDbSection* pSection) now passes the AcDbSection entity being used for the sectioning operation
+  virtual void onBeginSectioning(const AcDbSection* pSectionEntity)
+
+- reactor event for the end of a secioning operation is now explicitly available :
+  virtual void onEndSectioning(const AcDbSection* pSectionEntity)
+
+- skipping particular entities (or container like BlockReferences) is now possible :
+
+  virtual bool onBeginEntity(const AcDbEntity* pEntity, const AcDbObjectIdArray& entityPath, const AcGeMatrix3d* modelToWorldMtx)
+  virtual bool onBeginCompoundObject(const AcGiDrawable* pCompoundObject, const AcDbObjectIdArray& entityPath)
+
+  if returning 'false', the entity/container is skipped in sectioning process; returning 'true' does the
+  normal sectioning process for the entity/container
+
+- if an entity/container was skipped for sectioning, all reactors which received the 'onBegin....()'
+  notification will also receive the corresponding 'skipped' notification
+
+  virtual void wasSkipped(const AcGiDrawable* pCompoundObject, const AcDbObjectIdArray& entityPath);
+  virtual void wasSkipped(const AcDbEntity* pEntity, const AcDbObjectIdArray& entityPath, const AcGeMatrix3d* modelToWorldMtx);
+
+
+EXTENDED :
+the BRX-specific Civil support has been extended :
+new or extended Civil support classes, marked with note "BRX V22" in header files
+CivilDbView
+CivilDb3dAlignment
+CivilDbHAlignmentElement
+CivilDbHAlignmentLine
+CivilDbHAlignmentArc
+CivilDbHAlignmentSpiral
+AcDbCivilDbVAlignment
+AcDbCivilHAlignmentSTS
+AcDbCivilHAlignmentSSCSS
+AcCivilStationEquation
+AcCivilStationEquations
+
+
+IMPORTANT NOTE for MCAD API :
+the provided
+static Acad::ErrorStatus AcAssocViewBase::getAssociatedSourceEntity(...)
+functions actually only support MCAD generated section entities - BIM generated sections are not yet supported;
+extended support to also cover BIM generated sections will follow (planned for V22 lifetime)
+
+
+
+=======================================
+BRX SDK for BricsCAD V21 - Requirements
+=======================================
+
+Build environment for applications is VS 2017 (Platform toolset v141);
+BricsCAD and all libraries are compiled with VS 2017 and Windows SDK 10.0.17134.0.
+
+NEW :
+BRX BIM
+There are significant changes to the BRX BIM "Room" API functions !
+The concept of "room" has been discarded, and replaces by "spaces" concept;
+nevertheless, the BRX BIM API keeps the 'BrxBimRoom' class for backward compatibility;
+some BrxBimRoom member functions now provide a slightly changed behaviour; affected
+functions are documented in ./BrxSpecific/bim/BuildingElements.h header file;
+it is suggested to adapt client code to use the new "spaces" interface.
+
+NEW :
+BRX BIM
+Following the BIM core "rooms" vs. "spaces" design, a new set of functions related to "spaces"
+has been added (see ./BrxSpecific/bim/BuildingElements.h);
+it is advised to adjust client code to use the new "spaces" related functions.
+
+NEW :
+BRX IFC Import Reactor
+the "beforeCompletion()" virtual function gets a new signature, indicating the final success
+or error of the IFC Import operation;
+changed from
+  virtual void beforeCompletion() {};
+to
+  virtual void beforeCompletion(bool success) {};
+
+NEW :
+BRX SheetMetal API
+the SheetMetal API has been significantly extended;
+see header files in <BRXSDK>/BrxSpecific/sheetmetal folder
+
+NEW :
+AcDbCivilTinSurface class was extended for several new member functions;
+see inc/BrxSpecific/civil/AcDbCivilTinSurface.h
+
+several new TinSurface related classes have been added (horizontal + vertical alignments, curves, views);
+see inc/BrxSpecific/civil/AcDbCivilTinAlignments.h
+
+NEW :
+the BRX C++ OPM API has been extended for more convenience functions;
+see inc/BrxSpecific/AcOpmExtensions.h
+
+CHANGED :
+The AcRibbonItem 'external image' flag was no longer used in V20, and is now removed from the API altogether.
+Member functions hasExternalImage() and setHasExternalImage() have been removed, and the corresponding
+second argument to setImagePath() has been removed.
+
+
+
+
+=======================================
+BRX SDK for BricsCAD V20 - Requirements
+=======================================
+
+Build environment for applications is VS 2017 (Platform toolset v141);
+BricsCAD and all libraries are compiled with VS 2017 and Windows SDK 10.0.17134.0.
+
+Sample applications have been updated :
+- the BRX build configurations target BricsCAD V20, using "v141" platform toolset (VS 2017)
+- the ARX build configurations target ARX 2017 SDK (using "ARX2017_SDK_PATH" env. variable),
+  using "v140" platform toolset (VS 2015, VC14).
+
+NEW :
+BRX now also includes a C++ MCAD Components API (to be extended in future), please see the
+/BrxSpecific folder, "AcComponents.h", the headers are documented.
+
+NEW :
+BRX now also includes a C++ Civil TinSurface API (to be extended in future), please see the
+/BrxSpecific/civil folder, "AcDbCivilTinSurface.h", the headers are documented.
+
+NEW :
+BRX now supports import and export of Rhino/GrassHopper .3dm files;
+for details, please see "BrxSpecific/brxRhinoTranslator.h", the headers are documented.
+
+NEW :
+BRX now supports a specific reactor for "BIM Sectioning" operations, BRX applications
+are able to customise the resulting entities;
+for details, please see "BrxSpecific/AcSectionReactor.h", the headers are documented.
+
+NEW :
+BRX has extended the AcConstraints API for DesignTable handling using the new classes :
+AcDesignTableConfigurationEntry, AcDesignTableConfiguration, AcDesignTable;
+for details, please see "BrxSpecific/AcConstraints3d.h", the headers are documented.
+
+NEW :
+BRX now also provides an "IFC Import" API part (see "inc/BrxSpecific/bim/IfcImportReactor.h");
+this supports both IFC2x3 and IFC4 standards;
+also, a global function to import a specified IFC file into a database is provided.
+
+NEW :
+together with the new "IFC Import" API part, the "IFC Export" API part has been adjusted as well,
+to use same logic and design (this is a *BREAKING CHANGE* in IFC Export reactor), so client
+applications need to adjust their IFC Export reactor;
+now both IFC Export and IFC Import support the IFC2x3 and IFC4 standards
+
+NEW :
+BRX now provides an API for the "BIM Blockify" functionality;
+for details, please see "BrxSpecific/bim/Blockify.h", the headers are documented.
+
+NEW (since V20.2) :
+added a dedicated API for "DmAudit" operations, to audit MCAD + SheetMetal 3DModelling objects;
+for details, please see "BrxSpecific/AcDmAuditOperation.h", the headers are documented.
+
+NEW (since V20.2) :
+added dedicated API to register and access custom settings to BricsCAD, so those are available
+via acedGetVar/acedSetVar functions and in Settings dialog.
+for details, please see "BrxSpecific/AcEdSettings.h", the header is documented.
+
+NEW (since V20.2) :
+BRX BModeler provides a new utility function to specify whether "Geometric Point Normalisation"
+is enabled for all BOP (BooleanOperations) and static body creator functions;
+'tolerance' specifies the precision to be used for the point normalisation;
+
+static void AModeler::Body::normaliseGeomPoints(bool enable = false, double tolerance = -1.0)
+
+please see '<BRX>/utils/amodeler/inc/BModeler/BmBody.h' for more details
+
+
+
+=======================================
+BRX SDK for BricsCAD V19 - Requirements
+=======================================
+
+Build environment for applications is VS 2017 (Platform toolset v141);
+BricsCAD and all libraries are compiled with VS 2017 and Windows SDK 10.0.17134.0.
+
+Sample applications have been updated :
+- the BRX build configurations target BricsCAD V19, using "v141" platform toolset (VS 2017)
+- the ARX build configurations target ARX 2017 SDK (using "ARX2017_SDK_PATH" env. variable),
+  using "v140" platform toolset (VS 2015, VC14).
+
+The BIM interface has been extended by some new virtual functions;
+the IFC Export supports and optional entity set to be exported only (instead of entire drawing).
+
+The .NET API provides a large range of bug fixes and improvements, especially for the Ribbon API.
+
+NEW :
+BRX now also includes a C++ SheetMetal API (to be extended in future), please see the
+BrxSpecific/sheetmetal folder, the headers are documented.
+
+NEW :
+A new (small) API has been added to retrieve the source entities, for 2d geometry blocks
+generated by VIEWBASE and BIMSECTION commands, with associativity GENERATEASSOCVIEWS=On.
+Please see "BrxSpecific/AcAssocView.h" for details
+
+
+
+=======================================
+BRX SDK for BricsCAD V18 - Requirements
+=======================================
+
+Build environment for applications is VS 2013 (VC12);
+BricsCAD and all libraries are compiled with VS 2013.
+
+Sample applications have been updated :
+- the BRX build configurations target BricsCAD V18, using "v120" platform toolset (VS 2013, VC12)
+- the ARX build configurations target ARX 2017 SDK (using "ARX2017_SDK_PATH" env. variable),
+  using "v140" platform toolset (VS 2015, VC14).
+
+The new "ATIL" (imaging) interface has been added, compatible to ARX, in a first stage
+(to be completed over time), see "<BRX>/ArxApi/utils/atil" folder.
+
+BRX BIM API has been extended in functionality;
+see "inc_sdk/BrxSpecific/bim/BuildingElements.h"
+
+"Overruling" support by BRX has been complete.
+More .NET wrapper classes are supported.
+
+
+============== V18.2. Changes =========
+Changes to BricsCAD internal Quad API :
+
+Due to some changes in BricsCAD's internal Quad API, developers and users will need
+an additional step to make Quad buttons & tabs visible, after they were added by
+application code.
+
+Solution 1 :
+Type the CUI command and in the dialog, go to Quad. In the right pane, under
+Available tools, Built-in, you should be able to see your BRX Quad application.
+In the left pane, right click on BRICSCAD and click on Append Quad Tab.
+Drag and drop your BRX Quad application buttons to your newly created Quad Tab.
+
+Solution 2 :
+create a dedicated partial CUI file, which contains only the declarations of the
+Quad Tab(s) and Item(s), then load that menu (i.e. in kInitAppMsg, or when registering
+the QuadReactor).
+
+    if (acedIsMenuGroupLoaded(_T("MyQuadExtension")) == Adesk::kFalse)
+    {
+        acedLoadPartialMenu(_T("MyQuadExtension.cui"));
+    }
+
+here is the content of such a partial CUI file, to declare the Quad Tab(s) and Item(s),
+taken from our "brxSample" sample application :
+
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<CustSection xml:lang="en-US">
+  <MenuGroup Name="MyQuadExtension">
+    <MenuRoot>
+      <QuadRoot>
+        <QuadTabs>
+          <QuadTab ID="qt_MyQuad" Name="MyQuad" NameRef="MyQuad">
+            <QuadButton ID="id_1" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_2" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_3" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_4" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+            <QuadButton ID="id_5" QuadAnalyzerId="6C5E7CF3-DC10-4ED3-A339-39156C8B7B3F"/>
+          </QuadTab>
+        </QuadTabs>
+      </QuadRoot>
+    </MenuRoot>
+  </MenuGroup>
+</CustSection>
+
+QuadButton ID : is the ID for the Quad item (same as used in QuadReactor's append() function)
+QuadAnalyzerId="..." : the GUID of the QuadReactor; this ID allows the BricsCAD QuadManager
+                       to create the association between the Quad Tab(s) + Item(s) and the
+                       related handler module
+
+(the same procedure is actually used by the "brxSample")
+
+=======================================
+BRX SDK for BricsCAD V17 - Requirements
+=======================================
+
+Build environment for applications is VS 2013 (VC12);
+BricsCAD and all libraries are compiled with VS 2013.
+
+Sample applications have been updated :
+- the BRX build configurations target BricsCAD V17, using "v120" platform toolset (VS 2013, VC12)
+- the ARX build configurations target ARX 2016 SDK (using "ARX2016_SDK_PATH" env. variable),
+  using "v110" platform toolset (VS 2012, VC11).
+
+C++ OPM API has been extended. See "C++ OPM API.txt".
+
+BricsCAD license level checking has been added for client usage :
+the new
+    "bool isLicenseAvailable(BricsCAD::LicenseMode)"
+function allows client applications to determine the actual license level - this is necessary,
+if applications use one of the new, BricsCAD-specific BRX APIs :
+- "Ac3dConstraints" API (MCAD, requires a Platinum license)
+- "BIM" API (Bim, requires a BIM license)
+(potentially more in the future)
+
+Please see "MiscGlobal.h" - the 'BricsCAD::LicenseMode' enum is declared there;
+Acad::ErrorStatus based API functions will return "Acad::eNotSupportedInDwgApi", to indicate
+a license status errors.
+
+
+Visual Studio versions and "Platform Toolsets"
+----------------------------------------------
+Since VS 2010, the Visual Studio IDE can use build tools from other Visual Studio versions to
+generate binaries. This feature is called "Platform Toolset", and it can be configured in project
+properties at "Configuration Properties -> General -> Platform Toolset".
+
+Building plugins for a host application like BricsCAD or AutoCAD requires the plugin to use the
+same platform toolset used to build the host application and API libraries. As a result,
+different platform toolsets are often required for targeting different host application versions.
+
+Before Visual Studio can use a platform toolset, the associated Visual Studio version must be
+installed on the system. When multiple Visual Studio versions are installed, the newest Visual
+Studio IDE can open and build older projects using the older platform toolset.
+
+ARX 2007/2008/2009 : needs installed VS 2005 (platform toolset "v80")
+ARX 2010/2011/2012 : needs installed VS 2008 (platform toolset "v90")
+ARX 2013/2014      : needs installed VS 2010 (platform toolset "v100")
+ARX 2015/2016      : needs installed VS 2012 (platform toolset "v110")
+ARX 2017           : needs installed VS 2015 (platform toolset "v140")
+
+BRX V15            : needs installed VS 2010 (platform toolset "v100")
+BRX V16/V17        : needs installed VS 2013 (platform toolset "v120")
+
+For example, it is possible (and encouraged) to use the VS 2015 IDE for all sample projects. The
+only requirement is that all necessary older Visual Studio versions are also installed on the
+computer.
+
+
+===========
+Limitations
+===========
+
+BRX 17 is source code compatible with ARX 2015/2016 SDK, with some exceptions. Where possible,
+BRX supports both newer and legacy interfaces. In some cases, legacy interfaces have not yet been
+updated in BRX. Changes introduced with ARX 2017 are not yet supported.
+
+
+=================
+BRX specific APIs
+=================
+
+C++ OPM (PropertiesPanel)
+-------------------------
+
+Since BRX V15, a new C++ interface for the OPM (PropertiesPanel) is available, which allows
+to show categories and properties for native entities and custom entities, and additionally
+to show application-specific categories and properties, when no entity is selected
+("No Selection" page in PropertiesPanel).
+
+This new interface is provided by ./BrxSpecific/AcOpmExtension.h header, which is
+automatically included by "arxHeaders.h" as well.
+
+The main intention for this new C++ interface is to provide application developers an efficient
+way to use the PropertiesPanel for built-in (native) entities, custom entities, and for common
+purpose.
+In example, applications using native entities (rather than custom entities) with special
+"tags/markes" by XData, ExtensionDictionary or similar references can easily display "custom"
+properties for such entities, while "untagged/not-marked" native entities behave normal.
+
+The new API works mainly like a reactor system - a handler object is registered to the OPM
+Manager, which then queries the handler object for categories, properties, values etc.
+
+Please have a look at AcOpmExtension.h;
+the BRX sample application "brx/brxSample" installed with BricsCAD and BRX SDK also contains a
+full-blown sample to manage the C++ OPM extensions - intended to visualise all provided panel
+properties, and to demonstrate the logic and handling between OPM Manager and client-side
+OPM extensions.
+
+
+Utility header files
+--------------------
+The BRX SDK contains a few utility headers :
+
+sys_version.h
+arx_version.h
+brx_version.h
+
+  -> these files define a number of symbols, which can be used to control compilation
+     using conditional code, please have a look for details;
+     usually, including "sys_version.h" in "StdAfx.h" is a good approach
+
+sdk_map_names.h
+sdk_unmap_names.h
+
+  -> these files allow to manage a unique ARX and BRX source code across multiple versions;
+     since ARX 2010, new naming standard was introduced for many virtual overridables (the
+     sealed interfaces);
+     BRX 16 and older still use the "old" naming syntax ...
+     to solve the conflict, developers can use "sdk_map_names.h" and "sdk_unmap_names.h"
+     includes, which automatically map old and new function names to the required target syntax
+     These headers are not required when targeting only BRX 17, however they do no harm.
+
+
+Compiling your application
+---------------------------
+
+1. The BRX headers are generally code compatible with ObjectARX 2015.
+
+2. Your BRX 17 module must be compiled with Visual Studio 2013 (SP5 required).
+
+3. Unpack the BRX SDK in a folder of your choice, for example C:/Brx .
+
+4. Existing build configurations or projects that target ARX can be easily cloned to target
+   BRX, so that both targets build using the same source code files.
+
+   A BRX build configuration requires the following changes:
+
+   a. Replace the ObjectARX include path with BRX include path
+   (i.e. "C:/Brx/inc" + "C:/Brx/inc32" resp. "C:/Brx/inc64")
+
+   b. Replace the ObjectARX lib path with BRX lib path
+   (i.e. "C:/Brx/lib32" resp. "C:/Brx/lib64")
+
+   c. If present, remove any explicit ObjectARX linker inputs such as
+      rxapi.lib acdb20.lib acge20.lib acad.lib etc.
+
+   All other project settings typically remain the same for ARX and BRX builds.
+
+5. Compiling your cloned BRX project may result in compile or linking errors.
+
+   Compiler errors could indicate missing items or incompatibilities in our BRX SDK. Linker
+   errors may originate from classes/functions that are declared in our BRX headers but not
+   yet implemented in BRX. This enables us to implement new functions in interim releases
+   without breaking binary compatibility, something we routinely do upon developers' request.
+
+   In case of any error, please send your build output to us for analysis (copy and paste or
+   send the .log file to ensure all information is included). To do so, please use our support
+   request channel at:
+   http://www.bricsys.com/en_INTL/support/index.jsp
+
+
+Loading your application
+-------------------------
+
+Once linking succeeds, you can load and run your plugin module on BricsCAD.
+A BRX module may be loaded with the APPLOAD command, or at the command line by using the LISP
+function call (arxload "myApp.brx").
+
+If your BRX module depends on other modules, those other modules must reside in the BricsCAD
+support file path. It is not enough that a dependent module is in the same folder.
+
+IMPORTANT:
+BRX applications are only supported on BricsCAD Pro and Platinum versions, not on Classic versions!
+
+
+Tips
+-----
+
+1. While porting ARX code, sometimes it is possible to create an early, running version of your
+application by commenting out any calls functions missing in BRX. We advise to report missing
+functions early so that we have a chance to implement them in an interim update.
+
+2. If your application does not load in BricsCAD, see our knowledge base item for possible solutions:
+http://www.bricsys.com/en_INTL/support/index.jsp#53a=265
+
+
+Runtime testing
+----------------
+
+Once your module compiles, links and loads, it is recommended to runtime test your module in full
+to identify possible runtime issues.
+
+The BRX engine internally peforms status checks and logs messages when something does not run as expected.
+All important information is stored in a log file, called "brx_log.txt", which is created in the working
+directory of your system. If this file is created, please check its contents. Any entry indicates a possible
+runtime problem. Please submit this log file by support request if entries appear.
+
+If popup dialogs show up with the title "BRX FUNCTION NOT IMPLEMENTED YET":
+These messages originate from functions that have a temporary "empty" implementation in our SDK.
+A minority of stub implementations were necessary to make it possible to link client modules.
+We have made sure that calls to such stub functions don't go by unnoticed. By default, any call will
+trigger a popup dialog with the details of the function call. There's a checkbox to disable such dialogs
+from further appearing. If disabled, the stub notifications will be printed on the command line.
+Please submit the detailed information by support request, you can easily copy/paste the contents of the 
+dialog. We will then schedule the actual implementation of those functions.
+
+Tip:
+When you start a runtime test session, you can switch BRX to "verbose" mode by calling the command "_brxverbose".
+From then on, any internal assert failure will appear as a popup dialog during the session, with detailed
+info in the dialog. This helps you to spot runtime issues easier, and to get a better grip on timing of the
+actions that trigger the warnings. These dialogs appear with caption "BRX ASSERTION FAILED" or 
+"DWGDIRECT EXCEPTION INSIDE BRX". Any message that pops up, will also be saved as an entry the log file.
+
+
+Note about extension DLLs and MFC
+----------------------------------
+
+BricsCAD V17 versions are compiled with Visual Studio 2013 (SP5).
+
+Most ARX applications using MFC are configured as MFC extension dlls. The same
+configuration should work in BRX, however MFC version may be different.
+
+
+Custom Objects and Entities
+----------------------------
+
+Custom objects and entities are fully supported by BRX.
+
+
+ARX applications and ATL/COM
+-----------------------------
+
+Some ARX applications may call ATL/COM interfaces declared in ARX headers
+such as "acadi.h". These headers are included by "dbxHeaders.h" when
+__ATLCOM_H__ is defined.
+
+Our BRX SDK has integrated the BricsCAD COM generated files (*.h, *_i.c, *.tlb),
+which make it possible to call the BricsCAD COM API from your C++ application.
+
+However, there are a few very small local code changes that you need to introduce
+to accomplish code compatibility. These changes can be made conditional, and will
+not affect the AutoCAD version of your modules.
+
+1. import of *.tlb files
+
+If your code contains lines such as 
+
+#import <acax20enu.tlb>
+or
+#import <acax21enu.tlb>
+
+replace this code by the following (conditional) code:
+
+#ifdef BRX_APP
+#import "axbricscaddb1.tlb" no_registry
+#import "axbricscadapp1.tlb" no_registry
+#else
+#import "acax20enu.tlb" // resp. acax21enu.tlb
+#endif
+
+where BRX_APP is a preprocessor define added to your BricsCAD build configurations.
+
+
+Important note :
+----------------
+it seems very useful to add the option "no_registry" to #import directive;
+as BricsCAD uses 2 TLB files (one for database part, one for application part),
+there are references from application part to database part;
+MIDL does registry checking for referenced GUIDs by default, which could fail,
+if BricsCAD x86 resp. x64 is not installed.
+
+The "no_registry" option suppresses such registry checks by MIDL and allows to
+properly compile the application, even if BricsCAD is not installed :
+
+#import "axbricscaddb1.tlb" no_registry
+#import "axbricscadapp1.tlb" no_registry
+
+
+2. namespaces
+
+If your code contains lines such as
+
+using namespace AutoCAD;
+
+replace this code by the following (conditional) code:
+
+#ifdef BRX_APP
+using namespace BricscadDb;
+using namespace BricscadApp;
+#else
+using namespace AutoCAD;
+#endif
+
+The AutoCAD COM API uses one namespace "AutoCAD", the BricsCAD COM API
+uses 2 namespaces, "BricscadDb" for the database part of the interfaces,
+and "BricscadApp" for the application part of the interfaces.
+
+
+3. include *_i.c files
+
+Sometimes these files may have been added to the source file tree of your VS project (*.vcxproj file).
+In this case, remove the file from the project tree, and include these files instead, for example
+in stdafx.cpp:
+
+#include "acadi_i.c"
+
+Typically, these includes are needed when your code uses defined symbols such as CLSID_AcadApplication.
+
+
+4. Getting the application object
+
+Instead of using
+
+IAcadApplicationPtr CadApp = acedGetAcadWinApp()->GetIDispatch(FALSE or TRUE);
+
+please use
+
+IAcadApplicationPtr CadApp = acedGetIDispatch(FALSE or TRUE);
+
+
+5. Example
+
+An example of such a project configuration can be found in the "brxSample" project that is installed
+with BricsCAD. In the source file cmdCom.cpp you can find code that calls the BricsCAD & AutoCAD COM API.
+For more details, see "Sample application" below.
+
+
+COM usage with BricsCAD x86 and BricsCAD x64
+--------------------------------------------
+
+There is a major difference with the COM interface usage between AutoCAD ARX and BricsCAD BRX :
+as AutoCAD x86 and x64 versions can not be co-installed on same Windows version, AutoCAD is
+able to use a single (same) GUID set for both the x86 and x64 version; the GUIDs and related
+interfaces can simply never clash in Windows Registry.
+
+But BricsCAD allows (and is intended for) to install both x86 and x64 versions parallel, to
+provide more flexibility for application developers and users.
+This requires that BricsCAD uses different GUID sets for both BricsCAD versions.
+
+Normally this is not a problem for ARX/BRX based C/C++ applications running in-process,
+as such applications need to be compiled for x86 and x64 BricsCAD as dedicated builds.
+But for out-of-process applications (usually running as .exe programs) created with VB or
+Delphi (and similar) it is most important and even mandatory to use the correct TypeLibrary;
+otherwise, Windows COM management could try to load a x86 axbricscadapp1.dll or axbricscaddb1.dll
+into x64 BricsCAD, and vice versa, which will immediately result in crashes.
+
+So please be careful when creating out-of-process COM based applications - use the dedicated
+x86 resp. x64 TypeLibrary.
+
+
+Sample application
+-------------------
+
+Amongst the sample applications installed with BricsCAD, you will find
+a BRX sample project that shows some features of the BRX API (custom entity, dockable dialog, ...).
+The sample contains different build configurations, targetting BricsCAD and AutoCAD.
+The code can be compiled with the BRX SDK and ObjectARX, and the identical
+behavior can be checked on both CAD platforms.
+
+
+Open Object Detection
+----------------------
+
+Applications often work with "naked" AcRxObject based pointers, which implies that
+the application code is responsible for deleting or closing those objects timely.
+Bugs can easily be introduced, and are often hard to trace and fix in a full-blown
+project.
+
+BRX offers developers some tools that are unique for the BricsCAD platform:
+Whenever an ARX module is loaded, a helper command "brxOpenObjects" becomes
+available, together with its shortened version "brxOO". This command can
+be called at any time when the state is idle, and will report on the command
+line:
+
+1. Database-resident objects that were opened by your application, but not closed. 
+   These indicate important bugs, that can cause general instability of the CAD 
+   platform, be it BricsCAD or AutoCAD.
+
+2. Non-database-resident objects that were allocated by your application, but not deleted.
+   The severeness of these bugs is less, but they cause memory leaks that can be avoided.
+
+Calling this helper command before and after the execution of a function from your
+application, can help you find out if all objects were closed or deleted correctly
+during the operation.
+
+In addition, the BRX API offers a unique global function 
+
+int getOpenObjects(AcArray<AcRxObject*> &objects);
+
+This function is declared in the additional header "inc/BRX/brxDevHelper.h" that is
+part of the BRX SDK header set. You can call this function from any place in your code,
+to examine critical places in more detail. This function will:
+
+- remove all entries in the argument array
+- add the AcRxObject based object pointers that are still open at the time of the call
+- return the number of objects that were added to the array.
+
+Note that some objects can stay open during a session, by design. For instance, your
+application can register an AcEditorReactor during load time, to be unregistered only
+during unloading. An extra safety check, is to unload your ARX module and check
+for open objects. After unloading your module, no open objects should be reported.
+
+The tool command and function can help you to stabilize and improve the quality
+of your ARX modules, for both the BricsCAD and AutoCAD plaform.
+
+
+Release mode assertions
+-----------------------
+
+Another special feature of BRX is to show assertion messages in client-side Release
+builds, which can indicate problems in client code and/or BRX core code.
+
+To enable the "release mode assertions", set QAFLAGS system variable to any value
+other than 0, and restart BricsCAD (QAFLAGS is persistent system variable).
+
+BRX core will then show assertions for unexpected, invalid conditions, and will
+also log such cases to "brx_log.txt" file, in currently active OS folder. 
+
+
+Compatibility across different BricsCAD versions
+-------------------------------------------------
+
+Every higher version of the BRX SDK and BricsCAD, supports more BRX functions.
+For every client module, there is a minimal BRX SDK/BricsCAD version that produces the first
+linking version.
+Once your module has linked, there is no need to recompile with higher BRX SDK versions
+to run on higher BricsCAD versions, as long as the major version number remains equal.
+
+For example:
+- Your module has linked for the first time with BRX SDK r9462 for BricsCAD V16.0.03.
+- The same compiled module will run on higher BricsCAD V16.1.01, V12.2.01, ...
+  without the need to recompile.
+- However, the module will not run on lower BricsCAD versions (V14.x, V15.x,...).
+
+In short, the interfaces in the BRX API are kept stable for major version numbers.
+
+When breaking changes are required, they will be introduced with major version upgrades
+(for example BricsCAD V16 -> V17).
+
+If we ever need to introduce an urgent breaking change within the same major version number,
+this will be clearly communicated to all application developers and will be confined to the
+minimum possible scope.
+
+
+Limitations
+------------
+
+The following categories are currently not supported,
+and not declared in the BRX header set:
+
+- Render API
+- ASI/ASE API
+
+The BRX SDK can not be used as an alternative for RealDwg based host applications. BRX modules
+can only load and run inside BricsCAD. They can not run as standalone applications.

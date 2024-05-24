@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<bsyslib xmlns="http://www.bricsys.com/bsyslib">
+    <!--
+    General remarks:
+    * Object names are unqiue
+    * Objects can be referenced:
+      * by name: give the referencing element an attribute 'name="ObjectName"'
+      * by id: assign the referenced element a positive integer id with an
+        attribute 'id="X"' and use that same attribute on the referencing element
+    * Referencing elements must not have any child nodes
+    * Positive integer ids can be random and must not be consecutive
+    * This xml is not valid against the bsyslib_profiles.xsd as it contains
+      shorthand and inline profilename definitions for convenience. Without
+      these, the xml would be valid.
+    -->
+
+    <!--
+    Define a new profile standard.
+    -->
+    <profilestandard id="100">ProfileStandard1</profilestandard>
+
+    <!--
+    Define a new profile name.
+    -->
+    <profilename>
+        <!--
+        The standard this profile set belongs to.
+        Optional
+        -->
+        <standard name="ProfileStandard1"/><!-- Reference standard name by name -->
+        <!--
+        Name of the profiles.
+        Type: String
+        Required
+        -->
+        <name>ProfileName1</name>
+        <!--
+        The type of this set of profiles.
+        Default: Generic
+        Possible values:
+            Generic
+            StructuralConcrete
+            StructuralSteel
+            HVAC
+            Piping
+            Electrical
+        -->
+        <type>StructuralSteel</type>
+    </profilename>
+
+    <profilename id="2">
+        <standard id="100"/><!-- Reference standard name by id -->
+        <name>ProfileName2</name>
+    </profilename>
+
+    <!-- Shorthand profile name definition w/o standard or type. -->
+    <profilename id="3">ProfileName3</profilename>
+
+    <!-- See bsyslib_profiles.xsd for more profile definitions. -->
+    <circleprofile>
+        <name name="ProfileName1" standard="ProfileStandard1"/><!-- Reference profile name by name and standard -->
+        <size>50</size>
+        <radius>50</radius>
+    </circleprofile>
+
+    <circleprofile>
+        <name><!-- Inline profile name definition. Can not be referenced! -->
+            <name>ProfileName4</name>
+            <type>Piping</type>
+        </name>
+        <size>40</size>
+        <radius>40</radius>
+    </circleprofile>
+</bsyslib>

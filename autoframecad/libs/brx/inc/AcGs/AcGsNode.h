@@ -1,0 +1,15 @@
+// Property of Bricsys NV. All rights reserved.
+// This file is part of the BRX SDK, and its use is subject to the terms
+// of the BRX SDK license agreement.
+/////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "AcGi/AcGiGlobal.h"
+
+/** _ */
+class AcGsNode
+{
+public:
+    virtual AcGiDrawable* drawable() const = 0;
+    virtual void setDrawableNull () = 0;
+};

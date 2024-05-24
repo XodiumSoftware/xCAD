@@ -1,0 +1,25 @@
+var class_ac_ap_document =
+[
+    [ "cDoc", "class_ac_ap_document.html#a1aca4ba7efaaabedc98c961d81a8e60b", null ],
+    [ "database", "class_ac_ap_document.html#a5c9444e7b8538de5a3449695e01a402a", null ],
+    [ "docTitle", "class_ac_ap_document.html#a1429a08cf7db1dbe91ef03e8537d55d3", null ],
+    [ "downgradeDocOpen", "class_ac_ap_document.html#ae6b6d00c237c47e6c0fcbc74c3fdb699", null ],
+    [ "drawingStatusBar", "class_ac_ap_document.html#a74864649604ad223bc59a194f214f6d7", null ],
+    [ "fileName", "class_ac_ap_document.html#a59da752104c7b9f87463aa959f296e4f", null ],
+    [ "formatForSave", "class_ac_ap_document.html#aa1eeefcfd9088c12d92c78218c164882", null ],
+    [ "GetCountOfLispList", "class_ac_ap_document.html#ae4937a8c914a2b3cd2738d9e6d203051", null ],
+    [ "GetIDispatch", "class_ac_ap_document.html#af6baec23d8a1f79e8211104c7a47a03f", null ],
+    [ "GetItemOfLispList", "class_ac_ap_document.html#a037b06662918f30f78c07bd37ef88831", null ],
+    [ "inputPointManager", "class_ac_ap_document.html#a33c54553a04ff9659d3b9a046c2c2840", null ],
+    [ "isNamedDrawing", "class_ac_ap_document.html#a6c2328a15e33dd1af9aa24cd1f1cb62c", null ],
+    [ "isQuiescent", "class_ac_ap_document.html#a66a8656eb2555b71ecfb324f95864720", null ],
+    [ "isReadOnly", "class_ac_ap_document.html#a77edb06adb3de54a1691ab88a955042a", null ],
+    [ "lockMode", "class_ac_ap_document.html#aba69c87cd2d2edd360e5fbb47a30879b", null ],
+    [ "myLockMode", "class_ac_ap_document.html#a6a5ff4d8d68c535ca005897e307324e4", null ],
+    [ "popDbmod", "class_ac_ap_document.html#a66e9053248dffdddb215969ca5de6092", null ],
+    [ "pushDbmod", "class_ac_ap_document.html#a9fb9dee1a0ec40fffc59254687dfbede", null ],
+    [ "saveAs", "class_ac_ap_document.html#a4b4a25df7acb76bfeb1740ba3cff3a67", null ],
+    [ "setDocTitle", "class_ac_ap_document.html#a173e6d14544f46eb6a8122218829699b", null ],
+    [ "transactionManager", "class_ac_ap_document.html#a66c7d8e05d2ed54025d49ba1999b1e0f", null ],
+    [ "upgradeDocOpen", "class_ac_ap_document.html#a01d4701a44a31e330dc0ce572b20fdc7", null ]
+];

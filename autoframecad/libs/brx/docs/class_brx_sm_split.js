@@ -1,0 +1,26 @@
+var class_brx_sm_split =
+[
+    [ "BrxSmSplit", "class_brx_sm_split.html#a543493c779251cf9084e83f8fd71bcfb", null ],
+    [ "BrxSmSplit", "class_brx_sm_split.html#a9bea992750cac4f13d6c638120892fd0", null ],
+    [ "~BrxSmSplit", "class_brx_sm_split.html#ae0dd2a478517bd470769e46739669f01", null ],
+    [ "applyFeatures", "class_brx_sm_split.html#aafa583e11dc90c9ed3de076882b686a7", null ],
+    [ "applyResult", "class_brx_sm_split.html#a9302092f3faf13fdce9ca6ce07c6fa31", null ],
+    [ "convertBendToJunction", "class_brx_sm_split.html#a5827813949d14062c38a1ca0ccf1a427", null ],
+    [ "cutDepth", "class_brx_sm_split.html#a294f79a560c250b9f7316eba229d6d69", null ],
+    [ "flangeSplitType", "class_brx_sm_split.html#a995055e8c8ef716b25769bba83a07ae3", null ],
+    [ "healCoincidence", "class_brx_sm_split.html#a11487d696b74a139ec2a082cb19e74b6", null ],
+    [ "isNull", "class_brx_sm_split.html#a7ce8a3c18c6e9865c78bf6caea0c2787", null ],
+    [ "loftSplitPoint", "class_brx_sm_split.html#a2dd6d07f11bfdd256785a7aeb6ca235e", null ],
+    [ "operator=", "class_brx_sm_split.html#a5a414a5a6380b0adaf8cb6e56e14be8e", null ],
+    [ "orthogonalSplit", "class_brx_sm_split.html#a0a643493a2bee238794587e1899deb93", null ],
+    [ "run", "class_brx_sm_split.html#a3719f6eae5e4e218b88138b92deb6e5f", null ],
+    [ "setConvertBendToJunction", "class_brx_sm_split.html#a336e99084bd7aceed0ee4d1956e452b5", null ],
+    [ "setCutDepth", "class_brx_sm_split.html#a38ba1a608094e90deff83502f7d2ac9a", null ],
+    [ "setFeatureFaces", "class_brx_sm_split.html#a52e77b7e60a532186f7eaccb93ef86f4", null ],
+    [ "setFlangeSplitCurves", "class_brx_sm_split.html#a705209ce2ed816b1f3155765e5299ef6", null ],
+    [ "setFlangeSplitType", "class_brx_sm_split.html#aa21bd2430057fc83b1148d7202c8d6b3", null ],
+    [ "setHealCoincidence", "class_brx_sm_split.html#a5e0724145bff44ab8f7e34cb59e253d9", null ],
+    [ "setLoftSplitPoint", "class_brx_sm_split.html#ab565f689107c7dbc1ded98561bed0825", null ],
+    [ "setNull", "class_brx_sm_split.html#a00f24db2984339d5fa206d7a57992ddb", null ],
+    [ "setOrthogonalSplit", "class_brx_sm_split.html#a15a1e39a417c9106dac27529ce1b440a", null ]
+];

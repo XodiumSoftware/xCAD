@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://www.bricsys.com/bsyslib" xmlns:bl="http://www.bricsys.com/bsyslib" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="bsyslib">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="profilestandard" type="bl:ProfileStandard" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="profilename" type="bl:ProfileName" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="circleprofile" type="bl:CircleProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="circlehollowprofile" type="bl:CircleHollowProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="ellipseprofile" type="bl:EllipseProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="rectangleprofile" type="bl:RectangleProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="rectanglehollowprofile" type="bl:RectangleHollowProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="roundedrectangleprofile" type="bl:RoundedRectangleProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="trapeziumprofile" type="bl:TrapeziumProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="cranerailashapeprofile" type="bl:CraneRailAShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="cranerailfshapeprofile" type="bl:CraneRailFShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="tshapeprofile" type="bl:TShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="zshapeprofile" type="bl:ZShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="cshapeprofile" type="bl:CShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="ushapeprofile" type="bl:UShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="lshapeprofile" type="bl:LShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="ishapeprofile" type="bl:IShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="asymmetricishapeprofile" type="bl:AsymmetricIShapeProfile" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:positiveInteger" fixed="1004"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ProfileType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Generic"/>
+      <xs:enumeration value="StructuralConcrete"/>
+      <xs:enumeration value="StructuralSteel"/>
+      <xs:enumeration value="Plumbing"/>
+      <xs:enumeration value="Heating"/>
+      <xs:enumeration value="Ventilation"/>
+      <xs:enumeration value="Airconditioning"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ProfileStandard">
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="id" type="xs:positiveInteger"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="ProfileName">
+    <xs:sequence>
+      <xs:element name="standard" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:positiveInteger">
+            <xs:annotation>
+              <xs:appinfo>bl:ProfileStandard</xs:appinfo>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="name" type="xs:normalizedString"/>
+      <xs:element name="type" type="bl:ProfileType" minOccurs="0" default="Generic"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:positiveInteger"/>
+  </xs:complexType>
+
+  <xs:complexType name="Profile" abstract="true">
+    <xs:sequence>
+      <xs:element name="name">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:positiveInteger">
+            <xs:annotation>
+              <xs:appinfo>bl:ProfileName</xs:appinfo>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="size" type="xs:normalizedString" minOccurs="0" default=""/>
+      <xs:element name="description" type="xs:string" minOccurs="0" default=""/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CircleProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="radius" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CircleHollowProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:CircleProfile">
+        <xs:sequence>
+          <xs:element name="wallThickness" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EllipseProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="semiAxis1" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="semiAxis2" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RectangleProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="xDim" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="yDim" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RectangleHollowProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:RectangleProfile">
+        <xs:sequence>
+          <xs:element name="wallThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="innerFilletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="outerFilletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RoundedRectangleProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:RectangleProfile">
+        <xs:sequence>
+          <xs:element name="roundingRadius" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TrapeziumProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="bottomXDim" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="topXDim" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="yDim" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="topXOffset" type="xs:double" minOccurs="0" default="0.0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CraneRailAShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="overallHeight" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseWidth2" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="radius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="headWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="headDepth2" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="headDepth3" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseWidth4" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseDepth1" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseDepth2" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseDepth3" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="centreOfGravityInY" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CraneRailFShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="overallHeight" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="headWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="radius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="headDepth2" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="headDepth3" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseDepth1" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="baseDepth2" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="centreOfGravityInY" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="depth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="filletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="flangeEdgeRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="webEdgeRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="webSlope" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="flangeSlope" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="centreOfGravityInY" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ZShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="depth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="filletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="edgeRadius" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="depth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="width" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="wallThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="girth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="internalFilletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="centreOfGravityInX" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="depth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="filletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="edgeRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="flangeSlope" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="centreOfGravityInX" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="depth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="width" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="thickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="filletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="edgeRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="legSlope" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="centreOfGravityInX" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:Profile">
+        <xs:sequence>
+          <xs:element name="overallWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="overallDepth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="webThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="flangeThickness" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="filletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AsymmetricIShapeProfile">
+    <xs:complexContent>
+      <xs:extension base="bl:IShapeProfile">
+        <xs:sequence>
+          <xs:element name="topFlangeWidth" type="xs:double" minOccurs="0" default="0.0"/>
+          <xs:element name="topFlangeThickness" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="topFlangeFilletRadius" type="xs:double" minOccurs="0" nillable="true"/>
+          <xs:element name="centreOfGravityInY" type="xs:double" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>
