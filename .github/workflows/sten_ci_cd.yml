@@ -9,11 +9,7 @@ jobs:
   test:
     name: Test
     if: contains(github.event.head_commit.message, '.deploy')
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        version: [3.12]
+    runs-on: ubuntu-latest
     steps:
       - id: checkout
         name: Checkout
@@ -23,7 +19,7 @@ jobs:
         name: Setup Python
         uses: actions/setup-python@main
         with:
-          python-version: ${{ matrix.version }}
+          python-version: "3.12"
           cache: "pip"
 
       - id: install_dependencies
@@ -60,11 +56,7 @@ jobs:
   release:
     name: Release
     needs: [test]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        version: [3.12]
+    runs-on: ubuntu-latest
     steps:
       - id: checkout
         name: Checkout
@@ -74,7 +66,7 @@ jobs:
         name: Setup Python
         uses: actions/setup-python@main
         with:
-          python-version: ${{ matrix.version }}
+          python-version: "3.12"
           cache: "pip"
 
       - id: install_dependencies
@@ -85,10 +77,9 @@ jobs:
         name: Build Package
         run: python -m build
 
-      - id: create_tag
-        name: Create & Push Tag
-        run: echo TAG=$(python setup.py --version) >> $GITHUB_OUTPUT
-        shell: bash
+      - id: get_version
+        name: Get Version
+        run: echo VERSION=$(python setup.py --version) >> $GITHUB_OUTPUT
 
       - id: create_release
         name: Create Release
@@ -96,7 +87,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.TAG }}
+          generate_release_notes: true
+          prerelease: ${{ contains(github.event.head_commit.message, '.pre') }}
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
 
       - id: release_badge
         name: Release Badge
@@ -116,11 +109,7 @@ jobs:
   wiki:
     name: Wiki
     needs: [test]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        version: [3.12]
+    runs-on: ubuntu-latest
     steps:
       - id: checkout
         name: Checkout
@@ -130,7 +119,7 @@ jobs:
         name: Setup Python
         uses: actions/setup-python@main
         with:
-          python-version: ${{ matrix.version }}
+          python-version: "3.12"
           cache: "pip"
 
       - id: install_dependencies
