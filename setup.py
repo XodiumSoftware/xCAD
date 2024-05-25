@@ -22,7 +22,6 @@ setup(
         (
             "",
             [
-                "CHANGELOG.md",
                 "CODE_OF_CONDUCT.md",
                 "CONTRIBUTING.md",
                 "LICENSE.md",
@@ -35,7 +34,7 @@ setup(
     project_urls={
         "Source Code": "https://github.com/Structura-Engineering/AutoFrameCAD",
         "Bug Tracker": "https://github.com/Structura-Engineering/AutoFrameCAD/issues",
-        "Documentation": "https://wiki.structura-engineering.com/AutoFrameCAD",
+        "Documentation": "https://wiki.structura-engineering.com/",
         "Funding": "https://buymeacoffee.com/illyrius",
     },
 )
