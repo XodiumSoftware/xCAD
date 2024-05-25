@@ -87,6 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          draft: ${{ contains(github.event.head_commit.message, '.draft') }}
           generate_release_notes: true
           prerelease: ${{ contains(github.event.head_commit.message, '.pre') }}
           tag_name: ${{ steps.get_version.outputs.VERSION }}
