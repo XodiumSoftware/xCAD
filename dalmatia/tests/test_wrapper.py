@@ -3,8 +3,8 @@
 import ctypes
 import unittest
 
-from autoframecad.__config__ import UTILS_LIB_FILE
-from stenlib import Utils
+from dalmatia import Utils
+from dardania.__config__ import UTILS_LIB_FILE
 
 
 class TestWrapper(unittest.TestCase):

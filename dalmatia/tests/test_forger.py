@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from stenlib.forger import Forger
+from dalmatia.forger import Forger
 
 
 class TestForger(unittest.TestCase):

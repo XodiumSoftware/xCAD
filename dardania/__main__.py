@@ -3,22 +3,21 @@
 import sys
 from tkinter import Tk as tkTk
 
-from autoframecad.ui import PrimaryUI
+from dardania.ui import UI
 
 
 class App:
     """A class used to represent the application."""
 
-    def __init__(self: "App", modules: list[tkTk]) -> None:
+    def __init__(self: "App", module: tkTk) -> None:
         """Initializes and runs the application.
 
         Args:
-            modules: The modules to use.
+            module: The modules to use.
         """
-        for module in modules:
-            module.mainloop()
+        module.mainloop()
         sys.exit()
 
 
 if __name__ == "__main__":
-    App([PrimaryUI()])
+    App(UI())

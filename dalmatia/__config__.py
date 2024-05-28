@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from stenlib import Utils
+from dalmatia import Utils
 
 # General
 # =============================================================================
