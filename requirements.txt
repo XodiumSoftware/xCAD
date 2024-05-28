@@ -1,4 +1,5 @@
 build
+pillow
 setuptools
 sqlalchemy
 sv-ttk
