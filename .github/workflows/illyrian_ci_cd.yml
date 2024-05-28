@@ -1,5 +1,5 @@
-name: Sten's CI/CD
-run-name: "Sten's CI/CD"
+name: Illyrian's CI/CD
+run-name: "Illyrian's CI/CD"
 
 on:
   push:
@@ -28,11 +28,11 @@ jobs:
 
       - id: create_build_dir
         name: Create Build Directory
-        run: mkdir -p AutoFrameCAD/build
+        run: mkdir -p dardania/build
 
       - id: compile_to_shared_library
         name: Compile to Shared Library
-        run: g++ -shared -fPIC -g AutoFrameCAD/test.cpp -o AutoFrameCAD/build/test.so
+        run: g++ -shared -fPIC -g dardania/test.cpp -o dardania/build/test.so
 
       - id: run_tests
         name: Run Tests

@@ -5,10 +5,10 @@
       "name": "AutoFrameCAD: Launch",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/autoframecad",
+      "program": "${workspaceFolder}/dardania",
       "console": "integratedTerminal",
-      "justMyCode": true,
-      "preLaunchTask": "C: Compile to Shared Library"
+      "justMyCode": true
+      // "preLaunchTask": "C: Compile to Shared Library"
     }
   ]
 }

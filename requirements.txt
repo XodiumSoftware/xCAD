@@ -1,8 +1,4 @@
 build
-cairosvg
-ifcopenshell
 setuptools
 sqlalchemy
-sphinx
-sphinx-book-theme
 sv-ttk

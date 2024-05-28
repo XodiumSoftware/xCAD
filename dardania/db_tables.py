@@ -2,7 +2,7 @@
 
 import sqlalchemy as sql
 
-from stenlib import Utils
+from dalmatia import Utils
 
 
 class PreferencesTable(Utils.database.base):

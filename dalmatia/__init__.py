@@ -1,8 +1,8 @@
 """This module contains utility functions."""
 
-from stenlib.database import Database
-from stenlib.forger import Forger
-from stenlib.wrapper import Wrapper
+from dalmatia.database import Database
+from dalmatia.forger import Forger
+from dalmatia.wrapper import Wrapper
 
 
 class Utils:

@@ -3,20 +3,16 @@
 from tkinter import PhotoImage
 from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
 
-from autoframecad.__config__ import UI_ICON_FILE
-from autoframecad.core import CoreUI
+from dardania.__config__ import UI_ICON_FILE
+from dardania.core import CoreUI
 
 
-class PrimaryUI(CoreUI):
+class UI(CoreUI):
     """A class used to represent a ui module."""
 
-    def __init__(self: "PrimaryUI") -> None:
+    def __init__(self: "UI") -> None:
         """Initialize the class."""
         super().__init__()
-        self._setup()
-
-    def _setup(self: "PrimaryUI") -> None:
-        """Setup the class."""
         self.title("AutoFrameCAD")
         self.theme(self.db.get_data(self.table, "usr_theme"))
         self.visible(state=True)
@@ -26,6 +22,7 @@ class PrimaryUI(CoreUI):
         self.minsize(1200, 800)
         self.events({"<Control-q>": lambda _: self.quit()})
         self.config(padx=5, pady=5)
+        self.protocol("WM_DELETE_WINDOW", self.quit)
 
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -34,7 +31,7 @@ class PrimaryUI(CoreUI):
         self._body()
         self._footer()
 
-    def _header(self: "PrimaryUI") -> None:
+    def _header(self: "UI") -> None:
         """Create the header."""
         header = Frame(self, padding=5)
         header.grid(row=0, column=0, columnspan=2, sticky="nsew")
@@ -49,7 +46,7 @@ class PrimaryUI(CoreUI):
         )
         header_title.grid(row=0, column=0, columnspan=2, sticky="ew")
 
-    def _body(self: "PrimaryUI") -> None:
+    def _body(self: "UI") -> None:
         """Create the body."""
         body = PanedWindow(self, orient="horizontal")
         body.grid(row=1, column=0, columnspan=2, sticky="nsew")
@@ -76,7 +73,7 @@ class PrimaryUI(CoreUI):
         body.add(body_props)  # type: ignore[assignment]
         body.add(body_viewer)  # type: ignore[assignment]
 
-    def _footer(self: "PrimaryUI") -> None:
+    def _footer(self: "UI") -> None:
         """Create the footer."""
         footer = Frame(self, padding=5)
         footer.grid(row=2, column=0, columnspan=2, sticky="nsew")

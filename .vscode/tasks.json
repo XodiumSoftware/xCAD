@@ -4,7 +4,7 @@
     {
       "label": "C: Create Build Folder",
       "type": "shell",
-      "command": "mkdir -p ${workspaceFolder}/autoframecad/build",
+      "command": "mkdir -p ${workspaceFolder}/dardania/build",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -22,9 +22,9 @@
         "-shared",
         "-fPIC",
         "-g",
-        "${workspaceFolder}/autoframecad/test.cpp",
+        "${workspaceFolder}/dardania/acrxEntryPoint.cpp",
         "-o",
-        "${workspaceFolder}/autoframecad/build/test.so"
+        "${workspaceFolder}/dardania/build/acrxEntryPoint.so"
       ],
       "group": {
         "kind": "build",

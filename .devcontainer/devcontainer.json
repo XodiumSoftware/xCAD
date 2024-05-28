@@ -1,13 +1,13 @@
 {
   "image": "python:3.12-bullseye",
-  "remoteUser": "vscode@STEN",
+  "remoteUser": "vscode@IllyrianEngineering",
   "hostRequirements": {
     "gpu": true
   },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": "true",
-      "username": "vscode@STEN",
+      "username": "vscode@IllyrianEngineering",
       "userUid": "automatic",
       "userGid": "automatic",
       "upgradePackages": "true"

@@ -8,14 +8,14 @@ from typing import Any
 import sv_ttk
 from PIL import Image, ImageTk
 
-from autoframecad.__config__ import (
+from dalmatia import Utils
+from dardania.__config__ import (
     DARK_MODE_ICON_FILE,
     DATABASE_FILE,
     LIGHT_MODE_ICON_FILE,
     PREFERENCES_DATA,
 )
-from autoframecad.db_tables import PreferencesTable
-from stenlib import Utils
+from dardania.db_tables import PreferencesTable
 
 
 class CoreUI(tkTk):
