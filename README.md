@@ -2,11 +2,11 @@
 
 <h1 align="center">
   <br />
-    <a href="https://structura-engineering.com/">
-      <img src="https://raw.githubusercontent.com/Structura-Engineering/.github/main/icons/favicon.webp" alt="AutoFrameCAD Logo" width="200">
+    <a href="https://illyrian-engineering.com/">
+      <img src="https://raw.githubusercontent.com/IllyrianEngineering/.github/main/icons/favicon.webp" alt="Dardania Logo" width="200">
     </a>
   <br /><br />
-  AutoFrameCAD
+  Dardania
   <br />
   <br />
 </h1>
@@ -34,11 +34,11 @@
 
 ## About The Project
 
-AutoFrameCAD is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, AutoFrameCAD offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
+Dardania is not just a program, it's your companion in creating CAD objects fast and efficiently. Built to simplify the drawing process, Dardania offers a rich array of automatic tools, empowering drawers to focus on creating remarkable projects that tackle real-world challenges.
 
-Whether you're a seasoned drawer or just embarking on your drawing adventure, AutoFrameCAD strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting AutoFrameCAD pave the way for a seamless development experience.
+Whether you're a seasoned drawer or just embarking on your drawing adventure, Dardania strives to be your ultimate drawing ally. Say goodbye to repetitive tasks and embrace best drawing practices, letting Dardania pave the way for a seamless development experience.
 
-**Why AutoFrameCAD?**
+**Why Dardania?**
 
 > :gear: **Automated Framework Creation:** Streamline your design process with automatic tools, allowing you to focus on the bigger picture.
 
@@ -46,15 +46,15 @@ Whether you're a seasoned drawer or just embarking on your drawing adventure, Au
 
 > :computer: **User-friendly Interface:** Navigate with ease through our intuitive interface, designed for both seasoned and novice drawers.
 
-> :triangular_ruler: **Supports Architectural, Structural, and Industrial projects:** Whether it’s architectural, structural, or industrial, AutoFrameCAD has got you covered.
+> :triangular_ruler: **Supports Architectural, Structural, and Industrial projects:** Whether it’s architectural, structural, or industrial, Dardania has got you covered.
 
 > :hourglass_flowing_sand: **Time-saving and Efficient:** Say goodbye to repetitive tasks and hello to efficiency, saving you valuable time.
 
 > :white_check_mark: **Currently supports:** `AutoCAD` · `BricsCAD`
 
-As the coding landscape evolves, so will AutoFrameCAD. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make AutoFrameCAD even better together.
+As the coding landscape evolves, so will Dardania. Expect ongoing updates and improvements to cater to diverse project needs. Your feedback, suggestions, and contributions are highly valued, let's make Dardania even better together.
 
-Feel free to dive into the documentation to kickstart your journey with AutoFrameCAD.
+Feel free to dive into the documentation to kickstart your journey with Dardania.
 
 <div align="center"><h3>Built With</h3>
 
@@ -64,7 +64,7 @@ Feel free to dive into the documentation to kickstart your journey with AutoFram
 
 ## Getting Started
 
-Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local environment in a few simple steps:
+Ready to kick off your coding journey with Dardania? Let's set up your local environment in a few simple steps:
 
 1. **Install Prerequisites:**
 
@@ -72,7 +72,7 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 2. **Clone the Repository:**
    ```sh
-   git clone https://github.com/Structura-Engineering/AutoFrameCAD.git
+   git clone https://github.com/IllyrianEngineering/Dardania.git
    ```
 3. **Navigate to the Project Directory**
 
@@ -86,22 +86,22 @@ Ready to kick off your coding journey with AutoFrameCAD? Let's set up your local
 
 [built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp,c
 [built_with_url]: https://skillicons.dev
-[changelog_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CHANGELOG.md
-[code_of_conduct_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=coc-ov-file
-[contributing_url]: https://github.com/Structura-Engineering/AutoFrameCAD/blob/main/CONTRIBUTING.md
-[contributors_shield_url]: https://img.shields.io/github/contributors/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=blue
-[contributors_url]: https://github.com/Structura-Engineering/AutoFrameCAD/graphs/contributors
+[changelog_url]: https://github.com/IllyrianEngineering/Dardania/blob/main/CHANGELOG.md
+[code_of_conduct_url]: https://github.com/IllyrianEngineering/Dardania?tab=coc-ov-file
+[contributing_url]: https://github.com/IllyrianEngineering/Dardania/blob/main/CONTRIBUTING.md
+[contributors_shield_url]: https://img.shields.io/github/contributors/IllyrianEngineering/Dardania?style=for-the-badge&color=blue
+[contributors_url]: https://github.com/IllyrianEngineering/Dardania/graphs/contributors
 [dev_containers_url]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
-[issues_shield_url]: https://img.shields.io/github/issues/Structura-Engineering/AutoFrameCAD?style=for-the-badge&color=yellow
-[issues_url]: https://github.com/Structura-Engineering/AutoFrameCAD/issues
-[license_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=AGPL-3.0-1-ov-file
+[issues_shield_url]: https://img.shields.io/github/issues/IllyrianEngineering/Dardania?style=for-the-badge&color=yellow
+[issues_url]: https://github.com/IllyrianEngineering/Dardania/issues
+[license_url]: https://github.com/IllyrianEngineering/Dardania?tab=AGPL-3.0-1-ov-file
 [release_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/release_badge.json
-[release_url]: https://github.com/Structura-Engineering/AutoFrameCAD/releases
+[release_url]: https://github.com/IllyrianEngineering/Dardania/releases
 [roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
-[roadmap_url]: https://github.com/orgs/Structura-Engineering/projects/4
-[security_url]: https://github.com/Structura-Engineering/AutoFrameCAD?tab=security-ov-file
+[roadmap_url]: https://github.com/orgs/IllyrianEngineering/projects/4
+[security_url]: https://github.com/IllyrianEngineering/Dardania?tab=security-ov-file
 [test_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/test_badge.json
-[test_url]: https://github.com/Structura-Engineering/AutoFrameCAD/actions
+[test_url]: https://github.com/IllyrianEngineering/Dardania/actions
 [wiki_shield_url]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/illyrius666/75d51317191738246cdec92eabcc599f/raw/wiki_badge.json
-[wiki_url]: https://wiki.structura-engineering.com/
-[how_to_containers_url]: https://github.com/Structura-Engineering/AutoFrameCAD/assets/28700752/2caaca1c-a0bd-45a8-ae82-8e8c4ec24d9d
+[wiki_url]: https://wiki.IllyrianEngineering.com/
+[how_to_containers_url]: https://github.com/IllyrianEngineering/Dardania/assets/28700752/2caaca1c-a0bd-45a8-ae82-8e8c4ec24d9d

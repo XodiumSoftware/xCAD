@@ -1,13 +1,13 @@
 {
-  // AutoFrameCAD Settings
+  // Dardania Settings
   "terminal.integrated.env.linux": {
-    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+    "PYTHONPATH": "/workspaces/Dardania"
   },
   "terminal.integrated.env.osx": {
-    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+    "PYTHONPATH": "/workspaces/Dardania"
   },
   "terminal.integrated.env.windows": {
-    "PYTHONPATH": "/workspaces/AutoFrameCAD"
+    "PYTHONPATH": "/workspaces/Dardania"
   },
   // Code Runner Settings
   "code-runner.clearPreviousOutput": true,

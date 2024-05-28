@@ -13,7 +13,7 @@ class UI(CoreUI):
     def __init__(self: "UI") -> None:
         """Initialize the class."""
         super().__init__()
-        self.title("AutoFrameCAD")
+        self.title("Dardania")
         self.theme(self.db.get_data(self.table, "usr_theme"))
         self.visible(state=True)
         self.resizable(width=True, height=True)

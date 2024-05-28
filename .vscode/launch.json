@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "AutoFrameCAD: Launch",
+      "name": "Dardania: Launch",
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/dardania",

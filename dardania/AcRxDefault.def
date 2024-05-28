@@ -1,4 +1,4 @@
-LIBRARY "AutoFrameCAD.arx"
+LIBRARY "Dardania.arx"
 EXPORTS
     acrxEntryPoint PRIVATE
     acrxGetApiVersion PRIVATE
