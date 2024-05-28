@@ -38,21 +38,6 @@ jobs:
         name: Run Tests
         run: python -m unittest discover
 
-      - id: test_badge
-        name: Test Badge
-        if: always()
-        uses: schneegans/dynamic-badges-action@master
-        with:
-          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: test_badge.json
-          label: Unittest
-          message: ${{ job.status }}
-          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-          namedLogo: pytest
-          logoColor: white
-          style: flat-square
-
   release:
     name: Release
     needs: [test]
@@ -91,67 +76,3 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ contains(github.event.head_commit.message, '.pre') }}
           tag_name: ${{ steps.get_version.outputs.VERSION }}
-
-      - id: release_badge
-        name: Release Badge
-        if: always()
-        uses: schneegans/dynamic-badges-action@master
-        with:
-          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: release_badge.json
-          label: Release
-          message: ${{ job.status }}
-          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-          namedLogo: hackthebox
-          logoColor: white
-          style: flat-square
-
-  wiki:
-    name: Wiki
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - id: checkout
-        name: Checkout
-        uses: actions/checkout@main
-
-      - id: setup_python
-        name: Setup Python
-        uses: actions/setup-python@main
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      - id: install_dependencies
-        name: Install Dependencies
-        run: pip install -e .
-
-      - id: build_wiki
-        name: Build Wiki
-        run: cd stenwiki && make html
-
-      - id: upload_wiki
-        name: Upload Wiki
-        uses: SamKirkland/FTP-Deploy-Action@master
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: stenwiki/_build/html/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-
-      - id: wiki_badge
-        name: Wiki Badge
-        if: always()
-        uses: schneegans/dynamic-badges-action@master
-        with:
-          auth: ${{ secrets.GIST_ACCESS_TOKEN }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: wiki_badge.json
-          label: Wiki
-          message: ${{ job.status }}
-          color: ${{ job.status == 'success' && 'brightgreen' || 'red' }}
-          namedLogo: googledocs
-          logoColor: white
-          style: flat-square
