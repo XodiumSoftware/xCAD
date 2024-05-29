@@ -1,9 +1,14 @@
 # Table of contents
 
-* [Contributor Covenant Code of Conduct](README.md)
-* [Contributing](contributing.md)
-* [LICENSE](license.md)
-* [README](readme.md)
-* [Security Policy](security.md)
-* [dardania](dardania/README.md)
-  * [API Configuration for (GUI) Applications](dardania/libs.md)
+* [Welcome!](README.md)
+* [Quick Start](quick-start.md)
+
+## Reference
+
+* [API Reference](reference/api-reference/README.md)
+  * [Pets](reference/api-reference/pets.md)
+  * [Users](reference/api-reference/users.md)
+
+***
+
+* [Page 1](page-1.md)
