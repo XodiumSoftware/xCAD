@@ -4,11 +4,25 @@ run-name: "Illyrian's CI/CD"
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '.deploy')
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '.deploy')
+    environment:
+      name: ${{ github.ref_name }}
+      url: ${{ steps.upload_package.outputs.artifact-url }}
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
     steps:
       - id: checkout
         name: Checkout
@@ -32,6 +46,10 @@ jobs:
         name: Install Dependencies
         run: pip install -e .
 
+      - id: get_version
+        name: Get Version
+        run: echo "VERSION=$(python setup.py --version)" >> $GITHUB_OUTPUT
+
       - id: build_package
         name: Build Package
         run: python -m build
@@ -46,6 +64,8 @@ jobs:
   test:
     needs: [build]
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
     steps:
       - id: download_package
         name: Download Package
@@ -58,18 +78,17 @@ jobs:
         run: python -m unittest discover
 
   release:
-    needs: [test]
+    needs: [build, test]
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+      url: ${{ steps.create_release.outputs.url }}
     steps:
       - id: download_package
         name: Download Package
         uses: actions/download-artifact@v2
         with:
           name: package
-
-      - id: get_version
-        name: Get Version
-        run: echo VERSION=$(python setup.py --version) >> $GITHUB_OUTPUT
 
       - id: create_release
         name: Create Release
@@ -80,4 +99,4 @@ jobs:
           draft: ${{ contains(github.event.head_commit.message, '.draft') }}
           generate_release_notes: true
           prerelease: ${{ contains(github.event.head_commit.message, '.pre') }}
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          tag_name: ${{ needs.build.outputs.VERSION }}
