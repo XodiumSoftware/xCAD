@@ -6,9 +6,9 @@ from tkinter.ttk import Button
 from typing import Any
 
 import sv_ttk
+from dalmatia import Utils
 from PIL import Image, ImageTk
 
-from dalmatia import Utils
 from dardania.__config__ import (
     DARK_MODE_ICON_FILE,
     DATABASE_FILE,
