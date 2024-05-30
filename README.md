@@ -18,8 +18,7 @@
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
 [![Roadmap][roadmap_shield_url]][roadmap_url]<br />
-
-</div>
+[![CI/CD][workflow_shield_url]][workflow_url]</div>
 
 ## Table of Contents
 
@@ -72,3 +71,5 @@ Feel free to dive into the documentation to kickstart your journey with Dardania
 [roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
 [roadmap_url]: https://github.com/orgs/IllyrianEngineering/projects/4
 [security_url]: https://github.com/IllyrianEngineering/Dardania?tab=security-ov-file
+[workflow_shield_url]: https://github.com/IllyrianEngineering/Dardania/actions/workflows/ci_cd.yml/badge.svg
+[workflow_url]: https://github.com/IllyrianEngineering/Dardania/actions/workflows/ci_cd.yml
