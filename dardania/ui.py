@@ -1,6 +1,6 @@
 """This module contains the UI functionality."""
 
-import pyqtdarktheme
+import qdarktheme as qdt  # type: ignore[import]
 from dalmatia import Utils
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
@@ -51,7 +51,7 @@ class UI(QMainWindow):
         self._layout.addWidget(self.footer_copyright, 2, 0)
         self._layout.addWidget(self.footer_theme_button, 2, 1)
 
-        self.setStyleSheet(pyqtdarktheme.load_stylesheet())
+        self.setStyleSheet(qdt.load_stylesheet())
 
     def _header(self: "UI") -> None:
         """Create the header."""
@@ -80,7 +80,7 @@ class UI(QMainWindow):
             self.footer_theme_button.setIcon(QIcon(str(DARK_MODE_ICON_FILE)))
         else:
             QApplication.instance().setStyleSheet(
-                pyqtdarktheme.load_stylesheet(),
+                qdt.load_stylesheet(),
             )
             self.db.set_data(self.table, {"usr_theme": "dark"})
             self.footer_theme_button.setIcon(QIcon(str(LIGHT_MODE_ICON_FILE)))
