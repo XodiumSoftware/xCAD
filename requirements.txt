@@ -1,6 +1,6 @@
 build
 dalmatia
-pillow
+pyside6
+pyqtdarktheme
 setuptools
 sqlalchemy
-sv-ttk

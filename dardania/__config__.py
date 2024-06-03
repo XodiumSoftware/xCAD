@@ -26,7 +26,7 @@ UTILS_LIB_FILE: Path = LIB_DIR / "test.so"
 # Database
 # =============================================================================
 DATABASE_DIR: Path = Utils.forge.dir(BASE_DIR / "database")
-DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "Dardania.db")
+DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "dardania.db")
 # =============================================================================
 
 # Preferences

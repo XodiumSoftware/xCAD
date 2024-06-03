@@ -1,96 +1,86 @@
 """This module contains the UI functionality."""
 
-from tkinter import PhotoImage
-from tkinter.ttk import Button, Frame, Label, PanedWindow, Treeview
+import pyqtdarktheme
+from dalmatia import Utils
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QIcon
+from PySide6.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QTreeWidget,
+    QWidget,
+)
 
-from dardania.__config__ import UI_ICON_FILE
-from dardania.core import CoreUI
+from dardania.__config__ import (
+    DARK_MODE_ICON_FILE,
+    DATABASE_FILE,
+    LIGHT_MODE_ICON_FILE,
+    PREFERENCES_DATA,
+    UI_ICON_FILE,
+)
+from dardania.db_tables import PreferencesTable
 
 
-class UI(CoreUI):
+class UI(QMainWindow):
     """A class used to represent a ui module."""
 
     def __init__(self: "UI") -> None:
         """Initialize the class."""
         super().__init__()
-        self.title("Dardania")
-        self.theme(self.db.get_data(self.table, "usr_theme"))
-        self.visible(state=True)
-        self.resizable(width=True, height=True)
-        self.iconphoto(True, PhotoImage(file=UI_ICON_FILE))  # noqa: FBT003
-        self.geometry(f"{1200}x{800}")
-        self.minsize(1200, 800)
-        self.events({"<Control-q>": lambda _: self.quit()})
-        self.config(padx=5, pady=5)
-        self.protocol("WM_DELETE_WINDOW", self.quit)
+        self.db = Utils.database(DATABASE_FILE)
+        self.table = PreferencesTable
+        self.db.add_data(self.table, PREFERENCES_DATA)
 
-        self.grid_rowconfigure(1, weight=1)
-        self.grid_columnconfigure(1, weight=1)
+        self.setWindowTitle("Dardania")
+        self.setWindowIcon(QIcon(str(UI_ICON_FILE)))
+        self.setMinimumSize(1200, 800)
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self._layout = QGridLayout(self.central_widget)
 
         self._header()
         self._body()
         self._footer()
 
+        self._layout.addWidget(self.header_title, 0, 0, 1, 2)
+        self._layout.addWidget(self.body_props_tree, 1, 0, 1, 2)
+        self._layout.addWidget(self.footer_copyright, 2, 0)
+        self._layout.addWidget(self.footer_theme_button, 2, 1)
+
+        self.setStyleSheet(pyqtdarktheme.load_stylesheet())
+
     def _header(self: "UI") -> None:
         """Create the header."""
-        header = Frame(self, padding=5)
-        header.grid(row=0, column=0, columnspan=2, sticky="nsew")
-        header.grid_rowconfigure(0, weight=1)
-        header.grid_columnconfigure(0, weight=1)
-
-        header_title = Label(
-            header,
-            text="BIM Object Configurator",
-            font=("", 12, "bold"),
-            anchor="center",
-        )
-        header_title.grid(row=0, column=0, columnspan=2, sticky="ew")
+        self.header_title = QLabel("BIM Object Configurator")
+        self.header_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.header_title.setFont(QFont("", 12, QFont.Weight.Bold))
 
     def _body(self: "UI") -> None:
         """Create the body."""
-        body = PanedWindow(self, orient="horizontal")
-        body.grid(row=1, column=0, columnspan=2, sticky="nsew")
-        body.grid_rowconfigure(0, weight=1)
-        body.grid_columnconfigure(0, weight=1)
-        body.grid_columnconfigure(1, weight=1)
-
-        body_props = Frame(body, padding=5)
-        body_props.grid_rowconfigure(0, weight=1)
-        body_props.grid_columnconfigure(0, weight=1)
-
-        body_props_tree = Treeview(
-            body_props,
-            columns=("Property", "Value"),
-            show="headings",
-        )
-        body_props_tree.heading("Property", text="Property")
-        body_props_tree.heading("Value", text="Value")
-
-        body_props_tree.grid(row=0, column=0, columnspan=2, sticky="nsew")
-
-        body_viewer = Frame(body)
-
-        body.add(body_props)  # type: ignore[assignment]
-        body.add(body_viewer)  # type: ignore[assignment]
+        self.body_props_tree = QTreeWidget()
+        self.body_props_tree.setColumnCount(2)
+        self.body_props_tree.setHeaderLabels(["Property", "Value"])
 
     def _footer(self: "UI") -> None:
         """Create the footer."""
-        footer = Frame(self, padding=5)
-        footer.grid(row=2, column=0, columnspan=2, sticky="nsew")
-        footer.grid_rowconfigure(0, weight=1)
-        footer.grid_columnconfigure(0, weight=1)
+        self.footer_copyright = QLabel("©2023 Structura Engineering")
+        self.footer_theme_button = QPushButton()
+        self.footer_theme_button.clicked.connect(self.toggle_theme)
 
-        footer_copyright = Label(
-            footer,
-            text="©2023 Structura Engineering",
-        )
-        footer_copyright.grid(row=0, column=0, sticky="w")
-
-        self.footer_theme_button = Button(
-            footer,
-            image=self.dark_mode_icon
-            if self.get_theme() == "dark"
-            else self.light_mode_icon,  # type: ignore[arg-type]
-            command=lambda: self.toggle_theme(self.footer_theme_button),
-        )
-        self.footer_theme_button.grid(row=0, column=1, sticky="e")
+    def toggle_theme(self: "UI") -> None:
+        """Toggle between light and dark themes."""
+        current_theme = self.db.get_data(self.table, "usr_theme")
+        if current_theme == "dark":
+            QApplication.instance().setStyleSheet("")
+            self.db.set_data(self.table, {"usr_theme": "light"})
+            self.footer_theme_button.setIcon(QIcon(str(DARK_MODE_ICON_FILE)))
+        else:
+            QApplication.instance().setStyleSheet(
+                pyqtdarktheme.load_stylesheet(),
+            )
+            self.db.set_data(self.table, {"usr_theme": "dark"})
+            self.footer_theme_button.setIcon(QIcon(str(LIGHT_MODE_ICON_FILE)))

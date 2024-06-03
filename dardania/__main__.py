@@ -1,7 +1,8 @@
 """This module serves as the entry point for the application."""
 
 import sys
-from tkinter import Tk as tkTk
+
+from PySide6.QtWidgets import QApplication
 
 from dardania.ui import UI
 
@@ -9,15 +10,13 @@ from dardania.ui import UI
 class App:
     """A class used to represent the application."""
 
-    def __init__(self: "App", module: tkTk) -> None:
-        """Initializes and runs the application.
-
-        Args:
-            module: The modules to use.
-        """
-        module.mainloop()
-        sys.exit()
+    def __init__(self: "App") -> None:
+        """Initializes and runs the application."""
+        self.app = QApplication([])
+        self.window = UI()
+        self.window.show()
+        sys.exit(self.app.exec())
 
 
 if __name__ == "__main__":
-    App(UI())
+    App()
