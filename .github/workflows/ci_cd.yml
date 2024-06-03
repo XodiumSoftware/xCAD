@@ -1,5 +1,5 @@
-name: Illyrian's CI/CD
-run-name: "Illyrian's CI/CD"
+name: Illyrion CI/CD
+run-name: "Illyrion CI/CD"
 
 on:
   push:
