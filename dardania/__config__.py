@@ -12,7 +12,7 @@ BASE_DIR: Path = Path(__file__).resolve().parent
 # Icons
 # =============================================================================
 ICON_DIR: Path = Utils.forge.dir(BASE_DIR / "icons")
-UI_ICON_FILE: Path = ICON_DIR / "ui.png"
+UI_ICON_FILE: Path = ICON_DIR / "illyrion.svg"
 DARK_MODE_ICON_FILE: Path = ICON_DIR / "dark_mode.png"
 LIGHT_MODE_ICON_FILE: Path = ICON_DIR / "light_mode.png"
 # =============================================================================
