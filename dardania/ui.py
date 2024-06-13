@@ -69,7 +69,7 @@ class UI(QMainWindow):
 
     def _footer(self: "UI") -> None:
         """Create the footer."""
-        self.footer_copyright = QLabel("©2023 Structura Engineering")
+        self.footer_copyright = QLabel("©2024 Illyrion")
         self.footer_theme_button = QPushButton()
         self.set_theme_icon()
         self.footer_theme_button.clicked.connect(self.toggle_theme)

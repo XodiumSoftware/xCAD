@@ -1,23 +1,19 @@
 {
-  // Dardania Settings
-  "terminal.integrated.env.linux": {
-    "PYTHONPATH": "/workspaces/Dardania"
-  },
-  "terminal.integrated.env.osx": {
-    "PYTHONPATH": "/workspaces/Dardania"
-  },
-  "terminal.integrated.env.windows": {
-    "PYTHONPATH": "/workspaces/Dardania"
-  },
+  // General Settings
+  "extensions.ignoreRecommendations": true,
+  "workbench.colorTheme": "Monokai Dimmed",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none",
+  "svg.preview.background": "dark-transparent",
+
   // Code Runner Settings
-  "code-runner.clearPreviousOutput": true,
-  "code-runner.executorMap": {
-    "python": "$pythonPath -u $fullFileName"
-  },
+  "code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" },
   "code-runner.runInTerminal": true,
+
   // Editor Settings
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+
   // Python-specific Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {
@@ -26,21 +22,24 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
+
   // TOML-specific Editor Settings
-  "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
-  // General Settings
-  "extensions.ignoreRecommendations": true,
+  "[toml]": { "editor.defaultFormatter": "tamasfe.even-better-toml" },
+
+  // C/C++ Settings
+  "[c]": { "editor.defaultFormatter": "ms-vscode.cpptools" },
+  "[cpp]": { "editor.defaultFormatter": "ms-vscode.cpptools" },
+  "files.associations": { "ostream": "cpp" },
+
   // Explorer Settings
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+
   // Git Settings
   "git.autofetch": true,
   "git.enableSmartCommit": true,
-  "github.copilot.enable": {
-    "*": true
-  },
+  "github.copilot.enable": { "*": true },
+
   // JSON Schema Settings
   "json.schemas": [
     {
@@ -48,12 +47,12 @@
       "url": "https://json.schemastore.org/package"
     }
   ],
+
   // Material Icon Theme Settings
   "material-icon-theme.files.color": "#ef5350",
   "material-icon-theme.folders.color": "#ef5350",
-  "material-icon-theme.folders.associations": {
-    "dardania": "src"
-  },
+  "material-icon-theme.folders.associations": { "dardania": "src" },
+
   // Python Analysis Settings
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
@@ -65,29 +64,18 @@
   "python.analysis.importFormat": "absolute",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "strict",
+
   // Python Environment Settings
   "python.createEnvironment.trigger": "off",
+
   // Python Language Server Settings
   "python.languageServer": "Pylance",
+
   // Python Testing Settings
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
   "python.testing.unittestArgs": ["-v", "-s", "./", "-p", "test_*.py"],
+
   // Terminal Settings
-  "terminal.integrated.enableMultiLinePasteWarning": "never",
-  // Workbench Settings
-  "workbench.colorTheme": "Monokai Dimmed",
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "none",
-  "svg.preview.background": "dark-transparent",
-  // C/C++ Settings
-  "[c]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
-  "files.associations": {
-    "ostream": "cpp"
-  }
+  "terminal.integrated.enableMultiLinePasteWarning": "never"
 }
