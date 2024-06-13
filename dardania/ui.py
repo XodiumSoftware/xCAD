@@ -5,7 +5,6 @@ from dalmatia import Utils
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
-    QApplication,
     QGridLayout,
     QLabel,
     QMainWindow,
@@ -33,6 +32,7 @@ class UI(QMainWindow):
         self.db = Utils.database(DATABASE_FILE)
         self.table = PreferencesTable
         self.db.add_data(self.table, PREFERENCES_DATA)
+        self.current_theme = self.db.get_data(self.table, "usr_theme")
 
         self.setWindowTitle("Dardania")
         self.setWindowIcon(QIcon(str(UI_ICON_FILE)))
@@ -51,7 +51,9 @@ class UI(QMainWindow):
         self._layout.addWidget(self.footer_copyright, 2, 0)
         self._layout.addWidget(self.footer_theme_button, 2, 1)
 
-        self.setStyleSheet(qdt.load_stylesheet())
+        self.setStyleSheet(
+            qdt.load_stylesheet(self.db.get_data(self.table, "usr_theme")),
+        )
 
     def _header(self: "UI") -> None:
         """Create the header."""
@@ -69,18 +71,24 @@ class UI(QMainWindow):
         """Create the footer."""
         self.footer_copyright = QLabel("©2023 Structura Engineering")
         self.footer_theme_button = QPushButton()
+        self.set_theme_icon()
         self.footer_theme_button.clicked.connect(self.toggle_theme)
+
+    def set_theme_icon(self: "UI") -> None:
+        """Set the theme icon based on the current theme."""
+        if self.current_theme == "dark":
+            self.footer_theme_button.setIcon(QIcon(str(DARK_MODE_ICON_FILE)))
+        else:
+            self.footer_theme_button.setIcon(QIcon(str(LIGHT_MODE_ICON_FILE)))
 
     def toggle_theme(self: "UI") -> None:
         """Toggle between light and dark themes."""
-        current_theme = self.db.get_data(self.table, "usr_theme")
-        if current_theme == "dark":
-            QApplication.instance().setStyleSheet("")
+        if self.current_theme == "dark":
+            self.setStyleSheet(qdt.load_stylesheet("light"))
             self.db.set_data(self.table, {"usr_theme": "light"})
-            self.footer_theme_button.setIcon(QIcon(str(DARK_MODE_ICON_FILE)))
+            self.current_theme = "light"
         else:
-            QApplication.instance().setStyleSheet(
-                qdt.load_stylesheet(),
-            )
+            self.setStyleSheet(qdt.load_stylesheet("dark"))
             self.db.set_data(self.table, {"usr_theme": "dark"})
-            self.footer_theme_button.setIcon(QIcon(str(LIGHT_MODE_ICON_FILE)))
+            self.current_theme = "dark"
+        self.set_theme_icon()
