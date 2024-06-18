@@ -3,8 +3,7 @@
 import sys
 
 from PySide6.QtWidgets import QApplication
-
-from dardania.ui import UI
+from ui import UI
 
 
 class App:

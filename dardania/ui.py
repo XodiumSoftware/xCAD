@@ -1,7 +1,14 @@
 """This module contains the UI functionality."""
 
 import qdarktheme as qdt  # type: ignore[import]
+from __config__ import (
+    DATABASE_FILE,
+    PREFERENCES_DATA,
+    UI_ICON_FILE,
+)
 from dalmatia import Utils
+from db_tables import PreferencesTable
+from handlers import Handlers
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
@@ -13,14 +20,12 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from dardania.__config__ import (
-    DARK_MODE_ICON_FILE,
-    DATABASE_FILE,
-    LIGHT_MODE_ICON_FILE,
-    PREFERENCES_DATA,
-    UI_ICON_FILE,
-)
-from dardania.db_tables import PreferencesTable
+WINDOW_TITLE: str = "Dardania"
+WINDOW_MIN_SIZE: tuple[int, int] = 1200, 800
+
+USR_THEME: str = "usr_theme"
+DARK_THEME: str = "dark"
+LIGHT_THEME: str = "light"
 
 
 class UI(QMainWindow):
@@ -30,13 +35,18 @@ class UI(QMainWindow):
         """Initialize the class."""
         super().__init__()
         self.db = Utils.database(DATABASE_FILE)
-        self.table = PreferencesTable
-        self.db.add_data(self.table, PREFERENCES_DATA)
-        self.current_theme = self.db.get_data(self.table, "usr_theme")
+        self.preferences_table = PreferencesTable
+        self.db.add_data(self.preferences_table, PREFERENCES_DATA)
+        self.current_theme = self.db.get_data(
+            self.preferences_table,
+            USR_THEME,
+        )
 
-        self.setWindowTitle("Dardania")
+        self.handle = Handlers()
+
+        self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(str(UI_ICON_FILE)))
-        self.setMinimumSize(1200, 800)
+        self.setMinimumSize(*WINDOW_MIN_SIZE)
 
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
@@ -52,7 +62,9 @@ class UI(QMainWindow):
         self._layout.addWidget(self.footer_theme_button, 2, 1)
 
         self.setStyleSheet(
-            qdt.load_stylesheet(self.db.get_data(self.table, "usr_theme")),
+            qdt.load_stylesheet(
+                self.db.get_data(self.preferences_table, USR_THEME),
+            ),
         )
 
     def _header(self: "UI") -> None:
@@ -71,24 +83,23 @@ class UI(QMainWindow):
         """Create the footer."""
         self.footer_copyright = QLabel("©2024 Illyrion")
         self.footer_theme_button = QPushButton()
-        self.set_theme_icon()
+        self.handle.theme.set_theme_icon(
+            self.footer_theme_button,
+            self.current_theme,
+        )
         self.footer_theme_button.clicked.connect(self.toggle_theme)
-
-    def set_theme_icon(self: "UI") -> None:
-        """Set the theme icon based on the current theme."""
-        if self.current_theme == "dark":
-            self.footer_theme_button.setIcon(QIcon(str(DARK_MODE_ICON_FILE)))
-        else:
-            self.footer_theme_button.setIcon(QIcon(str(LIGHT_MODE_ICON_FILE)))
 
     def toggle_theme(self: "UI") -> None:
         """Toggle between light and dark themes."""
-        if self.current_theme == "dark":
-            self.setStyleSheet(qdt.load_stylesheet("light"))
-            self.db.set_data(self.table, {"usr_theme": "light"})
-            self.current_theme = "light"
+        if self.current_theme == DARK_THEME:
+            self.setStyleSheet(qdt.load_stylesheet(LIGHT_THEME))
+            self.db.set_data(self.preferences_table, {USR_THEME: LIGHT_THEME})
+            self.current_theme = LIGHT_THEME
         else:
-            self.setStyleSheet(qdt.load_stylesheet("dark"))
-            self.db.set_data(self.table, {"usr_theme": "dark"})
-            self.current_theme = "dark"
-        self.set_theme_icon()
+            self.setStyleSheet(qdt.load_stylesheet(DARK_THEME))
+            self.db.set_data(self.preferences_table, {USR_THEME: DARK_THEME})
+            self.current_theme = DARK_THEME
+        self.handle.theme.set_theme_icon(
+            self.footer_theme_button,
+            self.current_theme,
+        )

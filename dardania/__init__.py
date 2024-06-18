@@ -1,1 +1,1 @@
-"""This module contains nothing."""
+"""This is the dardania package."""
