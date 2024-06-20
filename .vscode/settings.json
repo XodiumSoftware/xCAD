@@ -14,6 +14,9 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
 
+  // Ruff Settings
+  "ruff.nativeServer": true,
+
   // Python-specific Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {
