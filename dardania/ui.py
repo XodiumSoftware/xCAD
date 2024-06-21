@@ -1,6 +1,5 @@
 """This module contains the UI functionality."""
 
-import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
     DATABASE_FILE,
     PREFERENCES_DATA,
@@ -8,7 +7,7 @@ from __config__ import (
 )
 from dalmatia import Utils
 from db_tables import PreferencesTable
-from handlers import Handlers
+from handlers.theme import Theme
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
@@ -23,10 +22,6 @@ from PySide6.QtWidgets import (
 WINDOW_TITLE: str = "Dardania"
 WINDOW_MIN_SIZE: tuple[int, int] = 1200, 800
 
-USR_THEME: str = "usr_theme"
-DARK_THEME: str = "dark"
-LIGHT_THEME: str = "light"
-
 
 class UI(QMainWindow):
     """A class used to represent a ui module."""
@@ -37,33 +32,33 @@ class UI(QMainWindow):
         self.db = Utils.database(DATABASE_FILE)
         self.preferences_table = PreferencesTable
         self.db.add_data(self.preferences_table, PREFERENCES_DATA)
-        self.current_theme = self.db.get_data(
-            self.preferences_table,
-            USR_THEME,
-        )
 
-        self.handle = Handlers()
+        self.handle_theme = Theme(self, self.db, self.preferences_table)
 
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(str(UI_ICON_FILE)))
         self.setMinimumSize(*WINDOW_MIN_SIZE)
 
-        self.central_widget = QWidget(self)
-        self.setCentralWidget(self.central_widget)
-        self._layout = QGridLayout(self.central_widget)
+        self.setCentralWidget(QWidget(self))
+        self.__layout__ = QGridLayout(self.centralWidget())
 
         self._header()
         self._body()
         self._footer()
 
-        self._layout.addWidget(self.header_title, 0, 0, 1, 2)
-        self._layout.addWidget(self.body_props_tree, 1, 0, 1, 2)
-        self._layout.addWidget(self.footer_copyright, 2, 0)
-        self._layout.addWidget(self.footer_theme_button, 2, 1)
-
-        self.setStyleSheet(
-            qdt.load_stylesheet(
-                self.db.get_data(self.preferences_table, USR_THEME),
+        list(
+            map(
+                self.__layout__.addWidget,
+                [
+                    self.header_title,
+                    self.body_props_tree,
+                    self.footer_copyright,
+                    self.footer_theme_button,
+                ],
+                [0, 1, 2, 2],
+                [0, 0, 0, 1],
+                [1, 1, 1, 1],
+                [2, 2, 1, 1],
             ),
         )
 
@@ -83,23 +78,7 @@ class UI(QMainWindow):
         """Create the footer."""
         self.footer_copyright = QLabel("©2024 Illyrion")
         self.footer_theme_button = QPushButton()
-        self.handle.theme.set_theme_icon(
-            self.footer_theme_button,
-            self.current_theme,
-        )
-        self.footer_theme_button.clicked.connect(self.toggle_theme)
-
-    def toggle_theme(self: "UI") -> None:
-        """Toggle between light and dark themes."""
-        if self.current_theme == DARK_THEME:
-            self.setStyleSheet(qdt.load_stylesheet(LIGHT_THEME))
-            self.db.set_data(self.preferences_table, {USR_THEME: LIGHT_THEME})
-            self.current_theme = LIGHT_THEME
-        else:
-            self.setStyleSheet(qdt.load_stylesheet(DARK_THEME))
-            self.db.set_data(self.preferences_table, {USR_THEME: DARK_THEME})
-            self.current_theme = DARK_THEME
-        self.handle.theme.set_theme_icon(
-            self.footer_theme_button,
-            self.current_theme,
+        self.handle_theme.set_theme_icon(self.footer_theme_button)
+        self.footer_theme_button.clicked.connect(
+            self.handle_theme.toggle_theme,
         )
