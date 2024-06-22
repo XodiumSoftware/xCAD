@@ -2,7 +2,6 @@
 
 from __config__ import (
     DATABASE_FILE,
-    PREFERENCES_DATA,
     UI_ICON_FILE,
 )
 from dalmatia import Utils
@@ -31,9 +30,7 @@ class UI(QMainWindow):
         super().__init__()
         self.db = Utils.database(DATABASE_FILE)
         self.preferences_table = PreferencesTable
-        self.db.add_data(self.preferences_table, PREFERENCES_DATA)
-
-        self.handle_theme = Theme(self, self.db, self.preferences_table)
+        self.handle_theme = Theme(self.db, self.preferences_table)
 
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(str(UI_ICON_FILE)))
@@ -62,6 +59,8 @@ class UI(QMainWindow):
             ),
         )
 
+        self.handle_theme.set_theme(self)
+
     def _header(self: "UI") -> None:
         """Create the header."""
         self.header_title = QLabel("BIM Object Configurator")
@@ -80,5 +79,8 @@ class UI(QMainWindow):
         self.footer_theme_button = QPushButton()
         self.handle_theme.set_theme_icon(self.footer_theme_button)
         self.footer_theme_button.clicked.connect(
-            self.handle_theme.toggle_theme,
+            lambda: self.handle_theme.toggle_theme(
+                self,
+                self.footer_theme_button,
+            ),
         )

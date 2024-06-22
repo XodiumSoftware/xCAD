@@ -27,10 +27,15 @@ UTILS_LIB_FILE: Path = LIB_DIR / "test.so"
 # =============================================================================
 DATABASE_DIR: Path = Utils.forge.dir(BASE_DIR / "database")
 DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "dardania.db")
-# =============================================================================
-
-# Preferences
-# =============================================================================
+USR_THEME: str = "usr_theme"
+LIGHT_MODE: str = "light"
+DARK_MODE: str = "dark"
 PREFERENCES_DATA: dict[str, None | int | float | str | bytes] = {
-    "usr_theme": "dark",
+    USR_THEME: DARK_MODE,
 }
+ICON_THEMES: dict[str, str] = {
+    DARK_MODE: str(DARK_MODE_ICON_FILE),
+    LIGHT_MODE: str(LIGHT_MODE_ICON_FILE),
+}
+THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
+# =============================================================================

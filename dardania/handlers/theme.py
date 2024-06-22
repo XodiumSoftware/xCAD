@@ -2,19 +2,15 @@
 
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
-    DARK_MODE_ICON_FILE,
-    LIGHT_MODE_ICON_FILE,
+    ICON_THEMES,
+    PREFERENCES_DATA,
+    THEMES,
+    USR_THEME,
 )
 from dalmatia import Utils
 from db_tables import PreferencesTable
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton
-
-USR_THEME: str = "usr_theme"
-THEMES: dict[str, str] = {
-    "dark": str(DARK_MODE_ICON_FILE),
-    "light": str(LIGHT_MODE_ICON_FILE),
-}
 
 
 class Theme:
@@ -22,51 +18,58 @@ class Theme:
 
     def __init__(
         self: "Theme",
-        widget: QMainWindow,
         db: Utils.database,
-        preferences_table: PreferencesTable,
+        table: PreferencesTable,
     ) -> None:
-        """Initialize the class."""
-        self.current_theme = db.get_data(preferences_table, USR_THEME)
-        self.set_theme(widget, self.current_theme)
+        """Initialize the class.
 
-    @staticmethod
-    def _set_theme(widget: QMainWindow, mode: str) -> None:
+        Args:
+            db: The database.
+            table: The table.
+        """
+        self.__db__ = db
+        self.__table__ = table
+        self.__theme__ = self.__db__.get_data(self.__table__, USR_THEME)
+        self.__db__.add_data(self.__table__, PREFERENCES_DATA)
+
+    def _set_theme(self: "Theme", widget: QMainWindow) -> None:
         """Set the theme.
 
         Args:
             widget: The widget.
-            mode: The mode.
         """
-        widget.setStyleSheet(qdt.load_stylesheet(mode))
+        widget.setStyleSheet(qdt.load_stylesheet(self.__theme__))
+        self.__db__.set_data(self.__table__, {USR_THEME: self.__theme__})
 
     set_theme = _set_theme
 
-    @staticmethod
-    def _set_theme_icon(widget: QPushButton, theme: str) -> None:
+    def _set_theme_icon(self: "Theme", widget: QPushButton) -> None:
         """Set the theme icon.
 
         Args:
             widget: The widget.
-            theme: The theme.
         """
         try:
-            widget.setIcon(QIcon(THEMES[theme]))
+            widget.setIcon(QIcon(ICON_THEMES[self.__theme__]))
         except KeyError as err:
-            err_msg = f"Invalid theme: {theme}."
+            err_msg = f"Invalid theme: {self.__theme__}."
             raise ValueError(err_msg) from err
 
     set_theme_icon = _set_theme_icon
 
-    def _toggle_theme(self: "Theme", widget: QMainWindow) -> None:
-        """Toggle between light and dark themes."""
-        try:
-            self.set_theme(
-                widget,
-                next(theme for theme in THEMES),
-            )
-        except StopIteration as err:
-            err_msg = "No theme found."
-            raise ValueError(err_msg) from err
+    def _toggle_theme(
+        self: "Theme",
+        widget: QMainWindow,
+        target: QPushButton,
+    ) -> None:
+        """Toggle between light and dark themes.
+
+        Args:
+            widget: The widget.
+            target: The target.
+        """
+        self.__theme__ = THEMES[self.__theme__]
+        self.set_theme(widget)
+        self.set_theme_icon(target)
 
     toggle_theme = _toggle_theme
