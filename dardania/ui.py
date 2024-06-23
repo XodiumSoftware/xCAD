@@ -77,6 +77,7 @@ class UI(QMainWindow):
         """Create the footer."""
         self.footer_copyright = QLabel("©2024 Illyrion")
         self.footer_theme_button = QPushButton()
+        self.footer_theme_button.setMaximumWidth(40)
         self.handle_theme.set_theme_icon(self.footer_theme_button)
         self.footer_theme_button.clicked.connect(
             lambda: self.handle_theme.toggle_theme(
