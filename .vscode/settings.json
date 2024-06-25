@@ -54,7 +54,12 @@
   // Material Icon Theme Settings
   "material-icon-theme.files.color": "#ef5350",
   "material-icon-theme.folders.color": "#ef5350",
-  "material-icon-theme.folders.associations": { "dardania": "src" },
+  "material-icon-theme.folders.associations": {
+    "dardania": "src",
+    "arx": "lib",
+    "brx": "lib",
+    "tx": "lib"
+  },
 
   // Python Analysis Settings
   "python.analysis.autoImportCompletions": true,
