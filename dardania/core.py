@@ -2,22 +2,31 @@
 
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
-    ICON_THEMES,
+    DARK_MODE,
+    DARK_MODE_ICON,
+    LIGHT_MODE,
+    LIGHT_MODE_ICON,
     PREFERENCES_DATA,
-    THEMES,
+    TREE_SORT_ORDER,
     USR_THEME,
 )
 from dalmatia import Utils
-from db_tables import PreferencesTable
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton
+from tables import PreferencesTable
+
+ICON_THEMES: dict[str, str] = {
+    DARK_MODE: str(DARK_MODE_ICON),
+    LIGHT_MODE: str(LIGHT_MODE_ICON),
+}
+THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
 
 
-class Theme:
-    """A class used to represent a theme module."""
+class Core(QMainWindow):
+    """A class used to represent a Core module."""
 
     def __init__(
-        self: "Theme",
+        self: "Core",
         db: Utils.database,
         table: PreferencesTable,
     ) -> None:
@@ -27,12 +36,22 @@ class Theme:
             db: The database.
             table: The table.
         """
+        super().__init__()
         self.__db__ = db
         self.__table__ = table
-        self.__theme__ = self.__db__.get_data(self.__table__, USR_THEME)
+        (
+            self.__theme__,
+            self.__order__,
+        ) = (
+            self.__db__.get_data(self.__table__, USR_THEME),
+            self.__db__.get_data(
+                self.__table__,
+                TREE_SORT_ORDER,
+            ),
+        )
         self.__db__.add_data(self.__table__, PREFERENCES_DATA)
 
-    def _set_theme(self: "Theme", widget: QMainWindow) -> None:
+    def _set_theme(self: "Core", widget: QMainWindow) -> None:
         """Set the theme.
 
         Args:
@@ -43,7 +62,7 @@ class Theme:
 
     set_theme = _set_theme
 
-    def _set_theme_icon(self: "Theme", widget: QPushButton) -> None:
+    def _set_theme_icon(self: "Core", widget: QPushButton) -> None:
         """Set the theme icon.
 
         Args:
@@ -58,7 +77,7 @@ class Theme:
     set_theme_icon = _set_theme_icon
 
     def _toggle_theme(
-        self: "Theme",
+        self: "Core",
         widget: QMainWindow,
         target: QPushButton,
     ) -> None:

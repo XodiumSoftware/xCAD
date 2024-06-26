@@ -1,39 +1,38 @@
 """This module contains the UI functionality."""
 
 from __config__ import (
+    APP_NAME,
+    COMPANY_NAME,
     DATABASE_FILE,
     WINDOW_ICON,
     WINDOW_MIN_SIZE,
     WINDOW_TITLE,
 )
+from core import Core
 from dalmatia import Utils
-from db_tables import PreferencesTable
-from handlers.theme import Theme
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import (
     QGridLayout,
     QHeaderView,
     QLabel,
-    QMainWindow,
     QPushButton,
     QSizePolicy,
     QSplitter,
     QTreeWidget,
     QWidget,
 )
+from tables import PreferencesTable
 
 
-class UI(QMainWindow):
+class UI(Core):
     """A class used to represent a ui module."""
 
     def __init__(self: "UI") -> None:
         """Initialize the class."""
-        super().__init__()
-        self.db = Utils.database(DATABASE_FILE)
-        self.preferences_table = PreferencesTable
-        self.handle_theme = Theme(self.db, self.preferences_table)
+        super().__init__(Utils.database(DATABASE_FILE), PreferencesTable)
+        self.__settings__ = QSettings(COMPANY_NAME, APP_NAME)
 
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(str(WINDOW_ICON)))
@@ -54,7 +53,7 @@ class UI(QMainWindow):
         }.items():
             self.__layout__.addWidget(widget, *params)
 
-        self.handle_theme.set_theme(self)
+        self.set_theme(self)
 
     def _header(self: "UI") -> None:
         """Create the header."""
@@ -69,9 +68,23 @@ class UI(QMainWindow):
         self.body_props_tree.setColumnCount(len(props_tree_headers))
         self.body_props_tree.setHeaderLabels(props_tree_headers)
         self.body_props_tree.setSortingEnabled(True)
-        self.body_props_tree.sortItems(0, Qt.SortOrder.AscendingOrder)
-        self.body_props_tree.header().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch,
+        header = self.body_props_tree.header()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        header.setSectionsClickable(True)
+        sort_indicator = self.__settings__.value(
+            "sort_indicator",
+            f"0,{Qt.SortOrder.AscendingOrder.name}",
+            type=str,
+        )
+        column, order = sort_indicator.split(",")
+        column = int(column)
+        order = Qt.SortOrder[order]
+        header.setSortIndicator(column, order)
+        header.sortIndicatorChanged.connect(
+            lambda column, order: self.__settings__.setValue(
+                "sort_indicator",
+                f"{column},{order.name()}",
+            ),
         )
 
         self.body_viewer = QOpenGLWidget()
@@ -90,9 +103,9 @@ class UI(QMainWindow):
 
         self.footer_theme_button = QPushButton()
         self.footer_theme_button.setMaximumWidth(40)
-        self.handle_theme.set_theme_icon(self.footer_theme_button)
+        self.set_theme_icon(self.footer_theme_button)
         self.footer_theme_button.clicked.connect(
-            lambda: self.handle_theme.toggle_theme(
+            lambda: self.toggle_theme(
                 self,
                 self.footer_theme_button,
             ),
