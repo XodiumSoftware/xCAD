@@ -71,22 +71,37 @@ class UI(Core):
         header = self.body_props_tree.header()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         header.setSectionsClickable(True)
-        sort_indicator = self.__settings__.value(
-            "sort_indicator",
-            f"0,{Qt.SortOrder.AscendingOrder.name}",
-            type=str,
+        self.__settings__.setValue(
+            "sort_indicator_order",
+            Qt.SortOrder.AscendingOrder.value,
         )
-        column, order = sort_indicator.split(",")
-        column = int(column)
-        order = Qt.SortOrder[order]
-        header.setSortIndicator(column, order)
-        header.sortIndicatorChanged.connect(
-            lambda column, order: self.__settings__.setValue(
-                "sort_indicator",
-                f"{column},{order.name()}",
+        self.__settings__.setValue("sort_indicator_logical_index", 0)
+        header.setSortIndicator(
+            self.__settings__.value(
+                "sort_indicator_logical_index",
+                0,
+                type=int,
+            ),
+            Qt.SortOrder(
+                self.__settings__.value(
+                    "sort_indicator_order",
+                    Qt.SortOrder.AscendingOrder.value,
+                    type=int,
+                ),
             ),
         )
-
+        header.sectionClicked.connect(
+            lambda logical_index: (
+                self.__settings__.setValue(
+                    "sort_indicator_order",
+                    header.sortIndicatorOrder(),
+                ),
+                self.__settings__.setValue(
+                    "sort_indicator_logical_index",
+                    logical_index,
+                ),
+            ),
+        )
         self.body_viewer = QOpenGLWidget()
 
         self.body_splitter = QSplitter(Qt.Orientation.Horizontal)
