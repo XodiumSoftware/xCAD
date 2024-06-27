@@ -2,24 +2,16 @@
 
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
-    DARK_MODE,
-    DARK_MODE_ICON,
-    LIGHT_MODE,
-    LIGHT_MODE_ICON,
     PREFERENCES_DATA,
-    TREE_SORT_ORDER,
+    THEME_ICONS,
+    THEMES,
+    TREE_STATE,
     USR_THEME,
 )
 from dalmatia import Utils
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton
 from tables import PreferencesTable
-
-ICON_THEMES: dict[str, str] = {
-    DARK_MODE: str(DARK_MODE_ICON),
-    LIGHT_MODE: str(LIGHT_MODE_ICON),
-}
-THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
 
 
 class Core(QMainWindow):
@@ -39,17 +31,14 @@ class Core(QMainWindow):
         super().__init__()
         self.__db__ = db
         self.__table__ = table
+        self.__db__.add_data(self.__table__, PREFERENCES_DATA)
         (
             self.__theme__,
-            self.__order__,
+            self.__tree_state__,
         ) = (
             self.__db__.get_data(self.__table__, USR_THEME),
-            self.__db__.get_data(
-                self.__table__,
-                TREE_SORT_ORDER,
-            ),
+            self.__db__.get_data(self.__table__, TREE_STATE),
         )
-        self.__db__.add_data(self.__table__, PREFERENCES_DATA)
 
     def _set_theme(self: "Core", widget: QMainWindow) -> None:
         """Set the theme.
@@ -69,7 +58,7 @@ class Core(QMainWindow):
             widget: The widget.
         """
         try:
-            widget.setIcon(QIcon(ICON_THEMES[self.__theme__]))
+            widget.setIcon(QIcon(THEME_ICONS[self.__theme__]))
         except KeyError as err:
             err_msg = f"Invalid theme: {self.__theme__}."
             raise ValueError(err_msg) from err

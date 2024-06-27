@@ -1,16 +1,16 @@
 """This module contains the UI functionality."""
 
 from __config__ import (
-    APP_NAME,
-    COMPANY_NAME,
     DATABASE_FILE,
+    TREE_STATE,
+    UTF,
     WINDOW_ICON,
     WINDOW_MIN_SIZE,
     WINDOW_TITLE,
 )
 from core import Core
 from dalmatia import Utils
-from PySide6.QtCore import QSettings, Qt
+from PySide6.QtCore import QByteArray, Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import (
@@ -32,14 +32,7 @@ class UI(Core):
     def __init__(self: "UI") -> None:
         """Initialize the class."""
         super().__init__(Utils.database(DATABASE_FILE), PreferencesTable)
-        self.__settings__ = QSettings(COMPANY_NAME, APP_NAME)
-
-        self.setWindowTitle(WINDOW_TITLE)
-        self.setWindowIcon(QIcon(str(WINDOW_ICON)))
-        self.setMinimumSize(*WINDOW_MIN_SIZE)
-
-        self.setCentralWidget(QWidget(self))
-        self.__layout__ = QGridLayout(self.centralWidget())
+        self._main()
 
         self._header()
         self._body()
@@ -55,6 +48,15 @@ class UI(Core):
 
         self.set_theme(self)
 
+    def _main(self: "UI") -> None:
+        """Create the main."""
+        self.setWindowTitle(WINDOW_TITLE)
+        self.setWindowIcon(QIcon(str(WINDOW_ICON)))
+        self.setMinimumSize(*WINDOW_MIN_SIZE)
+
+        self.setCentralWidget(QWidget(self))
+        self.__layout__ = QGridLayout(self.centralWidget())
+
     def _header(self: "UI") -> None:
         """Create the header."""
         self.header_title = QLabel("BIM Object Configurator")
@@ -63,45 +65,41 @@ class UI(Core):
 
     def _body(self: "UI") -> None:
         """Create the body."""
-        self.body_props_tree = QTreeWidget()
         props_tree_headers: list[str] = ["Property", "Value"]
+        tree_state = self.__db__.get_data(self.__table__, TREE_STATE)
+
+        self.body_props_tree = QTreeWidget()
         self.body_props_tree.setColumnCount(len(props_tree_headers))
         self.body_props_tree.setHeaderLabels(props_tree_headers)
         self.body_props_tree.setSortingEnabled(True)
         header = self.body_props_tree.header()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         header.setSectionsClickable(True)
-        self.__settings__.setValue(
-            "sort_indicator_order",
-            Qt.SortOrder.AscendingOrder.value,
-        )
-        self.__settings__.setValue("sort_indicator_logical_index", 0)
-        header.setSortIndicator(
-            self.__settings__.value(
-                "sort_indicator_logical_index",
-                0,
-                type=int,
-            ),
-            Qt.SortOrder(
-                self.__settings__.value(
-                    "sort_indicator_order",
-                    Qt.SortOrder.AscendingOrder.value,
-                    type=int,
+        if tree_state:
+            self.body_props_tree.header().restoreState(
+                QByteArray.fromBase64(
+                    bytes(
+                        self.__db__.get_data(self.__table__, TREE_STATE),
+                        UTF,
+                    ),
                 ),
-            ),
-        )
+            )
         header.sectionClicked.connect(
-            lambda logical_index: (
-                self.__settings__.setValue(
-                    "sort_indicator_order",
-                    header.sortIndicatorOrder(),
-                ),
-                self.__settings__.setValue(
-                    "sort_indicator_logical_index",
-                    logical_index,
-                ),
+            lambda: self.__db__.set_data(
+                self.__table__,
+                {
+                    TREE_STATE: (
+                        bytes(
+                            self.body_props_tree.header()
+                            .saveState()
+                            .toBase64()
+                            .data(),
+                        ).decode(UTF)
+                    ),
+                },
             ),
         )
+
         self.body_viewer = QOpenGLWidget()
 
         self.body_splitter = QSplitter(Qt.Orientation.Horizontal)
