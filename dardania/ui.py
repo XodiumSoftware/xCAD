@@ -2,15 +2,13 @@
 
 from __config__ import (
     DATABASE_FILE,
-    TREE_STATE,
-    UTF,
     WINDOW_ICON,
     WINDOW_MIN_SIZE,
     WINDOW_TITLE,
 )
 from core import Core
 from dalmatia import Utils
-from PySide6.QtCore import QByteArray, Qt
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import (
@@ -66,7 +64,6 @@ class UI(Core):
     def _body(self: "UI") -> None:
         """Create the body."""
         props_tree_headers: list[str] = ["Property", "Value"]
-        tree_state = self.__db__.get_data(self.__table__, TREE_STATE)
 
         self.body_props_tree = QTreeWidget()
         self.body_props_tree.setColumnCount(len(props_tree_headers))
@@ -75,29 +72,9 @@ class UI(Core):
         header = self.body_props_tree.header()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         header.setSectionsClickable(True)
-        if tree_state:
-            self.body_props_tree.header().restoreState(
-                QByteArray.fromBase64(
-                    bytes(
-                        self.__db__.get_data(self.__table__, TREE_STATE),
-                        UTF,
-                    ),
-                ),
-            )
+        self.get_tree_state(self.body_props_tree)
         header.sectionClicked.connect(
-            lambda: self.__db__.set_data(
-                self.__table__,
-                {
-                    TREE_STATE: (
-                        bytes(
-                            self.body_props_tree.header()
-                            .saveState()
-                            .toBase64()
-                            .data(),
-                        ).decode(UTF)
-                    ),
-                },
-            ),
+            lambda: self.set_tree_state(self.body_props_tree),
         )
 
         self.body_viewer = QOpenGLWidget()

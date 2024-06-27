@@ -7,10 +7,12 @@ from __config__ import (
     THEMES,
     TREE_STATE,
     USR_THEME,
+    UTF,
 )
 from dalmatia import Utils
+from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QPushButton
+from PySide6.QtWidgets import QMainWindow, QPushButton, QTreeWidget
 from tables import PreferencesTable
 
 
@@ -81,3 +83,37 @@ class Core(QMainWindow):
         self.set_theme_icon(target)
 
     toggle_theme = _toggle_theme
+
+    def _set_tree_state(self: "Core", widget: QTreeWidget) -> None:
+        """Set the tree state.
+
+        Args:
+            widget: The widget.
+        """
+        self.__db__.set_data(
+            self.__table__,
+            {
+                TREE_STATE: bytes(
+                    widget.header().saveState().toBase64().data(),
+                ).decode(UTF),
+            },
+        )
+
+    set_tree_state = _set_tree_state
+
+    def _get_tree_state(self: "Core", widget: QTreeWidget) -> None:
+        """Get the tree state.
+
+        Args:
+            widget: The widget.
+        """
+        try:
+            if self.__tree_state__:
+                widget.header().restoreState(
+                    QByteArray.fromBase64(bytes(self.__tree_state__, UTF)),
+                )
+        except KeyError as err:
+            err_msg = f"Invalid tree state: {self.__tree_state__}."
+            raise ValueError(err_msg) from err
+
+    get_tree_state = _get_tree_state
