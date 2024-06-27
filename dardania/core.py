@@ -3,16 +3,17 @@
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
     PREFERENCES_DATA,
+    SPLITTER_STATE_KEY,
     THEME_ICONS,
     THEMES,
-    TREE_STATE,
-    USR_THEME,
+    TREE_STATE_KEY,
+    USR_THEME_KEY,
     UTF,
 )
 from dalmatia import Utils
 from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QPushButton, QTreeWidget
+from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
 from tables import PreferencesTable
 
 
@@ -37,9 +38,11 @@ class Core(QMainWindow):
         (
             self.__theme__,
             self.__tree_state__,
+            self.__splitter_state__,
         ) = (
-            self.__db__.get_data(self.__table__, USR_THEME),
-            self.__db__.get_data(self.__table__, TREE_STATE),
+            self.__db__.get_data(self.__table__, USR_THEME_KEY),
+            self.__db__.get_data(self.__table__, TREE_STATE_KEY),
+            self.__db__.get_data(self.__table__, SPLITTER_STATE_KEY),
         )
 
     def _set_theme(self: "Core", widget: QMainWindow) -> None:
@@ -49,7 +52,7 @@ class Core(QMainWindow):
             widget: The widget.
         """
         widget.setStyleSheet(qdt.load_stylesheet(self.__theme__))
-        self.__db__.set_data(self.__table__, {USR_THEME: self.__theme__})
+        self.__db__.set_data(self.__table__, {USR_THEME_KEY: self.__theme__})
 
     set_theme = _set_theme
 
@@ -93,7 +96,7 @@ class Core(QMainWindow):
         self.__db__.set_data(
             self.__table__,
             {
-                TREE_STATE: bytes(
+                TREE_STATE_KEY: bytes(
                     widget.header().saveState().toBase64().data(),
                 ).decode(UTF),
             },
@@ -117,3 +120,37 @@ class Core(QMainWindow):
             raise ValueError(err_msg) from err
 
     get_tree_state = _get_tree_state
+
+    def _set_splitter_state(self: "Core", widget: QSplitter) -> None:
+        """Set the splitter state.
+
+        Args:
+            widget: The widget.
+        """
+        self.__db__.set_data(
+            self.__table__,
+            {
+                SPLITTER_STATE_KEY: bytes(
+                    widget.saveState().toBase64().data(),
+                ).decode(UTF),
+            },
+        )
+
+    set_splitter_state = _set_splitter_state
+
+    def _get_splitter_state(self: "Core", widget: QSplitter) -> None:
+        """Get the splitter state.
+
+        Args:
+            widget: The widget.
+        """
+        try:
+            if self.__splitter_state__:
+                widget.restoreState(
+                    QByteArray.fromBase64(bytes(self.__splitter_state__, UTF)),
+                )
+        except KeyError as err:
+            err_msg = f"Invalid splitter state: {self.__splitter_state__}."
+            raise ValueError(err_msg) from err
+
+    get_splitter_state = _get_splitter_state

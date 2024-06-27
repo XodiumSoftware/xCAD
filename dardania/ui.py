@@ -86,6 +86,10 @@ class UI(Core):
         )
         for widget in (self.body_props_tree, self.body_viewer):
             self.body_splitter.addWidget(widget)
+        self.get_splitter_state(self.body_splitter)
+        self.body_splitter.splitterMoved.connect(
+            lambda: self.set_splitter_state(self.body_splitter),
+        )
 
     def _footer(self: "UI") -> None:
         """Create the footer."""
