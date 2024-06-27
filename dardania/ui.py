@@ -1,13 +1,11 @@
 """This module contains the UI functionality."""
 
 from __config__ import (
-    DATABASE_FILE,
     WINDOW_ICON,
     WINDOW_MIN_SIZE,
     WINDOW_TITLE,
 )
 from core import Core
-from dalmatia import Utils
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
@@ -21,7 +19,6 @@ from PySide6.QtWidgets import (
     QTreeWidget,
     QWidget,
 )
-from tables import UIStateTable
 
 
 class UI(Core):
@@ -29,7 +26,7 @@ class UI(Core):
 
     def __init__(self: "UI") -> None:
         """Initialize the class."""
-        super().__init__(Utils.database(DATABASE_FILE), UIStateTable)
+        super().__init__()
         self._main()
 
         self._header()
@@ -43,8 +40,6 @@ class UI(Core):
             self.footer_theme_button: [2, 1, 1, 1],
         }.items():
             self.__layout__.addWidget(widget, *params)
-
-        self.set_theme(self)
 
     def _main(self: "UI") -> None:
         """Create the main."""
@@ -97,9 +92,9 @@ class UI(Core):
 
         self.footer_theme_button = QPushButton()
         self.footer_theme_button.setMaximumWidth(40)
-        self.set_theme_icon(self.footer_theme_button)
+        self.get_theme_state(self, self.footer_theme_button)
         self.footer_theme_button.clicked.connect(
-            lambda: self.toggle_theme(
+            lambda: self.set_theme_state(
                 self,
                 self.footer_theme_button,
             ),

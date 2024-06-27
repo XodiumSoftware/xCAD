@@ -31,23 +31,8 @@ DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "dardania.db")
 THEME_STATE_KEY: str = "theme_state"
 TREE_STATE_KEY: str = "tree_state"
 SPLITTER_STATE_KEY: str = "splitter_state"
-
-LIGHT_MODE: str = "light"
-DARK_MODE: str = "dark"
-
-PREFERENCES_DATA: dict[str, None | int | float | str | bytes] = {
-    THEME_STATE_KEY: DARK_MODE,
-}
 # =============================================================================
 
-# Themes
-# =============================================================================
-THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
-THEME_ICONS: dict[str, str] = {
-    DARK_MODE: str(DARK_MODE_ICON),
-    LIGHT_MODE: str(LIGHT_MODE_ICON),
-}
-# =============================================================================
 
 # UI
 # =============================================================================

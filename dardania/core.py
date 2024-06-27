@@ -2,11 +2,11 @@
 
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
-    PREFERENCES_DATA,
+    DARK_MODE_ICON,
+    DATABASE_FILE,
+    LIGHT_MODE_ICON,
     SPLITTER_STATE_KEY,
-    THEME_ICONS,
     THEME_STATE_KEY,
-    THEMES,
     TREE_STATE_KEY,
     UTF,
 )
@@ -16,27 +16,28 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
 from tables import UIStateTable
 
+# Themes
+# =============================================================================
+LIGHT_MODE: str = "light"
+DARK_MODE: str = "dark"
+THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
+THEME_ICONS: dict[str, str] = {
+    DARK_MODE: str(DARK_MODE_ICON),
+    LIGHT_MODE: str(LIGHT_MODE_ICON),
+}
+# =============================================================================
+
 
 class Core(QMainWindow):
     """A class used to represent a Core module."""
 
-    def __init__(
-        self: "Core",
-        db: Utils.database,
-        table: UIStateTable,
-    ) -> None:
-        """Initialize the class.
-
-        Args:
-            db: The database.
-            table: The table.
-        """
+    def __init__(self: "Core") -> None:
+        """Initialize the class."""
         super().__init__()
-        self.__db__ = db
-        self.__table__ = table
-        self.__db__.add_data(self.__table__, PREFERENCES_DATA)
+        self.__db__ = Utils.database(DATABASE_FILE)
+        self.__table__ = UIStateTable
         (
-            self.__theme__,
+            self.__theme_state__,
             self.__tree_state__,
             self.__splitter_state__,
         ) = (
@@ -45,49 +46,44 @@ class Core(QMainWindow):
             self.__db__.get_data(self.__table__, SPLITTER_STATE_KEY),
         )
 
-    def _set_theme(self: "Core", widget: QMainWindow) -> None:
-        """Set the theme.
-
-        Args:
-            widget: The widget.
-        """
-        widget.setStyleSheet(qdt.load_stylesheet(self.__theme__))
-        self.__db__.set_data(self.__table__, {THEME_STATE_KEY: self.__theme__})
-
-    set_theme = _set_theme
-
-    def _set_theme_icon(self: "Core", widget: QPushButton) -> None:
-        """Set the theme icon.
-
-        Args:
-            widget: The widget.
-        """
-        try:
-            widget.setIcon(QIcon(THEME_ICONS[self.__theme__]))
-        except KeyError as err:
-            err_msg = f"Invalid theme: {self.__theme__}."
-            raise ValueError(err_msg) from err
-
-    set_theme_icon = _set_theme_icon
-
-    def _toggle_theme(
+    def set_theme_state(
         self: "Core",
         widget: QMainWindow,
         target: QPushButton,
     ) -> None:
-        """Toggle between light and dark themes.
+        """Set the theme state.
 
         Args:
             widget: The widget.
             target: The target.
         """
-        self.__theme__ = THEMES[self.__theme__]
-        self.set_theme(widget)
-        self.set_theme_icon(target)
+        self.__theme_state__ = THEMES[self.__theme_state__]
+        self.__db__.set_data(
+            self.__table__,
+            {THEME_STATE_KEY: self.__theme_state__},
+        )
+        self.get_theme_state(widget, target)
 
-    toggle_theme = _toggle_theme
+    def get_theme_state(
+        self: "Core",
+        widget: QMainWindow,
+        target: QPushButton,
+    ) -> None:
+        """Get the theme state.
 
-    def _set_tree_state(self: "Core", widget: QTreeWidget) -> None:
+        Args:
+            widget: The widget.
+            target: The target.
+        """
+        try:
+            if self.__theme_state__:
+                widget.setStyleSheet(qdt.load_stylesheet(self.__theme_state__))
+                target.setIcon(QIcon(THEME_ICONS[self.__theme_state__]))
+        except KeyError as err:
+            err_msg = f"Invalid theme: {self.__theme_state__}."
+            raise ValueError(err_msg) from err
+
+    def set_tree_state(self: "Core", widget: QTreeWidget) -> None:
         """Set the tree state.
 
         Args:
@@ -102,9 +98,7 @@ class Core(QMainWindow):
             },
         )
 
-    set_tree_state = _set_tree_state
-
-    def _get_tree_state(self: "Core", widget: QTreeWidget) -> None:
+    def get_tree_state(self: "Core", widget: QTreeWidget) -> None:
         """Get the tree state.
 
         Args:
@@ -119,9 +113,7 @@ class Core(QMainWindow):
             err_msg = f"Invalid tree state: {self.__tree_state__}."
             raise ValueError(err_msg) from err
 
-    get_tree_state = _get_tree_state
-
-    def _set_splitter_state(self: "Core", widget: QSplitter) -> None:
+    def set_splitter_state(self: "Core", widget: QSplitter) -> None:
         """Set the splitter state.
 
         Args:
@@ -136,9 +128,7 @@ class Core(QMainWindow):
             },
         )
 
-    set_splitter_state = _set_splitter_state
-
-    def _get_splitter_state(self: "Core", widget: QSplitter) -> None:
+    def get_splitter_state(self: "Core", widget: QSplitter) -> None:
         """Get the splitter state.
 
         Args:
@@ -152,5 +142,3 @@ class Core(QMainWindow):
         except KeyError as err:
             err_msg = f"Invalid splitter state: {self.__splitter_state__}."
             raise ValueError(err_msg) from err
-
-    get_splitter_state = _get_splitter_state
