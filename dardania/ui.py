@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
     QTreeWidget,
     QWidget,
 )
-from tables import PreferencesTable
+from tables import UIStateTable
 
 
 class UI(Core):
@@ -29,7 +29,7 @@ class UI(Core):
 
     def __init__(self: "UI") -> None:
         """Initialize the class."""
-        super().__init__(Utils.database(DATABASE_FILE), PreferencesTable)
+        super().__init__(Utils.database(DATABASE_FILE), UIStateTable)
         self._main()
 
         self._header()

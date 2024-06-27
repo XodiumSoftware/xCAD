@@ -5,16 +5,16 @@ from __config__ import (
     PREFERENCES_DATA,
     SPLITTER_STATE_KEY,
     THEME_ICONS,
+    THEME_STATE_KEY,
     THEMES,
     TREE_STATE_KEY,
-    USR_THEME_KEY,
     UTF,
 )
 from dalmatia import Utils
 from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
-from tables import PreferencesTable
+from tables import UIStateTable
 
 
 class Core(QMainWindow):
@@ -23,7 +23,7 @@ class Core(QMainWindow):
     def __init__(
         self: "Core",
         db: Utils.database,
-        table: PreferencesTable,
+        table: UIStateTable,
     ) -> None:
         """Initialize the class.
 
@@ -40,7 +40,7 @@ class Core(QMainWindow):
             self.__tree_state__,
             self.__splitter_state__,
         ) = (
-            self.__db__.get_data(self.__table__, USR_THEME_KEY),
+            self.__db__.get_data(self.__table__, THEME_STATE_KEY),
             self.__db__.get_data(self.__table__, TREE_STATE_KEY),
             self.__db__.get_data(self.__table__, SPLITTER_STATE_KEY),
         )
@@ -52,7 +52,7 @@ class Core(QMainWindow):
             widget: The widget.
         """
         widget.setStyleSheet(qdt.load_stylesheet(self.__theme__))
-        self.__db__.set_data(self.__table__, {USR_THEME_KEY: self.__theme__})
+        self.__db__.set_data(self.__table__, {THEME_STATE_KEY: self.__theme__})
 
     set_theme = _set_theme
 
