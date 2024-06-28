@@ -12,7 +12,7 @@ layout:
     visible: true
 ---
 
-# 🏃 Quick Start
+# 🛠️ Installation
 
 {% hint style="warning" %}
 <mark style="color:orange;">**This library**</mark> uses a certain structure to make it easier readable at accessing the methods, we do this by assigning a variable to each class like this:

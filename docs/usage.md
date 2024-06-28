@@ -2,12 +2,11 @@
 description: A class that contains database functions.
 ---
 
-# ⚡ Database
+# 💡 Usage
 
 ## "<mark style="color:purple;">\_\_init\_\_</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     def __init__(self: "Database", path: Path) -> None: ...
         """Initialize the class.
@@ -16,13 +15,11 @@ description: A class that contains database functions.
             path: The path to the database file.
         """
 ```
-
 {% endcode %}
 
-## "<mark style="color:orange;">db_session</mark>" method
+## "<mark style="color:orange;">db\_session</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     @contextmanager
     def db_session(self: "Database") -> Iterator[Session]: ...
@@ -32,13 +29,11 @@ description: A class that contains database functions.
             The database session.
         """
 ```
-
 {% endcode %}
 
-## "<mark style="color:orange;">set_data</mark>" method
+## "<mark style="color:orange;">set\_data</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     def set_data(
         self: "Database",
@@ -52,13 +47,11 @@ description: A class that contains database functions.
             data: The data to be updated.
         """
 ```
-
 {% endcode %}
 
-## "<mark style="color:orange;">delete_data</mark>" method
+## "<mark style="color:orange;">delete\_data</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     def delete_data(
         self: "Database",
@@ -72,13 +65,11 @@ description: A class that contains database functions.
             key: The key of the data to be deleted.
         """
 ```
-
 {% endcode %}
 
-## "<mark style="color:orange;">get_data</mark>" method
+## "<mark style="color:orange;">get\_data</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     def get_data(
         self: "Database",
@@ -97,13 +88,11 @@ description: A class that contains database functions.
             The data from the database.
         """
 ```
-
 {% endcode %}
 
 ## Usage
 
 {% code overflow="wrap" lineNumbers="true" fullWidth="false" %}
-
 ```python
     from dalmatium import Utils
 
@@ -112,9 +101,8 @@ description: A class that contains database functions.
     Utils.db.delete_data(...)
     Utils.db.get_data(...)
 ```
-
 {% endcode %}
 
 {% hint style="warning" %}
-[<mark style="color:orange;">**If you have questions on why we are using**</mark>\*\* **<mark style="color:red;">**"db"**</mark>** **<mark style="color:orange;">**instead of**</mark>** **<mark style="color:red;">**"Database"**</mark><mark style="color:orange;">**, then click on me!\*\*</mark>](../quick-start.md)
+[<mark style="color:orange;">**If you have questions on why we are using**</mark>\*\* "db" <mark style="color:orange;">**instead of**</mark> "Database", then click on me!\*\*](installation.md)
 {% endhint %}

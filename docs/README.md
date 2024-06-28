@@ -16,20 +16,20 @@ layout:
 
 ## Welcome to Dardanium
 
-Here you'll find all the documentation you need to get up and running with the Dardanium Library.
+Here you'll find all the documentation you need to get up and running with the application.
 
 ## First time here?
 
-Feeling like an eager beaver? Jump in to the quick start docs and get using the features right away:
+Jump in to the <mark style="color:blue;">installation page</mark> to get using the app right away:
 
-{% content-ref url="quick-start.md" %}
-[quick-start.md](quick-start.md)
+{% content-ref url="installation.md" %}
+[installation.md](installation.md)
 {% endcontent-ref %}
 
-## Are you a veteran?
+## Need some more information?
 
-Hop right back to our Library and continue where you left off last time!
+Check out the <mark style="color:blue;">usage page</mark> for a more extensive explanation to the mechanics.
 
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
+{% content-ref url="usage.md" %}
+[usage.md](usage.md)
 {% endcontent-ref %}
