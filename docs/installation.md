@@ -19,28 +19,16 @@ layout:
 The best way how to use one of our official apps:
 
 {% tabs %}
-{% tab title="Linux" %}
-{% code overflow="wrap" %}
-```bash
-// Some code
-```
-{% endcode %}
+{% tab title="BricsCAD" %}
+{% hint style="success" %}
+[Click me to navigate to the download link.](https://github.com/IllyrionSoftware/Dardanium/releases)
+{% endhint %}
 {% endtab %}
 
-{% tab title="Windows" %}
-{% code overflow="wrap" %}
-```
-// Some code
-```
-{% endcode %}
-{% endtab %}
-
-{% tab title="MacOS" %}
-{% code overflow="wrap" %}
-```
-// Some code
-```
-{% endcode %}
+{% tab title="AutoCAD" %}
+{% hint style="danger" %}
+Our <mark style="color:blue;">addon</mark> is not yet available for <mark style="color:red;">AutoCAD</mark>, it has been planned to be added soon!
+{% endhint %}
 {% endtab %}
 {% endtabs %}
 
