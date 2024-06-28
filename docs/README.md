@@ -14,9 +14,9 @@ layout:
 
 # 👋 Welcome!
 
-## Welcome to Dalmatium
+## Welcome to Dardanium
 
-Here you'll find all the documentation you need to get up and running with the Dalmatium Library.
+Here you'll find all the documentation you need to get up and running with the Dardanium Library.
 
 ## First time here?
 
