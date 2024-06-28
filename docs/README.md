@@ -18,6 +18,8 @@ layout:
 
 Here you'll find all the documentation you need to get up and running with the application.
 
+***
+
 ## First time here?
 
 Jump in to the <mark style="color:blue;">installation page</mark> to get using the app right away:
@@ -25,6 +27,8 @@ Jump in to the <mark style="color:blue;">installation page</mark> to get using t
 {% content-ref url="installation.md" %}
 [installation.md](installation.md)
 {% endcontent-ref %}
+
+***
 
 ## Need some more information?
 

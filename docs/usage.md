@@ -4,6 +4,8 @@ description: A class that contains database functions.
 
 # 💡 Usage
 
+***
+
 ## "<mark style="color:purple;">\_\_init\_\_</mark>" method
 
 {% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
@@ -16,6 +18,8 @@ description: A class that contains database functions.
         """
 ```
 {% endcode %}
+
+***
 
 ## "<mark style="color:orange;">db\_session</mark>" method
 
@@ -30,3 +34,5 @@ description: A class that contains database functions.
         """
 ```
 {% endcode %}
+
+***
