@@ -14,41 +14,33 @@ layout:
 
 # 🛠️ Installation
 
-{% hint style="warning" %}
-<mark style="color:orange;">**This library**</mark> uses a certain structure to make it easier readable at accessing the methods, we do this by assigning a variable to each class like this:
+## Install the application
 
-{% code overflow="wrap" lineNumbers="true" fullWidth="true" %}
-```python
-class Utils:
-    """A class that contains utility functions."""
-
-    (
-        db,
-        forge,
-        read,
-        wrap,
-    ) = (
-        Database,
-        Forger,
-        Reader,
-        Wrapper,
-    )
-```
-{% endcode %}
-
-<mark style="color:orange;">**So we kindly ask of you to keep using the structure for everyone's convenience!**</mark>
-{% endhint %}
-
-## Install the library
-
-The best way how to use one of our official libraries:
+The best way how to use one of our official apps:
 
 {% tabs %}
-{% tab title="Python" %}
+{% tab title="Linux" %}
+{% code overflow="wrap" %}
 ```bash
-# Install via pip
-pip install --upgrade dalmatium
+// Some code
 ```
+{% endcode %}
+{% endtab %}
+
+{% tab title="Windows" %}
+{% code overflow="wrap" %}
+```
+// Some code
+```
+{% endcode %}
+{% endtab %}
+
+{% tab title="MacOS" %}
+{% code overflow="wrap" %}
+```
+// Some code
+```
+{% endcode %}
 {% endtab %}
 {% endtabs %}
 
