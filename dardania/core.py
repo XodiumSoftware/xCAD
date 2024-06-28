@@ -16,11 +16,14 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
 from tables import UIStateTable
 
-# Themes
+# Theme
 # =============================================================================
-LIGHT_MODE: str = "light"
 DARK_MODE: str = "dark"
-THEMES: dict[str, str] = {DARK_MODE: LIGHT_MODE, LIGHT_MODE: DARK_MODE}
+LIGHT_MODE: str = "light"
+THEMES: dict[str, str] = {
+    DARK_MODE: LIGHT_MODE,
+    LIGHT_MODE: DARK_MODE,
+}
 THEME_ICONS: dict[str, str] = {
     DARK_MODE: str(DARK_MODE_ICON),
     LIGHT_MODE: str(LIGHT_MODE_ICON),
