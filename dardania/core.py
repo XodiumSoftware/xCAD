@@ -45,6 +45,8 @@ class Core(QMainWindow):
             self.__db__.get_data(self.__table__, TREE_STATE_KEY),
             self.__db__.get_data(self.__table__, SPLITTER_STATE_KEY),
         )
+        if self.__theme_state__ == "NULL":
+            self.__theme_state__ = DARK_MODE
 
     def set_theme_state(
         self: "Core",
@@ -76,7 +78,7 @@ class Core(QMainWindow):
             target: The target.
         """
         try:
-            if self.__theme_state__:
+            if self.__theme_state__ in THEMES:
                 widget.setStyleSheet(qdt.load_stylesheet(self.__theme_state__))
                 target.setIcon(QIcon(THEME_ICONS[self.__theme_state__]))
         except KeyError as err:
