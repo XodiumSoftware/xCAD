@@ -1,5 +1,5 @@
 build
-dalmatia
+dalmatium
 pyside6
 pyqtdarktheme
 setuptools
