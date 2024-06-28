@@ -21,13 +21,15 @@ The best way how to use one of our official apps:
 {% tabs %}
 {% tab title="BricsCAD" %}
 {% hint style="success" %}
-[Click me to navigate to the download link.](https://github.com/IllyrionSoftware/Dardanium/releases)
+[**Click me to navigate to the download link.**](https://github.com/IllyrionSoftware/Dardanium/releases)
 {% endhint %}
 {% endtab %}
 
 {% tab title="AutoCAD" %}
 {% hint style="danger" %}
-Our <mark style="color:blue;">addon</mark> is not yet available for <mark style="color:red;">AutoCAD</mark>, it has been planned to be added soon!
+**Our **<mark style="color:blue;">**addon**</mark>** is not yet available for **<mark style="color:red;">**AutoCAD.**</mark>
+
+Compatibility is planned to be added in the future!
 {% endhint %}
 {% endtab %}
 {% endtabs %}
