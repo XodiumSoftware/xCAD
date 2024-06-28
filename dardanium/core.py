@@ -60,7 +60,7 @@ class Core(QMainWindow):
             widget: The widget.
             target: The target.
         """
-        self.__theme_state__ = THEMES[self.__theme_state__]
+        self.__theme_state__ = THEMES[str(self.__theme_state__)]
         self.__db__.set_data(
             self.__table__,
             {THEME_STATE_KEY: self.__theme_state__},
@@ -110,7 +110,9 @@ class Core(QMainWindow):
         try:
             if self.__tree_state__:
                 widget.header().restoreState(
-                    QByteArray.fromBase64(bytes(self.__tree_state__, UTF)),
+                    QByteArray.fromBase64(
+                        bytes(str(self.__tree_state__), UTF),
+                    ),
                 )
         except KeyError as err:
             err_msg = f"Invalid tree state: {self.__tree_state__}."
@@ -140,7 +142,9 @@ class Core(QMainWindow):
         try:
             if self.__splitter_state__:
                 widget.restoreState(
-                    QByteArray.fromBase64(bytes(self.__splitter_state__, UTF)),
+                    QByteArray.fromBase64(
+                        bytes(str(self.__splitter_state__), UTF),
+                    ),
                 )
         except KeyError as err:
             err_msg = f"Invalid splitter state: {self.__splitter_state__}."
