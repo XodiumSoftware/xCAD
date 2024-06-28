@@ -37,19 +37,17 @@ class Core(QMainWindow):
     def __init__(self: "Core") -> None:
         """Initialize the class."""
         super().__init__()
-        self.__db__ = Utils.database(DATABASE_FILE)
+        self.__db__ = Utils.db(DATABASE_FILE)
         self.__table__ = UIStateTable
         (
             self.__theme_state__,
             self.__tree_state__,
             self.__splitter_state__,
         ) = (
-            self.__db__.get_data(self.__table__, THEME_STATE_KEY),
+            self.__db__.get_data(self.__table__, THEME_STATE_KEY, DARK_MODE),
             self.__db__.get_data(self.__table__, TREE_STATE_KEY),
             self.__db__.get_data(self.__table__, SPLITTER_STATE_KEY),
         )
-        if self.__theme_state__ == "NULL":
-            self.__theme_state__ = DARK_MODE
 
     def set_theme_state(
         self: "Core",

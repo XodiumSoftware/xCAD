@@ -4,7 +4,7 @@ import sqlalchemy as sql
 from dalmatia import Utils
 
 
-class UIStateTable(Utils.database.base):
+class UIStateTable(Utils.db.base):
     """A class used to represent a table module."""
 
     __tablename__ = "ui_state"

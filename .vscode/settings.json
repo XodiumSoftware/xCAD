@@ -6,18 +6,13 @@
   "workbench.startupEditor": "none",
   "svg.preview.background": "dark-transparent",
 
-  // Code Runner Settings
-  "code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" },
-  "code-runner.runInTerminal": true,
+  // Explorer Settings
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
 
   // Editor Settings
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-
-  // Ruff Settings
-  "ruff.nativeServer": true,
-
-  // Python-specific Editor Settings
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
@@ -25,20 +20,21 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-
-  // TOML-specific Editor Settings
   "[toml]": { "editor.defaultFormatter": "tamasfe.even-better-toml" },
-
-  // C/C++ Settings
   "[c]": { "editor.defaultFormatter": "ms-vscode.cpptools" },
   "[cpp]": { "editor.defaultFormatter": "ms-vscode.cpptools" },
+
+  // Code Runner Settings
+  "code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" },
+  "code-runner.runInTerminal": true,
+
+  // Ruff Settings
+  "ruff.nativeServer": true,
+
+  // File Associations
   "files.associations": { "ostream": "cpp" },
 
-  // Explorer Settings
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-
-  // Git Settings
+  // Git and GitHub Settings
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "github.copilot.enable": { "*": true },
@@ -55,13 +51,13 @@
   "material-icon-theme.files.color": "#ef5350",
   "material-icon-theme.folders.color": "#ef5350",
   "material-icon-theme.folders.associations": {
-    "dardania": "src",
+    "dardanium": "src",
     "arx": "lib",
     "brx": "lib",
     "tx": "lib"
   },
 
-  // Python Analysis Settings
+  // Python Settings
   "python.analysis.autoImportCompletions": true,
   "python.analysis.autoSearchPaths": true,
   "python.analysis.completeFunctionParens": true,
@@ -72,14 +68,8 @@
   "python.analysis.importFormat": "absolute",
   "python.analysis.inlayHints.pytestParameters": true,
   "python.analysis.typeCheckingMode": "strict",
-
-  // Python Environment Settings
   "python.createEnvironment.trigger": "off",
-
-  // Python Language Server Settings
   "python.languageServer": "Pylance",
-
-  // Python Testing Settings
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
   "python.testing.unittestArgs": ["-v", "-s", "./", "-p", "test_*.py"],

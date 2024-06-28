@@ -1,19 +1,19 @@
-"""This module contains the setup configuration for Dardania."""
+"""This module contains the setup configuration for Dardanium."""
 
 from pathlib import Path
 
 from setuptools import find_packages, setup
 
 setup(
-    name="Dardania",
+    name="Dardanium",
     version="1.0.0",
-    url="https://github.com/IllyrianEngineering/Dardania",
+    url="https://github.com/IllyrionSoftware/Dardanium",
     license=Path("LICENSE.md").read_text(),
     description="CAD addon/plug-in to automize frameworks.",
     long_description=Path("README.md").read_text(),
     long_description_content_type="text/markdown",
-    author="IllyrianEngineering",
-    author_email="info@illyrian-engineering.com",
+    author="IllyrionSoftware",
+    author_email="info@illyrion.eu",
     packages=find_packages(),
     install_requires=Path("requirements.txt").read_text().splitlines(),
     python_requires=">=3.12",
@@ -32,9 +32,9 @@ setup(
     ],
     zip_safe=False,
     project_urls={
-        "Source Code": "https://github.com/IllyrianEngineering/Dardania",
-        "Bug Tracker": "https://github.com/IllyrianEngineering/Dardania/issues",
-        "Documentation": "https://wiki.IllyrianEngineering.com/",
+        "Source Code": "https://github.com/IllyrionSoftware/Dardanium",
+        "Bug Tracker": "https://github.com/IllyrionSoftware/Dardanium/issues",
+        "Documentation": "https://wiki.illyrion.eu/",
         "Funding": "https://buymeacoffee.com/illyrius",
     },
 )

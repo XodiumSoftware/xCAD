@@ -26,7 +26,7 @@ UTILS_LIB_FILE: Path = LIB_DIR / "test.so"
 # Database
 # =============================================================================
 DATABASE_DIR: Path = Utils.forge.dir(BASE_DIR / "database")
-DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "dardania.db")
+DATABASE_FILE: Path = Utils.forge.file(DATABASE_DIR / "dardanium.db")
 
 THEME_STATE_KEY: str = "theme_state"
 TREE_STATE_KEY: str = "tree_state"
@@ -36,7 +36,7 @@ SPLITTER_STATE_KEY: str = "splitter_state"
 
 # UI
 # =============================================================================
-WINDOW_TITLE: str = "Dardania"
+WINDOW_TITLE: str = "Dardanium"
 WINDOW_ICON: Path = ICON_DIR / "illyrion.svg"
 WINDOW_MIN_SIZE: tuple[int, int] = 1200, 800
 # =============================================================================
