@@ -1,38 +1,19 @@
 ---
-description: A class that contains database functions.
+description: Information on how to use the app.
 ---
 
 # 💡 Usage
 
 ***
 
-## "<mark style="color:purple;">\_\_init\_\_</mark>" method
+## UI
 
-{% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-```python
-    def __init__(self: "Database", path: Path) -> None: ...
-        """Initialize the class.
+<div align="center" data-full-width="false">
 
-        Args:
-            path: The path to the database file.
-        """
-```
-{% endcode %}
+<figure><img src=".gitbook/assets/ui.png" alt=""><figcaption><p>screenshot of the UI</p></figcaption></figure>
 
-***
+</div>
 
-## "<mark style="color:orange;">db\_session</mark>" method
-
-{% code title="class Database" overflow="wrap" lineNumbers="true" fullWidth="false" %}
-```python
-    @contextmanager
-    def db_session(self: "Database") -> Iterator[Session]: ...
-        """Context manager for a database session.
-
-        Returns:
-            The database session.
-        """
-```
-{% endcode %}
+Basically the idea is to have a editor to adjust the parameters of predefined objects. those objects are designed with logical scalability in mind, which in our opinion is lacking in the industry.
 
 ***
