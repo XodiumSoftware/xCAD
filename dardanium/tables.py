@@ -1,7 +1,7 @@
 """This module contains the database tables."""
 
 import sqlalchemy as sql
-from dalmatia import Utils
+from dalmatium import Utils
 
 
 class UIStateTable(Utils.db.base):

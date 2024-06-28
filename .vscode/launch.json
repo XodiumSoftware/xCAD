@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Dardania: Launch",
+      "name": "Dardanium: Launch",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/dardania",
+      "program": "${workspaceFolder}/dardanium",
       "console": "integratedTerminal",
       "justMyCode": true
       // "preLaunchTask": "C: Compile to Shared Library"

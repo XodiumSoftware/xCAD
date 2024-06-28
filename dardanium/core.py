@@ -10,7 +10,7 @@ from __config__ import (
     TREE_STATE_KEY,
     UTF,
 )
-from dalmatia import Utils
+from dalmatium import Utils
 from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
