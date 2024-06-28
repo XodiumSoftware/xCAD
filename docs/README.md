@@ -15,7 +15,7 @@ layout:
 # 👋 Welcome!
 
 {% hint style="danger" %}
-<mark style="color:blue;">**DARDANIUM**</mark>** IS CURRENTLY **<mark style="color:orange;">**WIP**</mark>** AND **<mark style="color:purple;">**PRE-ALPHA**</mark>** STAGE**
+<mark style="color:blue;">**DARDANIUM**</mark>** IS CURRENTLY **<mark style="color:orange;">**WIP**</mark>** AND IN **<mark style="color:purple;">**PRE-ALPHA**</mark>** STAGE**
 
 <mark style="color:red;">**IT IS NOT RECOMMENDED TO USE IT NOW.**</mark>
 {% endhint %}
