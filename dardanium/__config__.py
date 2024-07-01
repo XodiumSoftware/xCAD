@@ -37,6 +37,6 @@ SPLITTER_STATE_KEY: str = "splitter_state"
 # UI
 # =============================================================================
 WINDOW_TITLE: str = "Dardanium"
-WINDOW_ICON: Path = ICON_DIR / "illyrion.svg"
+WINDOW_ICON: Path = ICON_DIR / "ui.svg"
 WINDOW_MIN_SIZE: tuple[int, int] = 1200, 800
 # =============================================================================
