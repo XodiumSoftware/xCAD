@@ -3,7 +3,7 @@
 <h1 align="center">
   <br />
     <a href="https://illyrion.eu/">
-      <img src="https://raw.githubusercontent.com/IllyrionSoftware/.github/main/icons/Dardanium.webp" alt="Dardanium Logo" width="200">
+      <img src="https://raw.githubusercontent.com/IllyrionSoftware/.github/main/icons/dardanium.svg" alt="Dardanium Logo" width="200">
     </a>
   <br /><br />
   Dardanium
