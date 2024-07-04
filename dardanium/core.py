@@ -34,7 +34,7 @@ THEME_ICONS: dict[str, str] = {
 class Core(QMainWindow):
     """A class used to represent a Core module."""
 
-    def __init__(self: "Core") -> None:
+    def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
         self.__db__ = Utils.db(DATABASE_FILE)
@@ -50,7 +50,7 @@ class Core(QMainWindow):
         )
 
     def set_theme_state(
-        self: "Core",
+        self,
         widget: QMainWindow,
         target: QPushButton,
     ) -> None:
@@ -68,7 +68,7 @@ class Core(QMainWindow):
         self.get_theme_state(widget, target)
 
     def get_theme_state(
-        self: "Core",
+        self,
         widget: QMainWindow,
         target: QPushButton,
     ) -> None:
@@ -86,7 +86,7 @@ class Core(QMainWindow):
             err_msg = f"Invalid theme: {self.__theme_state__}."
             raise ValueError(err_msg) from err
 
-    def set_tree_state(self: "Core", widget: QTreeWidget) -> None:
+    def set_tree_state(self, widget: QTreeWidget) -> None:
         """Set the tree state.
 
         Args:
@@ -101,7 +101,7 @@ class Core(QMainWindow):
             },
         )
 
-    def get_tree_state(self: "Core", widget: QTreeWidget) -> None:
+    def get_tree_state(self, widget: QTreeWidget) -> None:
         """Get the tree state.
 
         Args:
@@ -118,7 +118,7 @@ class Core(QMainWindow):
             err_msg = f"Invalid tree state: {self.__tree_state__}."
             raise ValueError(err_msg) from err
 
-    def set_splitter_state(self: "Core", widget: QSplitter) -> None:
+    def set_splitter_state(self, widget: QSplitter) -> None:
         """Set the splitter state.
 
         Args:
@@ -133,7 +133,7 @@ class Core(QMainWindow):
             },
         )
 
-    def get_splitter_state(self: "Core", widget: QSplitter) -> None:
+    def get_splitter_state(self, widget: QSplitter) -> None:
         """Get the splitter state.
 
         Args:

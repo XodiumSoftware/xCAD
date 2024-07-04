@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
 class UI(Core):
     """A class used to represent a ui module."""
 
-    def __init__(self: "UI") -> None:
+    def __init__(self) -> None:
         """Initialize the class."""
         super().__init__()
         self._main()
@@ -41,7 +41,7 @@ class UI(Core):
         }.items():
             self.__layout__.addWidget(widget, *params)
 
-    def _main(self: "UI") -> None:
+    def _main(self) -> None:
         """Create the main."""
         self.setWindowTitle(WINDOW_TITLE)
         self.setWindowIcon(QIcon(str(WINDOW_ICON)))
@@ -50,13 +50,13 @@ class UI(Core):
         self.setCentralWidget(QWidget(self))
         self.__layout__ = QGridLayout(self.centralWidget())
 
-    def _header(self: "UI") -> None:
+    def _header(self) -> None:
         """Create the header."""
         self.header_title = QLabel("BIM Object Configurator")
         self.header_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.header_title.setFont(QFont("", 12, QFont.Weight.Bold))
 
-    def _body(self: "UI") -> None:
+    def _body(self) -> None:
         """Create the body."""
         props_tree_headers: list[str] = ["Property", "Value"]
 
@@ -86,7 +86,7 @@ class UI(Core):
             lambda: self.set_splitter_state(self.body_splitter),
         )
 
-    def _footer(self: "UI") -> None:
+    def _footer(self) -> None:
         """Create the footer."""
         self.footer_copyright = QLabel("©2024 Illyrion")
 
