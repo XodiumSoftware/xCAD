@@ -5,6 +5,7 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "svg.preview.background": "dark-transparent",
+  "scm.experimental.showHistoryGraph": true,
 
   // Explorer Settings
   "explorer.confirmDelete": false,
