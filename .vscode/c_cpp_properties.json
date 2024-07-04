@@ -11,8 +11,8 @@
       "includePath": ["${workspaceFolder}/**"],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "c17",
-      "cppStandard": "c++17",
+      "cStandard": "c23",
+      "cppStandard": "c++23",
       "intelliSenseMode": "gcc-x64"
     }
   ],
