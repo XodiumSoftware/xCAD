@@ -2,11 +2,12 @@
 
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
-    DARK_MODE_ICON,
+    DARK_MODE,
     DATABASE_FILE,
-    LIGHT_MODE_ICON,
     SPLITTER_STATE_KEY,
+    THEME_ICONS,
     THEME_STATE_KEY,
+    THEMES,
     TREE_STATE_KEY,
     UTF,
 )
@@ -15,20 +16,6 @@ from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QPushButton, QSplitter, QTreeWidget
 from tables import UIStateTable
-
-# Theme
-# =============================================================================
-DARK_MODE: str = "dark"
-LIGHT_MODE: str = "light"
-THEMES: dict[str, str] = {
-    DARK_MODE: LIGHT_MODE,
-    LIGHT_MODE: DARK_MODE,
-}
-THEME_ICONS: dict[str, str] = {
-    DARK_MODE: str(DARK_MODE_ICON),
-    LIGHT_MODE: str(LIGHT_MODE_ICON),
-}
-# =============================================================================
 
 
 class Core(QMainWindow):

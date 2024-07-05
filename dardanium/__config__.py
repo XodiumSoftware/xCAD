@@ -40,3 +40,17 @@ WINDOW_TITLE: str = "Dardanium"
 WINDOW_ICON: Path = ICON_DIR / "ui.svg"
 WINDOW_MIN_SIZE: tuple[int, int] = 1200, 800
 # =============================================================================
+
+# Theme
+# =============================================================================
+DARK_MODE: str = "dark"
+LIGHT_MODE: str = "light"
+THEMES: dict[str, str] = {
+    DARK_MODE: LIGHT_MODE,
+    LIGHT_MODE: DARK_MODE,
+}
+THEME_ICONS: dict[str, str] = {
+    DARK_MODE: DARK_MODE_ICON,
+    LIGHT_MODE: LIGHT_MODE_ICON,
+}
+# =============================================================================
