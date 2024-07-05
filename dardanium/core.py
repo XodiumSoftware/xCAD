@@ -136,3 +136,9 @@ class Core(QMainWindow):
         except KeyError as err:
             err_msg = f"Invalid splitter state: {self.__splitter_state__}."
             raise ValueError(err_msg) from err
+
+
+# def get_stylesheet(widget: QMainWindow) -> None:
+#     """Set the stylesheet for the widget."""
+#     with Path.open("dark_style.qss") as f:
+#         widget.setStyleSheet(f.read())
