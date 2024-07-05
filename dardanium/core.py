@@ -1,9 +1,12 @@
 """This module contains the theme functionality."""
 
+from pathlib import Path
+
 import qdarktheme as qdt  # type: ignore[import]
 from __config__ import (
     DARK_MODE,
     DATABASE_FILE,
+    LIGHT_MODE,
     SPLITTER_STATE_KEY,
     THEME_ICONS,
     THEME_STATE_KEY,
@@ -73,6 +76,20 @@ class Core(QMainWindow):
             err_msg = f"Invalid theme: {self.__theme_state__}."
             raise ValueError(err_msg) from err
 
+        # version 2
+        # replace str with constant,
+        # add to set palette.
+        try:
+            if self.__theme_state__ in THEMES is DARK_MODE:
+                with Path.open("dark.qss") as f:
+                    widget.setStyleSheet(f.read())
+            elif self.__theme_state__ in THEMES is LIGHT_MODE:
+                with Path.open("light.qss") as f:
+                    widget.setStyleSheet(f.read())
+        except KeyError as err:
+            err_msg = f"Invalid theme: {self.__theme_state__}."
+            raise ValueError(err_msg) from err
+
     def set_tree_state(self, widget: QTreeWidget) -> None:
         """Set the tree state.
 
@@ -136,9 +153,3 @@ class Core(QMainWindow):
         except KeyError as err:
             err_msg = f"Invalid splitter state: {self.__splitter_state__}."
             raise ValueError(err_msg) from err
-
-
-# def get_stylesheet(widget: QMainWindow) -> None:
-#     """Set the stylesheet for the widget."""
-#     with Path.open("dark_style.qss") as f:
-#         widget.setStyleSheet(f.read())
