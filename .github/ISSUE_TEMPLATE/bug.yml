@@ -1,6 +1,6 @@
-name: Dardanium Bug Report
-description: File a bug report for Dardanium
-labels: [bug]
+name: Bug Report
+description: File a bug report
+labels: [Bug]
 body:
   - type: markdown
     attributes:
@@ -11,8 +11,8 @@ body:
     attributes:
       label: Problem
       description: Please give a text description of how you reached the problem
-      value: |
-        1. Install Dardanium...
+      placeholder: |
+        1. Install...
         2. Do this...
         3. Do that...
         4. Observe the error...
@@ -29,8 +29,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: Dardanium Version
-      description: What version of Dardanium are you running?
+      label: Version
+      description: What version are you running?
       placeholder: DO NOT SAY "LATEST"
     validations:
       required: true

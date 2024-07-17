@@ -1,6 +1,6 @@
-name: Dardanium Feature Request
-description: File a feature request for Dardanium, the features are NOT intended to replace other plugins (though, i would not mind doing it) all features should feel effortless on the player to be using.
-labels: [feature]
+name: Feature Request
+description: File a feature request.
+labels: [Feature]
 body:
   - type: markdown
     attributes:
@@ -22,7 +22,7 @@ body:
     attributes:
       label: Type of Modification
       description: What is it for?
-      value: I want to ...
+      placeholder: I want to ...
     validations:
       required: true
   - type: textarea
@@ -30,7 +30,7 @@ body:
     attributes:
       label: What are you trying to modify
       description: Give as detailed of a description as you can for the skill that you want (include pictures/Videos if applicable)
-      value: The way I would implement this is ...
+      placeholder: The way I would implement this is ...
     validations:
       required: true
   - type: textarea
@@ -38,8 +38,8 @@ body:
     attributes:
       label: Alternatives
       description: What alternatives have you considered?
-      value: plugins... commands...
+      placeholder: list any...
   - type: markdown
     id: thanks
     attributes:
-      value: "Thank you for filling out the form! We read it soon.."
+      value: "Thank you for filling out the form! We will read it soon.."
