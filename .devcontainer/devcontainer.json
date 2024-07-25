@@ -1,6 +1,6 @@
 {
   "image": "python:3.12-bullseye",
-  "remoteUser": "vscode@Illyrion",
+  "remoteUser": "root",
   "hostRequirements": {
     "gpu": true
   },
