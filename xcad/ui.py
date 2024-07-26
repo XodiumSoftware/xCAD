@@ -88,7 +88,7 @@ class UI(Core):
 
     def _footer(self) -> None:
         """Create the footer."""
-        self.footer_copyright = QLabel("©2024 Illyrion")
+        self.footer_copyright = QLabel("©2024 Xodium Software")
 
         self.footer_theme_button = QPushButton()
         self.footer_theme_button.setMaximumWidth(40)

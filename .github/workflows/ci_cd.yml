@@ -1,5 +1,5 @@
-name: Illyrion CI/CD
-run-name: "Illyrion CI/CD"
+name: Xodium CI/CD
+run-name: "Xodium CI/CD"
 
 on:
   push:

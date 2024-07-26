@@ -2,7 +2,7 @@
 
 from PySide6.QtGui import QColor, QPalette
 
-from dardanium.__config__ import DARK_MODE, LIGHT_MODE
+from xcad.__config__ import DARK_MODE, LIGHT_MODE
 
 # Dark palette colors
 # =============================================================================
