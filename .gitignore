@@ -43,3 +43,8 @@ _modules/
 # Database
 *.sqlite3
 *.db
+
+# libraries
+arx/
+brx/
+tx/
