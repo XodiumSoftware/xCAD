@@ -3,7 +3,7 @@
 <h1 align="center">
   <br />
     <a href="https://xodium.org/">
-      <img src="https://gist.githubusercontent.com/illyrius666/a38f03b4fbe9b43faa2c5623137c1250/raw/a4407b106e7b223a7d26e0115687fa4da889e8d3/xCAD.svg" alt="xCAD Logo" width="200">
+      <img src="https://gist.githubusercontent.com/illyrius666/a38f03b4fbe9b43faa2c5623137c1250/raw/121c2119ac45c05cf7792b815bb30952520205b4/xCAD.svg" alt="xCAD Logo" width="200">
     </a>
   <br /><br />
   xCAD
