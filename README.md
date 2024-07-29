@@ -17,8 +17,7 @@
 
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
-[![Roadmap][roadmap_shield_url]][roadmap_url]<br />
-[![CI/CD][workflow_shield_url]][workflow_url]</div>
+[![Roadmap][roadmap_shield_url]][roadmap_url]</div>
 
 ## Table of Contents
 
