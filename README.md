@@ -70,5 +70,3 @@ Feel free to dive into the documentation to kickstart your journey with xCAD.
 [roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
 [roadmap_url]: https://github.com/orgs/XodiumSoftware/projects/4
 [security_url]: https://github.com/XodiumSoftware/xCAD?tab=security-ov-file
-[workflow_shield_url]: https://github.com/XodiumSoftware/xCAD/actions/workflows/ci_cd.yml/badge.svg
-[workflow_url]: https://github.com/XodiumSoftware/xCAD/actions/workflows/ci_cd.yml
