@@ -30,8 +30,8 @@
     }
   },
   "onCreateCommand": {
-    "installMaturin": "cargo install --locked maturin"
-    // "installAPTLibraries": "sudo apt-get update && apt-get install -y "
+    "installMaturin": "cargo install --locked maturin",
+    "installAPTLibraries": "sudo apt-get update && apt-get install -y libwayland-client0 libxkbcommon-dev libfontconfig1 fonts-dejavu-core"
   },
   "shutdownAction": "stopContainer"
 }
