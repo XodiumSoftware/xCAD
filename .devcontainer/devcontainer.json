@@ -29,6 +29,9 @@
       ]
     }
   },
-  "onCreateCommand": { "installMaturin": "cargo install --locked maturin" },
+  "onCreateCommand": {
+    "installMaturin": "cargo install --locked maturin"
+    // "installAPTLibraries": "sudo apt-get update && apt-get install -y "
+  },
   "shutdownAction": "stopContainer"
 }
