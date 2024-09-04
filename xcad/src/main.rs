@@ -4,12 +4,12 @@
 slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
-    let ui = AppWindow::new()?;
+    let ui: AppWindow = AppWindow::new()?;
 
     ui.on_request_increase_value({
-        let ui_handle = ui.as_weak();
+        let ui_handle: slint::Weak<AppWindow> = ui.as_weak();
         move || {
-            let ui = ui_handle.unwrap();
+            let ui: AppWindow = ui_handle.unwrap();
             ui.set_counter(ui.get_counter() + 1);
         }
     });
