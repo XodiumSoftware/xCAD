@@ -69,7 +69,7 @@ jobs:
     steps:
       - id: download_package
         name: Download Package
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: package
 
@@ -86,7 +86,7 @@ jobs:
     steps:
       - id: download_package
         name: Download Package
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: package
 
