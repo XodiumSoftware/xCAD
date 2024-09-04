@@ -9,4 +9,18 @@ updates:
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
-      interval: weekly
+      interval: daily
+    labels:
+      - "Dependencies"
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: daily
+    labels:
+      - "Dependencies"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: daily
+    labels:
+      - "Dependencies"
