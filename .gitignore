@@ -1,50 +1,82 @@
+# Rust
+/target/
+Cargo.lock
+
+# Wiki
+_build/
+_modules/
+
+# Database
+*.sqlite3
+*.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.pytest_cache/
 *.py[cod]
-*$py.class
 
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+.venv/
+env/
+bin/
 build/
 develop-eggs/
 dist/
-downloads/
 eggs/
-.eggs/
+lib/
+lib64/
 parts/
 sdist/
 var/
-wheels/
-share/python-wheels/
+include/
+man/
+venv/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+pip-selfcheck.json
 
-# Wiki
-_build/
-_modules/
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
 
-# IFC
-*.ifc
+# Translations
+*.mo
 
-# Database
-*.sqlite3
-*.db
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
-# libraries
-arx/
-brx/
-tx/
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+.DS_Store
+
+# Sphinx documentation
+docs/_build/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Pyenv
+.python-version

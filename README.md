@@ -58,7 +58,7 @@ Feel free to dive into the documentation to kickstart your journey with xCAD.
 
 </details><p align="right"><a href="#readme-top">▲</a></p>
 
-[built_with_shield_url]: https://skillicons.dev/icons?i=docker,py,cpp,c
+[built_with_shield_url]: https://skillicons.dev/icons?i=docker,rust
 [built_with_url]: https://skillicons.dev
 [code_of_conduct_url]: https://github.com/XodiumSoftware/xCAD?tab=coc-ov-file
 [contributing_url]: https://github.com/XodiumSoftware/xCAD/blob/main/CONTRIBUTING.md

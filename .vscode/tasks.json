@@ -2,39 +2,19 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "C: Create Build Folder",
+      "label": "rust: maturin build",
       "type": "shell",
-      "command": "mkdir -p ${workspaceFolder}/dardania/build",
-      "group": {
-        "kind": "build",
-        "isDefault": true
+      "command": "maturin",
+      "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}/dalmatium"
       },
+      "group": "build",
+      "problemMatcher": [],
       "presentation": {
-        "reveal": "always"
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "C: Compile to Shared Library",
-      "type": "shell",
-      "command": "g++",
-      "args": [
-        "-shared",
-        "-fPIC",
-        "-g",
-        "${workspaceFolder}/dardania/acrxEntryPoint.cpp",
-        "-o",
-        "${workspaceFolder}/dardania/build/acrxEntryPoint.so"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always"
-      },
-      "problemMatcher": "$gcc",
-      "dependsOn": ["C: Create Build Folder"]
+        "reveal": "always",
+        "panel": "shared"
+      }
     }
   ]
 }
