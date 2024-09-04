@@ -1,6 +1,0 @@
-build
-dalmatium
-pyside6
-pyqtdarktheme
-setuptools
-sqlalchemy

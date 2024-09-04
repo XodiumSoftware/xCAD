@@ -1,14 +1,36 @@
 {
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Dardanium: Launch",
-      "type": "debugpy",
+      "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/dardanium",
-      "console": "integratedTerminal",
-      "justMyCode": true
-      // "preLaunchTask": "C: Compile to Shared Library"
+      "name": "Debug executable 'xcad'",
+      "cargo": {
+        "args": ["build", "--bin=xcad", "--package=xcad"],
+        "filter": {
+          "name": "xcad",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'xcad'",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=xcad", "--package=xcad"],
+        "filter": {
+          "name": "xcad",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
