@@ -7,7 +7,7 @@
       "command": "maturin",
       "args": ["build"],
       "options": {
-        "cwd": "${workspaceFolder}/dalmatium"
+        "cwd": "${workspaceFolder}/xcad"
       },
       "group": "build",
       "problemMatcher": [],
