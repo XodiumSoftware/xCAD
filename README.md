@@ -17,7 +17,8 @@
 
 [![Contributors][contributors_shield_url]][contributors_url]
 [![Issues][issues_shield_url]][issues_url]
-[![Roadmap][roadmap_shield_url]][roadmap_url]</div>
+[![Roadmap][roadmap_shield_url]][roadmap_url]<br />
+[![Deps.rs][deps_shield_url]][deps_url]</div>
 
 ## Table of Contents
 
@@ -64,6 +65,8 @@ Feel free to dive into the documentation to kickstart your journey with xCAD.
 [contributing_url]: https://github.com/XodiumSoftware/xCAD/blob/main/CONTRIBUTING.md
 [contributors_shield_url]: https://img.shields.io/github/contributors/XodiumSoftware/xCAD?style=for-the-badge&color=blue
 [contributors_url]: https://github.com/XodiumSoftware/xCAD/graphs/contributors
+[deps_shield_url]: https://deps.rs/repo/github/XodiumSoftware/xCAD/status.svg?style=for-the-badge
+[deps_url]: https://deps.rs/repo/github/XodiumSoftware/xCAD
 [issues_shield_url]: https://img.shields.io/github/issues/XodiumSoftware/xCAD?style=for-the-badge&color=yellow
 [issues_url]: https://github.com/XodiumSoftware/xCAD/issues
 [license_url]: https://github.com/XodiumSoftware/xCAD?tab=AGPL-3.0-1-ov-file
