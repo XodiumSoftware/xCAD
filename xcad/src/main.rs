@@ -1,4 +1,3 @@
-
 use egui::Vec2b;
 
 fn main() {
@@ -160,3 +159,4 @@ impl crate::View for WindowOptions {
             ui.add(crate::egui_github_link_file!());
         });
     }
+}
