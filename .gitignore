@@ -1,0 +1,9 @@
+# Rust
+/target/
+Cargo.lock
+
+# Database
+*.sqlite3
+*.db
+
+.DS_Store

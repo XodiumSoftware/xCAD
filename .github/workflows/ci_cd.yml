@@ -1,0 +1,102 @@
+name: Xodium CI/CD
+run-name: "Xodium CI/CD"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '.deploy')
+    environment:
+      name: ${{ github.ref_name }}
+      url: ${{ steps.upload_package.outputs.artifact-url }}
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@main
+
+      - id: setup_python
+        name: Setup Python
+        uses: actions/setup-python@main
+        with:
+          python-version: "3.12"
+
+      - id: cache_dependencies
+        name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - id: install_dependencies
+        name: Install Dependencies
+        run: pip install -e .
+
+      - id: get_version
+        name: Get Version
+        run: echo "VERSION=$(python setup.py --version)" >> $GITHUB_OUTPUT
+
+      - id: build_package
+        name: Build Package
+        run: python -m build
+
+      - id: upload_package
+        name: Upload Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: dist/*
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - id: download_package
+        name: Download Package
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: package
+
+      - id: run_tests
+        name: Run Tests
+        run: python -m unittest discover
+
+  release:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+      url: ${{ steps.create_release.outputs.url }}
+    steps:
+      - id: download_package
+        name: Download Package
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: package
+
+      - id: create_release
+        name: Create Release
+        uses: softprops/action-gh-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: ${{ contains(github.event.head_commit.message, '.draft') }}
+          generate_release_notes: true
+          prerelease: ${{ contains(github.event.head_commit.message, '.pre') }}
+          tag_name: ${{ needs.build.outputs.VERSION }}

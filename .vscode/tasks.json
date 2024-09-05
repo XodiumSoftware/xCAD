@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "rust: maturin build",
+      "type": "shell",
+      "command": "maturin",
+      "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}/xcad"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}
