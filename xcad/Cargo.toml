@@ -13,7 +13,5 @@ documentation = "https://wiki.xodium.org/xCAD"
 publish = true
 
 [dependencies]
-slint = "1.7.2"
-
-[build-dependencies]
-slint-build = "1.7.2"
+egui = { version = "0.28.1", features = ["serde"] }
+eframe = "0.28.1"
