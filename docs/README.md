@@ -15,12 +15,12 @@ layout:
 # 👋 Welcome!
 
 {% hint style="danger" %}
-<mark style="color:blue;">**DARDANIUM**</mark>** IS CURRENTLY **<mark style="color:orange;">**WIP**</mark>** AND IN **<mark style="color:purple;">**PRE-ALPHA**</mark>** STAGE**
+<mark style="color:blue;">**xCAD**</mark>** IS CURRENTLY **<mark style="color:orange;">**WIP**</mark>** AND IN **<mark style="color:purple;">**PRE-ALPHA**</mark>** STAGE**
 
 <mark style="color:red;">**IT IS NOT RECOMMENDED TO USE IT NOW.**</mark>
 {% endhint %}
 
-## Welcome to Dardanium
+## Welcome to xCAD
 
 Here you'll find all the documentation you need to get up and running with the application.
 
