@@ -60,7 +60,7 @@ impl eframe::App for App {
             ui.separator();
 
             ui.add(eframe::egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/main/",
+                "https://github.com/XodiumSoftware/xCAD/",
                 "Source code."
             ));
 
