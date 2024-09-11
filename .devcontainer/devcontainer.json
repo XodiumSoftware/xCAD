@@ -19,16 +19,18 @@
         "github.copilot",
         "github.vscode-github-actions",
         "jock.svg",
-        "ms-vscode.live-server",
         "pkief.material-icon-theme",
         "qwtel.sqlite-viewer",
-        "slint.slint",
         "tamasfe.even-better-toml",
         "usernamehw.errorlens",
         "vsls-contrib.gistfs"
       ]
     }
   },
-  "onCreateCommand": { "installMaturin": "cargo install --locked maturin" },
+  "onCreateCommand": {},
+  "postCreateCommand": {
+    "installGccMingw": "sudo apt-get update && sudo apt-get install gcc-mingw-w64-x86-64",
+    "addRustTarget": "rustup target add x86_64-pc-windows-gnu"
+  },
   "shutdownAction": "stopContainer"
 }
