@@ -1,6 +1,6 @@
 [package]
 name = "xcad"
-version = "1.0.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["XodiumSoftware <https://xodium.org/>"]
 description = "CAD addon/plug-in providing automative tools."
@@ -18,10 +18,10 @@ targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [dependencies]
 eframe = { version = "0.28.1", default-features = false, features = [
-    "accesskit",     # Make egui compatible with screen readers. NOTE: adds a lot of dependencies.
-    "default_fonts", # Embed the default egui fonts.
-    "glow",          # Use the glow rendering backend. Alternative: "wgpu".
-    "persistence",   # Enable restoring app state when restarting the app.
+    "accesskit",
+    "default_fonts",
+    "glow",
+    "persistence",
 ] }
 log = "0.4"
 serde = { version = "1.0.210", features = ["derive"] }
@@ -30,8 +30,7 @@ serde = { version = "1.0.210", features = ["derive"] }
 env_logger = "0.11.5"
 
 [profile.release]
-opt-level = 2 # fast and small wasm
+opt-level = 2
 
-# Optimize all dependencies even in debug builds:
 [profile.dev.package."*"]
 opt-level = 2
