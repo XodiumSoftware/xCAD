@@ -30,18 +30,6 @@ impl App {
             ui.vertical_centered(|ui| {
                 ui.heading(eframe::egui::RichText::new("xCAD ObjectX").strong());
             });
-
-            ui.horizontal(|ui: &mut eframe::egui::Ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut "Hello World!");
-            });
-
-            ui.separator();
-
-            ui.add(eframe::egui::github_link_file!(
-                "https://github.com/XodiumSoftware/xCAD/blob/main/",
-                "Source code."
-            ));
         });
     }
 
