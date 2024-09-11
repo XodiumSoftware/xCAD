@@ -1,5 +1,10 @@
 pub struct App {}
 
+const TITLE: &str = "xCAD ObjectX";
+const COPYRIGHT: &str = "© 2024 XODIUM SOFTWARE INC";
+const EFRAME_URL: &str = "https://github.com/emilk/egui/tree/master/crates/eframe";
+const EGUI_URL: &str = "https://github.com/emilk/egui";
+
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
         self.header(ctx);
@@ -28,7 +33,7 @@ impl App {
     fn body(&mut self, ctx: &eframe::egui::Context) {
         eframe::egui::CentralPanel::default().show(ctx, |ui: &mut eframe::egui::Ui| {
             ui.vertical_centered(|ui| {
-                ui.heading(eframe::egui::RichText::new("xCAD ObjectX").strong());
+                ui.heading(eframe::egui::RichText::new(TITLE).strong());
             });
         });
     }
@@ -39,18 +44,15 @@ impl App {
             |ui: &mut eframe::egui::Ui| {
                 ui.horizontal(|ui: &mut eframe::egui::Ui| {
                     ui.spacing_mut().item_spacing.x = 0.0;
-                    ui.label("© 2024 XODIUM SOFTWARE INC");
+                    ui.label(COPYRIGHT);
                     ui.with_layout(
                         eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                         |ui| {
                             ui.spacing_mut().item_spacing.x = 4.0;
                             ui.label(".");
-                            ui.hyperlink_to(
-                                "eframe",
-                                "https://github.com/emilk/egui/tree/master/crates/eframe",
-                            );
+                            ui.hyperlink_to("eframe", EFRAME_URL);
                             ui.label(" and ");
-                            ui.hyperlink_to("egui", "https://github.com/emilk/egui");
+                            ui.hyperlink_to("egui", EGUI_URL);
                             ui.label("Powered by ");
                         },
                     );
