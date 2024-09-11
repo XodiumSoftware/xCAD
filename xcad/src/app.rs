@@ -30,26 +30,24 @@ impl eframe::App for App {
     }
 
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
-        use eframe::egui::{menu, widgets, Align, Layout, TopBottomPanel, Ui};
-
-        TopBottomPanel::top("top_panel").show(ctx, |ui: &mut Ui| {
-            menu::bar(ui, |ui: &mut Ui| {
+        eframe::egui::TopBottomPanel::top("top_panel").show(ctx, |ui: &mut eframe::egui::Ui| {
+            eframe::egui::menu::bar(ui, |ui: &mut eframe::egui::Ui| {
                 if !cfg!(target_arch = "wasm32") {
-                    ui.menu_button("File", |ui: &mut Ui| {
+                    ui.menu_button("File", |ui: &mut eframe::egui::Ui| {
                         if ui.button("Quit").clicked() {
                             ctx.send_viewport_cmd(eframe::egui::ViewportCommand::Close);
                         }
                     });
                     ui.add_space(16.0);
                 }
-                widgets::global_dark_light_mode_buttons(ui);
+                eframe::egui::widgets::global_dark_light_mode_buttons(ui);
             });
         });
 
-        eframe::egui::CentralPanel::default().show(ctx, |ui: &mut Ui| {
+        eframe::egui::CentralPanel::default().show(ctx, |ui: &mut eframe::egui::Ui| {
             ui.heading("eframe template");
 
-            ui.horizontal(|ui: &mut Ui| {
+            ui.horizontal(|ui: &mut eframe::egui::Ui| {
                 ui.label("Write something: ");
                 ui.text_edit_singleline(&mut self.label);
             });
@@ -66,10 +64,13 @@ impl eframe::App for App {
                 "Source code."
             ));
 
-            ui.with_layout(Layout::bottom_up(Align::LEFT), |ui: &mut Ui| {
-                powered_by_egui_and_eframe(ui);
-                eframe::egui::warn_if_debug_build(ui);
-            });
+            ui.with_layout(
+                eframe::egui::Layout::bottom_up(eframe::egui::Align::LEFT),
+                |ui: &mut eframe::egui::Ui| {
+                    powered_by_egui_and_eframe(ui);
+                    eframe::egui::warn_if_debug_build(ui);
+                },
+            );
         });
     }
 }

@@ -2,7 +2,6 @@
 
 fn main() -> eframe::Result {
     env_logger::init();
-
     eframe::run_native(
         "xCAD",
         eframe::NativeOptions::default(),
