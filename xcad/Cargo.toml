@@ -23,8 +23,6 @@ eframe = { version = "0.28.1", default-features = false, features = [
     "glow",
     "persistence",
 ] }
-log = "0.4"
-serde = { version = "1.0.210", features = ["derive"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 env_logger = "0.11.5"
