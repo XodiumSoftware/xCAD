@@ -27,8 +27,8 @@
       ]
     }
   },
-  "postCreateCommand": {
-    "installGccMingw": "sudo apt-get update && sudo apt-get install gcc-mingw-w64-x86-64",
+  "onCreateCommand": {
+    "installGccMingw": "sudo apt-get update && sudo apt-get install -y gcc-mingw-w64-x86-64",
     "addRustTarget": "rustup target add x86_64-pc-windows-gnu"
   },
   "shutdownAction": "stopContainer"
