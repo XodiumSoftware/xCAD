@@ -2,19 +2,15 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "rust: maturin build",
+      "label": "Build xcad",
       "type": "shell",
-      "command": "maturin",
-      "args": ["build"],
-      "options": {
-        "cwd": "${workspaceFolder}/xcad"
+      "command": "cargo",
+      "args": ["build", "--target=x86_64-pc-windows-gnu", "--release"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
       },
-      "group": "build",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
+      "problemMatcher": ["$rustc"]
     }
   ]
 }

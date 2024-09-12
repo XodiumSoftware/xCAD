@@ -20,7 +20,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '.deploy')
     environment:
       name: ${{ github.ref_name }}
-      url: ${{ steps.upload_package.outputs.artifact-url }}
+      url: ${{ steps.upload_artifact.outputs.artifact-url }}
     outputs:
       VERSION: ${{ steps.get_version.outputs.VERSION }}
     steps:
@@ -28,38 +28,30 @@ jobs:
         name: Checkout
         uses: actions/checkout@main
 
-      - id: setup_python
-        name: Setup Python
-        uses: actions/setup-python@main
+      - id: setup_rust
+        name: Setup Rust
+        uses: actions-rs/toolchain@v1
         with:
-          python-version: "3.12"
+          toolchain: stable
 
-      - id: cache_dependencies
-        name: Cache Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: ${{ runner.os }}-pip-
+      - id: build_artifact
+        name: Build Artifact
+        run: cargo build --target=x86_64-pc-windows-gnu --release
 
-      - id: install_dependencies
-        name: Install Dependencies
-        run: pip install -e .
+      - id: install_toml_cli
+        name: Install toml-cli
+        run: cargo install toml-cli
 
       - id: get_version
         name: Get Version
-        run: echo "VERSION=$(python setup.py --version)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(toml get xcad/Cargo.toml package.version)" >> $GITHUB_OUTPUT
 
-      - id: build_package
-        name: Build Package
-        run: python -m build
-
-      - id: upload_package
-        name: Upload Package
+      - id: upload_artifact
+        name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: package
-          path: dist/*
+          name: artifact
+          path: target/x86_64-pc-windows-gnu/release/xcad
 
   test:
     needs: [build]
@@ -67,15 +59,15 @@ jobs:
     environment:
       name: ${{ github.ref_name }}
     steps:
-      - id: download_package
-        name: Download Package
+      - id: download_artifact
+        name: Download Artifact
         uses: actions/download-artifact@v4.1.8
         with:
-          name: package
+          name: artifact
 
-      - id: run_tests
-        name: Run Tests
-        run: python -m unittest discover
+      # - id: run_tests
+      #   name: Run Tests
+      #   run: python -m unittest discover
 
   release:
     needs: [build, test]
@@ -84,11 +76,11 @@ jobs:
       name: ${{ github.ref_name }}
       url: ${{ steps.create_release.outputs.url }}
     steps:
-      - id: download_package
-        name: Download Package
+      - id: download_artifact
+        name: Download Artifact
         uses: actions/download-artifact@v4.1.8
         with:
-          name: package
+          name: artifact
 
       - id: create_release
         name: Create Release

@@ -1,6 +1,6 @@
 [package]
 name = "xcad"
-version = "1.0.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["XodiumSoftware <https://xodium.org/>"]
 description = "CAD addon/plug-in providing automative tools."
@@ -10,10 +10,27 @@ keywords = ["Produce at lightspeed"]
 categories = ["development-tools::bindings", "asynchronous"]
 homepage = "https://xodium.org/"
 documentation = "https://wiki.xodium.org/xCAD"
-publish = true
+publish = false
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [dependencies]
-slint = "1.7.2"
+eframe = { version = "0.28.1", default-features = false, features = [
+    "accesskit",
+    "default_fonts",
+    "glow",
+    "persistence",
+] }
+egui_extras = "0.28.1"
+serde = "1.0.210"
 
-[build-dependencies]
-slint-build = "1.7.2"
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+env_logger = "0.11.5"
+
+[profile.release]
+opt-level = 2
+
+[profile.dev.package."*"]
+opt-level = 2

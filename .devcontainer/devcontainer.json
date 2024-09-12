@@ -19,10 +19,8 @@
         "github.copilot",
         "github.vscode-github-actions",
         "jock.svg",
-        "ms-vscode.live-server",
         "pkief.material-icon-theme",
         "qwtel.sqlite-viewer",
-        "slint.slint",
         "tamasfe.even-better-toml",
         "usernamehw.errorlens",
         "vsls-contrib.gistfs"
@@ -30,8 +28,8 @@
     }
   },
   "onCreateCommand": {
-    "installMaturin": "cargo install --locked maturin",
-    "installAPTLibraries": "sudo apt-get update && apt-get install -y libwayland-client0 libxkbcommon-dev libfontconfig1 fonts-dejavu-core"
+    "installGccMingw": "sudo apt-get update && sudo apt-get install -y gcc-mingw-w64-x86-64",
+    "addRustTarget": "rustup target add x86_64-pc-windows-gnu"
   },
   "shutdownAction": "stopContainer"
 }
