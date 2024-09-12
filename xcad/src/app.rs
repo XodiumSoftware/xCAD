@@ -1,4 +1,3 @@
-pub struct App {}
 use eframe::egui;
 
 // Header
@@ -7,11 +6,30 @@ const MENU_FILE_TITLE: &str = "File";
 const MENU_QUIT_TITLE: &str = "🚪 Quit";
 
 // Footer
-const COPYRIGHT: &str = "©️ 2024 XODIUM SOFTWARE INC";
+const COPYRIGHT: &str = "© 2024 XODIUM SOFTWARE INC";
 const EFRAME_URL: &str = "https://github.com/emilk/egui/tree/master/crates/eframe";
 const EGUI_URL: &str = "https://github.com/emilk/egui";
 
+#[derive(serde::Deserialize, serde::Serialize)]
+#[serde(default)]
+pub struct App {
+    init_col_x: f32,
+    min_col_x: f32,
+}
+
+impl Default for App {
+    fn default() -> Self {
+        Self {
+            init_col_x: 120.0,
+            min_col_x: 40.0,
+        }
+    }
+}
+
 impl eframe::App for App {
+    fn save(&mut self, storage: &mut dyn eframe::Storage) {
+        eframe::set_value(storage, eframe::APP_KEY, self);
+    }
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.header(ctx);
         self.footer(ctx);
@@ -20,6 +38,12 @@ impl eframe::App for App {
 }
 
 impl App {
+    pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
+        if let Some(storage) = cc.storage {
+            return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
+        }
+        Default::default()
+    }
     fn header(&mut self, ctx: &egui::Context) {
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
@@ -36,7 +60,6 @@ impl App {
             });
         });
     }
-
     fn body(&mut self, ctx: &egui::Context) {
         let table_data = vec![
             (
@@ -66,12 +89,11 @@ impl App {
                 vec![("Annotation scale", "1:1"), ("Default lighting", "On")],
             ),
         ];
-        let available_rect = ctx.available_rect();
+        let text_height = egui::TextStyle::Body
+            .resolve(&ctx.style())
+            .size
+            .max(ctx.style().spacing.interact_size.y);
         egui::CentralPanel::default().show(ctx, |ui| {
-            let text_height = egui::TextStyle::Body
-                .resolve(ui.style())
-                .size
-                .max(ui.spacing().interact_size.y);
             for (category, properties) in &table_data {
                 egui::CollapsingHeader::new(egui::RichText::new(*category).strong())
                     .default_open(true)
@@ -79,16 +101,11 @@ impl App {
                         egui_extras::TableBuilder::new(ui)
                             .striped(true)
                             .resizable(true)
-                            .cell_layout(egui::Layout::left_to_right(egui::Align::Center))
-                            .column(egui_extras::Column::auto())
                             .column(
-                                egui_extras::Column::remainder()
-                                    .at_least(40.0)
-                                    .clip(true)
-                                    .resizable(true),
+                                egui_extras::Column::initial(self.init_col_x)
+                                    .at_least(self.min_col_x),
                             )
-                            .min_scrolled_height(0.0)
-                            .max_scroll_height(available_rect.height())
+                            .column(egui_extras::Column::remainder().at_least(self.min_col_x))
                             .body(|mut body| {
                                 for (property, value) in properties {
                                     body.row(text_height, |mut row| {
@@ -105,7 +122,6 @@ impl App {
             }
         });
     }
-
     fn footer(&mut self, ctx: &egui::Context) {
         egui::TopBottomPanel::bottom("bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {

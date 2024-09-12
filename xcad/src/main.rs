@@ -7,10 +7,6 @@ fn main() -> eframe::Result {
     eframe::run_native(
         TITLE,
         eframe::NativeOptions::default(),
-        Box::new(|_cc| {
-            Ok::<Box<dyn eframe::App>, Box<dyn std::error::Error + Send + Sync>>(Box::new(
-                xcad::App {},
-            ))
-        }),
+        Box::new(|cc| Ok(Box::new(xcad::App::new(cc)))),
     )
 }
