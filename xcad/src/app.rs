@@ -5,6 +5,36 @@ const IS_TARGET_WASM32: bool = cfg!(target_arch = "wasm32");
 const MENU_FILE_TITLE: &str = "File";
 const MENU_QUIT_TITLE: &str = "🚪 Quit";
 
+// Body
+const TABLE_DATA: &[(&str, &[(&str, &str)])] = &[
+    (
+        "General",
+        &[
+            ("Color", "Yellow"),
+            ("Layer", "AL32 ----_ BINNENKOZIJN"),
+            ("Linetype", "ByLayer"),
+            ("Linetype scale", "1"),
+            ("Lineweight", "ByLayer"),
+            ("Transparency", "ByLayer"),
+        ],
+    ),
+    (
+        "View",
+        &[
+            ("Elevation", "0 mm"),
+            ("Perspective", "Off"),
+            ("Lens length", "50.000 mm"),
+            ("Field of view", "38.58"),
+            ("Height", "43955.762 mm"),
+            ("Width", "64214.102 mm"),
+        ],
+    ),
+    (
+        "Misc",
+        &[("Annotation scale", "1:1"), ("Default lighting", "On")],
+    ),
+];
+
 // Footer
 const COPYRIGHT: &str = "© 2024 XODIUM SOFTWARE INC";
 const EFRAME_URL: &str = "https://github.com/emilk/egui/tree/master/crates/eframe";
@@ -61,40 +91,12 @@ impl App {
         });
     }
     fn body(&mut self, ctx: &egui::Context) {
-        let table_data = vec![
-            (
-                "General",
-                vec![
-                    ("Color", "Yellow"),
-                    ("Layer", "AL32 ----_ BINNENKOZIJN"),
-                    ("Linetype", "ByLayer"),
-                    ("Linetype scale", "1"),
-                    ("Lineweight", "ByLayer"),
-                    ("Transparency", "ByLayer"),
-                ],
-            ),
-            (
-                "View",
-                vec![
-                    ("Elevation", "0 mm"),
-                    ("Perspective", "Off"),
-                    ("Lens length", "50.000 mm"),
-                    ("Field of view", "38.58"),
-                    ("Height", "43955.762 mm"),
-                    ("Width", "64214.102 mm"),
-                ],
-            ),
-            (
-                "Misc",
-                vec![("Annotation scale", "1:1"), ("Default lighting", "On")],
-            ),
-        ];
         let text_height = egui::TextStyle::Body
             .resolve(&ctx.style())
             .size
             .max(ctx.style().spacing.interact_size.y);
         egui::CentralPanel::default().show(ctx, |ui| {
-            for (category, properties) in &table_data {
+            for (category, properties) in TABLE_DATA.iter() {
                 egui::CollapsingHeader::new(egui::RichText::new(*category).strong())
                     .default_open(true)
                     .show(ui, |ui| {
@@ -107,7 +109,7 @@ impl App {
                             )
                             .column(egui_extras::Column::remainder().at_least(self.min_col_x))
                             .body(|mut body| {
-                                for (property, value) in properties {
+                                for (property, value) in properties.iter() {
                                     body.row(text_height, |mut row| {
                                         row.col(|ui| {
                                             ui.label(*property);
