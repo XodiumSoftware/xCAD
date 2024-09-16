@@ -60,6 +60,7 @@ impl eframe::App for App {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
     }
+
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.header(ctx);
         self.footer(ctx);
@@ -74,6 +75,7 @@ impl App {
         }
         Default::default()
     }
+
     fn header(&mut self, ctx: &egui::Context) {
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
@@ -90,40 +92,45 @@ impl App {
             });
         });
     }
+
     fn body(&mut self, ctx: &egui::Context) {
         let text_height = egui::TextStyle::Body
             .resolve(&ctx.style())
             .size
             .max(ctx.style().spacing.interact_size.y);
+
         egui::CentralPanel::default().show(ctx, |ui| {
-            for (category, properties) in TABLE_DATA.iter() {
-                egui::CollapsingHeader::new(egui::RichText::new(*category).strong())
-                    .default_open(true)
-                    .show(ui, |ui| {
-                        egui_extras::TableBuilder::new(ui)
-                            .striped(true)
-                            .resizable(true)
-                            .column(
-                                egui_extras::Column::initial(self.init_col_x)
-                                    .at_least(self.min_col_x),
-                            )
-                            .column(egui_extras::Column::remainder().at_least(self.min_col_x))
-                            .body(|mut body| {
-                                for (property, value) in properties.iter() {
-                                    body.row(text_height, |mut row| {
-                                        row.col(|ui| {
-                                            ui.label(*property);
+            egui::ScrollArea::vertical().show(ui, |ui| {
+                for (category, properties) in TABLE_DATA.iter() {
+                    egui::CollapsingHeader::new(egui::RichText::new(*category).strong())
+                        .default_open(true)
+                        .show(ui, |ui| {
+                            egui_extras::TableBuilder::new(ui)
+                                .striped(true)
+                                .resizable(true)
+                                .column(
+                                    egui_extras::Column::initial(self.init_col_x)
+                                        .at_least(self.min_col_x),
+                                )
+                                .column(egui_extras::Column::remainder().at_least(self.min_col_x))
+                                .body(|mut body| {
+                                    for (property, value) in properties.iter() {
+                                        body.row(text_height, |mut row| {
+                                            row.col(|ui| {
+                                                ui.label(*property);
+                                            });
+                                            row.col(|ui| {
+                                                ui.label(*value);
+                                            });
                                         });
-                                        row.col(|ui| {
-                                            ui.label(*value);
-                                        });
-                                    });
-                                }
-                            });
-                    });
-            }
+                                    }
+                                });
+                        });
+                }
+            });
         });
     }
+
     fn footer(&mut self, ctx: &egui::Context) {
         egui::TopBottomPanel::bottom("bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
