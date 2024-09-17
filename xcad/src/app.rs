@@ -94,10 +94,40 @@ impl App {
     }
 
     fn body(&mut self, ctx: &egui::Context) {
+        let table_data = vec![
+            (
+                "General",
+                vec![
+                    ("Color", "Yellow"),
+                    ("Layer", "AL32 ----_ BINNENKOZIJN"),
+                    ("Linetype", "ByLayer"),
+                    ("Linetype scale", "1"),
+                    ("Lineweight", "ByLayer"),
+                    ("Transparency", "ByLayer"),
+                ],
+            ),
+            (
+                "View",
+                vec![
+                    ("Elevation", "0 mm"),
+                    ("Perspective", "Off"),
+                    ("Lens length", "50.000 mm"),
+                    ("Field of view", "38.58"),
+                    ("Height", "43955.762 mm"),
+                    ("Width", "64214.102 mm"),
+                ],
+            ),
+            (
+                "Misc",
+                vec![("Annotation scale", "1:1"), ("Default lighting", "On")],
+            ),
+        ];
+
         let text_height = egui::TextStyle::Body
             .resolve(&ctx.style())
             .size
             .max(ctx.style().spacing.interact_size.y);
+
 
         egui::CentralPanel::default().show(ctx, |ui| {
             egui::ScrollArea::vertical().show(ui, |ui| {

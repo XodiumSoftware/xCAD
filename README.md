@@ -11,7 +11,7 @@
   <br />
 </h1>
 
-<h4 align="center">CAD addon/plug-in providing automative tools.</h4><br />
+<h4 align="center">CAD addon/plug-in providing automative tools written in Rust.</h4><br />
 
 <div align="center">
 
