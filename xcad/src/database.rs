@@ -1,10 +1,10 @@
 use rusqlite::{params, Connection, Result};
 
 #[derive(Debug)]
-struct User {
-    id: i32,
-    name: String,
-    data: Option<Vec<u8>>,
+pub struct User {
+    pub id: i32,
+    pub name: String,
+    pub data: Option<Vec<u8>>,
 }
 
 pub struct Database {
@@ -17,10 +17,8 @@ impl Database {
         Ok(Database { conn })
     }
 
-    pub fn run() -> Result<()> {
-        let conn = Connection::open("xcad.db")?;
-
-        conn.execute(
+    pub fn create_schema(&self) -> Result<()> {
+        self.conn.execute(
             "CREATE TABLE IF NOT EXISTS user (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -28,13 +26,19 @@ impl Database {
             )",
             [],
         )?;
+        Ok(())
+    }
 
-        conn.execute(
+    pub fn insert_user(&self, name: &str, data: Option<&[u8]>) -> Result<()> {
+        self.conn.execute(
             "INSERT INTO user (name, data) VALUES (?1, ?2)",
-            params!["Alice", "Some data"],
+            params![name, data],
         )?;
+        Ok(())
+    }
 
-        let mut stmt = conn.prepare("SELECT id, name, data FROM user")?;
+    pub fn fetch_users(&self) -> Result<Vec<User>> {
+        let mut stmt = self.conn.prepare("SELECT id, name, data FROM user")?;
         let user_iter = stmt.query_map([], |row| {
             Ok(User {
                 id: row.get(0)?,
@@ -43,10 +47,10 @@ impl Database {
             })
         })?;
 
+        let mut users = Vec::new();
         for user in user_iter {
-            println!("Found user {:?}", user?);
+            users.push(user?);
         }
-
-        Ok(())
+        Ok(users)
     }
 }
