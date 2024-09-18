@@ -3,7 +3,7 @@
 Cargo.lock
 
 # Database
-*.sqlite3
+*.sqlite
 *.db
 
 .DS_Store

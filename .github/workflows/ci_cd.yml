@@ -65,9 +65,15 @@ jobs:
         with:
           name: artifact
 
-      # - id: run_tests
-      #   name: Run Tests
-      #   run: python -m unittest discover
+      - id: setup_rust
+        name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - id: run_tests
+        name: Run Tests
+        run: cargo test --all
 
   release:
     needs: [build, test]

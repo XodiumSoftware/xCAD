@@ -54,3 +54,49 @@ impl Database {
         Ok(users)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rusqlite::Result;
+    use std::fs;
+
+    fn setup_test_db() -> Result<Database> {
+        let db_path = "test.sqlite";
+        if fs::remove_file(db_path).is_err() {}
+        let db = Database::new(db_path)?;
+        db.create_schema()?;
+        Ok(db)
+    }
+
+    #[test]
+    fn test_create_schema() {
+        setup_test_db().expect("Failed to set up test database");
+    }
+
+    #[test]
+    fn test_insert_user() {
+        let db = setup_test_db().expect("Failed to set up test database");
+        db.insert_user("Alice", Some(b"data"))
+            .expect("Failed to insert user");
+        let users = db.fetch_users().expect("Failed to fetch users");
+        assert_eq!(users.len(), 1);
+        assert_eq!(users[0].name, "Alice");
+        assert_eq!(users[0].data, Some(b"data".to_vec()));
+    }
+
+    #[test]
+    fn test_fetch_users() {
+        let db = setup_test_db().expect("Failed to set up test database");
+        db.insert_user("Alice", Some(b"data"))
+            .expect("Failed to insert user");
+        db.insert_user("Bob", None).expect("Failed to insert user");
+
+        let users = db.fetch_users().expect("Failed to fetch users");
+        assert_eq!(users.len(), 2);
+        assert_eq!(users[0].name, "Alice");
+        assert_eq!(users[0].data, Some(b"data".to_vec()));
+        assert_eq!(users[1].name, "Bob");
+        assert_eq!(users[1].data, None);
+    }
+}

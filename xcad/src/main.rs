@@ -6,7 +6,7 @@ mod database;
 pub use database::Database;
 
 const TITLE: &str = "xCAD Editor";
-const DB_PATH: &str = "database/xcad.db";
+const DB_PATH: &str = "database/xcad.sqlite";
 const INIT_DB_ERROR: &str = "Failed to initialize database";
 const CREATE_SCHEMA_ERROR: &str = "Failed to create schema";
 
