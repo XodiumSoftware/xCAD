@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '.deploy')
+    if: github.event_name == 'workflow_dispatch'
     environment:
       name: ${{ github.ref_name }}
       url: ${{ steps.upload_artifact.outputs.artifact-url }}
