@@ -1,16 +1,16 @@
 use crate::bim::BIMObject;
-use sqlx::postgres::PgPoolOptions;
-use sqlx::{Pool, Postgres, Result};
+use sqlx::sqlite::SqlitePoolOptions;
+use sqlx::{Pool, Result, Sqlite};
 
 #[derive(Clone)]
 pub struct DBManager {
-    pool: Pool<Postgres>,
+    pool: Pool<Sqlite>,
 }
 
 impl DBManager {
     pub async fn new(db_url: &'static str) -> Result<Self, Box<dyn std::error::Error>> {
         Ok(Self {
-            pool: PgPoolOptions::new()
+            pool: SqlitePoolOptions::new()
                 .max_connections(5)
                 .connect(db_url)
                 .await?,

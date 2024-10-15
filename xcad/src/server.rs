@@ -1,7 +1,8 @@
 use crate::db::DBManager;
 use actix_web::{middleware, web, App, HttpServer, Responder};
-use env_logger::Env;
 use std::sync::Arc;
+
+const FETCH_ERR_MSG: &str = "Failed to fetch BIM object from database";
 
 pub struct ServerManager {
     server_addr: &'static str,
@@ -19,9 +20,6 @@ impl ServerManager {
     }
 
     pub async fn run(self, db: DBManager) -> std::io::Result<()> {
-        dotenv::dotenv().ok();
-        env_logger::init_from_env(Env::default().default_filter_or(self.log_level));
-
         let db = Arc::new(db);
 
         HttpServer::new(move || {
@@ -37,9 +35,5 @@ impl ServerManager {
 }
 
 async fn fetch_obj_from_db(db: web::Data<Arc<DBManager>>) -> impl Responder {
-    web::Json(
-        db.get_obj("1")
-            .await
-            .expect("Failed to fetch BIM object from database"),
-    )
+    web::Json(db.get_obj("1").await.expect(FETCH_ERR_MSG))
 }
