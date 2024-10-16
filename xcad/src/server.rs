@@ -1,25 +1,24 @@
+use crate::bim::BIMObject;
 use crate::db::DBManager;
-use actix_web::{middleware, web, App, HttpServer, Responder};
+use actix_web::error::ErrorInternalServerError;
+use actix_web::{middleware, web, App, HttpServer, Responder, Result};
+use std::io::Result as IoResult;
 use std::sync::Arc;
-
-const FETCH_ERR_MSG: &str = "Failed to fetch BIM object from database";
 
 pub struct ServerManager {
     server_addr: &'static str,
     endpoint: &'static str,
-    log_level: &'static str,
 }
 
 impl ServerManager {
-    pub fn new(server_addr: &'static str, endpoint: &'static str, log_level: &'static str) -> Self {
+    pub fn new(server_addr: &'static str, endpoint: &'static str) -> Self {
         Self {
             server_addr,
             endpoint,
-            log_level,
         }
     }
 
-    pub async fn run(self, db: DBManager) -> std::io::Result<()> {
+    pub async fn run(self, db: DBManager) -> IoResult<()> {
         let db = Arc::new(db);
 
         HttpServer::new(move || {
@@ -34,6 +33,13 @@ impl ServerManager {
     }
 }
 
-async fn fetch_obj_from_db(db: web::Data<Arc<DBManager>>) -> impl Responder {
-    web::Json(db.get_obj("1").await.expect(FETCH_ERR_MSG))
+async fn fetch_obj_from_db(db: web::Data<Arc<DBManager>>) -> Result<impl Responder> {
+    let result = web::block(move || db.get_obj("1"))
+        .await
+        .map_err(|e| ErrorInternalServerError(e))?;
+
+    match result {
+        Ok(bim_object) => Ok(web::Json(bim_object)),
+        Err(_) => Ok(web::Json(BIMObject::default())),
+    }
 }

@@ -1,42 +1,40 @@
 use crate::bim::BIMObject;
-use sqlx::sqlite::SqlitePoolOptions;
-use sqlx::{Pool, Result, Sqlite};
+use rusqlite::{params, Connection, Result};
+use std::sync::{Arc, Mutex};
 
 #[derive(Clone)]
 pub struct DBManager {
-    pool: Pool<Sqlite>,
+    conn: Arc<Mutex<Connection>>,
 }
 
 impl DBManager {
-    pub async fn new(db_url: &'static str) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn new(db_url: &'static str) -> Result<Self> {
         Ok(Self {
-            pool: SqlitePoolOptions::new()
-                .max_connections(5)
-                .connect(db_url)
-                .await?,
+            conn: Arc::new(Mutex::new(Connection::open(db_url)?)),
         })
     }
 
-    pub async fn set_obj(&self, bim: &BIMObject) -> Result<u64> {
-        sqlx::query!(
-            "INSERT INTO bim_objects (id, name, desc) VALUES ($1, $2, $3)
-            ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, desc = EXCLUDED.desc",
-            bim.id,
-            bim.name,
-            bim.desc
+    pub fn set_obj(&self, bim: &BIMObject) -> Result<usize> {
+        let conn = self.conn.lock().unwrap();
+        conn.execute(
+            "INSERT INTO bim_objects (id, name, desc) VALUES (?1, ?2, ?3)
+            ON CONFLICT (id) DO UPDATE SET name = excluded.name, desc = excluded.desc",
+            params![bim.id, bim.name, bim.desc],
         )
-        .execute(&self.pool)
-        .await
-        .map(|result| result.rows_affected())
     }
 
-    pub async fn get_obj(&self, id: &str) -> Result<BIMObject> {
-        sqlx::query_as!(
-            BIMObject,
-            "SELECT id, name, desc FROM bim_objects WHERE id = $1",
-            id
+    pub fn get_obj(&self, id: &str) -> Result<BIMObject> {
+        let conn = self.conn.lock().unwrap();
+        conn.query_row(
+            "SELECT id, name, desc FROM bim_objects WHERE id = ?1",
+            params![id],
+            |row| {
+                Ok(BIMObject {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    desc: row.get(2)?,
+                })
+            },
         )
-        .fetch_one(&self.pool)
-        .await
     }
 }
