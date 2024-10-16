@@ -3,7 +3,6 @@ use crate::db::DBManager;
 use actix_web::error::ErrorInternalServerError;
 use actix_web::{middleware, web, App, HttpServer, Responder, Result};
 use std::io::Result as IoResult;
-use std::sync::Arc;
 
 pub struct ServerManager {
     server_addr: &'static str,
@@ -19,27 +18,24 @@ impl ServerManager {
     }
 
     pub async fn run(self, db: DBManager) -> IoResult<()> {
-        let db = Arc::new(db);
-
         HttpServer::new(move || {
             App::new()
-                .app_data(web::Data::new(Arc::clone(&db)))
+                .app_data(web::Data::new(db.clone()))
                 .wrap(middleware::Logger::default())
-                .route(self.endpoint, web::get().to(fetch_obj_from_db))
+                .route(self.endpoint, web::get().to(Self::fetch_data))
         })
         .bind(self.server_addr)?
         .run()
         .await
     }
-}
 
-async fn fetch_obj_from_db(db: web::Data<Arc<DBManager>>) -> Result<impl Responder> {
-    let result = web::block(move || db.get_obj("1"))
-        .await
-        .map_err(|e| ErrorInternalServerError(e))?;
-
-    match result {
-        Ok(bim_object) => Ok(web::Json(bim_object)),
-        Err(_) => Ok(web::Json(BIMObject::default())),
+    async fn fetch_data(db: web::Data<DBManager>, id: web::Path<String>) -> Result<impl Responder> {
+        match web::block(move || db.get_obj(&id))
+            .await
+            .map_err(ErrorInternalServerError)?
+        {
+            Ok(obj) => Ok(web::Json(obj)),
+            Err(_) => Ok(web::Json(BIMObject::default())),
+        }
     }
 }

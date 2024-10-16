@@ -8,7 +8,7 @@ pub struct DBManager {
 }
 
 impl DBManager {
-    pub fn new(db_url: &'static str) -> Result<Self> {
+    pub fn new(db_url: &str) -> Result<Self> {
         Ok(Self {
             conn: Arc::new(Mutex::new(Connection::open(db_url)?)),
         })
@@ -18,7 +18,7 @@ impl DBManager {
         let conn = self.conn.lock().unwrap();
         conn.execute(
             "INSERT INTO bim_objects (id, name, desc) VALUES (?1, ?2, ?3)
-            ON CONFLICT (id) DO UPDATE SET name = excluded.name, desc = excluded.desc",
+            ON CONFLICT(id) DO UPDATE SET name = excluded.name, desc = excluded.desc",
             params![bim.id, bim.name, bim.desc],
         )
     }

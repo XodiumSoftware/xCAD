@@ -1,13 +1,12 @@
 use db::DBManager;
+use server::ServerManager;
 mod bim;
 mod db;
 mod server;
-use server::ServerManager;
 
 const SERVER_ADDR: &str = "127.0.0.1:8080";
 const ENDPOINT: &str = "/cloud";
-
-const DB_URL: &'static str = "xcad.db";
+const DB_URL: &str = "xcad/src/xcad.db";
 const CONN_ERR: &str = "Failed to connect to the database";
 
 #[actix_web::main]
