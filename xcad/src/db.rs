@@ -23,17 +23,15 @@ impl DBManager {
         )
     }
 
-    pub fn get_obj(&self, id: &str) -> Result<BIMObject> {
+    pub fn get_obj(&self, id: u32) -> Result<BIMObject> {
         let conn = self.conn.lock().unwrap();
         conn.query_row(
             "SELECT id, name, desc FROM bim_objects WHERE id = ?1",
             params![id],
             |row| {
-                Ok(BIMObject {
-                    id: row.get(0)?,
-                    name: row.get(1)?,
-                    desc: row.get(2)?,
-                })
+                // Using `get` with tuple destructuring for cleaner code
+                let (id, name, desc): (u32, String, String) = row.get(0)?;
+                Ok(BIMObject { id, name, desc })
             },
         )
     }

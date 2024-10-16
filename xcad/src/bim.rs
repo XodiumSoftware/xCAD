@@ -2,17 +2,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Default)]
 pub struct BIMObject {
-    pub id: String,
-    pub name: String,
-    pub desc: String,
+    pub id: u32,
+    pub name: Option<String>,
+    pub desc: Option<String>,
 }
 
 impl BIMObject {
-    pub fn new(id: &str, name: &str, desc: &str) -> Self {
+    pub fn new(id: u32, name: Option<&str>, desc: Option<&str>) -> Self {
         Self {
-            id: id.to_string(),
-            name: name.to_string(),
-            desc: desc.to_string(),
+            id,
+            name: name.map(String::from),
+            desc: desc.map(String::from),
         }
     }
 }

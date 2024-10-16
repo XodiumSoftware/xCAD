@@ -29,8 +29,8 @@ impl ServerManager {
         .await
     }
 
-    async fn fetch_data(db: web::Data<DBManager>, id: web::Path<String>) -> Result<impl Responder> {
-        match web::block(move || db.get_obj(&id))
+    async fn fetch_data(db: web::Data<DBManager>, id: web::Path<u32>) -> Result<impl Responder> {
+        match web::block(move || db.get_obj(id.into_inner()))
             .await
             .map_err(ErrorInternalServerError)?
         {
