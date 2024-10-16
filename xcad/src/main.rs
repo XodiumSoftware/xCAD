@@ -8,7 +8,7 @@ const SERVER_ADDR: &str = "127.0.0.1:8080";
 const ENDPOINT: &str = "/cloud";
 const LOG_LEVEL: &str = "info";
 
-const DB_URL: &'static str = "sqlite://db.sqlite";
+const DB_URL: &'static str = "sqlite://xcad.db";
 const CONN_ERR: &str = "Failed to connect to the database";
 
 #[actix_web::main]
