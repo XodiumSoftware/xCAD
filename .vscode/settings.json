@@ -5,30 +5,15 @@
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-  "extensions.ignoreRecommendations": true,
-  "git.autofetch": true,
-  "git.enableSmartCommit": true,
-  "github.copilot.enable": {
-    "*": true
-  },
   "json.schemas": [
     {
       "fileMatch": ["*.json", "*.jsonc"],
       "url": "https://json.schemastore.org/package"
     }
   ],
-  "material-icon-theme.files.color": "#ef5350",
   "material-icon-theme.folders.associations": {
     "xcad": "src"
   },
   "material-icon-theme.folders.color": "#ef5350",
   "rust-analyzer.linkedProjects": ["Cargo.toml"],
-  "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "workbench.colorTheme": "Monokai Dimmed",
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "none"
 }

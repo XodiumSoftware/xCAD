@@ -1,22 +1,19 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use db::DBManager;
+mod bim;
+mod db;
+mod server;
+use server::ServerManager;
 
-mod app;
-pub use app::App;
-mod database;
-pub use database::Database;
+const SERVER_ADDR: &str = "127.0.0.1:8080";
+const ENDPOINT: &str = "/cloud";
+const LOG_LEVEL: &str = "info";
 
-const TITLE: &str = "xCAD Editor";
-const DB_PATH: &str = "database/xcad.sqlite";
-const INIT_DB_ERROR: &str = "Failed to initialize database";
-const CREATE_SCHEMA_ERROR: &str = "Failed to create schema";
+const DB_URL: &'static str = "sqlite://db.sqlite";
+const CONN_ERR: &str = "Failed to connect to the database";
 
-fn main() -> eframe::Result {
-    env_logger::init();
-    let db = Database::new(DB_PATH).expect(INIT_DB_ERROR);
-    db.create_schema().expect(CREATE_SCHEMA_ERROR);
-    eframe::run_native(
-        TITLE,
-        eframe::NativeOptions::default(),
-        Box::new(|cc| Ok(Box::new(App::new(cc)))),
-    )
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    ServerManager::new(SERVER_ADDR, ENDPOINT, LOG_LEVEL)
+        .run(DBManager::new(DB_URL).await.expect(CONN_ERR))
+        .await
 }
