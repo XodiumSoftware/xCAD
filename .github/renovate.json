@@ -3,6 +3,5 @@
   "extends": ["config:recommended"],
   "automerge": true,
   "automergeType": "pr",
-  "assignees": ["renovate[bot]"],
-  "reviewers": ["illyrius666"],
+  "labels": ["Dependencies"]
 }
