@@ -1,63 +1,99 @@
-use crate::bim::BIMObject;
-use sqlx::sqlite::SqlitePoolOptions;
-use sqlx::{Pool, Result, Sqlite};
-use tokio::sync::OnceCell;
+use crate::bim::{Attr, BIMObject, Dim, Geo, Loc};
+use rusqlite::{params, Connection, Result};
+use std::sync::{Arc, Mutex};
 
 #[derive(Clone)]
 pub struct DBManager {
-    pool: Pool<Sqlite>,
-    table_initialized: OnceCell<()>,
+    conn: Arc<Mutex<Connection>>,
 }
 
 impl DBManager {
-    pub async fn new(db_url: &'static str) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn new(db_url: &str) -> Result<Self> {
         Ok(Self {
-            pool: SqlitePoolOptions::new()
-                .max_connections(5)
-                .connect(db_url)
-                .await?,
-            table_initialized: OnceCell::new(),
+            conn: Arc::new(Mutex::new(Connection::open(db_url)?)),
         })
     }
 
-    async fn ensure_table(&self) -> Result<()> {
-        self.table_initialized
-            .get_or_init(|| async {
-                sqlx::query!(
-                    "CREATE TABLE IF NOT EXISTS bim_objects (
-                        id TEXT PRIMARY KEY,
-                        name TEXT NOT NULL,
-                        desc TEXT
-                    )"
-                )
-                .execute(&self.pool)
-                .await
-            })
-            .await
-            .clone()
+    fn conn_lock(&self) -> std::sync::MutexGuard<rusqlite::Connection> {
+        self.conn.lock().unwrap()
     }
 
-    pub async fn set_obj(&self, bim: &BIMObject) -> Result<u64> {
-        self.ensure_table().await?;
-        sqlx::query!(
-            "INSERT INTO bim_objects (id, name, desc) VALUES ($1, $2, $3)
-            ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, desc = EXCLUDED.desc",
-            bim.id,
-            bim.name,
-            bim.desc
+    pub fn set_obj(&self, bim: &BIMObject) -> Result<usize> {
+        let params: [&(dyn rusqlite::ToSql + Sync); 19] = [
+            &bim.id,
+            &bim.name,
+            &bim.desc,
+            &bim.manufacturer,
+            &bim.model_number,
+            &bim.material,
+            &bim.dimensions.as_ref().map(|d| d.length),
+            &bim.dimensions.as_ref().map(|d| d.width),
+            &bim.dimensions.as_ref().map(|d| d.height),
+            &bim.category,
+            &bim.cost,
+            &bim.lifecycle_info,
+            &bim.performance_data,
+            &bim.geometry.as_ref().map(|g| g.data.clone()),
+            &bim.location.as_ref().map(|l| l.x),
+            &bim.location.as_ref().map(|l| l.y),
+            &bim.location.as_ref().map(|l| l.z),
+            &bim.attributes.as_ref().and_then(|a| a.color.clone()),
+            &bim.attributes.as_ref().and_then(|a| a.texture.clone()),
+        ];
+
+        self.conn_lock().execute(
+            "INSERT INTO bim_objects (
+                id, name, desc, manufacturer, model_number, material, length, width, height, category, cost, lifecycle_info, performance_data, geometry, x, y, z, color, texture
+            ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)
+            ON CONFLICT(id) DO UPDATE SET
+                name = excluded.name, desc = excluded.desc, manufacturer = excluded.manufacturer,
+                model_number = excluded.model_number, material = excluded.material,
+                length = excluded.length, width = excluded.width, height = excluded.height,
+                category = excluded.category, cost = excluded.cost,
+                lifecycle_info = excluded.lifecycle_info, performance_data = excluded.performance_data,
+                geometry = excluded.geometry, x = excluded.x, y = excluded.y, z = excluded.z,
+                color = excluded.color, texture = excluded.texture",
+            &params
         )
-        .execute(&self.pool)
-        .await
-        .map(|result| result.rows_affected())
     }
 
-    pub async fn get_obj(&self, id: &str) -> Result<BIMObject> {
-        sqlx::query_as!(
-            BIMObject,
-            "SELECT id, name, desc FROM bim_objects WHERE id = $1",
-            id
+    pub fn get_obj(&self, id: u32) -> Result<BIMObject> {
+        self.conn_lock().query_row(
+            "SELECT 
+                id, name, desc, manufacturer, model_number, material, 
+                length, width, height, category, cost, lifecycle_info, 
+                performance_data, geometry, x, y, z, color, texture
+            FROM bim_objects WHERE id = ?1",
+            params![id],
+            |row| {
+                Ok(BIMObject {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    desc: row.get(2)?,
+                    manufacturer: row.get(3)?,
+                    model_number: row.get(4)?,
+                    material: row.get(5)?,
+                    dimensions: Some(Dim {
+                        length: row.get(6)?,
+                        width: row.get(7)?,
+                        height: row.get(8)?,
+                    }),
+                    category: row.get(9)?,
+                    cost: row.get(10)?,
+                    lifecycle_info: row.get(11)?,
+                    performance_data: row.get(12)?,
+                    geometry: Some(Geo { data: row.get(13)? }),
+                    location: Some(Loc {
+                        x: row.get(14)?,
+                        y: row.get(15)?,
+                        z: row.get(16)?,
+                    }),
+                    attributes: Some(Attr {
+                        color: row.get(17)?,
+                        texture: row.get(18)?,
+                    }),
+                })
+            },
         )
-        .fetch_one(&self.pool)
-        .await
     }
 }
