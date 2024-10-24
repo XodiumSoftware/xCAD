@@ -5,7 +5,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 use crate::auth::AuthMiddleware;
-use crate::db::DBManager;
+use crate::db::Database;
 
 #[derive(Serialize, Deserialize)]
 struct KeyValue {
@@ -19,12 +19,12 @@ struct Key {
 }
 
 pub struct Server {
-    db: Arc<Mutex<DBManager>>,
+    db: Arc<Mutex<Database>>,
     bind_address: String,
 }
 
 impl Server {
-    pub fn new(db: DBManager, bind_address: &str) -> Self {
+    pub fn new(db: Database, bind_address: &str) -> Self {
         Server {
             db: Arc::new(Mutex::new(db)),
             bind_address: bind_address.to_string(),
@@ -50,7 +50,7 @@ impl Server {
     }
 
     async fn set_data(
-        db: web::Data<Arc<Mutex<DBManager>>>,
+        db: web::Data<Arc<Mutex<Database>>>,
         item: web::Json<KeyValue>,
     ) -> impl Responder {
         let db = db.lock().unwrap();
@@ -60,10 +60,7 @@ impl Server {
         }
     }
 
-    async fn get_data(
-        db: web::Data<Arc<Mutex<DBManager>>>,
-        item: web::Json<Key>,
-    ) -> impl Responder {
+    async fn get_data(db: web::Data<Arc<Mutex<Database>>>, item: web::Json<Key>) -> impl Responder {
         let db = db.lock().unwrap();
         match db.get_data(&item.key) {
             Ok(Some(value)) => HttpResponse::Ok().json(KeyValue {
@@ -76,7 +73,7 @@ impl Server {
     }
 
     async fn update_data(
-        db: web::Data<Arc<Mutex<DBManager>>>,
+        db: web::Data<Arc<Mutex<Database>>>,
         item: web::Json<KeyValue>,
     ) -> impl Responder {
         let db = db.lock().unwrap();
@@ -87,7 +84,7 @@ impl Server {
     }
 
     async fn delete_data(
-        db: web::Data<Arc<Mutex<DBManager>>>,
+        db: web::Data<Arc<Mutex<Database>>>,
         item: web::Json<Key>,
     ) -> impl Responder {
         let db = db.lock().unwrap();
@@ -97,7 +94,7 @@ impl Server {
         }
     }
 
-    async fn delete_table(db: web::Data<Arc<Mutex<DBManager>>>) -> impl Responder {
+    async fn delete_table(db: web::Data<Arc<Mutex<Database>>>) -> impl Responder {
         let db = db.lock().unwrap();
         match db.delete_table() {
             Ok(_) => HttpResponse::Ok().body("Table deleted successfully"),

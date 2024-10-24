@@ -1,17 +1,17 @@
 use rusqlite::{params, Connection, OptionalExtension, Result};
 use std::{fs, path::Path};
 
-pub struct DBManager {
+pub struct Database {
     conn: Connection,
     table_name: String,
 }
 
 #[allow(dead_code)]
-impl DBManager {
+impl Database {
     pub fn new(db_path: &str, table_name: &str) -> Result<Self> {
         Self::ensure_db_path_exists(db_path)?;
         let conn = Connection::open(db_path)?;
-        let manager = DBManager {
+        let manager = Database {
             conn,
             table_name: table_name.to_string(),
         };
