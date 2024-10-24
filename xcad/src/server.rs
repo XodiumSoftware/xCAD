@@ -18,12 +18,14 @@ struct Key {
 
 pub struct Server {
     db: Arc<Mutex<DBManager>>,
+    bind_address: String,
 }
 
 impl Server {
-    pub fn new(db: DBManager) -> Self {
+    pub fn new(db: DBManager, bind_address: &str) -> Self {
         Server {
             db: Arc::new(Mutex::new(db)),
+            bind_address: bind_address.to_string(),
         }
     }
 
@@ -36,8 +38,9 @@ impl Server {
                 .route("/get_data", web::post().to(Server::get_data))
                 .route("/update_data", web::post().to(Server::update_data))
                 .route("/delete_data", web::post().to(Server::delete_data))
+                .route("/delete_table", web::post().to(Server::delete_table))
         })
-        .bind("127.0.0.1:8080")?
+        .bind(&self.bind_address)?
         .run()
         .await
     }
@@ -87,6 +90,14 @@ impl Server {
         match db.delete_data(&item.key) {
             Ok(_) => HttpResponse::Ok().body("Data deleted successfully"),
             Err(_) => HttpResponse::InternalServerError().body("Failed to delete data"),
+        }
+    }
+
+    async fn delete_table(db: web::Data<Arc<Mutex<DBManager>>>) -> impl Responder {
+        let db = db.lock().unwrap();
+        match db.delete_table() {
+            Ok(_) => HttpResponse::Ok().body("Table deleted successfully"),
+            Err(_) => HttpResponse::InternalServerError().body("Failed to delete table"),
         }
     }
 }
