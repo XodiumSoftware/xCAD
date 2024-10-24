@@ -1,17 +1,33 @@
-use db::DBManager;
-use server::ServerManager;
-mod bim;
 mod db;
-mod server;
 
-const SERVER_ADDR: &str = "127.0.0.1:8080";
-const ENDPOINT: &str = "/cloud";
-const DB_URL: &str = "xcad/src/xcad.db";
-const CONN_ERR: &str = "Failed to connect to the database";
+use db::DBManager;
+use rusqlite::Result;
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    ServerManager::new(SERVER_ADDR, ENDPOINT)
-        .run(DBManager::new(DB_URL).expect(CONN_ERR))
-        .await
+fn main() -> Result<()> {
+    let db = DBManager::new("xcad/data/xcad.db", "DEBUG")?;
+
+    // Initialize the database schema
+    db.init()?;
+
+    // Set some data
+    db.set_data("name", "John Doe")?;
+    db.set_data("age", "30")?;
+
+    // Get the data
+    let name = db.get_data("name")?;
+    let age = db.get_data("age")?;
+    println!("Name: {:?}", name);
+    println!("Age: {:?}", age);
+
+    // Update the data
+    db.update_data("age", "31")?;
+    let updated_age = db.get_data("age")?;
+    println!("Updated Age: {:?}", updated_age);
+
+    // Delete the data
+    db.delete_data("name")?;
+    let deleted_name = db.get_data("name")?;
+    println!("Deleted Name: {:?}", deleted_name);
+
+    Ok(())
 }
