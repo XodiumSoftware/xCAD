@@ -1,3 +1,30 @@
-[workspace]
-members = ["xcad"]
-resolver = "2"
+[package]
+name = "xcad"
+version = "1.0.0"
+edition = "2021"
+authors = ["XodiumSoftware <https://xodium.org/>"]
+description = "CAD addon/plug-in providing automative tools."
+license = "AGPL-3.0"
+repository = "https://github.com/XodiumSoftware/xCAD"
+keywords = ["Produce at lightspeed"]
+categories = ["development-tools::bindings", "asynchronous"]
+homepage = "https://xodium.org/"
+documentation = "https://wiki.xodium.org/xCAD"
+publish = false
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["wasm32-unknown-unknown"]
+
+[dependencies]
+rusqlite = "0.32.1"
+serde = { version = "1.0.213", features = ["derive"] }
+serde_json = "1.0.132"
+actix-web = "4.9.0"
+actix-web-httpauth = "0.8.2"
+jsonwebtoken = "9.3.0"
+egui = "0.29.1"
+eframe = "0.29.1"
+wasm-bindgen-futures = "0.4.45"
+web-sys = "0.3.72"
+trunk = "0.21.1"
