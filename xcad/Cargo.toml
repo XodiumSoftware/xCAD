@@ -12,6 +12,10 @@ homepage = "https://xodium.org/"
 documentation = "https://wiki.xodium.org/xCAD"
 publish = false
 
+[package.metadata.docs.rs]
+all-features = true
+targets = ["wasm32-unknown-unknown"]
+
 [dependencies]
 rusqlite = "0.32.1"
 serde = { version = "1.0.213", features = ["derive"] }
@@ -21,3 +25,6 @@ actix-web-httpauth = "0.8.2"
 jsonwebtoken = "9.3.0"
 egui = "0.29.1"
 eframe = "0.29.1"
+wasm-bindgen-futures = "0.4.45"
+web-sys = "0.3.72"
+trunk = "0.21.1"
