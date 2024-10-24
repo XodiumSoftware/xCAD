@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use std::sync::Mutex;
 
-use crate::auth::validator;
+use crate::auth::AuthMiddleware;
 use crate::db::DBManager;
 
 #[derive(Serialize, Deserialize)]
@@ -34,7 +34,7 @@ impl Server {
     pub async fn run(&self) -> std::io::Result<()> {
         let db = self.db.clone();
         HttpServer::new(move || {
-            let auth = HttpAuthentication::bearer(validator);
+            let auth = HttpAuthentication::bearer(AuthMiddleware::validator);
             App::new()
                 .app_data(web::Data::new(db.clone()))
                 .wrap(auth)

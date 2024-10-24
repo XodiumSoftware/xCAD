@@ -12,16 +12,20 @@ struct Claims {
     exp: usize,
 }
 
-pub fn validator(
-    req: ServiceRequest,
-    credentials: BearerAuth,
-) -> Ready<Result<ServiceRequest, (Error, ServiceRequest)>> {
-    let token = credentials.token();
-    let decoding_key = DecodingKey::from_secret("DEBUG".as_ref());
-    let config = Config::default();
+pub struct AuthMiddleware;
 
-    match decode::<Claims>(token, &decoding_key, &Validation::default()) {
-        Ok(_) => ready(Ok(req)),
-        Err(_) => ready(Err((AuthenticationError::from(config).into(), req))),
+impl AuthMiddleware {
+    pub fn validator(
+        req: ServiceRequest,
+        credentials: BearerAuth,
+    ) -> Ready<Result<ServiceRequest, (Error, ServiceRequest)>> {
+        let token = credentials.token();
+        let decoding_key = DecodingKey::from_secret("DEBUG".as_ref());
+        let config = Config::default();
+
+        match decode::<Claims>(token, &decoding_key, &Validation::default()) {
+            Ok(_) => ready(Ok(req)),
+            Err(_) => ready(Err((AuthenticationError::from(config).into(), req))),
+        }
     }
 }
