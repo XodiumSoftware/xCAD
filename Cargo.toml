@@ -14,7 +14,7 @@ publish = false
 
 [package.metadata.docs.rs]
 all-features = true
-targets = ["wasm32-unknown-unknown"]
+targets = ["wasm32-wasi"]
 
 [dependencies]
 rusqlite = "0.32.1"

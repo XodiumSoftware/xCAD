@@ -25,7 +25,7 @@
       ]
     }
   },
-  "onCreateCommand": "rustup target add wasm32-unknown-unknown",
+  "onCreateCommand": "rustup target add wasm32-wasi",
   "postCreateCommand": "cargo install trunk",
   "shutdownAction": "stopContainer"
 }
