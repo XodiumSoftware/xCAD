@@ -1,8 +1,10 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use actix_web_httpauth::middleware::HttpAuthentication;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use std::sync::Mutex;
 
+use crate::auth::validator;
 use crate::db::DBManager;
 
 #[derive(Serialize, Deserialize)]
@@ -32,8 +34,10 @@ impl Server {
     pub async fn run(&self) -> std::io::Result<()> {
         let db = self.db.clone();
         HttpServer::new(move || {
+            let auth = HttpAuthentication::bearer(validator);
             App::new()
                 .app_data(web::Data::new(db.clone()))
+                .wrap(auth)
                 .route("/set_data", web::post().to(Server::set_data))
                 .route("/get_data", web::post().to(Server::get_data))
                 .route("/update_data", web::post().to(Server::update_data))
