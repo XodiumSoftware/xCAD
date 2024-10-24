@@ -11,10 +11,12 @@ impl DBManager {
     pub fn new(db_path: &str, table_name: &str) -> Result<Self> {
         Self::ensure_db_path_exists(db_path)?;
         let conn = Connection::open(db_path)?;
-        Ok(DBManager {
+        let manager = DBManager {
             conn,
             table_name: table_name.to_string(),
-        })
+        };
+        manager.init()?;
+        Ok(manager)
     }
 
     fn ensure_db_path_exists(db_path: &str) -> Result<()> {
