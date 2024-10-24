@@ -7,4 +7,5 @@ Cargo.lock
 *.db
 *.sqlx
 
-.DS_Store
+# trunk output folder
+dist

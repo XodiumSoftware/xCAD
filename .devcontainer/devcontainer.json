@@ -1,9 +1,6 @@
 {
   "image": "mcr.microsoft.com/devcontainers/rust",
   "remoteUser": "root",
-  "hostRequirements": {
-    "gpu": true
-  },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "configureZshAsDefaultShell": true,
@@ -28,9 +25,7 @@
       ]
     }
   },
-  "onCreateCommand": {
-    "installGccMingw": "sudo apt-get update && sudo apt-get install -y gcc-mingw-w64-x86-64",
-    "addRustTarget": "rustup target add x86_64-pc-windows-gnu"
-  },
+  "onCreateCommand": "rustup target add wasm32-wasi",
+  "postCreateCommand": "cargo install trunk",
   "shutdownAction": "stopContainer"
 }
